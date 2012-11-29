@@ -1,7 +1,7 @@
 <?php
 
 /**
-* EXPORTA INFORME DEL PROYECTO A EXCEL
+* EXPORTA INFORME EN FORMATO EXCEL
 */
 
 session_start();
