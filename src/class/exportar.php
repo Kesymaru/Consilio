@@ -8,7 +8,18 @@ require_once("usuarios.php");
 require_once("registros.php");
 
 $exportar = new Exportar();
-$exportar->ExportarExcel($_GET['id']);
+
+if(isset($_GET['id']) && isset($_GET['tipo'])){
+	$tipo = $_GET['tipo'];
+	if($tipo == 'excel'){
+		$exportar->ExportarExcel($_GET['id']);
+	}else if($tipo == 'pdf'){
+			$exportar->ExportarPdf($_GET['id']);
+	}else if($tipo == 'html'){
+		$exportar->Informe($_GET['id']);
+	}
+
+}
 
 /**
 * CLASE PARA EXPORTAR UN INFOME
@@ -17,11 +28,13 @@ class Exportar{
 	private $session = ''; 
 	private $id = '';
 	private $informe = "";
+	private $nombreProyecto = '';
 	
 	public function __construct(){
 		$this->session = new Session();
 		//seguridad que este logueado
 		$this->session->Logueado();
+		date_default_timezone_set('America/Costa_Rica');
 	}
 
 	/**
@@ -36,7 +49,8 @@ class Exportar{
 		header('Content-Description: File Transfer'); 
 		header("Content-Type: application/vnd.ms-excel");
 		//descarga el archivo
-		header("Content-disposition: attachment; filename=".$this->nombreProyecto.".xls");
+		$nombreArchivo =  str_replace(' ', '_', $this->nombreProyecto);
+		header("Content-disposition: attachment; filename=".$nombreArchivo.".xls");
 
 		echo $this->informe;
 	}
@@ -47,6 +61,17 @@ class Exportar{
 	*/
 	public function ExportarPdf($proyecto){
 
+	}
+
+	/**
+	* MUESTRA EL INFORME EN HTML
+	*/
+	public function Informe($proyecto){
+		$this->id = $proyecto;
+
+		$this->CrearInforme();
+
+		echo $this->informe;
 	}
 
 	/**
