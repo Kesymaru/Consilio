@@ -274,6 +274,33 @@ function notificaError(text) {
 	},7000);
 }
 
+/**
+* DIALOGO DE CONFIRMACION
+*/
+function Confirmacion(text, si, no) {
+
+    var n = noty({
+    	text: text,
+      	type: 'alert',
+      	dismissQueue: true,
+      	layout: 'topCenter',
+      	theme: 'defaultTheme',
+      	buttons: [
+        	{addClass: 'btn btn-primary', text: 'Ok', onClick: function($noty){
+        		$noty.close();
+        		si();
+        		}
+        	},
+        	{addClass: 'btn btn-danger', text: 'Cancelar', onClick: function($noty){
+        		$noty.close();
+        		no();
+        		}
+        	}
+      	]
+    });
+    //console.log('html: '+n.options.id);
+ }
+
 
 //logOut
 function LogOut(){
