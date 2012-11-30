@@ -263,6 +263,21 @@ class Proyectos{
 		$base->Insert($query);
 	}
 
+	/**
+	* ELIMINA UN PROYECTO
+	* @param $id -> id del proyecto ha ser eliminado
+	*/
+	public function EliminarProyecto($id){
+		$base = new Database();
+		$query = "DELETE FROM proyectos WHERE id = ".$id;
+		
+		if($base->Delete($query)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 /** SETTERS Y GETTERS **/
 
 	/**
