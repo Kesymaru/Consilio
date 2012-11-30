@@ -3,7 +3,7 @@
 /**
 * EXPORTA INFORME EN FORMATO EXCEL
 */
-
+/**
 session_start();
 
 //logueo
@@ -123,7 +123,7 @@ function exportarProyecto($id){
 	detalles del informe
 	@param return $detalle 
 */
-
+/*
 function detalles($id){
 	//estilos
 	$titulo = 'style="background-color: #6fa414; font-bold: bold; color: #fff; font-size: 18pt; text-align: center;"';
@@ -253,6 +253,300 @@ function datosCliente($id){
 function imagenCliente($id){
 	$datos = '<img src="'.$_SESSION['home'].'/images/users/user.png" >';
 	return $datos;
+}
+
+***/
+
+
+
+require_once("classDatabase.php");
+require_once("session.php");
+require_once("proyectos.php");
+require_once("usuarios.php");
+require_once("registros.php");
+
+$exportar = new Exportar();
+$exportar->ExportarExcel($_GET['id']);
+
+/**
+* CLASE PARA EXPORTAR UN INFOME
+*/
+class Exportar{ 
+	private $session = ''; 
+	private $id = '';
+	private $informe = "";
+	
+	public function __construct(){
+		$this->session = new Session();
+		//seguridad que este logueado
+		$this->session->Logueado();
+		//
+	}
+
+	/**
+	* EXPORTA EL INFORME CREADO
+	* @param $proyecto -> id del proyecto ha ser exportado
+	*/
+	public function ExportarExcel($proyecto){
+		$this->id = $proyecto;
+
+		$this->CrearInforme();
+
+		/*if($this->CrearInforme()){
+			$this->DescargarInforme();
+		}else{	
+			return false;
+		}*/
+	}
+
+	/**
+	* CREA EL INFORME
+	* @return true si se creo el informe.
+	* @return false si fallo la creacion del informe
+	*/
+	private function CrearInforme(){
+		$this->Cabecera();
+		$this->CuerpoGeneralidades();
+		$this->CuerpoNotas();
+		$this->Footer();
+		echo $this->informe;
+	}
+
+	/**
+	* CREA LA CABEZERA
+	*/
+	private function Cabecera(){
+		$proyecto = new Proyectos();
+		$base = new Database();
+		$query = "SELECT descripcion, fecha, status FROM proyectos WHERE id = ".$this->id;
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			$this->informe .= '<table style="border: 1px solid #333; width: 100%;">
+							     <thead>
+							     	<tr>
+							     		<td colspan="'.(sizeof($datos[0])+2).'">
+							     			'.$proyecto->getProyectoDato("nombre", $this->id).'
+							     		</td>
+							     	</tr>
+							     </thead>';
+			
+			//TITULOS
+			$this->informe .= '<tr>';
+			foreach ($datos[0] as $cabecera => $c) {
+				if($cabecera == 'descripcion'){
+					$this->informe .= '<td colspan="3" >'.$cabecera.'</td>';
+					continue;
+				}
+				$this->informe .= '<td>'.$cabecera.'</td>';
+			}
+			$this->informe .= '</tr>';
+
+			//LLENA DATOS
+			foreach ($datos as $fila => $c) {
+				$this->informe .= '<tr>';
+				foreach ($datos[$fila] as $campo => $valor) {
+
+					if($campo == "descripcion"){
+						$this->informe .= '<td colspan="3">';
+						$this->informe .= $valor.'</td>';
+						continue;
+					}
+
+					if($campo == 'status'){
+						$this->informe .= '<td>';
+						if($valor == 1){
+							$this->informe .= 'Activo';
+						}else{
+							$this->informe .= 'Finalizado';
+						}
+						$this->informe .= '</td>';
+						continue;
+					}
+
+					$this->informe .= '<td>'.$valor.'</td>';
+				}
+				$this->informe .= '</tr>';
+			}
+
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* CREA EL CUERPO, CARGA LAS GENERALIDADES Y NOTAS
+	*/
+	private function CuerpoNotas(){
+		$cliente = new Cliente();
+		$base = new Database();
+
+		$query = "SELECT nota, cliente, fecha FROM notas WHERE proyecto = ".$this->id;
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+
+			//TITULOS NOTAS
+			$this->informe .= '<tr>
+							  	<td colspan="4">
+							  		Notas
+							  	</td>
+							  	<td colspan="2">
+							  		Usuario
+							  	</td>
+							  </tr>';
+
+			$this->informe .= '<tr>';
+			foreach ($datos[0] as $cabecera => $c) {
+				if($cabecera == 'nota'){
+					$this->informe .= '<td colspan="4" >'.$cabecera.'</td>';
+					continue;
+				}
+				if($cabecera == 'cliente'){
+					$this->informe .= '<td colspan="2" >'.$cabecera.'</td>';
+					continue;
+				}
+			}
+			$this->informe .= '</tr>';
+
+
+			//CARAGA NOTAS
+			foreach ($datos as $fila => $c) {
+				$this->informe .= '<tr>';
+				foreach ($datos[$fila] as $campo => $valor) {
+					if($campo == 'nota'){
+						$this->informe .= '<td colspan="4">'.$valor.'</td>';
+						continue;
+					}
+					if($campo == 'cliente'){
+						$this->informe .= '<td colspan="2">';
+						$this->informe .= '<img height="50px" class="userImg" src="'.$cliente->getClienteDato("imagen", $valor).'" />';
+						$this->informe .= $cliente->getClienteDato("nombre", $valor).'<br/>';
+						$this->informe .= $datos[$fila]['fecha'];
+						$this->informe .= '</td>';
+						continue;
+					}
+				}
+				$this->informe .= '</tr>';
+			}
+
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* CREA EL CUERPO PARA LAS GENERALIDADES
+	*/
+	private function CuerpoGeneralidades(){
+		$registro = new Registros();
+		$base = new Database();
+		$query = "SELECT DISTINCT norma FROM registros WHERE proyecto = ".$this->id;
+		$query2 = "SELECT DISTINCT categoria FROM registros WHERE proyecto = ".$this->id;
+		
+		$normas = $base->Select($query);
+		$categorias = $base->Select($query2);
+
+		if(!empty($normas)){
+			//echo '<pre>';
+			//print_r($normas);
+			//print_r($categorias);
+			//echo '</pre>';
+			
+			//TITULO
+			$this->informe .= '<tr>
+							     <td colspan="6" class="superTitulo">
+							     	Generalidades
+							     </td>
+							   </tr>
+							   <tr>
+							   		<td>
+							   			N de Norma
+							   		</td>
+							   		<td>
+							   			Nombre Norma
+							   		</td>
+							   		<td>
+							   			Requisito Legal
+							   		</td>
+							   		<td>
+							   			Resumen
+							   		</td>
+							   		<td>
+							   			Permisos
+							   		</td>
+							   		<td>
+							   			Entidad Competente
+							   		</td>
+							   </tr>';
+
+			//CARGA normas				
+			foreach ($categorias as $fila => $categoria) {
+				$this->informe .= '<tr>
+										<td colspan="6" class="subTitulo">
+											'.$registro->getCategoriaDato("nombre", $categorias[$fila]['categoria']).'
+										</td>
+								   </tr>';
+				foreach ($normas as $f => $norma) {
+					$this->informe .= '<tr>';
+					foreach ($normas[$f] as $key => $value) {
+						$this->informe .= '<td>'.$registro->getGeneralidadDato("nombre", $categoria, $norma ).'<td>';
+						$this->informe .= '<td>'.$registro->getGeneralidadDato("numero", $categoria, $norma ).'<td>';
+						$this->informe .= '<td>'.$registro->getGeneralidadDato("requisito", $categoria, $norma ).'<td>';
+						$this->informe .= '<td>'.$registro->getGeneralidadDato("resumen", $categoria, $norma ).'<td>';
+						$this->informe .= '<td>'.$registro->getGeneralidadDato("permisos", $categoria, $norma ).'<td>';
+						$this->informe .= '<td>'.$registro->getGeneralidadDato("entidad", $categoria, $norma ).'<td>';
+					}
+					$this->informe .= '</tr>';
+				}
+			}
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* COMPONE EL FOOTER DEL INFORME
+	* MUESTRA INFORMACION
+	*/
+	private function Footer(){
+		$this->informe .= '<tr>
+								<td>
+									Fecha:
+								</td>
+								<td colspan="3">
+									'.date("F j Y - g:i a").'
+								</td>
+								<td rowspan="2">
+									<img src="images/logoExcel.png" />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									Por:
+								</td>
+								<td colspan="3">
+									'.$_SESSION['nombre'].'
+								</td>
+							</tr>
+							<tr>
+								<td>
+									Generado en:
+								</td>
+								<td colspan="3">
+									<a href="'.$_SESSION['home'].'">Matriz.com</a>
+								</td>
+							</tr>';
+		$this->informe .= '</table>';
+	}
+
+	/**
+	* DESCARGAR INFORME
+	*/
+	private function DescargarInforme(){
+
+	}
+
 }
 
 
