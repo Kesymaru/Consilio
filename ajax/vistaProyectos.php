@@ -15,9 +15,6 @@ $proyectos = new Proyectos();
 
 ?>
 <script type="text/javascript">
-	function NuevoProyecto(){
-		
-	}
 
 	function ListaProyectos(){
 		$.cookie('accion', 'ListaProyectos'); //cookie para restaurar
@@ -38,6 +35,7 @@ $proyectos = new Proyectos();
 				if(proyecto > 0){
 					//restaura la fila seleccionada
 					$("#"+proyecto).css("background-color", "rgb(161, 202, 74, 0.5)");
+					ContextMenu();
 				}
 				
 				//EDICION AL DOBLE CLICK
@@ -52,6 +50,9 @@ $proyectos = new Proyectos();
 		});
 	}
 
+	/**
+	* EDITAR PROYECTO EXISTENTE
+	*/
 	function EditarProyecto(){
 		var proyecto = $.cookie('proyecto');
 
@@ -85,6 +86,9 @@ $proyectos = new Proyectos();
 		}
 	}
 
+	/**
+	*	CREAR UN NUEVO PROYECTO
+	*/
 	function NuevoProyecto(){
 		$.cookie('accion', 'NuevoProyecto');
 
@@ -132,6 +136,9 @@ $proyectos = new Proyectos();
 		}
 	}
 
+	/**
+	* SELECCIONA UNA FILA -> PROYECTO DE LA LISTA
+	*/
 	function SeleccionFila(id){
 		var proyecto = $.cookie('proyecto');
 		if(proyecto > 0){
@@ -143,9 +150,13 @@ $proyectos = new Proyectos();
 		}else{
 			$("#"+id).css("background-color", "rgb(161, 202, 74, 0.5)");
 			$.cookie('proyecto',id);
+			ContextMenu();
 		}
 	}
 
+	/**
+	* VALIDA FORMULARIO DE EDICION DE PROYECTO EXISTENTE
+	*/
 	function FormularioEditarProyecto(){
 		//validacion
 		$("#formularioEditarProyecto").validationEngine();
@@ -166,6 +177,9 @@ $proyectos = new Proyectos();
 		$('#formularioEditarProyecto').ajaxForm(options);
 	}
 
+	/**
+	* FORMULARIO DE NUEVO PROYECTO
+	*/
 	function FormularioEditarNuevoProyecto(){
 		//validacion
 		$("#formularioEditarNuevoProyecto").validationEngine();
@@ -186,6 +200,106 @@ $proyectos = new Proyectos();
 		$('#formularioEditarNuevoProyecto').ajaxForm(options);
 	}
 
+	/**
+	* EXPORTAR PROYECTO
+	*/
+	function ExportarProyecto(tipo){
+		id = $.cookie('proyecto');
+		if(id > 0){
+			top.location.href = 'src/class/exportar.php?id='+id+'&tipo='+tipo;
+			notificaAtencion('Asegurese de guardar el archivo en el disco duro.')
+		}else{
+			notificaAtencion("Por favor seleccione un proyecto.");
+		}
+	}
+
+
+	/**
+	* CONETEXT MENU
+	*/
+	function ContextMenu(){
+		var id = $.cookie('proyecto');
+		$.contextMenu({
+	        selector: '#'+id, 
+	        callback: function(key, options) {
+	            var m = "clicked: " + key;
+	            //window.console && console.log(m) || alert(m); 
+	            AccionMenu(m);
+	        },
+	        items: {
+	        	"nuevo": {name: "Nuevo", icon: "add"},
+	            "editar": {name: "Editar", icon: "edit"},
+	            "eliminar": {name: "Eliminar", icon: "delete"},
+	            "sep1": "---------",
+	            "fold1a": {
+                "name": "Exportar", 
+                "icon": "exportar",
+	                "items": {
+	                    "exportar-excel": {"name": "Excell" , "icon": "excel"},
+	                    "exportar-pdf": {"name": "PDF", "icon": "pdf"},
+	                }
+            	}
+
+	        }
+	    });
+	    
+	    $('#'+id).on('click', function(e){
+	        //console.log('clicked', this);
+	    })
+	}
+
+	/**
+	* ELIMINAR PROYECTO
+	*/
+	function EliminarProyecto(){
+		var proyecto = $.cookie('proyecto');
+		if(proyecto > 0){
+			queryParams = {'func' : 'EliminarProyecto', 'ProyectoId' : proyecto};
+			$.ajax({
+				data: queryParams,
+				type: "post",
+				url: "src/ajaxProyectos.php",
+				success: function(response){
+					notifica("Proyecto Eliminado.");
+					ListaProyectos();
+				},
+				fail: function(){
+					notificaError('Eror: ajax, al cargar Edicion de proyecto.');
+				}
+			});
+		}else{
+			notificaAtencion("Seleccione un proyecto.");
+		}
+	}
+	/**
+	* ACCION DEL MENU
+	*/
+	function AccionMenu(m){
+		if(m == 'clicked: editar'){
+			EditarProyecto();
+		}
+		if(m == 'clicked: nuevo'){
+			NuevoProyecto();
+		}
+		if(m == 'clicked: eliminar'){
+			var si = function (){
+				EliminarProyecto();
+			}
+
+			var no = function (){
+				notificaAtencion("Operacion cancelada");
+			}
+
+			Confirmacion("Esta seguro que desea eliminar el proyecto.", si, no);
+		}
+		if(m == 'clicked: exportar-excel'){
+			ExportarProyecto('excel');
+		}
+		if(m == 'clicked: exportar-pdf'){
+			ExportarProyecto('pdf');
+		}
+	}
+
 </script>
 			<div class="topControls" >
 				
@@ -204,17 +318,19 @@ $proyectos = new Proyectos();
 						Nuevo
 						</label>
 
-					<!-- Nuevo proyecto -->
+					<!-- Editar proyecto 
 					<input type="radio" id="EditarProyecto" name="radio"/>
 						<label for="EditarProyecto" onClick="EditarProyecto()">
 						Editar
 						</label>
+					-->
 
-					<!-- Nuevo proyecto -->
+					<!-- Exporat proyecto 
 					<input type="radio" id="ExportarProyecto" name="radio"/>
 						<label for="ExportarProyecto" onClick="ExportarProyecto()">
 						Exportar
 						</label>
+					-->
 				</div>
 				<hr>
 				<script type="text/javascript">
