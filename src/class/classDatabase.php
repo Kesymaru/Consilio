@@ -122,6 +122,14 @@ class Database{
 	}
 
 	/**
+	* DELETE
+	*/
+	public function Delete($query){
+		$this->query($query);
+		return true;
+	}
+
+	/**
 	* TRUNCA UNA TABLA
 	* @param $tabla -> tabla ha limpiar
 	*/
