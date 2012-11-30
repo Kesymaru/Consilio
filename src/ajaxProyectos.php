@@ -34,6 +34,13 @@ if(isset($_POST['func'])){
 			echo $proyecto->EditarNuevoProyecto();
 			exit;
 
+		//ELIMINAR PROYECTO
+		case 'EliminarProyecto':
+			if(isset($_POST['ProyectoId'])){
+				$proyecto = new Proyectos();
+				$proyecto->EliminarProyecto($_POST['ProyectoId']);
+			}
+		break;
 	}
 }
 
