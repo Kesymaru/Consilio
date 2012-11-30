@@ -31,22 +31,38 @@ class Registros{
 		}
 	}
 
-	public function getGeneralidadDato(){
+	/**
+	* METODO PARA OBTENER LOS DATOS DE LAS NORMAS DE UNA CATEGORIA DE UN PROYECTO EN REGISTROS
+	* @param $categoria -> id de la categoria
+	* @param $proyecto -> id del proyecto
+	* @return array[][] -> con datos de las normas registradas
+	* @return false -> si la consulta falla
+	*/
+	public function getNormas($categoria, $proyecto){
+		$resultado = array();
 		$base = new Database();
-		$query = "SELECT * FROM categorias WHERE normaId = ".$norma." AND parentId = ".$categoria.
-		$temp = $base->Select($query);
-		$id = $temp[0]['id'];
+		$query = "SELECT DISTINCT norma FROM registros WHERE categoria = ".$categoria." AND proyecto =".$proyecto;
 
-		$queryFinal = "SELECT ".$dato." FROM normas WHERE id = ".$id;
-		$datos = $base->Select($queryFinal);
+		$normas = $base->Select($query);
 
-		if(!empty($datos)){
-			return $datos[0][$dato];
+		if(!empty($normas)){
+			foreach ($normas as $fila => $id) {
+				$query = "SELECT * FROM normas WHERE id = ".$normas[$fila]['norma'];
+				$norma = $base->Select($query);
+				if(!empty($norma)){
+					$resultado = $norma;
+				}else{
+					return false;
+				}
+			}
+
+			return $resultado;
 		}else{
 			return false;
 		}
 	}
 
 }
+
 
 ?>
