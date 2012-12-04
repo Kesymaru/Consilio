@@ -29,8 +29,9 @@ $proyectos = new Proyectos();
 				$("#vista").html(response);
 
 				$("#ListaProyectos").attr("checked", true);
-				SetBotones('proyectoControls');
+				SetBotones('proyectoControls'); //ACTUALIZA LOS BOTONES
 				
+				//RESTAURA UNA FILA SELECCIONADA
 				var proyecto = $.cookie('proyecto');
 				if(proyecto > 0){
 					//restaura la fila seleccionada
@@ -213,6 +214,26 @@ $proyectos = new Proyectos();
 		}
 	}
 
+	/**
+	* COMPARTIR PROYECTO
+	*/
+	function CompartirProyecto(tipo){
+		id = $.cookie('proyecto');
+		if(id > 0){
+			if(tipo == 'cliente'){
+
+			}
+			if(tipo == 'link'){
+				
+			}
+			if(tipo == 'email'){
+				
+			}
+		}else{
+			notificaAtencion("Por favor seleccione un proyecto.");
+		}
+	}
+
 
 	/**
 	* CONETEXT MENU
@@ -238,8 +259,16 @@ $proyectos = new Proyectos();
 	                    "exportar-excel": {"name": "Excell" , "icon": "excel"},
 	                    "exportar-pdf": {"name": "PDF", "icon": "pdf"},
 	                }
+            	},
+            	"fold2a": {
+                "name": "Enviar", 
+                "icon": "compartir",
+	                "items": {
+	                    "informe-cliente": {"name": "A cliente" , "icon": "informe"},
+	                    "informe-link": {"name": "Por link" , "icon": "email"},
+	                    "informe-email": {"name": "Por email" , "icon": "email"},
+	                }
             	}
-
 	        }
 	    });
 	    
@@ -253,6 +282,7 @@ $proyectos = new Proyectos();
 	*/
 	function EliminarProyecto(){
 		var proyecto = $.cookie('proyecto');
+
 		if(proyecto > 0){
 			queryParams = {'func' : 'EliminarProyecto', 'ProyectoId' : proyecto};
 			$.ajax({
@@ -261,10 +291,11 @@ $proyectos = new Proyectos();
 				url: "src/ajaxProyectos.php",
 				success: function(response){
 					notifica("Proyecto Eliminado.");
-					ListaProyectos();
+					$("#"+proyecto).fadeOut(1000);
+					//ListaProyectos();
 				},
 				fail: function(){
-					notificaError('Eror: ajax, al cargar Edicion de proyecto.');
+					notificaError('Eror: ajax, al eliminar el proyecto.');
 				}
 			});
 		}else{
@@ -281,6 +312,7 @@ $proyectos = new Proyectos();
 		if(m == 'clicked: nuevo'){
 			NuevoProyecto();
 		}
+
 		if(m == 'clicked: eliminar'){
 			var si = function (){
 				EliminarProyecto();
@@ -292,11 +324,22 @@ $proyectos = new Proyectos();
 
 			Confirmacion("Esta seguro que desea eliminar el proyecto.", si, no);
 		}
+
 		if(m == 'clicked: exportar-excel'){
 			ExportarProyecto('excel');
 		}
 		if(m == 'clicked: exportar-pdf'){
 			ExportarProyecto('pdf');
+		}
+
+		if(m == 'clicked: informe-cliente'){
+			CompartirProyecto('cliente');
+		}
+		if(m == 'clicked: informe-link'){
+			CompartirProyecto('link');
+		}
+		if(m == 'clicked: informe-email'){
+			CompartirProyecto('email');
 		}
 	}
 
@@ -309,7 +352,7 @@ $proyectos = new Proyectos();
 					<!-- Lista Proyectos -->
 					<input type="radio" id="ListaProyectos" name="radio"/>
 						<label for="ListaProyectos" onClick="ListaProyectos()">
-						Lista
+						Lista Proyectos
 						</label>
 
 					<!-- Nuevo proyecto -->
@@ -342,29 +385,10 @@ $proyectos = new Proyectos();
 
 			<div id="vista">
 				<div class="vista">
-					<?php
-					if(isset($_GET['nuevo'])){
-						//$proyectos->FormularioNuevoProyecto();
-					}
-					if(isset($_GET['proyectos'])){
-						//echo $proyectos->Lista();
-					}
-					if(isset($_GET['editar'])){
-						if($_GET['editar'] == 0){
-							//echo $proyectos->Editar();
-						}else{
-							//echo $proyectos->EditarProyecto($_GET['editar']);
-							?>
-								<script type="text/javascript">
-									//Formulario("formularioEditarProyecto")
-								</script>
-							<?php
-						}
-					}
-						
-					?>
+
 				</div>
 			</div>
+
 			<script type="text/javascript">
 					Restaurar();
 			</script>
