@@ -1,22 +1,26 @@
 <?php
+
 /**
 *	CLASE PARA ENVIAR MAILS
 */
 
 class Mail {
+
 	private $heades = '';
 	private $plantilla = '';
 	private $plantillaFooter = '';
 	private $webmaster = 'webmaster@matricez.com';
 
 	public function __construct(){
+		session_start();
+
 		//configuracion headers del email
 		$this->headers .= "From: " . $this->webmaster . "\r\n";
 		$this->headers .= "Reply-To: " . $this->webmaster . "\r\n";
 		$this->headers .= "X-Mailer: Matricez" . "\r\n";
 		$this->headers .= "Content-Type: text/html; charset=utf-8\r\n";
 
-		//crea plantilla
+		//CREA PANTILLA HEADER
 		$this->plantilla = '<!doctype html>
 		<head>
 			<meta charset="utf-8">
@@ -79,6 +83,7 @@ class Mail {
 		<br/>
 		<br/>';
 
+		//CREA PLANTILLA FOOTER
 		$this->plantillaFooter = '
 		<br/>
 		<br/>
@@ -101,6 +106,11 @@ class Mail {
 
 	}
 
+	/**
+	* ENVIA EL MAIL
+	* @param $para -> string mail de destino
+	* @param $asunto -> string subject del mail
+	*/
 	private function enviar($para, $asunto){
 		if(!mail($para, $asunto, $this->plantilla, $this->headers)){
 			$_SESSION['error'] = "El envio del email de registro ha fallado!<br/>Por favor comuniquese con ".$admin;
@@ -150,6 +160,13 @@ class Mail {
 		$this->enviar($para, "Registro Matriz");
 	}
 
+	/**
+	* MAIL PARA CUANDO SE RESETEA UN PASSWORD
+	* @param $para -> mail distinatario
+	* @param $nombre -> nombre del usuario
+	* @param $usuario -> usuario
+	* @param $password -> nuevo password y sin encriptar
+	*/
 	public function mailResetPassword($para, $nombre, $usuario, $password){
 
 		$this->plantilla .= '
@@ -186,7 +203,7 @@ class Mail {
 					<a href="'.$_SESSION['home'].'/login.php?usuario='.$usuario.'&reset=1" >
 						<img scr="'.$_SESSION['home'].'/images/mailIngresarBoton.png" title="Ingresar" alt="Ingresar">
 					</a>
-					<img class="logo" src="http://admin.77digital.com/Consilio/images/logoMail.png" title="Matriz" alt="Matriz">
+					<img class="logo" src="'.$_SESSION['home'].'/images/logoMail.png" title="Matriz" alt="Matriz">
 				</td>
 			</tr>	
 		</table>
@@ -196,6 +213,44 @@ class Mail {
 		
 		//envia mail
 		$this->enviar($para, "Nueva Contraseña Matricez");
+	}
+
+	/**
+	* ENVIA MAIL CORREPONDIENTE DE UN INFORME
+	* @param $email -> string email del cliente
+	* @param $cliente -> String nombre del cliente
+	* @param $proyecto -> String nombre del proyecto
+	* @param $url -> string url para la vista del proyecto
+	*/
+	public function mailInformeCliente($email, $cliente, $proyecto, $url){
+
+		//CREA MENSAJE PARA NOTIFICAR A UN CLIENTE
+		$this->plantilla .= '
+		<table class="tabla">
+			<tr class="titulo">
+				<td colspan="2">
+					Informe '.$proyecto.'
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					Estimado cliente le informamos que desde ahora el proyecto '.$proyecto.' puede ser monitoreado desde el siguiente enlace:
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" class="link">
+					<a href="'.$_SESSION['home'].$url.'" >
+						<img scr="'.$_SESSION['home'].'/images/mailIngresarBoton.png" title="Ingresar" alt="Ingresar">
+					</a>
+					<img class="logo" src="'.$_SESSION['home'].'/images/logoMail.png" title="Matriz" alt="Matriz">
+				</td>
+			</tr>	
+		</table>';
+
+		$this->plantilla .= $this->plantillaFooter;
+
+		//envia mail
+		$this->enviar($email, "Informe ".$proyecto);
 	}
 
 }
