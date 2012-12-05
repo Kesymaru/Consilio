@@ -35,47 +35,67 @@ html, body{
 /* menu */
 #menu{
 	margin-left: 5%;
-	width: 14%;
-	min-width: 100px;
-	/*height: 70%;*/
-	display: block;
+	width: 30%;
+	height: 80%;
+	display: none;
 	float: left;
 	border: 0;
+	margin-right: 0;
+	background-color: #FFFFFF;
+	border: 1px solid #dedede;
 }
 
-#menu .menu{
-	overflow: auto;
-	height: 70%;
+#menu hr{
+	display: inline-block;
+	width: 25%;
+	border: 1px solid #dedede;
+	vertical-align: middle;
 }
 
-#menu .menu span{
+#menu #categorias{
 	display: block;
-	margin-top: 100%;
+	width: auto;
+	height: 100%;
+	max-height: 100%;
+	margin: 0;
+	padding: 0;
+	overflow-x: auto;
+	overflow-y: auto;
+	z-index: -1;
 }
 
-#menu .menu ul{
+#categorias .categoria{
+	display: table-cell;
+	position: relative;
+	width: 150px;
+	height: 100%;
+}
+
+#categorias .categoria ul{
 	display: block;
-	width: 100%;
+	float: left;
+	min-width: 150px;
 }
 
-#menu .menu ul li{
-	margin-bottom: 10px;
+#categorias .categoria ul{
+	display: block;
+}
+
+#categorias .categoria ul li{
 	list-style: none;
-	border-right: 0;
-	padding: 10px;
+	border: 0;
+	padding: 5px;
 	font-weight: bold;
-	font-size: 100%;
+	font-size: 20px;
 }
 
-#menu .menu ul li img{
-	width: 70px;
-	margin-bottom: 5px;
+#categorias .categoria ul li:hover{
+	background-color: rgba(117, 114, 115, .3);
 }
 
 .seleccionada{
-	border: solid 1px #dedede;
-	border-right: 0;
-	background-color: #fff;
+	border: solid 1px #A1CA4A;
+	background-color: #A1CA4A;
 }
 
 .super{
@@ -119,14 +139,14 @@ html, body{
 
 /* content */
 #content{
-	margin-right: 5%;
-	width: 75%;
+	margin: 0 auto;
+	width: 90%;
 	display: block;
-	float: left;
 	background-color: #fff;
 	border: 1px solid #dedede;
 	height: 80%;
 	overflow: auto;
+	position: relative;
 }
 
 /* header */
@@ -153,7 +173,6 @@ header{
 	display: block;
 	margin-right: 6%;
 	margin-top: 30px;
-	float: right;
 }
 
 /* mensaje inicial */
@@ -173,7 +192,7 @@ header{
 }
 
 /* clientes */
-#cliente{
+#toolbarMenu{
 	display: inline-block;
 	background-color: #fff;
 	border: 1px solid #dedede;
@@ -184,7 +203,7 @@ header{
 	cursor: pointer;
 }
 
-#cliente #usuario, #cliente #proyectos, #cliente #clientes{
+#toolbarMenu #usuario, #toolbarMenu #proyectos, #toolbarMenu #edicion, #toolbarMenu #cliente{
 	padding: 13px;
 	vertical-align: middle;	
 	display: inline-block;
@@ -194,18 +213,18 @@ header{
 }
 
 /* menuProyectos */
-#cliente #proyectos{
+#toolbarMenu #proyectos{
 	display: inline-block;
 	float: right;
 }
 
 /* menu clientes */
-#cliente #clientes{
+#toolbarMenu #cliente{
 	display: inline-block;
 	float: right;
 }
 
-#cliente .seleccionado{
+#toolbarMenu .seleccionado{
 	background-color: #a1ca4a;
 	color: #fff;
 }
@@ -800,30 +819,6 @@ header{
 	color: #fff !important;
 }
 
-/* lista de proyectos */
-#listaProyectos{
-	overflow-y: auto; 
-	overflow-x: hidden; 
-	margin-bottom: 20px;
-}
-
-#listaProyectos li{
-	padding: 10px;
-	cursor: pointer;	
-}
-
-#listaProyectos li:hover{
-	background-color: #a1ca4a;
-}
-
-input::placeholder{
-	color: #fff !important;
-}
-
-input::-0-placeholder{
-	color: #fff !important;
-}
-
 /*
 	CONTROLES 
 */
@@ -841,132 +836,6 @@ input::-0-placeholder{
 	vertical-align: middle;
 	width: 80%;
 }
-
-/*
-	EDICION
-*/
-#edicion{
-	display: block;
-	font-size: 20px;
-	width: 100%;
-	margin: 0 auto;
-	margin-top: 20px;
-	margin-bottom: 20px;
-}
-
-/*
-	RESUMEN
-*/
-#resumen{
-	display: block;
-	font-size: 20px;
-	min-width: 500px;
-	width: 70%;
-	margin: 0 auto;
-	margin-top: 20px;
-	margin-bottom: 20px;
-}
-
-#resumen button{
-	font-size: 15px !important;
-}
-
-#resumen .tablaResumen{
-	width: 100%;
-	margin: 0 auto;
-	border: 1px solid #dedede;
-	border-collapse: collapse;
-	box-shadow: 0 0 0 2px #f4f4f4;
-	padding: 0;
-}
-
-#resumen .tablaResumen td{
-	padding: 10px;
-}
-
-.tituloResumen{
-	background-color: #6fa414;
-	color: #fff;
-	font-size: 22px;
-	font-weight: bold;
-	text-align: center;
-}
-
-.columnaTituloResumen{
-	background-color: #a1ca4a;
-	color: #fff;
-	font-size: 20px;
-	text-align: center;
-}
-
-.columnaInfoResumen{
-	text-align: left;
-}
-
-.colunmaControlsResumen{
-	text-align: center;
-}
-
-.filaNotaResumen:hover{
-	background-color: #a1ca4a;
-}
-
-.removeNota {
-	z-index: 100;
-	display: none;
-	float: right;
-	padding: 0;
-	margin-right: -25px;
-	margin-top: -20px;
-}
-
-.filaNotaResumen:hover .removeNota{
-	display: inline-block;
-	float: right;
-}
-
-
-/* COMPARTIR */
-#compartir{
-	width: auto;
-	display: block;
-	margin-top: 20px;
-	margin-right: auto;
-	margin-left: auto;
-}
-
-#compartir .box{
-	float: none !important;
-	display: inline-block;
-	width: 70% !important;
-}
-
-#compartir hr{
-	display: inline-block;
-	border: 1px solid #dedede;
-	margin: 0 auto;
-	width: 25%;
-	vertical-align: middle;
-}
-
-#compartir #iconsExportar{
-	display: inline-block;
-	margin: 0 auto;
-	width: 20%;
-}
-
-#compartir #iconsExportar img:first-child{
-	float: left;
-}
-
-#compartir #iconsExportar img:last-child{
-	float: right;
-}
-
-.icon{
-	cursor: pointer;
-}
-
 
 /**
  VISTA PROYECTOS
