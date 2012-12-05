@@ -64,24 +64,24 @@ html, body{
 	z-index: -1;
 }
 
-#categorias .categoria{
-	display: table-cell;
+#categorias .categoria, 
+#categorias .root{
+	display: table-cell !important;
 	position: relative;
+	float: left;
 	width: 150px;
 	height: 100%;
 }
 
-#categorias .categoria ul{
+#categorias .categoria ul, 
+#categorias .root ul{
 	display: block;
 	float: left;
 	min-width: 150px;
 }
 
-#categorias .categoria ul{
-	display: block;
-}
-
-#categorias .categoria ul li{
+#categorias .categoria ul li, 
+#categorias .root ul li{
 	list-style: none;
 	border: 0;
 	padding: 5px;
@@ -89,7 +89,8 @@ html, body{
 	font-size: 20px;
 }
 
-#categorias .categoria ul li:hover{
+#categorias .categoria ul li:hover,
+#categorias .root ul li:hover{
 	background-color: rgba(117, 114, 115, .3);
 }
 
