@@ -36,6 +36,7 @@ $master = new Master();
 	<!-- notificaciones -->
 	<script type="text/javascript" src="js/noty/jquery.noty.js" ></script>
 	<script type="text/javascript" src="js/noty/layouts/topCenter.js"></script>
+	<script type="text/javascript" src="js/noty/layouts/center.js"></script>
 	<script type="text/javascript" src="js/noty/themes/default.js"></script>
 
 	<script type="text/javascript" src="js/main.js"></script>
@@ -76,7 +77,7 @@ $master = new Master();
 		</a>
 
 		<div class="toolbar">
-			<div id="cliente">
+			<div id="toolbarMenu">
 				<div id="usuario">
 					<?php
 						echo $_SESSION['nombre'];
@@ -86,24 +87,15 @@ $master = new Master();
 							$master->MenuAdmin();
 						?>
 					</ul>
-				</div id="usuario">
+				</div>
+				<div id="edicion">
+					Edicion
+				</div>
 				<div id="proyectos">
 					Proyectos
-					<!--
-					<ul class="dropMenu" id="menuProyectos">
-						<?php
-							//$master->MenuProyectos();
-						?>
-					</ul>
-					-->
 				</div>
-				<div id="clientes">
+				<div id="cliente">
 					Clientes
-					<ul class="dropMenu" id="menuProyectos">
-						<?php
-							//$master->MenuProyectos();
-						?>
-					</ul>
 				</div>
 			</div>
 			<!-- end opciones de menu -->
@@ -121,30 +113,6 @@ $master = new Master();
 	<div id="main">
 		
 		<div id="menu">
-			<div class="menu">
-				<ul>
-					<?php
-						//display las normas
-					if(isset($_GET['proyecto'])){
-						//menu($_GET['proyecto']);
-						$master->MenuProyecto($_GET['proyecto']);
-					}
-
-					?>
-				</ul>
-			</div>
-			<!-- menu -->
-
-			<!-- super controles para categoria, agregar y borrar -->
-			<div id="super" class="super" >
-				<div>
-					Categorias<br/>
-					<!-- agrega categoria / borrar categoria seleccionada -->
-					<button id="nuevaCategoria">+</button>
-					<button id="borrarCategoria">-</button>
-				</div>
-			</div>
-			<!-- end super -->
 
 		</div>
 		<!-- end menu -->
@@ -184,27 +152,6 @@ $master = new Master();
 						?>
 					</div>
 				<?php 
-				}
-
-				//carga los datos de un proyecto
-				if(isset($_GET['proyecto'])){
-					echo '<div id="titulo">';
-					
-					//echo getProyectoNombre($_GET['proyecto']);
-					$base = new Database();
-					$proyecto = $base->select('SELECT * FROM proyectos WHERE id = '.$_GET['proyecto']);
-					echo $proyecto['nombre'];
-
-					//controles del proyecto
-					echo '</div>
-						<div class="topControls" id="proyectoControls">
-						</div>
-						<script type="text/javascript">
-							//fija el proyecto seleccionado
-							setProyecto('.$_GET['proyecto'].');
-							proyectoControls('.$_GET['proyecto'].');
-							resumenProyecto();
-						</script>';
 				}
 
 				?>
