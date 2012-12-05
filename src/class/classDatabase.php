@@ -172,20 +172,18 @@ class Database{
 	}
 
 	/**
-	* METODO PARA BORRAR LA IMAGEN VIEJA DEL FOLDER images/users/
+	* METODO PARA BORRAR UNA IMAGEN VIJA
 	* @param $link -> link imagen ha eliminar
 	*/
 	public function DeleteImagen($link){
-		//session_start();
-		//$link = str_replace($_SESSION['home'], "", $link);
-		//$link = "../..".$link;
-		//$link = "../../".$link;
-		//echo '<br/>'.$_SERVER['DOCUMENT_ROOT'].$link;
-
-		if(unlink($link)){
+		
+		//no elimina las imagenes por defecto
+		if(!$link == 'images/es.png'){
+			if(unlink($link)){
 			return true;
-		}else{
-			return false;
+			}else{
+				return false;
+			}
 		}
 	}
 
