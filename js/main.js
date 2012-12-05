@@ -1,30 +1,19 @@
-var turno = '';
+var menu = '';
 
 $(document).ready(function(){
 	$('.dropMenu button').button();
 	$('.dropMenu').hide();
 
-	/*$('#proyectos').click(function(){
-		if($('#menuProyectos').is(':visible')){
-			$('#menuProyectos').slideUp();
-			$('#proyectos').css({
-				'background-color' : '#fff',
-				'color' : '#000'
-			});
-		}else{
-			$('#proyectos').css({
-				'background-color' : '#a1ca4a',
-				'color' : '#fff'
-			});
-			$('#menuProyectos').slideDown();
-		}
-	});*/
 	$('#proyectos').click(function(){
 		ToolbarMenu('proyectos');
 	});
 
 	$('#clientes').click(function(){
 		ToolbarMenu('clientes');
+	});
+
+	$('#edicion').click(function(){
+		ToolbarMenu('edicion');
 	});
 
 	$('#usuario').click(function(){
@@ -60,42 +49,117 @@ $(document).ready(function(){
 */
 function ToolbarMenu(click){
 	if( click == 'clientes' ){
+		$('#toolbar div').removeClass('seleccionado');
 		$('#clientes').addClass('seleccionado');
-		$('#proyectos').removeClass('seleccionado');
-		turno = 'clientes';
-		//console.log('cliente');
+		
 		//todo VistaClientes();
 	}
 
 	if( click == 'proyectos' ){
+		$('#toolbarMenu div').removeClass('seleccionado');
 		$('#proyectos').addClass('seleccionado');
-		$('#clientes').removeClass('seleccionado');
-		//console.log('proyecto');
-		VisatProyectos();
+		
+		VistaProyecto();
+	}
+
+	if( click == 'edicion' ){
+		$('#toolbarMenu div').removeClass('seleccionado');
+		$('#edicion').addClass('seleccionado');
+
+		VistaEdicion();
 	}
 }
 
-/**
-	VISTA DE PROYECTOS
+/**********************
+* VISTA DE PROYECTOS
 */
 
 /**
 * CARGA LA VISTA DE PROYECTOS
 */
-function VisatProyectos(){
+function VistaProyecto(){
 	$.cookie('vista', 'proyectos');
+
 	$('#proyectos').addClass('seleccionado');
+	ImageLoader();
+	$("#content").load("ajax/vistaProyectos.php", function(){
+		$("#image-loader").remove();
+		ActivaMenu();
+	});
+}
+
+/**********************
+* VISTA DE CATEGORIAS
+*/
+
+/**
+* CARGA LA VISTA DE EDICION
+*/
+function VistaEdicion(){
+	$.cookie('vista', 'edicion');
+
+	$('#edicion').addClass('seleccionado');
+	ImageLoader();
+	$("#content").load("ajax/vistaEdicion.php", function(){
+		$("#image-loader").remove();
+		
+		ActivaMenu();
+	});
+}
+
+/**
+* ACTIVA EL MENU
+*/
+function ActivaMenu(){
+	ActivaMenuFixIe();
+
+	if( $('#menu').is(':visible') && $.cookie('vista') != 'edicion' ){
+
+		$("#menu").animate({
+			width: 'toggle'
+		}, 1500, function(){
+
+			$("#menu").css({
+				'display' : 'none',
+				'float' : 'left',
+			});
+
+			$("#content").css({
+				'width' : '90%',
+				'margin' : '0 auto'
+			});
+
+		});
+
+		return;
+	}
+
+	if( $.cookie('vista') == 'edicion' && !$('#menu').is(':visible') ){
+		
+		$("#menu").animate({
+			width: 'toggle'
+		}, 1500);
+
+		$("#menu").css({
+			'display' : 'block',
+			'float' : 'left',
+		});
+
+		$("#content").css({
+			'width' : '60%',
+			'margin' : '0 0'
+		});
+	}
+
+}
+
+/**
+* IMAGEN DE LOADER
+*/
+function ImageLoader(){
 	$("#content").html("");
-	$("#content").load("ajax/VistaProyectos.php");
+	$("#content").html('<img id="image-loader" src="images/ajax-loader.gif" />');
 }
-
-//LIMPIA MUESTRAS DE AJAX
-function reset(){
-	$('#content #nivel1, #content #nivel2, #resumen, #edicion, #compartir').remove();
-	//remueve consultas de generalidades
-	$('.box').remove();
-}
-
 
 /**
 * DIALOGO DE NOTA
@@ -106,10 +170,9 @@ function nota(id){
 	$('#dialogo').slideDown();
 }
 
-/*
-	BUQUEDA 
+/**
+* BUSQUEDA 
 */
-
 function Buscar(busqueda){
 	var queryParams = {"func" : "Buscar", "busqueda" : busqueda};
 	$.ajax({
@@ -128,10 +191,9 @@ function Buscar(busqueda){
 	});
 }
 
-/*
-	EDITAR DATOS USUARIO
+/**
+* EDITAR DATOS USUARIO
 */
-
 function EditarAdmin(){
 	$( "#dialogoContenido" ).load('ajax/admin.php');
 	$('#dialogo').hide();
@@ -276,6 +338,9 @@ function notificaError(text) {
 
 /**
 * DIALOGO DE CONFIRMACION
+* @param text String para el texto a mostrar en el dialogo
+* @param si Object con la funcion a realizar en caso de click en ok
+* @param no Object con la funcion en caso de cancelacion
 */
 function Confirmacion(text, si, no) {
 
@@ -283,7 +348,7 @@ function Confirmacion(text, si, no) {
     	text: text,
       	type: 'alert',
       	dismissQueue: true,
-      	layout: 'topCenter',
+      	layout: "center",
       	theme: 'defaultTheme',
       	buttons: [
         	{addClass: 'btn btn-primary', text: 'Ok', onClick: function($noty){
@@ -298,7 +363,7 @@ function Confirmacion(text, si, no) {
         	}
       	]
     });
-    //console.log('html: '+n.options.id);
+    console.log('html: '+n.options.layout	);
  }
 
 
@@ -350,6 +415,7 @@ function SetBotones(id){
 
 /**
 * INICIALIZA TABLA CON ORDENACION
+* UTILIZA EL PLUGIN table
 */
 function Tabla(id){
 	$('#'+id).dataTable( {
@@ -363,24 +429,16 @@ function Tabla(id){
 /** INICIALIZA VALIDACION FORMULARIO **/
 function Formulario(id){
 	$("#"+id).validationEngine();
-	/*$('#'+id).ajaxForm(function() { }); 
-	// prepare Options Object 
-	var options = {  
-	    success:    function(response) { 
-	        notifica("Datos Actualizados correctamente."+response) 
-	    } 
-	}; 
-	 
-	// pass options to ajaxForm 
-	$('#'+id).ajaxForm(options);
-	*/
 }
 
-
+/**
+* INICIALIZA LAS COOKIES
+*/
 function Cookies(){
 	if($.cookie('vista') == null){
 		$.cookie('proyecto', 0, { expires: 7 });
 		$.cookie('vista', 0, { expires: 7 });
+		$.cookie('categoria', 0, { expires: 7 });
 		$.cookie('accion', 'home',{ expires: 7 });
 		$.cookie('restaurado', 0, { expires: 7 });
 	}
@@ -392,6 +450,9 @@ function Cookies(){
 */
 function Inicializa(){
 	if($.cookie('vista') == 'proyectos'){
-		VisatProyectos();
+		VistaProyecto();
+	}
+	if($.cookie('vista') == 'edicion'){
+		VistaEdicion();
 	}
 }
