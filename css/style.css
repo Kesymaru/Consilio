@@ -43,6 +43,8 @@ html, body{
 	margin-right: 0;
 	background-color: #FFFFFF;
 	border: 1px solid #dedede;
+	overflow-x: auto;
+	overflow-y: hidden;
 }
 
 #menu hr{
@@ -59,8 +61,6 @@ html, body{
 	max-height: 100%;
 	margin: 0;
 	padding: 0;
-	overflow-x: auto;
-	overflow-y: auto;
 	z-index: -1;
 }
 
@@ -69,7 +69,7 @@ html, body{
 	display: table-cell !important;
 	position: relative;
 	float: left;
-	width: 150px;
+	min-width: 150px;
 	height: 100%;
 }
 
@@ -87,6 +87,7 @@ html, body{
 	padding: 5px;
 	font-weight: bold;
 	font-size: 20px;
+	cursor: pointer;
 }
 
 #categorias .categoria ul li:hover,
@@ -97,6 +98,34 @@ html, body{
 .seleccionada{
 	border: solid 1px #A1CA4A;
 	background-color: #A1CA4A;
+	color: #fff;
+}
+
+#BoxArchivo{
+	margin: 0 auto;
+	margin-top: -20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	width: 75%;
+	border: 1px solid rgba(117, 114, 115, .4);
+	border-top: 0px solid transparent;
+	background-color: rgba(117, 114, 115, .3);
+
+		-webkit-border-bottom-right-radius: 5px;
+		-webkit-border-bottom-left-radius: 5px;
+		-moz-border-radius-bottomright: 5px;
+		-moz-border-radius-bottomleft: 5px;
+		-o-border-radius-bottomright: 5px;
+		-o-border-radius-bottomleft: 5px;
+		-ms-border-radius-bottomright: 5px;
+		-ms-border-radius-bottomleft: 5px;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+
+#BoxArchivo input{
+	text-align: left;
+	font-size: 18px;
 }
 
 .super{
@@ -407,13 +436,38 @@ header{
 #nivel1, #nivel2{
 	display: block;
 	width: 100%;
-	margin-top: 20px;
-	margin-bottom: 20px;
 }
 
-#listaNormas{
-	width: 30%;
-	float: left;
+#nombreNorma{
+	background-color: #A1CA4A;
+	color: #fff;
+	font-size: 20px;
+	padding: 7px 0;
+	width: 95%;
+	margin: 0 auto;
+}
+
+#nombreNorma input{
+	background-color: #A1CA4A;
+	color: #fff;
+	font-size: 20px;
+	padding: 0;
+	text-align: center;
+	border: 0 solid transparent;
+}
+
+#nivel2{
+	margin-top: 20px;
+}
+
+#opciones{
+	width: 95%;
+	margin: 0 auto;
+	border-bottom: 1px solid #dedede;
+	border-left: 1px solid #dedede;
+	border-right: 1px solid #dedede;
+	display: block;
+	padding: 15px 0;
 }
 
 #listaNormas .norma{
@@ -425,76 +479,17 @@ header{
 	padding: 10px 0;
 }
 
-.norma select{
-	width: 95%;
-	border: 0;
-	text-align: center !important;
-		-ms-box-shadow: none; /* IE 9 */
-		-moz-box-shadow: none; /* Firefox */
-		-webkit-box-shadow: none; /* Safari and Chrome */
-		-o-box-shadow: none; /* Opera */
-	box-shadow: none;
-}
-
-.norma select option{
-	text-align: center;
-}
-
-#generalidades{
-	margin-left: 30%;
-	margin-right: 3%;
+#nivel2{
 	display: block;
 }
 
-#generalidades #generalidadesDisponibles{
-	width: 100%;
-	margin: 0 auto;
-	border: 1px solid #dedede;
-	border-radius: 5px;
-	padding: 10px 0;
-}
-
-#generalidadesDisponibles .opciones{
-	margin-bottom: 10px;
-}
-
-
-/*columnas*/
-
-#columna1{
-	width: 30%;
-	background-color: #fff;
-	float: left;
-	margin-bottom: 20px;
-}
-
-#columna1 #descripcionNorma{
-	width: 90%;
-	margin: 0 auto;
-	border: 1px solid #dedede;
-	border-radius: 5px;
-	padding: 0;
-}
-
-#columna1 #descripcionNorma div{
-	padding: 10px 0;
-}
-
-#columna2{
-	margin-left: 30%;
-	margin-right: 3%;
-	display: block;
-}
-
-/* DATOS CARGADOS */
+/* BOXES */
 .box{
 	margin: 0 auto;
 	border: 1px solid #dedede;
 	border-radius: 5px;
-	width: 40%;
-	margin-right: 10px !important;
-	float: left;
-	margin-bottom: 20px !important;
+	width: 95%;
+	margin: 10px auto;
 }
 
 .box div{
@@ -508,13 +503,85 @@ header{
 	margin: 10px auto;
 }
 
+.box .content textarea{
+	border: 0 solid transparent;
+	text-align: left;
+	font-size: 20px;
+	color: #757374;
+	width: 100%;
+	height: 150px;
+}
+
 .box .titulo{
+	display: inline-block;
 	border-bottom: 1px solid #dedede;
 	color: #757374;
 	text-align: center;
 	font-weight: bold;
 	padding-top: 10px;
 	padding-bottom: 10px;
+}
+
+.box .close{
+	display: none;
+	float: right;
+	margin-right: -20px;
+	margin-top: -20px;
+	opacity: 0;
+	cursor: pointer;
+}
+
+.box .closeArchivo{
+	display: none;
+	float: right;
+	margin-right: -20px;
+	margin-top: -20px;
+	opacity: 0;
+	cursor: pointer;
+}
+
+.box .archivos{
+	display: block;
+}
+
+.box .archivo{
+	padding: 7px;
+	display: inline-block;
+	width: auto;
+	height: 35px;
+	vertical-align: middle;
+	margin-bottom: 5px;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		-o-border-radius: 5px;
+		-ms-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.box .archivo a img{
+	height: 35px;
+	float: left;
+}
+
+.box .archivo a span{
+	color: #757374;
+	display: inline-block;
+	vertical-align: middle;
+	font-weight: bold;
+	margin-top: 10px;
+	margin-left: 10px;
+}
+
+.box .titulo:hover .close,
+.box .archivo:hover .closeArchivo{
+	display: inline-block;
+	opacity: 1;
+}
+
+.box .archivo:hover,
+.box .archivo:hover a span{
+	color: #FFFFFF;
+	background-color: rgb(161, 202, 74);
 }
 
 .box p{
@@ -527,30 +594,9 @@ header{
 	color: #a1ca4a;
 }
 
-/* datos norma seleccionada */
-.nombreNorma{
-	display: block;
-	border: 0;
-	background-color: #a1ca4a;
-	color: #fff;
-	font-weight: bold;
-	text-align: center;
-	padding: 10px 0;
-	word-wrap: break-word;
-}
-
-.numeroNorma{
-	display: block;
-	border: 0;
-	background-color: #fff;
-	color: #747273;
-	font-weight: bold;
-	text-align: center;
-	padding: 10px 0;
-	word-wrap: break-word;
-}
-
-/* RESULTADOS BUSQUEDA */
+/**
+* RESULTADOS BUSQUEDA 
+*/
 
 #resultadoBusqueda {
 	width: 80%;
@@ -673,8 +719,8 @@ header{
 .etiqueta a:hover:before{border-color:transparent #a1ca4a transparent transparent;}
 
 
-/*
-	DIALOG
+/**
+* DIALOGO
 */
 
 #dialogo{

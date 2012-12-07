@@ -12,6 +12,7 @@ $session = new Session();
 $session->Logueado();
 
 $proyectos = new Proyectos();
+
 ?>
 <!-- JAVASCRIPT NECESARIO -->
 <script type="text/javascript">

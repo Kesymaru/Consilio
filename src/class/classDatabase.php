@@ -1,13 +1,19 @@
 <?php
 
 class Database{
-	
+	//local
 	private $dbHost 	= "localhost";
 	private $dbUser 	= "root";
 	private $dbPassword = "root";
 	private $dbDatabase = "matriz";
 	
-	private $dbLink      = 0;
+	/*server
+	private $dbHost 	= "localhost";
+	private $dbUser 	= "matrizroot";
+	private $dbPassword = "Matriz159!!";
+	private $dbDatabase = "matriz";
+	*/
+	private $dbLink      = "";
 	private $dbRecordSet = 0;
 	public  $dbResult    = false;
 	public $exite        = false;
@@ -29,7 +35,7 @@ class Database{
 	
 	//Conexion
 	public function conect(){
-		$this->dbLink= mysql_connect($this->dbHost, $this->dbUser) or die ("1. No funciona por " . mysql_error()); 
+		$this->dbLink = mysql_connect($this->dbHost, $this->dbUser) or die ("1. No funciona por " . mysql_error()); 
 		//$this->dbLink= mysql_connect($this->dbHost, $this->dbUser, $this->dbPassword) or die ("1. No funciona por " . mysql_error()); 
 	}
 	//Seleccionar base	
@@ -44,7 +50,9 @@ class Database{
 	//Desconexion
 	private function disconnect(){
 		if($this->dbLink){
-			//mysql_close($this->dbLink);	
+			mysql_close( mysql_connect($this->dbHost, $this->dbUser) );
+			//mysql_close( mysql_connect($this->dbHost, $this->dbUser, $this->dbPassword) );
+			//mysql_close($this->dbLink);
 		}
 	}
 	//Ejecuta consulta
@@ -141,7 +149,7 @@ class Database{
 	/**
 	* REVISA SI EXISTE UN DATO DENTRO DE UNA TABLA
 	* @param $query -> query a ejecutar
-	* @return tru -> si el query se ejecuto 
+	* @return true -> si el query se ejecuto y es valido
 	*/
 	public function Existe($query){
 
@@ -178,9 +186,9 @@ class Database{
 	public function DeleteImagen($link){
 		
 		//no elimina las imagenes por defecto
-		if(!$link == 'images/es.png'){
+		if($link != 'images/es.png' && $link != '../../images/es.png'){
 			if(unlink($link)){
-			return true;
+				return true;
 			}else{
 				return false;
 			}

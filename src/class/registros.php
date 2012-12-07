@@ -9,10 +9,10 @@ require_once("session.php");
 */
 class Registros{
 	private $registros = array(); //array[][][][];
-	private $categorias = array(); 
 
 	/**
 	* OBTIENE TODOS LOS REGISTROS DE UN PROYECTO Y LOS COMPONE EN UN SOLO ARRAY
+	* COMPONE CATEGORIAS, DATOS, OBSERVACION Y ARCHIVOS ADJUNTOS
 	* @param $proyecto -> id del proyecto 	
 	*/
 	public function getRegistros($proyecto){
@@ -29,7 +29,7 @@ class Registros{
 			foreach ($consulta as $fila => $valors) {
 				$this->registros[$fila]['categoria'] = $this->getNorma($consulta[$fila]['categoria']);
 				
-				$this->registros[$fila]['normas'] = $this->getDatosNorma($consulta[$fila]['categoria']);
+				$this->registros[$fila]['datos'] = $this->getDatosNorma($consulta[$fila]['categoria']);
 
 				$this->registros[$fila]['observacion'] = $this->getObservacion($consulta[$fila]['observacion']);
 				
@@ -44,46 +44,6 @@ class Registros{
 	}
 
 	/**
-	* PRIMEROS 2 NIVELES DE LAS CATEGORIAS
-	*/
-	public function getCategorias(){
-		$base = new Database();
-		$query = "SELECT id FROM categorias WHERE padre = 0";
-
-		$datos = $base->Select($query);
-
-		if(!empty($datos)){
-			foreach ($datos as $fila => $padre) {
-				$this->categorias = $datos[$fila]['id'];
-				$query = "SELECT id FROM categorias WHERE padre = ".$datos[$fila]['id'];
-				$this->categorias = $base->Select($query);
-			}
-			return $this->categorias;
-		}else{
-			return null;
-		}
-	}
-
-	/**
-	* METODO RECURSIVO PARA OBTENER LOS HIJOS
-	* @param $padre -> id del padre
-	*/
-	private function getHijos($padre){
-		$base = new Database();
-		$query = "SELECT * FROM categorias WHERE padre = ".$padre;
-		$hijos = $base->Select($query);
-		
-		if(is_array($hijos)){
-			foreach ($hijos as $fila => $valor) {
-				$this->categorias = $hijos[$fila]['id'];
-				$this->categorias = $this->getHijos($hijos[$fila]['id']);
-			}
-		}else{
-			return;
-		}
-	}
-
-	/**
 	* HELPER
 	*/
 	public function MostrarArray(){
@@ -92,23 +52,7 @@ class Registros{
 		echo '</pre>';
 	}
 
-	/**
-	* OBTIENE EL NOMBRE DE LA NORMA DE LA CATEGORIA
-	* @param $categoria -> id de la categoria
-	* @return $norma -> nombre de la norma
-	*/
-	public function getNorma($categoria){
-		$base = new Database();
-		$query = "SELECT * FROM normas WHERE categoria = ".$categoria;
-
-		$norma = $base->Select($query);
-
-		if(!empty($norma)){
-			return $norma[0]['nombre'];
-		}else{
-			return null;
-		}
-	}
+/************** OBSERVACIONES DE UNA CATEGORIA EN UN PROYECTO **************/
 
 	/**
 	* OBTIENE LOS DATOS DE LA OBSERVACION
@@ -129,13 +73,270 @@ class Registros{
 		}
 	}
 
+	/**
+	* GUARDA UNA NUEVA OBSERVACION
+	* @param $nuevo -> nueva observacion
+	* @param $categoria -> id de la categoria de la observacion
+	* @param $proyecto -> id del proyectos
+	* @return true si se guarda exitosamente
+	*/
+	public function SetObservacion($nuevo, $categoria, $proyecto){
+		$nuevo = mysql_real_escape_string($nuevo);
+		$base = new Database();
+		$query = "INSERT INTO observaciones ( nombre, categoria, proyecto ) VALUES ( '".$nuevo."', '".$categoria."', '".$proyecto."')";
+
+		if($base->Insert($query)){
+			return true;
+		}else{
+			return false;
+		}
+	}
 
 	/**
-	* COMPONE LAS NORMAS DE UNA CATAGORIA
+	* ACTUALIZA OBSERVACION
+	* @param $nuevo -> nuevo valor para la observacion
+	* @param $id -> id de la observacion
+	* @return true si se actualiza exitosamente
+	*/
+	public function UpdateObservacion($nuevo, $id){
+		$nuevo = mysql_real_escape_string($nuevo);
+		$base = new Database();
+		$query = "UPDATE observaciones SET observacion = '".$nuevo."' WHERE id = ".$id;
+
+		if($base->Update($query)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+/************** ARCHIVOS ADJUNTOS DE UNA CATEGORIA **************/
+
+	/**
+	* OBTIENE LOS ARCHIVOS ADJUNTO DE UN REGISTRO
+	* @param $categoria -> id categoria
+	* @return $datos[][] => datos de los archivos
+	* @return false si falla
+	*/
+	public function getArchivos($categoria){
+		$base = new Database();
+		$query = "SELECT * FROM archivos WHERE categoria = ".$categoria;
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			return $datos;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* OBTIENE LOS ARCHIVOS ADJUNTO DE UN REGISTRO
+	* @param $dato -> dato solicitado
+	* @param $id -> id categoria
+	* @return $datos -> dato consultado
+	* @return false si falla
+	*/
+	public function getArchivoDato($dato, $id){
+		$base = new Database();
+		$query = "SELECT * FROM archivos WHERE id = ".$id;
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			return $datos[0][$dato];
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* SUBE UN ARCHIVO
+	* @param $archivo -> file ha subir
+	* @param $categoria -> id de la categoria del archivo
+	* @return true -> si la operacion se realizo exitosamente
+	* @return false -> si ocurrio un error o fallo
+	*/
+	public function NuevoArchivo($archivo, $nombre, $categoria){
+        $upload = new Upload();
+        
+        $upload->SetFileName($archivo['name']);
+        $upload->SetTempName($archivo['tmp_name']);
+
+        $upload->SetValidExtensions(array('gif', 'jpg', 'jpeg', 'png', 'zip', 'rar', 'pdf', 'txt', 'xls')); 
+        
+        $upload->SetUploadDirectory("../archivos/"); //DIRECTORIO PARA ARCHIVOS
+
+        $upload->SetMaximumFileSize(90000000); //TAMANO MAXIMO PERMITIDO
+        
+        //SUBE EL ARCHIVO
+        if($upload->UploadFile()){
+        	//LINK DONDE SE SUBIO EL ARCHIVO
+            $link = $upload->GetUploadDirectory().$upload->GetFileName();
+            
+            $link = str_replace("../", "", $link);
+
+            //GUARDA EL LINK Y LOS DATOS EN LA BASE DE DATOS
+            if($this->setArchivo($nombre, $link, $categoria)){
+            	return true;
+            }else{
+            	return false;
+            }
+        }else{
+        	return false;
+        }
+	}
+
+	/**
+	* GUARDA LOS DATO DE UN NUEVO ARCHIVO
+	* @param $nombre -> nombre archivo
+	* @param $link -> link archivo subido
+	* @param $categoria -> id de la categoria a la que pertenece
+	* @return true si se guarda correctamente
+	* @return false si falla
+	*/
+	private function setArchivo($nombre, $link, $categoria){
+		$base = new Database();
+		$query = "INSERT INTO archivos (nombre, link, categoria) VALUES ('".$nombre."', '".$link."', '".$categoria."')";
+
+		if($base->Insert($query)){
+			return true; //SE GUARDO
+		}else{
+			return false;
+		}
+	}
+
+	public function DeleteArchivo($id){
+		$archivo = "";
+		$base = new Database();
+		$query = "DELETE FROM archivos WHERE id = ".$id;
+		
+		$archivos = $base->Select("SELECT * FROM archivos WHERE id = ".$id);
+
+		//LINK DEL ARCHIVO
+		$archivo = $archivos[0]['link'];
+		$archivo = '../'.$archivo;
+
+		//BORRA EL ARCHIVO
+		if( $base->DeleteImagen($archivo) ){
+			
+			if( $base->Delete($query) ){
+				return true;
+			}else{
+				return false;				
+			}
+		}else{
+			return false;
+		}
+	}
+
+/************** CAMPOS **************/
+
+	/**
+	* OBTIENE UN DATO DE UN CAMPO
+	* @param $dato -> dato solicitado
+	* @param $campo -> id del campo
+	* @return $datos -> dato solicitado del campo
+	* @return false si fallas
+	*/
+	public function getCampoDato($dato, $campo){
+		$base = new Database();
+		$query = "SELECT * FROM campos WHERE id = ".$campo;
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			return $datos[0][$dato];
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* OBTIENE LOS DATOS DE UN CAMPO
+	* @param $campo -> id del campo
+	* @return $datos[][] -> nombre del campo
+	* @return false si fallas
+	*/
+	public function getCampoDatos($campo){
+		$base = new Database();
+		$query = "SELECT * FROM campos WHERE id = ".$campo;
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			return $datos;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* OBTIENE TODOS LOS CAMPOS
+	* @return $datos -> datos de los campos
+	* @return false si fallas
+	*/
+	public function getCampos(){
+		$base = new Database();
+		$query = "SELECT * FROM campos";
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			return $datos;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* ACTUALIZA UN CAMPO
+	* @param $nuevo -> nuevo valor
+	* @param $id -> id del campo
+	*/
+	public function UpdateCampo($nuevo){
+		$campo = mysql_query($nuevo);
+		
+		$base = new Database();
+		$query = "UPDATE campos SET nombre WHERE id = ".$id;
+
+		if($base->Existe("SELECT * FROM campos WHERE id = ".$id)){
+			if($base->Update($query)){
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			//campo no existe
+			return false;
+		}
+	}
+
+	/**
+	* ELIMINA UN CAMPO
+	* @param $id -> id del campo 
+	* @return true si se elimina exitosamente
+	*/
+	public function DeleteCampo($id){
+		$base = new Database();
+		$query = 'DELETE campos WHERE id = '.$id;
+
+		if($base->Delete($query)){
+			return tru;
+		}else{
+			return false;
+		}
+	}
+
+/************** CATEGORIAS **************/
+	
+	/**
+	* OBTIENE LOS DATOS DE UNA CATEGORIA
 	* @param $categoria -> id de la categoria
 	* @return $datos[][] -> datos de las normas
 	*/
-	public function getDatosNorma($categoria){
+	public function getDatos($categoria){
 		$base = new Database();
 		$query = "SELECT * FROM datos WHERE categoria = ".$categoria;
 
@@ -149,47 +350,39 @@ class Registros{
 	}
 
 	/**
-	* OBTIENE LOS ARCHIVOS ADJUNTO DE UN REGISTRO
-	* @param $proyecto -> id proyecto
-	* @param $categoria -> id de la categoria
+	* ACTUALIZA UNA CATEGORIA
+	* @param $nombre -> nuevo nombre
+	* @param $id -> id de la categoria
 	*/
-	public function getArchivos($proyecto, $categoria){
+	public function UpdateCategoria($nombre, $id){
 		$base = new Database();
-		$query = "SELECT * FROM archivos WHERE proyecto = ".$proyecto." AND categoria = ".$categoria;
+		$query = "UPDATE categorias SET nombre = '".$nombre."' WHERE id = '".$id."'";
 
-		$datos = $base->Select($query);
+		$nombre = mysql_real_escape_string($nombre);
 
-		if(!empty($datos)){
-			return $datos;
+		if( $base->Existe("SELECT * FROM categorias WHERE id = ".$id )){
+			if($base->Update($query)){
+				return true;
+			}else{
+				return false;
+		}
 		}else{
 			return false;
 		}
 	}
 
 	/**
-	* OBTIENE EL NOMBRE DE UN CAMPO
-	* @param $campo -> id del campo
-	* @return $campo -> nombre del campo
-	* @return false si fallas
+	* ELIMINA UNA CATEGORIA
 	*/
-	public function getCampo($campo){
-		$base = new Database();
-		$query = "SELECT * FROM campos WHERE id = ".$campo;
+	public function DeleteCategoria(){
 
-		$datos = $base->Select($query);
-
-		if(!empty($datos)){
-			return $datos[0]['nombre'];
-		}else{
-			return false;
-		}
 	}
 
 	/**
 	* OBTIENE DATOS DE UN HIJO
 	* @param $hijos[][]
 	*/
-	public function Hijos($padre){
+	public function getHijos($padre){
 		$base = new Database();
 		$query = "SELECT * FROM categorias WHERE padre = ".$padre;
 
@@ -203,10 +396,11 @@ class Registros{
 	}
 
 	/**
-	* OBTIENE LOS ID DE LOS HIJOS DE UN PADRE
-	* @param $hijos[]
+	* OBTIENE LOS ID DE TODOS LOS HIJOS DE UN PADRE
+	* @param $padre -> id del padre
+	* @return $hijos[]
 	*/
-	public function HijosId($padre){
+	public function getTodosHijos($padre){
 		$hijos = array();
 		$base = new Database();
 		$query = "SELECT * FROM categorias WHERE padre = ".$padre;
@@ -215,17 +409,163 @@ class Registros{
 
 		if(!empty($datos)){
 			foreach ($datos as $fila => $c) {
-				$hijos = $datos[$fila]['id'];
+				$hijos[] = $datos[$fila]['id'];
 			}
 			return $hijos;
 		}else{
 			return false;
 		}
 	}
+
+	/**
+	* OBTIENE LOS ID DE TODOS LOS HIJOS DE UN PADRE
+	* @param $padre -> id del padre
+	* @return $hijos[]
+	*/
+	public function getTodosHermanos($hijo){
+		$resultado = array();
+		$base = new Database();
+
+		//el padre del hijo
+		$query = "SELECT DISTINCT padre, id FROM categorias WHERE id = ".$hijo;
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			foreach ($datos as $fila => $c) {
+
+				$query = "SELECT DISTINCT id FROM categorias WHERE padre = ".$datos[$fila]['padre'];
+				$hermanos = $base->Select($query);
+
+				if(!empty($hermanos)){
+					foreach ($hermanos as $fi => $va) {
+						$resultado[] = $hermanos[$fi]['id'];
+					}
+				}
+			}
+			return $resultado;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* OBTIENE EL ID DEL PADRE DE UN HIJO
+	* @param $hijo -> el hijo para buscar el padre
+	*/
+	public function getPadre($hijo){
+		$base = new Database();
+		$query = "SELECT * FROM categorias WHERE id = ".$hijo;
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			return $datos[0]['padre'];
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* OBTIENE TODOS LOS DATOS DE UNA CATEGORIA
+	* @param $categoria -> id de la categoria
+	*/
+	public function getCategoria($categoria){
+		$base = new Database();
+		$query = "SELECT * FROM categorias WHERE id = ".$categoria;
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			return $datos;
+		}else{	
+			return false;
+		}
+	}
+
+/************** DATOS DE CATEGORIAS **************/
+
+	/**
+	* REGISTRA UN DATO, SE ASEGURA DE REGISTRARLO SI ES NUEVO O ACTUALIZARLO SI EXISTE
+	* @param $nuevo -> dato a registrar
+	* @param $campo -> id del campo ha registrar
+	* @param $categoria -> id de la categoria
+	* @return true si se actualizo o gurado
+	* @return false si falla
+	*/
+	public function RegistrarDato($nuevo, $campo, $categoria){
+		$base = new Database();
+		$query = "SELECT * FROM datos WHERE campo = '".$campo."' AND categoria = '".$categoria."'";
+
+		$nuevo = mysql_real_escape_string($nuevo);
+
+		if( $base->Existe($query) ){ //existe se actualiza
+		    
+			$query = "UPDATE datos SET contenido = '".$nuevo."' WHERE campo = '".$campo."' AND categoria ='".$categoria."'";
+			if($base->Update($query)){
+				return true;
+			}else{
+				return false;
+			}
+		}else{ //no existe
+			
+			$query = "INSERT INTO datos (campo, contenido, categoria ) VALUES ('".$campo."', '".$nuevo."', '".$categoria."' ) ";
+			if($base->Insert($query)){
+				return true;
+			}else{
+				return false;
+			}
+		}
+	}
+
+	/**
+	* ELIMINA TODOS LOS REGISTROS DE UN PROYECTO
+	* @param $proyecto -> id del proyecto
+	*/
+	public function DeleteRegistros($proyecto){
+		$base = new Database();
+		$query = "DELETE FROM registros WHERE proyecto = ".$proyecto;
+
+		if($base->Delete($query)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* ELIMINA UN DATO
+	* @param $id -> id del dato
+	*/
+	public function DeleteDato($id){
+		$base =  new Database();
+		$query = "DELETE FROM datos WHERE id = ".$id;
+
+		if($base->Delete($query)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	public function NuevaSubCategoria($padre, $nombre){
+		$nombre = mysql_real_escape_string($nombre);
+
+		$base = new Database();
+		$query = "INSERT INTO categorias (nombre, padre) VALUES ( '".$nombre."', '".$padre."')";
+
+		if( $base->Insert($query)){
+			return true;
+		}else{
+			return false;
+		}
+	}
 }
+
 /*
 $registros = new Registros();
 $registros->getRegistros(51);
 $registros->MostrarArray();
 */
+
 ?>

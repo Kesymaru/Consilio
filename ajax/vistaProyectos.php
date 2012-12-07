@@ -36,7 +36,7 @@ $proyectos = new Proyectos();
 				if(proyecto > 0){
 					//restaura la fila seleccionada
 					$("#"+proyecto).css("background-color", "rgb(161, 202, 74, 0.5)");
-					ContextMenu();
+					ContextMenuProyecto();
 				}
 				
 				//EDICION AL DOBLE CLICK
@@ -151,7 +151,7 @@ $proyectos = new Proyectos();
 		}else{
 			$("#"+id).css("background-color", "rgb(161, 202, 74, 0.5)");
 			$.cookie('proyecto',id);
-			ContextMenu();
+			ContextMenuProyecto();
 		}
 	}
 
@@ -238,7 +238,7 @@ $proyectos = new Proyectos();
 	/**
 	* CONETEXT MENU
 	*/
-	function ContextMenu(){
+	function ContextMenuProyecto(){
 		var id = $.cookie('proyecto');
 		$.contextMenu({
 	        selector: '#'+id, 
@@ -290,6 +290,7 @@ $proyectos = new Proyectos();
 				type: "post",
 				url: "src/ajaxProyectos.php",
 				success: function(response){
+					$("#vista").append(response);
 					notifica("Proyecto Eliminado.");
 					$("#"+proyecto).fadeOut(1000);
 					//ListaProyectos();

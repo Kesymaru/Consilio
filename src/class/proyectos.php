@@ -4,8 +4,10 @@
 */
 require_once("classDatabase.php");
 require_once("usuarios.php"); 
+require_once("registros.php"); 
 
 class Proyectos{
+
 	/**
 	*	LISTA DE PRPYECTOS
 	*/
@@ -29,7 +31,7 @@ class Proyectos{
 			}
 			$resultado .= '</tr></thead>';
 
-			foreach ($datos as $fila => $c) {
+			foreach ($datos as $fila => $c){
 				
 				$resultado .= '<tr onClick="SeleccionFila('.$datos[$fila]['id'].')" id="'.$datos[$fila]['id'].'">';
 
@@ -62,14 +64,12 @@ class Proyectos{
 
 					$resultado .= '<td>'.$datos[$fila][$campo].'</td>';
 				}
-
 				$resultado .= '</tr><script type="text/javascript"> Tabla("TablaProyectos");</script>';
-
 			}
 
 			return $resultado;
 		}else{
-			return "No hay proyectos.";
+			return "<p><hr>No hay proyectos<hr></p>";
 		}
 
 	}
@@ -178,6 +178,7 @@ class Proyectos{
 			$formulario .= '<tr>
 								<td rowspan="4" class="tdImagen" >
 									<img height="200px" src="images/es.png">
+									<input type="hidden" name="func" id="func" value="IngresarNuevoProyecto">
 								<br/><br/>';
 
 			//para subir imagen
@@ -255,12 +256,19 @@ class Proyectos{
 	* @param $nombre -> nombre del proyecto
 	* @param $descripcion -> descripcion del proyecto
 	* @param $imagen -> logo adjuntado al proyecto
+	* @return true si se guardo el nuevo proyecto correctamente
+	* @return false si fallo al guardase el nuevo proyecto
 	*/
-	function NuevoProyecto($nombre, $descripcion, $imagen){
+	function NuevoProyecto($nombre, $cliente, $descripcion, $imagen){
 		$base = new Database();
 		$descripcion =mysql_real_escape_string($descripcion);
-		$query = "INSERT INTO proyectos (nombre, decripcion, imagen) VALUES ('".$nombre."', '".$descripcion."', '".$imagen."')";
-		$base->Insert($query);
+		$query = "INSERT INTO proyectos (nombre, cliente, descripcion, imagen, status) VALUES ('".$nombre."', '".$cliente."', '".$descripcion."', '".$imagen."', 1)";
+		
+		if($base->Insert($query)){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	/**
@@ -268,15 +276,21 @@ class Proyectos{
 	* @param $id -> id del proyecto ha ser eliminado
 	*/
 	public function EliminarProyecto($id){
+		$registros = new Registros();
 		$base = new Database();
 		$query = "DELETE FROM proyectos WHERE id = ".$id;
-		
-		if($base->Delete($query)){
-			return true;
-		}else{
-			return false;
+
+		//BORRA LA IMAGEN DEL DIRECTORIO Y ELIMINA TODOS LOS REGISTROS DEL PROYECTO
+		if( $this->updateProyectoImagen("", $id) && $registros->DeleteRegistros($id) ){
+
+			if($base->Delete($query)){
+				return true;
+			}else{
+				return false;
+			}
 		}
 	}
+
 
 /** SETTERS Y GETTERS **/
 
@@ -295,9 +309,9 @@ class Proyectos{
 
         $upload->SetValidExtensions(array('gif', 'jpg', 'jpeg', 'png')); 
         
-        $upload->SetUploadDirectory("../images/proyectos/"); //Directorio para imagenes de los proyectos
+        $upload->SetUploadDirectory("../images/proyectos/"); //DIRECTORIO PARA IMAGENES DE LOS PROYECTOS
 
-        $upload->SetMaximumFileSize(90000000); //tamano maximo permitido
+        $upload->SetMaximumFileSize(90000000); //TAMANO MAXIMO PERMITIDO
         
         if($upload->UploadFile()){
         	//link donde se subio la imagen
@@ -317,7 +331,7 @@ class Proyectos{
 	/**
 	* ACTUALIZA LA BASE DE DATOS CON LA NUEVA IMAGEN
 	* @param $link -> link de la imagen
-	* @apram $id -> id del proyecto
+	* @param $id -> id del proyecto
 	*/
 	private function updateProyectoImagen($link, $id){
 		$base = new Database();

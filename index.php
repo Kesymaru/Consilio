@@ -21,8 +21,10 @@ $master = new Master();
 	<link rel="stylesheet" href="css/jquery-ui-1.9.0.custom.css" type="text/css">
 	<link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css">
 	<link rel="stylesheet" type="text/css" href="css/jquery.contextMenu.css">
+	<link rel="stylesheet" type="text/css" href="css/jquery.ui.timepicker.css">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800italic,800,600,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
 
+	<!-- jquery -->
 	<script type="text/javascript" src="js/jquery-1.8.2.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-1.9.0.custom.js"></script>
 	
@@ -39,13 +41,17 @@ $master = new Master();
 	<script type="text/javascript" src="js/noty/layouts/center.js"></script>
 	<script type="text/javascript" src="js/noty/themes/default.js"></script>
 
+	<!-- matriz -->
 	<script type="text/javascript" src="js/main.js"></script>
 	<script type="text/javascript" src="js/style.js"></script>
+
+	<!-- jquery plugins -->
 	<script type="text/javascript" src="js/jquery.form.js"></script>
 	<script type="text/javascript" src="js/jquery.cookie.js"></script>
 	<script type="text/javascript" src="js/jquery.contextMenu.js"></script>
 	<script type="text/javascript" src="js/jquery.dataTables.js"></script>
-	
+<!--	<script type="text/javascript" src="js/jquery.ui.timepicker.js"></script> -->
+
 </head>
 
 <body >
@@ -144,11 +150,11 @@ $master = new Master();
 						<button onClick="proyectoNuevo()">Crear Proyecto</button>
 						<?php
 							//determina si el cliente tiene proyectos
-							$sql = 'SELECT * FROM proyectos WHERE cliente = '.$_SESSION['id'];
+							/*$sql = 'SELECT * FROM proyectos WHERE cliente = '.$_SESSION['id'];
 							$result = mysql_query($sql);
 							if($row = mysql_fetch_array($result)){
 								echo '<button onClick="verProyectos()">Seleccionar Proyecto</button>';
-							}
+							}*/
 						?>
 					</div>
 				<?php 

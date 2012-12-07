@@ -96,14 +96,16 @@ function VistaProyecto(){
 * CARGA LA VISTA DE EDICION
 */
 function VistaEdicion(){
-	$.cookie('vista', 'edicion');
+	if($.cookie('vista') != 'edicion' && $.cookie('vista')!= 'edicionGeneralidades'){
+		$.cookie('vista', 'edicion');
+	}
 
 	$('#edicion').addClass('seleccionado');
+
 	ImageLoader();
+
 	$("#content").load("ajax/vistaEdicion.php", function(){
 		$("#image-loader").remove();
-		
-		ActivaMenu();
 	});
 }
 
@@ -113,6 +115,7 @@ function VistaEdicion(){
 function ActivaMenu(){
 	ActivaMenuFixIe();
 
+	//esconde
 	if( $('#menu').is(':visible') && $.cookie('vista') != 'edicion' ){
 
 		$("#menu").animate({
@@ -134,6 +137,7 @@ function ActivaMenu(){
 		return;
 	}
 
+	//muestra
 	if( $.cookie('vista') == 'edicion' && !$('#menu').is(':visible') ){
 		
 		$("#menu").animate({
@@ -346,7 +350,7 @@ function Confirmacion(text, si, no) {
 
     var n = noty({
     	text: text,
-      	type: 'alert',
+      	type: 'information',
       	dismissQueue: true,
       	layout: "center",
       	theme: 'defaultTheme',
@@ -413,6 +417,14 @@ function SetBotones(id){
 	$("#"+id).buttonset();
 }
 
+function SetDatePicker(clase){
+	 $( "."+clase ).datepicker();
+}
+
+function SetTimePicker(clase){
+	$( "."+clase ).timepicker();
+}
+
 /**
 * INICIALIZA TABLA CON ORDENACION
 * UTILIZA EL PLUGIN table
@@ -431,6 +443,10 @@ function Formulario(id){
 	$("#"+id).validationEngine();
 }
 
+function ScrollBar(id){
+	$("#"+id).scrollbar();
+}
+
 /**
 * INICIALIZA LAS COOKIES
 */
@@ -439,6 +455,9 @@ function Cookies(){
 		$.cookie('proyecto', 0, { expires: 7 });
 		$.cookie('vista', 0, { expires: 7 });
 		$.cookie('categoria', 0, { expires: 7 });
+		$.cookie('dato', 0, { expires: 7 });
+		$.cookie('archivo', 0, { expires: 7 });
+		$.cookie('seleccion', 0, { expires: 7 });
 		$.cookie('accion', 'home',{ expires: 7 });
 		$.cookie('restaurado', 0, { expires: 7 });
 	}
@@ -452,7 +471,7 @@ function Inicializa(){
 	if($.cookie('vista') == 'proyectos'){
 		VistaProyecto();
 	}
-	if($.cookie('vista') == 'edicion'){
+	if($.cookie('vista') == 'edicion' || $.cookie('vista') == 'edicionGeneralidades'){
 		VistaEdicion();
 	}
 }
