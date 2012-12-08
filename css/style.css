@@ -101,6 +101,22 @@ html, body{
 	color: #fff;
 }
 
+.datos{
+	width: 95%;
+	margin: 0 auto;
+	border: 1px solid #dedede;
+}
+
+.datos textarea{
+	margin: 0 auto;
+}
+
+#uploader{
+	display: inline-block;
+	float: right;
+	margin-right: 15px;
+}
+
 #BoxArchivo{
 	margin: 0 auto;
 	margin-top: -20px;
@@ -514,12 +530,12 @@ header{
 
 .box .titulo{
 	display: inline-block;
-	border-bottom: 1px solid #dedede;
 	color: #757374;
 	text-align: center;
 	font-weight: bold;
 	padding-top: 10px;
 	padding-bottom: 10px;
+	border: 1px solid #dedede;
 }
 
 .box .close{

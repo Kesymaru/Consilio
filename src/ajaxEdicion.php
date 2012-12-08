@@ -3,6 +3,7 @@
 require_once("class/imageUpload.php");
 require_once("class/registros.php");
 
+
 if(isset($_POST['func'])){
 	
 	switch ($_POST['func']){
@@ -168,9 +169,95 @@ if(isset($_POST['func'])){
 	}
 }
 
+function EditarCategoria($categoria){
+	$formulario = '';
+	$registro = new Registros();
+
+	//optiene datos de la categoria
+	$datos = $registro->getDatos($categoria);
+	$nombre = $registro->getCategoriaDato("nombre", $categoria);
+
+	//DATOS
+	$formulario .= '<form id="FormularioEdicionCategoria" enctype="multipart/form-data" method="post" action="src/ajaxEdicion.php" >
+							<div id="nivel1">
+							<div id="nombreNorma">
+								<input name="nombre" value="'.$nombre.'" />
+							</div>
+							<!-- datos fijos escondidos -->
+							<input type="hidden" value="RegistrarCategorias" name="func" />
+							<input type="hidden" value="'.$categoria.'" name="categoria" />
+							<div class="datos">';
+
+	
+	//SI HAY DATOS REGISTRADOS PARA LA CATEGORIA
+	if( is_array($datos) && !empty($datos) ){	
+		foreach ($datos as $fila => $dato) {
+			$formulario .= '<textarea class="validate[required]" id="contenido" name="contenido" cols="80"  rows="10" >';
+			$formulario .= base64_decode($dato['contenido']);
+			$formulario .= '</textarea>';
+		}
+	}else{
+		$formulario .= '<textarea class="validate[required]" id="contenido" name="contenido" cols="80"  rows="10" ></textarea>';
+	}
+
+	$formulario .= '
+							</div>
+							
+							</div>
+							<!-- end nivel 1-->
+
+							<div id="nivel2">
+							<div id="BoxArchivo" >
+								<input type="text" name="archivoNombre" id="archivoNombre" placeholder="Nombre" />
+								<input type="file" name="archivo" id="archivo" />
+								<input type="submit" value="Ajuntar" />
+							</div>';
+
+	//ARCHIVOS ADJUNTOS
+	$archivos = $registro->getArchivos($categoria);
+
+	if(!empty($archivos)){
+		$formulario .= '<div class="box" id="archivosAdjuntos">
+								<div class="titulo">
+									Archivos Adjuntos
+								</div>
+								<div class="content">
+									<div class="archivos" >';
+
+		foreach ($archivos as $fila => $archivo) {
+			$formulario .= '<div class="archivo" id="archivo'.$archivo['id'].'" >
+							<img class="closeArchivo" src="images/close.png" onClick="BorrarArchivo('.$archivo['id'].')" />
+							<a target="_blank" href="src/download.php?link='.$archivo['link'].'"> 
+								<img src="images/folder.png" />
+								<span>'.$archivo['nombre'].'</span>
+							</a>
+							
+							</div>
+							</div>';
+		}
+
+		$formulario .= '</div>
+						</div>
+						</div>';
+	}
+
+	//cierre 
+	$formulario .= '</div>
+					<!-- end nivel 2-->
+					<input type="reset" value="borrar" /><input type="submit" value="Guardar" />
+					</form>
+					<script type="text/javascript">
+						FormularioEdicionCategoria();
+						Editor("contenido");
+					</script>';
+
+	return $formulario;
+}
+
 /**
 * MUESTRA FORMULARIO DE EDICION CATEGORIA
 */
+/*
 function EditarCategoria($categoria){
 	$formulario = '';
 	$registro = new Registros();
@@ -182,14 +269,43 @@ function EditarCategoria($categoria){
 							<div id="nombreNorma">
 								<input name="nombre" value="'.$datos[0]['nombre'].'" />
 							</div>
-							<div id="opciones">
-								<script type="text/javascript">
-									Opciones();
-								</script>
-							</div>
-							</div><!-- end nivel 1-->
+							<!-- datos fijos escondidos -->
 							<input type="hidden" value="RegistrarCategorias" name="func" />
 							<input type="hidden" value="'.$categoria.'" name="categoria" />
+
+							<div id="datos">
+							DATOS';
+
+	
+	//SI HAY DATOS REGISTRADOS PARA LA CATEGORIA
+	if( is_array($datos) && !empty($datos) ){	
+
+		$registros = $registro->getDatos($datos[0]['id']);
+
+		if( is_array($registros) && !empty($registros) ){
+
+			//compone la edicion de los datos
+			foreach ( $registros as $fila => $norma ) {
+				$idBox = 0;
+
+				$formulario .= '<div class="box" id="box'.$norma['campo'].'">
+									<div class="titulo">
+										'.$registro->getCampoDato("nombre", $norma['campo']).'
+										<img class="close" src="images/close.png" onClick="BorrarBox('.$norma['campo'].','.$norma['id'].')" />
+									</div>
+									<div class="content">
+									<textarea data-prompt-position="topLeft" class="validate[required]" name="dato'.$norma['campo'].'">'.$norma['contenido'].'</textarea>
+									</div>
+								</div>';
+			}
+		}
+	}
+
+	$formulario .= '
+							</div>
+							</div>
+							<!-- end nivel 1-->
+
 							<div id="nivel2">
 							<div id="BoxArchivo" >
 								<input type="text" name="archivoNombre" id="archivoNombre" />
@@ -226,31 +342,6 @@ function EditarCategoria($categoria){
 						</div>';
 	}
 
-	//SI HAY DATOS REGISTRADOS PARA LA CATEGORIA
-	
-	if( is_array($datos) && !empty($datos) ){	
-
-		$registros = $registro->getDatos($datos[0]['id']);
-
-		if( is_array($registros) && !empty($registros) ){
-
-			//compone la edicion de los datos
-			foreach ( $registros as $fila => $norma ) {
-				$idBox = 0;
-
-				$formulario .= '<div class="box" id="box'.$norma['campo'].'">
-									<div class="titulo">
-										'.$registro->getCampoDato("nombre", $norma['campo']).'
-										<img class="close" src="images/close.png" onClick="BorrarBox('.$norma['campo'].','.$norma['id'].')" />
-									</div>
-									<div class="content">
-									<textarea data-prompt-position="topLeft" class="validate[required]" name="dato'.$norma['campo'].'">'.$norma['contenido'].'</textarea>
-									</div>
-								</div>';
-			}
-		}
-	}
-
 	//cierre 
 	$formulario .= '</div>
 					<!-- end nivel 2-->
@@ -261,7 +352,7 @@ function EditarCategoria($categoria){
 					</script>';
 
 	return $formulario;
-}
+}*/
 
 /**
 * COMPONE UN NUEVO BOX PARA UN CAMPO SELECCIONADO
@@ -300,44 +391,13 @@ function Box($id){
 */
 function RegistrarCategorias($categoria){
 
-	$registro = new Registros();
-
-	$datosRegistrados = $registro->getDatos($categoria);
-
-	if(!empty($datosRegistrados)){
-		foreach ($datosRegistrados as $fila => $norma) {
-			
-			if( isset($_POST["dato".$norma['campo']]) ){
-				
-				/*echo 'DATO: '.$_POST["dato".$norma['campo']]."<br/>";
-				echo 'RegistrarDato( '.$_POST["dato".$norma['campo']].' , '.$norma['campo'].', '.$categoria.' )<br/>';
-				echo $nuevo = $_POST["dato".$norma['campo']];*/
-
-				//se encarga del registro o actualizacion
-				if($registro->RegistrarDato( $nuevo, $norma['campo'], $categoria )){
-				}
-			}
-		}
-		
-	}
-
-	$campos = $registro->getCampos();
-
-	if(!empty($campos)){
-		foreach ($campos as $fila => $campo) {
-			
-			if( isset($_POST["dato".$campo['id']]) ){
-				//se encarga del registro o actualizacion
-				if($registro->RegistrarDato( $_POST["dato".$campo['id']], $campo['id'], $categoria )){
-					
-				}
-			}
-		}
-		
+	if( isset($_POST['contenido']) ){
+		$registro = new Registros();
+		echo $_POST['contenido'];
+		$registro->setDato($_POST['contenido'], $categoria);
 	}
 
 	if(isset($_POST['nombre'])){
-		echo $_POST['nombre'];
 		//actualiza nombre de la categoria
 		$registro->UpdateCategoria($_POST['nombre'], $categoria);
 	}
@@ -377,8 +437,13 @@ function NuevoArchivo($categoria){
 	//SI ENVIA UN ARCHIVO
 	if( isset($_FILES['archivo']['tmp_name']) && isset($_POST['archivoNombre']) ){
 		
-		//SUBE EL ARCHIVO Y GUARDA LOS DATOS
-		$registro->NuevoArchivo( $_FILES['archivo'] , $_POST['archivoNombre'], $categoria);
+		if( !$_FILES['archivo']['tmp_name'] == '' && !empty($_FILES['archivo']['tmp_name']) ){
+			//SUBE EL ARCHIVO Y GUARDA LOS DATOS
+			$registro->NuevoArchivo( $_FILES['archivo'] , $_POST['archivoNombre'], $categoria);
+		}else{
+			//echo 'archivo vacio';
+		}
+		
 	}
 }
 

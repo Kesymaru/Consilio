@@ -475,3 +475,15 @@ function Inicializa(){
 		VistaEdicion();
 	}
 }
+
+function Editor(id){
+	var id = document.getElementById(id);
+	CKEDITOR.replace( id );
+	CKEDITOR.on("instanceReady", function(event){
+		if( $('#uploader').length ){
+		}else{
+			$(".cke_bottom").append('<img id="uploader" src="images/folder-upload.png" onClick="BoxArchivo()" />');
+		}
+		
+	});
+}

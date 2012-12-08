@@ -483,6 +483,24 @@ class Registros{
 		}
 	}
 
+	/**
+	* OBTIENE UN DATO DE UNA CATEGORIA
+	* @param $dato -> el dato solicitado
+	* @param $categoria -> id de la categoria
+	*/
+	public function getCategoriaDato($dato, $categoria){
+		$base = new Database();
+		$query = "SELECT * FROM categorias WHERE id = ".$categoria;
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			return $datos[0][$dato];
+		}else{	
+			return false;
+		}
+	}
+
 /************** DATOS DE CATEGORIAS **************/
 
 	/**
@@ -493,23 +511,23 @@ class Registros{
 	* @return true si se actualizo o gurado
 	* @return false si falla
 	*/
-	public function RegistrarDato($nuevo, $campo, $categoria){
+	public function setDato($nuevo, $categoria){
 		$base = new Database();
-		$query = "SELECT * FROM datos WHERE campo = '".$campo."' AND categoria = '".$categoria."'";
+		$query = "SELECT * FROM datos WHERE categoria = '".$categoria."'";
 
-		$nuevo = mysql_real_escape_string($nuevo);
+		$nuevo = base64_encode($nuevo);
 
 		if( $base->Existe($query) ){ //existe se actualiza
 		    
-			$query = "UPDATE datos SET contenido = '".$nuevo."' WHERE campo = '".$campo."' AND categoria ='".$categoria."'";
+			$query = "UPDATE datos SET contenido = '".$nuevo."' WHERE categoria ='".$categoria."'";
 			if($base->Update($query)){
 				return true;
 			}else{
 				return false;
 			}
-		}else{ //no existe
+		}else{ //no existe se ingresa
 			
-			$query = "INSERT INTO datos (campo, contenido, categoria ) VALUES ('".$campo."', '".$nuevo."', '".$categoria."' ) ";
+			$query = "INSERT INTO datos (contenido, categoria ) VALUES ('".$nuevo."', '".$categoria."' ) ";
 			if($base->Insert($query)){
 				return true;
 			}else{

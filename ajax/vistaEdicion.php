@@ -47,6 +47,7 @@ function FormularioEdicionCategoria(){
 
 			},
 	    	success: function(response) { 
+	    		notifica(response);
 		        notifica("Datos Actualizados.");
 		    },
 		    fail: function(){
@@ -183,7 +184,7 @@ function Categoria(id){
 		}
 	});
 
-	Opciones();
+	//Opciones();
 	ContextMenuCategoria(id);
 }
 
@@ -391,6 +392,7 @@ function BoxNuevaCategoria(padre){
 /**
 * CARGA LAS GENERALIDADES  DE MANERA DE OPCIONES
 */
+/*
 function Opciones(){
 	var queryParams = {'func' : 'Opciones'};
 	$.ajax({
@@ -408,6 +410,7 @@ function Opciones(){
 		}
 	});
 }
+*/
 
 /**
 * RESTAURA VISTA
