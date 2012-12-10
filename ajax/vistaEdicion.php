@@ -47,6 +47,7 @@ function FormularioEdicionCategoria(){
 
 			},
 	    	success: function(response) { 
+	    		alert(response.length);
 	    		if(response.length == 0){
 			        notifica("Datos Guardados.");
 	    		}else{
@@ -57,7 +58,7 @@ function FormularioEdicionCategoria(){
 				notificaError("Error: ocurrio un error :(<br/>Codigo: ajaxEdicion 000.");
 		    }
 		}; 
-		$('#FormularioEdicionCategoria').ajaxForm(options);
+		//$('#FormularioEdicionCategoria').ajaxForm(options);
 }
 
 /**
@@ -658,25 +659,25 @@ function BorrarArchivo(id){
 				<!-- menu proyectos -->
 				<div id="categoriasControls" >
 
-					<!-- Lista Proyectos -->
+					<!-- Lista Proyectos 
 					<input type="radio" id="EditarCategorias" name="radio" checked="checked" />
 						<label for="EditarCategorias" onClick="EditarCategorias()">
 						Categoria
 						</label>
 
-					<!-- Nuevo proyecto
+					<! -- Nuevo proyecto
 					<input type="radio" id="EditarGeneralidades" name="radio"/>
 						<label for="EditarGeneralidades" onClick="EditarGeneralidades()">
 						Generalidades
 						</label>
 					 -->
-					 
+
 				</div>
-				<hr>
+				<!-- <hr> 
 				<script type="text/javascript">
 					SetBotones('categoriasControls');
 				</script>
-
+				-->
 				<!-- end menu proyectos -->
 			</div>
 

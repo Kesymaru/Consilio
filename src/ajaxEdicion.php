@@ -109,7 +109,7 @@ if(isset($_POST['func'])){
 			}
 			break;
 
-		//CARGA LOS DATOS DE UNA CATEGORIA
+		//CARGA LOS DATOS DE UNA CATEGORIA EN UN FORMULARIO PARA LA EDICION
 		case 'GetCategoria':
 			if( isset($_POST['categoria']) ){
 				echo EditarCategoria( $_POST['categoria'] );
@@ -117,29 +117,14 @@ if(isset($_POST['func'])){
 			break;
 
 		//CARGA LAS GENERALIDADES COMO OPCIONES
-		case 'Opciones':
+		/*case 'Opciones':
 			echo Opciones();
-			break;
+			break;*/
 
 		//ACTUALIZA DATOS, REGISTRA DATOS Y/O SUBE ARCHIVO
 		case 'RegistrarCategorias':
 			if( isset($_POST['categoria']) ){
 				RegistrarCategorias( $_POST['categoria'] );
-			}
-			break;
-
-		//ELIMINA UN DATO
-		case 'EliminarDato':
-			if( isset($_POST['dato']) ){
-				$registro = new Registros();
-				$registro->DeleteDato($_POST['dato']);
-			}
-			break;
-
-		//COMPONE UN NUEVO BOX CON EL ID DEL CAMPO
-		case 'Box':
-			if( isset($_POST['campo']) ){
-				echo Box($_POST['campo']);
 			}
 			break;
 
@@ -150,14 +135,14 @@ if(isset($_POST['func'])){
 			}
 			break;
 
-		//BOX PRA NUEVA SUBCATEGORIA
+		// CARGA EL BOX PARA EDITAR NUEVA SUBCATEGORIA
 		case 'BoxNuevaCategoria':
 			if( isset($_POST['padre'])){
 				echo BoxNuevaCategoria( $_POST['padre'] );				
 			}
 			break;
 		
-		//CRE UNA NUEVA SUBCATEGORIA
+		//GUARDA UNA NUEVA SUBCATEGORIA
 		case 'NuevaSubCategoria':
 			if( isset($_POST['padre']) && isset($_POST['nombre']) ){
 				$registro = new Registros();
@@ -169,64 +154,72 @@ if(isset($_POST['func'])){
 	}
 }
 
+/**
+* CREA EL FORMULARIO DE UNA CATEGORIA
+* @param $categoria -> id de la categoria 
+*/
 function EditarCategoria($categoria){
 	$formulario = '';
 	$registro = new Registros();
 
-	//optiene datos de la categoria
+	//OPTIENE DATOS DE LA CATEGORIA
 	$datos = $registro->getDatos($categoria);
 	$nombre = $registro->getCategoriaDato("nombre", $categoria);
 
-	//DATOS
+	//FORMULARIO DE DATOS
 	$formulario .= '<form id="FormularioEdicionCategoria" enctype="multipart/form-data" method="post" action="src/ajaxEdicion.php" >
 							<div id="nivel1">
 							<div id="nombreNorma">
-								<input name="nombre" value="'.$nombre.'" />
+							<!-- nombre de la categoria -->
+								<input name="nombre" class="validate[required]" value="'.$nombre.'" />
 							</div>
 							<!-- datos fijos escondidos -->
-							<input type="hidden" value="RegistrarCategorias" name="func" />
-							<input type="hidden" value="'.$categoria.'" name="categoria" />
+							<input type="hidden" value="RegistrarCategorias" id="func" name="func" />
+							<input type="hidden" value="'.$categoria.'" id="categoria" name="categoria" />
 							<div class="datos">';
 
 	
 	//SI HAY DATOS REGISTRADOS PARA LA CATEGORIA
 	if( is_array($datos) && !empty($datos) ){	
+
 		foreach ($datos as $fila => $dato) {
-			$formulario .= '<textarea class="validate[required]" id="contenido" name="contenido" cols="80"  rows="10" >';
+			$formulario .= '<textarea id="contenido" name="contenido" cols="80"  rows="10" >';
 			$formulario .= base64_decode($dato['contenido']);
 			$formulario .= '</textarea>';
 		}
+
 	}else{
-		$formulario .= '<textarea class="validate[required]" id="contenido" name="contenido" cols="80"  rows="10" ></textarea>';
+		$formulario .= '<textarea id="contenido" name="contenido" cols="80"  rows="10" ></textarea>';
 	}
 
-	$formulario .= '
-							</div>
-							
-							</div>
-							<!-- end nivel 1-->
+	$formulario .= '</div>
+					</div>
+					<!-- end nivel 1-->
 
-							<div id="nivel2">
-							<div id="BoxArchivo" >
-								<input type="text" name="archivoNombre" id="archivoNombre" placeholder="Nombre" />
-								<input type="file" name="archivo" id="archivo" />
-								<input type="submit" value="Ajuntar" />
-							</div>';
+					<div id="nivel2">
+						<div id="BoxArchivo" >
+							<input type="text" name="archivoNombre" id="archivoNombre" placeholder="Nombre" />
+							<input type="file" name="archivo" id="archivo" />
+							<input type="submit" value="Ajuntar" />
+						</div>';
 
 	//ARCHIVOS ADJUNTOS
 	$archivos = $registro->getArchivos($categoria);
 
 	if(!empty($archivos)){
+
 		$formulario .= '<div class="box" id="archivosAdjuntos">
-								<div class="titulo">
-									Archivos Adjuntos
-								</div>
-								<div class="content">
-									<div class="archivos" >';
+							<div class="titulo">
+								Archivos Adjuntos
+							</div>
+							<div class="content">
+								<div class="archivos" >';
 
 		foreach ($archivos as $fila => $archivo) {
 			$formulario .= '<div class="archivo" id="archivo'.$archivo['id'].'" >
 							<img class="closeArchivo" src="images/close.png" onClick="BorrarArchivo('.$archivo['id'].')" />
+
+							<!-- descarga archivo -->
 							<a target="_blank" href="src/download.php?link='.$archivo['link'].'"> 
 								<img src="images/folder.png" />
 								<span>'.$archivo['nombre'].'</span>
@@ -241,11 +234,17 @@ function EditarCategoria($categoria){
 						</div>';
 	}
 
-	//cierre 
+	//CIERRE FORMULARIO 
 	$formulario .= '</div>
 					<!-- end nivel 2-->
-					<input type="reset" value="borrar" /><input type="submit" value="Guardar" />
+
+					<input type="reset" value="borrar" />
+
+					<!-- se requiere la funcion EditorUpdateContent para actualizar cambios desde el editor antes de enviar -->
+					<input type="submit" value="Guardar" onClick="EditorUpdateContent()" />
 					</form>
+
+					<!-- carga el editor y el formulario -->
 					<script type="text/javascript">
 						FormularioEdicionCategoria();
 						Editor("contenido");
@@ -255,137 +254,7 @@ function EditarCategoria($categoria){
 }
 
 /**
-* MUESTRA FORMULARIO DE EDICION CATEGORIA
-*/
-/*
-function EditarCategoria($categoria){
-	$formulario = '';
-	$registro = new Registros();
-	$datos = $registro->getCategoria($categoria);
-
-	//DATOS
-	$formulario .= '<form id="FormularioEdicionCategoria" enctype="multipart/form-data" method="post" action="src/ajaxEdicion.php" >
-							<div id="nivel1">
-							<div id="nombreNorma">
-								<input name="nombre" value="'.$datos[0]['nombre'].'" />
-							</div>
-							<!-- datos fijos escondidos -->
-							<input type="hidden" value="RegistrarCategorias" name="func" />
-							<input type="hidden" value="'.$categoria.'" name="categoria" />
-
-							<div id="datos">
-							DATOS';
-
-	
-	//SI HAY DATOS REGISTRADOS PARA LA CATEGORIA
-	if( is_array($datos) && !empty($datos) ){	
-
-		$registros = $registro->getDatos($datos[0]['id']);
-
-		if( is_array($registros) && !empty($registros) ){
-
-			//compone la edicion de los datos
-			foreach ( $registros as $fila => $norma ) {
-				$idBox = 0;
-
-				$formulario .= '<div class="box" id="box'.$norma['campo'].'">
-									<div class="titulo">
-										'.$registro->getCampoDato("nombre", $norma['campo']).'
-										<img class="close" src="images/close.png" onClick="BorrarBox('.$norma['campo'].','.$norma['id'].')" />
-									</div>
-									<div class="content">
-									<textarea data-prompt-position="topLeft" class="validate[required]" name="dato'.$norma['campo'].'">'.$norma['contenido'].'</textarea>
-									</div>
-								</div>';
-			}
-		}
-	}
-
-	$formulario .= '
-							</div>
-							</div>
-							<!-- end nivel 1-->
-
-							<div id="nivel2">
-							<div id="BoxArchivo" >
-								<input type="text" name="archivoNombre" id="archivoNombre" />
-								<input type="file" name="archivo" id="archivo" />
-								<input type="submit" value="Ajuntar" />
-							</div>';
-
-	//ARCHIVOS ADJUNTOS
-	$archivos = $registro->getArchivos($categoria);
-
-	if(!empty($archivos)){
-		$formulario .= '<div class="box" id="archivosAdjuntos">
-								<div class="titulo">
-									Archivos Adjuntos
-									
-								</div>
-								<div class="content">
-									<div class="archivos" >';
-
-		foreach ($archivos as $fila => $archivo) {
-			$formulario .= '<div class="archivo" id="archivo'.$archivo['id'].'" >
-							<img class="closeArchivo" src="images/close.png" onClick="BorrarArchivo('.$archivo['id'].')" />
-							<a target="_blank" href="src/download.php?link='.$archivo['link'].'"> 
-								<img src="images/folder.png" />
-								<span>'.$archivo['nombre'].'</span>
-							</a>
-							
-							</div>
-							</div>';
-		}
-
-		$formulario .= '</div>
-						</div>
-						</div>';
-	}
-
-	//cierre 
-	$formulario .= '</div>
-					<!-- end nivel 2-->
-					<input type="reset" value="borrar" /><input type="submit" value="Guardar" />
-					</form>
-					<script type="text/javascript">
-						FormularioEdicionCategoria();
-					</script>';
-
-	return $formulario;
-}*/
-
-/**
-* COMPONE UN NUEVO BOX PARA UN CAMPO SELECCIONADO
-* @param $id -> id del campo seleccionado
-* @return $box -> Box compuesto para el campo
-* @return false si falla o no existe el campo
-*/
-function Box($id){
-	$box = '';
-	$registro = new Registros();
-	
-	//se obtienen los datos del campo
-	if($datos = $registro->getCampoDatos($id)){
-
-		foreach ($datos as $fila => $campo) {
-			$box .= '<div class="box" id="box'.$id.'">
-						<div class="titulo">
-							'.$registro->getCampoDato("nombre", $id).'
-										<img class="close" src="images/close.png" onClick="BorrarBoxTemp('.$id.')" />
-						</div>
-						<div class="content">
-							<textarea data-prompt-position="topLeft" class="validate[required]" name="dato'.$id.'"></textarea>
-							</div>
-						</div>';
-		}
-		return $box;
-	}else{
-		return false;
-	}
-}
-
-/**
-* OBTIENE LOS DATOS ENVIADOS
+* OBTIENE LOS DATOS ENVIADOS Y LOS GUARDA
 * @param $categoria -> id de la categoria ha registrar
 * @return true -> si actualiza bien
 */
@@ -393,7 +262,6 @@ function RegistrarCategorias($categoria){
 
 	if( isset($_POST['contenido']) ){
 		$registro = new Registros();
-		echo $_POST['contenido'];
 		$registro->setDato($_POST['contenido'], $categoria);
 	}
 
@@ -404,28 +272,6 @@ function RegistrarCategorias($categoria){
 
 	//sube archivo
 	NuevoArchivo($categoria);
-}
-
-/**
-* COMPONE LAS GENERALIDADES
-*/
-function Opciones(){
-	$opciones = '';
-	$registro = new Registros();
-	
-	$campos = $registro->getCampos();
-
-	if(!empty($campos)){
-		foreach ($campos as $fila => $campo) {
-			$opciones .= '<input type="radio" id="opcion'.$campo['id'].'" name="opcion'.$campo['id'].'"/>
-						<label for="opcion'.$campo['id'].'" onClick="CargarBox('.$campo['id'].')">'.$campo['nombre'].'</label>';
-		}
-		//para archivos adjuntos
-		$opciones .= '<img src="images/pdf.png" onClick="BoxArchivo();" id="botonAdjuntar" title="Adjuntar archivo" alt="Adjuntar archivo" />';
-		return $opciones;
-	}else{
-		return false;
-	}
 }
 
 /**
@@ -449,12 +295,13 @@ function NuevoArchivo($categoria){
 
 /**
 * BOX PARA NUEVA SUBCATEGORIA
+* @param $padre -> id del padre al que pertenece
 */
 function BoxNuevaCategoria($padre){
 	$box = '';
 	$box .= '<form id="FormularioSubCategoria" enctype="multipart/form-data" method="post" action="src/ajaxEdicion.php" >
 			<input type="hidden" name="padre" value="'.$padre.'"/>
-			<input type="hidden" name="func" value="NuevaSubCategoria" />
+			<input type="hidden" name="func" id="func" value="NuevaSubCategoria" />
 			<input type="text" data-prompt-position="topLeft" class="validate[required]" name="nombre" placeholder="Nombre" />
 			<br/><br/>
 			<input type="reset" value="Borrar" />
