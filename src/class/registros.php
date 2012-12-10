@@ -152,8 +152,9 @@ class Registros{
 	}
 
 	/**
-	* SUBE UN ARCHIVO
+	* SUBE UN ARCHIVO 
 	* @param $archivo -> file ha subir
+	* @param $nombre -> nombre del archivo *opcional
 	* @param $categoria -> id de la categoria del archivo
 	* @return true -> si la operacion se realizo exitosamente
 	* @return false -> si ocurrio un error o fallo
@@ -181,6 +182,9 @@ class Registros{
             if($this->setArchivo($nombre, $link, $categoria)){
             	return true;
             }else{
+            	//NO SE GUARDO EN DB PERO SE SUBIO, SE ELIMINA EL ARCHIVO SUBIDO
+				$link = '../'.$link;
+				$base->DeleteImagen($link);
             	return false;
             }
         }else{
@@ -215,115 +219,17 @@ class Registros{
 		$archivos = $base->Select("SELECT * FROM archivos WHERE id = ".$id);
 
 		//LINK DEL ARCHIVO
-		$archivo = $archivos[0]['link'];
-		$archivo = '../'.$archivo;
+		$link = $archivos[0]['link'];
+		$link = '../'.$link;
 
 		//BORRA EL ARCHIVO
-		if( $base->DeleteImagen($archivo) ){
+		if( $base->DeleteImagen($link) ){
 			
 			if( $base->Delete($query) ){
 				return true;
 			}else{
 				return false;				
 			}
-		}else{
-			return false;
-		}
-	}
-
-/************** CAMPOS **************/
-
-	/**
-	* OBTIENE UN DATO DE UN CAMPO
-	* @param $dato -> dato solicitado
-	* @param $campo -> id del campo
-	* @return $datos -> dato solicitado del campo
-	* @return false si fallas
-	*/
-	public function getCampoDato($dato, $campo){
-		$base = new Database();
-		$query = "SELECT * FROM campos WHERE id = ".$campo;
-
-		$datos = $base->Select($query);
-
-		if(!empty($datos)){
-			return $datos[0][$dato];
-		}else{
-			return false;
-		}
-	}
-
-	/**
-	* OBTIENE LOS DATOS DE UN CAMPO
-	* @param $campo -> id del campo
-	* @return $datos[][] -> nombre del campo
-	* @return false si fallas
-	*/
-	public function getCampoDatos($campo){
-		$base = new Database();
-		$query = "SELECT * FROM campos WHERE id = ".$campo;
-
-		$datos = $base->Select($query);
-
-		if(!empty($datos)){
-			return $datos;
-		}else{
-			return false;
-		}
-	}
-
-	/**
-	* OBTIENE TODOS LOS CAMPOS
-	* @return $datos -> datos de los campos
-	* @return false si fallas
-	*/
-	public function getCampos(){
-		$base = new Database();
-		$query = "SELECT * FROM campos";
-
-		$datos = $base->Select($query);
-
-		if(!empty($datos)){
-			return $datos;
-		}else{
-			return false;
-		}
-	}
-
-	/**
-	* ACTUALIZA UN CAMPO
-	* @param $nuevo -> nuevo valor
-	* @param $id -> id del campo
-	*/
-	public function UpdateCampo($nuevo){
-		$campo = mysql_query($nuevo);
-		
-		$base = new Database();
-		$query = "UPDATE campos SET nombre WHERE id = ".$id;
-
-		if($base->Existe("SELECT * FROM campos WHERE id = ".$id)){
-			if($base->Update($query)){
-				return true;
-			}else{
-				return false;
-			}
-		}else{
-			//campo no existe
-			return false;
-		}
-	}
-
-	/**
-	* ELIMINA UN CAMPO
-	* @param $id -> id del campo 
-	* @return true si se elimina exitosamente
-	*/
-	public function DeleteCampo($id){
-		$base = new Database();
-		$query = 'DELETE campos WHERE id = '.$id;
-
-		if($base->Delete($query)){
-			return tru;
 		}else{
 			return false;
 		}
@@ -517,7 +423,7 @@ class Registros{
 
 		$nuevo = base64_encode($nuevo);
 
-		if( $base->Existe($query) ){ //existe se actualiza
+		if( $base->Existe($query) ){ //EXISTE SE ACTUALIZA
 		    
 			$query = "UPDATE datos SET contenido = '".$nuevo."' WHERE categoria ='".$categoria."'";
 			if($base->Update($query)){
@@ -525,7 +431,7 @@ class Registros{
 			}else{
 				return false;
 			}
-		}else{ //no existe se ingresa
+		}else{ //NO EXISTE SE INGRESA
 			
 			$query = "INSERT INTO datos (contenido, categoria ) VALUES ('".$nuevo."', '".$categoria."' ) ";
 			if($base->Insert($query)){
