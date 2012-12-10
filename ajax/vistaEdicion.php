@@ -36,7 +36,7 @@ function EditarGeneralidades(){
 }
 
 /**
-* FORMULARIO DE EDICION
+* INICIALIZA EL FORMULARIO DE EDICION
 */
 function FormularioEdicionCategoria(){
 		//validacion
@@ -47,19 +47,22 @@ function FormularioEdicionCategoria(){
 
 			},
 	    	success: function(response) { 
-	    		notifica(response);
-		        notifica("Datos Actualizados.");
+	    		if(response.length == 0){
+			        notifica("Datos Guardados.");
+	    		}else{
+	    			notificaError(response);
+	    		}
 		    },
 		    fail: function(){
-		    	notificaError("Error: en ajax al actualizar datos.");
+				notificaError("Error: ocurrio un error :(<br/>Codigo: ajaxEdicion 000.");
 		    }
 		}; 
-
 		$('#FormularioEdicionCategoria').ajaxForm(options);
 }
 
 /**
 * CREA EL PANEL DESPLAZABLE DE CATEGORIA
+* CARGA SUPERCATEGORIAS
 */
 function Padres(){
 	$("#edicionConstrols").hide();
@@ -78,7 +81,7 @@ function Padres(){
 
 		},
 		fail: function(){
-			notificaError("Error: ocurrio un error.<br/>Codigo: ajaxEdicion 001.");
+			notificaError("Error: ocurrio un error :(<br/>Codigo: ajaxEdicion 001.");
 		}
 	});
 
@@ -88,9 +91,11 @@ function Padres(){
 }
 
 /**
-* CARGA LOS HIJOS DE UN PADRE
+* CARGA LOS HIJOS DE UN PADRE SELECCIONADO
 */
 function Hijos(padre){
+
+	//LIMPIA RUTAS DE CATEGORIAS DE HERMANOS
 	LimpiarHermanos(padre);
 	//LimpiarCamino(padre);
 
@@ -103,6 +108,7 @@ function Hijos(padre){
 
 	//notifica($.cookie('categorias'));
 
+	//carga hijos
 	$.ajax({
 		data: queryParams,
 		type: "post",
@@ -113,7 +119,7 @@ function Hijos(padre){
 		},
 		success: function(response){
 			if(response.length > 0){
-				//$("#categorias").append(response);
+
 				$("#image-loader").fadeOut(500, function(){
 					$("#image-loader").remove();
 					$("#categorias").append(response);
@@ -124,18 +130,18 @@ function Hijos(padre){
 					var totalWidth = 0;
 
 					$('.categoria').each(function(index) {
-						    totalWidth += parseInt($(this).width(), 10);
+						totalWidth += parseInt($(this).width(), 10);
 					});
 					
 					totalWidth += $("#Padre0").width() + 100;
 
-					$("#categorias").css('width', totalWidth);
+					$("#categorias").css('width', totalWidth); //aumenta el tamano del contenedor de categorias
 				});
 				SeleccionaHijo(padre);
 			}
 		},
 		fail: function(){
-			notificaError("Error: ocurrio un error.<br/>Codigo: ajaxEdicion 001.");
+			notificaError("Error: ocurrio un error :(<br/>Codigo: ajaxEdicion 001.");
 		}
 	});
 }
@@ -185,11 +191,19 @@ function Categoria(id){
 	});
 
 	//Opciones();
-	ContextMenuCategoria(id);
+	var padre = $('#'+id).closest('div').attr('id');
+	
+	if( padre == 'Padre0'){
+		//si es supercategoria el menu varia
+		ContextMenuSuperCategoria(id);
+	}else{
+		ContextMenuCategoria(id);
+	}
+
 }
 
 /**
-* LIMPIA EL CAMINO
+* LIMPIA EL CAMINO DEL ARBOL DE CATEGORIAS
 * @param padre -> id del padre
 */
 function LimpiarCamino(padre){
@@ -201,7 +215,6 @@ function LimpiarCamino(padre){
 		return;
 	}
 
-	
 	//BORRA HIJOS
 	if( $("#Padre"+padre).length ){
 
@@ -271,6 +284,10 @@ function LimpiarCamino(padre){
 
 }
 
+/**
+* BORRAR LOS HERMANOS DE UN NODO
+* @param padre
+*/
 function LimpiarHermanos(padre){
 	//BORRA HERMANOS ASINCRONAMENTE
 	var queryParams = {'func' : 'GetHermanos', 'padre' : padre};
@@ -305,6 +322,8 @@ function LimpiarHermanos(padre){
 
 /**
 * CONETEXT MENU CATEGORIA
+* CREA EL MENU DE UNA CATEGORIA SELECCIONADA
+* @param id -> id de la categoria
 */
 function ContextMenuCategoria(id){
 
@@ -329,17 +348,60 @@ function ContextMenuCategoria(id){
 	});*/
 	
 	//PERMITE REASIGNAR EL ID DE LA CATEGORIA A LA COOKIE
+	//UTIL PARA TENER MULTIPLES MENUS CONTEXTUALES
 	$( $('#'+id) ).mousedown(function(e) {
+	    //si es doble click
 	    if (e.which === 3) {
 	        var cat = $(this).attr('id');
 	        $.cookie('categoria', $(this).attr('id') );
 	        notifica( $.cookie('categoria') );
 	    }
+
+	});
+}
+
+/**
+* CONTEXT MENU DE SUPERCATEGORIA
+* @param id -> id de la categoria
+*/
+function ContextMenuSuperCategoria(id){
+
+	$.contextMenu({
+        selector: '#'+id, 
+        callback: function(key, options) {
+            var m = "clicked: " + key;
+            //window.console && console.log(m) || alert(m); 
+            MenuCategoria(m);
+        },
+        items: {
+            "nuevoPadre": {name: "Nueva SuperCategoria", icon: "add"}, //opcion solo para supercategorias
+            "nueva": {name: "Nueva Subcategoria", icon: "add"},
+            "eliminar": {name: "Eliminar", icon: "delete"},
+        }
+    });
+    
+    /*$('#'+id).on('click', function(e){
+        //console.log('clicked', this);
+        var cat = $(this).attr('id');
+        alert("Selec "+cat);
+	});*/
+	
+	//PERMITE REASIGNAR EL ID DE LA CATEGORIA A LA COOKIE
+	//UTIL PARA TENER MULTIPLES MENUS CONTEXTUALES
+	$( $('#'+id) ).mousedown(function(e) {
+	    //si es doble click
+	    if (e.which === 3) {
+	        var cat = $(this).attr('id');
+	        $.cookie('categoria', $(this).attr('id') );
+	        notifica( $.cookie('categoria') );
+	    }
+
 	});
 }
 
 /**
 * MANEJA EL MENU DE LA CATEGORIA
+* @param m -> opcion seleccionada desde el context menu
 */
 function MenuCategoria(m){
 	var categoria = $.cookie('categoria');
@@ -350,8 +412,8 @@ function MenuCategoria(m){
 }
 
 /**
-* NUEVA SUBCATEGORIA
-* @param padre -> padre
+* CARGA EDITOR PARA NUEVO SUBCATEGORIA
+* @param padre -> padre a la que pertenece, padre = 0 entonces es superCategoria
 */
 function BoxNuevaCategoria(padre){
 
@@ -384,7 +446,7 @@ function BoxNuevaCategoria(padre){
 			$('#FormularioSubCategoria').validationEngine();
 		},
 		fail: function(){
-			notificaError("Error: ocurrio un error.<br/>Codigo: ajaxEdicion 006.");
+			notificaError("Error: ocurrio un error :(<br/>Codigo: ajaxEdicion 006, al crear subcategoria.");
 		}
 	});
 }
@@ -413,7 +475,7 @@ function Opciones(){
 */
 
 /**
-* RESTAURA VISTA
+* RESTAURA VISTA UTILIZANDO LAS COOKIES
 */
 function RestaurarCategorias(){
 
@@ -431,6 +493,7 @@ function RestaurarCategorias(){
 /**
 * BORRAR EL DATO DE LA CATEGORIA
 */
+/*
 function BorrarBox(box, id){
 	$.cookie('dato', id);
 	$.cookie('seleccion', box);
@@ -445,11 +508,12 @@ function BorrarBox(box, id){
 
 	Confirmacion("Esta seguro que desea eliminar el dato.", si, no);
 
-}
+}*/
 
 /**
 * ELIMINA BOX DE DATO NUEVO SIN GUARDAR
 */
+/*
 function BorrarBoxTemp(box){
 	$("#box"+box).animate({
 		width: 'toggle',
@@ -458,6 +522,7 @@ function BorrarBoxTemp(box){
 		$("#box"+box).remove();
 	});
 }
+*/
 
 /**
 * ELIMINA UN DATO
@@ -520,7 +585,7 @@ function CargarBox(id){
 }
 
 /**
-* BOX PARA UN ARCHIVO
+* BOX PARA ARCHIVOS ADJUNTOS
 */
 function BoxArchivo(){
 	if( $("#BoxArchivo").is(":visible") ){
@@ -530,6 +595,9 @@ function BoxArchivo(){
 	}
 }
 
+/**
+* ELIMINA UN ARCHIVO ADJUNTO
+*/
 function DeleteArchivo(){
 	var id = $.cookie('archivo');
 	notifica('borrando archivo '+id);
@@ -549,8 +617,8 @@ function DeleteArchivo(){
 				$("#archivo"+id).remove();
 			});
 
+			//si ya no hay mas archivos adjuntos se esconde el Box
 			if( $(".archivo").length == 1){
-				notifica('no hay mas');
 
 				$("#archivosAdjuntos").animate({
 					width: 'toggle',
@@ -561,15 +629,16 @@ function DeleteArchivo(){
 			}
 		},
 		fail: function(){
-			notificaError("Error: en ajaxEdicion.php codigo 004");
+			notificaError("Error: en ajaxEdicion.php codigo 004, al eliminar un archivo adjunto.");
 		}
 	});
 }
 
 /**
-* DESCARGAR ARCHIVO
+* BORRAR UN ARCHIVO, CREA DIALOGO DE CONFIRMACION
 */
 function BorrarArchivo(id){
+	//SE OCUPA LA COOKIE PARA ENVIAR EL ID A DIALOGO DE CONFIRMACION
 	$.cookie('archivo', id);
 
 	var si = function (){
@@ -583,8 +652,6 @@ function BorrarArchivo(id){
 	Confirmacion("Esta seguro que desea eliminar el archivo.", si, no);
 }
 
-
-
 </script>
 			<div class="topControls" >
 				
@@ -597,11 +664,13 @@ function BorrarArchivo(id){
 						Categoria
 						</label>
 
-					<!-- Nuevo proyecto -->
+					<!-- Nuevo proyecto
 					<input type="radio" id="EditarGeneralidades" name="radio"/>
 						<label for="EditarGeneralidades" onClick="EditarGeneralidades()">
 						Generalidades
 						</label>
+					 -->
+					 
 				</div>
 				<hr>
 				<script type="text/javascript">
