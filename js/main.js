@@ -406,7 +406,7 @@ function Home(){
 * INICIALIZA BOTONES
 */
 function Botones(){
-	$("html button").button();
+	$("html button, input:reset, input:submit").button();
 }
 
 function Boton(id){
@@ -476,14 +476,30 @@ function Inicializa(){
 	}
 }
 
+/**
+* CARGA EL EDITOR DE TEXTO ENRIQUESIDO
+* LA CONFIGURACION SE ENCUENTRA EN /editor/config.js
+*/
 function Editor(id){
 	var id = document.getElementById(id);
 	CKEDITOR.replace( id );
 	CKEDITOR.on("instanceReady", function(event){
 		if( $('#uploader').length ){
 		}else{
+			//carga el boton de adjuntar archivos
 			$(".cke_bottom").append('<img id="uploader" src="images/folder-upload.png" onClick="BoxArchivo()" />');
+			//elimina el path del editor
+			$(".cke_path").remove();
 		}
 		
 	});
+}
+
+/*
+* ACTUALIZA LOS CAMBIOS ECHOS EN EL EDITOR
+*/
+function EditorUpdateContent() {
+    for (instance in CKEDITOR.instances) {
+        CKEDITOR.instances[instance].updateElement();
+    }
 }
