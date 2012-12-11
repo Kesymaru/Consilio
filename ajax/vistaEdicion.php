@@ -53,14 +53,20 @@ function FormularioEdicionCategoria(){
 
 	    		if(response.length <= 3){
 			        notifica("Datos Guardados.");
+			        
 			        //ACTUALIZA VISTA
 			        var id = $("#categoria").val();
 			        var padre = $("#categoria").closest("div").attr('id');
+
 			        if(padre == "Padre0"){
 			        	Padres();
 			        }else{
 			        	Hijos(id);
+			        	//ACTUALIZA NOMBRE DEL HIJO EDITADO
+			        	var nombre = $("#nombre").val();
+			        	$("#"+id).html(nombre);
 			        }
+
 	    		}else{
 	    			notificaError(response);
 	    		}
