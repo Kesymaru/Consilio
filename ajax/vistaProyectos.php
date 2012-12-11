@@ -321,11 +321,17 @@ $proyectos = new Proyectos();
 	* @param m -> accion seleccionada
 	*/
 	function AccionMenu(m){
+
 		if(m == 'clicked: editar'){
 			EditarProyecto();
 		}
+
 		if(m == 'clicked: nuevo'){
 			NuevoProyecto();
+		}
+
+		if(m == 'clicked: componer'){
+			VistaComposicion();
 		}
 
 		if(m == 'clicked: eliminar'){
