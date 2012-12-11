@@ -14,6 +14,7 @@ $session->Logueado();
 $registros = new Registros();
 
 ?>
+
 <!-- JAVASCRIPT NECESARIO -->
 <script type="text/javascript">
 
@@ -29,11 +30,13 @@ function EditarCategorias(){
 /**
 * EDICION DE GENERALIDADES
 */
+/*
 function EditarGeneralidades(){
 	$.cookie('vista', 'edicionGeneralidades');
 	notifica($.cookie('vista'));
 	ActivaMenu();
 }
+*/
 
 /**
 * INICIALIZA EL FORMULARIO DE EDICION
@@ -47,9 +50,17 @@ function FormularioEdicionCategoria(){
 
 			},
 	    	success: function(response) { 
-	    		alert(response.length);
-	    		if(response.length == 0){
+
+	    		if(response.length <= 3){
 			        notifica("Datos Guardados.");
+			        //ACTUALIZA VISTA
+			        var id = $("#categoria").val();
+			        var padre = $("#categoria").closest("div").attr('id');
+			        if(padre == "Padre0"){
+			        	Padres();
+			        }else{
+			        	Hijos(id);
+			        }
 	    		}else{
 	    			notificaError(response);
 	    		}
@@ -58,7 +69,7 @@ function FormularioEdicionCategoria(){
 				notificaError("Error: ocurrio un error :(<br/>Codigo: ajaxEdicion 000.");
 		    }
 		}; 
-		//$('#FormularioEdicionCategoria').ajaxForm(options);
+		$('#FormularioEdicionCategoria').ajaxForm(options);
 }
 
 /**
@@ -338,7 +349,7 @@ function ContextMenuCategoria(id){
         items: {
         	"nueva": {name: "Nueva Subcategoria", icon: "add"},
             //"editar": {name: "Editar", icon: "edit"},
-            //"eliminar": {name: "Eliminar", icon: "delete"},
+            "eliminar": {name: "Eliminar", icon: "delete"},
         }
     });
     
@@ -355,7 +366,6 @@ function ContextMenuCategoria(id){
 	    if (e.which === 3) {
 	        var cat = $(this).attr('id');
 	        $.cookie('categoria', $(this).attr('id') );
-	        notifica( $.cookie('categoria') );
 	    }
 
 	});
@@ -394,7 +404,6 @@ function ContextMenuSuperCategoria(id){
 	    if (e.which === 3) {
 	        var cat = $(this).attr('id');
 	        $.cookie('categoria', $(this).attr('id') );
-	        notifica( $.cookie('categoria') );
 	    }
 
 	});
@@ -406,10 +415,65 @@ function ContextMenuSuperCategoria(id){
 */
 function MenuCategoria(m){
 	var categoria = $.cookie('categoria');
-	notifica(categoria);
+
+	if(m == 'clicked: nuevoPadre'){
+		BoxNuevaCategoria(0);
+	}
+
 	if(m == 'clicked: nueva'){
 		BoxNuevaCategoria(categoria);
 	}
+
+	//opcion de eliminar la categoria y sus hijos
+	if(m == 'clicked: eliminar'){
+
+		var si = function (){
+			DeleteCategoria();
+		}
+
+		var no = function (){
+			notificaAtencion("Operacion cancelada");
+		}
+
+		Confirmacion("Esta seguro que desea eliminar la categoria y todos sus subcategorias.", si, no);
+	}
+}
+
+/**
+* ELIMINA UNA CATEGORIA
+*/
+function DeleteCategoria(){
+	//LA CATEGORIA VIENE EN LA COOKIE
+	var categoria = $.cookie('categoria');
+
+	var queryParams = {"func" : "DeleteCategoria", "categoria" : categoria};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxEdicion.php",
+		beforeSend: function(){
+		},
+		success: function(response){
+			notifica("Categoria Eliminada");
+			var padre = $("#"+categoria).closest("div").attr('id');
+
+			$("#"+categoria).fadeOut(500, function(){
+				$("#"+categoria).remove();
+
+				/*if(padre == 'Padre0'){
+					Padres();
+				}else{
+					Hijos(categoria);
+				}*/
+
+				Padres();
+			});
+		},
+		fail: function(){
+			notificaError("Error: ocurrio un error :(<br/>Codigo: ajaxEdicion 006, al crear subcategoria.");
+		}
+	});
 }
 
 /**
@@ -436,7 +500,12 @@ function BoxNuevaCategoria(padre){
 
 				},
 		    	success: function(response) { 
-			        notifica("Datos Actualizados.");
+			        notifica("Categoria Creada.");
+			        if(padre == 0){
+			        	Padres();			        	
+			        }else{
+			        	Hijos(padre);
+			        }
 			    },
 			    fail: function(){
 			    	notificaError("Error: en ajax al actualizar datos.");
@@ -453,29 +522,6 @@ function BoxNuevaCategoria(padre){
 }
 
 /**
-* CARGA LAS GENERALIDADES  DE MANERA DE OPCIONES
-*/
-/*
-function Opciones(){
-	var queryParams = {'func' : 'Opciones'};
-	$.ajax({
-		data: queryParams,
-		type: "post",
-		url: "src/ajaxEdicion.php",
-		beforeSend: function(){
-			$("#opciones").html('<img id="image-loader" src="images/ajax-loader.gif" />');
-		},
-		success: function(response){
-			$("#opciones").html(response);
-		},
-		fail: function(){
-			notificaError("Error: ocurrio un error.<br/>Codigo: ajaxEdicion 003.");
-		}
-	});
-}
-*/
-
-/**
 * RESTAURA VISTA UTILIZANDO LAS COOKIES
 */
 function RestaurarCategorias(){
@@ -485,104 +531,6 @@ function RestaurarCategorias(){
 	if(vista == 'edicion'){
 		EditarCategorias();
 	}
-
-	if(vista == 'edicionGeneralidades'){
-		EditarGeneralidades();
-	}
-}
-
-/**
-* BORRAR EL DATO DE LA CATEGORIA
-*/
-/*
-function BorrarBox(box, id){
-	$.cookie('dato', id);
-	$.cookie('seleccion', box);
-
-	var si = function (){
-		EliminarDato();
-	}
-
-	var no = function (){
-		notificaAtencion("Operacion cancelada");
-	}
-
-	Confirmacion("Esta seguro que desea eliminar el dato.", si, no);
-
-}*/
-
-/**
-* ELIMINA BOX DE DATO NUEVO SIN GUARDAR
-*/
-/*
-function BorrarBoxTemp(box){
-	$("#box"+box).animate({
-		width: 'toggle',
-		height: 'toggle'
-	}, 1000, function(){
-		$("#box"+box).remove();
-	});
-}
-*/
-
-/**
-* ELIMINA UN DATO
-*/
-function EliminarDato(){
-	var id = $.cookie('dato');
-	var box = $.cookie('seleccion');
-	notifica(box);
-	var queryParams = {'func' : 'EliminarDato', "dato" : id};
-	$.ajax({
-		data: queryParams,
-		type: "post",
-		url: "src/ajaxEdicion.php",
-		beforeSend: function(){
-			//$("#generalidades").html('<img id="image-loader" src="images/ajax-loader.gif" />');
-		},
-		success: function(response){
-			notifica("Dato Eliminado");
-
-			$("#box"+box).animate({
-				width: 'toggle',
-				height: 'toggle'
-			}, 1000, function(){
-				$("#box"+box).remove();
-			});
-
-		},
-		fail: function(){
-			notificaError("Error: ocurrio un error.<br/>Codigo: ajaxEdicion 003.");
-		}
-	});
-}
-
-/**
-* CARAGA UN BOX PARA UN DATO
-*/
-function CargarBox(id){
-	if( $("#box"+id).length ){
-		notifica('existe');
-	}
-	//si no existe
-	if( !$("#box"+id).length ){
-		var queryParams = {'func' : "Box", "campo" : id };
-		$.ajax({
-			data: queryParams,
-			type: "post",
-			url: "src/ajaxEdicion.php",
-			beforeSend: function(){
-				//$("#generalidades").html('<img id="image-loader" src="images/ajax-loader.gif" />');
-				notifica('Cargando');
-			},
-			success: function(response){
-				$("#nivel2").append(response);
-			},
-			fail: function(){
-				notificaError("Error: ocurrio un error.<br/>Codigo: ajaxEdicion 003.");
-			}
-		});
-	}	
 }
 
 /**
@@ -654,6 +602,8 @@ function BorrarArchivo(id){
 }
 
 </script>
+<!-- FIN JAVASCRIPT -->
+
 			<div class="topControls" >
 				
 				<!-- menu proyectos -->
