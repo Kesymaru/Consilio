@@ -9,8 +9,11 @@ if(isset($_POST['func'])){
 	switch ($_POST['func']){
 
 		case 'Padres':
-			echo '<hr>Categorias<hr>';
-			echo '<div id="categorias">';
+			echo '
+				  <div id="categorias">
+				  <div class="titulo">
+				  	<hr>Categorias<hr>
+				  </div>';
 			echo '<div class="root" id="Padre0">';
 
 			$registros = new Registros();
@@ -116,11 +119,6 @@ if(isset($_POST['func'])){
 			}
 			break;
 
-		//CARGA LAS GENERALIDADES COMO OPCIONES
-		/*case 'Opciones':
-			echo Opciones();
-			break;*/
-
 		//ACTUALIZA DATOS, REGISTRA DATOS Y/O SUBE ARCHIVO
 		case 'RegistrarCategorias':
 			if( isset($_POST['categoria']) ){
@@ -151,6 +149,13 @@ if(isset($_POST['func'])){
 				$registro->NuevaSubCategoria($_POST['padre'], $_POST['nombre']);
 			}
 			break;
+
+		//ELIMINA UN CATEGORIA Y TODOS SUS HIJOS
+		case 'DeleteCategoria':
+			if(isset($_POST['categoria']) ){
+				DeleteCategoria($_POST['categoria']);
+			}
+			break;
 	}
 }
 
@@ -166,12 +171,12 @@ function EditarCategoria($categoria){
 	$datos = $registro->getDatos($categoria);
 	$nombre = $registro->getCategoriaDato("nombre", $categoria);
 
-	//FORMULARIO DE DATOS
+	//FORMULARIO DE LOS DATOS DE LA CATEGORIA
 	$formulario .= '<form id="FormularioEdicionCategoria" enctype="multipart/form-data" method="post" action="src/ajaxEdicion.php" >
 							<div id="nivel1">
 							<div id="nombreNorma">
 							<!-- nombre de la categoria -->
-								<input name="nombre" class="validate[required]" value="'.$nombre.'" />
+								<input id="nombre" name="nombre" class="validate[required]" value="'.$nombre.'" />
 							</div>
 							<!-- datos fijos escondidos -->
 							<input type="hidden" value="RegistrarCategorias" id="func" name="func" />
@@ -194,13 +199,12 @@ function EditarCategoria($categoria){
 
 	$formulario .= '</div>
 					</div>
-					<!-- end nivel 1-->
+					<!-- end nivel1-->
 
 					<div id="nivel2">
 						<div id="BoxArchivo" >
 							<input type="text" name="archivoNombre" id="archivoNombre" placeholder="Nombre" />
 							<input type="file" name="archivo" id="archivo" />
-							<input type="submit" value="Ajuntar" />
 						</div>';
 
 	//ARCHIVOS ADJUNTOS
@@ -213,23 +217,21 @@ function EditarCategoria($categoria){
 								Archivos Adjuntos
 							</div>
 							<div class="content">
-								<div class="archivos" >';
+								<ul class="archivos" >';
 
 		foreach ($archivos as $fila => $archivo) {
-			$formulario .= '<div class="archivo" id="archivo'.$archivo['id'].'" >
-							<img class="closeArchivo" src="images/close.png" onClick="BorrarArchivo('.$archivo['id'].')" />
-
-							<!-- descarga archivo -->
-							<a target="_blank" href="src/download.php?link='.$archivo['link'].'"> 
-								<img src="images/folder.png" />
-								<span>'.$archivo['nombre'].'</span>
-							</a>
+				$formulario .= '<li class="archivo" id="archivo'.$archivo['id'].'" >
+									<img class="closeArchivo" src="images/close.png" onClick="BorrarArchivo('.$archivo['id'].')" />
+								<!-- descarga archivo -->
+								<a target="_blank" href="src/download.php?link='.$archivo['link'].'"> 
+									<img src="images/folder.png" />
+									<span>'.$archivo['nombre'].'</span>
+								</a>
 							
-							</div>
-							</div>';
+							</li>';
 		}
 
-		$formulario .= '</div>
+		$formulario .= '</ul>
 						</div>
 						</div>';
 	}
@@ -240,7 +242,7 @@ function EditarCategoria($categoria){
 
 					<input type="reset" value="borrar" />
 
-					<!-- se requiere la funcion EditorUpdateContent para actualizar cambios desde el editor antes de enviar -->
+					<!-- EditorUpdateContent() actualiza contenido antes de guardarlo -->
 					<input type="submit" value="Guardar" onClick="EditorUpdateContent()" />
 					</form>
 
@@ -300,9 +302,9 @@ function NuevoArchivo($categoria){
 function BoxNuevaCategoria($padre){
 	$box = '';
 	$box .= '<form id="FormularioSubCategoria" enctype="multipart/form-data" method="post" action="src/ajaxEdicion.php" >
-			<input type="hidden" name="padre" value="'.$padre.'"/>
+			<input type="hidden" id="padre" name="padre" value="'.$padre.'"/>
 			<input type="hidden" name="func" id="func" value="NuevaSubCategoria" />
-			<input type="text" data-prompt-position="topLeft" class="validate[required]" name="nombre" placeholder="Nombre" />
+			<input type="text" data-prompt-position="bottomLeft" class="validate[required]" name="nombre" placeholder="Nombre" />
 			<br/><br/>
 			<input type="reset" value="Borrar" />
 			<input type="submit" value="Guardar" />
@@ -310,5 +312,60 @@ function BoxNuevaCategoria($padre){
 
 	return $box;
 }
-						
+
+/**
+* ELIMINA UNA CATEGORIA Y TODOS SU HIJOS
+* @param $categoria -> id de la categoria
+*/
+function DeleteCategoria($categoria){
+	$registros = new Registros();
+	$hijos = $registros->getHijos($categoria);
+
+	if(!empty($hijos)){
+		//BORRA TODAS LAS SUBCATEGORIAS DE LA CATEGORIA
+		foreach ($hijos as $filas => $hijo) {
+			DeleteCategoriaRecursivo($hijo['id']);
+			$registros->DeleteCategoria($hijo['id']);
+		}
+	}
+	//BORRA LA CATEGORIA
+	$registros->DeleteCategoria($categoria);
+}
+
+/**
+* BORRA LOS HIJOS DE UNA CATEGORIA RECURSIVAMENTE
+* @param $padre -> id del padre
+*/
+function DeleteCategoriaRecursivo($padre){
+
+	if( TieneHijos($padre) ){
+		$registros = new Registros();
+		$hijos = $registros->getHijos($padre);
+
+		foreach ($hijos as $fila => $hijo) {
+			if(TieneHijos($hijo['id'])){
+				DeleteCategoriaRecursivo( $hijo['id'] );
+				$registros->DeleteCategoria($hijo['id']);
+			}else{
+				$registros->DeleteCategoria( $hijo['id'] );
+			}
+		}
+	}
+
+}
+
+/**
+* DETERMINA SI UN PADRE TIENE HIJOS
+*/
+function TieneHijos($padre){
+	$registros = new Registros();
+	$hijos = $registros->getHijos($padre);
+	
+	if(!empty($hijos)){
+		return true;
+	}else{
+		return false;
+	}
+}
+
 ?>
