@@ -278,10 +278,43 @@ class Registros{
 	}
 
 	/**
-	* ELIMINA UNA CATEGORIA
+	* ELIMINA TODOS LOS DATOS DE UNA CATEGORIA, ARCHIVOS Y DATOS ASOCIADOS DE LA CATEGORIA
+	* @param $id -> id de la categoria ha eliminar
 	*/
-	public function DeleteCategoria(){
+	public function DeleteCategoria($id){
+		$base = new Database();
+		$query = "DELETE FROM categorias WHERE id = ".$id;
 
+		if( $base->Existe("SELECT * FROM categorias where id = ".$id) ){
+			if($base->Delete($query)){
+
+				//BORRA ARCHIVOS ASOCIADOS
+				if($base->Existe("SELECT * FROM archivos WHERE categoria = ".$id)){
+					$query = "SELECT * FROM archivos WHERE categoria = ".$id;
+					$archivos = $base->Select($query);
+					//elimina archivos
+					foreach ($archivos as $fila => $archivo) {
+						$this->DeleteArchivo($archivo['id']);
+					}
+				}
+
+				$base->conect(); //PORQUE SINO CIERRA LA CONEXION
+				                        
+				//BORRA DATOS ASOCIADOSs
+				if($base->Existe("SELECT * FROM datos WHERE categoria = ".$id)){
+					$query = "DELETE FROM datos WHERE categoria = ".$id;
+					if($base->Delete($query)){
+					}
+				}
+				return true;
+			}else{
+				//ERROR AL BORRAR CATEGORIA
+				return false;
+			}
+		}else{
+			//ERRRO CATEGORIA NO EXISTE
+			return false;
+		}
 	}
 
 	/**
@@ -472,12 +505,18 @@ class Registros{
 		}
 	}
 
+	/**
+	* CREA UNA NUEVA SUBCATEGORIA
+	* @param $padre -> id del padre
+	* @param $nombre -> nombre nuevo
+	*/
 	public function NuevaSubCategoria($padre, $nombre){
-		$nombre = mysql_real_escape_string($nombre);
 
 		$base = new Database();
 		$query = "INSERT INTO categorias (nombre, padre) VALUES ( '".$nombre."', '".$padre."')";
 
+		$nombre = mysql_real_escape_string($nombre);
+		
 		if( $base->Insert($query)){
 			return true;
 		}else{
