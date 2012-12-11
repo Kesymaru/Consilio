@@ -80,7 +80,8 @@ $master = new Master();
 		</div>
 	</div>
 
-	<header>
+	<!-- header -->
+	<div id="header">
 		<a href="index.php">
 			<img src="images/logo.png" class="logo">
 		</a>
@@ -107,6 +108,7 @@ $master = new Master();
 					Clientes
 				</div>
 			</div>
+
 			<!-- end opciones de menu -->
 			<div id="search">
 				<form id="searchForm" method="get" action="index.php">
@@ -117,7 +119,7 @@ $master = new Master();
 			<!-- end para search -->
 		</div>
 
-	</header>
+	</div> <!-- end header -->
 
 	<div id="main">
 		
