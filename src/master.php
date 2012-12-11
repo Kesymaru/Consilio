@@ -78,7 +78,8 @@ class Master{
 	* @param $busqueda 
 	*/
 	public function Buscar($buscar){
-		$normas = $this->BuscarNormas($buscar);
+		//$normas = $this->BuscarNormas($buscar);
+		$normas = '';
 		$categorias = $this->BuscarCategorias($buscar);
 		$proyectos = $this->BuscarProyectos($buscar);
 		
@@ -153,17 +154,19 @@ class Master{
 		$resultado = '';
 		$resultadoTemp = '';
 
+		//SELECCIONA LAS CATEGORIAS
 		$query = "SELECT * FROM categorias WHERE nombre LIKE '%".$busqueda."%' LIMIT 0, 30";
 		$base = new Database();
 		
-		$datos = $base->Select($query);
+		$categorias = $base->Select($query);
 
-		if(!empty($datos)){
-			foreach ($datos as $fila => $c) {
-				$resultadoTemp .= '<div class="resultado"><ul class="etiqueta"><li><a href="#">Proyecto';
-				$resultadoTemp .= '</a></li></ul>'.$datos[$fila]['nombre'].'</div>';
+		if(!empty($categorias)){
+			foreach ($categorias as $fila => $categoria) {
+				$resultadoTemp .= '<div class="resultado"><ul class="etiqueta"><li><a href="#">Categoria';
+				$resultadoTemp .= '</a></li></ul>'.$categoria['nombre'].'</div>';
 				$contador++;
 			}
+
 			$resultado .= $this->Plural($contador, "Categoria");
 			$resultado .= $resultadoTemp."</div>";
 			return $resultado;
