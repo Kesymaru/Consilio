@@ -83,10 +83,16 @@ class Download{
 	}
 }
 
+/**
+* REQUIERE PARAMETROS VIA GET 
+* @param $link -> link del archivo a descargar
+*/
+
 if( isset($_GET['link']) ){
 	//FORZA DESCARGA DE ARCHIVO
 	$descargar = new Download( $_GET['link'] );
 }else{
+	//SEGURIDAD
 	$session = new Session();
 	$session->Logueado();
 }
