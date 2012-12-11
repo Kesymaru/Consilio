@@ -1,18 +1,19 @@
 <?php
 
 class Database{
-	//local
+	//LOCAL
 	private $dbHost 	= "localhost";
 	private $dbUser 	= "root";
 	private $dbPassword = "root";
 	private $dbDatabase = "matriz";
 	
-	/*server
+	/*
 	private $dbHost 	= "localhost";
 	private $dbUser 	= "matrizroot";
 	private $dbPassword = "Matriz159!!";
 	private $dbDatabase = "matriz";
 	*/
+	
 	private $dbLink      = "";
 	private $dbRecordSet = 0;
 	public  $dbResult    = false;
@@ -152,6 +153,7 @@ class Database{
 	* @return true -> si el query se ejecuto y es valido
 	*/
 	public function Existe($query){
+		$this->setBase();
 
 		$resultado = mysql_query($query) or die ("Error: 05 en Existe. " . mysql_error());
 		
