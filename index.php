@@ -62,7 +62,7 @@ $master = new Master();
 <?php
 	//muestra bienvenida una sola ves para cada logueo
 	if(!$_SESSION['bienvenida']){
-		echo '<script type="text/javascript">notifica(\'Bienvenido '.$_SESSION['nombre'].'\')</script>';
+		echo '<script type="text/javascript">notifica(\'Hola '.$_SESSION['nombre'].'\')</script>';
 		$_SESSION['bienvenida'] = true;
 	}
 ?>
