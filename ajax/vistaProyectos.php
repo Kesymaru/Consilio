@@ -15,7 +15,10 @@ $proyectos = new Proyectos();
 
 ?>
 <script type="text/javascript">
-
+	
+	/**
+	* ENLISTA TODOS LOS PROYECTOS
+	*/
 	function ListaProyectos(){
 		$.cookie('accion', 'ListaProyectos'); //cookie para restaurar
 		                                      
@@ -139,6 +142,7 @@ $proyectos = new Proyectos();
 
 	/**
 	* SELECCIONA UNA FILA -> PROYECTO DE LA LISTA
+	* @param id -> id del proyecto de la fila
 	*/
 	function SeleccionFila(id){
 		var proyecto = $.cookie('proyecto');
@@ -156,7 +160,7 @@ $proyectos = new Proyectos();
 	}
 
 	/**
-	* VALIDA FORMULARIO DE EDICION DE PROYECTO EXISTENTE
+	* CARGA E INICIALIZA FORMULARIO DE EDICION DE PROYECTO EXISTENTE
 	*/
 	function FormularioEditarProyecto(){
 		//validacion
@@ -203,6 +207,7 @@ $proyectos = new Proyectos();
 
 	/**
 	* EXPORTAR PROYECTO
+	* @param tipo -> formato al que se exportara, excel o pdf
 	*/
 	function ExportarProyecto(tipo){
 		id = $.cookie('proyecto');
@@ -216,6 +221,7 @@ $proyectos = new Proyectos();
 
 	/**
 	* COMPARTIR PROYECTO
+	* @param tipo -> forma en la que se compartira el proyecto
 	*/
 	function CompartirProyecto(tipo){
 		id = $.cookie('proyecto');
@@ -236,7 +242,7 @@ $proyectos = new Proyectos();
 
 
 	/**
-	* CONETEXT MENU
+	* CREA EL CONTEXTMENU PARA EL PROYECTO SELECCIONADO
 	*/
 	function ContextMenuProyecto(){
 		var id = $.cookie('proyecto');
@@ -250,6 +256,7 @@ $proyectos = new Proyectos();
 	        items: {
 	        	"nuevo": {name: "Nuevo", icon: "add"},
 	            "editar": {name: "Editar", icon: "edit"},
+	            "componer": {name: "Componer", icon: "edit"},
 	            "eliminar": {name: "Eliminar", icon: "delete"},
 	            "sep1": "---------",
 	            "fold1a": {
@@ -279,6 +286,7 @@ $proyectos = new Proyectos();
 
 	/**
 	* ELIMINAR PROYECTO
+	* UTILIZA LA COOKIE PARA SAVER CUAL PROYECTO ELEIMINAR
 	*/
 	function EliminarProyecto(){
 		var proyecto = $.cookie('proyecto');
@@ -291,8 +299,12 @@ $proyectos = new Proyectos();
 				url: "src/ajaxProyectos.php",
 				success: function(response){
 					$("#vista").append(response);
+
 					notifica("Proyecto Eliminado.");
-					$("#"+proyecto).fadeOut(1000);
+
+					$("#"+proyecto).fadeOut(1000, function(){
+						$("#"+proyecto).remove();
+					});
 					//ListaProyectos();
 				},
 				fail: function(){
@@ -303,8 +315,10 @@ $proyectos = new Proyectos();
 			notificaAtencion("Seleccione un proyecto.");
 		}
 	}
+
 	/**
-	* ACCION DEL MENU
+	* ACCIONES DEL MENU
+	* @param m -> accion seleccionada
 	*/
 	function AccionMenu(m){
 		if(m == 'clicked: editar'){
