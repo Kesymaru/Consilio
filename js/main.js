@@ -129,44 +129,70 @@ function ActivaMenu(){
 		$("#menu").animate({
 			opacity: 0,
 			width: 'toggle'
-		}, 1500, function(){
-
-			$("#menu").css({
-				'display' : 'none',
-				'float' : 'left',
-			});
-
-			$("#content").css({
-				'width' : '90%',
-				'margin' : '0',
-				'display' : 'block'
-			});
-
+		}, { 
+			duration: 1500, 
+			queue: false,
+			complete: function(){
+				$("#menu").css({
+					'display' : 'none',
+					'float' : 'left',
+				});
+			}
 		});
 
+
+		$("#content").animate({
+       		width: '90%',
+       		display : 'block'
+    	}, { duration: 1500,
+    		queue: false,
+    		complete: function(){
+    			$("#content").css({
+					'width' : '90%',
+					'margin' : '0',
+					'display' : 'block'
+				});
+    		} 
+    	});
 		return;
 	}
 
 	//MUESTRA
 	if( $.cookie('vista') == 'edicion' && !$('#menu').is(':visible') || $.cookie('vista') == 'composicion'){
 
-		$("#menu").animate({
-			opacity: 1,
-			width: 'toggle'
-		}, 1500);
-
-		$("#menu").css({
-			'display' : 'block',
-			'float' : 'left',
-		});
-
 		$("#content").css({
-			'width' : '60%',
 			'margin' : '0',
 			'display' : 'inline-block'
 		});
-	}
 
+		$("#menu").animate({
+			opacity: 1,
+			width: 'toggle'
+		}, { 
+			duration: 1500, 
+			queue: false,
+			complete: function(){
+				$("#menu").css({
+					'display' : 'block',
+					'float' : 'left',
+				});
+			}
+		});
+
+		$("#content").animate({
+	       		width: '60%'
+	    	}, { 
+	    		duration: 1500, 
+	    		queue: false,
+	    		complete: function(){
+	    			$("#content").css({
+						'width' : '60%',
+						'margin' : '0',
+						'display' : 'inline-block'
+					});
+	    		}
+	    });
+	}	
 }
 
 /**********************
