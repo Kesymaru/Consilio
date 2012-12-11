@@ -128,6 +128,11 @@ $master = new Master();
 		</div>
 		<!-- end menu -->
 
+		<div id="menu2">
+
+		</div>
+		<!-- end menu 2 -->
+
 		<div id="content">
 			
 				<?php

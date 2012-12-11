@@ -21,17 +21,22 @@ $registros = new Registros();
 /**
 * EDICION DE CATEGORIAS
 */
-function EditarCategorias(){
-	if($('#normas').is(":visible")){
-		$('#normas').fadeOut(500, function(){
-			$('#normas').remove();
-		})
-	}
-
+function EditarNormas(){
 	$.cookie('vista', 'edicion');
 	ActivaMenu();
 	Padres();
 }
+
+/**
+* EDICION DE GENERALIDADES
+*/
+/*
+function EditarGeneralidades(){
+	$.cookie('vista', 'edicionGeneralidades');
+	notifica($.cookie('vista'));
+	ActivaMenu();
+}
+*/
 
 /**
 * INICIALIZA EL FORMULARIO DE EDICION
@@ -85,7 +90,7 @@ function Padres(){
 	$.ajax({
 		data: queryParams,
 		type: "post",
-		url: "src/ajaxEdicion.php",
+		url: "src/ajaxComposicion.php",
 		beforeSend: function(){
 			//$("#menu").html('<img id="image-loader" src="images/ajax-loader.gif" />');
 		},
@@ -127,7 +132,7 @@ function Hijos(padre){
 		data: queryParams,
 		type: "post",
 		async: false,
-		url: "src/ajaxEdicion.php",
+		url: "src/ajaxComposicion.php",
 		beforeSend: function(){
 			$("#categorias").append('<img id="image-loader" style="display: inline-block;" src="images/ajax-loader.gif" />');
 		},
@@ -178,12 +183,16 @@ function SeleccionaHijo(hijo){
 */
 function Categoria(id){
 
+	/*$("#image-loader").fadeOut(500, function(){
+		$("#image-loader").remove();
+	});*/
+
 	var queryParams = {"func" : "GetCategoria", "categoria" : id};
 
 	$.ajax({
 		data: queryParams,
 		type: "post",
-		url: "src/ajaxEdicion.php",
+		url: "src/ajaxComposicion.php",
 		beforeSend: function(){
 			$("#vista").append('<img id="image-loader" src="images/ajax-loader.gif" />');
 		},
@@ -239,7 +248,7 @@ function LimpiarCamino(padre){
 		$.ajax({
 			data: queryParams,
 			type: "post",
-			url: "src/ajaxEdicion.php",
+			url: "src/ajaxComposicion.php",
 			beforeSend: function(){
 				//$("#menu").html('<img id="image-loader" src="images/ajax-loader.gif" />');
 			},
@@ -272,7 +281,7 @@ function LimpiarHermanos(padre){
 	$.ajax({
 		data: queryParams,
 		type: "post",
-		url: "src/ajaxEdicion.php",
+		url: "src/ajaxComposicion.php",
 		beforeSend: function(){
 			//$("#menu").html('<img id="image-loader" src="images/ajax-loader.gif" />');
 		},
@@ -417,7 +426,7 @@ function DeleteCategoria(){
 	$.ajax({
 		data: queryParams,
 		type: "post",
-		url: "src/ajaxEdicion.php",
+		url: "src/ajaxComposicion.php",
 		beforeSend: function(){
 		},
 		success: function(response){
@@ -454,7 +463,7 @@ function BoxNuevaCategoria(padre){
 	$.ajax({
 		data: queryParams,
 		type: "post",
-		url: "src/ajaxEdicion.php",
+		url: "src/ajaxComposicion.php",
 		beforeSend: function(){
 			$("#vista").append('<img id="image-loader" src="images/ajax-loader.gif" />');
 		},
@@ -508,12 +517,12 @@ function CancelarNuevaCateogria(padre){
 /**
 * RESTAURA VISTA UTILIZANDO LAS COOKIES
 */
-function RestaurarCategorias(){
+function RestaurarNormas(){
 
 	var vista = $.cookie('vista');
 	notifica(vista);
-	if(vista == 'edicion'){
-		EditarCategorias();
+	if(vista == 'composicion'){
+		EditarNormas();
 	}
 }
 
@@ -540,7 +549,7 @@ function DeleteArchivo(){
 	$.ajax({
 		data: queryParams,
 		type: "post",
-		url: "src/ajaxEdicion.php",
+		url: "src/ajaxComposicion.php",
 		beforeSend: function(){
 		},
 		success: function(response){
@@ -562,7 +571,7 @@ function DeleteArchivo(){
 			}
 		},
 		fail: function(){
-			notificaError("Error: en ajaxEdicion.php codigo 004, al eliminar un archivo adjunto.");
+			notificaError("Error: en ajaxComposicion.php codigo 004, al eliminar un archivo adjunto.");
 		}
 	});
 }
@@ -585,41 +594,18 @@ function BorrarArchivo(id){
 	Confirmacion("Esta seguro que desea eliminar el archivo.", si, no);
 }
 
-/**************************************** NORMAS ***************************/
-
-/**
-* EDICION DE NORMAS
-*/
-function EditarNormas(){
-	if($('#categorias').is(":visible")){
-		$('#categorias').fadeOut(500, function(){
-			$('#categorias').remove();
-		})
-	}
-
-	$.cookie('accion', 'normas');
-	notifica($.cookie('accion'));
-}
-
-
 </script>
 <!-- FIN JAVASCRIPT -->
 
 			<div class="topControls" >
 				
-				<!-- menu proyectos -->
+				<!-- menu proyectos 
 				<div id="categoriasControls" >
 
-					<!-- Lista Proyectos -->
-					<input type="radio" id="EditarCategorias" name="radio" checked="checked" />
-						<label for="EditarCategorias" onClick="EditarCategorias()">
-						Categoria
-						</label>
-
-					<!-- Nuevo proyecto -->
-					<input type="radio" id="EditarNormas" name="radio"/>
+					<! -- Lista Proyectos 
+					<input type="radio" id="EditarNormas" name="radio" checked="checked" />
 						<label for="EditarNormas" onClick="EditarNormas()">
-						Normas
+						Categoria
 						</label>
 
 				</div>
@@ -701,6 +687,7 @@ function EditarNormas(){
 			</div>
 			-->
 			<script type="text/javascript">
-					RestaurarCategorias();
+					RestaurarNormas();
 			</script>
 			<!-- end nivel 1-->
+			compo
