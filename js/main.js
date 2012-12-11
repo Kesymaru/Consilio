@@ -1,5 +1,12 @@
 var menu = '';
 
+/**
+* PARA EL MENU COMO PANEL DESPLAZABLE CON SCROLL
+*/
+$(window).scroll(function () { 
+      $("#manu .scollers").css("display", "inline").fadeOut("slow"); 
+});
+
 $(document).ready(function(){
 	$('.dropMenu button').button();
 	$('.dropMenu').hide();
@@ -109,16 +116,18 @@ function VistaEdicion(){
 	});
 }
 
+
 /**
 * ACTIVA EL MENU
 */
 function ActivaMenu(){
-	ActivaMenuFixIe();
+	ActivaMenuFixIe(); //FIX PARA IE
 
-	//esconde
+	//ESCONDE
 	if( $('#menu').is(':visible') && $.cookie('vista') != 'edicion' ){
 
 		$("#menu").animate({
+			opacity: 0,
 			width: 'toggle'
 		}, 1500, function(){
 
@@ -138,10 +147,11 @@ function ActivaMenu(){
 		return;
 	}
 
-	//muestra
-	if( $.cookie('vista') == 'edicion' && !$('#menu').is(':visible') ){
-		
+	//MUESTRA
+	if( $.cookie('vista') == 'edicion' && !$('#menu').is(':visible') || $.cookie('vista') == 'composicion'){
+
 		$("#menu").animate({
+			opacity: 1,
 			width: 'toggle'
 		}, 1500);
 
@@ -157,6 +167,28 @@ function ActivaMenu(){
 		});
 	}
 
+}
+
+/**********************
+* VISTA DE COMPOSICION
+*/
+
+/**
+* CARGA LA VISTA DE COMPOSICION
+*/
+function VistaComposicion(){
+	$.cookie('vista', 'composicion');
+
+	$('#proyectos').addClass('seleccionado');
+
+	ImageLoader();
+
+	notifica('menu activado');
+
+	$("#content").load("ajax/vistaComposicion.php", function(){
+		$("#image-loader").remove();
+		ActivaMenu();
+	});
 }
 
 /**
@@ -473,8 +505,13 @@ function Inicializa(){
 	if($.cookie('vista') == 'proyectos'){
 		VistaProyecto();
 	}
-	if($.cookie('vista') == 'edicion' || $.cookie('vista') == 'edicionGeneralidades'){
+
+	if($.cookie('vista') == 'edicion'){
 		VistaEdicion();
+	}
+
+	if($.cookie('vista') == 'composicion'){
+		VistaComposicion();
 	}
 }
 
