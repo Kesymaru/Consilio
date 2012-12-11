@@ -129,7 +129,8 @@ function ActivaMenu(){
 
 			$("#content").css({
 				'width' : '90%',
-				'margin' : '0 auto'
+				'margin' : '0',
+				'display' : 'block'
 			});
 
 		});
@@ -151,7 +152,8 @@ function ActivaMenu(){
 
 		$("#content").css({
 			'width' : '60%',
-			'margin' : '0 0'
+			'margin' : '0',
+			'display' : 'inline-block'
 		});
 	}
 
