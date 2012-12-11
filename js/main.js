@@ -482,6 +482,12 @@ function Inicializa(){
 */
 function Editor(id){
 	var id = document.getElementById(id);
+
+	if($.browser.msie && $.browser.version < "9.0" ){
+		//no crea el editor si es ie8 o inferior
+		return;
+	}
+
 	CKEDITOR.replace( id );
 	CKEDITOR.on("instanceReady", function(event){
 		if( $('#uploader').length ){
