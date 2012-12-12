@@ -11,10 +11,6 @@ if(isset($_POST['func'])){
 	
 	switch ($_POST['func']){
 
-		/*
-			Proyectos
-		*/
-
 		//EDICION DE PROYECTO
 		case 'EditarProyecto':
 			if(isset($_POST['ProyectoId'])){

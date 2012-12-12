@@ -22,7 +22,7 @@ $registros = new Registros();
 * EDICION DE CATEGORIAS
 */
 function EditarNormas(){
-	$.cookie('vista', 'edicion');
+	//$.cookie('vista', 'composicion');
 	ActivaMenu();
 	Padres();
 }

@@ -319,7 +319,8 @@ class Registros{
 
 	/**
 	* OBTIENE DATOS DE UN HIJO
-	* @param $hijos[][]
+	* @param $padre -> id del padre
+	* @return $hijos[][]
 	*/
 	public function getHijos($padre){
 		$base = new Database();
@@ -523,6 +524,99 @@ class Registros{
 			return false;
 		}
 	}
+
+
+/************************** NORMAS *********************/
+	/**
+	* OBTIENE LAS NORMAS HIJAS DE UN PADRE
+	* @param $padre -> id del padre
+	* @return $
+	*/
+	public function getNormas($padre){
+		$base = new Database();
+		$query = "SELECT * FROM normas WHERE padre = ".$padre;
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			return $datos;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* OBTIENE DATOS DE UN NODO HIJO DE UNA NORMA
+	* @param $padre -> id del padre
+	* @return $hijos[][]
+	*/
+	public function getHijosNorma($padre){
+		$base = new Database();
+		$query = "SELECT * FROM normas WHERE padre = ".$padre;
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			return $datos;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* OBTIENE TODOS LOS IDS DE LOS NODOS DE UN PADRE EN NORMAS
+	* @param $padre -> id del padre
+	* @return $hijos[] -> array con todos los id
+	*/
+	public function getTodosHijosNorma($padre){
+		$hijos = array();
+		$base = new Database();
+		$query = "SELECT * FROM normas WHERE padre = ".$padre;
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			foreach ($datos as $fila => $c) {
+				$hijos[] = $datos[$fila]['id'];
+			}
+			return $hijos;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* OBTIENE LOS ID DE TODOS LOS HERMANOS DE UN NODO EN NORMAS
+	* @param $padre -> id del padre
+	* @return $hijos[] -> array con los ids de los hermanos
+	*/
+	public function getTodosHermanosNorma($hijo){
+		$resultado = array();
+		$base = new Database();
+
+		//EL PADRE DEL HIJO
+		$query = "SELECT DISTINCT padre, id FROM normas WHERE id = ".$hijo;
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			foreach ($datos as $fila => $c) {
+				//HERMANOS
+				$query = "SELECT DISTINCT id FROM normas WHERE padre = ".$datos[$fila]['padre'];
+				$hermanos = $base->Select($query);
+
+				if(!empty($hermanos)){
+					foreach ($hermanos as $fi => $va) {
+						$resultado[] = $hermanos[$fi]['id']; //AGREGA EL ID DEL HERMANO
+					}
+				}
+			}
+			return $resultado;
+		}else{
+			return false;
+		}
+	}
+
 }
 
 /*

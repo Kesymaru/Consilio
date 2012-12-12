@@ -28,6 +28,20 @@ function EditarCategorias(){
 		})
 	}
 
+	//OPTIENE EL TAMANO EN PORCENTAJE
+	var w = ( 100 * parseFloat($('#menu').css('width')) / parseFloat($('#menu').parent().css('width')) ) + '%';
+
+	if( "30%" <= w ){
+		//ANIMACION AL AUMENTAR EL TAMANO DEL MENU
+		$("#menu").animate({
+	       width: '30%'
+	    }, { duration: 500, queue: false });
+
+	    $("#content").animate({
+	       width: '60%'
+	    }, { duration: 500, queue: false });
+	}
+
 	$.cookie('vista', 'edicion');
 	ActivaMenu();
 	Padres();
@@ -78,7 +92,6 @@ function FormularioEdicionCategoria(){
 * CARGA SUPERCATEGORIAS
 */
 function Padres(){
-	$("#edicionConstrols").hide();
 
 	var queryParams = {'func' : "Padres"};
 
@@ -191,7 +204,6 @@ function Categoria(id){
 			$.cookie('categoria', id);
 
 			$("#vista").html(response);
-			$("#edicionConstrols").fadeIn(700);
 
 			$("#BoxArchivo").hide();
 		},
@@ -598,7 +610,187 @@ function EditarNormas(){
 	}
 
 	$.cookie('accion', 'normas');
-	notifica($.cookie('accion'));
+	
+	//OPTIENE EL TAMANO EN PORCENTAJE
+	var w = ( 100 * parseFloat($('#menu').css('width')) / parseFloat($('#menu').parent().css('width')) ) + '%';
+
+	if( w <= "30%"){
+		//ANIMACION AL AUMENTAR EL TAMANO DEL MENU
+		$("#menu").animate({
+	       width: '45%'
+	    }, { duration: 500, queue: false });
+
+	    $("#content").animate({
+	       width: '45%'
+	    }, { duration: 500, queue: false });
+	}
+
+	//CARGA CONTENIDO
+	if( $("#vista").is(":visible") ){
+		$("#vista").html("");
+		Normas();
+	}else{
+		Normas();
+	}
+}
+	
+/**
+* CARGAS TODAS LAS NORMAS DEL ARBOL
+*/
+function Normas(){
+	var queryParams = {"func" : "Normas" };
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxEdicion.php",
+		beforeSend: function(){
+		},
+		success: function(response){
+			$("#menu").html(response);
+			$("#normas").hide();
+			$("#normas").fadeIn(1500);
+		},
+		fail: function(){
+			notificaError("Error: En ajaxEdidicon.php al mostrar las normas.")
+		}
+	});
+}
+
+/**
+* CARAGA UNA NORMA HIJA SELECCIONADA
+* @param padre-> id de la norma padre seleccionada
+*/
+function Norma(padre){
+	notifica(padre);
+
+	//LIMPIA RUTAS DE NORMAS HERMANAS
+	LimpiarHermanosNorma(padre);
+
+	var queryParams = {"func" : "Norma", "padre" : padre};
+	
+
+	//carga una norma hija
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		async: false,
+		url: "src/ajaxEdicion.php",
+		beforeSend: function(){
+			$("#normas").append('<img id="image-loader" style="display: inline-block;" src="images/ajax-loader.gif" />');
+		},
+		success: function(response){
+			if(response.length > 0){
+
+				$("#image-loader").fadeOut(500, function(){
+					$("#image-loader").remove();
+					$("#normas").append(response);
+
+					$("#Padre"+padre).hide();
+					$("#Padre"+padre).fadeIn(500);
+
+					var totalWidth = 0;
+
+					$('.categoria').each(function(index) {
+						totalWidth += parseInt($(this).width(), 10);
+					});
+					
+					totalWidth += $("#Padre0").width() + 100;
+
+					$("#normas").css('width', totalWidth); //aumenta el tamano del contenedor de categorias
+				});
+				SeleccionaHijo(padre);
+			}
+		},
+		fail: function(){
+			notificaError("Error: ocurrio un error :(<br/>Codigo: ajaxEdicion 001.");
+		}
+	});
+}
+
+/**
+* LIMPIA EL CAMINO DEL ARBOL DE NORMAS
+* @param padre -> id del padre
+*/
+function LimpiarCaminoNorma(padre){
+	//obtiene el padre del padre, para ver si no es root
+	var Padre = $("#"+padre).closest("div").attr("id");
+
+	if(Padre == "Padre0"){ //si es root entonces limpia todos los resultados
+		$(".categoria").remove();
+		return;
+	}
+
+	//BORRA HIJOS DE UNA NORMA
+	if( $("#Padre"+padre).length ){
+
+		console.log("borrando "+padre);
+		
+		$("#Padre"+padre).fadeOut(500, function(){
+			$("#Padre"+padre).remove();
+		});
+		
+		//obtiene los hijos del padre seleccionado
+		var queryParams = {'func' : 'GetHijosNorma', 'padre' : padre};
+		$.ajax({
+			data: queryParams,
+			type: "post",
+			url: "src/ajaxEdicion.php",
+			beforeSend: function(){
+				//$("#menu").html('<img id="image-loader" src="images/ajax-loader.gif" />');
+			},
+			success: function(response){
+				if(response.length > 0){
+					var hijos = $.parseJSON(response); 
+					//alert(response);
+					$.each(hijos, function(f,c){
+						LimpiarCamino(c);
+					});
+				}else{
+					//no hay hijos que borrar
+				}
+			},
+			fail: function(){
+				notificaError("Error: ocurrio un error.<br/>Codigo: ajaxEdicion 001.");
+			}
+		});
+	}
+
+}
+
+/**
+* BORRAR LOS HERMANOS DE UN NODO PARA NORMAS
+* @param padre
+*/
+function LimpiarHermanosNorma(padre){
+	//BORRA HERMANOS ASINCRONAMENTE
+	var queryParams = {'func' : 'GetHermanosNorma', 'padre' : padre};
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxEdicion.php",
+		beforeSend: function(){
+		},
+		success: function(response){
+			if(response.length > 0){
+				//alert(response);
+				var hermanos = $.parseJSON(response); 
+				
+				$.each(hermanos, function(f,c){
+					if( $("#Padre"+c).length ){ //EXISTEN HIJOS
+						LimpiarCamino(c);						
+					}
+				});
+			}else{
+				//no hay hermanos que borrar
+			}
+		},
+		fail: function(){
+			notificaError("Error: ocurrio un error.<br/>Codigo: ajaxEdicion 001.");
+		}
+	}).done(function ( data ) {
+		  LimpiarCamino(padre);
+	});
 }
 
 

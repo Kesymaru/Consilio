@@ -128,7 +128,8 @@ function ActivaMenu(){
 
 		$("#menu").animate({
 			opacity: 0,
-			width: 'toggle'
+			//width: 'toggle'
+			width: "0%"
 		}, { 
 			duration: 1500, 
 			queue: false,
@@ -165,9 +166,15 @@ function ActivaMenu(){
 			'display' : 'inline-block'
 		});
 
+		$("#menu").css({
+			'display' : 'block',
+			width : '0px',
+		});
+
 		$("#menu").animate({
 			opacity: 1,
-			width: 'toggle'
+			//width: 'toggle'
+			width: "30%"
 		}, { 
 			duration: 1500, 
 			queue: false,
