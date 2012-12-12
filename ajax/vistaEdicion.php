@@ -669,7 +669,6 @@ function Norma(padre){
 
 	var queryParams = {"func" : "Norma", "padre" : padre};
 	
-
 	//carga una norma hija
 	$.ajax({
 		data: queryParams,
