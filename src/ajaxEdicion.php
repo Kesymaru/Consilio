@@ -51,7 +51,7 @@ if(isset($_POST['func'])){
 				$registros = new Registros();
 				$hijos = $registros->getHijos($_POST['padre']);
 
-				if(!empty($hijos)){
+				if(!empty($hijos)){ //tiene hijos
 					echo '<div class="categoria" id="Padre'.$_POST['padre'].'">';
 
 					$id = 0;
@@ -75,7 +75,7 @@ if(isset($_POST['func'])){
 
 					echo '</ul>';
 					echo '</div>';
-					echo '<script>Categoria('.$_POST['padre'].');</script>';
+					//echo '<script>Categoria('.$_POST['padre'].');</script>';
 				}else{
 					echo '<script>Categoria('.$_POST['padre'].');</script>';
 				}
@@ -161,102 +161,6 @@ if(isset($_POST['func'])){
 			}
 			break;
 
-	/************************ NORMAS *****************/
-		//CARGA EL ARBOL DE NORMAS
-		case 'Normas':
-			echo '
-				  <div id="normas">
-				  <div class="titulo">
-				  	<hr>Normas<hr>
-				  </div>';
-			echo '<div class="root" id="Padre0">';
-
-			$registros = new Registros();
-			$normas = $registros->getNormas(0);
-
-			if(!empty($normas)){
-				$id = 0;
-				$nombre = "";
-				echo '<ul>';
-				foreach ($normas as $f => $c) {
-					foreach ($normas[$f] as $campo => $valor) {
-						
-						if($campo == 'id'){
-							$id = $valor;
-						}
-						if($campo == 'nombre'){
-							$nombre = $valor;
-						}else{
-							continue;
-						}
-					}
-					echo '<li id="'.$id.'" onClick="Norma('.$id.')">'.$nombre.'</li>';
-				}
-				echo '</ul>';
-			}else{
-				echo 'No hay datos.';
-			}
-			echo '</div>';
-			echo '</div>';
-			break;
-
-		//OBTIENE LOS HIJOS DE UNA NORMA SELECCIONADO
-		case 'Norma':
-			if(isset($_POST['padre'])){
-				$registros = new Registros();
-				$hijos = $registros->getHijosNorma($_POST['padre']);
-
-				if(!empty($hijos)){
-					echo '<div class="categoria" id="Padre'.$_POST['padre'].'">';
-
-					$id = 0;
-					$nombre = "";
-
-					echo '<ul>';
-					foreach ($hijos as $f => $c) {
-						foreach ($hijos[$f] as $campo => $valor) {
-							
-							if($campo == 'id'){
-								$id = $valor;
-							}
-							if($campo == 'nombre'){
-								$nombre = $valor;
-							}else{
-								continue;
-							}
-						}
-						echo '<li id="'.$id.'" onClick="Norma('.$id.')">'.$nombre.'</li>';
-					}
-
-					echo '</ul>';
-					echo '</div>';
-					//echo '<script>CargaNorma('.$_POST['padre'].');</script>';
-				}else{
-					//echo '<script>CargaNorma('.$_POST['padre'].');</script>';
-				}
-				
-			}
-			break;
-
-		//OBTIENE LOS IDS DE LOS HIJOS DE UN PADRE
-		case 'GetHijosNorma':
-			if( isset($_POST['padre']) ){
-				$registros = new Registros();
-				//el id de todos los hijos
-				$hijos = $registros->getTodosHijosNorma($_POST['padre']);
-				echo json_encode($hijos);
-			}
-			break;
-
-		//OBTIENE LOS IDS DE LOS HERMANOS DE UN PADRE
-		case 'GetHermanosNorma':
-			if( isset($_POST['padre']) ){
-				$registros = new Registros();
-				//el id de todos los hijos
-				$hijos = $registros->getTodosHermanosNorma($_POST['padre']);
-				echo json_encode($hijos);
-			}
-			break;
 	}
 }
 
@@ -307,7 +211,7 @@ function EditarCategoria($categoria){
 							<input type="text" name="archivoNombre" id="archivoNombre" placeholder="Nombre" />
 							<input type="file" name="archivo" id="archivo" />
 						</div>';
-
+	/*
 	//ARCHIVOS ADJUNTOS
 	$archivos = $registro->getArchivos($categoria);
 
@@ -335,7 +239,7 @@ function EditarCategoria($categoria){
 		$formulario .= '</ul>
 						</div>
 						</div>';
-	}
+	}*/
 
 	//CIERRE FORMULARIO 
 	$formulario .= '</div>
@@ -479,26 +383,5 @@ function TieneHijos($padre){
 	}
 }
 
-/****************************** NORMAS **********************************/
-
-/**
-* CREA UN BOX PARA LA NORMA SELECCIONADA
-*/
-function BoxNorma($norma){
-	$box = '';
-	$registros = new Registros();
-
-	$datos = $registros->getNorma($norma);
-
-	if(!empty($datos)){
-		foreach ($datos as $fila => $norma) {
-			$box .= '<form id="FormularioNorma" >
-				<input type="hidden" name="func" value="ActualizarNorma" />
-				<input type="text" name="nombre" id="nombre"  value="'.$norma['nombre'].'">
-			';
-		}
-	}
-	
-}
 
 ?>

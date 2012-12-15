@@ -527,14 +527,13 @@ class Registros{
 
 
 /************************** NORMAS *********************/
+	
 	/**
-	* OBTIENE LAS NORMAS HIJAS DE UN PADRE
-	* @param $padre -> id del padre
-	* @return $
+	* OBTIENE TODAS LAS NORMAS
 	*/
-	public function getNormas($padre){
+	public function getNormas(){
 		$base = new Database();
-		$query = "SELECT * FROM normas WHERE padre = ".$padre;
+		$query = "SELECT * FROM normas";
 
 		$datos = $base->Select($query);
 
@@ -546,13 +545,12 @@ class Registros{
 	}
 
 	/**
-	* OBTIENE DATOS DE UN NODO HIJO DE UNA NORMA
-	* @param $padre -> id del padre
-	* @return $hijos[][]
+	* OBTIENE LOS DATOS DE UNA NORMA
+	* @param $norma -> id de la norma
 	*/
-	public function getHijosNorma($padre){
+	function getDatosNorma($norma){
 		$base = new Database();
-		$query = "SELECT * FROM normas WHERE padre = ".$padre;
+		$query = "SELECT * FROM normas WHERE id = ".$norma;
 
 		$datos = $base->Select($query);
 
@@ -564,55 +562,221 @@ class Registros{
 	}
 
 	/**
-	* OBTIENE TODOS LOS IDS DE LOS NODOS DE UN PADRE EN NORMAS
-	* @param $padre -> id del padre
-	* @return $hijos[] -> array con todos los id
+	* OBTIENE UN DATO DE UNA NORMA
+	* @param $dato -> dato solicitado
+	* @param $id -> id de la norma
+	* @return $dato -> dato solicitado
 	*/
-	public function getTodosHijosNorma($padre){
-		$hijos = array();
+	public function getDatoNorma($dato, $id){
 		$base = new Database();
-		$query = "SELECT * FROM normas WHERE padre = ".$padre;
+		$query = "SELECT * FROM normas WHERE id = ".$id;
 
 		$datos = $base->Select($query);
 
 		if(!empty($datos)){
-			foreach ($datos as $fila => $c) {
-				$hijos[] = $datos[$fila]['id'];
-			}
-			return $hijos;
+			return $datos[0][$dato];
 		}else{
 			return false;
 		}
 	}
 
 	/**
-	* OBTIENE LOS ID DE TODOS LOS HERMANOS DE UN NODO EN NORMAS
-	* @param $padre -> id del padre
-	* @return $hijos[] -> array con los ids de los hermanos
+	* OBTIENE LOS TIPOS DE LA NORMA
+	* @param $norma -> id de la norma
 	*/
-	public function getTodosHermanosNorma($hijo){
-		$resultado = array();
+	public function getTipoNorma($norma){
 		$base = new Database();
-
-		//EL PADRE DEL HIJO
-		$query = "SELECT DISTINCT padre, id FROM normas WHERE id = ".$hijo;
+		$query = "SELECT tipo FROM normas WHERE id =".$norma;
 
 		$datos = $base->Select($query);
 
 		if(!empty($datos)){
-			foreach ($datos as $fila => $c) {
-				//HERMANOS
-				$query = "SELECT DISTINCT id FROM normas WHERE padre = ".$datos[$fila]['padre'];
-				$hermanos = $base->Select($query);
-
-				if(!empty($hermanos)){
-					foreach ($hermanos as $fi => $va) {
-						$resultado[] = $hermanos[$fi]['id']; //AGREGA EL ID DEL HERMANO
-					}
-				}
-			}
-			return $resultado;
+			return $datos[0]['tipo'];
 		}else{
+			return 0;
+		}
+	}
+
+	/**
+	* ACTUALIZA UNA NORMA
+	* @param $norma -> id de la norma
+	* @param $nombre -> nombre nuevo
+	* @param $numero -> numero de la norma
+	* @param $tipo -> id del tipo de norma seleccionado
+	* @return true si se actualiza correctamente
+	* @return false si falla en algo
+	*/
+	public function UpdateNorma($norma, $nombre, $numero, $tipo){
+		$base = new Database();
+		$nombre = mysql_real_escape_string($nombre);
+		$numero = mysql_real_escape_string($numero);
+		$query = "UPDATE normas SET nombre = '".$nombre."', numero = '".$numero."', tipo = '".$tipo."' WHERE id = ".$norma;
+
+		if( $base->Update($query)){
+			return true;
+		}else{
+			return false;
+		}
+
+	}
+
+	/**
+	* DESHABILITA UNA NORMA
+	* @param $norma -> id de la norma
+	*/
+	public function DeshabilitarNorma($norma){
+		$base = new Database();
+		$query = "UPDATE normas SET status = 0 WHERE id = ".$norma;
+
+		if($base->Update($query)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* HABILITA UNA NORMA
+	* @param $norma -> id de la norma
+	*/
+	public function HabilitarNorma($norma){
+		$base = new Database();
+		$query = "UPDATE normas SET status = 1 WHERE id = ".$norma;
+
+		if($base->Update($query)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* REGISTRA UNA NORMA NUEVA
+	* @param $nombre
+	* @param $numero
+	* @param $tipo
+	*/
+	public function RegistrarNorma($nombre, $numero, $tipo){
+		$base = new Database();
+		$nombre = mysql_real_escape_string($nombre);
+		$numero = mysql_real_escape_string($numero);
+
+		$query = "INSERT INTO normas (nombre, numero, tipo) VALUES ('".$nombre."', '".$numero."', '".$tipo."')";
+
+		if($base->Insert($query)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+/************************** ARTICULOS *********************/
+	
+	/**
+	* OBTIENE TODOS LOS ARTICULOS DE UNA NORMA
+	* @param $norma -> id de la norma
+	* @return $datos -> array[][]
+	*/
+	public function getArticulos($norma){
+		$base = new Database();
+		$query = "SELECT * FROM articulos WHERE norma = ".$norma;
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			return $datos;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* OBTIENE DATO DE UN ARTICULO
+	* @param $dato -> dato solicitado
+	* @param $id -> id del articulo
+	* @return $dato -> valor del dato solicitado
+	*/
+	public function getDatoArticulo($dato, $id){
+		$base = new Database();
+		$query = "SELECT * FROM articulos WHERE id = ".$id;
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			return $datos[0][$datos];
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* REGISTRA UN NUEVO ARTICULO
+	* @param $norma -> id de la norma
+	* @param $nombre -> nombre del nuevo articulo
+	* @param $entidades -> array[] id de las identidades seleccionadas
+	* @param $permisos -> texto html de permisos
+	* @param $sanciones -> texto html de sanciones
+	* @param $articulos -> texto html del articulo
+	* @return true si se registra correctamente
+	* @return false si falla
+	*/
+	public function RegistrarArticulo($norma, $nombre, $entidades, $resumen, $permisos, $sanciones, $articulo ){
+		$base = new Database();
+		$nombre = mysql_real_escape_string($nombre);
+
+		//textos en html
+		$resumen = base64_encode($resumen);
+		$permisos = base64_decode($permisos);
+		$sanciones = base64_encode($sanciones);
+		$articulo = base64_encode($articulo);
+
+		//compone entidades
+		$entidadesFinales = '';
+		foreach ($entidades as $entidad) {
+			$entidadesFinales .= $entidad.',';
+		}
+
+		$query = "INSERT INTO articulos (norma, nombre, entidad, resumen, permisos, sanciones, articulo) ";
+		$query .= "VALUES ( '".$norma."', '".$nombre."', '".$entidadesFinales."', '".$resumen."', '".$permisos."', '".$sanciones."', '".$articulo."' )";
+
+		if($base->Insert($query)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+/*********************************** TIPOS NORMAS ************************/
+	
+	/**
+	* OBTIENE LOS TIPOS DISPONIBLES
+	*/
+	public function getTipos(){
+		$base = new Database();
+		$query = "SELECT * FROM tipos";
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			return $datos;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* OBTIENE TODAS LAS ENTIDADES
+	* @return $datos -> array[][]
+	*/
+	public function getEntidades(){
+		$base = new Database();
+		$query = "SELECT * FROM entidades"; //OBTIENE LAS PADRES
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			return $datos;
+		}else{	
 			return false;
 		}
 	}

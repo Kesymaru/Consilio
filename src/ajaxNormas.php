@@ -1,0 +1,481 @@
+<?php
+
+/**
+* AJAX PARA NORMAS Y ARTICULOS
+*/
+
+require_once("class/imageUpload.php");
+require_once("class/registros.php");
+
+
+if(isset($_POST['func'])){
+	
+	switch ($_POST['func']){
+
+	/************************ NORMAS *****************/
+		//CARGA LISTA DE NORMAS
+		case 'Normas':
+			Normas();
+			break;
+
+		//CARGA FORMULARIO PARA NUEVA NORMA
+		case 'NuevaNorma':
+			NuevaNorma();
+			break;
+
+		//CAREA UNA NUEVA NORMA
+		case 'CrearNorma':
+			RegistrarNorma();
+			break;
+
+		//FORMULARIO DE EDICION DE NORMA
+		case 'EditarNorma':
+			if( isset($_POST['norma'])){
+				EditarNorma($_POST['norma']);
+			}
+			break;
+
+		//ACTUALIZA NORMA, PROVIENE DEL FORMULARIO
+		case 'ActualizarNorma':
+			if( isset($_POST['norma']) ){
+				ActualizarNorma($_POST['norma']);
+			}	
+			break;
+
+		//DESHABILITA UNA NORMA
+		case 'DeshabilitarNorma':
+			if(isset($_POST['norma'])){
+				DeshabilitarNorma($_POST['norma']);
+			}
+			break;
+
+		//HABILITA UNA NORMA
+		case 'HabilitarNorma':
+			if(isset($_POST['norma'])){
+				echo 'normas';
+				HabilitarNorma($_POST['norma']);
+			}
+			break;
+
+	/************************ ARTICULOS *****************/
+
+		//FORMULARIO PARA NUEVO ARTICULO
+		case 'NuevoArticulo':
+			if( isset($_POST['norma']) ){
+				NuevoArticulo( $_POST['norma'] );
+			}
+			break;
+
+		//LISTA DE ARTICULOS DE UNA NORMA SELECCIONADA
+		case 'Articulos':
+			if(isset($_POST['norma'])){
+				Articulos($_POST['norma']);
+			}
+			break;
+
+		case 'CrearArticulo':
+			if( isset($_POST['norma']) ){
+				RegistrarArticulo($_POST['norma']);
+			}
+			break;
+
+	}
+}
+
+/****************************** NORMAS **********************************/
+
+/**
+* CARGA LAS NORMAS
+*/
+function Normas(){
+	echo '<div id="normas">
+		  	<div class="titulo">
+				Normas
+				<hr>
+		  	</div>';
+	echo '<div class="root2" id="PadreNormas">';
+
+	$registros = new Registros();
+	$normas = $registros->getNormas();
+
+	if(!empty($normas)){
+		$id = 0;
+		$nombre = "";
+		echo '<ul>';
+
+		foreach ($normas as $fila => $norma) {
+			
+			if($norma['status'] == 1){
+				echo '<li id="'.$norma['id'].'" onClick="NormaOpciones('.$norma['id'].')">'.$norma['nombre']." ".$norma['numero'].'</li>';
+			}else{
+				echo '<li id="'.$norma['id'].'" class="deshabilitado" onClick="NormaOpciones('.$norma['id'].')">'.$norma['nombre']." ".$norma['numero'].'</li>';
+			}
+			
+		}
+		echo '</ul>';
+	}else{
+		echo '--- No hay normas ---';
+	}
+	echo '</div>
+		 <div>
+		 <button id="EditarNorma" onClick="EditarNorma()">Editar</button>
+		 <button id="DeshabilitarNorma" onClick="DeshabilitarNorma()">Deshabilitar</button>
+		 <button id="HabilitarNorma" onClick="HabilitarNorma()">Habilitar</button>
+		 <button onClick="NuevaNorma()">Nueva Norma</button>
+		 </div>';
+	echo '</div>';
+}
+
+/**
+* PRESENTA EL FORMULARIO DE EDICION DE LA NORMA
+* @param $norma -> id de la norma
+*/
+function EditarNorma($norma){
+	$formulario = "";
+
+	$registros = new Registros();
+	$datos = $registros->getDatosNorma($norma); //obtien los datos de una norma
+
+	if(!empty($datos)){
+
+		$formulario .= '<div class="titulo">
+							Edicion Norma
+							<hr>
+						</div>
+						<form id="FormularioNorma" enctype="multipart/form-data" method="post" action="src/ajaxNormas.php">
+							<div class="datos">
+								<input type="hidden" value="ActualizarNorma" name="func" />
+								<input type="hidden" value="'.$norma.'" id="norma" name="norma" />
+								<input type="text" id="nombre" name="nombre" placeholder="Nombre" class="validate[required]" value="'.$datos[0]['nombre'].'" />
+								<input type="number" id="numero" name="numero"  placeholder="Numero" class="validate[required, number]" value="'.$datos[0]['numero'].'" />
+								<br/>';
+
+		$formulario .= TiposNorma($norma); //selects seleccionados y disponibles para los tipos de normas
+
+		$formulario .= '
+							</div>
+							<div class="datos-botones">
+								<button onClick="CancelarContent()">Cancelar</button>
+								<input type="reset" value="Borrar" />
+								<input type="submit" value="Guardar" />
+							</div>
+						</form>';
+
+	}
+
+	echo $formulario;
+}
+
+/**
+* FORMULARIO PARA NUEVA NORMA
+*/
+function NuevaNorma(){
+	$formulario = "";
+	$formulario .= '<div class="titulo">
+						Nueva Norma
+						<hr>
+					</div>
+					<form id="FormularioNuevaNorma" enctype="multipart/form-data" method="post" action="src/ajaxNormas.php">
+							<div class="datos">
+								<input type="hidden" value="CrearNorma" name="func" />
+								<input type="text" id="nombre" name="nombre" placeholder="Nombre" class="validate[required]" />
+								<input type="number" id="numero" name="numero" placeholder="Numero" class="validate[required, number]" />
+								<br/>';
+
+	$formulario .= Tipos(); //selects disponibles para los tipos de normas
+
+	$formulario .= '
+							</div>
+							<div class="datos-botones">
+								<button onClick="CancelarContent()">Cancelar</button>
+								<input type="reset" value="Borrar" />
+								<input type="submit" value="Guardar" />
+							</div>
+						</form>';
+	echo $formulario;
+}
+
+/**
+* OBTIENE LOS TIPOS DE NORMAS Y LOS COMPONE EN UN SELECT
+*/
+function Tipos(){
+	$tipos = "";
+	$registros = new Registros();
+
+	$datos = $registros->getTipos();
+
+	if(!empty($datos)){
+		$tipos .= '<select name="tipo" class="validate[required]">';
+
+		foreach ($datos as $fila => $tipo) {
+			$tipos .= '<option value="'.$tipo['id'].'">'.$tipo['nombre'].'</option>';
+		}
+
+		$tipos .= '</select>';
+
+	}else{
+		$tipos .= '<div>No hay tipos.</div>';
+	}
+
+	//EL SELECT COMPUESTO
+	return $tipos;
+}
+
+/**
+* BOTIENE LOS TIPOS DISPONIBLES Y SELECCIONADOS PARA LA NORMA
+* @param $norma -> id de a norma
+*/
+function TiposNorma($norma){
+	$tipos = "";
+	$registros = new Registros();
+
+	$seleccionado = $registros->getTipoNorma($norma); //obtiene el tipo de norma seleccionada
+	$datos =  $registros->getTipos();
+
+	if(!empty($datos)){
+		$tipos .= '<select name="tipo" class="validate[required]" >';
+
+		foreach ($datos as $fila => $tipo) {
+			if($tipo['id'] == $seleccionado){
+				$tipos .= '<option value="'.$tipo['id'].'" selected="selected" >'.$tipo['nombre'].'</option>';
+				continue;
+			}
+			$tipos .= '<option value="'.$tipo['id'].'">'.$tipo['nombre'].'</option>';
+		}
+
+		$tipos .= '</select>';
+
+	}else{
+		$tipos .= Tipos(); //NO SE HA SELECCIONADO NINGUNO
+	}
+
+	//EL SELECT COMPUESTO
+	return $tipos;
+}
+
+/**
+* ACTUALIZA NORMA, DATOS PROVIENEN DEL FORMULARIO
+* $norma
+*/
+function ActualizarNorma($norma){
+	$registros = new Registros();
+
+	//ACTUALIZA NORMA
+	$registros->UpdateNorma($norma, $_POST['nombre'], $_POST['numero'], $_POST['tipo']);
+}
+
+/**
+* DESHABILITA UNA NORMA
+* @param $norma -> id de la normas
+*/
+function DeshabilitarNorma($norma){
+	$registros = new Registros();
+	$registros->DeshabilitarNorma($norma);
+}
+
+/**
+* HABILITA UNA NORMA
+* @param $norma -> id de la normas
+*/
+function HabilitarNorma($norma){
+	$registros = new Registros();
+	$registros->HabilitarNorma($norma);
+}
+
+
+/**
+* REGISTRA UNA NUEVA NORMA
+*/
+function RegistrarNorma(){
+	if( isset($_POST['nombre']) && isset($_POST['numero']) && isset($_POST['tipo']) ){
+		$registros = new Registros();
+		$registros->RegistrarNorma($_POST['nombre'], $_POST['numero'], $_POST['tipo']);
+	}
+}
+
+/************************************ ARTICULOS *************************/
+
+/**
+* LISTA DE ARTICULOS DE UNA NORMA
+*/
+function Articulos($norma){
+	$lista = '';
+	$registros = new Registros();
+
+	$articulos = $registros->getArticulos($norma);
+	$estado = $registros->getDatoNorma("status", $norma);
+
+	if($estado == 0){
+		$visibilidad = "deshabilitado";
+	}else{
+		$visibilidad = "";
+	}
+
+	if(!empty($articulos)){
+
+		$lista .= '<div id="articulos" class="'.$visibilidad.'">
+					  <div class="titulo">
+					  	Articulos de '.$registros->getDatoNorma("nombre", $norma).' '.$registros->getDatoNorma("numero", $norma).'
+					  	<hr>
+					  </div>
+				      <ul>';
+
+		//carga la lista
+		foreach ($articulos as $fila => $articulo) {
+			$lista .= '<li id="'.$articulo['id'].'" onClick="SelectArticulo('.$articulo['id'].')">'.$articulo['nombre'].'</li>';
+		}
+
+	}else{
+		$lista .= '<div id="articulos" class="'.$visibilidad.'">
+					  <div class="titulo">
+					  	Articulos de '.$registros->getDatoNorma("nombre", $norma).' '.$registros->getDatoNorma("numero", $norma).'
+					  	<hr>
+					  </div>
+					  No hay articulos.
+					  <br/>';
+	}
+
+	$lista .= '<div class="datos-botones">
+				<button>Borrar</button>
+				<button>Editer</button>
+			   	<button onClick="NuevoArticulo('.$norma.')">Nuevo Articulo</button>
+			   </div>
+			   </div>';
+
+	echo $lista;
+}
+
+function NuevoArticulo($norma){
+	$formulario = "";
+	$formulario .= '<div class="titulo">
+						Nuevo Articulo
+						<hr>
+					</div>
+					<form id="FormularioNuevoArticulo" enctype="multipart/form-data" method="post" action="src/ajaxNormas.php" >
+							<div class="datos">
+								<input type="hidden" value="CrearArticulo" name="func" />
+								<input type="hidden" value="'.$norma.'" name="norma" />
+								<br/>
+								<input type="text" id="nombre" name="nombre" placeholder="Nombre" class="validate[required]" />
+								<br/><br/>Entidad<br/>';
+
+	$formulario .= Entidades(); //entidades disponibles
+
+	$formulario .= '<br/><br/>
+
+								<!-- tabs para los datos -->
+								<div id="tabs">
+							    <ul>
+							        <li><a href="#tabs-1">Resumen</a></li>
+							        <li><a href="#tabs-2">Permisos o Documentacion</a></li>
+							        <li><a href="#tabs-3">Sanciones</a></li>
+							        <li><a href="#tabs-4">Articulos</a></li>
+							    </ul>
+
+							    <div id="tabs-1">
+							    	<textarea class="validate[required]" id="resumen" name="resumen" >Resumen</textarea>
+							    </div>
+							    <div id="tabs-2">
+							    	<textarea class="validate[required]" id="permisos" name="permisos" >Permisos</textarea>
+							    </div>
+							    <div id="tabs-3">
+							    	<textarea class="validate[opcional]" id="sanciones" name="sanciones" >Sanciones</textarea>
+							    </div>
+							    <div id="tabs-4">
+							    	<textarea class="validate[required]" id="articulo" name="articulo" >Articulo</textarea>
+							    </div>
+
+							    </div>
+							</div>
+							<div class="datos-botones">
+								<button onClick="CancelarContent()">Cancelar</button>
+								<input type="reset" value="Borrar" />
+								<input type="submit" value="Guardar" />
+							</div>
+						</form>';
+	echo $formulario;
+}
+
+
+/**
+* OBTIENE LAS ENTIDADES DISPONIBLES Y LAS COMPONE EN UN SELECT
+* @return $select -> el select compuesto
+*/
+function Entidades(){
+	$select = "";
+
+	$registros = new Registros();
+	$entidades = $registros->getEntidades();
+
+	if(!empty($entidades)){
+		$select .= '<select id="entidades" name="entidades[]" multiple="multiple" style="width:400px">';
+
+		foreach ($entidades as $fila => $entidad){
+
+			echo $key = array_search($entidad['id'], $entidades);
+
+			if( TieneHijos($entidades, $entidad['id']) ){
+
+				$select .= '<optgroup label="'.$entidad['nombre'].'">';
+
+				foreach ($entidades as $fi => $sub) {
+
+					if($sub['padre'] == $entidad['id']){
+						$select .= '<option value="'.$sub['id'].'">'.$sub['nombre'].'</option>';
+					}
+				}
+
+				$select .= '</optgroup>';
+
+			}else if( $entidad['padre'] == 0){
+				//no tiene hijos
+				$select .= '<option value="'.$entidad['id'].'">'.$entidad['nombre'].'</option>';
+			}
+		}
+
+		$select .= '</select>';
+
+	}else{
+		$select .= '<div>No hay entidades.</div>';
+	}
+	$select .= '<script>
+					SelectorMultipleFiltro();
+				</script>';
+	//EL SELECT COMPUESTO
+	return $select;
+}
+
+/**
+* DETERMINA SI UNA ENTIDAD TIENE HIJOS
+* @param $datos -> array
+* @param $padre -> id del padre a comprobar
+* @return true si tiene hijos
+* @return false sino tiene
+*/
+function TieneHijos($datos, $padre){
+	
+	if(!empty($datos) && is_array($datos)){
+		foreach ($datos as $fila => $dato){
+
+			if( $dato['padre'] == $padre){
+				return true;
+			}
+		}
+		return false;
+	}
+	return false;
+}
+
+/**
+* REGISTRA UN NUEVO ARTICULO
+* @param $norma -> id de la norma a la que pertence el nuevo articulo
+*/
+function RegistrarArticulo($norma){
+	$registros = new Registros();
+
+	if(!$registros->RegistrarArticulo($norma, $_POST['nombre'], $_POST['entidades'], $_POST['resumen'], $_POST['permisos'], $_POST['sanciones'], $_POST['articulo'] )){
+		echo 'Error al registrar nuevo articulo.';
+	}
+}
+
+?>

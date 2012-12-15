@@ -155,6 +155,24 @@ function ActivaMenu(){
 				});
     		} 
     	});
+		//esconde el segundo menu si esta presente
+    	if( $("#menu2").is(":visible") ){
+    		$("#menu2").animate({
+			opacity: 0,
+				//width: 'toggle'
+				width: "0%"
+			}, { 
+				duration: 1500, 
+				queue: false,
+				complete: function(){
+					$("#menu2").css({
+						'display' : 'none',
+						'float' : 'left',
+					});
+				}
+			});
+    	}
+
 		return;
 	}
 
@@ -555,9 +573,10 @@ function Inicializa(){
 function Editor(id){
 	var id = document.getElementById(id);
 
-	if($.browser.msie && $.browser.version < "9.0" ){
+	if($.browser.msie && $.browser.version < 9.0 ){
 		//no crea el editor si es ie8 o inferior
-		return;
+		notifica('no muestra editor');
+		//return;
 	}
 
 	CKEDITOR.replace( id );
@@ -565,7 +584,7 @@ function Editor(id){
 		if( $('#uploader').length ){
 		}else{
 			//carga el boton de adjuntar archivos
-			$(".cke_bottom").append('<img id="uploader" src="images/folder-upload.png" onClick="BoxArchivo()" />');
+			//$(".cke_bottom").append('<img id="uploader" src="images/folder-upload.png" onClick="BoxArchivo()" />');
 			//elimina el path del editor
 			$(".cke_path").remove();
 		}
@@ -580,4 +599,19 @@ function EditorUpdateContent() {
     for (instance in CKEDITOR.instances) {
         CKEDITOR.instances[instance].updateElement();
     }
+}
+
+/**
+* CREA SELECTOR MULTIPLE CON FILTRO DE BUSQUEDA
+* @param id -> id del selector
+*/
+function SelectorMultipleFiltro(){
+	$("select").multiselect().multiselectfilter({
+		//filtro
+	    filter: function(event, matches){
+	        if( !matches.length ){
+	            //notificaAtencion("Deve seleccionar almenos una opcion.");
+	        }
+	    }
+	});
 }

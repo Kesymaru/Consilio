@@ -93,6 +93,27 @@ function FormularioEdicionCategoria(){
 */
 function Padres(){
 
+	//esconde el segundo menu si esta presente
+	/*if( $("#menu2").is(":visible") ){
+    	$("#menu2").animate({
+		opacity: 0,
+			//width: 'toggle'
+			width: "0%"
+		}, { 
+			duration: 1500, 
+			queue: false,
+			complete: function(){
+				$("#menu2").css({
+					'display' : 'none',
+					'float' : 'left',
+				});
+			}
+		});
+    }*/
+    if( $("#menu2").is(":visible") ){
+    	Menu2();
+	}
+
 	var queryParams = {'func' : "Padres"};
 
 	$.ajax({
@@ -597,12 +618,14 @@ function BorrarArchivo(id){
 	Confirmacion("Esta seguro que desea eliminar el archivo.", si, no);
 }
 
-/**************************************** NORMAS ***************************/
+/******************************** NORMAS ******************/
 
 /**
 * EDICION DE NORMAS
 */
 function EditarNormas(){
+	notifica('Hola');
+
 	if($('#categorias').is(":visible")){
 		$('#categorias').fadeOut(500, function(){
 			$('#categorias').remove();
@@ -611,20 +634,6 @@ function EditarNormas(){
 
 	$.cookie('accion', 'normas');
 	
-	//OPTIENE EL TAMANO EN PORCENTAJE
-	var w = ( 100 * parseFloat($('#menu').css('width')) / parseFloat($('#menu').parent().css('width')) ) + '%';
-
-	if( w <= "30%"){
-		//ANIMACION AL AUMENTAR EL TAMANO DEL MENU
-		$("#menu").animate({
-	       width: '45%'
-	    }, { duration: 500, queue: false });
-
-	    $("#content").animate({
-	       width: '45%'
-	    }, { duration: 500, queue: false });
-	}
-
 	//CARGA CONTENIDO
 	if( $("#vista").is(":visible") ){
 		$("#vista").html("");
@@ -632,166 +641,704 @@ function EditarNormas(){
 	}else{
 		Normas();
 	}
+	notifica('sss');
 }
-	
+
 /**
-* CARGAS TODAS LAS NORMAS DEL ARBOL
+* CARGA LAS NORMAS EN EL MENU
 */
 function Normas(){
-	var queryParams = {"func" : "Normas" };
+	notifica('sss');
+	var queryParams = {"func" : "Normas"};
 
-	$.ajax({
-		data: queryParams,
-		type: "post",
-		url: "src/ajaxEdicion.php",
-		beforeSend: function(){
-		},
-		success: function(response){
-			$("#menu").html(response);
-			$("#normas").hide();
-			$("#normas").fadeIn(1500);
-		},
-		fail: function(){
-			notificaError("Error: En ajaxEdidicon.php al mostrar las normas.")
-		}
-	});
-}
-
-/**
-* CARAGA UNA NORMA HIJA SELECCIONADA
-* @param padre-> id de la norma padre seleccionada
-*/
-function Norma(padre){
-	notifica(padre);
-
-	//LIMPIA RUTAS DE NORMAS HERMANAS
-	LimpiarHermanosNorma(padre);
-
-	var queryParams = {"func" : "Norma", "padre" : padre};
-	
-	//carga una norma hija
 	$.ajax({
 		data: queryParams,
 		type: "post",
 		async: false,
-		url: "src/ajaxEdicion.php",
+		url: "src/ajaxNormas.php",
 		beforeSend: function(){
-			$("#normas").append('<img id="image-loader" style="display: inline-block;" src="images/ajax-loader.gif" />');
 		},
 		success: function(response){
-			if(response.length > 0){
+			if( $("#normas").is(":visible") ){
 
-				$("#image-loader").fadeOut(500, function(){
-					$("#image-loader").remove();
-					$("#normas").append(response);
+				$("#normas").fadeOut(500, function(){
+					$("#normas").remove();
 
-					$("#Padre"+padre).hide();
-					$("#Padre"+padre).fadeIn(500);
+					$("#menu").append(response);
+					$("#normas").hide();
+					$("#normas").fadeIn(1000);
 
-					var totalWidth = 0;
-
-					$('.categoria').each(function(index) {
-						totalWidth += parseInt($(this).width(), 10);
-					});
-					
-					totalWidth += $("#Padre0").width() + 100;
-
-					$("#normas").css('width', totalWidth); //aumenta el tamano del contenedor de categorias
+					$("#DeshabilitarNorma, #EditarNorma, #AgregarArticulo, #HabilitarNorma ").hide();
 				});
-				SeleccionaHijo(padre);
+
+			}else{
+				$("#menu").append(response);
+				$("#normas").hide();
+				$("#normas").fadeIn(1000);
+
+				$("#DeshabilitarNorma, #EditarNorma, #AgregarArticulo, #HabilitarNorma ").hide();
 			}
 		},
 		fail: function(){
-			notificaError("Error: ocurrio un error :(<br/>Codigo: ajaxEdicion 001.");
+
 		}
 	});
 }
 
 /**
-* LIMPIA EL CAMINO DEL ARBOL DE NORMAS
-* @param padre -> id del padre
+* CARGA LAS NORMAS Y SELECCIONA UNA
+* @param id -> id de la norma seleccionada
 */
-function LimpiarCaminoNorma(padre){
-	//obtiene el padre del padre, para ver si no es root
-	var Padre = $("#"+padre).closest("div").attr("id");
-
-	if(Padre == "Padre0"){ //si es root entonces limpia todos los resultados
-		$(".categoria").remove();
-		return;
-	}
-
-	//BORRA HIJOS DE UNA NORMA
-	if( $("#Padre"+padre).length ){
-
-		console.log("borrando "+padre);
-		
-		$("#Padre"+padre).fadeOut(500, function(){
-			$("#Padre"+padre).remove();
-		});
-		
-		//obtiene los hijos del padre seleccionado
-		var queryParams = {'func' : 'GetHijosNorma', 'padre' : padre};
-		$.ajax({
-			data: queryParams,
-			type: "post",
-			url: "src/ajaxEdicion.php",
-			beforeSend: function(){
-				//$("#menu").html('<img id="image-loader" src="images/ajax-loader.gif" />');
-			},
-			success: function(response){
-				if(response.length > 0){
-					var hijos = $.parseJSON(response); 
-					//alert(response);
-					$.each(hijos, function(f,c){
-						LimpiarCamino(c);
-					});
-				}else{
-					//no hay hijos que borrar
-				}
-			},
-			fail: function(){
-				notificaError("Error: ocurrio un error.<br/>Codigo: ajaxEdicion 001.");
-			}
-		});
-	}
-
-}
-
-/**
-* BORRAR LOS HERMANOS DE UN NODO PARA NORMAS
-* @param padre
-*/
-function LimpiarHermanosNorma(padre){
-	//BORRA HERMANOS ASINCRONAMENTE
-	var queryParams = {'func' : 'GetHermanosNorma', 'padre' : padre};
+function NormaSeleccionada(id){
+	var queryParams = {"func" : "Normas"};
+	
 	$.ajax({
 		data: queryParams,
 		type: "post",
-		url: "src/ajaxEdicion.php",
+		async: false,
+		url: "src/ajaxNormas.php",
 		beforeSend: function(){
 		},
 		success: function(response){
-			if(response.length > 0){
-				//alert(response);
-				var hermanos = $.parseJSON(response); 
-				
-				$.each(hermanos, function(f,c){
-					if( $("#Padre"+c).length ){ //EXISTEN HIJOS
-						LimpiarCamino(c);						
-					}
+			if( $("#normas").is(":visible") ){
+
+				$("#normas").fadeOut(500, function(){
+					$("#normas").remove();
+
+					$("#menu").append(response);
+					$("#normas").hide();
+					$("#normas").fadeIn(1000);
+
+					NormaOpciones(id);
 				});
+
 			}else{
-				//no hay hermanos que borrar
+				$("#menu").append(response);
+				$("#normas").hide();
+				$("#normas").fadeIn(1000);
+
+				NormaOpciones(id);
 			}
 		},
 		fail: function(){
-			notificaError("Error: ocurrio un error.<br/>Codigo: ajaxEdicion 001.");
+
 		}
-	}).done(function ( data ) {
-		  LimpiarCamino(padre);
+	});
+
+	
+}
+
+/**
+* CREA EL MENU CONTEXTUAL PARA UNA NORMA SELECCIONADA
+*/
+function NormaOpciones(id){
+
+	SeleccionaHijo(id);
+	
+	//MUESTRA BOTONES
+	if( $("#"+id).hasClass("deshabilitado") ){ //NORMAS DESHABILITADAS
+
+		$("#DeshabilitarNorma").hide();
+		$("#HabilitarNorma, #EditarNorma, #AgregarArticulo").fadeIn();
+
+		ContextMenuNormaDeshabilitada(id);
+
+	}else{ //NORMAS HABILITADAS
+	    
+		$("#HabilitarNorma").hide();
+		$("#DeshabilitarNorma, #EditarNorma, #AgregarArticulo").fadeIn();
+
+		ContextMenuNorma(id);
+	}
+	
+}
+
+/**
+* CONETEXT MENU NORMA HABILITADA
+* CREA EL MENU PARA UNA NORMA SELECCIONADA
+* @param id -> id de la categoria
+*/
+function ContextMenuNorma(id){
+
+	$.contextMenu({
+        selector: '#'+id, 
+        callback: function(key, options) {
+            var m = "clicked: " + key;
+            //window.console && console.log(m) || alert(m); 
+            MenuNorma(m);
+        },
+        items: {
+        	"nueva": {name: "Nueva Norma", icon: "add"},
+            "editar": {name: "Editar", icon: "edit"},
+            "deshabilitar": {name: "Deshabilitar", icon: "delete"},
+            "sep1": "---------",
+	        "articulos": {name: "Articulos", icon: "add"},
+        }
+    });
+    
+    /*$('#'+id).on('click', function(e){
+        //console.log('clicked', this);
+        var cat = $(this).attr('id');
+        alert("Selec "+cat);
+	});*/
+	
+	//PERMITE REASIGNAR EL ID DE LA CATEGORIA A LA COOKIE
+	//UTIL PARA TENER MULTIPLES MENUS CONTEXTUALES
+	$( $('#'+id) ).mousedown(function(e) {
+	    //si es doble click
+	    if (e.which === 3) {
+	        var cat = $(this).attr('id');
+	        $.cookie('categoria', $(this).attr('id') );
+	    }
+
 	});
 }
 
+/**
+* CONETEXT MENU NORMA
+* CREA EL MENU PARA UNA NORMA SELECCIONADA
+* @param id -> id de la categoria
+*/
+function ContextMenuNormaDeshabilitada(id){
+
+	$.contextMenu({
+        selector: '#'+id, 
+        callback: function(key, options) {
+            var m = "clicked: " + key;
+            //window.console && console.log(m) || alert(m); 
+            MenuNorma(m);
+        },
+        items: {
+			"nueva": {name: "Nueva Norma", icon: "add"},
+            "editar": {name: "Editar", icon: "edit"},
+            "habilitar": {name: "Habilitar", icon: "delete"},
+            "sep1": "---------",
+	        "articulos": {name: "Articulos", icon: "add"},
+        }
+    });
+    
+    /*$('#'+id).on('click', function(e){
+        //console.log('clicked', this);
+        var cat = $(this).attr('id');
+        alert("Selec "+cat);
+	});*/
+	
+	//PERMITE REASIGNAR EL ID DE LA CATEGORIA A LA COOKIE
+	//UTIL PARA TENER MULTIPLES MENUS CONTEXTUALES
+	$( $('#'+id) ).mousedown(function(e) {
+	    //si es doble click
+	    if (e.which === 3) {
+	        var cat = $(this).attr('id');
+	        $.cookie('categoria', $(this).attr('id') );
+	    }
+
+	});
+}
+
+/**
+* MANEJA EL MENU DE LA CATEGORIA
+* @param m -> opcion seleccionada desde el context menu
+*/
+function MenuNorma(m){
+	var categoria = $.cookie('categoria');
+
+	if(m == 'clicked: nueva'){
+		NuevaNorma();
+	}
+
+	if(m == 'clicked: editar'){
+		EditarNorma();
+	}
+
+	if(m == 'clicked: deshabilitar'){
+		DeshabilitarNorma();
+	}
+
+	if(m == 'clicked: habilitar'){
+		HabilitarNorma();
+	}
+
+	if(m == 'clicked: articulos'){
+		var norma = $(".seleccionada").attr('id');
+		Articulos(norma);
+	}
+}
+
+
+/**
+* CARGA EL FORMULARIO DE EDICION DE UNA NUEVA NORMA
+* @param 
+*/
+function NuevaNorma(){
+	
+	var queryParams = {"func" : "NuevaNorma"};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxNormas.php",
+		beforeSend: function(){
+		},
+		success: function(response){
+			$("#content").html(response);
+			FormularioNuevaNorma();
+		},
+		fail: function(){
+
+		}
+	});
+
+}
+
+function FormularioNuevaNorma(){
+	//validacion
+	$("#FormularioNuevaNorma").validationEngine();
+		
+	var options = {  
+		beforeSend: function(){
+		},
+	    success: function(response) { 
+
+	    	if(response.length == 3){
+	    		notifica("Norma Creada.");
+	    	}else{
+	    		$("html").html(response);
+	    		$("#FormularioNuevaNorma").validate();
+	    	}
+		},
+		fail: function(){
+			notificaError("Error: ocurrio un error :(<br/>Codigo: ajaxEdicion 000.");
+		}
+	}; 
+	$('#FormularioNuevaNorma').ajaxForm(options);
+}
+
+
+/**
+* EDITAR NORMA
+* el id de la norma se obtiene de la cookie
+*/
+function EditarNorma(){
+	var norma = $(".seleccionada").attr('id');
+
+	var queryParams = {"func" : "EditarNorma", "norma" : norma};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxNormas.php",
+		beforeSend: function(){
+		},
+		success: function(response){
+
+			//esconde el segundo menu si esta presente
+			if( $("#menu2").is(":visible")){
+				Menu2();
+			}
+
+			$("#content").html(response);
+
+			//carga formulario
+			FormularioNorma();
+		},
+		fail: function(){
+
+		}
+	});
+}
+
+/**
+* INICIALIZA EL FORMULARIO DE EDICION
+*/
+function FormularioNorma(){
+		//validacion
+		$("#FormularioNorma").validationEngine();
+		
+		var options = {  
+			beforeSend: function(){
+
+			},
+	    	success: function(response) { 
+
+	    		if(response.length == 3){
+	    			notifica("Norma Actualizada");
+	    			var norma = $("#norma").val();
+	    			var nombre = $("#nombre").val();
+	    			var numero = $("#numero").val();
+
+	    			//ACTUALIZA LA NORMA EN LA LISTA
+	    			$("#"+norma).html(nombre+" "+numero);
+
+	    			//quita el formulario
+	    			$("#content").html("");
+
+	    		}else{
+	    			notificaError(response);
+	    			$("#FormularioNorma").validate();
+	    		}
+		    },
+		    fail: function(){
+				notificaError("Error: ocurrio un error :(<br/>Codigo: ajaxEdicion 000.");
+		    }
+		}; 
+		$('#FormularioNorma').ajaxForm(options);
+}
+
+/**
+* DESHABILITAR NORMA, MUESTRA EL CUADRO DE DIALOGO
+* @param norma -> id de la norma ha deshabilitar
+*/
+function DeshabilitarNorma(){
+	var norma = $(".seleccionada").attr('id');
+
+	var si = function (){
+		DeshabilitaNorma(norma);
+	}
+
+	var no = function (){
+		notificaAtencion("Operacion cancelada");
+	}
+
+	Confirmacion("Esta seguro que desea deshabilitar la norma.", si, no);
+
+}
+
+/**
+* DESHABILITA LA NORMA
+* @param norma -> id de la norma
+*/
+function DeshabilitaNorma(norma){
+	$("#"+norma).addClass("deshabilitado");
+	NormaOpciones(norma);
+
+	var queryParams = {"func" : "DeshabilitarNorma", "norma" : norma};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxNormas.php",
+		beforeSend: function(){
+		},
+		success: function(response){
+			notifica("Norma Deshabilitada.");
+		},
+		fail: function(){
+
+		}
+	});
+}
+
+/**
+* DESHABILITAR NORMA, MUESTRA EL CUADRO DE DIALOGO
+* @param norma -> id de la norma ha deshabilitar
+*/
+function HabilitarNorma(){
+	var norma = $(".seleccionada").attr('id');
+
+	var si = function (){
+		HabilitaNorma(norma);
+	}
+
+	var no = function (){
+		notificaAtencion("Operacion cancelada");
+	}
+
+	Confirmacion("Esta seguro que desea Habilitar la norma.", si, no);
+
+}
+
+/**
+* DESHABILITA LA NORMA
+* @param norma -> id de la norma
+*/
+function HabilitaNorma(norma){
+	$("#"+norma).removeClass("deshabilitado");
+	NormaOpciones(norma);
+
+	var queryParams = {"func" : "HabilitarNorma", "norma" : norma};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxNormas.php",
+		beforeSend: function(){
+		},
+		success: function(response){
+			notifica("Norma Habilitada.");
+		},
+		fail: function(){
+
+		}
+	});
+
+}
+
+/*
+* MUESTRA EL SEGUNDO MENU
+*/
+function Menu2(){
+	//OPTIENE EL TAMANO EN PORCENTAJE
+	var w = ( 100 * parseFloat($('#menu').css('width')) / parseFloat($('#menu').parent().css('width')) ).toFixed() + '%';
+	
+	notifica(w);
+
+	if( w == "30%"){
+		if( !$("#menu2").is(":visible") ){
+			$("#menu2").css({
+				"display" : "block",
+				"margin-left" : "0",
+				"width" : "0"
+			});
+		}
+
+		//ANIMACION AL AUMENTAR EL TAMANO DEL MENU
+		$("#menu").animate({
+	       width: '20%'
+	    }, { duration: 500, queue: false });
+
+	    $("#menu2").animate({
+	       width: '20%'
+	    }, { duration: 500, queue: false });
+
+	    $("#content").animate({
+	       width: '50%'
+	    }, { duration: 500, queue: false });
+
+	}else{
+		//ESCONDE EL SEGUNDO MENU
+		$("#menu").animate({
+	       width: '30%'
+	    }, { duration: 500, queue: false });
+
+	    $("#menu2").animate({
+	       width: '0%'
+	    }, { 
+	    	duration: 500, 
+	    	queue: false,
+	    	complete: function(){
+	    		$("#menu2").css({
+					"display" : "none",
+					"width" : "0"
+				})
+	    	}
+	    });
+
+	    $("#content").animate({
+	       width: '60%'
+	    }, { duration: 500, queue: false });
+	}
+}
+
+/********************************* ARTICULOS *********************/
+
+/**
+* CARGA LOS ARTICULOS DE UNA NORMA SELECCIONADA
+* @param $norma -> id de la norma seleccionada
+*/
+function Articulos(norma){
+
+	if( !$("#menu2").is(":visible") ){
+		notifica("mostrando articulos");
+		Menu2();
+	}
+
+	var queryParams = {"func" : "Articulos", "norma" : norma};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxNormas.php",
+		beforeSend: function(){
+		},
+		success: function(response){
+
+			if( $("#articulos").length ){
+				notifica("existian articulos");
+
+				$("#articulos").fadeOut(500, function(){
+					$("#articulos").remove();
+					$("#menu2").append(response);
+				});
+
+			}else{
+
+				$("#menu2").append(response);
+
+			}
+		},
+		fail: function(){
+		}
+	});
+}
+
+/**
+* AGREGAR UN ARTICULO
+* @param norma -> id de la norma
+*/
+function NuevoArticulo(norma){
+	notifica(norma);
+	var queryParams = {"func" : "NuevoArticulo", "norma" : norma};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxNormas.php",
+		beforeSend: function(){
+		},
+		success: function(response){
+			$("#content").html(response);
+			FormularioNuevoArticulo();
+		},
+		fail: function(){
+			notificaError("Ocurrion un error :(<br/>Al cargar edicion de nueva norma.");
+		}
+	});
+	
+}
+
+/**
+* INICIALIZA FORMULARIO PARA NUEVO ARTICULO
+*/
+function FormularioNuevoArticulo(){
+
+	var options = {  
+		beforeSubmit: ValidaFormularioNuevoArticulo,
+		beforeSend: function(){
+
+		},
+		success: function(response) { 
+			if(response.length == 3){
+				notifica("Articulo Creado.");
+				$("#content").html("");
+				var norma = $(".seleccionada").attr('id');
+				Articulos(norma);
+			}else{
+				notificaError(response);
+			}
+		},
+		fail: function(){
+			notificaError("Error: ocurrio un error :(<br/>Al crear el nuevo articulo.");
+		}
+	}; 
+
+	$('#FormularioNuevoArticulo').ajaxForm(options);
+
+
+	//CARGA EDITORES PARA LOS TEXTAREAS
+	Editor('resumen');
+	Editor('permisos');
+	Editor('sanciones');
+	Editor('articulo');
+	
+	$( "#tabs" ).tabs(); //crea tabs para los textareas
+
+	//VALIDACION DEL FORMULARIO, SI NO VALIDA NO ENVIA
+	/*$('#FormularioNuevoArticulo').validationEngine('attach', {
+	    onValidationComplete: function(form, status){
+	    	//VALIDACION MANUAL
+		    var permisos = $("#permisos").val();
+			var articulo = $("#articulo").val();
+			var entidades = $("#entidades").val();
+
+			if( permisos != '' && permisos != null && articulo != '' && articulo != null && entidades != '' && entidades != null ){
+
+				//form.validationEngine('detach'); //elimina la validacion
+				
+				//envia el formulario via ajax
+				var options = {  
+					beforeSend: function(){
+						notifica("Enviando");
+					},
+					success: function(response) { 
+						notifica(response);
+					},
+					fail: function(){
+						notificaError("Error: ocurrio un error :(<br/>Al crear el nuevo articulo.");
+					}
+				}; 
+
+				$('#FormularioNuevoArticulo').ajaxForm(options);
+
+				form.submit();
+
+			}else{
+				
+				if(permisos == null || permisos == ''){
+					notificaAtencion("Se requieren los permisos para el articulo.");
+				}
+				if(articulo == null || articulo == ''){
+					notificaAtencion("Se requiere un articulo.");
+				}
+				if(entidades == null || entidades == ''){
+					notificaAtencion("Se requiere almenos una entidad.");
+				}
+
+				$("#FormularioNuevoArticulo").submit(function(){
+					return false;
+				});
+			}
+		}       
+	});*/
+}
+
+/**
+* REALIZA VALIDACION DE DATOS PARA NUEVO ARTICULO
+*/
+function ValidaFormularioNuevoArticulo(){
+	EditorUpdateContent();
+	
+	    	//VALIDACION MANUAL
+	var permisos = $("#permisos").val();
+	var articulo = $("#articulo").val();
+	var entidades = $("#entidades").val();
+	var nombre = $("#nombre").val();
+
+	if( permisos != '' && permisos != null && articulo != '' && articulo != null && entidades != '' && entidades != null && nombre != '' && nombre != null ){
+
+		//return true;
+
+	}else{
+				
+		if(permisos == null || permisos == ''){
+			notificaAtencion("Se requieren los permisos para el articulo.");
+		}
+		if(articulo == null || articulo == ''){
+			notificaAtencion("Se requiere un articulo.");
+		}
+		if(entidades == null || entidades == ''){
+			notificaAtencion("Se requiere almenos una entidad.");
+		}
+		if(nombre == null || nombre == ''){
+			notificaAtencion("Se requiere un nombre para el articulo.");
+		}
+			return false;
+	}    
+}
+
+/**
+*SELECCIONA UN ARTICULO
+*/ 
+function SelectArticulo(articulo){
+	var padre = $("#articulos .seleccionado").attr(id);
+
+	$("#"+padre+' li').removeClass('seleccionada');
+	$("#"+hijo).addClass('seleccionada');
+}
+
+/********************************** HELPERS ******************************/
+
+/**
+* FUNCTION GENERICA PARA CANCELAR CUALQUIER ACCION EN #content
+*/
+function CancelarContent(){
+	
+	$("form").submit(function(){
+		notificaAtencion("Operacion Cancelada");
+		$("#content").html("");
+		return false;
+	});
+
+}
 
 </script>
 <!-- FIN JAVASCRIPT -->
@@ -804,12 +1351,12 @@ function LimpiarHermanosNorma(padre){
 					<!-- Lista Proyectos -->
 					<input type="radio" id="EditarCategorias" name="radio" checked="checked" />
 						<label for="EditarCategorias" onClick="EditarCategorias()">
-						Categoria
+						Categorias
 						</label>
 
 					<!-- Nuevo proyecto -->
-					<input type="radio" id="EditarNormas" name="radio"/>
-						<label for="EditarNormas" onClick="EditarNormas()">
+					<input type="radio" id="Editarvars" name="radio"/>
+						<label for="Editarvars" onClick="EditarNormas()">
 						Normas
 						</label>
 

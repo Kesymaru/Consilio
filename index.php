@@ -4,11 +4,12 @@
 $master = new Master();
 
 ?>
-<!doctype html public>
+
+<!DOCTYPE html>
 <!--[if lt IE 7]> <html lang="en-us" class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>    <html lang="en-us" class="lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>    <html lang="en-us" class="lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en-us"> <!--<![endif]-->
+
 <html>
 
 <head>
@@ -20,14 +21,26 @@ $master = new Master();
 	<link rel="stylesheet" href="css/style.css" type="text/css">
 	<link rel="stylesheet" href="css/jquery-ui-1.9.0.custom.css" type="text/css">
 	<link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css">
+
+	<!-- plugins -->
 	<link rel="stylesheet" type="text/css" href="css/jquery.contextMenu.css">
 	<link rel="stylesheet" type="text/css" href="css/jquery.ui.timepicker.css">
+	<link rel="stylesheet" type="text/css" href="css/selector/jquery.multiselect.css">
+	<link rel="stylesheet" type="text/css" href="css/selector/jquery.multiselect.filter.css">
+
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800italic,800,600,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
 
-	<!-- jquery -->
+
+	<!-- jquery local -->
 	<script type="text/javascript" src="js/jquery-1.8.2.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-1.9.0.custom.js"></script>
 	
+
+	<!-- jquery google 
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui-1.9.0.custom.js"></script>
+	-->
+
 	<!-- validacion de form -->
 	<script type="text/javascript" src="js/languages/jquery.validationEngine-es.js" charset="utf-8"></script>
 	<script type="text/javascript" src="js/jquery.validationEngine.js" charset="utf-8"></script>
@@ -50,9 +63,14 @@ $master = new Master();
 	<script type="text/javascript" src="js/jquery.cookie.js"></script>
 	<script type="text/javascript" src="js/jquery.contextMenu.js"></script>
 	<script type="text/javascript" src="js/jquery.dataTables.js"></script>
+
+	<!-- plugin para selector -->
+	<script type="text/javascript" src="js/selector/jquery.multiselect.js"></script>
+	<script type="text/javascript" src="js/selector/jquery.multiselect.filter.js"></script>
+
 <!--	<script type="text/javascript" src="js/jquery.ui.timepicker.js"></script> -->
 	
-	<!-- editor -->
+	<!-- plugin para editor -->
 	<script src="editor/ckeditor.js"></script>
 
 </head>
