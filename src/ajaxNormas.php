@@ -73,9 +73,31 @@ if(isset($_POST['func'])){
 			}
 			break;
 
+		//REGISTRA UN NUEVO ARTICULO
 		case 'CrearArticulo':
 			if( isset($_POST['norma']) ){
 				RegistrarArticulo($_POST['norma']);
+			}
+			break;
+
+		//CARGA PLANTILLA DE EDICION DE UN ARTICULOs
+		case 'EditarArticulo':
+			if(isset($_POST['articulo'])){
+				EdicionArticulo($_POST['articulo']);
+			}
+			break;
+
+		//BORRA UN ARTICULO EXISTENTE
+		case 'BorrarArticulo':
+			if(isset($_POST['articulo'])){
+				BorrarArticulo( $_POST['articulo']);
+			}
+			break;
+
+		//ACTUALIZA UN ARTICULO, CREANDO UN SNAPSHOT DE LOS DATOS VIEJOS 
+		case 'ActualizarArticulo':
+			if( isset($_POST['norma']) && isset($_POST['id'])){
+				ActualizarArticulo($_POST['norma'], $_POST['id']);
 			}
 			break;
 
@@ -322,7 +344,7 @@ function Articulos($norma){
 
 		//carga la lista
 		foreach ($articulos as $fila => $articulo) {
-			$lista .= '<li id="'.$articulo['id'].'" onClick="SelectArticulo('.$articulo['id'].')">'.$articulo['nombre'].'</li>';
+			$lista .= '<li id="articulo'.$articulo['id'].'" onClick="SelectArticulo('.$articulo['id'].')">'.$articulo['nombre'].'</li>';
 		}
 
 	}else{
@@ -336,8 +358,8 @@ function Articulos($norma){
 	}
 
 	$lista .= '<div class="datos-botones">
-				<button>Borrar</button>
-				<button>Editer</button>
+				<button onClick="BorrarArticulo()">Borrar</button>
+				<button onClick="EditarArticulo()">Editar</button>
 			   	<button onClick="NuevoArticulo('.$norma.')">Nuevo Articulo</button>
 			   </div>
 			   </div>';
@@ -476,6 +498,167 @@ function RegistrarArticulo($norma){
 	if(!$registros->RegistrarArticulo($norma, $_POST['nombre'], $_POST['entidades'], $_POST['resumen'], $_POST['permisos'], $_POST['sanciones'], $_POST['articulo'] )){
 		echo 'Error al registrar nuevo articulo.';
 	}
+}
+
+/**
+* ELIMINA UN ARTICULO
+* @param $articulo -> id del articulo a eliminar
+*/
+function BorrarArticulo($articulo){
+	$registros = new Registros();
+	
+	//BORRA ARTICULO
+	if( !$registros->DeleteArticulo($articulo) ){
+		echo "Error al borrar articulo.";
+	}
+
+}
+
+/**
+* FORMULARIO DE EDICION DE ARTICULO
+* @param $articulo -> id del articulo ha editar
+*/
+function EdicionArticulo($articulo){
+	$registros = new Registros();
+	$datos = $registros->getArticulo($articulo); //obtiene la ultima version del articulo
+
+	$formulario = "";
+
+	if( !empty($datos) ){
+		$formulario .= '<div class="titulo">
+							Nuevo Articulo
+							<hr>
+						</div>
+						<form id="FormularioEditarArticulo" enctype="multipart/form-data" method="post" action="src/ajaxNormas.php" >
+								<div class="datos">
+									<input type="hidden" value="ActualizarArticulo" name="func" />
+									<input type="hidden" value="'.$datos[0]['norma'].'" name="norma" />
+									<input type="hidden" value="'.$datos[0]['id'].'" name="id" />
+									<br/>
+									<input type="text" id="nombre" name="nombre" placeholder="Nombre" class="validate[required]" value="'.$datos[0]['nombre'].'" />
+									<br/><br/>Entidad<br/>';
+
+		$formulario .= EntidadesArticulo(unserialize($datos[0]['entidad'])); //entidades seleccionada	
+
+		$formulario .= '<br/><br/>
+
+									<!-- tabs para los datos -->
+									<div id="tabs">
+								    <ul>
+								        <li><a href="#tabs-1">Resumen</a></li>
+								        <li><a href="#tabs-2">Permisos</a></li>
+								        <li><a href="#tabs-3">Sanciones</a></li>
+								        <li><a href="#tabs-4">Articulos</a></li>
+								    </ul>
+
+								    <div id="tabs-1">
+								    	<textarea class="validate[required]" id="resumen" name="resumen" >'.base64_decode($datos[0]['resumen']).'</textarea>
+								    </div>
+								    <div id="tabs-2">
+								    	<textarea class="validate[required]" id="permisos" name="permisos" >'.base64_decode($datos[0]['permisos']).'</textarea>
+								    </div>
+								    <div id="tabs-3">
+								    	<textarea class="validate[opcional]" id="sanciones" name="sanciones" >'.base64_decode($datos[0]['sanciones']).'</textarea>
+								    </div>
+								    <div id="tabs-4">
+								    	<textarea class="validate[required]" id="articulo" name="articulo" >'.base64_decode($datos[0]['articulo']).'</textarea>
+								    </div>
+
+								    </div>
+								</div>
+								<div class="datos-botones">
+									<button onClick="CancelarContent()">Cancelar</button>
+									<input type="reset" value="Borrar" />
+									<input type="submit" value="Guardar" onClick="EditorUpdateContent()" />
+								</div>
+							</form>';
+	}else{
+		$formulario .= 'El articulo no existe.';
+	}
+	echo $formulario; 
+}
+
+/**
+* COMPONE EL SELECT 
+* @registradas -> array[] con los las opciones seleccionadas
+* @return $select -> select compuesto
+*/
+function EntidadesArticulo($seleccionadas){
+		$select = "";
+
+	$registros = new Registros();
+	$entidades = $registros->getEntidades();  //obtiene todas las entidades
+
+	if(!empty($entidades)){
+		$select .= '<select id="entidades" name="entidades[]" multiple="multiple" style="width:400px">';
+
+		foreach ($entidades as $fila => $entidad){
+
+			if( TieneHijos($entidades, $entidad['id']) ){
+
+				$select .= '<optgroup label="'.$entidad['nombre'].'">';
+
+				foreach ($entidades as $fi => $sub) {
+					$listo = false;
+					//compara con selecciones
+					foreach ($seleccionadas as $f => $seleccion) {
+
+						//seleccionada
+						if($seleccion == $sub['id'] && $sub['padre'] == $entidad['id'] ){
+							$select .= '<option value="'.$sub['id'].'" selected="selected" >'.$sub['nombre'].'</option>';
+							$listo = true;
+							break; //termina foreach
+						}
+
+					}
+					if($listo){
+						continue; //ya se agrego al select
+					}
+					if($sub['padre'] == $entidad['id']){
+						$select .= '<option value="'.$sub['id'].'">'.$sub['nombre'].'</option>';
+					}
+				}
+
+				$select .= '</optgroup>';
+
+			}else if( $entidad['padre'] == 0){
+				//no tiene hijos
+				foreach ($seleccionadas as $f => $seleccion) {
+
+					//seleccionada
+					if($seleccion == $entidad['id'] ){
+						$select .= '<option value="'.$entidad['id'].'" selected="selected" >'.$entidad['nombre'].'</option>';
+						$listo = true;
+						break;
+					}else{
+						$select .= '<option value="'.$entidad['id'].'">'.$entidad['nombre'].'</option>';
+					}
+				}
+			}
+		}
+
+		$select .= '</select>';
+
+	}else{
+		$select .= '<div>No hay entidades.</div>';
+	}
+	$select .= '<script>
+					SelectorMultipleFiltro();
+				</script>';
+	//EL SELECT COMPUESTO
+	return $select;
+}
+
+/**
+* ACTUALIZA UN ARTICULO EDITADO, EN REALIDAD CREA UN SNAPSHOT DEL ARTICULO
+* @param $norma -> id de la norma
+* @param $id -> id del articulo
+*/
+function ActualizarArticulo($norma, $id){
+	$registros = new Registros();
+	
+	//ACTUALIZA ARTICULO
+	$registros->UpdateArticulo($norma, $id, $_POST['nombre'], $_POST['entidades'], $_POST['resumen'], $_POST['permisos'], $_POST['sanciones'], $_POST['articulo'] );
 }
 
 ?>

@@ -1137,10 +1137,13 @@ function Menu2(){
 */
 function Articulos(norma){
 
+	//MUESTRA EL PANEL PARA LOS ARTICULOS CON ANIMACION
 	if( !$("#menu2").is(":visible") ){
-		notifica("mostrando articulos");
 		Menu2();
 	}
+
+	//BORRA CONTENT
+	$("#content").html("");
 
 	var queryParams = {"func" : "Articulos", "norma" : norma};
 
@@ -1204,7 +1207,7 @@ function FormularioNuevoArticulo(){
 	var options = {  
 		beforeSubmit: ValidaFormularioNuevoArticulo,
 		beforeSend: function(){
-
+			EditorUpdateContent();
 		},
 		success: function(response) { 
 			if(response.length == 3){
@@ -1287,7 +1290,7 @@ function FormularioNuevoArticulo(){
 function ValidaFormularioNuevoArticulo(){
 	EditorUpdateContent();
 	
-	    	//VALIDACION MANUAL
+	//VALIDACION MANUAL
 	var permisos = $("#permisos").val();
 	var articulo = $("#articulo").val();
 	var entidades = $("#entidades").val();
@@ -1296,7 +1299,6 @@ function ValidaFormularioNuevoArticulo(){
 	if( permisos != '' && permisos != null && articulo != '' && articulo != null && entidades != '' && entidades != null && nombre != '' && nombre != null ){
 
 		//return true;
-
 	}else{
 				
 		if(permisos == null || permisos == ''){
@@ -1319,11 +1321,143 @@ function ValidaFormularioNuevoArticulo(){
 *SELECCIONA UN ARTICULO
 */ 
 function SelectArticulo(articulo){
-	var padre = $("#articulos .seleccionado").attr(id);
+	notifica("seleccionado el articulo :"+articulo);
+	$("#articulos li").removeClass("seleccionada");
+	$("#articulo"+articulo).addClass("seleccionada");
 
-	$("#"+padre+' li').removeClass('seleccionada');
-	$("#"+hijo).addClass('seleccionada');
+	//INICIALIZA EL MENU
+	ArticuloContextMenu(articulo);
 }
+
+/**
+* CONTEXT MENU PARA UN ARTICULO SELECCIONADO
+*/
+function ArticuloContextMenu(id){
+
+	
+}
+
+/**
+* PARA BORRAR UN ARTICULO
+* EL ID DEL ARTICULO SE OBTIENE DESDE EL DOM
+*/
+function BorrarArticulo(){
+	var articulo = $("#articulos .seleccionada").attr("id");
+
+	articulo = articulo.substring(8); //elimina "articulo" del id y deja solo el numero
+
+	var si = function (){
+		DeleteArticulo();
+	}
+
+	var no = function (){
+		notificaAtencion("Operacion cancelada");
+	}
+
+	Confirmacion("Esta seguro que desea Eliminar el articulo y todos sus datos.", si, no);
+
+}
+
+/**
+* REALIZA EL BORRADO DE UN ARTICULO AL SER CONFIRMADA LA OPCION
+* @param articulo -> id del articulo
+*/
+function DeleteArticulo(id){
+	var articulo = $("#articulos .seleccionada").attr("id");
+	articulo = articulo.substring(8); //elimina "articulo" del id y deja solo el numero
+
+	var queryParams = {"func" : "BorrarArticulo", "articulo" : articulo };
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxNormas.php",
+		beforeSend: function(){
+
+		},
+		success: function(response){
+			if(response.length == 3){
+				notifica("Articulo Eliminado.");
+				$("#articulo"+articulo).fadeOut(500, function(){
+					$("#articulo"+articulo).remove();
+				});
+			}else{
+				responseError(response);
+			}
+		},
+		fail: function(){
+			notificaError("Ocurrio un error al eliminar el articulo.<br/>Intentelo de nuevo.");
+		}
+	})
+}
+
+/**
+* EDITA UN ARTICULOs
+*/
+function EditarArticulo(){
+	var articulo = $("#articulos .seleccionada").attr("id");
+	articulo = articulo.substring(8); //elimina "articulo" del id y deja solo el numero
+
+	var queryParams = {"func" : "EditarArticulo", "articulo" : articulo};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxNormas.php",
+		beforeSend: function(){
+
+		},
+		success: function(response){
+			if(response.length){
+				$("#content").html(response);
+				$("#content").hide();
+				$("#content").fadeIn();
+				FormularioEditarArticulo();
+			}else{
+				notificaError(response);
+			}
+		},
+		fail: function(){
+
+		}
+	});
+}
+
+/**
+* INICIALIZA FORMULARIO PARA NUEVO ARTICULO
+*/
+function FormularioEditarArticulo(){
+
+	var options = {  
+		beforeSubmit: ValidaFormularioNuevoArticulo, //se valida con la misma funcion que al crear nuevo articulo
+		beforeSend: function(){
+		},
+		success: function(response) { 
+
+			if(response.length == 3){
+				notifica("Articulo Actualizado.");
+				//$("#content").html("");
+			}else{
+				notificaError(response);
+			}
+		},
+		fail: function(){
+			notificaError("Error: ocurrio un error :(<br/>Al crear el nuevo articulo.");
+		}
+	}; 
+
+	$('#FormularioEditarArticulo').ajaxForm(options);
+
+
+	//CARGA EDITORES PARA LOS TEXTAREAS
+	Editor('resumen');
+	Editor('permisos');
+	Editor('sanciones');
+	Editor('articulo');
+	
+	$( "#tabs" ).tabs(); //crea tabs para los textareas
+}
+
 
 /********************************** HELPERS ******************************/
 

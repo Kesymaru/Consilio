@@ -211,6 +211,12 @@ class Registros{
 		}
 	}
 
+	/**
+	* ELIMINA UN ARCHIVO CON SU ID
+	* @param $id -> id del archivo a eliminar
+	* @return true si se elimina correctamente
+	* @return false si falla
+	*/
 	public function DeleteArchivo($id){
 		$archivo = "";
 		$base = new Database();
@@ -691,6 +697,25 @@ class Registros{
 	}
 
 	/**
+	* OBTIENE TODA LA INFO DE UN ARTICULO
+	* @param $articulo -> id del articulo
+	* @return $datos -> array[][] con los datos
+	* @return false si falla
+	*/
+	function getArticulo($articulo){
+		$base = new Database();
+		$query = "SELECT * FROM articulos WHERE id = ".$articulo;
+
+		$datos = $base->Select($query);
+
+		if( !empty($datos) ){
+			return $datos;
+		}else{
+			return false;
+		}
+	}
+
+	/**
 	* OBTIENE DATO DE UN ARTICULO
 	* @param $dato -> dato solicitado
 	* @param $id -> id del articulo
@@ -724,27 +749,130 @@ class Registros{
 		$base = new Database();
 		$nombre = mysql_real_escape_string($nombre);
 
-		//textos en html
+		//CODIFICA EL HTML DEL TEXTO EN BASE 64 PARA SEGURIDAD AL GUARDARLO
 		$resumen = base64_encode($resumen);
-		$permisos = base64_decode($permisos);
+		$permisos = base64_encode($permisos);
 		$sanciones = base64_encode($sanciones);
 		$articulo = base64_encode($articulo);
 
-		//compone entidades
-		$entidadesFinales = '';
-		foreach ($entidades as $entidad) {
-			$entidadesFinales .= $entidad.',';
-		}
+		$entidades = serialize($entidades); //serializa el array para guardarlo en la base de datos
 
 		$query = "INSERT INTO articulos (norma, nombre, entidad, resumen, permisos, sanciones, articulo) ";
-		$query .= "VALUES ( '".$norma."', '".$nombre."', '".$entidadesFinales."', '".$resumen."', '".$permisos."', '".$sanciones."', '".$articulo."' )";
-
+		$query .= "VALUES ( '".$norma."', '".$nombre."', '".$entidades."', '".$resumen."', '".$permisos."', '".$sanciones."', '".$articulo."' )";
+		
 		if($base->Insert($query)){
 			return true;
 		}else{
 			return false;
 		}
 	}
+
+	/**
+	* CREA SNAPSHOT DE UN ARTICULO AL SER ACTUALIZADO
+	* @param $norma -> id de la norma
+	* @param $id -> id del articulo
+	* @param $nombre -> nombre del nuevo articulo
+	* @param $entidades -> array[] id de las identidades seleccionadas
+	* @param $permisos -> texto html de permisos
+	* @param $sanciones -> texto html de sanciones
+	* @param $articulos -> texto html del articulo
+	* @return true si se registra correctamente
+	* @return false si falla
+	*/
+	public function UpdateArticulo($norma, $id, $nombre, $entidades, $resumen, $permisos, $sanciones, $articulo ){
+		
+		//crea snapshot con las datos viejos
+		if( $this->SnapshotArticulo($id) ){
+
+			$base = new Database();
+			$nombre = mysql_real_escape_string($nombre);
+
+			//CODIFICA EL HTML DEL TEXTO EN BASE 64 PARA SEGURIDAD AL GUARDARLO
+			$resumen = base64_encode($resumen);
+			$permisos = base64_encode($permisos);
+			$sanciones = base64_encode($sanciones);
+			$articulo = base64_encode($articulo);
+
+			$entidades = serialize($entidades); //serializa el array para guardarlo en la base de datos
+
+			$query = "UPDATE articulos set norma = '".$norma."', nombre = '".$nombre."', entidad = '".$entidades."', resumen = '".$resumen."', permisos = '".$permisos."', sanciones = '".$sanciones."', articulo = '".$articulo."' WHERE id = '".$id."'";
+			
+			//GUARDA NUEVOS DATOS
+			if($base->Update($query)){
+				return true;
+			}else{
+				return 'error al actualizar articulo';
+			}
+		}else{
+			//ERROR NO SE PUDO CREAR EL SNAPSHOT
+			return false;
+		}
+	}
+
+	/**
+	* GUARDA UN SNAPSHOT DE UN ARTICULO
+	* @param $id -> id del articulo
+	* @return true si se crear el snapshot correctamente
+	*/
+	private function SnapshotArticulo($id){
+		$base = new Database();
+		$query = "SELECT * FROM articulos WHERE id = ".$id;
+
+		$datos = $base->Select($query); //datos viejos
+
+		if(!empty($datos)){
+			//copia datos a la tabla de snapshots de articulos
+			$query = "INSERT INTO snapshots_articulos (norma, nombre, entidad, resumen, permisos, sanciones, articulo, id) ";
+			$query .= "VALUES ( '".$datos[0]['norma']."', '".$datos[0]['nombre']."', '".$datos[0]['entidad']."', '".base64_decode($datos[0]['resumen'])."', '".base64_decode($datos[0]['permisos'])."', '".base64_decode($datos[0]['sanciones'])."', '".base64_decode($datos[0]['articulo'])."', '".$datos[0]['id']."' )";
+			//guarda snapshot
+			if( $base->Insert($query) ){
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* ELIMINA UN ARTICULO, TODOS SUS DATOS Y ARCHIVOS ADJUNTOS
+	* @param $articulo -> id del articulo
+	* @return true si se elimina el articulo
+	* @return false si falla
+	*/
+	public function DeleteArticulo($articulo){
+		$base = new Database();
+		$query = "SELECT * FROM archivos WHERE articulo = ".$articulo;
+
+		$archivos = $base->Select($query); //selecciona los archivos del articulo
+
+		if( !empty($archivos) ){
+			$query = "DELETE FROM articulos WHERE id = ".$articulo;
+
+			foreach ($archivos as $fila => $archivo) {
+				$this->DeleteArchivo($archivo['id']);
+			}
+
+			if( $base->Delete($query) ){
+				return true; //se elimino
+			}else{
+				return false;
+			}
+
+		}else{
+			//no tiene archivos adjuntos
+			$query = "DELETE FROM articulos WHERE id = ".$articulo;
+
+			if( $base->Delete($query) ){
+				return true; //se elimino
+			}else{
+				return false;
+			}
+		}
+			
+	}
+
 
 /*********************************** TIPOS NORMAS ************************/
 	
