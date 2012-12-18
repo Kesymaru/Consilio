@@ -19,10 +19,11 @@ $(document).ready(function(){
 		ToolbarMenu('clientes');
 	});
 
-	$('#edicion').click(function(){
+	/*$('#edicion').click(function(){
 		ToolbarMenu('edicion');
-	});
+	});*/
 
+	//menu dropdown para usuario
 	$('#usuario').click(function(){
 		if($('#menuUsuario').is(':visible')){
 			$('#menuUsuario').slideUp();
@@ -36,6 +37,23 @@ $(document).ready(function(){
 				'color' : '#fff'
 			});
 			$('#menuUsuario').slideDown();
+		}
+	});
+
+	//menu dropdown para edicion
+	$('#edicion').click(function(){
+		if($('#menuEdicion').is(':visible')){
+			$('#menuEdicion').slideUp();
+			$('#edicion').css({
+				'background-color' : '#fff',
+				'color' : '#000'
+			});
+		}else{
+			$('#edicion').css({
+				'background-color' : '#a1ca4a',
+				'color' : '#fff'
+			});
+			$('#menuEdicion').slideDown();
 		}
 	});
 
@@ -72,8 +90,7 @@ function ToolbarMenu(click){
 	if( click == 'edicion' ){
 		$('#toolbarMenu div').removeClass('seleccionado');
 		$('#edicion').addClass('seleccionado');
-
-		VistaEdicion();
+		//VistaEdicion();
 	}
 }
 
@@ -102,20 +119,53 @@ function VistaProyecto(){
 /**
 * CARGA LA VISTA DE EDICION
 */
-function VistaEdicion(){
+function VistaEdicion(accion){
 	if($.cookie('vista') != 'edicion' && $.cookie('vista')!= 'edicionGeneralidades'){
 		$.cookie('vista', 'edicion');
 	}
 
 	$('#edicion').addClass('seleccionado');
 
-	ImageLoader();
+	
 
-	$("#content").load("ajax/vistaEdicion.php", function(){
-		$("#image-loader").remove();
-	});
+	//si no se ha cargado
+	if( !$(".vistaEdicion").length ){
+		
+		ImageLoader();
+
+		//se carga solo una vez
+		$("#content").load("ajax/vistaEdicion.php", function(){
+			$("#image-loader").remove();
+
+			if(accion == 'normas'){
+				notifica('normas');
+				EditarNormas();
+			}
+			if(accion == "categorias"){
+				EditarCategorias();
+			}
+
+			ToolbarMenu('edicion');
+		});
+
+	}else{
+		if(accion == 'normas'){
+			EditarNormas();
+		}
+		if(accion == "categorias"){
+			EditarCategorias();
+		}
+
+		ToolbarMenu('edicion');
+	}
 }
 
+/**
+* CARGAR VISTAEDICION
+*/
+function CargaVistaEdidcion(){
+
+}
 
 /**
 * ACTIVA EL MENU
@@ -558,7 +608,7 @@ function Inicializa(){
 	}
 
 	if($.cookie('vista') == 'edicion'){
-		VistaEdicion();
+		VistaEdicion(0);
 	}
 
 	if($.cookie('vista') == 'composicion'){

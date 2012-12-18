@@ -118,6 +118,11 @@ $master = new Master();
 				</div>
 				<div id="edicion">
 					Edicion
+					<ul class="dropMenu" id="menuEdicion">
+						<?php
+							$master->MenuEdicion();
+						?>
+					</ul>
 				</div>
 				<div id="proyectos">
 					Proyectos

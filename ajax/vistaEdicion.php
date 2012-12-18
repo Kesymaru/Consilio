@@ -1482,13 +1482,13 @@ function CancelarContent(){
 				<!-- menu proyectos -->
 				<div id="categoriasControls" >
 
-					<!-- Lista Proyectos -->
+					<!-- Lista Proyectos 
 					<input type="radio" id="EditarCategorias" name="radio" checked="checked" />
 						<label for="EditarCategorias" onClick="EditarCategorias()">
 						Categorias
 						</label>
 
-					<!-- Nuevo proyecto -->
+					<! -- Nuevo proyecto 
 					<input type="radio" id="Editarvars" name="radio"/>
 						<label for="Editarvars" onClick="EditarNormas()">
 						Normas
@@ -1502,7 +1502,7 @@ function CancelarContent(){
 				<! -- end menu proyectos -->
 			</div>
 
-			<div id="vista">
+			<div id="vista" class="vistaEdicion" >
 				<!--
 				<div id="nivel1">
 

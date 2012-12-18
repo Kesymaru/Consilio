@@ -201,9 +201,7 @@ class Master{
 	}
 
 
-/***
-
-/*** METODOS UTILITARIOS ***/
+/******************************** METODOS UTILITARIOS ********************/
 
 	/**
 	* DATOS PARA EL MENU DEL ADMIN
@@ -248,6 +246,18 @@ class Master{
 	public function ImprimirSession(){
 		echo $_SESSION['nombre'];
 		echo $_SESSION['id'];
+	}
+
+
+	/**
+	* MENU DE EDICIONs
+	*/
+	public function MenuEdicion(){
+		echo '<li onClick="VistaEdicion(\'categorias\')">Categorias</li>';
+		echo '<li onClick="VistaEdicion(\'normas\')">Normas</li>';
+		echo '<li onClick="VistaEdicion(\'entidades\')">Entidades</li>';
+		echo '<li onClick="VistaEdicion(\'tipos\')">Tipos normas</li>';
+		echo '<li></li>';
 	}
 
 }

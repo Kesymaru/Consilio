@@ -304,7 +304,7 @@ html, body{
 }
 
 #toolbarMenu .seleccionado{
-	background-color: #a1ca4a;
+	background-color: #a1ca4a !important;
 	color: #fff;
 }
 
