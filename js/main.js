@@ -596,7 +596,6 @@ function Editor(id){
 * ACTUALIZA LOS CAMBIOS ECHOS EN EL EDITOR
 */
 function EditorUpdateContent() {
-	notifica("editores actualizados");
     for (instance in CKEDITOR.instances) {
         CKEDITOR.instances[instance].updateElement();
     }
@@ -612,7 +611,10 @@ function SelectorMultipleFiltro(){
 	    filter: function(event, matches){
 	        if( !matches.length ){
 	            //notificaAtencion("Deve seleccionar almenos una opcion.");
+	        }else{
+	        	notifica('hay');
 	        }
 	    }
 	});
+	$(".ui-multiselect span:last").html("Entidades");
 }

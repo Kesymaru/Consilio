@@ -241,6 +241,16 @@ class Registros{
 		}
 	}
 
+	/**
+	* CREA SNAPSHOT DE ARCHIVOS ADJUNTOS DE ARTICULO
+	*/
+	private function SnapshotArchivoArticulo($articulo){
+		$base = new Database();
+		$query = "SELECT * FROM archivos WHERE articulo = ".$articulo;
+
+		$datos = "";
+	}
+
 /************** CATEGORIAS **************/
 	
 	/**
@@ -685,7 +695,7 @@ class Registros{
 	*/
 	public function getArticulos($norma){
 		$base = new Database();
-		$query = "SELECT * FROM articulos WHERE norma = ".$norma;
+		$query = "SELECT * FROM articulos WHERE norma = ".$norma." AND borrado = 0";
 
 		$datos = $base->Select($query);
 
@@ -704,7 +714,7 @@ class Registros{
 	*/
 	function getArticulo($articulo){
 		$base = new Database();
-		$query = "SELECT * FROM articulos WHERE id = ".$articulo;
+		$query = "SELECT * FROM articulos WHERE id = ".$articulo." AND borrado = 0";
 
 		$datos = $base->Select($query);
 
@@ -780,7 +790,7 @@ class Registros{
 	* @return false si falla
 	*/
 	public function UpdateArticulo($norma, $id, $nombre, $entidades, $resumen, $permisos, $sanciones, $articulo ){
-		
+
 		//crea snapshot con las datos viejos
 		if( $this->SnapshotArticulo($id) ){
 
@@ -823,7 +833,7 @@ class Registros{
 		if(!empty($datos)){
 			//copia datos a la tabla de snapshots de articulos
 			$query = "INSERT INTO snapshots_articulos (norma, nombre, entidad, resumen, permisos, sanciones, articulo, id) ";
-			$query .= "VALUES ( '".$datos[0]['norma']."', '".$datos[0]['nombre']."', '".$datos[0]['entidad']."', '".base64_decode($datos[0]['resumen'])."', '".base64_decode($datos[0]['permisos'])."', '".base64_decode($datos[0]['sanciones'])."', '".base64_decode($datos[0]['articulo'])."', '".$datos[0]['id']."' )";
+			$query .= "VALUES ( '".$datos[0]['norma']."', '".$datos[0]['nombre']."', '".$datos[0]['entidad']."', '".$datos[0]['resumen']."', '".$datos[0]['permisos']."', '".$datos[0]['sanciones']."', '".$datos[0]['articulo']."', '".$datos[0]['id']."' )";
 			//guarda snapshot
 			if( $base->Insert($query) ){
 				return true;
@@ -842,7 +852,7 @@ class Registros{
 	* @return false si falla
 	*/
 	public function DeleteArticulo($articulo){
-		$base = new Database();
+		/*$base = new Database();
 		$query = "SELECT * FROM archivos WHERE articulo = ".$articulo;
 
 		$archivos = $base->Select($query); //selecciona los archivos del articulo
@@ -869,7 +879,11 @@ class Registros{
 			}else{
 				return false;
 			}
-		}
+		}*/
+		$base = new Database();
+		$query = "UPDATE articulos set borrado = 1 WHERE id = ".$articulo;
+
+		$base->Update($query);
 			
 	}
 

@@ -379,7 +379,7 @@ function NuevoArticulo($norma){
 								<input type="hidden" value="'.$norma.'" name="norma" />
 								<br/>
 								<input type="text" id="nombre" name="nombre" placeholder="Nombre" class="validate[required]" />
-								<br/><br/>Entidad<br/>';
+								<br/><br/>';
 
 	$formulario .= Entidades(); //entidades disponibles
 
@@ -389,25 +389,26 @@ function NuevoArticulo($norma){
 								<div id="tabs">
 							    <ul>
 							        <li><a href="#tabs-1">Resumen</a></li>
-							        <li><a href="#tabs-2">Permisos o Documentacion</a></li>
+							        <li><a href="#tabs-2">Permisos</a></li>
 							        <li><a href="#tabs-3">Sanciones</a></li>
 							        <li><a href="#tabs-4">Articulos</a></li>
 							    </ul>
 
 							    <div id="tabs-1">
-							    	<textarea class="validate[required]" id="resumen" name="resumen" >Resumen</textarea>
+							    	<textarea class="validate[required]" id="resumen" name="resumen" ></textarea>
 							    </div>
 							    <div id="tabs-2">
-							    	<textarea class="validate[required]" id="permisos" name="permisos" >Permisos</textarea>
+							    	<textarea class="validate[required]" id="permisos" name="permisos" ></textarea>
 							    </div>
 							    <div id="tabs-3">
-							    	<textarea class="validate[opcional]" id="sanciones" name="sanciones" >Sanciones</textarea>
+							    	<textarea class="validate[opcional]" id="sanciones" name="sanciones" ></textarea>
 							    </div>
 							    <div id="tabs-4">
-							    	<textarea class="validate[required]" id="articulo" name="articulo" >Articulo</textarea>
+							    	<textarea class="validate[required]" id="articulo" name="articulo" ></textarea>
 							    </div>
 
 							    </div>
+
 							</div>
 							<div class="datos-botones">
 								<button onClick="CancelarContent()">Cancelar</button>
@@ -536,14 +537,14 @@ function EdicionArticulo($articulo){
 									<input type="hidden" value="'.$datos[0]['id'].'" name="id" />
 									<br/>
 									<input type="text" id="nombre" name="nombre" placeholder="Nombre" class="validate[required]" value="'.$datos[0]['nombre'].'" />
-									<br/><br/>Entidad<br/>';
+									<br/><br/>';
 
 		$formulario .= EntidadesArticulo(unserialize($datos[0]['entidad'])); //entidades seleccionada	
 
 		$formulario .= '<br/><br/>
 
-									<!-- tabs para los datos -->
-									<div id="tabs">
+								<!-- tabs para los datos -->
+								<div id="tabs">
 								    <ul>
 								        <li><a href="#tabs-1">Resumen</a></li>
 								        <li><a href="#tabs-2">Permisos</a></li>
@@ -565,7 +566,9 @@ function EdicionArticulo($articulo){
 								    </div>
 
 								    </div>
+								    
 								</div>
+
 								<div class="datos-botones">
 									<button onClick="CancelarContent()">Cancelar</button>
 									<input type="reset" value="Borrar" />

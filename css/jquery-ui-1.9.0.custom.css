@@ -203,8 +203,9 @@ span.ui-spinner { background: none; }
 .ui-tabs { 
 	position: relative; 
 	zoom: 1;
-	width: 95%;
+	width: 100%;
 	margin: 0 auto;
+	border: 0 solid transparent !important;
 } 
 
 /* position: relative prevents IE scroll bug (element with position: relative inside container with overflow: auto appear as "fixed") */
@@ -217,8 +218,21 @@ span.ui-spinner { background: none; }
 		-webkit-border-radius: 0 !important;
 	border-radius: 0 !important;
 }
-.ui-tabs .ui-tabs-nav li { list-style: none; float: left; position: relative; top: 0; margin: 1px .2em 0 0; border-bottom: 0; padding: 0; white-space: nowrap; }
-.ui-tabs .ui-tabs-nav li a { float: left; padding: 2px; text-decoration: none; }
+.ui-tabs .ui-tabs-nav li { 
+	list-style: none; 
+	float: left; 
+	position: relative; 
+	top: 0; 
+	margin:0; border-bottom: 0; 
+	padding: 0; 
+	white-space: nowrap; 
+		-o-border-radius: 0 !important;
+		-ms-border-radius: 0 !important;
+		-moz-border-radius: 0 !important;
+		-webkit-border-radius: 0 !important;
+	border-radius: 0 !important;
+}
+.ui-tabs .ui-tabs-nav li a { float: left; padding: 2px 7px; text-decoration: none; }
 .ui-tabs .ui-tabs-nav li.ui-tabs-active { margin-bottom: -1px; padding-bottom: 1px; }
 .ui-tabs .ui-tabs-nav li.ui-tabs-active a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-tabs-loading a { cursor: text; }
 .ui-tabs .ui-tabs-nav li a, .ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-active a { cursor: pointer; } /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
@@ -227,10 +241,17 @@ span.ui-spinner { background: none; }
 	padding:8px;
 	position:absolute;
 	z-index:9999;
-	-o-box-shadow: 0 0 5px #aaa;
-	-moz-box-shadow: 0 0 5px #aaa;
-	-webkit-box-shadow: 0 0 5px #aaa;
+		-o-box-shadow: 0 0 5px #aaa;
+		-ms-box-shadow: 0 0 5px #aaa;
+		-moz-box-shadow: 0 0 5px #aaa;
+		-webkit-box-shadow: 0 0 5px #aaa;
 	box-shadow: 0 0 5px #aaa;
+
+		-o-border-radius: 0 !important;
+		-ms-border-radius: 0 !important;
+		-moz-border-radius: 0 !important;
+		-webkit-border-radius: 0 !important;
+	border-radius: 0 !important;
 }
 /* Fades and background-images don't work well together in IE6, drop the image */
 * html .ui-tooltip {

@@ -1321,7 +1321,7 @@ function ValidaFormularioNuevoArticulo(){
 *SELECCIONA UN ARTICULO
 */ 
 function SelectArticulo(articulo){
-	notifica("seleccionado el articulo :"+articulo);
+	
 	$("#articulos li").removeClass("seleccionada");
 	$("#articulo"+articulo).addClass("seleccionada");
 
