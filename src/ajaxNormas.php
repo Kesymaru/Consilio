@@ -110,7 +110,7 @@ if(isset($_POST['func'])){
 * CARGA LAS NORMAS
 */
 function Normas(){
-	echo '<div id="normas">
+	echo '<div id="normas" class="normas">
 		  	<div class="titulo">
 				Normas
 				<hr>

@@ -105,9 +105,11 @@ function VistaProyecto(){
 	$.cookie('vista', 'proyectos');
 
 	$('#proyectos').addClass('seleccionado');
-	ImageLoader();
+	
+	Loading();
+
 	$("#content").load("ajax/vistaProyectos.php", function(){
-		$("#image-loader").remove();
+		LoadingClose();
 		ActivaMenu();
 	});
 }
@@ -131,14 +133,13 @@ function VistaEdicion(accion){
 	//si no se ha cargado
 	if( !$(".vistaEdicion").length ){
 		
-		ImageLoader();
+		Loading();
 
 		//se carga solo una vez
 		$("#content").load("ajax/vistaEdicion.php", function(){
-			$("#image-loader").remove();
+			LoadingClose();
 
 			if(accion == 'normas'){
-				notifica('normas');
 				EditarNormas();
 			}
 			if(accion == "categorias"){
@@ -149,6 +150,7 @@ function VistaEdicion(accion){
 		});
 
 	}else{
+
 		if(accion == 'normas'){
 			EditarNormas();
 		}
@@ -178,15 +180,14 @@ function ActivaMenu(){
 
 		$("#menu").animate({
 			opacity: 0,
-			//width: 'toggle'
-			width: "0%"
+			width: "0%",
 		}, { 
 			duration: 1500, 
 			queue: false,
 			complete: function(){
 				$("#menu").css({
 					'display' : 'none',
-					'float' : 'left',
+					'float' : 'left'
 				});
 			}
 		});
@@ -506,7 +507,9 @@ function Confirmacion(text, si, no) {
  }
 
 
-//logOut
+/**
+* LOGOUT DEL USUARIO
+*/
 function LogOut(){
 	var queryParams = { "func" : 'LogOut'};
 	  	$.ajax({
@@ -667,4 +670,29 @@ function SelectorMultipleFiltro(){
 	    }
 	});
 	$(".ui-multiselect span:last").html("Entidades");
+}
+
+
+/**
+* FUNCION PARA MOSTRAR EL LOADER DE JQUERY
+*/
+function Loading(){
+  	$("#loader").css("display" , "block");
+}
+
+function LoadingClose(id){
+	//$("#loader").css("display" , "none").delay(8000);
+	
+	$("#loader").animate({
+		"display" : "none",
+		opacity : 0
+	}, { 
+		duration: 1500, 
+		queue: false,
+		complete: function(){
+			$("#loader").css({
+				'display' : 'none'
+			});
+		}
+	});
 }

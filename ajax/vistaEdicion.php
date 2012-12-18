@@ -35,7 +35,14 @@ function EditarCategorias(){
 		//ANIMACION AL AUMENTAR EL TAMANO DEL MENU
 		$("#menu").animate({
 	       width: '30%'
-	    }, { duration: 500, queue: false });
+	    }, { 
+	    	duration: 500, 
+	    	queue: false,
+	    	complete: function(){
+	    		notifica('asignando');
+	    		notifica($("#menu").css("overflow"));
+	    	}
+	    });
 
 	    $("#content").animate({
 	       width: '60%'
@@ -624,15 +631,14 @@ function BorrarArchivo(id){
 * EDICION DE NORMAS
 */
 function EditarNormas(){
-	notifica('Hola');
+	$.cookie('accion', 'normas');
 
-	if($('#categorias').is(":visible")){
+	if($('#categorias').length ){
+
 		$('#categorias').fadeOut(500, function(){
 			$('#categorias').remove();
-		})
+		});
 	}
-
-	$.cookie('accion', 'normas');
 	
 	//CARGA CONTENIDO
 	if( $("#vista").is(":visible") ){
@@ -641,14 +647,14 @@ function EditarNormas(){
 	}else{
 		Normas();
 	}
-	notifica('sss');
+
 }
 
 /**
 * CARGA LAS NORMAS EN EL MENU
 */
 function Normas(){
-	notifica('sss');
+
 	var queryParams = {"func" : "Normas"};
 
 	$.ajax({
@@ -1093,8 +1099,10 @@ function Menu2(){
 
 		//ANIMACION AL AUMENTAR EL TAMANO DEL MENU
 		$("#menu").animate({
-	       width: '20%'
-	    }, { duration: 500, queue: false });
+	       width: '20%',
+	    }, { 
+	    	duration: 500, 
+	    	queue: false });
 
 	    $("#menu2").animate({
 	       width: '20%'
@@ -1179,7 +1187,7 @@ function Articulos(norma){
 * @param norma -> id de la norma
 */
 function NuevoArticulo(norma){
-	notifica(norma);
+	
 	var queryParams = {"func" : "NuevoArticulo", "norma" : norma};
 
 	$.ajax({
