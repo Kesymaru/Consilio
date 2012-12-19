@@ -126,10 +126,6 @@ function VistaEdicion(accion){
 		$.cookie('vista', 'edicion');
 	}
 
-	$('#edicion').addClass('seleccionado');
-
-	
-
 	//si no se ha cargado
 	if( !$(".vistaEdicion").length ){
 		
@@ -141,9 +137,11 @@ function VistaEdicion(accion){
 
 			if(accion == 'normas'){
 				EditarNormas();
-			}
-			if(accion == "categorias"){
+			}else if(accion == "categorias"){
 				EditarCategorias();
+			}else{
+				//restaura edicion con cookies
+				RestaurarEdicion();
 			}
 
 			ToolbarMenu('edicion');
@@ -153,9 +151,11 @@ function VistaEdicion(accion){
 
 		if(accion == 'normas'){
 			EditarNormas();
-		}
-		if(accion == "categorias"){
+		}else if(accion == "categorias"){
 			EditarCategorias();
+		}else{
+			//restaura edicion con cookies
+			RestaurarEdicion();
 		}
 
 		ToolbarMenu('edicion');

@@ -8,78 +8,15 @@ if(isset($_POST['func'])){
 	
 	switch ($_POST['func']){
 
+		//CARGA LAS CATEGORIAS PADRES
 		case 'Padres':
-			echo '
-				  <div id="categorias">
-				  <div class="titulo">
-				  	<hr>Categorias<hr>
-				  </div>';
-			echo '<div class="root" id="Padre0">';
-
-			$registros = new Registros();
-			$padres = $registros->getHijos(0);
-
-			if(!empty($padres)){
-				$id = 0;
-				$nombre = "";
-				echo '<ul>';
-				foreach ($padres as $f => $c) {
-					foreach ($padres[$f] as $campo => $valor) {
-						
-						if($campo == 'id'){
-							$id = $valor;
-						}
-						if($campo == 'nombre'){
-							$nombre = $valor;
-						}else{
-							continue;
-						}
-					}
-					echo '<li id="'.$id.'" onClick="Hijos('.$id.')">'.$nombre.'</li>';
-				}
-				echo '</ul>';
-			}else{
-				echo 'No hay datos.';
-			}
-			echo '</div>';
-			echo '</div>';
+			Padres();
 			break;
 
 		//OBTIENE LOS HIJOS DE UN PADRE SELECCIONADO
 		case 'Hijos':
 			if(isset($_POST['padre'])){
-				$registros = new Registros();
-				$hijos = $registros->getHijos($_POST['padre']);
-
-				if(!empty($hijos)){ //tiene hijos
-					echo '<div class="categoria" id="Padre'.$_POST['padre'].'">';
-
-					$id = 0;
-					$nombre = "";
-
-					echo '<ul>';
-					foreach ($hijos as $f => $c) {
-						foreach ($hijos[$f] as $campo => $valor) {
-							
-							if($campo == 'id'){
-								$id = $valor;
-							}
-							if($campo == 'nombre'){
-								$nombre = $valor;
-							}else{
-								continue;
-							}
-						}
-						echo '<li id="'.$id.'" onClick="Hijos('.$id.')">'.$nombre.'</li>';
-					}
-
-					echo '</ul>';
-					echo '</div>';
-					//echo '<script>Categoria('.$_POST['padre'].');</script>';
-				}else{
-					echo '<script>Categoria('.$_POST['padre'].');</script>';
-				}
-				
+				Hijos( $_POST['padre'] );
 			}
 			break;
 
@@ -161,6 +98,92 @@ if(isset($_POST['func'])){
 			}
 			break;
 
+	}
+}
+
+/**
+* CATEGORIAS PADRES
+*/
+function Padres(){
+	echo '<div id="categorias">
+				<div class="titulo">
+					<hr>
+					Categorias
+					<hr>
+				  </div>';
+	echo '<div class="root" id="Padre0">';
+
+	$registros = new Registros();
+	$padres = $registros->getHijos(0);
+
+	if( !empty($padres) ){
+		$id = 0;
+		$nombre = "";
+		echo '<ul>';
+		foreach ($padres as $f => $c) {
+			foreach ($padres[$f] as $campo => $valor) {
+						
+				if($campo == 'id'){
+					$id = $valor;
+				}
+				if($campo == 'nombre'){
+					$nombre = $valor;
+				}else{
+					continue;
+				}
+			}
+			echo '<li id="'.$id.'" onClick="Hijos('.$id.')">'.$nombre.'</li>';
+		}
+		echo '</ul>';
+	}else{
+		echo 'No hay datos.';
+	}
+
+	echo '</div>';
+	echo '</div>';
+}
+
+/**
+* CARGA CATEGORIAS HIJAS DE UN PADRE
+* @param $padre -> id del padre
+*/
+function Hijos($padre){
+	$registros = new Registros();
+	$hijos = $registros->getHijos($_POST['padre']);
+
+	if(!empty($hijos)){ //tiene hijos
+		echo '<div class="categoria" id="Padre'.$_POST['padre'].'">';
+
+		$id = 0;
+		$nombre = "";
+
+		echo '<ul>';
+		foreach ($hijos as $f => $c) {
+			foreach ($hijos[$f] as $campo => $valor) {
+				
+				if($campo == 'id'){
+					$id = $valor;
+				}
+				if($campo == 'nombre'){
+					$nombre = $valor;
+				}else{
+					continue;
+				}
+			}
+			echo '<li id="'.$id.'" onClick="Hijos('.$id.')">'.$nombre.'</li>';
+		}
+
+		echo '</ul>';
+		echo '</div>';
+
+		//tiene hijos por lo tanto no es hoja
+		echo '<script>Categoria('.$_POST['padre'].');</script>';
+
+	}else{
+		//no tiene hijos es una hoja
+		if( !$registros->EsRoot($padre) ){
+			echo '<script>CategoriaNormas('.$_POST['padre'].');</script>';
+		}
 	}
 }
 
@@ -343,6 +366,7 @@ function DeleteCategoria($categoria){
 			$registros->DeleteCategoria($hijo['id']);
 		}
 	}
+
 	//BORRA LA CATEGORIA
 	$registros->DeleteCategoria($categoria);
 }

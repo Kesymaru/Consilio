@@ -303,25 +303,6 @@ class Registros{
 
 		if( $base->Existe("SELECT * FROM categorias where id = ".$id) ){
 			if($base->Delete($query)){
-
-				//BORRA ARCHIVOS ASOCIADOS
-				if($base->Existe("SELECT * FROM archivos WHERE categoria = ".$id)){
-					$query = "SELECT * FROM archivos WHERE categoria = ".$id;
-					$archivos = $base->Select($query);
-					//elimina archivos
-					foreach ($archivos as $fila => $archivo) {
-						$this->DeleteArchivo($archivo['id']);
-					}
-				}
-
-				$base->conect(); //PORQUE SINO CIERRA LA CONEXION
-				                        
-				//BORRA DATOS ASOCIADOSs
-				if($base->Existe("SELECT * FROM datos WHERE categoria = ".$id)){
-					$query = "DELETE FROM datos WHERE categoria = ".$id;
-					if($base->Delete($query)){
-					}
-				}
 				return true;
 			}else{
 				//ERROR AL BORRAR CATEGORIA
@@ -453,6 +434,52 @@ class Registros{
 		if(!empty($datos)){
 			return $datos[0][$dato];
 		}else{	
+			return false;
+		}
+	}
+
+	/**
+	* DETERMINA SI UNA CATEGORIA ES UNA HOJA
+	* @param id -> id de la categoria
+	* @return true si es una hoja
+	* @return false si no es hoja o falla
+	*/
+	public function EsHoja($id){
+		$base = new Database();
+		$query = "SELECT * FROM categorias WHERE id = ".$id;
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			if( $datos[0]['hoja'] == 1 && $datos[0]['padre'] != 0 ){
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* DETERMINA SI UNA CATEGORIA ES ROOT 
+	* @param id -> id de la categori
+	* @return true si es root
+	* @return false si no es root
+	*/
+	public function EsRoot($id){
+		$base = new Database();
+		$query = "SELECT * FROM categorias WHERE id = ".$id;
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			if($datos[0]['padre'] == 0){
+				return true;
+			}else{
+				return false;
+			}
+		}else{
 			return false;
 		}
 	}
