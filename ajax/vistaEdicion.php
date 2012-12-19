@@ -548,12 +548,23 @@ function CancelarNuevaCateogria(padre){
 /**
 * RESTAURA VISTA UTILIZANDO LAS COOKIES
 */
-function RestaurarCategorias(){
+function RestaurarEdicion(){
 
 	var vista = $.cookie('vista');
-	notifica(vista);
+	var accion = $.cookie('accion');
+
 	if(vista == 'edicion'){
-		EditarCategorias();
+		if(accion == 'categorias'){
+			EditarCategorias();
+		}else if(accion == 'normas'){
+			EditarNormas();
+		}else if(accion == 'entidades'){
+
+		}else if(accion == 'tipos'){
+
+		}else{
+
+		}
 	}
 }
 
@@ -634,12 +645,15 @@ function EditarNormas(){
 	$.cookie('accion', 'normas');
 
 	if($('#categorias').length ){
-
 		$('#categorias').fadeOut(500, function(){
 			$('#categorias').remove();
 		});
 	}
 	
+	if( !$("#menu").is(":visible") ){
+		ActivaMenu();
+	}
+
 	//CARGA CONTENIDO
 	if( $("#vista").is(":visible") ){
 		$("#vista").html("");
@@ -1100,9 +1114,7 @@ function Menu2(){
 		//ANIMACION AL AUMENTAR EL TAMANO DEL MENU
 		$("#menu").animate({
 	       width: '20%',
-	    }, { 
-	    	duration: 500, 
-	    	queue: false });
+	    }, { duration: 500, queue: false });
 
 	    $("#menu2").animate({
 	       width: '20%'
@@ -1581,6 +1593,6 @@ function CancelarContent(){
 			</div>
 			-->
 			<script type="text/javascript">
-					RestaurarCategorias();
+					//RestaurarCategorias();
 			</script>
 			<!-- end nivel 1-->

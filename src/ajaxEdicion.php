@@ -196,7 +196,6 @@ function EditarCategoria($categoria){
 	$registro = new Registros();
 
 	//OPTIENE DATOS DE LA CATEGORIA
-	$datos = $registro->getDatos($categoria);
 	$nombre = $registro->getCategoriaDato("nombre", $categoria);
 
 	//FORMULARIO DE LOS DATOS DE LA CATEGORIA
@@ -212,18 +211,7 @@ function EditarCategoria($categoria){
 							<div class="datos">';
 
 	
-	//SI HAY DATOS REGISTRADOS PARA LA CATEGORIA
-	if( is_array($datos) && !empty($datos) ){	
-
-		foreach ($datos as $fila => $dato) {
-			$formulario .= '<textarea id="contenido" name="contenido" cols="80"  rows="10" >';
-			$formulario .= base64_decode($dato['contenido']);
-			$formulario .= '</textarea>';
-		}
-
-	}else{
-		$formulario .= '<textarea id="contenido" name="contenido" cols="80"  rows="10" ></textarea>';
-	}
+	$formulario .= 'Descripcion<textarea id="contenido" name="contenido" cols="80"  rows="10" >'.$registro->getCategoriaDato("descripcion",$categoria).'</textarea>';
 
 	$formulario .= '</div>
 					</div>
@@ -234,35 +222,6 @@ function EditarCategoria($categoria){
 							<input type="text" name="archivoNombre" id="archivoNombre" placeholder="Nombre" />
 							<input type="file" name="archivo" id="archivo" />
 						</div>';
-	/*
-	//ARCHIVOS ADJUNTOS
-	$archivos = $registro->getArchivos($categoria);
-
-	if(!empty($archivos)){
-
-		$formulario .= '<div class="box" id="archivosAdjuntos">
-							<div class="titulo">
-								Archivos Adjuntos
-							</div>
-							<div class="content">
-								<ul class="archivos" >';
-
-		foreach ($archivos as $fila => $archivo) {
-				$formulario .= '<li class="archivo" id="archivo'.$archivo['id'].'" >
-									<img class="closeArchivo" src="images/close.png" onClick="BorrarArchivo('.$archivo['id'].')" />
-								<!-- descarga archivo -->
-								<a target="_blank" href="src/download.php?link='.$archivo['link'].'"> 
-									<img src="images/folder.png" />
-									<span>'.$archivo['nombre'].'</span>
-								</a>
-							
-							</li>';
-		}
-
-		$formulario .= '</ul>
-						</div>
-						</div>';
-	}*/
 
 	//CIERRE FORMULARIO 
 	$formulario .= '</div>

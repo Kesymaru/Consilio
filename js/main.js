@@ -139,6 +139,10 @@ function VistaEdicion(accion){
 				EditarNormas();
 			}else if(accion == "categorias"){
 				EditarCategorias();
+			}else if(accion == "entidades"){
+				notifica('entidades');
+			}else if(accion == "tipos"){
+				notifica('tipo');
 			}else{
 				//restaura edicion con cookies
 				RestaurarEdicion();
@@ -153,6 +157,10 @@ function VistaEdicion(accion){
 			EditarNormas();
 		}else if(accion == "categorias"){
 			EditarCategorias();
+		}else if(accion == "entidades"){
+			notifica('entidades');
+		}else if(accion == "tipos"){
+			notifica('tipo');
 		}else{
 			//restaura edicion con cookies
 			RestaurarEdicion();

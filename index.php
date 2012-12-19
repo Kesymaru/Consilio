@@ -78,6 +78,8 @@ $master = new Master();
 <body >
 
 <div id="loader" class="loader">
+
+	<!-- imagen animada con css para el cargador -->
 	<div class="windows8">
 	<div class="wBall" id="wBall_1">
 	<div class="wInnerBall">
@@ -100,6 +102,7 @@ $master = new Master();
 	</div>
 	</div>
 	</div>
+	
 </div>
 
 <?php
