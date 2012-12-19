@@ -100,23 +100,7 @@ function FormularioEdicionCategoria(){
 */
 function Padres(){
 
-	//esconde el segundo menu si esta presente
-	/*if( $("#menu2").is(":visible") ){
-    	$("#menu2").animate({
-		opacity: 0,
-			//width: 'toggle'
-			width: "0%"
-		}, { 
-			duration: 1500, 
-			queue: false,
-			complete: function(){
-				$("#menu2").css({
-					'display' : 'none',
-					'float' : 'left',
-				});
-			}
-		});
-    }*/
+   	//esconde el segundo menu
     if( $("#menu2").is(":visible") ){
     	Menu2();
 	}
@@ -1099,26 +1083,33 @@ function HabilitaNorma(norma){
 function Menu2(){
 	//OPTIENE EL TAMANO EN PORCENTAJE
 	var w = ( 100 * parseFloat($('#menu').css('width')) / parseFloat($('#menu').parent().css('width')) ).toFixed() + '%';
-	
-	notifica(w);
 
 	if( w == "30%"){
 		if( !$("#menu2").is(":visible") ){
 			$("#menu2").css({
-				"display" : "block",
-				"margin-left" : "0",
-				"width" : "0"
+				"display"    : "block",
+				"margin-left": "0",
+				"width"      : "0"
 			});
 		}
 
-		//ANIMACION AL AUMENTAR EL TAMANO DEL MENU
+		//ANIMACION AL AUMENTAR EL TAMANO DEL MENU2
 		$("#menu").animate({
 	       width: '20%',
 	    }, { duration: 500, queue: false });
 
 	    $("#menu2").animate({
 	       width: '20%'
-	    }, { duration: 500, queue: false });
+	    }, { 
+	    	duration: 500, 
+	    	queue: false,
+	    	complete: function(){
+	    		$("#menu2").css({
+					"display" : "block",
+					"opacity" : "1"
+				})
+	    	}
+	    });
 
 	    $("#content").animate({
 	       width: '50%'
@@ -1137,8 +1128,8 @@ function Menu2(){
 	    	queue: false,
 	    	complete: function(){
 	    		$("#menu2").css({
-					"display" : "none",
-					"width" : "0"
+					"display": "none",
+					"width"  : "0"
 				})
 	    	}
 	    });
@@ -1210,6 +1201,7 @@ function NuevoArticulo(norma){
 		},
 		success: function(response){
 			$("#content").html(response);
+			$(".adjuntos").hide();
 			FormularioNuevoArticulo();
 		},
 		fail: function(){
@@ -1254,54 +1246,6 @@ function FormularioNuevoArticulo(){
 	Editor('articulo');
 	
 	$( "#tabs" ).tabs(); //crea tabs para los textareas
-
-	//VALIDACION DEL FORMULARIO, SI NO VALIDA NO ENVIA
-	/*$('#FormularioNuevoArticulo').validationEngine('attach', {
-	    onValidationComplete: function(form, status){
-	    	//VALIDACION MANUAL
-		    var permisos = $("#permisos").val();
-			var articulo = $("#articulo").val();
-			var entidades = $("#entidades").val();
-
-			if( permisos != '' && permisos != null && articulo != '' && articulo != null && entidades != '' && entidades != null ){
-
-				//form.validationEngine('detach'); //elimina la validacion
-				
-				//envia el formulario via ajax
-				var options = {  
-					beforeSend: function(){
-						notifica("Enviando");
-					},
-					success: function(response) { 
-						notifica(response);
-					},
-					fail: function(){
-						notificaError("Error: ocurrio un error :(<br/>Al crear el nuevo articulo.");
-					}
-				}; 
-
-				$('#FormularioNuevoArticulo').ajaxForm(options);
-
-				form.submit();
-
-			}else{
-				
-				if(permisos == null || permisos == ''){
-					notificaAtencion("Se requieren los permisos para el articulo.");
-				}
-				if(articulo == null || articulo == ''){
-					notificaAtencion("Se requiere un articulo.");
-				}
-				if(entidades == null || entidades == ''){
-					notificaAtencion("Se requiere almenos una entidad.");
-				}
-
-				$("#FormularioNuevoArticulo").submit(function(){
-					return false;
-				});
-			}
-		}       
-	});*/
 }
 
 /**
@@ -1425,20 +1369,24 @@ function EditarArticulo(){
 		type: "post",
 		url: "src/ajaxNormas.php",
 		beforeSend: function(){
-
+			Loading();
 		},
 		success: function(response){
 			if(response.length){
+				LoadingClose();
+
 				$("#content").html(response);
 				$("#content").hide();
 				$("#content").fadeIn();
 				FormularioEditarArticulo();
+
 			}else{
 				notificaError(response);
 			}
 		},
 		fail: function(){
-
+			LoadingClose();
+			notificaError("Ocurrio un error :(<br/>Al intentar cargar la edicion del articulo.");
 		}
 	});
 }
@@ -1492,6 +1440,48 @@ function CancelarContent(){
 		return false;
 	});
 
+}
+
+/**
+* MUESTRA EL FORM PARA ARCHIVOS ADJUNTOS
+*/
+function Adjuntos(){
+	$(".adjuntos").slideDown(700,function(){
+		notificaAtencion("Puede adjuntar:<br/>Imagenes,Documentos y comprimidos ZIP");
+	});
+}
+
+/**
+* CARGA UN INPUT MAS PARA UN ARCHIVO EXTRA
+*/
+function AdjuntoExtra(){
+	var extra = $(".adjuntos div:last").attr("id");
+	notifica(extra);
+	extra = extra.substring(7);
+	extra = parseInt(extra);
+	extra += 1;
+
+	//maximo
+	if( extra > 9 ){
+		notificaAtencion("Lo sentimos no se permiten mas de 10 archivos adjuntos.");
+		return;
+	}
+
+	notifica(extra);
+	var nuevo = '<div id="archivo'+extra+'" class="adjunto"><hr><span class="adjuntos-boton" onClick="EliminarAdjuntoExtra('+extra+')">-</span><input type="file" name="archivo'+extra+'"></div>'
+
+	$(".adjuntos").append(nuevo);
+	$("#archivo"+extra).hide();
+	$("#archivo"+extra).slideDown(700);
+}
+
+/**
+* BORRA UN INPUT EXTRA PARA UN ADJUNTO
+*/
+function EliminarAdjuntoExtra(id){
+	$("#archivo"+id).slideUp(700, function(){
+		$("#archivo"+id).remove();
+	});
 }
 
 </script>

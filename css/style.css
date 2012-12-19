@@ -262,22 +262,6 @@ html, body{
 	margin-top: 30px;
 }
 
-/* mensaje inicial */
-#mensajeInicial{
-	width: 100%;
-	vertical-align: middle;
-	margin-top: 25%;
-	font-size: 30px;
-	font-weight: bold;
-	color: #747273;
-}
-
-#mensajeInicial button{
-	font-size: 20px;
-	margin-top: 10px;
-
-}
-
 /* clientes */
 #toolbarMenu{
 	display: inline-block;
@@ -638,48 +622,66 @@ html, body{
 	cursor: pointer;
 }
 
-.box .archivos{
-	display: block;
-}
-
-.box .archivo{
+.adjuntos{
 	padding: 7px;
-	display: inline-block;
-	width: auto;
-	height: 35px;
+	display:block;
+	margin: 0 auto;
+	width: 70%;
 	vertical-align: middle;
-	margin-bottom: 5px;
-		-webkit-border-radius: 5px;
-		-moz-border-radius: 5px;
-		-o-border-radius: 5px;
-		-ms-border-radius: 5px;
-	border-radius: 5px;
+	background-color: #BAB8B9; /*para ie8*/
+	background-color: rgba(117, 114, 115, .5);
+
+	border-width: 1px;
+	border-style: solid;
+	border-color: #9E9C9D; /*para ie8*/
+	border-color: rgba(117, 114, 115, .7);
+
+		-o-border-radius-bottomright: 5px;
+		-o-border-radius-bottomleft: 5px;
+		-ms-border-radius-bottomright: 5px;
+		-ms-border-radius-bottomleft: 5px;
+		-moz-border-radius-bottomright: 5px;
+		-moz-border-radius-bottomleft: 5px;
+		-webkit-border-bottom-right-radius: 5px;
+		-webkit-border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
 }
 
-.box .archivo a img{
-	height: 35px;
-	float: left;
-}
-
-.box .archivo a span{
-	color: #757374;
-	display: inline-block;
-	vertical-align: middle;
-	font-weight: bold;
-	margin-top: 10px;
+.adjuntos .adjuntos-boton{
 	margin-left: 10px;
+	font-size: 25px;
+	float: left;
+	font-weight: bold;
+	color: #ACAAAB; /*para ie8*/
+	color: rgba(117, 114, 115, .6);
+
+	cursor: pointer;
 }
 
-.box .titulo:hover .close,
-.box .archivo:hover .closeArchivo{
-	display: inline-block;
-	opacity: 1;
+.adjuntos .adjuntos-boton:hover{
+	color: #757273; /*para ie8*/
+	color: rgba(117, 114, 115, 1);
 }
 
-.box .archivo:hover,
-.box .archivo:hover a span{
-	color: #FFFFFF;
-	background-color: rgb(161, 202, 74);
+.adjuntos hr{
+	display: block;
+	width: 100%;
+	border: 1px solid rgba(117, 114, 115, .2);
+	vertical-align: middle;
+}
+
+.editor-footer{
+	position: absolute;
+	width: 100%;
+	margin-top: -30px;
+	height: 25px;
+	cursor: pointer;
+}
+
+#adjuntar-icon{
+	float: left;
+	margin-left:10px;
 }
 
 .box p{
@@ -1241,7 +1243,9 @@ html, body{
 */
 
 .deshabilitado{
-	opacity: .4;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=40)";
+    filter: alpha(opacity=40);
+    opacity: .4;
 }
 
 

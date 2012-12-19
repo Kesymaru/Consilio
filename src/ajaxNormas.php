@@ -387,28 +387,38 @@ function NuevoArticulo($norma){
 
 								<!-- tabs para los datos -->
 								<div id="tabs">
-							    <ul>
-							        <li><a href="#tabs-1">Resumen</a></li>
-							        <li><a href="#tabs-2">Permisos</a></li>
-							        <li><a href="#tabs-3">Sanciones</a></li>
-							        <li><a href="#tabs-4">Articulos</a></li>
-							    </ul>
+								    <ul>
+								        <li><a href="#tabs-1">Resumen</a></li>
+								        <li><a href="#tabs-2">Permisos</a></li>
+								        <li><a href="#tabs-3">Sanciones</a></li>
+								        <li><a href="#tabs-4">Articulos</a></li>
+								    </ul>
 
-							    <div id="tabs-1">
-							    	<textarea class="validate[required]" id="resumen" name="resumen" ></textarea>
-							    </div>
-							    <div id="tabs-2">
-							    	<textarea class="validate[required]" id="permisos" name="permisos" ></textarea>
-							    </div>
-							    <div id="tabs-3">
-							    	<textarea class="validate[opcional]" id="sanciones" name="sanciones" ></textarea>
-							    </div>
-							    <div id="tabs-4">
-							    	<textarea class="validate[required]" id="articulo" name="articulo" ></textarea>
-							    </div>
+								    <div id="tabs-1">
+								    	<textarea class="validate[required]" id="resumen" name="resumen" ></textarea>
+								    </div>
+								    <div id="tabs-2">
+								    	<textarea class="validate[required]" id="permisos" name="permisos" ></textarea>
+								    </div>
+								    <div id="tabs-3">
+								    	<textarea class="validate[opcional]" id="sanciones" name="sanciones" ></textarea>
+								    </div>
+								    <div id="tabs-4">
+								    	<textarea class="validate[required]" id="articulo" name="articulo" ></textarea>
+								    </div>
 
 							    </div>
+							    <div class="editor-footer">
+							    	<img id="adjuntar-icon" src="images/folder-upload.png" onClick="Adjuntos()" />
+							    </div>
+							</div><!-- fin del cuadro -->
+							<div class="adjuntos">
+								<input type="hidden" name="totalArchivos" value="0" />
+								<span class="adjuntos-boton" onClick="AdjuntoExtra()">+</span>
 
+								<div id="archivo0" class="adjunto">
+									<input type="file" name="archivo0">
+								</div>
 							</div>
 							<div class="datos-botones">
 								<button onClick="CancelarContent()">Cancelar</button>
