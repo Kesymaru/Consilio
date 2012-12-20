@@ -201,7 +201,7 @@ function EditarNorma($norma){
 								<br/><br/>
 							</div>
 							<div class="datos-botones">
-								<button onClick="CancelarContent()">Cancelar</button>
+								<button type="button" onClick="CancelarContent()">Cancelar</button>
 								<input type="reset" value="Borrar" />
 								<input type="submit" value="Guardar" />
 							</div>
@@ -251,7 +251,7 @@ function NuevaNorma(){
 							<br/><br/>
 							</div>
 							<div class="datos-botones">
-								<button onClick="CancelarContent()">Cancelar</button>
+								<button type="button" onClick="CancelarContent()">Cancelar</button>
 								<input type="reset" value="Borrar" />
 								<input type="submit" value="Guardar" />
 							</div>
@@ -400,9 +400,9 @@ function Articulos($norma){
 	}
 
 	$lista .= '<div class="datos-botones">
-				<button onClick="BorrarArticulo()">Borrar</button>
-				<button onClick="EditarArticulo()">Editar</button>
-			   	<button onClick="NuevoArticulo('.$norma.')">Nuevo Articulo</button>
+				<button type="button" onClick="BorrarArticulo()">Borrar</button>
+				<button type="button" onClick="EditarArticulo()">Editar</button>
+			   	<button type="button" onClick="NuevoArticulo('.$norma.')">Nuevo Articulo</button>
 			   </div>
 			   </div>';
 
@@ -461,12 +461,13 @@ function NuevoArticulo($norma){
 								<span class="adjuntos-boton" onClick="AdjuntoExtra()">+</span>
 
 								<div id="archivo0" class="adjunto">
-									<input type="file" name="archivo0">
+									<input type="text" name="archivoNombre0" placeholder="Nombre" />
+									<input type="file" name="archivo0" />
 								</div>
 							</div>
 
 							<div class="datos-botones">
-								<button onClick="CancelarContent()">Cancelar</button>
+								<button type="button" onClick="CancelarContent()">Cancelar</button>
 								<input type="reset" value="Borrar" />
 								<input type="submit" value="Guardar" />
 							</div>
@@ -551,9 +552,13 @@ function TieneHijos($datos, $padre){
 function RegistrarArticulo($norma){
 	$registros = new Registros();
 
-	if(!$registros->RegistrarArticulo($norma, $_POST['nombre'], $_POST['entidades'], $_POST['resumen'], $_POST['permisos'], $_POST['sanciones'], $_POST['articulo'] )){
+	if($articulo = $registros->RegistrarArticulo($norma, $_POST['nombre'], $_POST['entidades'], $_POST['resumen'], $_POST['permisos'], $_POST['sanciones'], $_POST['articulo'] )){
+		//registra archivos adjuntos
+		AdjuntarArchivos("articulo", $articulo);
+	}else{
 		echo 'Error al registrar nuevo articulo.';
 	}
+
 }
 
 /**
@@ -657,13 +662,14 @@ function EdicionArticulo($articulo){
 									<span class="adjuntos-boton" onClick="AdjuntoExtra()">+</span>
 
 									<div id="archivo0" class="adjunto">
-										<input type="file" name="archivo0">
+										<input type="text" name="archivoNombre0" placeholder="Nombre" />
+										<input type="file" name="archivo0" />
 									</div>
 								</div>
 								<!-- FIN ADJUNTO -->
 
 								<div class="datos-botones">
-									<button onClick="CancelarContent()">Cancelar</button>
+									<button type="button" onClick="CancelarContent()">Cancelar</button>
 									<input type="reset" value="Borrar" />
 									<input type="submit" value="Guardar" onClick="EditorUpdateContent()" />
 								</div>
@@ -755,6 +761,10 @@ function ActualizarArticulo($norma, $id){
 	
 	//ACTUALIZA ARTICULO
 	$registros->UpdateArticulo($norma, $id, $_POST['nombre'], $_POST['entidades'], $_POST['resumen'], $_POST['permisos'], $_POST['sanciones'], $_POST['articulo'] );
+
+	//registra archivos adjuntos si tiene
+	AdjuntarArchivos("articulo", $id);
+
 }
 
 
@@ -767,6 +777,33 @@ function EliminarArchivo($id){
 	if(!$registros->DeleteArchivo($id)){
 		echo 'Error no se pudo borrar el archivo.';
 	}
+}
+
+/***************** MANEJO DE ARCHIVOS **************/
+
+/**
+* SUBE Y GUARDA LOS ARCHIVOS ADJUNTOS
+* @param $tipo -> tipo de adjunto, para norma o articulo
+* @param $pertences -> id de la norma/articulo al que pertenecen los adjuntos
+*/
+function AdjuntarArchivos($tipo, $pertenece){
+	$registro = new Registros();
+
+	for ($i=0; $i < 10; $i++) { 
+		//SI ENVIA UN ARCHIVO
+		if( isset($_FILES['archivo'.$i]['tmp_name']) && isset($_POST['archivoNombre'.$i]) ){
+			
+			if( !$_FILES['archivo'.$i]['tmp_name'] == '' && !empty($_FILES['archivo'.$i]['tmp_name']) ){
+				//SUBE EL ARCHIVO Y GUARDA LOS DATOS
+				if($tipo == 'articulo'){
+					$registro->NuevoArchivo( "articulo", $_FILES['archivo'.$i] , $_POST['archivoNombre'.$i], $pertenece);
+				}else if($tipo == 'norma'){
+					$registro->NuevoArchivo( "norma", $_FILES['archivo'.$i] , $_POST['archivoNombre'.$i], $pertenece);
+				}
+			}
+		}
+	}
+		
 }
 
 ?>

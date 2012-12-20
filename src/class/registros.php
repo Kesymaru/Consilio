@@ -134,19 +134,20 @@ class Registros{
 
 	/**
 	* SUBE UN ARCHIVO 
+	* @param $tipo -> tipo de archivo, norma o articulo
 	* @param $archivo -> file ha subir
 	* @param $nombre -> nombre del archivo *opcional
-	* @param $categoria -> id de la categoria del archivo
+	* @param $pertenece -> id de la norma/articulo al que pertenece
 	* @return true -> si la operacion se realizo exitosamente
 	* @return false -> si ocurrio un error o fallo
 	*/
-	public function NuevoArchivo($archivo, $nombre, $categoria){
+	public function NuevoArchivo($tipo, $archivo, $nombre, $pertenece){
         $upload = new Upload();
         
         $upload->SetFileName($archivo['name']);
         $upload->SetTempName($archivo['tmp_name']);
 
-        $upload->SetValidExtensions(array('gif', 'jpg', 'jpeg', 'png', 'zip', 'rar', 'pdf', 'txt', 'xls')); 
+        $upload->SetValidExtensions(array('gif', 'jpg', 'jpeg', 'png', 'zip', 'rar', 'pdf', 'txt', 'xls')); //archivos permitidos
         
         $upload->SetUploadDirectory("../archivos/"); //DIRECTORIO PARA ARCHIVOS
 
@@ -160,7 +161,7 @@ class Registros{
             $link = str_replace("../", "", $link);
 
             //GUARDA EL LINK Y LOS DATOS EN LA BASE DE DATOS
-            if($this->setArchivo($nombre, $link, $categoria)){
+            if($this->setArchivo($tipo, $nombre, $link, $pertenece)){
             	return true;
             }else{
             	//NO SE GUARDO EN DB PERO SE SUBIO, SE ELIMINA EL ARCHIVO SUBIDO
@@ -174,35 +175,22 @@ class Registros{
 	}
 
 	/**
-	* GUARDA LOS DATO DE UN NUEVO ARCHIVO PARA CATEGORIA
-	* @param $nombre -> nombre archivo
-	* @param $link -> link archivo subido
-	* @param $categoria -> id de la categoria a la que pertenece
-	* @return true si se guarda correctamente
-	* @return false si falla
-	*/
-	private function setArchivoCategoria($nombre, $link, $categoria){
-		$base = new Database();
-		$query = "INSERT INTO archivos (nombre, link, categoria) VALUES ('".$nombre."', '".$link."', '".$categoria."')";
-
-		if($base->Insert($query)){
-			return true; //SE GUARDO
-		}else{
-			return false;
-		}
-	}
-
-	/**
 	* GUARDA LOS DATO DE UN NUEVO ARCHIVO PARA ARTICULO
+	* @param $tipo -> tipo archivo, norma o archivo
 	* @param $nombre -> nombre archivo
 	* @param $link -> link archivo subido
-	* @param $articulo -> id de la articulo a la que pertenece
+	* @param $pertenece -> id del articulo/norma a la que pertenece
 	* @return true si se guarda correctamente
 	* @return false si falla
 	*/
-	private function setArchivoArticulo($nombre, $link, $articulo){
+	private function setArchivo($tipo, $nombre, $link, $pertenece){
 		$base = new Database();
-		$query = "INSERT INTO archivos (nombre, link, articulo) VALUES ('".$nombre."', '".$link."', '".$articulo."')";
+
+		if($tipo == 'norma'){
+			$query = "INSERT INTO archivos (nombre, link, norma) VALUES ('".$nombre."', '".$link."', '".$pertenece."')";
+		}else if($tipo == 'articulo'){
+			$query = "INSERT INTO archivos (nombre, link, articulo) VALUES ('".$nombre."', '".$link."', '".$pertenece."')";
+		}
 
 		if($base->Insert($query)){
 			return true; //SE GUARDO
@@ -229,7 +217,7 @@ class Registros{
 		$link = '../'.$link;
 
 		//BORRA EL ARCHIVO
-		/*if( $base->DeleteImagen($link) ){
+		if( $base->DeleteImagen($link) ){
 			
 			if( $base->Delete($query) ){
 				return true;
@@ -238,30 +226,58 @@ class Registros{
 			}
 		}else{
 			return false;
-		}*/
-
-		$query = "SELECT * FROM ";
-		//en lugar de borrar el archivo lo archiva
-		if($this->SnapshotArchivoArticulo($id)){
-			return true;
-		}else{
-			return false;
 		}
 	}
 
 	/**
-	* CREA SNAPSHOT DE UN ARCHIVO ELIMINADO
+	* CREA SNAPSHOT DE UN ARCHIVO ELIMINADO, MUEVE EL ARCHIVO A LA CARPETA DE ARCHIVADOS Y CREA EL SNAPSHOT EN LA BASE DE DATOS
+	* @param $tipo -> tipo de archivo, articulo o norma
 	* @param $archivo -> id del archivo
 	* @return true si crea el snapshot del archivo
 	* @return false si falla
 	*/
-	private function SnapshotArchivoArticulo($archivo){
+	private function SnapshotArchivo($tipo, $archivo){
 		$base = new Database();
-		$query = "SELECT * FROM articulos WHERE "
-		if( $base->Archivar($archivo) ){
-			$pertence = $base->Select($query);
-			$query = "INSERT INTO snapshot_archivos ()";
-			return true;
+		$link = ''; //link archivo archivado
+
+		//mueve el archivo viejo/archivado a la carpeta de archivar
+		if( $link = $base->Archivar($archivo) ){
+			
+			//obtiene datos del archivo
+			$query = "SELECT * FROM archivos WHERE id = ".$archivo;
+			$datos = $base->Select($query);
+			
+			if(!empty($datos)){
+
+				//obtiene datos del articulo/norma al que pertenece el archivo
+				if($tipo == 'norma'){
+					$query = "SELECT * FROM normas WHERE id = ".$datos[0]['norma'];
+				}else if($tipo == 'articulo'){
+					$query = "SELECT * FROM articulos WHERE id = ".$datos[0]['articulo'];
+				}
+				//DATOS DE PERTENENCIA DEL ARCHIVO
+				$pertenece = $base->Select($query);
+				
+				if(!empty($articulo)){
+					//crea el snapshot del archivo con los datos
+					$query = "INSERT INTO snapshots_articulos (nombre, link, norma, articulo, fecha, id) VALUES ";
+					$query .= "( '".$datos[0]['nombre']."', '".$datos[0]['link']."', '".$datos[0]['norma']."', '".$datos[0]['articulo']."', '".$pertenece[0]['fecha']."', '".$archivo."' )";
+					
+					if($base->Insert($query)){
+						return true; //snapshot creado exitosamente
+
+					}else{
+						return false;
+					}
+
+				}else{
+					return false;
+				}
+
+			}else{
+				return false;
+			}
+
 		}else{
 			return false;
 		}
@@ -827,7 +843,7 @@ class Registros{
 		$query .= "VALUES ( '".$norma."', '".$nombre."', '".$entidades."', '".$resumen."', '".$permisos."', '".$sanciones."', '".$articulo."' )";
 		
 		if($base->Insert($query)){
-			return true;
+			return $base->getUltimoId();
 		}else{
 			return false;
 		}

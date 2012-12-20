@@ -49,7 +49,7 @@ function EditarCategorias(){
 	    }, { duration: 500, queue: false });
 	}
 
-	$.cookie('vista', 'edicion');
+	$.cookie('accion', 'categorias');
 	ActivaMenu();
 	Padres();
 }
@@ -960,7 +960,6 @@ function FormularioNorma(){
 		
 		var options = {  
 			beforeSend: function(){
-
 			},
 	    	success: function(response) { 
 
@@ -1399,9 +1398,11 @@ function FormularioEditarArticulo(){
 	var options = {  
 		beforeSubmit: ValidaFormularioNuevoArticulo, //se valida con la misma funcion que al crear nuevo articulo
 		beforeSend: function(){
+			Loading();
 		},
 		success: function(response) { 
-
+			LoadingClose();
+			
 			if(response.length == 3){
 				notifica("Articulo Actualizado.");
 				//$("#content").html("");
@@ -1456,12 +1457,21 @@ function EliminarAdjunto(id){
 * FUNCTION GENERICA PARA CANCELAR CUALQUIER ACCION EN #content
 */
 function CancelarContent(){
-	
-	$("form").submit(function(){
-		notificaAtencion("Operacion Cancelada");
-		$("#content").html("");
+	notificaAtencion("Operacion Cancelada");
+
+	$("#content").html("");
+
+	$("form").submit(function(e){
+		e.preventDefault();
+
 		return false;
 	});
+}
+
+/**
+* ABORTA TODOS LOS REQUEST AJAX
+*/
+function AjaxAbortar(){
 
 }
 
@@ -1497,7 +1507,7 @@ function AdjuntoExtra(){
 		return;
 	}
 
-	var nuevo = '<div id="archivo'+extra+'" class="adjunto"><hr><span class="adjuntos-boton" onClick="EliminarAdjuntoExtra('+extra+')">-</span><input type="file" name="archivo'+extra+'"></div>'
+	var nuevo = '<div id="archivo'+extra+'" class="adjunto"><hr><span class="adjuntos-boton" onClick="EliminarAdjuntoExtra('+extra+')">-</span><input type="text" name="archivoNombre'+extra+'" placeholder="Nombre" /> <input type="file" name="archivo'+extra+'" /></div>'
 
 	$(".adjuntos").append(nuevo);
 	$("#archivo"+extra).hide();

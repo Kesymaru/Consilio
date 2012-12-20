@@ -166,6 +166,13 @@ class Database{
 	}
 
 	/**
+	* OBTIENE EL ULTIMO ID DE UNA INSERCION
+	*/
+	public function getUltimoId(){
+		return mysql_insert_id();
+	}
+
+	/**
 	* ENCRIPTA Y DESENCRIPTA UN TEXTO
 	* @param $text => texto a encriptar o desencriptar
 	* @return $text => texto encriptado
@@ -204,10 +211,12 @@ class Database{
 	*/
 	public function Archivar($link){
 		$destino = 'archivos/archivados';
-		
+		$nuevo = "";
+
 		//mueve el archivo a archivado, archivandolo
 		if(rename($link, $destino)){
-			return true;
+			$nuevo = $destino . substr_replace($link, "../../archivos");
+			return $nuevo;
 		}else{
 			return false;
 		}

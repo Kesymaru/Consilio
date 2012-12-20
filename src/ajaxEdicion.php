@@ -302,7 +302,7 @@ function BoxNuevaCategoria($padre){
 			
 		</div>
 		</div>
-		<button onClick="CancelarNuevaCateogria('.$padre.')">Cancelar</button>
+		<button type="button" onClick="CancelarNuevaCateogria('.$padre.')">Cancelar</button>
 		<input type="reset" value="Borrar" />
 		<input type="submit" value="Guardar" />
 			</form>';
