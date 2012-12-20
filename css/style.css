@@ -125,18 +125,21 @@ html, body{
 	width: 95%;
 	margin: 0 auto;
 	border: 1px solid #dedede;
+	padding-top: 20px;
 }
 
 .datos textarea{
 	margin: 0 auto;
 }
+
+.datos table{
+	margin: 0 auto;
+	border-collapse: separate;
+	border-spacing: 10px 10px;
+}
+
 .close_datos{
 	display: none;
-}
-.datos select{
-	margin: 0 auto;
-	margin-bottom: 20px;
-	margin-top: 20px;
 }
 
 #uploader{
@@ -565,7 +568,9 @@ html, body{
 	display: block;
 }
 
-/* BOXES */
+/**
+* BOXES
+*/
 .box{
 	margin: 0 auto;
 	border: 1px solid #dedede;
@@ -622,11 +627,24 @@ html, body{
 	cursor: pointer;
 }
 
+.box p{
+	margin: 0;
+	margin-top: 10px;
+}
+
+.box b{
+	font-weight: bold;
+	color: #a1ca4a;
+}
+
+/**
+* ADJUNTOS 
+*/
 .adjuntos{
 	padding: 7px;
 	display:block;
 	margin: 0 auto;
-	width: 70%;
+	width: 80%;
 	vertical-align: middle;
 	background-color: #BAB8B9; /*para ie8*/
 	background-color: rgba(117, 114, 115, .5);
@@ -673,7 +691,7 @@ html, body{
 
 .editor-footer{
 	position: absolute;
-	width: 100%;
+	width: auto;
 	margin-top: -30px;
 	height: 25px;
 	cursor: pointer;
@@ -684,15 +702,46 @@ html, body{
 	margin-left:10px;
 }
 
-.box p{
-	margin: 0;
-	margin-top: 10px;
+.adjuntos ul{
+	padding-top: 5px;
+	padding-bottom: 5px;
+	margin-bottom: 10px;
+	border-bottom: 1px solid rgba(117, 114, 115, .2);
+	display: block;
 }
 
-.box b{
-	font-weight: bold;
-	color: #a1ca4a;
+.adjuntos ul li{
+	list-style: none;
+	margin-right: 5px;
+	border: 1px solid transparent;
 }
+
+.adjuntos ul li a{
+	text-transform: none;
+	font-weight: bold;
+	margin-right: 20px;
+	color: #757273; /*para ie8*/
+	color: rgba(117, 114, 115, 1);
+}
+
+.adjuntos ul li .close{
+	display: none;
+	float: right;
+	margin-top: -15px;
+	margin-right: -15px;
+	cursor: pointer;
+	margin-bottom: 5px;
+}
+
+.adjuntos ul li:hover {
+	background-color: rgba(117, 114, 115, .7);
+	border: 1px solid rgba(117, 114, 115, .7);
+}
+
+.adjuntos ul li:hover .close{
+	display: block;
+}
+
 
 /**
 * RESULTADOS BUSQUEDA 

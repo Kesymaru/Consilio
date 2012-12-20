@@ -114,25 +114,6 @@ class Registros{
 
 	/**
 	* OBTIENE LOS ARCHIVOS ADJUNTO DE UN REGISTRO
-	* @param $categoria -> id categoria
-	* @return $datos[][] => datos de los archivos
-	* @return false si falla
-	*/
-	public function getArchivos($categoria){
-		$base = new Database();
-		$query = "SELECT * FROM archivos WHERE categoria = ".$categoria;
-
-		$datos = $base->Select($query);
-
-		if(!empty($datos)){
-			return $datos;
-		}else{
-			return false;
-		}
-	}
-
-	/**
-	* OBTIENE LOS ARCHIVOS ADJUNTO DE UN REGISTRO
 	* @param $dato -> dato solicitado
 	* @param $id -> id categoria
 	* @return $datos -> dato consultado
@@ -193,16 +174,35 @@ class Registros{
 	}
 
 	/**
-	* GUARDA LOS DATO DE UN NUEVO ARCHIVO
+	* GUARDA LOS DATO DE UN NUEVO ARCHIVO PARA CATEGORIA
 	* @param $nombre -> nombre archivo
 	* @param $link -> link archivo subido
 	* @param $categoria -> id de la categoria a la que pertenece
 	* @return true si se guarda correctamente
 	* @return false si falla
 	*/
-	private function setArchivo($nombre, $link, $categoria){
+	private function setArchivoCategoria($nombre, $link, $categoria){
 		$base = new Database();
 		$query = "INSERT INTO archivos (nombre, link, categoria) VALUES ('".$nombre."', '".$link."', '".$categoria."')";
+
+		if($base->Insert($query)){
+			return true; //SE GUARDO
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* GUARDA LOS DATO DE UN NUEVO ARCHIVO PARA ARTICULO
+	* @param $nombre -> nombre archivo
+	* @param $link -> link archivo subido
+	* @param $articulo -> id de la articulo a la que pertenece
+	* @return true si se guarda correctamente
+	* @return false si falla
+	*/
+	private function setArchivoArticulo($nombre, $link, $articulo){
+		$base = new Database();
+		$query = "INSERT INTO archivos (nombre, link, articulo) VALUES ('".$nombre."', '".$link."', '".$articulo."')";
 
 		if($base->Insert($query)){
 			return true; //SE GUARDO
@@ -229,7 +229,7 @@ class Registros{
 		$link = '../'.$link;
 
 		//BORRA EL ARCHIVO
-		if( $base->DeleteImagen($link) ){
+		/*if( $base->DeleteImagen($link) ){
 			
 			if( $base->Delete($query) ){
 				return true;
@@ -238,17 +238,46 @@ class Registros{
 			}
 		}else{
 			return false;
+		}*/
+
+		$query = "SELECT * FROM ";
+		//en lugar de borrar el archivo lo archiva
+		if($this->SnapshotArchivoArticulo($id)){
+			return true;
+		}else{
+			return false;
 		}
 	}
 
 	/**
-	* CREA SNAPSHOT DE ARCHIVOS ADJUNTOS DE ARTICULO
+	* CREA SNAPSHOT DE UN ARCHIVO ELIMINADO
+	* @param $archivo -> id del archivo
+	* @return true si crea el snapshot del archivo
+	* @return false si falla
 	*/
-	private function SnapshotArchivoArticulo($articulo){
+	private function SnapshotArchivoArticulo($archivo){
+		$base = new Database();
+		$query = "SELECT * FROM articulos WHERE "
+		if( $base->Archivar($archivo) ){
+			$pertence = $base->Select($query);
+			$query = "INSERT INTO snapshot_archivos ()";
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* OBTIENE LOS ARCHIVOS DE UN ARTICULO
+	* @param $articulo -> id del articulo
+	* @return $datos -> array[][]
+	*/
+	public function getArchivosArticulo($articulo){
 		$base = new Database();
 		$query = "SELECT * FROM archivos WHERE articulo = ".$articulo;
 
-		$datos = "";
+		$datos = $base->Select($query);
+		return $datos;
 	}
 
 /************** CATEGORIAS **************/

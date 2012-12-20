@@ -101,6 +101,14 @@ if(isset($_POST['func'])){
 			}
 			break;
 
+	/************************ ARCHIVOS *****************/
+
+		case 'EliminarArchivo':
+			if( isset($_POST['archivo']) ){
+				EliminarArchivo($_POST['archivo']);
+			}
+			break;
+
 	}
 }
 
@@ -168,13 +176,29 @@ function EditarNorma($norma){
 							<div class="datos">
 								<input type="hidden" value="ActualizarNorma" name="func" />
 								<input type="hidden" value="'.$norma.'" id="norma" name="norma" />
-								<input type="text" id="nombre" name="nombre" placeholder="Nombre" class="validate[required]" value="'.$datos[0]['nombre'].'" />
-								<input type="number" id="numero" name="numero"  placeholder="Numero" class="validate[required, number]" value="'.$datos[0]['numero'].'" />
-								<br/>';
+								<table>
+								<tr>
+									<td>Nombre</td>
+									<td>
+										<input type="text" id="nombre" name="nombre" placeholder="Nombre" class="validate[required]" value="'.$datos[0]['nombre'].'" />
+									</td>
+								</tr>
+								<tr>
+									<td>Numero</td>
+									<td>
+										<input type="number" id="numero" name="numero"  placeholder="Numero" class="validate[required, number]" value="'.$datos[0]['numero'].'" />
+									</td>
+								</tr>
+								<tr>
+									<td>Tipo</td>
+									<td>';
 
 		$formulario .= TiposNorma($norma); //selects seleccionados y disponibles para los tipos de normas
 
-		$formulario .= '
+		$formulario .= '			</td>
+								</tr>
+								</table>
+								<br/><br/>
 							</div>
 							<div class="datos-botones">
 								<button onClick="CancelarContent()">Cancelar</button>
@@ -200,13 +224,31 @@ function NuevaNorma(){
 					<form id="FormularioNuevaNorma" enctype="multipart/form-data" method="post" action="src/ajaxNormas.php">
 							<div class="datos">
 								<input type="hidden" value="CrearNorma" name="func" />
-								<input type="text" id="nombre" name="nombre" placeholder="Nombre" class="validate[required]" />
-								<input type="number" id="numero" name="numero" placeholder="Numero" class="validate[required, number]" />
-								<br/>';
+								<table>
+								<tr>
+									<td>Nombre</td>
+									<td>
+										<input type="text" id="nombre" name="nombre" placeholder="Nombre" class="validate[required]" />
+									</td>
+								</tr>
+								<tr>
+									<td>Numero</td>
+									<td>
+										<input type="number" id="numero" name="numero" placeholder="Numero" class="validate[required, number]" />
+									</td>
+								</tr>
+								<tr>
+									<td>
+										Tipo
+									</td>
+									<td>';
 
 	$formulario .= Tipos(); //selects disponibles para los tipos de normas
 
-	$formulario .= '
+	$formulario .= '				</td>
+								</tr>
+							</table>
+							<br/><br/>
 							</div>
 							<div class="datos-botones">
 								<button onClick="CancelarContent()">Cancelar</button>
@@ -411,7 +453,9 @@ function NuevoArticulo($norma){
 							    <div class="editor-footer">
 							    	<img id="adjuntar-icon" src="images/folder-upload.png" onClick="Adjuntos()" />
 							    </div>
-							</div><!-- fin del cuadro -->
+							</div>
+							<!-- fin del cuadro -->
+
 							<div class="adjuntos">
 								<input type="hidden" name="totalArchivos" value="0" />
 								<span class="adjuntos-boton" onClick="AdjuntoExtra()">+</span>
@@ -420,6 +464,7 @@ function NuevoArticulo($norma){
 									<input type="file" name="archivo0">
 								</div>
 							</div>
+
 							<div class="datos-botones">
 								<button onClick="CancelarContent()">Cancelar</button>
 								<input type="reset" value="Borrar" />
@@ -536,6 +581,10 @@ function EdicionArticulo($articulo){
 	$formulario = "";
 
 	if( !empty($datos) ){
+
+		//OBTIENE LOS ARCHIVOS ADJUNTOS
+		$archivos = $registros->getArchivosArticulo($datos[0]['id']);
+
 		$formulario .= '<div class="titulo">
 							Nuevo Articulo
 							<hr>
@@ -573,11 +622,45 @@ function EdicionArticulo($articulo){
 								    </div>
 								    <div id="tabs-4">
 								    	<textarea class="validate[required]" id="articulo" name="articulo" >'.base64_decode($datos[0]['articulo']).'</textarea>
-								    </div>
-
-								    </div>
-								    
+								    </div>';
+		if(empty($archivos)){
+			$formulario .= ' 		<div class="editor-footer">
+							    		<img id="adjuntar-icon" src="images/folder-upload.png" onClick="Adjuntos()" />
+							    	</div>';
+		}
+								   
+		$formulario .= '			</div><!-- fin tabs -->
 								</div>
+								<!-- fin del datos -->';
+
+		$formulario .= '		<!-- archivos adjuntos -->
+								<div class="adjuntos">';
+		
+		if(!empty($archivos)){
+			$formulario .= '<ul>';
+			foreach ($archivos as $fi => $archivo) {
+				
+				$formulario .=      '<li id="adjuntado'.$archivo['id'].'">
+										<a href="src/download.php?link='.$archivo['link'].'">
+											'.$archivo['nombre'].'
+											<img src="images/folder.png">
+										</a>
+										<img class="close" src="images/close.png" onClick="EliminarAdjunto('.$archivo['id'].')" />
+									</li>';
+			}
+			
+			$formulario .= '</ul>';
+		}
+									
+		$formulario .= '
+									<input type="hidden" name="totalArchivos" value="0" />
+									<span class="adjuntos-boton" onClick="AdjuntoExtra()">+</span>
+
+									<div id="archivo0" class="adjunto">
+										<input type="file" name="archivo0">
+									</div>
+								</div>
+								<!-- FIN ADJUNTO -->
 
 								<div class="datos-botones">
 									<button onClick="CancelarContent()">Cancelar</button>
@@ -672,6 +755,18 @@ function ActualizarArticulo($norma, $id){
 	
 	//ACTUALIZA ARTICULO
 	$registros->UpdateArticulo($norma, $id, $_POST['nombre'], $_POST['entidades'], $_POST['resumen'], $_POST['permisos'], $_POST['sanciones'], $_POST['articulo'] );
+}
+
+
+/**
+* ELIMINA UN ARCHIVO ADJUNTO
+* @param id -> id del archivo a eliminars
+*/
+function EliminarArchivo($id){
+	$registros = new Registros();
+	if(!$registros->DeleteArchivo($id)){
+		echo 'Error no se pudo borrar el archivo.';
+	}
 }
 
 ?>

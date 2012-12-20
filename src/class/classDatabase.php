@@ -197,4 +197,20 @@ class Database{
 		}
 	}
 
+	/**
+	* METODO PARA MOVER UN ARCHIVO A LA CARPETA ARCHIVADOS
+	* @param $link -> link imagen ha eliminar
+	* @return $nuevo -> nuevo link del archivo movido 
+	*/
+	public function Archivar($link){
+		$destino = 'archivos/archivados';
+		
+		//mueve el archivo a archivado, archivandolo
+		if(rename($link, $destino)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 }

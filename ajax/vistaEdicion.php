@@ -1426,6 +1426,29 @@ function FormularioEditarArticulo(){
 	$( "#tabs" ).tabs(); //crea tabs para los textareas
 }
 
+/**
+* ELIMINA UN ARCHIVO ADJUNTOs
+*/
+function EliminarAdjunto(id){
+	$("#adjuntado"+id).slideUp(700, function(){
+		$("#adjuntado"+id).remove();
+	});
+
+	var queryParams = {"func" : "EliminarArchivo", "archivo" : id};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxNormas.php",
+		beforeSend: function(){
+		},
+		success: function(response){
+			notifica(response);
+		},
+		fail: function(){
+		}
+	})
+}
 
 /********************************** HELPERS ******************************/
 
@@ -1446,9 +1469,17 @@ function CancelarContent(){
 * MUESTRA EL FORM PARA ARCHIVOS ADJUNTOS
 */
 function Adjuntos(){
-	$(".adjuntos").slideDown(700,function(){
-		notificaAtencion("Puede adjuntar:<br/>Imagenes,Documentos y comprimidos ZIP");
-	});
+
+	if($(".adjuntos").is(":visible")){
+		$(".adjuntos").slideUp(700);
+	}else{
+		$(".adjuntos").slideDown(700,function(){
+			if( !$("#mensajeAdjuntos").is(":visible") ){
+				notificaAtencion("<span id='mensajeAdjuntos'></span>Puede adjuntar:<br/>Imagenes,Documentos y comprimidos ZIP");
+			}
+		});
+	}
+	
 }
 
 /**
@@ -1456,7 +1487,6 @@ function Adjuntos(){
 */
 function AdjuntoExtra(){
 	var extra = $(".adjuntos div:last").attr("id");
-	notifica(extra);
 	extra = extra.substring(7);
 	extra = parseInt(extra);
 	extra += 1;
@@ -1467,7 +1497,6 @@ function AdjuntoExtra(){
 		return;
 	}
 
-	notifica(extra);
 	var nuevo = '<div id="archivo'+extra+'" class="adjunto"><hr><span class="adjuntos-boton" onClick="EliminarAdjuntoExtra('+extra+')">-</span><input type="file" name="archivo'+extra+'"></div>'
 
 	$(".adjuntos").append(nuevo);
@@ -1483,6 +1512,8 @@ function EliminarAdjuntoExtra(id){
 		$("#archivo"+id).remove();
 	});
 }
+
+
 
 </script>
 <!-- FIN JAVASCRIPT -->
