@@ -50,15 +50,9 @@ html, body{
 	padding: 0;
 }
 
-#menu #categorias hr{
-	display: inline-block;
-	width: 25%;
-	border: 1px solid #dedede;
-	vertical-align: middle;
-}
-
 #menu #categorias,
-#menu #articulos {
+#menu #articulos,
+#menu #tipos {
 	display: block;
 	text-align: center;
 	width: 100%;
@@ -66,15 +60,6 @@ html, body{
 	margin: 0;
 	padding: 0;
 	z-index: -1;
-}
-
-#menu #categorias .titulo{
-	display: block;
-	text-align: center;
-	font-size: 20px;
-	width: 100%;
-	margin: 0;
-	padding: 0;
 }
 
 #menu .categoria, 
@@ -85,7 +70,7 @@ html, body{
 	min-width: 150px;
 }
 
-#menu .categoria ul, 
+#menu .categoria ul,
 #menu .root ul{
 	display: block;
 	float: left;
@@ -100,6 +85,8 @@ html, body{
 
 #menu .categoria ul li,
 #menu .normas ul li,
+#menu .entidades ul li,
+#menu .tipos ul li,
 #menu .root ul li{
 	list-style: none;
 	border: 0;
@@ -111,6 +98,8 @@ html, body{
 
 #menu .categoria ul li:hover,
 #menu .normas ul li:hover,
+#menu .entidades ul li:hover,
+#menu .tipos ul li:hover,
 #menu .root ul li:hover{
 	background-color: rgba(117, 114, 115, .3);
 }
@@ -119,6 +108,14 @@ html, body{
 	border: solid 1px #A1CA4A;
 	background-color: #A1CA4A;
 	color: #fff;
+}
+
+.grupo{
+	padding-left: 5px !important;
+}
+
+.hija{
+	padding-left: 40px !important;
 }
 
 .datos{
@@ -136,6 +133,50 @@ html, body{
 	margin: 0 auto;
 	border-collapse: separate;
 	border-spacing: 10px 10px;
+}
+
+.datos #normas-categoria{
+	width: 100%;
+	border-collapse: collapse !important;
+}
+
+.datos #normas-categoria th{
+	font-size: 20px;
+	padding: 2px;
+	color: #000;
+	background-color: rgba(117, 114, 115, .3);
+	border-bottom: 1px solid rgba(117, 114, 115, .4);
+}
+
+.datos #normas-categoria .control{
+	background-color: rgba(117, 114, 115, .3);
+	vertical-align: middle;
+	width: 40px;
+	border-left: 1px solid rgba(117, 114, 115, .4);
+	border-right: 1px solid rgba(117, 114, 115, .4);
+	cursor: pointer;
+}
+
+.datos #normas-categoria ul{
+	width: 100%;
+	display: block;
+}
+
+.datos #normas-categoria ul li{
+	font-size: 20px;
+	padding-bottom: 5px;
+	padding-top: 5px;
+	width: 100%;
+	cursor: pointer;
+}
+
+.datos #normas-categoria ul li:hover{
+	background-color: #D5D4D5;
+	color: #fff;
+}
+
+.datos #normas-categoria .control:hover{
+	background-color: rgba(117, 114, 115, 1);
 }
 
 .close_datos{

@@ -50,23 +50,16 @@ if(isset($_POST['func'])){
 			break;
 
 		//CARGA LOS DATOS DE UNA CATEGORIA EN UN FORMULARIO PARA LA EDICION
-		case 'GetCategoria':
+		case 'NormasCategoria':
 			if( isset($_POST['categoria']) ){
-				echo EditarCategoria( $_POST['categoria'] );
+				echo NormasCategoria( $_POST['categoria'] );
 			}
 			break;
 
 		//ACTUALIZA DATOS, REGISTRA DATOS Y/O SUBE ARCHIVO
-		case 'RegistrarCategorias':
-			if( isset($_POST['categoria']) ){
-				RegistrarCategorias( $_POST['categoria'] );
-			}
-			break;
-
-		case 'DeleteArchivo':
-			if( isset($_POST['archivo']) ){
-				$registro = new Registros();
-				$registro->DeleteArchivo($_POST['archivo']);
+		case 'ActualizarCategoria':
+			if( isset($_POST['categoria']) && isset($_POST['normas']) ){
+				ActualizarCategoria( $_POST['categoria'], $_POST['normas']);
 			}
 			break;
 
@@ -107,7 +100,6 @@ if(isset($_POST['func'])){
 function Padres(){
 	echo '<div id="categorias">
 				<div class="titulo">
-					<hr>
 					Categorias
 					<hr>
 				  </div>';
@@ -170,6 +162,7 @@ function Hijos($padre){
 					continue;
 				}
 			}
+			//carga hijos de la categoria
 			echo '<li id="'.$id.'" onClick="Hijos('.$id.')">'.$nombre.'</li>';
 		}
 
@@ -177,109 +170,150 @@ function Hijos($padre){
 		echo '</div>';
 
 		//tiene hijos por lo tanto no es hoja
-		echo '<script>Categoria('.$_POST['padre'].');</script>';
+		//echo '<script>NormasCategoria('.$_POST['padre'].');</script>';
 
 	}else{
 		//no tiene hijos es una hoja
 		if( !$registros->EsRoot($padre) ){
-			echo '<script>CategoriaNormas('.$_POST['padre'].');</script>';
+			echo '<script>NormasCategoria('.$_POST['padre'].');</script>';
 		}
 	}
 }
 
 /**
-* CREA EL FORMULARIO DE UNA CATEGORIA
+* MUESTRA LAS NORMAS DE LA CATEGORIA CON LA OPCION DE SELECCIONAR LAS
 * @param $categoria -> id de la categoria 
+* @return $formulario -> con la lista compuesta
 */
-function EditarCategoria($categoria){
+function NormasCategoria($categoria){
 	$formulario = '';
-	$registro = new Registros();
-
-	//OPTIENE DATOS DE LA CATEGORIA
-	$nombre = $registro->getCategoriaDato("nombre", $categoria);
-
-	//FORMULARIO DE LOS DATOS DE LA CATEGORIA
-	$formulario .= '<form id="FormularioEdicionCategoria" enctype="multipart/form-data" method="post" action="src/ajaxEdicion.php" >
-							<div id="nivel1">
-							<div id="nombreNorma">
-							<!-- nombre de la categoria -->
-								<input id="nombre" name="nombre" class="validate[required]" value="'.$nombre.'" />
-							</div>
-							<!-- datos fijos escondidos -->
-							<input type="hidden" value="RegistrarCategorias" id="func" name="func" />
-							<input type="hidden" value="'.$categoria.'" id="categoria" name="categoria" />
-							<div class="datos">';
-
+	$registros = new Registros();
 	
-	$formulario .= 'Descripcion<textarea id="contenido" name="contenido" cols="80"  rows="10" >'.$registro->getCategoriaDato("descripcion",$categoria).'</textarea>';
+	$nombre = $registros->getCategoriaDato("nombre", $categoria);
 
-	$formulario .= '</div>
-					</div>
-					<!-- end nivel1-->
-
-					<div id="nivel2">
-						<div id="BoxArchivo" >
-							<input type="text" name="archivoNombre" id="archivoNombre" placeholder="Nombre" />
-							<input type="file" name="archivo" id="archivo" />
-						</div>';
-
-	//CIERRE FORMULARIO 
-	$formulario .= '</div>
-					<!-- end nivel 2-->
-
-					<input type="reset" value="borrar" />
-
-					<!-- EditorUpdateContent() actualiza contenido antes de guardarlo -->
-					<input type="submit" value="Guardar" onClick="EditorUpdateContent()" />
-					</form>
-
-					<!-- carga el editor y el formulario -->
-					<script type="text/javascript">
-						FormularioEdicionCategoria();
-						Editor("contenido");
-					</script>';
+	$formulario = '<form id="FormularioNormasCategoria" enctype="multipart/form-data" method="post" action="src/ajaxEdicion.php" >
+					<div id="tipos" class="tipos">
+						<div class="titulo">
+							Normas de '.$nombre.'
+					  		<hr>
+					  	</div>
+					  	<input type="hidden" name="func" value="ActualizarCategoria" />
+					  	<input type="hidden" name="categoria" value="'.$categoria.'" />
+					  	<div class="datos">
+					  		<table>
+					  		<tr>
+					  			<td>Nombre</td>
+					  			<td>
+					  				<input type="text" name="nombre" id="nombre" value="'.$nombre.'" placeholder="Nombre" class="validate[required]" />
+					  			</td>
+					  		</tr>
+					  		</table>
+					  		<table id="normas-categoria">
+					  			<tr>
+					  				<th colspan="2">
+					  					Normas Incluidas
+					  				</th>
+					  				<th colspan="2">
+					  					Normas Disponibles
+					  				</th>
+					  			</tr>
+					  			<tr>
+					  				<td id="td-seleccionadas">
+					  					<br/>';
+	$formulario .= SelectedNormas($categoria).'
+					  					<br/>
+					  				</td>
+					  				<td class="control" onClick="QuitarNormasSeleccionadas()">
+					  					>
+					  				</td>
+					  				<td class="control" onClick="AgregarNormasSeleccionadas()">
+					  					<
+					  				</td>
+					  				<td id="td-diponibles">
+					  					<br/>';
+	$formulario .= Normas($categoria).'
+										<br/>
+					  				</td>
+					  			</tr>
+					  		</table>
+					  	</div>
+					  	<div class="datos-botones">
+					  		<button type="button" onClick="CancelarContent()">Cancelar</button>
+							<input type="reset" value="Borrar" />
+							<input type="submit" value="Guardar" />
+						</div>
+					</form>';
 
 	return $formulario;
 }
 
 /**
-* OBTIENE LOS DATOS ENVIADOS Y LOS GUARDA
-* @param $categoria -> id de la categoria ha registrar
-* @return true -> si actualiza bien
+* OBTIEN LAS NORMAS DE LA CATEGORIA
+* @param $categoria -> id de la categoria
+* @return $lista -> lista compuesta con las normas
 */
-function RegistrarCategorias($categoria){
+function Normas($categoria){
+	$lista = "";
+	$registros = new Registros();
 
-	if( isset($_POST['contenido']) ){
-		$registro = new Registros();
-		$registro->setDato($_POST['contenido'], $categoria);
+	$normas = $registros->getNormas();
+
+	if(!empty($normas)){	
+		$lista .= '<ul id="disponibles">';
+		foreach ($normas as $fila => $norma) {
+			$lista .= '<li id="norma'.$norma['id'].'" onClick="SelectNorma('.$norma['id'].')">'.$norma['nombre'].'</li>';
+		}
+		$lista .= '</ul>';
+	}else{
+		$lista .= 'No hay normas.<br>
+				   Por favor ingrese normas, puede agregar normas en:<br/>
+				   Edicion->Normas<br/>';
+	}
+	
+	return $lista;
+}
+
+function SelectedNormas($categoria){
+	$lista = '';
+	$registros = new Registros();
+
+	$seleccionadas = $registros->getSelectedNormas($categoria);
+	$normas = $registros->getNormas();
+
+	if(!empty($normas) && !empty($seleccionadas)){
+		$lista .= '<ul id="seleccionadas">';
+		foreach ($normas as $fila => $norma) {
+
+			foreach ($seleccionadas as $valor ) {
+				echo $valor;
+
+				if($valor == $norma['id']){
+					$lista .= '<li>'.$norma['nombre'].'</li>';
+				}
+			}
+		}
+		$lista .= '</ul>';
+	}else{
+		$lista .= '<ul id="seleccionadas"></ul>';
 	}
 
-	if(isset($_POST['nombre'])){
-		//actualiza nombre de la categoria
-		$registro->UpdateCategoria($_POST['nombre'], $categoria);
-	}
-
-	//sube archivo
-	NuevoArchivo($categoria);
+	return $lista;
 }
 
 /**
-* GUARDA DATOS DEL NUEVO ARCHIVO Y SUBE EL ARCHIVOS A /archivos
+* OBTIENE LOS DATOS ENVIADOS Y LOS GUARDA
+* @param $categoria -> id de la categoria ha registrar
+* @param $normas -> array[] con las normas seleccionadas
+* @return true -> si actualiza bien
 */
-function NuevoArchivo($categoria){
-	$registro = new Registros();
+function ActualizarCategoria($categoria, $normas){
+	$registros = new Registros();
 
-	//SI ENVIA UN ARCHIVO
-	if( isset($_FILES['archivo']['tmp_name']) && isset($_POST['archivoNombre']) ){
-		
-		if( !$_FILES['archivo']['tmp_name'] == '' && !empty($_FILES['archivo']['tmp_name']) ){
-			//SUBE EL ARCHIVO Y GUARDA LOS DATOS
-			$registro->NuevoArchivo( $_FILES['archivo'] , $_POST['archivoNombre'], $categoria);
-		}else{
-			//echo 'archivo vacio';
-		}
-		
+	//actualiza nombre de la categoria
+	if( !$registros->UpdateCategoria($_POST['nombre'], $normas, $categoria) ){
+		echo 'Error. No se pudo actualizar la categoria.';
 	}
+
 }
 
 /**

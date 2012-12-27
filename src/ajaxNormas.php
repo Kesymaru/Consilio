@@ -147,11 +147,12 @@ function Normas(){
 		echo '--- No hay normas ---';
 	}
 	echo '</div>
-		 <div>
-		 <button id="EditarNorma" onClick="EditarNorma()">Editar</button>
-		 <button id="DeshabilitarNorma" onClick="DeshabilitarNorma()">Deshabilitar</button>
-		 <button id="HabilitarNorma" onClick="HabilitarNorma()">Habilitar</button>
-		 <button onClick="NuevaNorma()">Nueva Norma</button>
+		 <div class="datos-botones">
+			<button id="EditarNorma" onClick="EditarNorma()">Editar</button>
+			<button id="DeshabilitarNorma" onClick="DeshabilitarNorma()">Deshabilitar</button>
+			<button id="HabilitarNorma" onClick="HabilitarNorma()">Habilitar</button>
+			<button id="ArticulosNorma" onClick="Articulos()">Articulos</button>
+			<button onClick="NuevaNorma()">Nueva Norma</button>
 		 </div>';
 	echo '</div>';
 }

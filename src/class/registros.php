@@ -133,7 +133,7 @@ class Registros{
 	}
 
 	/**
-	* SUBE UN ARCHIVO 
+	* SUBE UN ARCHIVO NUEVO
 	* @param $tipo -> tipo de archivo, norma o articulo
 	* @param $archivo -> file ha subir
 	* @param $nombre -> nombre del archivo *opcional
@@ -146,10 +146,12 @@ class Registros{
         
         $upload->SetFileName($archivo['name']);
         $upload->SetTempName($archivo['tmp_name']);
-
-        $upload->SetValidExtensions(array('gif', 'jpg', 'jpeg', 'png', 'zip', 'rar', 'pdf', 'txt', 'xls')); //archivos permitidos
         
-        $upload->SetUploadDirectory("../archivos/"); //DIRECTORIO PARA ARCHIVOS
+        //FORMATOS DE ARCHIVOS PERMITIDOS
+        $upload->SetValidExtensions(array('gif', 'jpg', 'jpeg', 'png', 'zip', 'rar', 'pdf', 'txt', 'xls', 'xlsx', 'ods', 'docx', '.odt', 'rtf', 'pptx', 'ppt', 'pptm')); 
+        
+        //DIRECTORIO PARA ARCHIVOS
+        $upload->SetUploadDirectory("../archivos/"); 
 
         $upload->SetMaximumFileSize(90000000); //TAMANO MAXIMO PERMITIDO
         
@@ -319,13 +321,16 @@ class Registros{
 	/**
 	* ACTUALIZA UNA CATEGORIA
 	* @param $nombre -> nuevo nombre
+	* @param $normas -> array[] con las normas seleccionadas sin serializar
 	* @param $id -> id de la categoria
 	*/
-	public function UpdateCategoria($nombre, $id){
+	public function UpdateCategoria($nombre, $normas, $id){
 		$base = new Database();
-		$query = "UPDATE categorias SET nombre = '".$nombre."' WHERE id = '".$id."'";
 
 		$nombre = mysql_real_escape_string($nombre);
+		$normas = serialize($normas);
+
+		$query = "UPDATE categorias SET nombre = '".$nombre."', normas = '".$normas."' WHERE id = '".$id."'";
 
 		if( $base->Existe("SELECT * FROM categorias WHERE id = ".$id )){
 			if($base->Update($query)){
@@ -629,6 +634,22 @@ class Registros{
 			return $datos;
 		}else{
 			return false;
+		}
+	}
+
+	/**
+	* OBTIENE LAS NORMAS SELECCIONADAS    
+	*/
+	public function getSelectedNormas($categoria){
+		$base = new Database();
+		$query = "SELECT * FROM categorias WHERE id = ".$categoria;
+
+		$datos = $base->Select($query);
+		
+		if(!empty($datos)){
+			return unserialize($datos[0]['normas']);
+		}else{
+
 		}
 	}
 
@@ -979,6 +1000,76 @@ class Registros{
 	}
 
 	/**
+	* OBTIENE TODOS LOS DATOS DE UN TIPO
+	* @param id -> id del tipo
+	*/
+	public function getTipo($id){
+		$base = new Database();
+		$query = "SELECT * FROM tipos WHERE id = ".$id;
+
+		$datos = $base->Select($query);
+
+		return $datos;
+	}
+
+	/**
+	* CREA UN NUEVO TIPO
+	* @param $nombre -> nombre de l nuevo tipo
+	* @return true si se realiza exitosamente
+	* @return false si falla
+	*/
+	function NuevoTipo($nombre){
+		$base = new Database();
+		$nombre = mysql_real_escape_string($nombre);
+
+		$query = "INSERT INTO tipos (nombre) VALUES ('".$nombre."')";
+
+		if( $base->Insert($query) ){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* ELIMINA UN TIPO
+	* @param $id -> id del tipo ha borrar
+	* @return true si se elimina correctamente
+	* @return false si falla
+	*/
+	public function DeleteTipo($id){
+		$base = new Database();
+		$query = "DELETE FROM tipos WHERE id = ".$id;
+
+		if($base->Delete($query)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* ACTUALIZA UN TIPO
+	* @param $nombre -> nombre nuevo
+	* @param $id -> id del tipo ha actualizar
+	*/
+	public function UpdateTipo($nombre, $id){
+		$base = new Database();
+		
+		$nombre = mysql_real_escape_string($nombre);
+
+		$query = "UPDATE tipos SET nombre = '".$nombre."' WHERE id = ".$id;
+
+		if($base->Update($query)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+/*********************************** ENTIDADES NORMAS ************************/
+
+	/**
 	* OBTIENE TODAS LAS ENTIDADES
 	* @return $datos -> array[][]
 	*/
@@ -991,6 +1082,149 @@ class Registros{
 		if(!empty($datos)){
 			return $datos;
 		}else{	
+			return false;
+		}
+	}
+
+	/**
+	* OBTIEN LAS ENTIDADES CON GRUPOS
+	*/
+	public function getPadresEntidades(){
+		$padres = array();
+		$base = new Database();
+		$query = "SELECT * FROM entidades WHERE grupo = 1 OR padre = 0";
+
+		$entidades = $base->Select($query);
+
+		if(!empty($entidades)){
+			return $entidades;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* OBTIENE LOS DATOS DE UNA ENTIDAD
+	* @param $id -> id de la entidad
+	* @return $datos -> array[][]
+	* @return false si falla
+	*/
+	public function getEntidadDatos($id){
+		$base = new Database();
+		$query = "SELECT * FROM entidades WHERE id = ".$id;
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			return $datos;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* OBTIENE LAS ENTIDADES HIJAS PARA UN GRUPO
+	* @param $padre -> id del padre
+	* @retun $entidades -> array[][]
+	* @return false si falla o no tiene entidades hijas
+	*/
+	function getEntidadesHijas($padre){
+		$base = new Database();
+		$query = "SELECT * FROM entidades WHERE padre = ".$padre;
+
+		$entidades = $base->Select($query);
+
+		if(!empty($entidades)){
+			return $entidades;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* REGISTRA UNA NUEVA ENTIDAD GRUPO
+	* @param $nombre -> nombre de la entidad nueva
+	*/
+	public function NewEntidadGrupo($nombre){
+		$base = new Database();
+		$nombre = mysql_real_escape_string($nombre);
+
+		$query = "INSERT INTO entidades (padre, nombre, grupo) VALUES (0, '".$nombre."', 1)";
+
+		if($base->Insert($query)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* REGISTRA UNA NUEVA ENTIDAD
+	* @param $padre -> id del padre
+	* @param $nombre -> nombre de la entidad nueva
+	*/
+	public function NewEntidad($padre, $nombre){
+		$base = new Database();
+		$nombre = mysql_real_escape_string($nombre);
+
+		$query = "INSERT INTO entidades (padre, nombre) VALUES ('".$padre."', '".$nombre."')";
+
+		if($base->Insert($query)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* ELIMINA UNA ENTIDAD
+	* @param $id -> id de la entidad ha eliminar
+	* @return true si se elimina
+	* @return false si falla
+	*/
+	public function DeleteEntidad($id){
+		$base = new Database();
+		$query = "SELECT * FROM entidades WHERE id = ".$id;
+
+		$entidad = $base->Select($query);
+
+		$query = "DELETE FROM entidades WHERE id = ".$id;
+
+		if($base->Delete($query)){
+			//elimina entidades hijas si es padre
+			if($entidad[0]['grupo'] == 1){
+				
+				$hijas = $this->getEntidadesHijas($id);
+				
+				if(!empty($hijas)){
+					foreach ($hijas as $fila => $hija) {
+						$this->DeleteEntidad($hija['id']);
+					}
+				}
+			}
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* ACTUALIZA UNA ENTIDAD
+	* @param $id -> id de la entidad*
+	* @param $nombre -> nombre de la entidad
+	* @param $padre -> padre o grupo de la entidad
+	* @return true si se actualiza correctamente
+	* @return false si falla
+	*/
+	public function UpdateEntidad($id, $nombre, $padre){
+		$base = new Database();
+		$nombre = mysql_real_escape_string($nombre);
+
+		$query = "UPDATE entidades SET nombre = '".$nombre."', padre = '".$padre."' WHERE id = ".$id;
+
+		if($base->Update($query)){
+			return true;
+		}else{
 			return false;
 		}
 	}
