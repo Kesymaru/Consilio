@@ -64,9 +64,9 @@ if(isset($_POST['func'])){
 			break;
 
 		// CARGA EL BOX PARA EDITAR NUEVA SUBCATEGORIA
-		case 'BoxNuevaCategoria':
+		case 'NuevaCategoria':
 			if( isset($_POST['padre'])){
-				echo BoxNuevaCategoria( $_POST['padre'] );				
+				echo NuevaCategoria( $_POST['padre'] );				
 			}
 			break;
 		
@@ -212,26 +212,36 @@ function NormasCategoria($categoria){
 					  			<tr>
 					  				<th colspan="2">
 					  					Normas Incluidas
+					  					<button type="button" onClick="BuscarNormaCategoria(\'incluidas\')">Buscar</button>
 					  				</th>
 					  				<th colspan="2">
 					  					Normas Disponibles
+					  					<button type="button" onClick="BuscarNormaCategoria(\'disponibles\')">Buscar</button>
 					  				</th>
 					  			</tr>
 					  			<tr>
-					  				<td id="td-seleccionadas">
-					  					<br/>';
-	$formulario .= SelectedNormas($categoria).'
-					  					<br/>
+					  				<td id="buscar-seleccionadas">
+					  					<input type="text" placeholder="Buscar" />
 					  				</td>
-					  				<td class="control" onClick="QuitarNormasSeleccionadas()">
+
+					  				<td class="control" onClick="QuitarNormasSeleccionadas()" rowspan="2">
 					  					>
 					  				</td>
-					  				<td class="control" onClick="AgregarNormasSeleccionadas()">
+					  				<td class="control" onClick="AgregarNormasSeleccionadas()" rowspan="2">
 					  					<
 					  				</td>
-					  				<td id="td-diponibles">
-					  					<br/>';
-	$formulario .= Normas($categoria).'
+
+					  				<td id="buscar-disponibles">
+					  					<input type="text" placeholder="Buscar" />
+					  				</td>
+					  			</tr>
+					  			<tr>
+					  				<td id="td-seleccionadas">';
+	$formulario .= NormasSeleccionadas($categoria).'
+					  					<br/>
+					  				</td>
+					  				<td id="td-disponibles">';
+	$formulario .= NormasDisponibles($categoria).'
 										<br/>
 					  				</td>
 					  			</tr>
@@ -239,7 +249,7 @@ function NormasCategoria($categoria){
 					  	</div>
 					  	<div class="datos-botones">
 					  		<button type="button" onClick="CancelarContent()">Cancelar</button>
-							<input type="reset" value="Borrar" />
+							<button type="button" onClick="NormasCategoria('.$categoria.')" >Limpiar</button>
 							<input type="submit" value="Guardar" />
 						</div>
 					</form>';
@@ -248,47 +258,74 @@ function NormasCategoria($categoria){
 }
 
 /**
-* OBTIEN LAS NORMAS DE LA CATEGORIA
+* MUESTRA LAS NORMAS DISPONIBLES, EXCLUYENDO LAS YA SELECCIONADAS
 * @param $categoria -> id de la categoria
 * @return $lista -> lista compuesta con las normas
 */
-function Normas($categoria){
+function NormasDisponibles($categoria){
 	$lista = "";
 	$registros = new Registros();
 
-	$normas = $registros->getNormas();
+	$seleccionadas = $registros->getSelectedNormas($categoria);
+	$normas = $registros->getNormasHabilitadas();
 
 	if(!empty($normas)){	
 		$lista .= '<ul id="disponibles">';
 		foreach ($normas as $fila => $norma) {
-			$lista .= '<li id="norma'.$norma['id'].'" onClick="SelectNorma('.$norma['id'].')">'.$norma['nombre'].'</li>';
+			
+			$esta = false;
+
+			//si tiene seleccionadas
+			if(!empty($seleccionadas)){
+
+				foreach ($seleccionadas as $valor) {
+					if($norma['id'] == $valor){
+						$esta = true;
+						break;
+					}
+				}
+
+				//si la norma no esta seleccionada
+				if(!$esta){
+					$lista .= '<li id="norma'.$norma['id'].'" onClick="SelectNorma('.$norma['id'].')">'.$norma['nombre'].' - '.$norma['numero'].'</li>';
+				}
+			//si no tiene seleccionadas muestra todas las normas
+			}else{ 
+				$lista .= '<li id="norma'.$norma['id'].'" onClick="SelectNorma('.$norma['id'].')">'.$norma['nombre'].' - '.$norma['numero'].'</li>';
+			}
 		}
 		$lista .= '</ul>';
 	}else{
-		$lista .= 'No hay normas.<br>
-				   Por favor ingrese normas, puede agregar normas en:<br/>
-				   Edicion->Normas<br/>';
+		$lista .= 'No hay normas.';
 	}
 	
 	return $lista;
 }
 
-function SelectedNormas($categoria){
+/**
+* MUESTRA LAS NORMAS SELECCIONADAS
+* @param $categoria -> id de la categoria
+* @return $lista -> lista de normas compuesta
+*/ 
+function NormasSeleccionadas($categoria){
 	$lista = '';
 	$registros = new Registros();
 
 	$seleccionadas = $registros->getSelectedNormas($categoria);
-	$normas = $registros->getNormas();
+	$normas = $registros->getNormasHabilitadas();
 
 	if(!empty($normas) && !empty($seleccionadas)){
 		$lista .= '<ul id="seleccionadas">';
 		foreach ($normas as $fila => $norma) {
 
 			foreach ($seleccionadas as $valor ) {
-				echo $valor;
 
 				if($valor == $norma['id']){
-					$lista .= '<li>'.$norma['nombre'].'</li>';
+					//norma en la lista
+					$lista .= '<li id="norma'.$norma['id'].'" onClick="SelectNorma('.$norma['id'].')">'.$norma['nombre'].' - '.$norma['numero'].'</li>';
+					
+					//inputs hiddens con los valores seleccionados
+					$lista .= '<input id="normaSelected'.$norma['id'].'" type="hidden" name="normas[]" value="'.$norma['id'].'" />';
 				}
 			}
 		}
@@ -309,6 +346,9 @@ function SelectedNormas($categoria){
 function ActualizarCategoria($categoria, $normas){
 	$registros = new Registros();
 
+	//ordena los ids de las normas desendentemente
+	sort($normas);
+
 	//actualiza nombre de la categoria
 	if( !$registros->UpdateCategoria($_POST['nombre'], $normas, $categoria) ){
 		echo 'Error. No se pudo actualizar la categoria.';
@@ -317,31 +357,103 @@ function ActualizarCategoria($categoria, $normas){
 }
 
 /**
-* BOX PARA NUEVA SUBCATEGORIA
+* FROMULARIO PARA NUEVA CATEGORIA
 * @param $padre -> id del padre al que pertenece
+* @return $formulario -> formulario compuesto
 */
-function BoxNuevaCategoria($padre){
-	$box = '';
-	$box .= '<form id="FormularioSubCategoria" enctype="multipart/form-data" method="post" action="src/ajaxEdicion.php" >
-		<div id="nivel1">
-		<div id="nombreNorma">
-			Nueva Categoria
-		</div>
-		<div class="datos dark-input">
-			<input type="hidden" id="padre" name="padre" value="'.$padre.'"/>
-			<input type="hidden" name="func" id="func" value="NuevaSubCategoria" />
-			<br/><br/>
-			<input type="text" data-prompt-position="bottomLeft" class="validate[required]" name="nombre" placeholder="Nombre" />
-			<br/><br/><br/>
-			
-		</div>
-		</div>
-		<button type="button" onClick="CancelarNuevaCateogria('.$padre.')">Cancelar</button>
-		<input type="reset" value="Borrar" />
-		<input type="submit" value="Guardar" />
-			</form>';
+function NuevaCategoria($padre){
+	$formulario = '';
 
-	return $box;
+	$formulario = '<form id="FormularioNuevaCategoria" enctype="multipart/form-data" method="post" action="src/ajaxEdicion.php" >
+					<div id="tipos" class="tipos">
+						<div class="titulo">
+							Nueva Categoria
+					  		<hr>
+					  	</div>
+					  	<input type="hidden" name="func" value="RegistrarCategoria" />
+					  	<input type="hidden" name="padre" id="padre" value="'.$padre.'" />
+					  	<div class="datos">
+					  		<table>
+					  		<tr>
+					  			<td>Nombre</td>
+					  			<td>
+					  				<input type="text" name="nombre" id="nombre" placeholder="Nombre" class="validate[required]" />
+					  			</td>
+					  		</tr>
+					  		</table>
+					  		<!-- tabla de seleccion de normas -->
+					  		<table id="normas-categoria">
+					  			<tr>
+					  				<th colspan="2">
+					  					Normas Incluidas
+					  					<button type="button">Buscar</button>
+					  				</th>
+					  				<th colspan="2">
+					  					Normas Disponibles
+					  					<button type="button">Buscar</button>
+					  				</th>
+					  			</tr>
+					  			<tr>
+					  				<th colspan="2" id="buscar-seleccionadas">
+					  					<input type="text" placeholder="Buscar" />
+					  				</th>
+					  				<th colspan="2" id="buscar-disponibles">
+					  					<input type="text" placeholder="Buscar" />
+					  				</th>
+					  			</tr>
+					  			<tr>
+					  				<td id="td-seleccionadas">
+					  					<br/>
+					  						<ul id="seleccionadas"></ul>
+					  					<br/>
+					  				</td>
+					  				<td class="control" onClick="QuitarNormasSeleccionadas()">
+					  					>
+					  				</td>
+					  				<td class="control" onClick="AgregarNormasSeleccionadas()">
+					  					<
+					  				</td>
+					  				<td id="td-disponibles">
+					  					<br/>';
+	$formulario .= Normas().'
+										<br/>
+					  				</td>
+					  			</tr>
+					  		</table>
+					  	</div>
+					  	<div class="datos-botones">
+					  		<button type="button" onClick="CancelarContent()">Cancelar</button>
+					  		<button type="button" onClick="NuevaCategoria('.$padre.')" >Limpiar</button>
+							<input type="submit" value="Guardar" />
+						</div>
+					</form>';
+
+	return $formulario;
+}
+
+/**
+* LISTA TODAS LAS NORMAS
+* @return $lista -> lista compuesta con las normas
+*/
+function Normas(){
+	$lista = "";
+	$registros = new Registros();
+
+	$normas = $registros->getNormasHabilitadas();
+
+	if(!empty($normas)){	
+		$lista .= '<ul id="disponibles">';
+
+		foreach ($normas as $fila => $norma) {
+			
+			$lista .= '<li id="norma'.$norma['id'].'" onClick="SelectNorma('.$norma['id'].')">'.$norma['nombre'].' - '.$norma['numero'].'</li>';
+		}
+		$lista .= '</ul>';
+	}else{
+		$lista .= 'No hay normas.';
+	}
+	
+	return $lista;
 }
 
 /**

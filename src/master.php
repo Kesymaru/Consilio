@@ -257,7 +257,7 @@ class Master{
 		echo '<li onClick="VistaEdicion(\'normas\')">Normas</li>';
 		echo '<li onClick="VistaEdicion(\'entidades\')">Entidades</li>';
 		echo '<li onClick="VistaEdicion(\'tipos\')">Tipos normas</li>';
-		echo '<li></li>';
+//		echo '<li></li>';
 	}
 
 }

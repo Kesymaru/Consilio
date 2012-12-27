@@ -638,6 +638,22 @@ class Registros{
 	}
 
 	/**
+	* OBTIENE TODAS LAS NORMAS HABILITADAS
+	*/
+	public function getNormasHabilitadas(){
+		$base = new Database();
+		$query = "SELECT * FROM normas WHERE status = 1 ORDER by nombre";
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			return $datos;
+		}else{
+			return false;
+		}
+	}
+
+	/**
 	* OBTIENE LAS NORMAS SELECCIONADAS    
 	*/
 	public function getSelectedNormas($categoria){

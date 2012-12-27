@@ -151,7 +151,7 @@ html, body{
 .datos #normas-categoria .control{
 	background-color: rgba(117, 114, 115, .3);
 	vertical-align: middle;
-	width: 40px;
+	width: 5%;
 	border-left: 1px solid rgba(117, 114, 115, .4);
 	border-right: 1px solid rgba(117, 114, 115, .4);
 	cursor: pointer;
@@ -170,6 +170,60 @@ html, body{
 	cursor: pointer;
 }
 
+.datos #td-seleccionadas,
+.datos #td-disponibles,
+.datos #buscar-disponibles,
+.datos #buscar-seleccionadas{
+	width: 45%;
+}
+
+.datos #buscar-disponibles,
+.datos #buscar-seleccionadas{
+	padding: 0;
+	margin: 0 !important;
+}
+
+.datos #buscar-disponibles input,
+.datos #buscar-seleccionadas input{
+	margin-top: 0;
+	width: 80%;
+	background-color: #C8C7C7; /*para ie8*/
+	background-color: rgba(117, 114, 115, .4);
+
+	border-left: 1px solid rgba(117, 114, 115, 1);
+	border-right: 1px solid rgba(117, 114, 115, 1);
+	border-top: 0 solid transparent;
+	border-bottom: 1px solid rgba(117, 114, 115, 1);
+
+	color: #757273;
+		-o-border-radius-bottomright: 5px;
+		-o-border-radius-bottomleft: 5px;
+		-ms-border-radius-bottomright: 5px;
+		-ms-border-radius-bottomleft: 5px;
+		-moz-border-radius-bottomright: 5px;
+		-moz-border-radius-bottomleft: 5px;
+		-webkit-border-bottom-right-radius: 5px;
+		-webkit-border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+	
+	padding: 2px;
+	font-size: 18px;
+	font-weight: bold;
+	text-align: center;
+}
+
+.datos #buscar-disponibles input:hover,
+.datos #buscar-seleccionadas input:hover,
+.datos #buscar-disponibles input:active,
+.datos #buscar-seleccionadas input:active,
+.datos #buscar-disponibles input:focus,
+.datos #buscar-seleccionadas input:focus{
+	color: #FFFFFF;
+	background-color: #757273; /*para ie8*/
+	background-color: rgba(117, 114, 115, .7);
+}
+
 .datos #normas-categoria ul li:hover{
 	background-color: #D5D4D5;
 	color: #fff;
@@ -177,6 +231,13 @@ html, body{
 
 .datos #normas-categoria .control:hover{
 	background-color: rgba(117, 114, 115, 1);
+}
+
+/**
+* BOTONERAS
+*/
+.datos-botones{
+	text-align: center;
 }
 
 .close_datos{
