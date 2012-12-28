@@ -612,6 +612,10 @@ function NuevaCategoria(padre){
 		success: function(response){
 
 			$("#content").html(response);
+			
+			//esconde las opciones de buscar
+			$("#buscar-disponibles input").hide();
+			$("#buscar-seleccionadas input").hide();
 
 			var options = {  
 				beforeSend: function(){
@@ -723,6 +727,7 @@ function Normas(){
 		beforeSend: function(){
 		},
 		success: function(response){
+
 			if( $("#normas").is(":visible") ){
 
 				$("#normas").fadeOut(500, function(){
@@ -743,6 +748,7 @@ function Normas(){
 
 				$("#ArticulosNorma, #DeshabilitarNorma, #EditarNorma, #AgregarArticulo, #HabilitarNorma ").hide();
 			}
+
 		},
 		fail: function(){
 
@@ -795,11 +801,16 @@ function NormaSeleccionada(id){
 
 /**
 * CREA EL MENU CONTEXTUAL PARA UNA NORMA SELECCIONADA
+* id -> id de la norma
 */
 function NormaOpciones(id){
-
-	SeleccionaHijo(id);
 	
+	//SELECCIONA
+	var padre = $("#"+id).closest("div").attr('id');
+
+	$("#"+padre+' li').removeClass('seleccionada');
+	$("#"+id).addClass('seleccionada');
+
 	//MUESTRA BOTONES
 	if( $("#"+id).hasClass("deshabilitado") ){ //NORMAS DESHABILITADAS
 
@@ -840,22 +851,10 @@ function ContextMenuNorma(id){
 	        "articulos": {name: "Articulos", icon: "add"},
         }
     });
-    
-    /*$('#'+id).on('click', function(e){
-        //console.log('clicked', this);
-        var cat = $(this).attr('id');
-        alert("Selec "+cat);
-	});*/
 	
-	//PERMITE REASIGNAR EL ID DE LA CATEGORIA A LA COOKIE
-	//UTIL PARA TENER MULTIPLES MENUS CONTEXTUALES
-	$( $('#'+id) ).mousedown(function(e) {
-	    //si es doble click
-	    if (e.which === 3) {
-	        var cat = $(this).attr('id');
-	        $.cookie('categoria', $(this).attr('id') );
-	    }
-
+	$("#"+id).dblclick(function(){
+		Articulos(id);
+		return;
 	});
 }
 
@@ -881,22 +880,10 @@ function ContextMenuNormaDeshabilitada(id){
 	        "articulos": {name: "Articulos", icon: "add"},
         }
     });
-    
-    /*$('#'+id).on('click', function(e){
-        //console.log('clicked', this);
-        var cat = $(this).attr('id');
-        alert("Selec "+cat);
-	});*/
-	
-	//PERMITE REASIGNAR EL ID DE LA CATEGORIA A LA COOKIE
-	//UTIL PARA TENER MULTIPLES MENUS CONTEXTUALES
-	$( $('#'+id) ).mousedown(function(e) {
-	    //si es doble click
-	    if (e.which === 3) {
-	        var cat = $(this).attr('id');
-	        $.cookie('categoria', $(this).attr('id') );
-	    }
 
+	$("#"+id).dblclick(function(){
+		Articulos(id);
+		return;
 	});
 }
 
@@ -944,8 +931,17 @@ function NuevaNorma(){
 		beforeSend: function(){
 		},
 		success: function(response){
-			$("#content").html(response);
-			FormularioNuevaNorma();
+			if(response.length > 0){
+				
+				$("#content").html(response);
+				FormularioNuevaNorma();
+
+				//esconde el cuadro de adjuntos
+				$(".adjuntos").hide();
+			}else{
+				notificaError("Error. Al cargar fomrulario para Nueva Norma.");
+			}
+			
 		},
 		fail: function(){
 
@@ -1006,6 +1002,8 @@ function EditarNorma(){
 
 			//carga formulario
 			FormularioNorma();
+
+			$(".adjuntos").hide();
 		},
 		fail: function(){
 
@@ -1034,9 +1032,20 @@ function FormularioNorma(){
 	    			//ACTUALIZA LA NORMA EN LA LISTA
 	    			$("#"+norma).html(nombre+" "+numero);
 
-	    			//quita el formulario
-	    			$("#content").html("");
+	    			//si cambia el estado de la norma
+	    			var estado = $("#status").find(":selected").val();
 
+	    			if( $("#"+norma).hasClass("deshabilitado") && estado == 1){
+	    				$("#"+norma).removeClass("deshabilitado");
+	    			}else if( !$("#"+norma).hasClass("deshabilitado") && estado == 0 ){
+	    				$("#"+norma).addClass("deshabilitado");
+	    			}
+
+	    			//actualiza botones
+	    			NormaOpciones(norma);
+
+	    			//quita el formulario
+	    			LimpiarContent();
 	    		}else{
 	    			notificaError(response);
 	    			$("#FormularioNorma").validate();
@@ -2102,9 +2111,11 @@ function Adjuntos(){
 		$(".adjuntos").slideUp(700);
 	}else{
 		$(".adjuntos").slideDown(700,function(){
+			
 			if( !$("#mensajeAdjuntos").is(":visible") ){
 				notificaAtencion("<span id='mensajeAdjuntos'></span>Puede adjuntar:<br/>Imagenes,Documentos y comprimidos ZIP");
 			}
+
 		});
 	}
 	

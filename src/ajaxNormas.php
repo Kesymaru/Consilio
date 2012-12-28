@@ -198,9 +198,42 @@ function EditarNorma($norma){
 
 		$formulario .= '			</td>
 								</tr>
+								<tr>
+									<td>
+										Estado
+									</td>
+									<td>
+										<select id="status" name="status" >';
+		if($datos[0]['status'] == 1){
+			$formulario .= '			<option value="1" selected>Habilitado</option>
+										<option value="0">Deshabilitado</option>';
+		}else{
+			$formulario .= '		<option value="1">Habilitado</option>
+									<option value="0" selected>Deshabilitado</option>';
+		}
+											
+		$formulario .=      '
+										</select>
+									</td>
+								</tr>
 								</table>
 								<br/><br/>
 							</div>
+
+							<!-- adjuntos -->
+							<div class="datos-footer">
+							    <img id="adjuntar-icon" src="images/folder-upload.png" onClick="Adjuntos()" />
+							</div>
+							<div class="adjuntos">
+								<input type="hidden" name="totalArchivos" value="0" />
+								<span class="adjuntos-boton" onClick="AdjuntoExtra()">+</span>
+
+								<div id="archivo0" class="adjunto">
+									<input type="text" name="archivoNombre0" placeholder="Nombre" />
+									<input type="file" name="archivo0" />
+								</div>
+							</div>
+							
 							<div class="datos-botones">
 								<button type="button" onClick="CancelarContent()">Cancelar</button>
 								<input type="reset" value="Borrar" />
@@ -248,9 +281,35 @@ function NuevaNorma(){
 
 	$formulario .= '				</td>
 								</tr>
+								<tr>
+									<td>
+										Estado
+									</td>
+									<td>
+										<select name="status" >
+											<option value="1" selected>Habilitado</option>
+											<option value="0">Deshabilitado</option>
+										</select>
+									</td>
+								</tr>
 							</table>
 							<br/><br/>
 							</div>
+
+							<!-- adjuntos -->
+							<div class="datos-footer">
+							    <img id="adjuntar-icon" src="images/folder-upload.png" onClick="Adjuntos()" />
+							</div>
+							<div class="adjuntos">
+								<input type="hidden" name="totalArchivos" value="0" />
+								<span class="adjuntos-boton" onClick="AdjuntoExtra()">+</span>
+
+								<div id="archivo0" class="adjunto">
+									<input type="text" name="archivoNombre0" placeholder="Nombre" />
+									<input type="file" name="archivo0" />
+								</div>
+							</div>
+
 							<div class="datos-botones">
 								<button type="button" onClick="CancelarContent()">Cancelar</button>
 								<input type="reset" value="Borrar" />
@@ -320,13 +379,13 @@ function TiposNorma($norma){
 
 /**
 * ACTUALIZA NORMA, DATOS PROVIENEN DEL FORMULARIO
-* $norma
+* @param $norma -> id de la norma ha actualizar
 */
 function ActualizarNorma($norma){
 	$registros = new Registros();
 
 	//ACTUALIZA NORMA
-	$registros->UpdateNorma($norma, $_POST['nombre'], $_POST['numero'], $_POST['tipo']);
+	$registros->UpdateNorma($norma, $_POST['nombre'], $_POST['numero'], $_POST['tipo'], $_POST['status']);
 }
 
 /**
@@ -420,13 +479,29 @@ function NuevoArticulo($norma){
 							<div class="datos">
 								<input type="hidden" value="CrearArticulo" name="func" />
 								<input type="hidden" value="'.$norma.'" name="norma" />
-								<br/>
-								<input type="text" id="nombre" name="nombre" placeholder="Nombre" class="validate[required]" />
-								<br/><br/>';
+								<table>
+								<tr>
+									<td>
+										Nombre
+									</td>
+									<td>
+										<input type="text" id="nombre" name="nombre" placeholder="Nombre" class="validate[required]" />
+									</td>
+								</tr>
+								<tr>
+									<td>
+										Entidades
+									</td>
+									<td>
+									';
 
 	$formulario .= Entidades(); //entidades disponibles
 
-	$formulario .= '<br/><br/>
+	$formulario .= '			
+									</td>
+								</tr>
+								</table>
+								<br/><br/>
 
 								<!-- tabs para los datos -->
 								<div id="tabs">
@@ -592,7 +667,7 @@ function EdicionArticulo($articulo){
 		$archivos = $registros->getArchivosArticulo($datos[0]['id']);
 
 		$formulario .= '<div class="titulo">
-							Nuevo Articulo
+							Edicion Articulo
 							<hr>
 						</div>
 						<form id="FormularioEditarArticulo" enctype="multipart/form-data" method="post" action="src/ajaxNormas.php" >
@@ -600,13 +675,29 @@ function EdicionArticulo($articulo){
 									<input type="hidden" value="ActualizarArticulo" name="func" />
 									<input type="hidden" value="'.$datos[0]['norma'].'" name="norma" />
 									<input type="hidden" value="'.$datos[0]['id'].'" name="id" />
-									<br/>
-									<input type="text" id="nombre" name="nombre" placeholder="Nombre" class="validate[required]" value="'.$datos[0]['nombre'].'" />
-									<br/><br/>';
+									<table>
+									<tr>
+										<td>
+											Nombre
+										</td>
+										<td>
+											<input type="text" id="nombre" name="nombre" placeholder="Nombre" class="validate[required]" value="'.$datos[0]['nombre'].'" />
+										</td>
+									</tr>
+									<tr>
+										<td>
+											Entidades
+										</td>
+										<td>
+										';
 
 		$formulario .= EntidadesArticulo(unserialize($datos[0]['entidad'])); //entidades seleccionada	
 
-		$formulario .= '<br/><br/>
+		$formulario .= '				</td>
+									</tr>
+									</table>
+									
+									<br/><br/>
 
 								<!-- tabs para los datos -->
 								<div id="tabs">

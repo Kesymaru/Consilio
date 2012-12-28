@@ -38,7 +38,7 @@ html, body{
 #menu, #menu2{
 	margin-left: 5%;
 	width: 30%;
-	min-height: 80%;
+	height: 80%;
 	display: none;
 	float: left;
 	border: 0;
@@ -46,7 +46,7 @@ html, body{
 	background-color: #FFFFFF;
 	border: 1px solid #dedede;
 	overflow-x: auto !important;
-	overflow-y: hidden !important;
+	overflow-y: auto !important;
 	padding: 0;
 }
 
@@ -81,13 +81,15 @@ html, body{
 	text-align: center;
 	display: block;
 	min-width: 150px;
+	padding-top: 20px;
 }
 
 #menu .categoria ul li,
 #menu .normas ul li,
 #menu .entidades ul li,
 #menu .tipos ul li,
-#menu .root ul li{
+#menu .root ul li,
+#menu2 #articulos ul li{
 	list-style: none;
 	border: 0;
 	padding: 5px;
@@ -100,7 +102,8 @@ html, body{
 #menu .normas ul li:hover,
 #menu .entidades ul li:hover,
 #menu .tipos ul li:hover,
-#menu .root ul li:hover{
+#menu .root ul li:hover,
+#menu2 #articulos ul li:hover{
 	background-color: rgba(117, 114, 115, .3);
 }
 
@@ -133,6 +136,7 @@ html, body{
 	margin: 0 auto;
 	border-collapse: separate;
 	border-spacing: 10px 10px;
+	text-align: left;
 }
 
 .datos #normas-categoria{
@@ -144,17 +148,25 @@ html, body{
 	font-size: 20px;
 	padding: 2px;
 	color: #000;
+	background-color: #D5D4D5; /*ie8*/
+
 	background-color: rgba(117, 114, 115, .3);
-	border-bottom: 1px solid rgba(117, 114, 115, .4);
+	border-bottom: 1px solid rgba(117, 114, 115, .4);+
 }
 
 .datos #normas-categoria .control{
+	background-color: #D5D4D5; /*ie8*/
 	background-color: rgba(117, 114, 115, .3);
 	vertical-align: middle;
 	width: 5%;
 	border-left: 1px solid rgba(117, 114, 115, .4);
 	border-right: 1px solid rgba(117, 114, 115, .4);
 	cursor: pointer;
+}
+
+.datos #normas-categoria .control:hover{
+	background-color: #757273;
+	background-color: rgba(117, 114, 115, 1);
 }
 
 .datos #normas-categoria ul{
@@ -229,14 +241,12 @@ html, body{
 	color: #fff;
 }
 
-.datos #normas-categoria .control:hover{
-	background-color: rgba(117, 114, 115, 1);
-}
-
 /**
 * BOTONERAS
 */
 .datos-botones{
+	margin-top: 20px;
+	margin-bottom: 20px;
 	text-align: center;
 }
 
@@ -326,7 +336,7 @@ html, body{
 	padding: 0;
 	border: 1px solid #dedede;
 	vertical-align: middle;
-	margin-bottom: 10px;
+	margin-bottom: 0px;
 }
 
 /* content */
@@ -792,16 +802,29 @@ html, body{
 }
 
 .editor-footer{
+	width: 100%;
 	position: absolute;
-	width: auto;
-	margin-top: -30px;
+	margin-top: -28px;
+	height: 25px;
+	cursor: pointer;
+}
+
+.datos-footer{
+	width: 100%;
+	position: absolute;
+	margin-top: -28px;
 	height: 25px;
 	cursor: pointer;
 }
 
 #adjuntar-icon{
-	float: left;
-	margin-left:10px;
+	height: 25px;
+	float: right;
+	margin-right:25px;
+}
+
+.datos-footer #adjuntar-icon{
+	margin-right:35px;
 }
 
 .adjuntos ul{

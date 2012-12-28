@@ -364,14 +364,14 @@ function ActualizarCategoria($categoria, $normas){
 function NuevaCategoria($padre){
 	$formulario = '';
 
-	$formulario = '<form id="FormularioNuevaCategoria" enctype="multipart/form-data" method="post" action="src/ajaxEdicion.php" >
+	$formulario = '<form id="FormularioNormasCategoria" enctype="multipart/form-data" method="post" action="src/ajaxEdicion.php" >
 					<div id="tipos" class="tipos">
 						<div class="titulo">
 							Nueva Categoria
 					  		<hr>
 					  	</div>
 					  	<input type="hidden" name="func" value="RegistrarCategoria" />
-					  	<input type="hidden" name="padre" id="padre" value="'.$padre.'" />
+					  	<input type="hidden" id="padre" name="padre" value="'.$padre.'" />
 					  	<div class="datos">
 					  		<table>
 					  		<tr>
@@ -381,40 +381,39 @@ function NuevaCategoria($padre){
 					  			</td>
 					  		</tr>
 					  		</table>
-					  		<!-- tabla de seleccion de normas -->
 					  		<table id="normas-categoria">
 					  			<tr>
 					  				<th colspan="2">
 					  					Normas Incluidas
-					  					<button type="button">Buscar</button>
+					  					<button type="button" onClick="BuscarNormaCategoria(\'incluidas\')">Buscar</button>
 					  				</th>
 					  				<th colspan="2">
 					  					Normas Disponibles
-					  					<button type="button">Buscar</button>
+					  					<button type="button" onClick="BuscarNormaCategoria(\'disponibles\')">Buscar</button>
 					  				</th>
 					  			</tr>
 					  			<tr>
-					  				<th colspan="2" id="buscar-seleccionadas">
+					  				<td id="buscar-seleccionadas">
 					  					<input type="text" placeholder="Buscar" />
-					  				</th>
-					  				<th colspan="2" id="buscar-disponibles">
+					  				</td>
+
+					  				<td class="control" onClick="QuitarNormasSeleccionadas()" rowspan="2">
+					  					>
+					  				</td>
+					  				<td class="control" onClick="AgregarNormasSeleccionadas()" rowspan="2">
+					  					<
+					  				</td>
+
+					  				<td id="buscar-disponibles">
 					  					<input type="text" placeholder="Buscar" />
-					  				</th>
+					  				</td>
 					  			</tr>
 					  			<tr>
 					  				<td id="td-seleccionadas">
+					  					<ul id="seleccionadas"></ul>
 					  					<br/>
-					  						<ul id="seleccionadas"></ul>
-					  					<br/>
 					  				</td>
-					  				<td class="control" onClick="QuitarNormasSeleccionadas()">
-					  					>
-					  				</td>
-					  				<td class="control" onClick="AgregarNormasSeleccionadas()">
-					  					<
-					  				</td>
-					  				<td id="td-disponibles">
-					  					<br/>';
+					  				<td id="td-disponibles">';
 	$formulario .= Normas().'
 										<br/>
 					  				</td>
@@ -423,7 +422,7 @@ function NuevaCategoria($padre){
 					  	</div>
 					  	<div class="datos-botones">
 					  		<button type="button" onClick="CancelarContent()">Cancelar</button>
-					  		<button type="button" onClick="NuevaCategoria('.$padre.')" >Limpiar</button>
+							<button type="button" onClick="NuevaCategoria('.$padre.')" >Limpiar</button>
 							<input type="submit" value="Guardar" />
 						</div>
 					</form>';

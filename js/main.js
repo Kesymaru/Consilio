@@ -7,6 +7,7 @@ $(window).scroll(function () {
       $("#manu .scollers").css("display", "inline").fadeOut("slow"); 
 });
 
+
 $(document).ready(function(){
 	$('.dropMenu button').button();
 	$('.dropMenu').hide();

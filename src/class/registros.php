@@ -731,11 +731,13 @@ class Registros{
 	* @return true si se actualiza correctamente
 	* @return false si falla en algo
 	*/
-	public function UpdateNorma($norma, $nombre, $numero, $tipo){
+	public function UpdateNorma($norma, $nombre, $numero, $tipo, $status){
 		$base = new Database();
+
 		$nombre = mysql_real_escape_string($nombre);
 		$numero = mysql_real_escape_string($numero);
-		$query = "UPDATE normas SET nombre = '".$nombre."', numero = '".$numero."', tipo = '".$tipo."' WHERE id = ".$norma;
+		
+		$query = "UPDATE normas SET nombre = '".$nombre."', numero = '".$numero."', tipo = '".$tipo."', status = '".$status."' WHERE id = ".$norma;
 
 		if( $base->Update($query)){
 			return true;
