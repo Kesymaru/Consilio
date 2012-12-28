@@ -73,7 +73,11 @@ function Entidades(){
 	$lista = '<div id="entidades" class="entidades">
 				<div class="titulo">
 					Entidades
-			  		<hr>
+			  		<button type="button" onClick="BuscarMenu(\'buscar-Entidades\')">Buscar</button>
+					<hr>
+					<div class="busqueda">
+						<input type="text" id="buscar-Entidades" placeholder="Buscar"/>
+					</div>
 			  	</div>';
 
 	if(!empty($entidades)){

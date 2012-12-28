@@ -206,11 +206,25 @@ function FormularioNormasCategoria(){
 		
 	var options = {  
 		beforeSend: function(){
+			DeshabilitarContent();
 		},
 	    success: function(response) { 
 
 	    	if(response.length == 3){
 	    		notifica("Norma Actualizada.");
+
+	    		var nombre = $("#nombre").val();
+	    		var categoria = $("#categoria").val();
+
+	    		if($("#"+categoria).html() != nombre){
+	    			$("#"+categoria).fadeOut(700, function(){
+	    				$("#"+categoria).html(nombre);
+	    				$("#"+categoria).fadeIn();
+	    			});
+	    		}
+
+	    		LimpiarContent();
+
 	    	}else{
 	    		$("html").html(response);
 	    		$("#FormularioNormasCategoria").validate();
@@ -380,8 +394,6 @@ function LimpiarCamino(padre){
 
 	//BORRA HIJOS
 	if( $("#Padre"+padre).length ){
-
-		console.log("borrando "+padre);
 		
 		$("#Padre"+padre).fadeOut(500, function(){
 			$("#Padre"+padre).remove();
@@ -921,7 +933,11 @@ function MenuNorma(m){
 * @param 
 */
 function NuevaNorma(){
-	
+	//esconde el menu2 si esta presente
+	if($("#menu2").is(":visible")){
+		Menu2();
+	}
+
 	var queryParams = {"func" : "NuevaNorma"};
 
 	$.ajax({
@@ -1441,7 +1457,7 @@ function DeleteArticulo(id){
 }
 
 /**
-* EDITA UN ARTICULOs
+* EDITA UN ARTICULO
 */
 function EditarArticulo(){
 	var articulo = $("#articulos .seleccionada").attr("id");
@@ -1484,14 +1500,29 @@ function FormularioEditarArticulo(){
 	var options = {  
 		beforeSubmit: ValidaFormularioNuevoArticulo, //se valida con la misma funcion que al crear nuevo articulo
 		beforeSend: function(){
-			Loading();
+			DeshabilitarContent();
 		},
+		uploadProgress: function(percentComplete) {
+	        var percentVal = percentComplete + '%';
+	        ProgressContent(percentVal);
+    	},
 		success: function(response) { 
-			LoadingClose();
-			
-			if(response.length == 3){
+			ProgressContent("100%"); /**fix para ie y firefox */
+
+			if(response.length <= 3){
 				notifica("Articulo Actualizado.");
-				//$("#content").html("");
+				
+				//actualiza nombre articulo
+				var id = $("#id").val();
+				var nombre = $("#nombre").val();
+
+				if($("#articulo"+id).html() != nombre ){
+					$("#articulo"+id).fadeOut(700, function(){
+						$("#articulo"+id).html(nombre);
+						$("#articulo"+id).fadeIn();
+					});
+				}
+
 			}else{
 				notificaError(response);
 			}
@@ -2095,10 +2126,51 @@ function CancelarContent(){
 * LIMPIAR CONTENT
 */
 function LimpiarContent(){
+
 	//limpia el contenido, con effecto
-	$("#content").fadeOut(500, function(){
+	$("#content, #content-disable").fadeOut(500, function(){
+		$("#content-disable").remove();
 		$("#content").html("");
 		$("#content").fadeIn();
+	});
+}
+
+/**
+* DESHABILITA CONTENT
+*/
+function DeshabilitarContent(){
+	$('#content *').prop('disabled', true);
+	$("#content").prepend('<div id="content-disable" style="z-index: 999;height: 100%;width: 100%;position: absolute;background-color: #9B9B9B;background-color: rgba(56,56,56,.5);padding-top: 40%;" title="Procesando"></div>');
+	
+}
+
+/**
+* BARRA DE PORCENTAJE PARA CONTENT AL CARGAR Y ESTAR DESHABILITADO
+* valor -> porcentaje avanzado
+*/
+function ProgressContent(valor){
+	
+	if(!$("#progressbar").is(":visible")){
+		$("#content-disable").append('<div id="progressbar"></div>');
+		
+		//inicializa
+		$( "#progressbar" ).progressbar({
+            value: 1
+    	});
+    	notifica('agregado el progress');
+	}
+
+	//animacion para el progressbar, soporta ie8-9-10
+	$("#progressbar .ui-progressbar-value").animate({
+		width: valor
+	},{
+		queue: false,
+		duration: 1000,
+		complete: function(){
+			if(valor == "100%"){
+				LimpiarContent();
+			}
+		}
 	});
 }
 
@@ -2149,6 +2221,88 @@ function AdjuntoExtra(){
 function EliminarAdjuntoExtra(id){
 	$("#archivo"+id).slideUp(700, function(){
 		$("#archivo"+id).remove();
+	});
+}
+
+/**
+* FUNCION GENERICA PARA REALIZAR BUSQUEDAS EN EL MENU
+* PARA BUSQUEDAS DE NORMAS, ENTIDADES Y TIPOS
+*/
+function BuscarMenu(id){
+	if($("#"+id).is(":visible")){
+		$("#"+id).slideUp();
+		$("#"+id).val("");
+		$("#menu li").fadeIn();
+	}else{
+		$("#"+id).slideDown();
+	}
+	
+	//busqueda en vivo
+	BuscarMenuLive(id);
+}
+
+/**
+* FUNCION GENERICA PARA REALIZAR BUSQUEDAS EN EL MENU2
+* PARA BUSQUEDAS DE ARTICULOS
+*/
+function BuscarMenu2(id){
+	if($("#"+id).is(":visible")){
+		$("#"+id).slideUp();
+		$("#"+id).val("");
+		$("#menu2 li").fadeIn();
+	}else{
+		$("#"+id).slideDown();
+	}
+	
+	//busqueda en vivo
+	BuscarMenu2Live(id);
+}
+
+/**
+* BUSQUEDA EN VIVO
+*/
+function BuscarMenuLive(input){
+	//actualiza al ir escribiendo
+	$("#"+input).keyup(function(){
+		var busqueda = $("#"+input).val(), count = 0;
+
+		//recorre opciones para buscar
+        $("#menu li").each(function(){
+ 
+            //esconde a los que no coinciden
+            if($(this).text().search(new RegExp(busqueda, "i")) < 0){
+                $(this).fadeOut();
+ 
+            //sino lo muestra
+            } else {
+                $(this).show();
+                count++;
+            }
+        });
+	});
+}
+
+/**
+* BUSQUEDA EN VIVO MENU2
+*/
+function BuscarMenu2Live(input){
+	//actualiza al ir escribiendo
+	$("#"+input).keyup(function(){
+		var busqueda = $("#"+input).val(), count = 0;
+
+		//recorre opciones para buscar
+        $("#menu2 li").each(function(){
+ 
+            //esconde a los que no coinciden
+            if($(this).text().search(new RegExp(busqueda, "i")) < 0){
+                $(this).fadeOut();
+ 
+            //sino lo muestra
+            } else {
+                $(this).show();
+                count++;
+            }
+        });
 	});
 }
 

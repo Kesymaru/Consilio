@@ -16,6 +16,7 @@ $master = new Master();
 	<title>Escala</title>
 	
 	<meta charset="utf-8">
+
 	<link rel="shortcut icon" href="/favicon.ico"> 
 
 	<link rel="stylesheet" href="css/style.css" type="text/css">
@@ -72,10 +73,11 @@ $master = new Master();
 	
 	<!-- plugin para editor -->
 	<script src="editor/ckeditor.js"></script>
+	<script type="text/javascript" src="editor/adapters/jquery.js"></script>
 
 </head>
 
-<body >
+<body title="hola">
 
 <div id="loader" class="loader">
 

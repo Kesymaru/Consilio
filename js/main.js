@@ -9,6 +9,26 @@ $(window).scroll(function () {
 
 
 $(document).ready(function(){
+	//tooltips
+	/*$(document).tooltip({
+		tooltipClass: "arrow",
+	  	position: {
+            my: "center bottom-20",
+            at: "center top",
+        },
+        track: true,
+        show:{
+	    	effect:'slideDown',
+	    	delay: 1000
+		},
+		open: function( event, ui ) {
+			//se cierran despues de 5 segundos
+	    	setTimeout(function(){
+	      		$(ui.tooltip).hide('clip');
+	   		}, 5000);
+	  	}
+	});*/
+
 	$('.dropMenu button').button();
 	$('.dropMenu').hide();
 
@@ -633,21 +653,34 @@ function Inicializa(){
 * LA CONFIGURACION SE ENCUENTRA EN /editor/config.js
 */
 function Editor(id){
+	var id2 = id;
 	var id = document.getElementById(id);
 
 	if($.browser.msie && $.browser.version < 9.0 ){
 		//no crea el editor si es ie8 o inferior
-		notifica('no muestra editor');
-		//return;
+		return;
+		//$("#"+id2).addClass("CKEditor ");
+		//$("#"+id).attr("title","Edicon texto plano.");
+		
+		//espera hasta que sea visible y entonces inicializa el editor
+		/*if(!$("#"+id2).is(":visible")){
+			setTimeout(function() {
+				if($("#"+id2).is(":visible")){
+					notifica("es visible"+id2);
+					//CKEDITOR.replace( id );
+					return;
+				}
+			}, 1000);
+		}else{
+			CKEDITOR.replace( id );
+			return;
+		}*/
 	}
 
 	CKEDITOR.replace( id );
 	CKEDITOR.on("instanceReady", function(event){
 		if( $('#uploader').length ){
 		}else{
-			//carga el boton de adjuntar archivos
-			//$(".cke_bottom").append('<img id="uploader" src="images/folder-upload.png" onClick="BoxArchivo()" />');
-			//elimina el path del editor
 			$(".cke_path").remove();
 		}
 		

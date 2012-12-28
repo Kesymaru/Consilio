@@ -126,6 +126,7 @@ html, body{
 	margin: 0 auto;
 	border: 1px solid #dedede;
 	padding-top: 20px;
+	margin-top: 20px;
 }
 
 .datos textarea{
@@ -140,6 +141,7 @@ html, body{
 }
 
 .datos #normas-categoria{
+	text-align: center;
 	width: 100%;
 	border-collapse: collapse !important;
 }
@@ -190,13 +192,17 @@ html, body{
 }
 
 .datos #buscar-disponibles,
-.datos #buscar-seleccionadas{
+.datos #buscar-seleccionadas,
+.busqueda{
 	padding: 0;
 	margin: 0 !important;
 }
 
 .datos #buscar-disponibles input,
-.datos #buscar-seleccionadas input{
+.datos #buscar-seleccionadas input,
+.busqueda input{
+	display: none;
+	margin: 0 auto;
 	margin-top: 0;
 	width: 80%;
 	background-color: #C8C7C7; /*para ie8*/
@@ -230,7 +236,9 @@ html, body{
 .datos #buscar-disponibles input:active,
 .datos #buscar-seleccionadas input:active,
 .datos #buscar-disponibles input:focus,
-.datos #buscar-seleccionadas input:focus{
+.datos #buscar-seleccionadas input:focus,
+.busqueda input:hover,
+.busqueda input:active{
 	color: #FFFFFF;
 	background-color: #757273; /*para ie8*/
 	background-color: rgba(117, 114, 115, .7);
@@ -802,8 +810,8 @@ html, body{
 }
 
 .editor-footer{
-	width: 100%;
-	position: absolute;
+	float: right;
+	position: relative;
 	margin-top: -28px;
 	height: 25px;
 	cursor: pointer;
@@ -1796,3 +1804,14 @@ transform:rotate(-900deg);
 opacity: 0;
 transform: rotate(-900deg);
 }
+
+.disable{
+	z-index: 999;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	background-color: #9B9B9B;
+	background-color: rgba(56,56,56,.5);
+	padding-top: 40%;
+}
+

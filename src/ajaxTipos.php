@@ -61,7 +61,11 @@ function Tipos(){
 	$lista = '<div id="tipos" class="tipos">
 				<div class="titulo">
 					Tipos Norma
-			  		<hr>
+			  		<button type="button" onClick="BuscarMenu(\'buscar-Tipos\')">Buscar</button>
+					<hr>
+					<div class="busqueda">
+						<input type="text" id="buscar-Tipos" placeholder="Buscar"/>
+					</div>
 			  	</div>';
 
 	if(!empty($tipos)){
@@ -78,8 +82,8 @@ function Tipos(){
 	}
 
 	$lista .= '<div class="datos-botones">
-				<button type="button" id="EditarTipo" onClick="EditarTipo()">Editar</button>
 				<button type="button" id="EliminarTipo" onClick="EliminarTipo()">Eliminar</button>
+				<button type="button" id="EditarTipo" onClick="EditarTipo()">Editar</button>
 			   	<button type="button" id="NuevoTipo" onClick="NuevoTipo()">Nuevo Tipo</button>
 			   </div>
 			   <!-- fin botonera -->

@@ -181,7 +181,7 @@ function Hijos($padre){
 }
 
 /**
-* MUESTRA LAS NORMAS DE LA CATEGORIA CON LA OPCION DE SELECCIONAR LAS
+* MUESTRA LAS NORMAS DE LA CATEGORIA CON LA TABLA DE SELECCION
 * @param $categoria -> id de la categoria 
 * @return $formulario -> con la lista compuesta
 */
@@ -198,7 +198,7 @@ function NormasCategoria($categoria){
 					  		<hr>
 					  	</div>
 					  	<input type="hidden" name="func" value="ActualizarCategoria" />
-					  	<input type="hidden" name="categoria" value="'.$categoria.'" />
+					  	<input type="hidden" id="categoria" name="categoria" value="'.$categoria.'" />
 					  	<div class="datos">
 					  		<table>
 					  		<tr>

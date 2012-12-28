@@ -171,8 +171,34 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 
 /* right-aligned */
 .ui-menu .ui-menu-icon { position: static; float: right; }
-.ui-progressbar { height:2em; text-align: left; overflow: hidden; }
-.ui-progressbar .ui-progressbar-value {margin: -1px; height:100%; }.ui-slider { position: relative; text-align: left; }
+.ui-progressbar { 
+		height:20px; 
+		text-align: left; 
+		overflow: hidden; 
+		background-color: #797878 !important;
+
+			-o-border-radius: 0 !important;
+			-ms-border-radius: 0 !important;
+			-moz-border-radius: 0 !important;
+			-webkit-border-radius: 0 !important;
+		border-radius: 0 !important;
+}
+.ui-progressbar .ui-progressbar-value {
+	margin: -1px; 
+	height:100%;
+
+		-0-border-radius-topright: 10px !important;
+		-0-border-radius-bottomright: 10px !important;
+		-ms-border-radius-topright: 10px !important;
+		-ms-border-radius-bottomright: 10px !important;
+		-moz-border-radius-topright: 10px !important;
+		-moz-border-radius-bottomright: 10px !important;
+		-webkit-border-top-right-radius: 10px !important;
+		-webkit-border-bottom-right-radius: 10px !important;
+	border-top-right-radius: 10px !important;
+	border-bottom-right-radius: 10px !important;
+}
+.ui-slider { position: relative; text-align: left; }
 .ui-slider .ui-slider-handle { position: absolute; z-index: 2; width: 1.2em; height: 1.2em; cursor: default; }
 .ui-slider .ui-slider-range { position: absolute; z-index: 1; font-size: .7em; display: block; border: 0; background-position: 0 0; }
 
@@ -258,6 +284,54 @@ span.ui-spinner { background: none; }
 	background-image: none;
 }
 body .ui-tooltip { border-width:2px; }
+
+.ui-tooltip, .arrow:after {
+        background: black;
+        border: 2px solid white;
+    }
+    .ui-tooltip {
+        padding: 10px 20px;
+        color: white;
+        border-radius: 20px;
+        font: bold 14px "Helvetica Neue", Sans-Serif;
+        text-transform: uppercase;
+        box-shadow: 0 0 7px black;
+    }
+    .arrow {
+        width: 70px;
+        height: 16px;
+        overflow: hidden;
+        position: absolute;
+        left: 50%;
+        margin-left: -35px;
+        bottom: -16px;
+    }
+    .arrow.top {
+        top: -16px;
+        bottom: auto;
+    }
+    .arrow.left {
+        left: 20%;
+    }
+    .arrow:after {
+    	z-index: 999;
+        content: "";
+        position: absolute;
+        left: 20px;
+        bottom: -20px;
+        width: 25px;
+        height: 25px;
+        box-shadow: 6px 5px 9px -9px black;
+        -webkit-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+        tranform: rotate(45deg);
+    }
+    .arrow.top:after {
+        bottom: -20px;
+        top: auto;
+    }
 
 /* Component containers
 ----------------------------------*/

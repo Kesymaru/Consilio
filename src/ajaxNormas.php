@@ -121,7 +121,11 @@ function Normas(){
 	echo '<div id="normas" class="normas">
 		  	<div class="titulo">
 				Normas
+				<button type="button" title="Buscar Normas" onClick="BuscarMenu(\'buscar-normas\')">Buscar</button>
 				<hr>
+				<div class="busqueda">
+					<input type="text" id="buscar-normas" placeholder="Buscar"/>
+				</div>
 		  	</div>';
 	echo '<div class="root2" id="PadreNormas">';
 
@@ -148,11 +152,11 @@ function Normas(){
 	}
 	echo '</div>
 		 <div class="datos-botones">
-			<button id="EditarNorma" onClick="EditarNorma()">Editar</button>
-			<button id="DeshabilitarNorma" onClick="DeshabilitarNorma()">Deshabilitar</button>
-			<button id="HabilitarNorma" onClick="HabilitarNorma()">Habilitar</button>
-			<button id="ArticulosNorma" onClick="Articulos()">Articulos</button>
-			<button onClick="NuevaNorma()">Nueva Norma</button>
+			<button id="DeshabilitarNorma" title="Deshabilitar Norma Seleccionada" onClick="DeshabilitarNorma()">Deshabilitar</button>
+			<button id="HabilitarNorma" title="Habilitar Norma Seleccionada" onClick="HabilitarNorma()">Habilitar</button>
+			<button id="EditarNorma" title="Editar Norma Seleccionada" onClick="EditarNorma()">Editar</button>
+			<button title="Crear Nueva Norma" onClick="NuevaNorma()">Nueva Norma</button>
+			<button title="Ver Articulos de la Norma Seleccionada" id="ArticulosNorma" onClick="Articulos()">Articulos</button>
 		 </div>';
 	echo '</div>';
 }
@@ -187,7 +191,7 @@ function EditarNorma($norma){
 								<tr>
 									<td>Numero</td>
 									<td>
-										<input type="number" id="numero" name="numero"  placeholder="Numero" class="validate[required, number]" value="'.$datos[0]['numero'].'" />
+										<input type="number" id="numero" name="numero"  placeholder="Numero" class="validate[required, custom[number]]" value="'.$datos[0]['numero'].'" />
 									</td>
 								</tr>
 								<tr>
@@ -235,9 +239,9 @@ function EditarNorma($norma){
 							</div>
 							
 							<div class="datos-botones">
-								<button type="button" onClick="CancelarContent()">Cancelar</button>
-								<input type="reset" value="Borrar" />
-								<input type="submit" value="Guardar" />
+								<button type="button" title="Cancelar Edición" onClick="CancelarContent()">Cancelar</button>
+								<input type="reset" title="Limpiar Edición" value="Limpiar" />
+								<input type="submit" title="Guardar Edición" value="Guardar" />
 							</div>
 						</form>';
 
@@ -268,7 +272,7 @@ function NuevaNorma(){
 								<tr>
 									<td>Numero</td>
 									<td>
-										<input type="number" id="numero" name="numero" placeholder="Numero" class="validate[required, number]" />
+										<input type="number" id="numero" name="numero" placeholder="Numero" class="validate[required, custom[number]]" />
 									</td>
 								</tr>
 								<tr>
@@ -311,9 +315,9 @@ function NuevaNorma(){
 							</div>
 
 							<div class="datos-botones">
-								<button type="button" onClick="CancelarContent()">Cancelar</button>
-								<input type="reset" value="Borrar" />
-								<input type="submit" value="Guardar" />
+								<button type="button" title="Cancelar Edición" onClick="CancelarContent()">Cancelar</button>
+								<input type="reset" title="Limpiar Edición" value="Limpiar" />
+								<input type="submit" title="Guardar Edición" value="Guardar" />
 							</div>
 						</form>';
 	echo $formulario;
@@ -440,7 +444,11 @@ function Articulos($norma){
 		$lista .= '<div id="articulos" class="'.$visibilidad.'">
 					  <div class="titulo">
 					  	Articulos de '.$registros->getDatoNorma("nombre", $norma).' '.$registros->getDatoNorma("numero", $norma).'
-					  	<hr>
+					  	<button type="button" title="Buscar Articulos" onClick="BuscarMenu2(\'buscar-articulos\')">Buscar</button>
+						<hr>
+						<div class="busqueda">
+							<input type="text" id="buscar-articulos" placeholder="Buscar"/>
+						</div>
 					  </div>
 				      <ul>';
 
@@ -450,6 +458,7 @@ function Articulos($norma){
 		}
 
 	}else{
+		//no tiene articulos no se ocupa el buscador
 		$lista .= '<div id="articulos" class="'.$visibilidad.'">
 					  <div class="titulo">
 					  	Articulos de '.$registros->getDatoNorma("nombre", $norma).' '.$registros->getDatoNorma("numero", $norma).'
@@ -460,9 +469,9 @@ function Articulos($norma){
 	}
 
 	$lista .= '<div class="datos-botones">
-				<button type="button" onClick="BorrarArticulo()">Borrar</button>
-				<button type="button" onClick="EditarArticulo()">Editar</button>
-			   	<button type="button" onClick="NuevoArticulo('.$norma.')">Nuevo Articulo</button>
+				<button type="button" title="Eliminar Articulo Seleccionado" onClick="BorrarArticulo()">Eliminar</button>
+				<button type="button" title="Editar Articulo Seleccionado" onClick="EditarArticulo()">Editar</button>
+			   	<button type="button" title="Crear Nuevo Articulo" onClick="NuevoArticulo('.$norma.')">Nuevo Articulo</button>
 			   </div>
 			   </div>';
 
@@ -544,7 +553,7 @@ function NuevoArticulo($norma){
 
 							<div class="datos-botones">
 								<button type="button" onClick="CancelarContent()">Cancelar</button>
-								<input type="reset" value="Borrar" />
+								<input type="reset" value="Limpiar" />
 								<input type="submit" value="Guardar" />
 							</div>
 						</form>';
@@ -674,7 +683,7 @@ function EdicionArticulo($articulo){
 								<div class="datos">
 									<input type="hidden" value="ActualizarArticulo" name="func" />
 									<input type="hidden" value="'.$datos[0]['norma'].'" name="norma" />
-									<input type="hidden" value="'.$datos[0]['id'].'" name="id" />
+									<input type="hidden" value="'.$datos[0]['id'].'" name="id" id="id" />
 									<table>
 									<tr>
 										<td>
@@ -702,10 +711,18 @@ function EdicionArticulo($articulo){
 								<!-- tabs para los datos -->
 								<div id="tabs">
 								    <ul>
-								        <li><a href="#tabs-1">Resumen</a></li>
-								        <li><a href="#tabs-2">Permisos</a></li>
-								        <li><a href="#tabs-3">Sanciones</a></li>
-								        <li><a href="#tabs-4">Articulos</a></li>
+								        <li>
+								        	<a href="#tabs-1" title="Edición Resumen">Resumen</a>
+								        </li>
+								        <li>
+								        	<a href="#tabs-2" title="Edición Permisos">Permisos</a>
+								        </li>
+								        <li>
+								        	<a href="#tabs-3" title="Edición Sanciones">Sanciones</a>
+								        </li>
+								        <li>
+								        	<a href="#tabs-4" title="Edición Articulos">Articulos</a>
+								        </li>
 								    </ul>
 
 								    <div id="tabs-1">
@@ -761,9 +778,9 @@ function EdicionArticulo($articulo){
 								<!-- FIN ADJUNTO -->
 
 								<div class="datos-botones">
-									<button type="button" onClick="CancelarContent()">Cancelar</button>
-									<input type="reset" value="Borrar" />
-									<input type="submit" value="Guardar" onClick="EditorUpdateContent()" />
+									<button type="button" title="Cancelar Edición" onClick="CancelarContent()">Cancelar</button>
+									<input type="reset" title="Limpiar Edición" value="Limpiar" />
+									<input type="submit" title="Guardar Edición" value="Guardar" onClick="EditorUpdateContent()" />
 								</div>
 							</form>';
 	}else{
