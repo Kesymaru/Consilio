@@ -73,7 +73,6 @@ $master = new Master();
 	
 	<!-- plugin para editor -->
 	<script src="editor/ckeditor.js"></script>
-	<script type="text/javascript" src="editor/adapters/jquery.js"></script>
 
 </head>
 

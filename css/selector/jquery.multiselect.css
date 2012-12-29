@@ -48,13 +48,14 @@
 .ui-multiselect-checkboxes li.ui-multiselect-optgroup-label a { display:block; padding:3px; margin:1px 0; text-decoration:none }
 
 .ui-helper-reset{
-	display: none;
+	
 	margin-bottom: 3px;
 	display: block;
 	color: rgba(117, 114, 115, .4);
 }
 
 .ui-multiselect-all, .ui-multiselect-none{
+	display: none;
 	width: 50%;
 	color: rgba(117, 114, 115, .4) !important;
 }

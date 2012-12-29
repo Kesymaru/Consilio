@@ -147,6 +147,9 @@ function VistaEdicion(accion){
 		$.cookie('vista', 'edicion');
 	}
 
+	if($("#menu2").is(":visible")){
+		Menu2();
+	}
 	//si no se ha cargado
 	if( !$(".vistaEdicion").length ){
 		
