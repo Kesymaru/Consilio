@@ -694,6 +694,7 @@ function Editor(id){
 * ACTUALIZA LOS CAMBIOS ECHOS EN EL EDITOR
 */
 function EditorUpdateContent() {
+	notificaAtencion("actualizando editores");
     for (instance in CKEDITOR.instances) {
         CKEDITOR.instances[instance].updateElement();
     }

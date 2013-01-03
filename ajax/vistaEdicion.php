@@ -893,6 +893,7 @@ function ContextMenuNormaDeshabilitada(id){
         }
     });
 
+	//doble click
 	$("#"+id).dblclick(function(){
 		Articulos(id);
 		return;
@@ -1320,13 +1321,15 @@ function FormularioNuevoArticulo(){
 	var options = {  
 		beforeSubmit: ValidaFormularioNuevoArticulo,
 		beforeSend: function(){
-			EditorUpdateContent();
+			DeshabilitarContent();
 		},
-		success: function(response) { 
-			if(response.length == 3){
+		success: function(response) {
+
+			if(response.length <= 3){
 				notifica("Articulo Creado.");
-				$("#content").html("");
+				LimpiarContent();
 				
+				//refresca articulos
 				Articulos();
 			}else{
 				notificaError(response);
@@ -1338,7 +1341,6 @@ function FormularioNuevoArticulo(){
 	}; 
 
 	$('#FormularioNuevoArticulo').ajaxForm(options);
-
 
 	//CARGA EDITORES PARA LOS TEXTAREAS
 	Editor('resumen');
@@ -1363,7 +1365,7 @@ function ValidaFormularioNuevoArticulo(){
 
 	if( permisos != '' && permisos != null && articulo != '' && articulo != null && entidades != '' && entidades != null && nombre != '' && nombre != null ){
 
-		//return true;
+		return true;
 	}else{
 				
 		if(permisos == null || permisos == ''){
@@ -1399,7 +1401,40 @@ function SelectArticulo(articulo){
 */
 function ArticuloContextMenu(id){
 
-	
+	$.contextMenu({
+        selector: '#articulo'+id, 
+        callback: function(key, options) {
+            var m = "clicked: " + key;
+            //window.console && console.log(m) || alert(m); 
+            MenuArticulo(m);
+        },
+        items: {
+			"nuevo": {name: "Nuevo Articulo", icon: "add"},
+            "editar": {name: "Editar", icon: "edit"},
+            "eliminar": {name: "Eliminar", icon: "delete"}
+        }
+    });
+
+	//doble click para editar articulo seleccionado
+	$("#articulo"+id).dblclick(function(){
+		EditarArticulo();
+		return;
+	});
+}
+
+/**
+* MANEJADOR DE LAS ACCIONES DEL MENU DE UN ARTICULO
+*/
+function MenuArticulo(m){
+
+	if(m == "clicked: nuevo"){
+		norma = $("#normas .seleccionada").attr("id");
+		NuevoArticulo(norma);
+	}else if(m == "clicked: eliminar"){
+		BorrarArticulo()
+	}else if(m == "clicked: editar"){
+		EditarArticulo();
+	}
 }
 
 /**
@@ -1427,7 +1462,7 @@ function BorrarArticulo(){
 * REALIZA EL BORRADO DE UN ARTICULO AL SER CONFIRMADA LA OPCION
 * @param articulo -> id del articulo
 */
-function DeleteArticulo(id){
+function DeleteArticulo(){
 	var articulo = $("#articulos .seleccionada").attr("id");
 	articulo = articulo.substring(8); //elimina "articulo" del id y deja solo el numero
 
@@ -1438,16 +1473,22 @@ function DeleteArticulo(id){
 		type: "post",
 		url: "src/ajaxNormas.php",
 		beforeSend: function(){
-
 		},
 		success: function(response){
-			if(response.length == 3){
+
+			if(response.length <= 3){
 				notifica("Articulo Eliminado.");
+
 				$("#articulo"+articulo).fadeOut(500, function(){
 					$("#articulo"+articulo).remove();
 				});
+
+				if($("#content").length){
+					LimpiarContent();
+				}
 			}else{
-				responseError(response);
+				//notificaError(response);
+				$("#content").html(response);
 			}
 		},
 		fail: function(){
@@ -1500,6 +1541,7 @@ function FormularioEditarArticulo(){
 	var options = {  
 		beforeSubmit: ValidaFormularioNuevoArticulo, //se valida con la misma funcion que al crear nuevo articulo
 		beforeSend: function(){
+			EditorUpdateContent();
 			DeshabilitarContent();
 		},
 		uploadProgress: function(percentComplete) {

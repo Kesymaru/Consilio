@@ -210,13 +210,23 @@ class Database{
 	* @return $nuevo -> nuevo link del archivo movido 
 	*/
 	public function Archivar($link){
-		$destino = 'archivos/archivados';
+		$destino = 'archivos/archivado';
+		$oldlink = str_replace("archivos/", "", $link);
+
+		echo "<a href='".$link."'>".$link."</a><br/>";
+		echo "<a href='".$destino.$oldlink."'>".$destino.$oldlink."</a><hr>";
+
+		$link = '../'.$link;
+		$destino = '../archivos/archivado/'.$oldlink;
 		$nuevo = "";
 
+		/*if(file_exists($link)){
+			echo 'existe<br/><br/>';
+		}*/
+
 		//mueve el archivo a archivado, archivandolo
-		if(rename($link, $destino)){
-			$nuevo = $destino . substr_replace($link, "../../archivos");
-			return $nuevo;
+		if (rename($link, $destino)) {
+			return true;
 		}else{
 			return false;
 		}

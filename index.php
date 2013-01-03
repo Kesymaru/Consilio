@@ -76,7 +76,7 @@ $master = new Master();
 
 </head>
 
-<body title="hola">
+<body>
 
 <div id="loader" class="loader">
 

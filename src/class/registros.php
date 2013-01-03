@@ -234,53 +234,48 @@ class Registros{
 	/**
 	* CREA SNAPSHOT DE UN ARCHIVO ELIMINADO, MUEVE EL ARCHIVO A LA CARPETA DE ARCHIVADOS Y CREA EL SNAPSHOT EN LA BASE DE DATOS
 	* @param $tipo -> tipo de archivo, articulo o norma
-	* @param $archivo -> id del archivo
+	* @param $link -> link del archivo a archivar
+	* @param $pertence -> id de la norma o articulo
 	* @return true si crea el snapshot del archivo
 	* @return false si falla
 	*/
-	private function SnapshotArchivo($tipo, $archivo){
+	private function SnapshotArchivo($tipo, $link, $pertence){
 		$base = new Database();
-		$link = ''; //link archivo archivado
+		if($tipo == 'norma'){
+			$query = "SELECT * FROM normas WHERE id = ".$pertence;
+		}else if($tipo == 'articulo'){
+			$query = "SELECT * FROM articulos WHERE id = ".$pertence;
+		}else{
+			echo "Error: ".$tipo." no valido, registros.php 249";
+			return false;
+		}
+
+		$datos = $base->Select($query);
 
 		//mueve el archivo viejo/archivado a la carpeta de archivar
-		if( $link = $base->Archivar($archivo) ){
+		if( $nuevoLink = $base->Archivar($link)){
 			
-			//obtiene datos del archivo
-			$query = "SELECT * FROM archivos WHERE id = ".$archivo;
-			$datos = $base->Select($query);
-			
+			//crea snapshot del archivo archivado
 			if(!empty($datos)){
 
-				//obtiene datos del articulo/norma al que pertenece el archivo
+				//crea el snapshot del archivo con los datos
+				$query = "INSERT INTO snapshots_archivos (nombre, link, norma, articulo, id) VALUES ";
 				if($tipo == 'norma'){
-					$query = "SELECT * FROM normas WHERE id = ".$datos[0]['norma'];
-				}else if($tipo == 'articulo'){
-					$query = "SELECT * FROM articulos WHERE id = ".$datos[0]['articulo'];
+					$query .= "( '".$datos[0]['nombre']."', '".$datos[0]['link']."', '".$datos[0]['norma']."', 0, '".$nuevoLink."' )";
+				}else{
+					$query .= "( '".$datos[0]['nombre']."', '".$datos[0]['link']."', 0, '".$datos[0]['articulo']."', '".$nuevoLink."' )";
 				}
-				//DATOS DE PERTENENCIA DEL ARCHIVO
-				$pertenece = $base->Select($query);
-				
-				if(!empty($articulo)){
-					//crea el snapshot del archivo con los datos
-					$query = "INSERT INTO snapshots_articulos (nombre, link, norma, articulo, fecha, id) VALUES ";
-					$query .= "( '".$datos[0]['nombre']."', '".$datos[0]['link']."', '".$datos[0]['norma']."', '".$datos[0]['articulo']."', '".$pertenece[0]['fecha']."', '".$archivo."' )";
 					
-					if($base->Insert($query)){
-						return true; //snapshot creado exitosamente
-
-					}else{
-						return false;
-					}
-
+				if($base->Insert($query)){
+					//snapshot creado exitosamente
+					return true; 
 				}else{
 					return false;
 				}
 
-			}else{
-				return false;
 			}
-
 		}else{
+			echo "Error: al archivar un archivo.";
 			return false;
 		}
 	}
@@ -931,6 +926,44 @@ class Registros{
 	}
 
 	/**
+	* CAMBIA EL ESTADO DEL ARTICULO A ELIMINADO, CREA SNAPSHOT DEL ARTICULO Y CREA SNAPHOT DE LOS ARCHIVOS DEL ARTICULO
+	* @param $articulo -> id del articulo
+	* @return true si se elimina el articulo
+	* @return false si falla
+	*/
+	public function DeleteArticulo($articulo){
+
+		$base = new Database();
+		$query = "SELECT * FROM archivos WHERE articulo = ".$articulo;
+
+		$archivos = $base->Select($query);
+
+		//crea snapshot de los archivos adjuntos del articulo, si tiene
+		if(!empty($archivos)){
+			foreach ($archivos as $fila => $archivo) {
+				$this->SnapshotArchivo('articulo', $archivo['link'], $archivo['id']);
+			}
+		}
+
+		//crea snapshot del articulo antes de eliminarlo
+		if( $this->SnapshotArticulo($articulo) ){
+			$base2 = new Database();
+
+			//seudo elimina el articulo, cambia el estado a borrado
+			$query = "UPDATE articulos set borrado = 1 WHERE id = ".$articulo;
+
+			if($base2->Update($query)){
+				return true;
+			}else{
+				return false;
+			}
+
+		}else{
+			return false;
+		}
+	}
+
+	/**
 	* GUARDA UN SNAPSHOT DE UN ARTICULO
 	* @param $id -> id del articulo
 	* @return true si se crear el snapshot correctamente
@@ -954,48 +987,6 @@ class Registros{
 		}else{
 			return false;
 		}
-	}
-
-	/**
-	* ELIMINA UN ARTICULO, TODOS SUS DATOS Y ARCHIVOS ADJUNTOS
-	* @param $articulo -> id del articulo
-	* @return true si se elimina el articulo
-	* @return false si falla
-	*/
-	public function DeleteArticulo($articulo){
-		/*$base = new Database();
-		$query = "SELECT * FROM archivos WHERE articulo = ".$articulo;
-
-		$archivos = $base->Select($query); //selecciona los archivos del articulo
-
-		if( !empty($archivos) ){
-			$query = "DELETE FROM articulos WHERE id = ".$articulo;
-
-			foreach ($archivos as $fila => $archivo) {
-				$this->DeleteArchivo($archivo['id']);
-			}
-
-			if( $base->Delete($query) ){
-				return true; //se elimino
-			}else{
-				return false;
-			}
-
-		}else{
-			//no tiene archivos adjuntos
-			$query = "DELETE FROM articulos WHERE id = ".$articulo;
-
-			if( $base->Delete($query) ){
-				return true; //se elimino
-			}else{
-				return false;
-			}
-		}*/
-		$base = new Database();
-		$query = "UPDATE articulos set borrado = 1 WHERE id = ".$articulo;
-
-		$base->Update($query);
-			
 	}
 
 
