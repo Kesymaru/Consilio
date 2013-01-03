@@ -32,15 +32,15 @@ $master = new Master();
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800italic,800,600,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
 
 
-	<!-- jquery local para desarrollo
+	<!-- jquery local para desarrollo -->
 	<script type="text/javascript" src="js/jquery-1.8.2.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-1.9.0.custom.js"></script>
-	-->
+	
 
-	<!-- jquery google -->
+	<!-- jquery google 
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-1.9.0.custom.js"></script>
-	
+	-->
 
 	<!-- validacion de form -->
 	<script type="text/javascript" src="js/languages/jquery.validationEngine-es.js" charset="utf-8"></script>

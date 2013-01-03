@@ -204,7 +204,7 @@ function NormasCategoria($categoria){
 					  		<tr>
 					  			<td>Nombre</td>
 					  			<td>
-					  				<input type="text" name="nombre" id="nombre" value="'.$nombre.'" placeholder="Nombre" class="validate[required]" />
+					  				<input type="text" name="nombre" id="nombre" title="Nombre De La Categoria" value="'.$nombre.'" placeholder="Nombre" class="validate[required]" />
 					  			</td>
 					  		</tr>
 					  		</table>
@@ -212,27 +212,27 @@ function NormasCategoria($categoria){
 					  			<tr>
 					  				<th colspan="2">
 					  					Normas Incluidas
-					  					<button type="button" onClick="BuscarNormaCategoria(\'incluidas\')">Buscar</button>
+					  					<button type="button" title="Buscar Normas Incluidas" onClick="BuscarNormaCategoria(\'incluidas\')">Buscar</button>
 					  				</th>
 					  				<th colspan="2">
 					  					Normas Disponibles
-					  					<button type="button" onClick="BuscarNormaCategoria(\'disponibles\')">Buscar</button>
+					  					<button type="button" title="Buscar Normas Disponibles" onClick="BuscarNormaCategoria(\'disponibles\')">Buscar</button>
 					  				</th>
 					  			</tr>
 					  			<tr>
 					  				<td id="buscar-seleccionadas">
-					  					<input type="text" placeholder="Buscar" />
+					  					<input type="text" title="Escriba Para Buscar" placeholder="Buscar" />
 					  				</td>
 
-					  				<td class="control" onClick="QuitarNormasSeleccionadas()" rowspan="2">
+					  				<td class="control" onClick="QuitarNormasSeleccionadas()" rowspan="2" title="Excluir Selecciones">
 					  					>
 					  				</td>
-					  				<td class="control" onClick="AgregarNormasSeleccionadas()" rowspan="2">
+					  				<td class="control" onClick="AgregarNormasSeleccionadas()" rowspan="2" title="Incluir Selecciones">
 					  					<
 					  				</td>
 
 					  				<td id="buscar-disponibles">
-					  					<input type="text" placeholder="Buscar" />
+					  					<input type="text" title="Escriba Para Buscar" placeholder="Buscar" />
 					  				</td>
 					  			</tr>
 					  			<tr>
@@ -248,9 +248,9 @@ function NormasCategoria($categoria){
 					  		</table>
 					  	</div>
 					  	<div class="datos-botones">
-					  		<button type="button" onClick="CancelarContent()">Cancelar</button>
-							<button type="button" onClick="NormasCategoria('.$categoria.')" >Limpiar</button>
-							<input type="submit" value="Guardar" />
+					  		<button type="button" title="Cancelar Edición" onClick="CancelarContent()">Cancelar</button>
+							<button type="button" title="Limpiar Edición" onClick="NormasCategoria('.$categoria.')" >Limpiar</button>
+							<input type="submit" title="Guardar Edición" value="Guardar" />
 						</div>
 					</form>';
 

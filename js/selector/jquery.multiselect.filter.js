@@ -21,8 +21,8 @@
     options: {
       label: 'Filter:',
       width: null, /* override default width set in css file (px). null will inherit */
-      placeholder: 'Enter keywords',
-      autoReset: false
+      placeholder: 'Buscar',
+      autoReset: false,
     },
 
     _create: function() {
@@ -35,7 +35,7 @@
       var header = (this.header = instance.menu.find('.ui-multiselect-header').addClass('ui-multiselect-hasfilter'));
 
       // wrapper elem
-      var wrapper = (this.wrapper = $('<div class="ui-multiselect-filter">' + (opts.label.length ? opts.label : '') + '<input placeholder="'+opts.placeholder+'" type="search"' + (/\d/.test(opts.width) ? 'style="width:'+opts.width+'px"' : '') + ' /></div>').prependTo(this.header));
+      var wrapper = (this.wrapper = $('<div class="ui-multiselect-filter">' + (opts.label.length ? opts.label : '') + '<input placeholder="'+opts.placeholder+'" type="search" title="Escriba Para Buscar"' + (/\d/.test(opts.width) ? 'style="width:'+opts.width+'px"' : '') + ' /></div>').prependTo(this.header));
 
       // reference to the actual inputs
       this.inputs = instance.menu.find('input[type="checkbox"], input[type="radio"]');

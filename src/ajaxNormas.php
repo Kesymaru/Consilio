@@ -185,13 +185,13 @@ function EditarNorma($norma){
 								<tr>
 									<td>Nombre</td>
 									<td>
-										<input type="text" id="nombre" name="nombre" placeholder="Nombre" class="validate[required]" value="'.$datos[0]['nombre'].'" />
+										<input type="text" id="nombre" name="nombre" title="Nombre De La Norma" placeholder="Nombre" class="validate[required]" value="'.$datos[0]['nombre'].'" />
 									</td>
 								</tr>
 								<tr>
 									<td>Numero</td>
 									<td>
-										<input type="number" id="numero" name="numero"  placeholder="Numero" class="validate[required, custom[number]]" value="'.$datos[0]['numero'].'" />
+										<input type="number" id="numero" name="numero" title="Numero De La Norma" placeholder="Numero" class="validate[required, custom[number]]" value="'.$datos[0]['numero'].'" />
 									</td>
 								</tr>
 								<tr>
@@ -207,7 +207,7 @@ function EditarNorma($norma){
 										Estado
 									</td>
 									<td>
-										<select id="status" name="status" >';
+										<select id="status" title="Estado De La Norma" name="status" >';
 		if($datos[0]['status'] == 1){
 			$formulario .= '			<option value="1" selected>Habilitado</option>
 										<option value="0">Deshabilitado</option>';
@@ -226,7 +226,7 @@ function EditarNorma($norma){
 
 							<!-- adjuntos -->
 							<div class="datos-footer">
-							    <img id="adjuntar-icon" src="images/folder-upload.png" onClick="Adjuntos()" />
+							    <img id="adjuntar-icon" title="Adjuntar Archivos" src="images/folder-upload.png" onClick="Adjuntos()" />
 							</div>
 							<div class="adjuntos">
 								<input type="hidden" name="totalArchivos" value="0" />
@@ -266,13 +266,13 @@ function NuevaNorma(){
 								<tr>
 									<td>Nombre</td>
 									<td>
-										<input type="text" id="nombre" name="nombre" placeholder="Nombre" class="validate[required]" />
+										<input type="text" id="nombre" name="nombre" title="Nombre De La Nueva Norma" placeholder="Nombre" class="validate[required]" />
 									</td>
 								</tr>
 								<tr>
 									<td>Numero</td>
 									<td>
-										<input type="number" id="numero" name="numero" placeholder="Numero" class="validate[required, custom[number]]" />
+										<input type="number" id="numero" name="numero" title="Numero De La Nueva Norma" placeholder="Numero" class="validate[required, custom[number]]" />
 									</td>
 								</tr>
 								<tr>
@@ -290,7 +290,7 @@ function NuevaNorma(){
 										Estado
 									</td>
 									<td>
-										<select name="status" >
+										<select name="status" title="Estado De La Nueva Norma" >
 											<option value="1" selected>Habilitado</option>
 											<option value="0">Deshabilitado</option>
 										</select>
@@ -302,7 +302,7 @@ function NuevaNorma(){
 
 							<!-- adjuntos -->
 							<div class="datos-footer">
-							    <img id="adjuntar-icon" src="images/folder-upload.png" onClick="Adjuntos()" />
+							    <img id="adjuntar-icon" title="Adjuntar Archivos" src="images/folder-upload.png" onClick="Adjuntos()" />
 							</div>
 							<div class="adjuntos">
 								<input type="hidden" name="totalArchivos" value="0" />
@@ -333,7 +333,7 @@ function Tipos(){
 	$datos = $registros->getTipos();
 
 	if(!empty($datos)){
-		$tipos .= '<select name="tipo" class="validate[required]">';
+		$tipos .= '<select name="tipo" title="Tipo De Norma" class="validate[required]">';
 
 		foreach ($datos as $fila => $tipo) {
 			$tipos .= '<option value="'.$tipo['id'].'">'.$tipo['nombre'].'</option>';
@@ -361,7 +361,7 @@ function TiposNorma($norma){
 	$datos =  $registros->getTipos();
 
 	if(!empty($datos)){
-		$tipos .= '<select name="tipo" class="validate[required]" >';
+		$tipos .= '<select name="tipo" title="Tipo De Norma" class="validate[required]" >';
 
 		foreach ($datos as $fila => $tipo) {
 			if($tipo['id'] == $seleccionado){
@@ -494,7 +494,7 @@ function NuevoArticulo($norma){
 										Nombre
 									</td>
 									<td>
-										<input type="text" id="nombre" name="nombre" placeholder="Nombre" class="validate[required]" />
+										<input type="text" id="nombre" name="nombre" title="Nombre Del Articulo" placeholder="Nombre" class="validate[required]" />
 									</td>
 								</tr>
 								<tr>

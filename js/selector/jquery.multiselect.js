@@ -29,12 +29,12 @@
     options: {
       header: true,
       height: 175,
-      minWidth: 225,
+      minWidth: 300,
       classes: '',
       checkAllText: 'Check all',
       uncheckAllText: 'Uncheck all',
       noneSelectedText: 'Select options',
-      selectedText: '# selected',
+      selectedText: '# selecciónada',
       selectedList: 0,
       show: null,
       hide: null,
@@ -170,7 +170,9 @@
 
         // create the label
         html += '<label for="' + inputID + '" title="' + description + '" class="' + labelClasses.join(' ') + '">';
-        html += '<input id="' + inputID + '" name="multiselect_' + id + '" type="' + (o.multiple ? "checkbox" : "radio") + '" value="' + value + '" title="' + title + '"';
+        //CON TITLE PARA TOOLTIPS
+        //html += '<input id="' + inputID + '" name="multiselect_' + id + '" type="' + (o.multiple ? "checkbox" : "radio") + '" value="' + value + '" title="' + title + '"';
+        html += '<input id="' + inputID + '" name="multiselect_' + id + '" type="' + (o.multiple ? "checkbox" : "radio") + '" value="' + value + '"';
 
         // pre-selected?
         if(isSelected) {

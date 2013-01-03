@@ -61,7 +61,7 @@ function Tipos(){
 	$lista = '<div id="tipos" class="tipos">
 				<div class="titulo">
 					Tipos Norma
-			  		<button type="button" onClick="BuscarMenu(\'buscar-Tipos\')">Buscar</button>
+			  		<button type="button" title="Buscar Tipos" onClick="BuscarMenu(\'buscar-Tipos\')">Buscar</button>
 					<hr>
 					<div class="busqueda">
 						<input type="text" id="buscar-Tipos" placeholder="Buscar"/>
@@ -82,9 +82,9 @@ function Tipos(){
 	}
 
 	$lista .= '<div class="datos-botones">
-				<button type="button" id="EliminarTipo" onClick="EliminarTipo()">Eliminar</button>
-				<button type="button" id="EditarTipo" onClick="EditarTipo()">Editar</button>
-			   	<button type="button" id="NuevoTipo" onClick="NuevoTipo()">Nuevo Tipo</button>
+				<button type="button" id="EliminarTipo" title="Eliminar Tipo Seleccionado" onClick="EliminarTipo()">Eliminar</button>
+				<button type="button" id="EditarTipo" title="Editar Tipo Seleccionado" onClick="EditarTipo()">Editar</button>
+			   	<button type="button" id="NuevoTipo" title="Crear Nuevo Tipo" onClick="NuevoTipo()">Nuevo Tipo</button>
 			   </div>
 			   <!-- fin botonera -->
 			   </div>';
@@ -113,7 +113,7 @@ function NuevoTipo(){
 					  				Nombre
 					  			</td>
 					  			<td>
-					  				<input type="text" name="nombre" placeholder="Nombre" class="validate[required]" />
+					  				<input type="text" title="Nombre para Nuevo Tipo" name="nombre" placeholder="Nombre" class="validate[required]" />
 					  			</td>
 					  		</tr>
 					  		</table>
@@ -121,9 +121,9 @@ function NuevoTipo(){
 					  		<br/>
 					  	</div>
 					  	<div class="datos-botones">
-					  		<button type="button" onClick="CancelarContent()">Cancelar</button>
-							<input type="reset" value="Borrar" />
-							<input type="submit" value="Guardar" />
+					  		<button type="button" title="Cancelar Edición" onClick="CancelarContent()">Cancelar</button>
+							<input type="reset" title="Limpiar Edición" value="Limpiar" />
+							<input type="submit" title="Guardar Edición" value="Guardar" />
 						</div>
 					</form>';
 

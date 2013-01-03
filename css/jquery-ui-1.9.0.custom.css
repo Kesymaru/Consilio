@@ -264,73 +264,54 @@ span.ui-spinner { background: none; }
 .ui-tabs .ui-tabs-nav li a, .ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-active a { cursor: pointer; } /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
 .ui-tabs .ui-tabs-panel { display: block; border-width: 0; background: #ffffff; }
 .ui-tooltip {
-	padding:8px;
+	padding:0;
+	margin: 0;
 	position:absolute;
+	border-width: 0 !important;
 	z-index:9999;
-		-o-box-shadow: 0 0 5px #aaa;
-		-ms-box-shadow: 0 0 5px #aaa;
-		-moz-box-shadow: 0 0 5px #aaa;
-		-webkit-box-shadow: 0 0 5px #aaa;
-	box-shadow: 0 0 5px #aaa;
-
-		-o-border-radius: 0 !important;
-		-ms-border-radius: 0 !important;
-		-moz-border-radius: 0 !important;
-		-webkit-border-radius: 0 !important;
-	border-radius: 0 !important;
+	background: none !important;
 }
 /* Fades and background-images don't work well together in IE6, drop the image */
 * html .ui-tooltip {
 	background-image: none;
 }
-body .ui-tooltip { border-width:2px; }
-
-.ui-tooltip, .arrow:after {
-        background: black;
-        border: 2px solid white;
-    }
-    .ui-tooltip {
-        padding: 10px 20px;
-        color: white;
-        border-radius: 20px;
-        font: bold 14px "Helvetica Neue", Sans-Serif;
-        text-transform: uppercase;
-        box-shadow: 0 0 7px black;
-    }
+body .ui-tooltip {  }
     .arrow {
-        width: 70px;
-        height: 16px;
         overflow: hidden;
         position: absolute;
-        left: 50%;
-        margin-left: -35px;
-        bottom: -16px;
     }
-    .arrow.top {
-        top: -16px;
-        bottom: auto;
-    }
-    .arrow.left {
-        left: 20%;
+    .ui-tooltip-content{
+    	border-color: #757273;
+    	border-width: 1px;
+    	border-style: solid;
+    	text-transform: capitalize;
+        box-shadow: 0 0 7px black;
+        padding: 10px;
+
+        	-o-border-radius: 10px;
+        	-ms-border-radius: 10px;
+        	-moz-border-radius: 10px;
+	        -webkit-border-radius: 10px;
+		border-radius: 10px;
+
+		background-color: #757273;
+		color: #fff;
+		font-size: 15px !important;
+		min-width: 70px;
+		text-align: center;
     }
     .arrow:after {
     	z-index: 999;
         content: "";
         position: absolute;
-        left: 20px;
-        bottom: -20px;
-        width: 25px;
-        height: 25px;
-        box-shadow: 6px 5px 9px -9px black;
-        -webkit-transform: rotate(45deg);
-        -moz-transform: rotate(45deg);
-        -ms-transform: rotate(45deg);
-        -o-transform: rotate(45deg);
-        tranform: rotate(45deg);
-    }
-    .arrow.top:after {
-        bottom: -20px;
-        top: auto;
+		width: 0px;
+		height: 0px;
+		margin: 0 auto;
+		display: block;
+		position: relative;
+		border-left: 25px solid transparent;
+		border-right: 25px solid transparent;
+		border-top: 15px solid #757273;
     }
 
 /* Component containers

@@ -73,7 +73,7 @@ function Entidades(){
 	$lista = '<div id="entidades" class="entidades">
 				<div class="titulo">
 					Entidades
-			  		<button type="button" onClick="BuscarMenu(\'buscar-Entidades\')">Buscar</button>
+			  		<button type="button" title="Buscar Entidades" onClick="BuscarMenu(\'buscar-Entidades\')">Buscar</button>
 					<hr>
 					<div class="busqueda">
 						<input type="text" id="buscar-Entidades" placeholder="Buscar"/>
@@ -102,10 +102,10 @@ function Entidades(){
 	}
 
 	$lista .= '<div class="datos-botones">
-				<button type="button" id="EliminarEntidad" onClick="EliminarEntidad()">Eliminar</button>
-				<button type="button" id="EditarEntidad" onClick="EditarEntidad()">Editar</button>
-				<button type="button" id="NuevoEntidad" onClick="NuevoGrupo()">Nuevo Grupo</button>
-			   	<button type="button" id="NuevoEntidad" onClick="NuevaEntidad()">Nueva Entidad</button>
+				<button type="button" id="EliminarEntidad" title="Eliminar Entidad Seleccionada" onClick="EliminarEntidad()">Eliminar</button>
+				<button type="button" id="EditarEntidad" title="Editar Entidad Seleccionada" onClick="EditarEntidad()">Editar</button>
+				<button type="button" id="NuevoEntidad" title="Crear Nuevo Grupo De Entidades" onClick="NuevoGrupo()">Nuevo Grupo</button>
+			   	<button type="button" id="NuevoEntidad" title="Crear Nueva Entidad" onClick="NuevaEntidad()">Nueva Entidad</button>
 			   </div>
 			   <!-- fin botonera -->
 			   </div>';
@@ -126,11 +126,12 @@ function NuevoGrupo(){
 					  	<input type="hidden" name="func" value="RegistrarGrupo" />
 					  	<div class="datos">
 					  		<table>
+					  		<tr>
 					  			<td>
 					  				Nombre
 					  			</td>
 					  			<td>
-					  				<input type="text" name="nombre" placeholder="Nombre" class="validate[required]" />
+					  				<input type="text" name="nombre" title="Nombre Para Nuevo Grupo de Entidades" placeholder="Nombre" class="validate[required]" />
 					  			</td>
 					  		</tr>
 					  		</table>
@@ -138,9 +139,9 @@ function NuevoGrupo(){
 					  		<br/>
 					  	</div>
 					  	<div class="datos-botones">
-					  		<button type="button" onClick="CancelarContent()">Cancelar</button>
-							<input type="reset" value="Borrar" />
-							<input type="submit" value="Guardar" />
+					  		<button type="button" title="Cancelar Edición" onClick="CancelarContent()">Cancelar</button>
+							<input type="reset" title="Limpiar Edición" value="Limpiar" />
+							<input type="submit" title="Guardar Edición" value="Guardar" />
 						</div>
 					</form>';
 
@@ -171,7 +172,7 @@ function NuevaEntidad(){
 					  				Nombre
 					  			</td>
 					  			<td>
-					  				<input type="text" name="nombre" placeholder="Nombre" class="validate[required]" />
+					  				<input type="text" title="Nombre para Nueva Entidad" name="nombre" placeholder="Nombre" class="validate[required]" />
 					  			</td>
 					  		</tr>
 					  		</table>
@@ -179,9 +180,9 @@ function NuevaEntidad(){
 					  		<br/>
 					  	</div>
 					  	<div class="datos-botones">
-					  		<button type="button" onClick="CancelarContent()">Cancelar</button>
-							<input type="reset" value="Borrar" />
-							<input type="submit" value="Guardar" />
+					  		<button type="button" title="Cancelar Edición" onClick="CancelarContent()">Cancelar</button>
+							<input type="reset" title="Limpiar Edición" value="Limpiar" />
+							<input type="submit" title="Guardar Edición" value="Guardar" />
 						</div>
 					</form>';
 
@@ -222,7 +223,7 @@ function EditarEntidad($id){
 						  				Nombre
 						  			</td>
 						  			<td>
-						  				<input type="text" id="nombre" name="nombre" placeholder="Nombre" 
+						  				<input type="text" id="nombre" name="nombre" title="Nombre De La Entidad" placeholder="Nombre" 
 						  				value="'.$entidad[0]['nombre'].'" class="validate[required]" />
 						  			</td>
 						  		</tr>
@@ -231,9 +232,9 @@ function EditarEntidad($id){
 						  		<br/>
 						  	</div>
 						  	<div class="datos-botones">
-						  		<button type="button" onClick="CancelarContent()">Cancelar</button>
-								<input type="reset" value="Borrar" />
-								<input type="submit" value="Guardar" />
+						  		<button type="button" title="Cancelar Edición" onClick="CancelarContent()">Cancelar</button>
+								<input type="reset" title="Limpiar Edición" value="Limpiar" />
+								<input type="submit" title="Guardar Edición" value="Guardar" />
 							</div>
 						</form>';
 	}else{
@@ -253,7 +254,7 @@ function SelectsPadres(){
 	$padres = $registros->getPadresEntidades();
 
 	if(!empty($padres)){
-		$select .= '<select name="padre" id="grupos" class="validate[required]" >';
+		$select .= '<select name="padre" id="grupos" title="Grupo De La Entidad" class="validate[required]" >';
 		
 		$select .= '<option value="0">Ninguno</option>';
 
@@ -277,7 +278,7 @@ function SelectedPadre($id){
 	$padres = $registros->getPadresEntidades();
 
 	if(!empty($padres)){
-		$select .= '<select name="padre" id="padre" class="validate[required]" >';
+		$select .= '<select name="padre" id="padre" title="Grupo De La Entidad" class="validate[required]" >';
 		
 		$select .= '<option value="0">Ninguno</option>';
 

@@ -10,24 +10,24 @@ $(window).scroll(function () {
 
 $(document).ready(function(){
 	//tooltips
-	/*$(document).tooltip({
+	$(document).tooltip({
 		tooltipClass: "arrow",
 	  	position: {
-            my: "center bottom-20",
-            at: "center top",
+            my: "center top-70",
+            at: "center bottom-50",
+            collision: "flipfit"
         },
         track: true,
         show:{
 	    	effect:'slideDown',
-	    	delay: 1000
 		},
 		open: function( event, ui ) {
-			//se cierran despues de 5 segundos
+			//se cierran despues de 2 segundos
 	    	setTimeout(function(){
 	      		$(ui.tooltip).hide('clip');
-	   		}, 5000);
+	   		}, 2000);
 	  	}
-	});*/
+	});
 
 	$('.dropMenu button').button();
 	$('.dropMenu').hide();
@@ -711,11 +711,10 @@ function SelectorMultipleFiltro(){
 	        if( !matches.length ){
 	            //notificaAtencion("Deve seleccionar almenos una opcion.");
 	        }else{
-	        	notifica('hay');
+	        	
 	        }
 	    }
 	});
-	$(".ui-multiselect span:last").html("Entidades");
 }
 
 
