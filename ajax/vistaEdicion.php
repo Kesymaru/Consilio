@@ -1,7 +1,6 @@
 <?php
 
-require_once("../src/class/session.php"); 
-require_once("../src/class/registros.php");
+require_once("../src/class/session.php");
 
 /**
 * VISTA DE EDICION DE CATEGORIAS
@@ -11,7 +10,6 @@ require_once("../src/class/registros.php");
 $session = new Session();
 $session->Logueado();
 
-$registros = new Registros();
 
 ?>
 
@@ -952,7 +950,7 @@ function NuevaNorma(){
 				
 				$("#content").html(response);
 				FormularioNuevaNorma();
-
+				
 				//esconde el cuadro de adjuntos
 				$(".adjuntos").hide();
 			}else{
@@ -970,28 +968,26 @@ function NuevaNorma(){
 function FormularioNuevaNorma(){
 	//validacion
 	$("#FormularioNuevaNorma").validationEngine();
-		
-	var options = {  
+	
+	var options = {
 		beforeSend: function(){
 		},
 	    success: function(response) { 
-
-	    	if(response.length == 3){
+	    	console.log(response)
+	    	if(response.length <= 3){
 	    		notifica("Norma Creada.");
 	    		LimpiarContent();
 	    		Normas();
 	    	}else{
-	    		$("html").html(response);
 	    		$("#FormularioNuevaNorma").validate();
 	    	}
 		},
 		fail: function(){
-			notificaError("Error: ocurrio un error :(<br/>Codigo: ajaxEdicion 000.");
+			notificaError("Error: al enviar FormularioNuevaNorma()");
 		}
 	}; 
 	$('#FormularioNuevaNorma').ajaxForm(options);
 }
-
 
 /**
 * EDITAR NORMA
@@ -1519,8 +1515,10 @@ function EditarArticulo(){
 
 				$("#content").html(response);
 				$("#content").hide();
-				$("#content").fadeIn();
-				FormularioEditarArticulo();
+				$("#content").fadeIn("slow",function(){
+					FormularioEditarArticulo();
+				});
+				
 
 			}else{
 				notificaError(response);

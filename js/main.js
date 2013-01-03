@@ -14,10 +14,10 @@ $(document).ready(function(){
 		tooltipClass: "arrow",
 	  	position: {
             my: "center top-70",
-            at: "center bottom-50",
+            at: "center bottom",
             collision: "flipfit"
         },
-        track: true,
+        track: false,
         show:{
 	    	effect:'slideDown',
 		},
@@ -659,34 +659,9 @@ function Editor(id){
 	var id2 = id;
 	var id = document.getElementById(id);
 
-	if($.browser.msie && $.browser.version < 9.0 ){
-		//no crea el editor si es ie8 o inferior
-		return;
-		//$("#"+id2).addClass("CKEditor ");
-		//$("#"+id).attr("title","Edicon texto plano.");
-		
-		//espera hasta que sea visible y entonces inicializa el editor
-		/*if(!$("#"+id2).is(":visible")){
-			setTimeout(function() {
-				if($("#"+id2).is(":visible")){
-					notifica("es visible"+id2);
-					//CKEDITOR.replace( id );
-					return;
-				}
-			}, 1000);
-		}else{
-			CKEDITOR.replace( id );
-			return;
-		}*/
-	}
-
 	CKEDITOR.replace( id );
 	CKEDITOR.on("instanceReady", function(event){
-		if( $('#uploader').length ){
-		}else{
 			$(".cke_path").remove();
-		}
-		
 	});
 }
 

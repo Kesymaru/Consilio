@@ -320,7 +320,26 @@ function NuevaNorma(){
 								<input type="submit" title="Guardar Edición" value="Guardar" />
 							</div>
 						</form>';
-	echo $formulario;
+
+	if(HayTipos()){
+		echo $formulario;
+	}else{
+		$error = '<div class="titulo">
+						Error
+						<hr>
+					</div>
+					<div class="datos error">
+						<p>
+						No hay Tipos de Normas.
+						<br/>
+						Por favor cree nuevos tipos de norma.
+						<br/>
+						</p>
+						<br/><br/>
+					</div>';
+		echo $error;
+	}
+	
 }
 
 /**
@@ -415,9 +434,12 @@ function HabilitarNorma($norma){
 * REGISTRA UNA NUEVA NORMA
 */
 function RegistrarNorma(){
+	
 	if( isset($_POST['nombre']) && isset($_POST['numero']) && isset($_POST['tipo']) ){
 		$registros = new Registros();
 		$registros->RegistrarNorma($_POST['nombre'], $_POST['numero'], $_POST['tipo']);
+	}else{
+		echo "Error: datos enviados incorrectos, ajaxNormas.php 422";
 	}
 }
 
@@ -494,7 +516,7 @@ function NuevoArticulo($norma){
 										Nombre
 									</td>
 									<td>
-										<input type="text" id="nombre" name="nombre" title="Nombre Del Articulo" placeholder="Nombre" class="validate[required]" />
+										<input type="text" id="nombre" name="nombre" title="Nombre Del Nuevo Articulo" placeholder="Nombre" class="validate[required]" />
 									</td>
 								</tr>
 								<tr>
@@ -515,10 +537,10 @@ function NuevoArticulo($norma){
 								<!-- tabs para los datos -->
 								<div id="tabs">
 								    <ul>
-								        <li><a href="#tabs-1">Resumen</a></li>
-								        <li><a href="#tabs-2">Permisos</a></li>
-								        <li><a href="#tabs-3">Sanciones</a></li>
-								        <li><a href="#tabs-4">Articulos</a></li>
+								        <li><a href="#tabs-1" title="Edición de Resumen Del Nuevo Articulo">Resumen</a></li>
+								        <li><a href="#tabs-2" title="Edición de Permisos Del Nuevo Articulo">Permisos</a></li>
+								        <li><a href="#tabs-3" title="Edición de Sanciones Del Nuevo Articulo">Sanciones</a></li>
+								        <li><a href="#tabs-4" title="Edición de Articulos Del Nuevo Articulo">Articulos</a></li>
 								    </ul>
 
 								    <div id="tabs-1">
@@ -536,7 +558,7 @@ function NuevoArticulo($norma){
 
 							    </div>
 							    <div class="editor-footer">
-							    	<img id="adjuntar-icon" src="images/folder-upload.png" onClick="Adjuntos()" />
+							    	<img id="adjuntar-icon" title="Adjuntar Archivos" src="images/folder-upload.png" onClick="Adjuntos()" />
 							    </div>
 							</div>
 							<!-- fin del cuadro -->
@@ -552,11 +574,12 @@ function NuevoArticulo($norma){
 							</div>
 
 							<div class="datos-botones">
-								<button type="button" onClick="CancelarContent()">Cancelar</button>
-								<input type="reset" value="Limpiar" />
-								<input type="submit" value="Guardar" />
+								<button type="button" title="Cancelar Edición" onClick="CancelarContent()">Cancelar</button>
+								<input type="reset" title="Limpiar Edición" value="Limpiar" />
+								<input type="submit" title="Guardar Edición" value="Guardar" />
 							</div>
-						</form>';
+						</form>
+						';
 	echo $formulario;
 }
 
@@ -572,7 +595,7 @@ function Entidades(){
 	$entidades = $registros->getEntidades();
 
 	if(!empty($entidades)){
-		$select .= '<select id="entidades" name="entidades[]" multiple="multiple" style="width:400px">';
+		$select .= '<select id="entidades" name="entidades[]" title="Entidades Del Articulo" multiple="multiple" style="width:400px">';
 
 		foreach ($entidades as $fila => $entidad){
 
@@ -638,6 +661,7 @@ function RegistrarArticulo($norma){
 	$registros = new Registros();
 
 	if($articulo = $registros->RegistrarArticulo($norma, $_POST['nombre'], $_POST['entidades'], $_POST['resumen'], $_POST['permisos'], $_POST['sanciones'], $_POST['articulo'] )){
+		
 		//registra archivos adjuntos
 		AdjuntarArchivos("articulo", $articulo);
 	}else{
@@ -690,7 +714,7 @@ function EdicionArticulo($articulo){
 											Nombre
 										</td>
 										<td>
-											<input type="text" id="nombre" name="nombre" placeholder="Nombre" class="validate[required]" value="'.$datos[0]['nombre'].'" />
+											<input type="text" id="nombre" name="nombre" title="Nombre Del Articulo" placeholder="Nombre" class="validate[required]" value="'.$datos[0]['nombre'].'" />
 										</td>
 									</tr>
 									<tr>
@@ -712,16 +736,16 @@ function EdicionArticulo($articulo){
 								<div id="tabs">
 								    <ul>
 								        <li>
-								        	<a href="#tabs-1" title="Edición Resumen">Resumen</a>
+								        	<a href="#tabs-1" title="Edición de Resumen Del Articulo">Resumen</a>
 								        </li>
 								        <li>
-								        	<a href="#tabs-2" title="Edición Permisos">Permisos</a>
+								        	<a href="#tabs-2" title="Edición de Permisos Del Articulo">Permisos</a>
 								        </li>
 								        <li>
-								        	<a href="#tabs-3" title="Edición Sanciones">Sanciones</a>
+								        	<a href="#tabs-3" title="Edición de Sanciones Del Articulo">Sanciones</a>
 								        </li>
 								        <li>
-								        	<a href="#tabs-4" title="Edición Articulos">Articulos</a>
+								        	<a href="#tabs-4" title="Edición de Articulos Del Articulo">Articulos</a>
 								        </li>
 								    </ul>
 
@@ -739,7 +763,7 @@ function EdicionArticulo($articulo){
 								    </div>';
 		if(empty($archivos)){
 			$formulario .= ' 		<div class="editor-footer">
-							    		<img id="adjuntar-icon" src="images/folder-upload.png" onClick="Adjuntos()" />
+							    		<img id="adjuntar-icon" title="Adjuntar Archivos" src="images/folder-upload.png" onClick="Adjuntos()" />
 							    	</div>';
 		}
 								   
@@ -801,7 +825,7 @@ function EntidadesArticulo($seleccionadas){
 	$entidades = $registros->getEntidades();  //obtiene todas las entidades
 
 	if(!empty($entidades)){
-		$select .= '<select id="entidades" name="entidades[]" multiple="multiple" style="width:400px">';
+		$select .= '<select id="entidades" name="entidades[]" title="Entidades Del Articulo" multiple="multiple" style="width:400px">';
 
 		foreach ($entidades as $fila => $entidad){
 
@@ -913,6 +937,22 @@ function AdjuntarArchivos($tipo, $pertenece){
 		}
 	}
 		
+}
+
+/**
+* DETERMINA SI HAY TIPOS
+* @return $mensaje si no hay tipos
+*/
+function HayTipos(){
+	$registros = new Registros();
+	$tipos = $registros->getTipos();
+
+	if(empty($tipos)){
+		return false;
+	}else{
+		return true;
+	}
+	
 }
 
 ?>
