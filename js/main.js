@@ -20,6 +20,7 @@ $(document).ready(function(){
         track: false,
         show:{
 	    	effect:'slideDown',
+	    	delay: 700
 		},
 		open: function( event, ui ) {
 			//se cierran despues de 2 segundos
@@ -156,24 +157,29 @@ function VistaEdicion(accion){
 		Loading();
 
 		//se carga solo una vez
-		$("#content").load("ajax/vistaEdicion.php", function(){
-			LoadingClose();
+
+			
 
 			if(accion == 'normas'){
+				LoadingClose();
 				EditarNormas();
 			}else if(accion == "categorias"){
+				LoadingClose();
 				EditarCategorias();
 			}else if(accion == "entidades"){
+				LoadingClose();
 				Entidades();
 			}else if(accion == "tipos"){
+				LoadingClose();
 				Tipos();
 			}else{
+				LoadingClose();
 				//restaura edicion con cookies
 				RestaurarEdicion();
 			}
 
 			ToolbarMenu('edicion');
-		});
+
 
 	}else{
 
@@ -550,16 +556,28 @@ function LogOut(){
 	        type:  'post',
 	        success:  function (response) { 
 	        	notifica('Hasta la proxima.');
-	        	setTimeout(function (){
-					$('body').fadeOut(1500, function(){
-	        			top.location.href = 'login.php';
-	        	});
-			},2000);
+	        		setTimeout(function (){
+						$('body').fadeOut(1500, function(){
+	        				top.location.href = 'login.php';
+	        		});
+				},2000);
 	        }
 		});
 }
 
-/*** FUNCIONES GENERICAS ***/
+/**
+* SESSION CADUCADA FORZA LOGOUT
+*/
+function ForceLogOut(){
+	notifica('Su session ha caducado.<br/>Loguese de nuevo.');
+	setTimeout(function (){
+			$('body').fadeOut(1500, function(){
+		    	top.location.href = 'login.php';
+		});
+	},2000);
+}
+
+/********************************** HELPERS ******************************/
 
 /**
 * LLEVA A HOME
@@ -569,7 +587,6 @@ function Home(){
 	$("body").fadeOut(500, function() {
 		window.location = 'index.php';
 	});
-
 }
 
 /**
@@ -587,14 +604,6 @@ function SetBotones(id){
 	$("#"+id).buttonset();
 }
 
-function SetDatePicker(clase){
-	 $( "."+clase ).datepicker();
-}
-
-function SetTimePicker(clase){
-	$( "."+clase ).timepicker();
-}
-
 /**
 * INICIALIZA TABLA CON ORDENACION
 * UTILIZA EL PLUGIN table
@@ -606,15 +615,6 @@ function Tabla(id){
 		"bPaginate": false,
         "bLengthChange": false
 	} );
-}
-
-/** INICIALIZA VALIDACION FORMULARIO **/
-function Formulario(id){
-	$("#"+id).validationEngine();
-}
-
-function ScrollBar(id){
-	$("#"+id).scrollbar();
 }
 
 /**
@@ -656,12 +656,22 @@ function Inicializa(){
 * LA CONFIGURACION SE ENCUENTRA EN /editor/config.js
 */
 function Editor(id){
-	var id2 = id;
 	var id = document.getElementById(id);
-
+	/*old loader
 	CKEDITOR.replace( id );
 	CKEDITOR.on("instanceReady", function(event){
 			$(".cke_path").remove();
+	});
+	*/
+	var editor = CKEDITOR.instances[id];
+    if (editor) {
+    	CKEDITOR.remove(editor);
+    	editor.destroy(true);
+    }
+
+    CKEDITOR.replace(id);
+    CKEDITOR.on("instanceReady", function(event){
+		$(".cke_path").remove();
 	});
 }
 
@@ -669,7 +679,6 @@ function Editor(id){
 * ACTUALIZA LOS CAMBIOS ECHOS EN EL EDITOR
 */
 function EditorUpdateContent() {
-	notificaAtencion("actualizando editores");
     for (instance in CKEDITOR.instances) {
         CKEDITOR.instances[instance].updateElement();
     }
@@ -714,5 +723,184 @@ function LoadingClose(id){
 				'display' : 'none'
 			});
 		}
+	});
+}
+
+/**
+* FUNCTION GENERICA PARA CANCELAR CUALQUIER ACCION EN #content
+*/
+function CancelarContent(){
+	notificaAtencion("Operacion Cancelada.");
+
+	//limpia el contenido, con effecto
+	$("#content").fadeOut(500, function(){
+		$("#content").html("");
+		$("#content").fadeIn();
+	});
+	
+	//elimina el submit en un form
+	$("form").submit(function(e){
+		e.preventDefault();
+		return false;
+	});
+}
+
+/**
+* LIMPIAR CONTENT
+*/
+function LimpiarContent(){
+	//limpia el contenido, con effecto
+	$("#content, #content-disable").fadeOut(500, function(){
+		$("#content-disable").remove();
+		$("#content").html("");
+		$("#content").fadeIn();
+	});
+}
+
+/**
+* DESHABILITA CONTENT
+*/
+function DeshabilitarContent(){
+	$('#content *').prop('disabled', true);
+	$("#content").prepend('<div class="content-disable"><p><img src="images/ajax_loader_green_128.gif"/></p></div>');
+}
+
+/**
+* HABILITA CONTENT SIN LIMPIARLO
+*/
+function HabilitarContent(){
+	$('#content *').prop('disabled', false);
+	$("#content").remove();
+}
+
+/**
+* MUESTRA EL FORM PARA ARCHIVOS ADJUNTOS
+*/
+function Adjuntos(){
+
+	if($(".adjuntos").is(":visible")){
+		$(".adjuntos").slideUp(700);
+	}else{
+		$(".adjuntos").slideDown(700,function(){
+			
+			if( !$("#mensajeAdjuntos").is(":visible") ){
+				notificaAtencion("<span id='mensajeAdjuntos'></span>Puede adjuntar:<br/>Imagenes,Documentos y comprimidos ZIP");
+			}
+
+		});
+	}
+	
+}
+
+/**
+* CARGA UN INPUT MAS PARA UN ARCHIVO EXTRA
+*/
+function AdjuntoExtra(){
+	var extra = $(".adjuntos div:last").attr("id");
+	extra = extra.substring(7);
+	extra = parseInt(extra);
+	extra += 1;
+
+	//maximo
+	if( extra > 9 ){
+		notificaAtencion("Lo sentimos no se permiten mas de 10 archivos adjuntos.");
+		return;
+	}
+
+	var nuevo = '<div id="archivo'+extra+'" class="adjunto"><hr><span class="adjuntos-boton" onClick="EliminarAdjuntoExtra('+extra+')">-</span><input type="text" name="archivoNombre'+extra+'" placeholder="Nombre" /> <input type="file" name="archivo'+extra+'" /></div>'
+
+	$(".adjuntos").append(nuevo);
+	$("#archivo"+extra).hide();
+	$("#archivo"+extra).slideDown(700);
+}
+
+/**
+* BORRA UN INPUT EXTRA PARA UN ADJUNTO
+*/
+function EliminarAdjuntoExtra(id){
+	$("#archivo"+id).slideUp(700, function(){
+		$("#archivo"+id).remove();
+	});
+}
+
+/**
+* FUNCION GENERICA PARA REALIZAR BUSQUEDAS EN EL MENU
+* PARA BUSQUEDAS DE NORMAS, ENTIDADES Y TIPOS
+*/
+function BuscarMenu(id){
+	if($("#"+id).is(":visible")){
+		$("#"+id).slideUp();
+		$("#"+id).val("");
+		$("#menu li").fadeIn();
+	}else{
+		$("#"+id).slideDown();
+	}
+	
+	//busqueda en vivo
+	BuscarMenuLive(id);
+}
+
+/**
+* FUNCION GENERICA PARA REALIZAR BUSQUEDAS EN EL MENU2
+* PARA BUSQUEDAS DE ARTICULOS
+*/
+function BuscarMenu2(id){
+	if($("#"+id).is(":visible")){
+		$("#"+id).slideUp();
+		$("#"+id).val("");
+		$("#menu2 li").fadeIn();
+	}else{
+		$("#"+id).slideDown();
+	}
+	
+	//busqueda en vivo
+	BuscarMenu2Live(id);
+}
+
+/**
+* BUSQUEDA EN VIVO
+*/
+function BuscarMenuLive(input){
+	//actualiza al ir escribiendo
+	$("#"+input).keyup(function(){
+		var busqueda = $("#"+input).val(), count = 0;
+
+		//recorre opciones para buscar
+        $("#menu li").each(function(){
+ 
+            //esconde a los que no coinciden
+            if($(this).text().search(new RegExp(busqueda, "i")) < 0){
+                $(this).fadeOut();
+ 
+            //sino lo muestra
+            } else {
+                $(this).show();
+                count++;
+            }
+        });
+	});
+}
+
+/**
+* BUSQUEDA EN VIVO MENU2
+*/
+function BuscarMenu2Live(input){
+	//actualiza al ir escribiendo
+	$("#"+input).keyup(function(){
+		var busqueda = $("#"+input).val(), count = 0;
+
+		//recorre opciones para buscar
+        $("#menu2 li").each(function(){
+ 
+            //esconde a los que no coinciden
+            if($(this).text().search(new RegExp(busqueda, "i")) < 0){
+                $(this).fadeOut();
+ 
+            //sino lo muestra
+            } else {
+                $(this).show();
+                count++;
+            }
+        });
 	});
 }

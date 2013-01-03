@@ -56,6 +56,7 @@ $master = new Master();
 	<script type="text/javascript" src="js/noty/themes/default.js"></script>
 
 	<!-- matriz -->
+	<script type="text/javascript" src="js/Edicion.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 	<script type="text/javascript" src="js/style.js"></script>
 

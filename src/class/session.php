@@ -24,8 +24,10 @@ class Session{
 	public function Logueado(){
 
 		if( !isset($_SESSION['logueado']) ){
-			$home = $_SESSION['home']."/login.php";
-			header('Location: '.$home);
+			//$home = $_SESSION['home']."/login.php";
+			//header('Location: '.$home);
+			//en javascript funciona mejor
+			echo '<script>ForceLogOut()</script>';
 			exit;
 		}else{
 			return true;

@@ -409,6 +409,7 @@ function ActualizarNorma($norma){
 
 	//ACTUALIZA NORMA
 	$registros->UpdateNorma($norma, $_POST['nombre'], $_POST['numero'], $_POST['tipo'], $_POST['status']);
+	echo 'ssssss';
 }
 
 /**
@@ -434,7 +435,7 @@ function HabilitarNorma($norma){
 * REGISTRA UNA NUEVA NORMA
 */
 function RegistrarNorma(){
-	
+
 	if( isset($_POST['nombre']) && isset($_POST['numero']) && isset($_POST['tipo']) ){
 		$registros = new Registros();
 		$registros->RegistrarNorma($_POST['nombre'], $_POST['numero'], $_POST['tipo']);
