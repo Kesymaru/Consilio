@@ -22,6 +22,23 @@ if(isset($_POST['func'])){
 			}
 			break;
 
+		//ACTUALIZA CLIENTE
+		case 'ActualizarCliente':
+			if(isset($_POST['cliente-id'])){
+				ActualizarCliente($_POST['cliente-id']);			
+			}
+			break;
+
+		//CARGA FORMULARIO DE NUEVO CLIENTE
+		case 'NuevoCliente':
+			NuevoCliente();
+			break;
+
+		//REGISTRA CLIENTE NUEVO
+		case 'RegistrarCliente':
+			RegistrarCliente();
+			break;
+
 	}
 }
 
@@ -81,14 +98,14 @@ function EditarCliente($id){
 	$formulario = "";
 
 	if(!empty($datos)){
-		$formulario .= '<form id="FormularioEditarCliente" enctype="multipart/form-data" method="post" action="src/ajaxTipos.php" >
+		$formulario .= '<form id="FormularioEditarCliente" enctype="multipart/form-data" method="post" action="src/ajaxClientes.php" >
 					<div class="clientes">
 						<div class="titulo">
 							Edicion Cliente
 					  		<hr>
 					  	</div>
 					  	<input type="hidden" name="func" value="ActualizarCliente" />
-					  	<input type="hidden" id="cliente" name="cliente" value="'.$id.'" />
+					  	<input type="hidden" id="cliente-id" name="cliente-id" value="'.$id.'" />
 
 					  	<div class="datos" >
 					  		<table>
@@ -99,7 +116,7 @@ function EditarCliente($id){
 					  			<td>
 					  				<input type="text" id="nombre" name="nombre" title="Nombre Del Cliente" placeholder="Nombre" value="'.$datos[0]['nombre'].'" class="validate[required]" />
 					  			</td>
-					  			<td rowspan="5">
+					  			<td rowspan="5" style="vertical-align:middle; text-align:center;">
 					  				<img id="imagen-usuario" src="images/'.$datos[0]['imagen'].'" title="Imagen Del Cliente"><br/>
 					  				<input type="file" name="imagen" id="imagen" />
 					  			</td>
@@ -156,12 +173,126 @@ function EditarCliente($id){
 }
 
 /**
-* ACTUALIZA UN CLIENTE EDITADO
-*/
-function ActualizarCliente(){
+ * FORMULARIO PARA UN NUEVO CLIENTE
+ */
+function NuevoCliente(){
+	$formulario = "";
+	$formulario .= '<form id="FormularioNuevoCliente" enctype="multipart/form-data" method="post" action="src/ajaxClientes.php" >
+					<div class="clientes">
+						<div class="titulo">
+							Edición Nuevo Cliente
+					  		<hr>
+					  	</div>
+					  	<input type="hidden" name="func" value="RegistrarCliente" />
 
+					  	<div class="datos" >
+					  		<table>
+					  		<tr>
+					  			<td>
+					  				Nombre
+					  			</td>
+					  			<td>
+					  				<input type="text" id="nombre" name="nombre" title="Nombre Del Nuevo Cliente" placeholder="Nombre" class="validate[required]" />
+					  			</td>
+					  			<td rowspan="5" style="vertical-align:middle; text-align:center;">
+					  				<img id="imagen-usuario" src="images/es.png" title="Imagen Del Nuevo Cliente"><br/>
+					  				<input type="file" name="imagen" id="imagen" />
+					  			</td>
+					  		</tr>
+					  		<tr>
+					  			<td>
+					  				Email
+					  			</td>
+					  			<td>
+					  				<input type="email" id="email" name="email" title="Email Del Nuevo Cliente" placeholder="Email" class="validate[required, custom[email]]" />
+					  			</td>
+					  		</tr>
+					  		<tr>
+					  			<td>
+					  				Registro
+					  			</td>
+					  			<td>
+					  				<input type="text" id="registro" name="registro" title="Registro Del Nuevo Cliente" placeholder="Registro" class="validate[required, custom[number]]" />
+					  			</td>
+					  		</tr>
+					  		<tr>
+					  			<td>
+					  				Telefono
+					  			</td>
+					  			<td>
+					  				<input type="tel" id="telefono" name="telefono" title="Telefono Del Nuevo Cliente" placeholder="Telefono" class="validate[required, custom[phone]]" />
+					  			</td>
+					  		</tr>
+					  		<tr>
+					  			<td>
+					  				Skype
+					  			</td>
+					  			<td>
+					  				<input type="text" id="skype" name="skype" title="Skype Del Nuevo Cliente" placeholder="Skype" class="validate[required]" />
+					  			</td>
+					  		</tr>
+					  		</table>
+					  		<br/>
+					  		<br/>
+					  	</div>
+					  	<div class="datos-botones">
+					  		<button type="button" title="Cancelar Edición" onClick="CancelarContent()">Cancelar</button>
+							<input type="reset" title="Limpiar Edición" value="Limpiar" />
+							<input type="submit" title="Guardar Edición" value="Guardar" />
+						</div>
+					</form>';
+
+	echo $formulario;
 }
 
+/**
+* ACTUALIZA UN CLIENTE EDITADO
+* @param $id -> id del cliente a actualizar
+*/
+function ActualizarCliente($id){
+	$cliente = new Cliente();
+
+	//datos minimos 
+	if(isset($_POST['nombre']) && isset($_POST['email']) && isset($_POST['registro']) && isset($_POST['telefono']) ){
+		//cambia de imagen
+		if(isset($_POST['imagen'])){
+			//sube la imagen
+			$cliente->UploadClienteIMagen($id, $_POST['imagen']);
+		}
+
+		//update sin cambio de imagen
+		if(!$cliente->UpdateCliente($id, $_POST['nombre'], $_POST['email'], $_POST['registro'], $_POST['telefono'], $_POST['skype'] )){
+			echo "Error: No se pudo actuaizar los datos del cliente.";
+		}
+
+	}else{
+		echo "Error: Parametros necesarios, en ajaxClientes.php.";
+	}
+}
+
+/**
+ * REGISTRAR CLIENTE
+ */
+function RegistrarCLiente(){
+	$cliente = new Cliente();
+
+	if(isset($_POST['nombre']) && isset($_POST['email']) && isset($_POST['registro']) && isset($_POST['telefono']) ){
+		
+		$imagen = "";
+		if(isset($_POST['imagen'])){
+			$imagen = $_POST['imagen'];
+		}
+
+		//update sin cambio de imagen
+		if(!$cliente->NewCliente($_POST['nombre'], $_POST['email'], $_POST['registro'], $_POST['telefono'], $_POST['skype'], $imagen )){
+			echo "Error: No se pudo crear el nuevo cliente.";
+		}
+
+	}else{
+		echo "Error: Parametros necesarios, en ajaxClientes.php RegistrarCliente().";
+	}
+
+}
 
 
 ?>

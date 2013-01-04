@@ -79,6 +79,23 @@ $(document).ready(function(){
 		}
 	});
 
+	//menu dropdown para clientes
+	$('#cliente').click(function(){
+		if($('#menuCliente').is(':visible')){
+			$('#menuCliente').slideUp();
+			$('#cliente').css({
+				'background-color' : '#fff',
+				'color' : '#000'
+			});
+		}else{
+			$('#cliente').css({
+				'background-color' : '#a1ca4a',
+				'color' : '#fff'
+			});
+			$('#menuCliente').slideDown();
+		}
+	});
+
 	$("#searchForm").validationEngine();
     $('input[placeholder]').placeholder();
 
@@ -214,7 +231,7 @@ function ActivaMenu(){
 	ActivaMenuFixIe(); //FIX PARA IE
 
 	//ESCONDE
-	if( $('#menu').is(':visible') && $.cookie('vista') != 'edicion' ){
+	if( $('#menu').is(':visible') && $.cookie('vista') != 'edicion' && $.cookie('vista') != 'clientes' ){
 
 		$("#menu").animate({
 			opacity: 0,
@@ -266,7 +283,7 @@ function ActivaMenu(){
 	}
 
 	//MUESTRA
-	if( $.cookie('vista') == 'edicion' && !$('#menu').is(':visible') || $.cookie('vista') == 'composicion'){
+	if( $.cookie('vista') == 'edicion' && !$('#menu').is(':visible') || $.cookie('vista') == 'composicion' || $.cookie('vista') == 'clientes'){
 
 		$("#content").css({
 			'margin' : '0',

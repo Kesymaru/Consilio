@@ -6,8 +6,15 @@
 * CARGA LA EDICION DE CLIENTES
 */
 function Clientes(){
+	$.cookie('vista', 'clientes');
+
 	if($("#menu2").is(":visible")){
 		Menu2();
+	}
+
+	if(!$("#menu").is(":visible")){
+		console.log("mostrando menu");
+		ActivaMenu();
 	}
 
 	LimpiarContent();
@@ -39,18 +46,51 @@ function SelectCliente(id){
 	if(!$("#EliminarCliente, #EditarCliente").is(":visible")){
 		$("#EliminarCliente, #EditarCliente").fadeIn();
 	}
+
+	ContextMenuCliente(id);
 }
 
 /**
 * CARGA EL CONTEXT MENU DE UN CLIENTE SELECCIONADO
 */
-function ContextMenuCliente(){
+function ContextMenuCliente(id){
+	$.contextMenu({
+        selector: '#'+id, 
+        callback: function(key, options) {
+            var m = "clicked: " + key;
+            //window.console && console.log(m) || alert(m); 
+            MenuCliente(m);
+        },
+        items: {
+			"nuevo": {name: "Nuevo Cliente", icon: "add"},
+            "editar": {name: "Editar", icon: "edit"},
+            "eliminar": {name: "Eliminar", icon: "delete"}
+        }
+    });
 
+	//doble click para editar el cliente
+	$("#"+id).dblclick(function(){
+		EditarCliente();
+		return;
+	});
+}
+
+/**
+* MANEJADOR DE LAS ACCIONES DEL MENU DE UN ARTICULO
+*/
+function MenuCliente(m){
+
+	if(m == "clicked: nuevo"){
+		NuevoCliente();
+	}else if(m == "clicked: eliminar"){
+		EliminarCliente();
+	}else if(m == "clicked: editar"){
+		EditarCliente();
+	}
 }
 
 function EditarCliente(){
 	var id = $("#clientes .seleccionada").attr('id');
-	notifica(id);
 
 	var queryParams = {"func" : "EditarCliente", "id" : id};
 
@@ -63,7 +103,12 @@ function EditarCliente(){
 		success: function(response){
 			$("#content").html(response);
 			FormularioEditarCliente();
-			AutoImage();
+			
+			//preview de la imagen
+			$('#imagen').live('change', function(e){
+				//TODO PREVIEW IMAGE
+        	});
+
 		},
 		fail: function(){
 			notificaError("Error: Clientes.js EditarCliente().");
@@ -83,13 +128,13 @@ function FormularioEditarCliente(){
 			DeshabilitarContent();
 		},
 	    success: function(response) { 
-	    	console.log(response.length);
 
 	    	if(response.length == 0){
+	    		notifica("Cliente Actualizado.");
 
 	    		//actualiza el nombre del cliente si cambia
 	    		var nombre = $("#nombre").val()
-	    		var cliente = $("#cliente").val();
+	    		var cliente = $("#cliente-id").val();
 
 	    		if(nombre !== $("#"+cliente)){
 	    			$("#"+cliente).fadeOut(500, function(){
@@ -100,7 +145,7 @@ function FormularioEditarCliente(){
 
 				LimpiarContent();
 			}else{
-				notificaError(response);
+				$("#content").html(response);
 			}
 		},
 		fail: function(){
@@ -109,9 +154,54 @@ function FormularioEditarCliente(){
 	$('#FormularioEditarCliente').ajaxForm(options);
 }
 
-function AutoImage(){
-	$("#imagen").change(function(){
-		var file = $("#imagen").val();
-		$("#imagen-usuario").attr("src", file);
-	});
+/**
+ * NUEVO CLIENTE
+ */
+function NuevoCliente(){
+	var queryParams = {"func" : "NuevoCliente"};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxClientes.php",
+		beforeSend: function(){
+		},
+		success: function(response){
+			$("#content").html(response);
+			FormularioNuevoCliente();
+		},
+		fail: function(){
+			notificaError("Error: Clientes.js NuevoCliente().")
+		}
+	})
 }
+
+/**
+ * INICIALIZA EL FORMULARIO PARA NUEVO CLIENTE
+ */
+function FormularioNuevoCliente(){
+	//validacion
+	$("#FormularioNuevoCliente").validationEngine();
+		
+	var options = {  
+		beforeSend: function(){
+			DeshabilitarContent();
+		},
+	    success: function(response) { 
+	    	$("#content").html(response);
+	    	if(response.length <= 0){
+	    		notifica("Cliente Creado.");
+
+	    		Clientes();
+	    		
+				LimpiarContent();
+			}else{
+				$("#content").html(response);
+			}
+		},
+		fail: function(){
+		}
+	}; 
+	$('#FormularioNuevoCliente').ajaxForm(options);
+}
+

@@ -160,6 +160,11 @@ $master = new Master();
 				</div>
 				<div id="cliente">
 					Clientes
+					<ul class="dropMenu" id="menuCliente">
+						<?php
+							$master->MenuClientes();
+						?>
+					</ul>
 				</div>
 			</div>
 

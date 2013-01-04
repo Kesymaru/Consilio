@@ -64,6 +64,66 @@ class Cliente{
 		}
 	}
 
+	/**
+	 * ACTUALIZA DATOS DE UN CLIENTE
+	 * @param $id, $nombre, $registro, $email, $telefono, $skype
+	 */
+	public function UpdateCliente($id, $nombre, $email, $registro, $telefono, $skype ){
+		$base = new Database();
+		
+		$nombre = mysql_real_escape_string($nombre);
+		$email = mysql_real_escape_string($email);
+		$registro = mysql_real_escape_string($registro);
+		$skype = mysql_real_escape_string($skype);
+
+		$query = "UPDATE clientes SET nombre = '".$nombre."', email = '".$email."', registro = '".$registro."', ";
+		$query .= "telefono = '".$telefono."', skype = '".$skype."' WHERE id = ".$id;
+
+		if( $base->Update($query) ){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	 * CREA UN NUEVO CLIENTE
+	 */
+	public function NewCliente($nombre, $email, $registro, $telefono, $skype, $imagen ){
+		$base = new Database();
+		
+		$nombre = mysql_real_escape_string($nombre);
+		$email = mysql_real_escape_string($email);
+		$registro = mysql_real_escape_string($registro);
+		$skype = mysql_real_escape_string($skype);
+
+		if($imagen == "" || empty($imagen) || $imagen == null){
+			$imagen = "es.png";
+		}else{
+			//sube imagen
+		}
+
+		$query = "INSERT INTO clientes (nombre, email, registro, telefono, skype, imagen)";
+		$query .= " VALUES ('".$nombre."', '".$email."', '".$registro."', '".$telefono."', '".$skype."', '".$imagen."') ";
+
+		if($base->Insert($query)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	 * SUBE Y GUARDA EL LINK DE LA IMAGEN DE UN CLIENTE
+	 * @param $id -> id del cliente
+	 * @param $imagen -> file de la imagen ha subir
+	 * @return true si se realiza
+	 * @return false su falla
+	 */
+	public function UploadClienteImagen($id, $imagen){
+
+	}
+
 }
 
 /**

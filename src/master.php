@@ -260,6 +260,13 @@ class Master{
 		//echo '<li></li>';
 	}
 
+	/**
+	 * MENU DE CLIENTES
+	 */
+	public function MenuClientes(){
+			echo '<li onClick="Clientes()">Clientes</li>';
+	}
+
 }
 
 ?>
