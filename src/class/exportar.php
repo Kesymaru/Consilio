@@ -17,13 +17,23 @@ if(isset($_GET['id']) && isset($_GET['tipo'])){
 		$exportar->ExportarExcel($_GET['id']);
 
 	}else if($tipo == 'pdf'){
-			$exportar->ExportarPdf($_GET['id']);
+		$exportar->ExportarPdf($_GET['id']);
 
 	}else if($tipo == 'html'){
 		$exportar->Informe($_GET['id']);
 
 	}
 
+}
+
+//exporta clientes
+if( isset($_GET['tipo'])){
+	$tipo = $_GET['tipo'];
+
+	if($tipo == 'clientes'){
+		$exportar->ExportarClientes();
+
+	}
 }
 
 /**
@@ -41,6 +51,47 @@ class Exportar{
 		$session->Logueado();
 
 		date_default_timezone_set('America/Costa_Rica');
+	}
+
+	/**
+	* EXPORTAR CLIENTES EN CSV
+	*/
+	public function ExportarClientes(){
+		$base = new Database();
+		$query = "SELECT nombre, email, telefono, skype FROM clientes";
+
+		$clientes = $base->Select($query);
+
+		$lista = "First Name,E-mail Address,Primary Phone,Notes,\n";
+
+		if(!empty($clientes)){
+			
+			foreach ($clientes as $fila => $cliente) {
+				$lista .= $cliente['nombre'].",".$cliente['email'].",".$cliente['telefono'].",";
+
+				if($cliente['skype'] != ""){
+					$lista .= "IM: SKYPE: ".$cliente['skype'].",\n";
+				}else{
+					$lista .= ",\n";
+				}
+			}
+
+			$lista .="\r";
+
+		}else{
+			$lista = "No hay clientes.";
+		}
+
+		echo $lista;
+
+		header("Content-type: text/csv");
+		header("Pragma: no-cache");
+		header("Expires: 0");
+
+		//nombre lleva la fecha de la generacion
+		$nombre = "ClientesMatriz".date('d_m_Y-H_m_s');
+		header("Content-disposition: attachment; filename=".$nombre.".csv");
+
 	}
 
 	/**

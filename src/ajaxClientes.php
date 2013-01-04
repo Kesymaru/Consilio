@@ -79,6 +79,7 @@ function Clientes(){
 				<button type="button" id="EliminarCliente" title="Eliminar Cliente Seleccionado" onClick="EliminarCliente()">Eliminar</button>
 				<button type="button" id="EditarCliente" title="Editar Cliente Seleccionado" onClick="EditarCliente()">Editar</button>
 			   	<button type="button" id="NuevoCliente" title="Crear Nuevo Cliente" onClick="NuevoCliente()">Nuevo Cliente</button>
+			   	<button type="button" id="ExportarClientes" title="Exportar Todos Los Clientes" onClick="ExportarClientes()">Exportar Clientes</button>
 			   </div>
 			   <!-- fin botonera -->
 			   </div>';
@@ -101,7 +102,7 @@ function EditarCliente($id){
 		$formulario .= '<form id="FormularioEditarCliente" enctype="multipart/form-data" method="post" action="src/ajaxClientes.php" >
 					<div class="clientes">
 						<div class="titulo">
-							Edicion Cliente
+							Edición Cliente
 					  		<hr>
 					  	</div>
 					  	<input type="hidden" name="func" value="ActualizarCliente" />
@@ -116,9 +117,9 @@ function EditarCliente($id){
 					  			<td>
 					  				<input type="text" id="nombre" name="nombre" title="Nombre Del Cliente" placeholder="Nombre" value="'.$datos[0]['nombre'].'" class="validate[required]" />
 					  			</td>
-					  			<td rowspan="5" style="vertical-align:middle; text-align:center;">
-					  				<img id="imagen-usuario" src="images/'.$datos[0]['imagen'].'" title="Imagen Del Cliente"><br/>
-					  				<input type="file" name="imagen" id="imagen" />
+					  			<td rowspan="5" class="td-user-image">
+					  				<img id="imagen-usuario" src="'.$datos[0]['imagen'].'" title="Imagen Del Cliente"><br/>
+					  				<input type="file" name="imagen" id="imagen" title="Seleccione Una Imagen Nueva Para El Cliente" />
 					  			</td>
 					  		</tr>
 					  		<tr>
@@ -150,7 +151,7 @@ function EditarCliente($id){
 					  				Skype
 					  			</td>
 					  			<td>
-					  				<input type="text" id="skype" name="skype" title="Skype Del Cliente" placeholder="Skype" value="'.$datos[0]['skype'].'" class="validate[required]" />
+					  				<input type="text" id="skype" name="skype" title="Skype Del Cliente" placeholder="Skype" value="'.$datos[0]['skype'].'" class="validate[optional]" />
 					  			</td>
 					  		</tr>
 					  		</table>
@@ -194,9 +195,9 @@ function NuevoCliente(){
 					  			<td>
 					  				<input type="text" id="nombre" name="nombre" title="Nombre Del Nuevo Cliente" placeholder="Nombre" class="validate[required]" />
 					  			</td>
-					  			<td rowspan="5" style="vertical-align:middle; text-align:center;">
+					  			<td rowspan="5" class="td-user-image">
 					  				<img id="imagen-usuario" src="images/es.png" title="Imagen Del Nuevo Cliente"><br/>
-					  				<input type="file" name="imagen" id="imagen" />
+					  				<input type="file" name="imagen" id="imagen" title="Seleccione Una Imagen Nueva Para El Cliente" />
 					  			</td>
 					  		</tr>
 					  		<tr>
@@ -228,7 +229,7 @@ function NuevoCliente(){
 					  				Skype
 					  			</td>
 					  			<td>
-					  				<input type="text" id="skype" name="skype" title="Skype Del Nuevo Cliente" placeholder="Skype" class="validate[required]" />
+					  				<input type="text" id="skype" name="skype" title="Skype Del Nuevo Cliente" placeholder="Skype" class="validate[optional]" />
 					  			</td>
 					  		</tr>
 					  		</table>
@@ -255,9 +256,11 @@ function ActualizarCliente($id){
 	//datos minimos 
 	if(isset($_POST['nombre']) && isset($_POST['email']) && isset($_POST['registro']) && isset($_POST['telefono']) ){
 		//cambia de imagen
-		if(isset($_POST['imagen'])){
+		if(isset($_FILES['imagen'])){
 			//sube la imagen
-			$cliente->UploadClienteIMagen($id, $_POST['imagen']);
+			if(!$cliente->UploadClienteImagen($id, $_FILES['imagen']) ){
+				echo 'Error: No se pudo subir la imagen.';
+			}
 		}
 
 		//update sin cambio de imagen

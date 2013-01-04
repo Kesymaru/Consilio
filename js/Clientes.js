@@ -64,7 +64,9 @@ function ContextMenuCliente(id){
         items: {
 			"nuevo": {name: "Nuevo Cliente", icon: "add"},
             "editar": {name: "Editar", icon: "edit"},
-            "eliminar": {name: "Eliminar", icon: "delete"}
+            "eliminar": {name: "Eliminar", icon: "delete"},
+            "sep1": "---------",
+            "exportarClientes": {name: "Exportar Clientes", icon: "edit"}
         }
     });
 
@@ -86,6 +88,8 @@ function MenuCliente(m){
 		EliminarCliente();
 	}else if(m == "clicked: editar"){
 		EditarCliente();
+	}else if(m == "clicked: exportarClientes"){
+		ExportarClientes();
 	}
 }
 
@@ -104,6 +108,8 @@ function EditarCliente(){
 			$("#content").html(response);
 			FormularioEditarCliente();
 			
+			$(".contrasena").hide();
+
 			//preview de la imagen
 			$('#imagen').live('change', function(e){
 				//TODO PREVIEW IMAGE
@@ -129,7 +135,7 @@ function FormularioEditarCliente(){
 		},
 	    success: function(response) { 
 
-	    	if(response.length == 0){
+	    	if(response.length <= 3){
 	    		notifica("Cliente Actualizado.");
 
 	    		//actualiza el nombre del cliente si cambia
@@ -145,6 +151,7 @@ function FormularioEditarCliente(){
 
 				LimpiarContent();
 			}else{
+				notificaError(response);
 				$("#content").html(response);
 			}
 		},
@@ -205,3 +212,25 @@ function FormularioNuevoCliente(){
 	$('#FormularioNuevoCliente').ajaxForm(options);
 }
 
+/**
+* EXPORTAR TODOS LOS CLIENTES
+*/
+function ExportarClientes(){
+	var si = function (){
+		AccionExportarClientes();
+	}
+
+	var no = function (){
+		notificaAtencion("Exportacion cancelada");
+	}
+
+	Confirmacion("Exportar Clientes y descargar archivo.", si, no);
+}
+
+/**
+* ACCION DE EXPORTAR
+*/
+function AccionExportarClientes(){
+	top.location.href = 'src/class/exportar.php?tipo=clientes';
+	notificaAtencion('Asegurese de guardar el archivo en el disco duro.');
+}

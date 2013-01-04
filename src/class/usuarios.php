@@ -4,6 +4,7 @@
 */
 require_once('session.php');
 require_once('classDatabase.php');
+require_once("imageUpload.php");
 
 /**
 * PARA MANEJAR LOS CLIENTES
@@ -121,7 +122,51 @@ class Cliente{
 	 * @return false su falla
 	 */
 	public function UploadClienteImagen($id, $imagen){
+					
+		//SUBE LA IMAGEN
+		if($imagen['tmp_name'] != null && $imagen['tmp_name'] != ""){
+			$upload = new Upload();
+        
+			$upload->SetFileName($imagen['name']);
+			$upload->SetTempName($imagen['tmp_name']);
 
+			$upload->SetValidExtensions(array('gif', 'jpg', 'jpeg', 'png')); 
+				        
+			$upload->SetUploadDirectory("../images/users/"); //DIRECTORIO PARA IMAGENES DE LOS PROYECTOS
+
+			$upload->SetMaximumFileSize(90000000); //TAMANO MAXIMO PERMITIDO
+				        
+			if($upload->UploadFile()){
+				//SE OPTIENE EL LINK DE LA IMAGEN SUBIDA Y SE FORMATEA
+				$imagen = str_replace("../", "", $upload->GetUploadDirectory().$upload->GetFileName() );
+
+				$base = new Database();
+
+				$query = "SELECT * FROM clientes WHERE id = ".$id;
+				$imagenOld = $base->Select($query);
+
+				$query = "UPDATE clientes SET imagen = '".$imagen."' WHERE id = ".$id;
+				//actualiza imagen
+				if($base->Update($query)){
+
+					//borra imagen vieja
+					$imagenOldLink = "../".$imagenOld[0]['imagen'];
+					if( !$base->DeleteImagen($imagenOldLink) ){
+						echo "Error: no se pudo borrar la imagen anterior, Error usuarios.php UploadClienteImagen() linea 154";
+					}
+
+					return true;
+				}else{
+					return false;
+				}
+
+			}else{
+				return fale; //fallo al subir archivo
+			}
+
+		}else{
+			return false;
+		}
 	}
 
 }
