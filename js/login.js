@@ -53,8 +53,6 @@ function logIn(){
 
 	//si son validos los datos
 	if ( $('#formID').validationEngine('validate') ){
-		console.log('Datos validos');
-
 		var usuario = $('#usuario').val();
 		var password = $('#password').val();
 
@@ -64,14 +62,11 @@ function logIn(){
 			url:   'src/ajaxUsuarios.php',
 			type:  'post',
 			success:  function (response) { 
-
-				if(response.length > 0){
-					console.log('no logueado');
-					console.log(response);
-					notificaError(response);
+				
+				if(response.length <= 3){
+					top.location.href = 'index.php';
 				}else{
-					console.log('logueado');
-				    top.location.href = 'index.php';
+				    notificaError(response);
 				}
 			}
 		});

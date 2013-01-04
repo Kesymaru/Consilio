@@ -255,6 +255,7 @@ function ActualizarCliente($id){
 
 	//datos minimos 
 	if(isset($_POST['nombre']) && isset($_POST['email']) && isset($_POST['registro']) && isset($_POST['telefono']) ){
+		
 		//cambia de imagen
 		if(isset($_FILES['imagen'])){
 			//sube la imagen
@@ -284,6 +285,8 @@ function RegistrarCLiente(){
 		$imagen = "";
 		if(isset($_POST['imagen'])){
 			$imagen = $_POST['imagen'];
+		}else{
+			$imagen = "images/es.png";
 		}
 
 		//update sin cambio de imagen

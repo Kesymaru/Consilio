@@ -2,251 +2,71 @@
 * PROYECTOS
 */
 
+/**
+* MUSTRA LISTA DE PROYECTOS
+*/
+function Proyectos(){
+	$.cookie('vista', 'proyectos');
+
+	if($("#menu2").is(":visible")){
+		Menu2();
+	}
+
+	if(!$("#menu").is(":visible")){
+		ActivaMenu();
+	}
+
+	LimpiarContent();
+
+	var queryParams = {"func" : "Proyectos"};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxProyectos.php",
+		beforeSend: function(){
+		},
+		success: function(response){
+			$("#menu").html(response);
+			$("#EliminarProyecto, #EditarProyecto").hide();
+		},
+		fail: function(){
+		}
+	});
+}
 
 /**
-	* ENLISTA TODOS LOS PROYECTOS
-	*/
-	function ListaProyectos(){
-		$.cookie('accion', 'ListaProyectos'); //cookie para restaurar
-		                                      
-		var queryParams = {"func" : "ListaProyectos"};
-		$.ajax({
-			data: queryParams,
-			type: "post",
-			url: "src/ajaxProyectos.php",
-			success: function(response){
-				$("#vista").html("");
-				$("#vista").html(response);
+* SELECCIONA UN PROYECTO
+*/
+function SelectProyecto(id){
+	$("#proyectos li").removeClass("seleccionada");
+	$("#"+id).addClass("seleccionada");
 
-				$("#ListaProyectos").attr("checked", true);
-				SetBotones('proyectoControls'); //ACTUALIZA LOS BOTONES
-				
-				//RESTAURA UNA FILA SELECCIONADA
-				var proyecto = $.cookie('proyecto');
-				if(proyecto > 0){
-					//restaura la fila seleccionada
-					$("#"+proyecto).css("background-color", "rgb(161, 202, 74, 0.5)");
-					ContextMenuProyecto();
-				}
-				
-				//EDICION AL DOBLE CLICK
-				$("#TablaProyectos tr").dblclick(function(){
-					$.cookie('proyecto', $(this).attr("id"));
-					EditarProyecto();
-				});
-			},
-			fail: function(){
-				notificaError("Error: en ajax al cargar Lista de Proyectos.");
-			}
-		});
+	if(!$("#EliminarProyecto, #EditarProyecto").is(":visible")){
+		$("#EliminarProyecto, #EditarProyecto").fadeIn();
 	}
 
-	/**
-	* EDITAR PROYECTO EXISTENTE
-	*/
-	function EditarProyecto(){
-		var proyecto = $.cookie('proyecto');
+	ContextMenuProyecto(id);
+}
 
-		if( proyecto > 0){
-
-			$.cookie('accion', 'EditarProyecto'); //cookie para restaurar
-
-			queryParams = {'func' : "EditarProyecto", "ProyectoId" : proyecto};
-			$.ajax({
-				data: queryParams,
-				type: "post",
-				url: "src/ajaxProyectos.php",
-				success: function(response){
-					$("#vista").html("");
-					$("#vista").html(response);
-
-					$("#EditarProyecto").attr("checked", true);
-					SetBotones('proyectoControls');
-				},
-				fail: function(){
-					notificaError('Eror: ajax, al cargar Edicion de proyecto.');
-				}
-			});
-
-		}else{
-			notificaAtencion("Seleccione un proyecto de la lista.");
-
-			if($.cookie('accion', 'EditarProyecto') != 'ListaProyectos'){
-				ListaProyectos();
-			}
-		}
-	}
-
-	/**
-	*	CREAR UN NUEVO PROYECTO
-	*/
-	function NuevoProyecto(){
-		$.cookie('accion', 'NuevoProyecto');
-
-		queryParams = {'func' : "NuevoProyecto"};
-		$.ajax({
-			data: queryParams,
-			type: "post",
-			url: "src/ajaxProyectos.php",
-			beforeSend: function(){
-
-			},
-			success: function (response){
-				$("#vista").html("");
-				$("#vista").html(response);
-
-				$("#NuevoProyecto").attr("checked", true);
-				SetBotones('proyectoControls');
-			},
-			fail: function(){
-
-			}
-		});
-	}
-
-	/**
-	* UTILIZA LAS COOKIES PARA RESTAURAR LA VISTA COMO EL USUARIO LA DEJO
-	*/
-	function Restaurar(){
-		var proyecto = $.cookie('proyecto');
-		var accion = $.cookie('accion');
-
-		if(proyecto > 0){
-			if(accion == 'EditarProyecto'){
-				EditarProyecto();
-				return;
-			}
-		}
-		if(accion == 'ListaProyectos'){
-			ListaProyectos();
-			return;
-		}
-		if(accion = 'NuevoProyecto'){
-			NuevoProyecto();
-			return;
-		}
-	}
-
-	/**
-	* SELECCIONA UNA FILA -> PROYECTO DE LA LISTA
-	* @param id -> id del proyecto de la fila
-	*/
-	function SeleccionFila(id){
-		var proyecto = $.cookie('proyecto');
-		if(proyecto > 0){
-			$("#"+proyecto).css("background-color", "");
-		}
-		if(proyecto == id){
-			$.cookie('proyecto',0);
-			$("#"+proyecto).css("background-color", "");
-		}else{
-			$("#"+id).css("background-color", "rgb(161, 202, 74, 0.5)");
-			$.cookie('proyecto',id);
-			ContextMenuProyecto();
-		}
-	}
-
-	/**
-	* CARGA E INICIALIZA FORMULARIO DE EDICION DE PROYECTO EXISTENTE
-	*/
-	function FormularioEditarProyecto(){
-		//validacion
-		$("#formularioEditarProyecto").validationEngine();
-		
-		var options = {  
-			beforeSend: function(){
-
-			},
-	    	success: function(response) { 
-		        notifica("Datos Actualizados correctamente.");
-		        Restaurar();
-		    },
-		    fail: function(){
-		    	notificaError("Error: en ajax al actualizar datos.");
-		    }
-		}; 
-
-		$('#formularioEditarProyecto').ajaxForm(options);
-	}
-
-	/**
-	* FORMULARIO DE NUEVO PROYECTO
-	*/
-	function FormularioEditarNuevoProyecto(){
-		//validacion
-		$("#formularioEditarNuevoProyecto").validationEngine();
-		
-		var options = {  
-			beforeSend: function(){
-
-			},
-	    	success: function(response) { 
-		        notifica("Proyecto Creado.");
-		        ListaProyectos();
-		    },
-		    fail: function(){
-		    	notificaError("Error: en ajax al actualizar datos.");
-		    }
-		}; 
-
-		$('#formularioEditarNuevoProyecto').ajaxForm(options);
-	}
-
-	/**
-	* EXPORTAR PROYECTO
-	* @param tipo -> formato al que se exportara, excel o pdf
-	*/
-	function ExportarProyecto(tipo){
-		id = $.cookie('proyecto');
-		if(id > 0){
-			top.location.href = 'src/class/exportar.php?id='+id+'&tipo='+tipo;
-			notificaAtencion('Asegurese de guardar el archivo en el disco duro.');
-		}else{
-			notificaAtencion("Por favor seleccione un proyecto.");
-		}
-	}
-
-	/**
-	* COMPARTIR PROYECTO
-	* @param tipo -> forma en la que se compartira el proyecto
-	*/
-	function CompartirProyecto(tipo){
-		id = $.cookie('proyecto');
-		if(id > 0){
-			if(tipo == 'cliente'){
-
-			}
-			if(tipo == 'link'){
-				
-			}
-			if(tipo == 'email'){
-				
-			}
-		}else{
-			notificaAtencion("Por favor seleccione un proyecto.");
-		}
-	}
-
-
-	/**
-	* CREA EL CONTEXTMENU PARA EL PROYECTO SELECCIONADO
-	*/
-	function ContextMenuProyecto(){
-		var id = $.cookie('proyecto');
-		$.contextMenu({
-	        selector: '#'+id, 
-	        callback: function(key, options) {
-	            var m = "clicked: " + key;
-	            //window.console && console.log(m) || alert(m); 
-	            MenuProyecto(m);
-	        },
-	        items: {
-	        	"nuevo": {name: "Nuevo", icon: "add"},
-	            "editar": {name: "Editar", icon: "edit"},
-	            "componer": {name: "Componer", icon: "edit"},
-	            "eliminar": {name: "Eliminar", icon: "delete"},
-	            "sep1": "---------",
-	            "fold1a": {
+/**
+* CARGA EL CONTEXT MENU DE UN PROYECTO
+*/
+function ContextMenuProyecto(id){
+	$.contextMenu({
+        selector: '#'+id, 
+        callback: function(key, options) {
+            var m = "clicked: " + key;
+            //window.console && console.log(m) || alert(m); 
+            MenuProyecto(m);
+        },
+        items: {
+			"nuevo": {name: "Nuevo Proyecto", icon: "add"},
+            "editar": {name: "Editar", icon: "edit"},
+            "eliminar": {name: "Eliminar", icon: "delete"},
+            "sep1": "---------",
+            "duplicar": {name: "Duplicar Proyecto", icon: "edit"},
+            "fold1a": {
                 "name": "Exportar", 
                 "icon": "exportar",
 	                "items": {
@@ -263,90 +83,142 @@
 	                    "informe-email": {"name": "Por email" , "icon": "email"},
 	                }
             	}
-	        }
-	    });
-	    
-	    $('#'+id).on('click', function(e){
-	        //console.log('clicked', this);
-	    })
+        }
+    });
+
+	//doble click para editar el cliente
+	$("#"+id).dblclick(function(){
+		EditarProyecto();
+		return;
+	});
+}
+
+/**
+* MANEJADOR DE LAS ACCIONES DEl PROYECTO
+*/
+function MenuProyecto(m){
+
+	if(m == "clicked: nuevo"){
+		NuevoProyecto();
+	}else if(m == "clicked: eliminar"){
+		EliminarProyecto();
+	}else if(m == "clicked: editar"){
+		EditarProyecto();
 	}
+}
 
-	/**
-	* ELIMINAR PROYECTO
-	* UTILIZA LA COOKIE PARA SAVER CUAL PROYECTO ELEIMINAR
-	*/
-	function EliminarProyecto(){
-		var proyecto = $.cookie('proyecto');
+/**
+* NUEVO PROYECTO
+*/
+function NuevoProyecto(){
+	var queryParams = {"func" : "NuevoProyecto"};
 
-		if(proyecto > 0){
-			queryParams = {'func' : 'EliminarProyecto', 'ProyectoId' : proyecto};
-			$.ajax({
-				data: queryParams,
-				type: "post",
-				url: "src/ajaxProyectos.php",
-				success: function(response){
-					$("#vista").append(response);
-
-					notifica("Proyecto Eliminado.");
-
-					$("#"+proyecto).fadeOut(1000, function(){
-						$("#"+proyecto).remove();
-					});
-					//ListaProyectos();
-				},
-				fail: function(){
-					notificaError('Eror: ajax, al eliminar el proyecto.');
-				}
-			});
-		}else{
-			notificaAtencion("Seleccione un proyecto.");
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxProyectos.php",
+		beforeSend: function(){
+		},
+		success: function(response){
+			$("#content").html(response);
+			FormularioNuevoProyecto();
+			//SelectorMultipleFiltro();
+		},
+		fail: function(){
 		}
-	}
+	});
+}
 
-	/**
-	* ACCIONES DEL MENU
-	* @param m -> accion seleccionada
-	*/
-	function MenuProyecto(m){
+/**
+* INCIALIZA FORMULARIO PARA NUEVO PROYECTO
+*/
+function FormularioNuevoProyecto(){
+	//validacion
+	$("#FormularioNuevoProyecto").validationEngine();
+		
+	var options = {  
+		beforeSend: function(){
+			DeshabilitarContent();
+		},
+	    success: function(response) { 
 
-		if(m == 'clicked: editar'){
-			EditarProyecto();
-		}
+	    	if(response.length <= 3){
+	    		notifica("Proyecto Creado.");
 
-		if(m == 'clicked: nuevo'){
-			NuevoProyecto();
-		}
+	    		Proyectos();
 
-		if(m == 'clicked: componer'){
-			VistaComposicion();
-		}
-
-		if(m == 'clicked: eliminar'){
-			var si = function (){
-				EliminarProyecto();
+				LimpiarContent();
+			}else{
+				notificaError(response);
 			}
+		},
+		fail: function(){
+		}
+	}; 
+	$('#FormularioNuevoProyecto').ajaxForm(options);
 
-			var no = function (){
-				notificaAtencion("Operacion cancelada");
+	Editor('descripcion');
+}
+
+function EditarProyecto(){
+	var id = $("#proyectos .seleccionada").attr("id");
+
+	var queryParams = {"func" : "EditarProyecto", "id" : id};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxProyectos.php",
+		beforeSend: function(){
+		},
+		success: function(response){
+			$("#content").html(response);
+			FormularioEditarProyecto();
+			//SelectorMultipleFiltro();
+		},
+		fail: function(){
+		}
+	});
+}
+
+/**
+* INICIALIZA FORMULARIO DE EDICION DE UN PROYECTO
+*/
+function FormularioEditarProyecto(){
+	//validacion
+	$("#FormularioNuevoProyecto").validationEngine();
+		
+	var options = {  
+		beforeSend: function(){
+			DeshabilitarContent();
+		},
+	    success: function(response) { 
+
+	    	if(response.length <= 3){
+	    		notifica("Proyecto Actualizado.");
+
+	    		//actualiza nombre
+	    		var nombre = $("#nombre").val();
+	    		var proyecto = $("#proyecto").val();
+
+	    		if(nombre !== $("#"+proyecto).html() ){
+	    			$("#"+proyecto).fadeOut(500, function(){
+	    				$("#"+proyecto).html(nombre);
+	    				$("#"+proyecto).fadeIn();
+	    			});
+	    		}
+
+	    		Proyectos();
+
+				LimpiarContent();
+			}else{
+				notificaError(response);
 			}
+		},
+		fail: function(){
+		}
+	}; 
+	$('#FormularioNuevoProyecto').ajaxForm(options);
 
-			Confirmacion("Esta seguro que desea eliminar el proyecto.", si, no);
-		}
-
-		if(m == 'clicked: exportar-excel'){
-			ExportarProyecto('excel');
-		}
-		if(m == 'clicked: exportar-pdf'){
-			ExportarProyecto('pdf');
-		}
-
-		if(m == 'clicked: informe-cliente'){
-			CompartirProyecto('cliente');
-		}
-		if(m == 'clicked: informe-link'){
-			CompartirProyecto('link');
-		}
-		if(m == 'clicked: informe-email'){
-			CompartirProyecto('email');
-		}
-	}
+	Editor('descripcion');
+}

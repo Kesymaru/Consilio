@@ -41,58 +41,28 @@ $(document).ready(function(){
 		ToolbarMenu('clientes');
 	});
 
-	/*$('#edicion').click(function(){
-		ToolbarMenu('edicion');
-	});*/
-
-	//menu dropdown para usuario
-	$('#usuario').click(function(){
-		if($('#menuUsuario').is(':visible')){
-			$('#menuUsuario').slideUp();
-			$('#usuario').css({
+	$("#menuProyectos, #menuClientes, #menuEdicion").click(function(){
+		
+		if($(".dropMenu").is(":visible")){
+			$(".dropMenu").slideUp();
+			$(".dropMenu").closest("div").css({
 				'background-color' : '#fff',
 				'color' : '#000'
 			});
-		}else{
-			$('#usuario').css({
-				'background-color' : '#a1ca4a',
-				'color' : '#fff'
-			});
-			$('#menuUsuario').slideDown();
 		}
-	});
 
-	//menu dropdown para edicion
-	$('#edicion').click(function(){
-		if($('#menuEdicion').is(':visible')){
-			$('#menuEdicion').slideUp();
-			$('#edicion').css({
+		if($('#'+this.id+" .dropMenu").is(':visible')){
+			$('#'+this.id+" .dropMenu").slideUp();
+			$('#'+this.id).css({
 				'background-color' : '#fff',
 				'color' : '#000'
 			});
 		}else{
-			$('#edicion').css({
+			$('#'+this.id).css({
 				'background-color' : '#a1ca4a',
 				'color' : '#fff'
 			});
-			$('#menuEdicion').slideDown();
-		}
-	});
-
-	//menu dropdown para clientes
-	$('#cliente').click(function(){
-		if($('#menuCliente').is(':visible')){
-			$('#menuCliente').slideUp();
-			$('#cliente').css({
-				'background-color' : '#fff',
-				'color' : '#000'
-			});
-		}else{
-			$('#cliente').css({
-				'background-color' : '#a1ca4a',
-				'color' : '#fff'
-			});
-			$('#menuCliente').slideDown();
+			$('#'+this.id+" .dropMenu").slideDown();
 		}
 	});
 
@@ -133,97 +103,6 @@ function ToolbarMenu(click){
 	}
 }
 
-/**********************
-* VISTA DE PROYECTOS
-*/
-
-/**
-* CARGA LA VISTA DE PROYECTOS
-*/
-function VistaProyecto(){
-	$.cookie('vista', 'proyectos');
-
-	$('#proyectos').addClass('seleccionado');
-	
-	Loading();
-
-	$("#content").load("ajax/vistaProyectos.php", function(){
-		LoadingClose();
-		ActivaMenu();
-	});
-}
-
-/**********************
-* VISTA DE CATEGORIAS
-*/
-
-/**
-* CARGA LA VISTA DE EDICION
-*/
-function VistaEdicion(accion){
-	if($.cookie('vista') != 'edicion' && $.cookie('vista')!= 'edicionGeneralidades'){
-		$.cookie('vista', 'edicion');
-	}
-
-	if($("#menu2").is(":visible")){
-		Menu2();
-	}
-	//si no se ha cargado
-	if( !$(".vistaEdicion").length ){
-		
-		Loading();
-
-		//se carga solo una vez
-
-			
-
-			if(accion == 'normas'){
-				LoadingClose();
-				EditarNormas();
-			}else if(accion == "categorias"){
-				LoadingClose();
-				EditarCategorias();
-			}else if(accion == "entidades"){
-				LoadingClose();
-				Entidades();
-			}else if(accion == "tipos"){
-				LoadingClose();
-				Tipos();
-			}else{
-				LoadingClose();
-				//restaura edicion con cookies
-				RestaurarEdicion();
-			}
-
-			ToolbarMenu('edicion');
-
-
-	}else{
-
-		if(accion == 'normas'){
-			EditarNormas();
-		}else if(accion == "categorias"){
-			EditarCategorias();
-		}else if(accion == "entidades"){
-			Entidades();
-		}else if(accion == "tipos"){
-			Tipos();
-		}else{
-			//restaura edicion con cookies
-			RestaurarEdicion();
-		}
-
-		ToolbarMenu('edicion');
-	}
-}
-
-/**
-* CARGAR VISTAEDICION
-*/
-function CargaVistaEdidcion(){
-
-}
-
 /**
 * ACTIVA EL MENU
 */
@@ -231,7 +110,7 @@ function ActivaMenu(){
 	ActivaMenuFixIe(); //FIX PARA IE
 
 	//ESCONDE
-	if( $('#menu').is(':visible') && $.cookie('vista') != 'edicion' && $.cookie('vista') != 'clientes' ){
+	if( $('#menu').is(':visible') && $.cookie('vista') ){
 
 		$("#menu").animate({
 			opacity: 0,
@@ -280,10 +159,7 @@ function ActivaMenu(){
     	}
 
 		return;
-	}
-
-	//MUESTRA
-	if( $.cookie('vista') == 'edicion' && !$('#menu').is(':visible') || $.cookie('vista') == 'composicion' || $.cookie('vista') == 'clientes'){
+	}else { //muestra
 
 		$("#content").css({
 			'margin' : '0',
@@ -642,9 +518,6 @@ function Cookies(){
 		$.cookie('proyecto', 0, { expires: 7 });
 		$.cookie('vista', 0, { expires: 7 });
 		$.cookie('categoria', 0, { expires: 7 });
-		$.cookie('dato', 0, { expires: 7 });
-		$.cookie('archivo', 0, { expires: 7 });
-		$.cookie('seleccion', 0, { expires: 7 });
 		$.cookie('accion', 'home',{ expires: 7 });
 		$.cookie('restaurado', 0, { expires: 7 });
 	}
@@ -660,7 +533,11 @@ function Inicializa(){
 	}
 
 	if($.cookie('vista') == 'edicion'){
-		VistaEdicion(0);
+		VistaEdicion();
+	}
+
+	if($.cookie('vista') == 'clientes'){
+		VistaClientes();
 	}
 
 	if($.cookie('vista') == 'composicion'){

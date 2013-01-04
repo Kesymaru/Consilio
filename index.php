@@ -58,6 +58,7 @@ $master = new Master();
 	<!-- matriz -->
 	<script type="text/javascript" src="js/Edicion.js"></script>
 	<script type="text/javascript" src="js/Clientes.js"></script>
+	<script type="text/javascript" src="js/Proyectos.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 	<script type="text/javascript" src="js/style.js"></script>
 
@@ -137,32 +138,37 @@ $master = new Master();
 
 		<div class="toolbar">
 			<div id="toolbarMenu">
-				<div id="usuario">
+				<div id="menuUsuario">
 					<?php
 						echo $_SESSION['nombre'];
 					?>
-					<ul class="dropMenu" id="menuUsuario">
+					<ul class="dropMenu">
 						<?php
 							$master->MenuAdmin();
 						?>
 					</ul>
 				</div>
-				<div id="edicion">
+				<div id="menuEdicion">
 					Edicion
-					<ul class="dropMenu" id="menuEdicion">
+					<ul class="dropMenu">
 						<?php
 							$master->MenuEdicion();
 						?>
 					</ul>
 				</div>
-				<div id="proyectos">
-					Proyectos
-				</div>
-				<div id="cliente">
+				<div id="menuClientes">
 					Clientes
-					<ul class="dropMenu" id="menuCliente">
+					<ul class="dropMenu">
 						<?php
 							$master->MenuClientes();
+						?>
+					</ul>
+				</div>
+				<div id="menuProyectos">
+					Proyectos
+					<ul class="dropMenu">
+						<?php
+							$master->MenuProyectos();
 						?>
 					</ul>
 				</div>

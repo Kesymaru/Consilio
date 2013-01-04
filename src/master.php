@@ -18,59 +18,6 @@ class Master{
 		$session->Logueado();
 	}
 
-/*** METODOS PARA PROYECTOS ***/
-
-	/**
-	* MENU CON TODOS LOS PROYECTOS
-	*/
-	public function MenuProyectos(){
-
-		$master = new Database();
-		$datos = $master->Select("Select * FROM proyectos");
-
-		if(!empty($datos)){
-			
-			foreach ($datos as $fila => $c) {
-				echo '<li onClick="proyecto('.$datos[$fila]['id'].')">'.$datos[$fila]['nombre'].'</li>';
-			}
-		
-		}else{
-			echo '<li><button id="botonNuevoProyecto" onClick="proyectoNuevo();">Crear Nuevo</button>';
-		}
-	}
-
-	/**
-	* MENU PROYECTOS CON SELECCION DE BUSQUEDA
-	*/
-	public function MenuProyectosBuscar($busqueda){
-
-		$master = new Database();
-		$datos = $master->Select("Select * FROM proyectos WHERE nombre LIKE '%".$busqueda."%' LIMIT 0, 30");
-
-		if(!empty($datos)){
-			
-			foreach ($datos as $fila => $c) {
-				echo '<li onClick="proyecto('.$datos[$fila]['id'].')">'.$datos[$fila]['nombre'].'</li>';
-			}
-		
-		}else{
-			echo '<li><button id="botonNuevoProyecto" onClick="proyectoNuevo();">Crear Nuevo</button>';
-		}
-	}
-
-	/**
-	* GUARDA EL PROYECTO
-	*/
-	public function nuevoProyecto($proyecto, $descripcion){
-		$descripcion = mysql_real_escape_string($descripcion);
-		$fecha = date("d-m-Y");
-
-		$query = "INSERT INTO proyectos (nombre, descripcion, fecha, cliente, status) VALUES ('".$proyecto."','".$descripcion."', '".$fecha."', '".$_SESSION['id']."', 1 )";
-
-		$base = new Database();
-		$base->Insert($query);
-	}
-
 /*** METODOS DE BUSQUEDA ***/
 
 	/**
@@ -265,6 +212,13 @@ class Master{
 	 */
 	public function MenuClientes(){
 			echo '<li onClick="Clientes()">Clientes</li>';
+	}
+
+	/**
+	 * MENU DE PROYECTOS
+	 */
+	public function MenuProyectos(){
+			echo '<li onClick="Proyectos()">Proyectos</li>';
 	}
 
 }

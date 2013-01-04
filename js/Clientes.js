@@ -142,7 +142,7 @@ function FormularioEditarCliente(){
 	    		var nombre = $("#nombre").val()
 	    		var cliente = $("#cliente-id").val();
 
-	    		if(nombre !== $("#"+cliente)){
+	    		if(nombre !== $("#"+cliente).html() ){
 	    			$("#"+cliente).fadeOut(500, function(){
 	    				$("#"+cliente).html(nombre);
 	    				$("#"+cliente).fadeIn();

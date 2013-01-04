@@ -122,7 +122,43 @@ class Cliente{
 	 * @return false su falla
 	 */
 	public function UploadClienteImagen($id, $imagen){
-					
+				        
+		if($link = $this->UploadImagen($imagen) ){
+
+			$base = new Database();
+
+			$query = "SELECT * FROM clientes WHERE id = ".$id;
+			$imagenOld = $base->Select($query);
+
+			$query = "UPDATE clientes SET imagen = '".$link."' WHERE id = ".$id;
+			
+			//actualiza imagen
+			if($base->Update($query)){
+
+				//borra imagen vieja
+				$imagenOldLink = "../".$imagenOld[0]['imagen'];
+
+				if( !$base->DeleteImagen($imagenOldLink) ){
+					echo "Error: no se pudo borrar la imagen anterior, Error usuarios.php UploadClienteImagen() linea 142";
+				}
+
+				return true;
+			}else{
+				return false;
+			}
+
+		}else{
+			return fale; //fallo al subir archivo
+		}
+	}
+
+	/**
+	* SUBE UNA IMAGEN
+	* @param $imagen -> file de la imagen ha dubir
+	* @return $link -> link de la imagen subida
+	* @return false si falla
+	*/
+	private function UploadImagen($imagen){
 		//SUBE LA IMAGEN
 		if($imagen['tmp_name'] != null && $imagen['tmp_name'] != ""){
 			$upload = new Upload();
@@ -132,38 +168,18 @@ class Cliente{
 
 			$upload->SetValidExtensions(array('gif', 'jpg', 'jpeg', 'png')); 
 				        
-			$upload->SetUploadDirectory("../images/users/"); //DIRECTORIO PARA IMAGENES DE LOS PROYECTOS
+			$upload->SetUploadDirectory("../images/users/"); //DIRECTORIO PARA IMAGENES DE LOS USUARIOS
 
 			$upload->SetMaximumFileSize(90000000); //TAMANO MAXIMO PERMITIDO
 				        
 			if($upload->UploadFile()){
 				//SE OPTIENE EL LINK DE LA IMAGEN SUBIDA Y SE FORMATEA
-				$imagen = str_replace("../", "", $upload->GetUploadDirectory().$upload->GetFileName() );
+				$link = str_replace("../", "", $upload->GetUploadDirectory().$upload->GetFileName() );
 
-				$base = new Database();
-
-				$query = "SELECT * FROM clientes WHERE id = ".$id;
-				$imagenOld = $base->Select($query);
-
-				$query = "UPDATE clientes SET imagen = '".$imagen."' WHERE id = ".$id;
-				//actualiza imagen
-				if($base->Update($query)){
-
-					//borra imagen vieja
-					$imagenOldLink = "../".$imagenOld[0]['imagen'];
-					if( !$base->DeleteImagen($imagenOldLink) ){
-						echo "Error: no se pudo borrar la imagen anterior, Error usuarios.php UploadClienteImagen() linea 154";
-					}
-
-					return true;
-				}else{
-					return false;
-				}
-
+				return $link;
 			}else{
-				return fale; //fallo al subir archivo
+				return false;
 			}
-
 		}else{
 			return false;
 		}

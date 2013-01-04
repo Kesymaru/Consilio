@@ -411,27 +411,17 @@ html, body{
 	vertical-align: middle;
 	border-radius: 5px;
 	cursor: pointer;
+	padding-right: 2px;
+	padding-left: 2px;
 }
 
-#toolbarMenu #usuario, #toolbarMenu #proyectos, #toolbarMenu #edicion, #toolbarMenu #cliente{
+#toolbarMenu div{
 	padding: 13px;
 	vertical-align: middle;	
 	display: inline-block;
 	text-align: center;
 	float: left;
 	width: 120px;
-}
-
-/* menuProyectos */
-#toolbarMenu #proyectos{
-	display: inline-block;
-	float: right;
-}
-
-/* menu clientes */
-#toolbarMenu #cliente{
-	display: inline-block;
-	float: right;
 }
 
 #toolbarMenu .seleccionado{
@@ -444,12 +434,11 @@ html, body{
 	position: absolute;
 	padding: 0;
 	min-width: 100px;
-	border: 1px solid #dedede;
-	margin-top: 20px;
-	background-color: #fff;
+	margin-top: 15px;
+	box-shadow: 0 15px 30px #dedede;
 }
 
-/*
+
 .dropMenu:before {
   content: '';
   width: 0px;
@@ -459,24 +448,23 @@ html, body{
   position: relative;
   border-left: 25px solid transparent;
   border-right: 25px solid transparent;
-  border-bottom: 15px solid #aaa8a9;
-}*/
+  border-top: 0px solid transparent;
+  border-bottom: 15px solid #fff;
+  margin-bottom: -1px;
+  z-index: 1000;
+}
 
 .dropMenu li{
 	width: 120px;
 	display: block;
 	padding: 10px;
 	background-color: #fff;
-	border-bottom: 1px solid #dedede;
+	border: 1px solid #dedede;
 	color: #747273;
 }
 
 .dropMenu li:hover{
 	background-color: #a1ca4a; 
-}
-
-.dropMenu li:last-child:hover{
-	background-color: transparent !important; 
 }
 
 /* imagen del usuario */

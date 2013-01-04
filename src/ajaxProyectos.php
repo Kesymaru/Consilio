@@ -6,154 +6,315 @@
 
 require_once("class/proyectos.php");
 require_once("class/imageUpload.php");
+require_once("class/usuarios.php");
 
 if(isset($_POST['func'])){
 	
 	switch ($_POST['func']){
 
-		//EDICION DE PROYECTO
-		case 'EditarProyecto':
-			if(isset($_POST['ProyectoId'])){
-				$proyecto = new Proyectos();
-				echo $proyecto->EditarProyecto($_POST['ProyectoId']);
-			}
-			exit;
-
-		// LISTA DE PROYECTOS
-		case 'ListaProyectos':
-			$proyectos = new Proyectos();
-			echo $proyectos->Lista();
-			exit;
+		//LISTA PROYECTOS
+		case 'Proyectos':
+			Proyectos();
+			break;
 
 		//NUEVO PROYECTO
 		case 'NuevoProyecto':
-			$proyecto = new Proyectos();
-			echo $proyecto->EditarNuevoProyecto();
-			exit;
+			NuevoProyecto();
+			break;
 
-		//ELIMINAR PROYECTO
-		case 'EliminarProyecto':
-			if(isset($_POST['ProyectoId'])){
-				$proyecto = new Proyectos();
-				$proyecto->EliminarProyecto($_POST['ProyectoId']);
+		//EDITAR PROYECTO
+		case 'EditarProyecto':
+			if(isset($_POST['id'])){
+				EditarProyecto($_POST['id']);
 			}
 			break;
 
-		//INGRESA NUEVO PROYECTO
-		case 'IngresarNuevoProyecto':
+		//REGISTRA UN NUEVO PROYECTO
+		case 'RegistrarProyecto':
+			RegistrarProyecto();
+			break;
 
-			//DATOS MINIMOS REQUERIDOS
-			if( isset($_POST['ProyectoNuevoNombre']) && isset($_POST['ProyectoCliente'])){
-				
-				$proyecto = new Proyectos();
-
-				$imagen = 'images/es.png'; //IMAGEN POR DEFECTO
-				$nombre = $_POST['ProyectoNuevoNombre'];
-				$cliente = $_POST['ProyectoCliente'];
-
-				//IMAGEN SI TIENE -> NO OBLIGATORIA
-				if( isset($_FILES['ProyectoNuevoImagen']['tmp_name']) ){
-					$imagen = $_FILES['ProyectoNuevoImagen'];
-					
-					//SUBE LA IMAGEN
-					if($_FILES['ProyectoNuevoImagen']['tmp_name'] != null && $_FILES['ProyectoNuevoImagen']['tmp_name'] != ""){
-						$upload = new Upload();
-        
-				        $upload->SetFileName($imagen['name']);
-				        $upload->SetTempName($imagen['tmp_name']);
-
-				        $upload->SetValidExtensions(array('gif', 'jpg', 'jpeg', 'png')); 
-				        
-				        $upload->SetUploadDirectory("../images/proyectos/"); //DIRECTORIO PARA IMAGENES DE LOS PROYECTOS
-
-				        $upload->SetMaximumFileSize(90000000); //TAMANO MAXIMO PERMITIDO
-				        
-				        if($upload->UploadFile()){
-				        	//SE OPTIENE EL LINK DE LA IMAGEN SUBIDA Y SE FORMATEA
-				        	$imagen = str_replace("../", "", $upload->GetUploadDirectory().$upload->GetFileName() );
-				        }
-
-					}
-				}
-
-				if( isset($_POST['ProyectoNuevoDescripcion'])){
-					$descripcion = $_POST['ProyectoNuevoDescripcion'];
-				}else{
-					$descripcion = '';
-				}
-
-				//SE GUARDA EN LA BASE DE DATOS
-				if($proyecto->NuevoProyecto($nombre, $cliente, $descripcion, $imagen)){
-					//se guardo
-				}else{
-					//ocurrio algun error al guardar
-				}
+		//ACTUALIZAR UN PROYECTO
+		case 'ActualizarProyecto':
+			if(isset($_POST['proyecto'])){
+				ActualizarProyecto($_POST['proyecto']);			
 			}
-		break;
+			break;
 	}
 }
 
-// SUDIDA DE ARCHIVOS
-$notificacion = "";
+/**
+* MUESTRA LISTA DE PROYECTOS
+*/
+function Proyectos(){
+	$proyectos = new Proyectos();
+	$datos = $proyectos->getProyectos();
 
-/********** EDICION DE PROYECTO *************/
+	$lista = '';
 
-if( isset($_FILES['ProyectoImagen']['tmp_name']) && isset($_POST['ProyectoId']) ){
-	$imagen = $_FILES['ProyectoImagen'];
-	$id = $_POST['ProyectoId'];
+	$lista = '<div id="proyectos" class="tipos">
+				<div class="titulo">
+					Proyectos
+			  		<button type="button" title="Buscar Proyectos" onClick="BuscarMenu(\'buscar-Proyectos\')">Buscar</button>
+					<hr>
+					<div class="busqueda">
+						<input type="text" id="buscar-Proyectos" placeholder="Buscar"/>
+					</div>
+			  	</div>';
+
+	if(!empty($datos)){
+
+		$lista .= '<ul>';
+		
+		foreach ($datos as $fila => $proyecto) {
+			$lista .= '<li id="'.$proyecto['id'].'" onClick="SelectProyecto('.$proyecto['id'].')">'.$proyecto['nombre'].'</li>';
+		}
+
+		$lista .= '</ul><!-- fin lista -->';
+
+	}else{
+		$lista .= "No hay proyectos";
+	}
+
+	$lista .= '<div class="datos-botones">
+				<button type="button" id="EliminarProyecto" title="Eliminar Proyecto Seleccionado" onClick="EliminarProyecto()">Eliminar</button>
+				<button type="button" id="EditarProyecto" title="Editar Proyecto Seleccionado" onClick="EditarProyecto()">Editar</button>
+			   	<button type="button" id="NuevoProyecto" title="Crear Nuevo Proyecto" onClick="NuevoProyecto()">Nuevo Proyecto</button>
+			   </div>
+			   <!-- fin botonera -->
+			   </div>';
+
+	echo $lista;
+}
+
+/**
+* FORMULARIO DE NUEVO PROYECTO
+*/
+function NuevoProyecto(){
+
+	$formulario = "";
+	
+	$formulario .= '<form id="FormularioNuevoProyecto" enctype="multipart/form-data" method="post" action="src/ajaxProyectos.php" >
+					<div class="proyectos">
+						<div class="titulo">
+							Edición Nuevo Proyecto
+					  		<hr>
+					  	</div>
+					  	<input type="hidden" name="func" value="RegistrarProyecto" />
+
+					  	<div class="datos" >
+					  		<table>
+					  		<tr>
+					  			<td>
+					  				Nombre
+					  			</td>
+					  			<td>
+					  				<input type="text" name="nombre" title="Nombre Para Nuevo Proyecto" placeholder="Nombre" class="validate[required]" />
+					  			</td>
+					  			<td rowspan="2" class="td-user-image">
+					  				<img src="images/es.png" />
+					  				<br/>
+					  				<input type="file" name="imagen" id="imagen" class="validate[optional]" />
+					  			</td>
+					  		</tr>
+					  		<tr>
+					  			<td>
+					  				Cliente
+					  			</td>
+					  			<td>
+					  				';
+	$formulario .= SelectClientes().'
+								</td>
+					  		</tr>
+					  		</table>
+					  		Descripcion
+					  		<textarea name="descripcion" id="descripcion"></textarea>
+					  	</div>
+					  	<div class="datos-botones">
+					  		<button type="button" title="Cancelar Edición" onClick="CancelarContent()">Cancelar</button>
+							<input type="reset" title="Limpiar Edición" value="Limpiar" />
+							<input type="submit" title="Guardar Edición" value="Guardar" />
+						</div>
+					</form>';
+
+	echo $formulario;
+}
+
+/**
+* FORMULARIO PARA EDITAR UN PROYECTO
+* @param $id -> id del proyecto
+*/ 
+function EditarProyecto($id){
+	$proyecto = new Proyectos();
+
+	$datos = $proyecto->getProyectoDatos($id);
+
+	$formulario = "";
+
+	if(!empty($datos)){
+		
+		$formulario .= '<form id="FormularioNuevoProyecto" enctype="multipart/form-data" method="post" action="src/ajaxProyectos.php" >
+					<div class="proyectos">
+						<div class="titulo">
+							Edición Proyecto
+					  		<hr>
+					  	</div>
+					  	<input type="hidden" name="func" value="RegistrarProyecto" />
+					  	<input type="hidden" name="proyecto" value="'.$id.'" id="proyecto" />
+					  	<div class="datos" >
+					  		<table>
+					  		<tr>
+					  			<td>
+					  				Nombre
+					  			</td>
+					  			<td>
+					  				<input type="text" name="nombre" title="Nombre Para Nuevo Proyecto" placeholder="Nombre" class="validate[required]" value="'.$datos[0]['nombre'].'" />
+					  			</td>
+					  			<td rowspan="2" class="td-user-image">
+					  				<img src="'.$datos[0]['imagen'].'" />
+					  				<br/>
+					  				<input type="file" name="imagen" id="imagen" class="validate[optional]" />
+					  			</td>
+					  		</tr>
+					  		<tr>
+					  			<td>
+					  				Cliente
+					  			</td>
+					  			<td>
+					  				';
+		$formulario .= SelectedClientes($datos[0]['cliente']).'
+								</td>
+					  		</tr>
+					  		</table>
+					  		Descripcion
+					  		<textarea name="descripcion" id="descripcion">';
+
+		$formulario .= base64_decode($datos[0]['descripcion']).'</textarea>
+					  	</div>
+					  	<div class="datos-botones">
+					  		<button type="button" title="Cancelar Edición" onClick="CancelarContent()">Cancelar</button>
+							<input type="reset" title="Limpiar Edición" value="Limpiar" />
+							<input type="submit" title="Guardar Edición" value="Guardar" />
+						</div>
+					</form>';
+
+	}else{
+		$formulario .= "Error: no hay informacion sobre el proyecto.";
+	}
+
+	echo $formulario;
+}
+
+/**
+* COMPONE EL SELECT CON LOS CLIENTES
+* @return $select -> lista de seleccion
+*/
+function SelectClientes(){
+	$clientes = new Cliente();
+	$datos = $clientes->getClientes();
+
+	$select = "";
+
+	if(!empty($datos)){
+		$select .= '<select name="cliente" title="Cliente Para Nuevo Proyecto" class="validate[required]">';
+
+		foreach ($datos as $fila => $cliente) {
+			$select .= '<option value="'.$cliente['id'].'">'.$cliente['nombre'].'</option>';
+		}
+
+		$select .= '</select>';
+	}else{
+		$select .= "No hay clientes.";
+	}
+	return $select;
+}
+
+/**
+* COMPONE SELECT CON EL CLIENTE SELECCIONADO
+* @param $id -> id de la opcion seleccionada
+*/
+function SelectedClientes($id){
+	$clientes = new Cliente();
+	$datos = $clientes->getClientes();
+
+	$select = "";
+
+	if(!empty($datos)){
+		$select .= '<select name="cliente" title="Cliente Para Nuevo Proyecto" class="validate[required]">';
+
+		foreach ($datos as $fila => $cliente) {
+			if($id == $cliente['id']){
+				$select .= '<option value="'.$cliente['id'].'" selected>'.$cliente['nombre'].'</option>';
+			}else{
+				$select .= '<option value="'.$cliente['id'].'">'.$cliente['nombre'].'</option>';
+			}
 			
-	//actualiza la imagen
-	$proyecto = new Proyectos();
-	if($_FILES['ProyectoImagen']['tmp_name'] != null && $_FILES['ProyectoImagen']['tmp_name'] != ""){
-		if(!$proyecto->setProyectoImagen($imagen, $id)){
-			$notificacion .= "Error al actualizar la imagen del proyecto.<br/>";
 		}
+
+		$select .= '</select>';
+	}else{
+		$select .= "No hay clientes.";
+	}
+	return $select;
+}
+
+/**
+* REGISTRA UN NUEVO PROYECTO
+*/
+function RegistrarProyecto(){
+	$proyectos = new Proyectos();
+
+	if(isset($_POST['nombre']) && isset($_POST['cliente']) ){
+
+		$imagen = "";
+		$descripcion = "";
+
+		//imagen
+		if(isset($_FILES['imagen'])){
+			$imagen = $_FILES['imagen'];
+		}
+
+		if(isset($_POST['descripcion'])){
+			$descripcion = $_POST['descripcion'];
+		}
+
+		if( !$proyectos->NewProyecto($_POST['nombre'], $_POST['cliente'], $descripcion, $imagen) ){
+			echo "ERROR: no se pudo registrar el nuevo proyecto, ajaxProyectos.php RegistrarProyecto() linea 165";
+		}
+
+	}else{
+		echo "ERROR: faltan parametros requeridos para registrar el nuevo proyecto.";
 	}
 }
 
+/**
+* ACTUALIZA UN PROYECTO
+* @param $id -> id del proyecto
+*/
+function ActualizarProyecto($id){
+	$proyectos = new Proyectos();
 
-//actualiza el nombre del proyecto
-if( isset($_POST['ProyectoId']) && isset($_POST['ProyectoNombre']) ){
-	$proyecto = new Proyectos();
-	$nombre = $proyecto->getProyectoDato("nombre", $_POST['ProyectoId'] );
+	if(isset($_POST['nombre']) && isset($_POST['cliente']) ){
 
-	if($nombre != $_POST['ProyectoNombre']){
-		if( !$proyecto->setProyectoDato("nombre", $_POST['ProyectoNombre'], $_POST['ProyectoId'])){
-			$notificacion .= "Error al actualizar el nombre del proyecto.<br/>";
+		$imagen = "";
+		$descripcion = "";
+
+		//imagen
+		if(isset($_FILES['imagen'])){
+			$imagen = $_FILES['imagen'];
 		}
+
+		if(isset($_POST['descripcion'])){
+			$descripcion = $_POST['descripcion'];
+		}
+
+		if( !$proyectos->UpdateProyecto($_POST['nombre'], $_POST['cliente'], $descripcion, $imagen) ){
+			echo "ERROR: no se pudo actualizar el proyecto, ajaxProyectos.php ActualizarProyecto(".$id.") linea 312";
+		}
+
+	}else{
+		echo "ERROR: faltan parametros requeridos para actualizar proyecto.";
 	}
 }
-
-//actualiza cliente
-if( isset($_POST['ProyectoId']) && isset($_POST['ProyectoCliente']) ){
-	$proyecto = new Proyectos();
-	$cliente = $proyecto->getProyectoDato("cliente", $_POST['ProyectoId'] );
-
-	if($cliente != $_POST['ProyectoCliente']){
-		if( !$proyecto->setProyectoDato("cliente", $_POST['ProyectoCliente'], $_POST['ProyectoId'])){
-			$notificacion .= "Error al actualizar el cliente del proyecto.<br/>";
-		}
-	}
-}
-
-//actualiza la descripcion del proyecto
-if( isset($_POST['ProyectoId']) && isset($_POST['ProyectoDescripcion']) ){
-	$proyecto = new Proyectos();
-	$descripcion = $proyecto->getProyectoDato("descripcion", $_POST['ProyectoId'] );
-
-	$descripcionNueva = mysql_real_escape_string($_POST['ProyectoDescripcion']);
-
-	if($descripcion != $descripcionNueva){
-		if( !$proyecto->setProyectoDato("descripcion", $descripcionNueva, $_POST['ProyectoId'])){
-			$notificacion .= "Error al actualizar la descripcion del proyecto.<br/>";
-		}
-	}
-}
-
-//notificaciones de errores
-if($notificacion != ""){
-	echo $notificacion;
-}
-
 
 ?>
