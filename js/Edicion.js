@@ -2046,6 +2046,7 @@ function FormularioEditarEntidad(){
 		
 	var options = {  
 		beforeSend: function(){
+			DeshabilitarContent();
 		},
 	    success: function(response) { 
 	    	if(response.length == 0){
@@ -2068,7 +2069,7 @@ function FormularioEditarEntidad(){
 					}
 				}
 
-				$("#content").html("");
+				//LimpiarContent();
 			}else{
 				notificaError(response);
 			}

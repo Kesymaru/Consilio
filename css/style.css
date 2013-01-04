@@ -425,7 +425,7 @@ html, body{
 }
 
 .dropMenu{
-	z-index: 1;
+	z-index: 999;
 	position: absolute;
 	padding: 0;
 	min-width: 100px;
@@ -1440,11 +1440,11 @@ html, body{
 }
 
 .content-disable{
-	z-index: 999;
+	z-index: 100;
 	height: 100%;
 	width: 100%;
 	position: absolute;
-	padding-top: 25%;
+	/*padding-top: 25%;*/
 	background-color: #fff;
 
 		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
@@ -1457,6 +1457,8 @@ html, body{
 }
 
 .content-disable p{
+	top: 35%;
+	position: relative;
 	background-color: #9B9B9B;
 	background-color: rgba(56,56,56,.5);
 	border-top: solid 1px #fff;

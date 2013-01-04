@@ -30,6 +30,40 @@ class Cliente{
 		return $datos[0][$dato];
 	}
 
+	/**
+	* OBTIENE TODOS LOS CLIENTES
+	* @return $datos array[][] con los datos de los clientes
+	*/
+	public function getClientes(){
+		$base = new Database();
+		$query = "SELECT * FROM clientes";
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			return $datos;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* OBTIENE TODOS LOS DATOS DE UN CLIENTE
+	* @param $id -> id del cliente
+	*/
+	function getDatosCliente($id){
+		$base = new Database();
+		$query = "SELECT * FROM clientes WHERE id = ".$id;
+
+		$datos = $base->Select($query);
+		
+		if(!empty($datos)){
+			return $datos;
+		}else{
+			return false;
+		}
+	}
+
 }
 
 /**
