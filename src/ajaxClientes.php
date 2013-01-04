@@ -100,7 +100,7 @@ function EditarCliente($id){
 					  				<input type="text" id="nombre" name="nombre" title="Nombre Del Cliente" placeholder="Nombre" value="'.$datos[0]['nombre'].'" class="validate[required]" />
 					  			</td>
 					  			<td rowspan="5">
-					  				<img src="images/'.$datos[0]['imagen'].'" title="Imagen Del Cliente"><br/>
+					  				<img id="imagen-usuario" src="images/'.$datos[0]['imagen'].'" title="Imagen Del Cliente"><br/>
 					  				<input type="file" name="imagen" id="imagen" />
 					  			</td>
 					  		</tr>
@@ -159,7 +159,7 @@ function EditarCliente($id){
 * ACTUALIZA UN CLIENTE EDITADO
 */
 function ActualizarCliente(){
-	
+
 }
 
 

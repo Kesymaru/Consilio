@@ -51,7 +51,7 @@ function ContextMenuCliente(){
 function EditarCliente(){
 	var id = $("#clientes .seleccionada").attr('id');
 	notifica(id);
-	
+
 	var queryParams = {"func" : "EditarCliente", "id" : id};
 
 	$.ajax({
@@ -63,6 +63,7 @@ function EditarCliente(){
 		success: function(response){
 			$("#content").html(response);
 			FormularioEditarCliente();
+			AutoImage();
 		},
 		fail: function(){
 			notificaError("Error: Clientes.js EditarCliente().");
@@ -106,4 +107,11 @@ function FormularioEditarCliente(){
 		}
 	}; 
 	$('#FormularioEditarCliente').ajaxForm(options);
+}
+
+function AutoImage(){
+	$("#imagen").change(function(){
+		var file = $("#imagen").val();
+		$("#imagen-usuario").attr("src", file);
+	});
 }
