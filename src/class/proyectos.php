@@ -30,17 +30,19 @@ class Proyectos{
 	* @param $nombre -> nombre del proyecto
 	* @param $descripcion -> descripcion del proyecto
 	* @param $imagen -> logo adjuntado al proyecto
+	* @param $estado -> estado del proyecto
 	* @return true si se guardo el nuevo proyecto correctamente
 	* @return false si fallo al guardase el nuevo proyecto
 	*/
-	function NewProyecto($nombre, $cliente, $descripcion, $imagen){
+	function NewProyecto($nombre, $cliente, $descripcion, $imagen, $estado){
 		$base = new Database();
 		
 		$nombre = mysql_real_escape_string($nombre);
-		$descripcion = base64_decode($descripcion);
+		$descripcion = base64_encode($descripcion);
 
-		$query = "INSERT INTO proyectos (nombre, cliente, descripcion, imagen, status) VALUES ('".$nombre."', '".$cliente."', '".$descripcion."', '".$imagen."', 1)";
-		
+		$query = "INSERT INTO proyectos (nombre, cliente, descripcion, imagen, status)";
+		$query .= " VALUES ('".$nombre."', '".$cliente."', '".$descripcion."', '".$imagen."', '".$estado."')";
+
 		if($base->Insert($query)){
 			return true;
 		}else{
@@ -50,33 +52,27 @@ class Proyectos{
 
 	/**
 	* ACTUALIZA UN PROYECTO
+	* @param $id -> id del proyecto ha actualizar
 	* @param $nombre -> nombre del proyecto
 	* @param $descripcion -> descripcion del proyecto
 	* @param $imagen -> logo adjuntado al proyecto
+	* @param $estado -> estado del proyecto
 	* @return true si se actualiza el proyecto correctamente
 	* @return false si fallo 
 	*/
-	function UpdateProyecto($nombre, $cliente, $descripcion, $imagen, $estado){
+	function UpdateProyecto($id, $nombre, $cliente, $descripcion, $imagen, $estado){
 		$base = new Database();
 		
 		$nombre = mysql_real_escape_string($nombre);
-		$descripcion = base64_decode($descripcion);
+		$descripcion = base64_encode($descripcion);
 
-		if($imagen != ''){
-			if( $imagen = $this->UploadImagen($imagen) ){
-				$query = "SELECT * FROM proyectos WHERE id = ".$id;
-				$imagenOld = $base->Select($query);
-				
-				$imagenOld = "../".$imagenOld;
-
-				if(!$base->DeleteImage($imagenOld)){
-					echo 'Error: No se pudo eliminar la imagen antigua del proyecto.';
-				}
-			}
+		if($imagen != ''){ 
+			//actualiza imagen
+			$query = "UPDATE proyectos SET nombre = '".$nombre."', cliente = '".$cliente."', descripcion = '".$descripcion."', imagen = '".$imagen."', status = '".$estado."' WHERE id = ".$id;			
+		}else{
+			$query = "UPDATE proyectos SET nombre = '".$nombre."', cliente = '".$cliente."', descripcion = '".$descripcion."', status = '".$estado."' WHERE id = ".$id;
 		}
 
-		$query = "UPDATE proyectos SET nombre = '".$nombre."', cliente = '".$cliente."', descripcion = '".$descripcion."', imagen = '".$imagen."', status = '".$estado."'";
-		
 		if($base->Update($query)){
 			return true;
 		}else{
@@ -138,7 +134,7 @@ class Proyectos{
 
 			$upload->SetValidExtensions(array('gif', 'jpg', 'jpeg', 'png')); 
 				        
-			$upload->SetUploadDirectory("../images/proyectos/"); //DIRECTORIO PARA IMAGENES DE LOS PROYECTOS
+			$upload->SetUploadDirectory("../images/proyectos/"); //DIRECTORIO PARA IMAGENES DE LOS USUARIOS
 
 			$upload->SetMaximumFileSize(90000000); //TAMANO MAXIMO PERMITIDO
 				        

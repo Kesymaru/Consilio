@@ -136,12 +136,13 @@ function FormularioNuevoProyecto(){
 	//validacion
 	$("#FormularioNuevoProyecto").validationEngine();
 		
-	var options = {  
+	var options = { 
 		beforeSend: function(){
+			EditorUpdateContent();
 			DeshabilitarContent();
 		},
 	    success: function(response) { 
-
+	    	notifica("enviado");
 	    	if(response.length <= 3){
 	    		notifica("Proyecto Creado.");
 
@@ -149,7 +150,7 @@ function FormularioNuevoProyecto(){
 
 				LimpiarContent();
 			}else{
-				notificaError(response);
+				$("#content").html(response);
 			}
 		},
 		fail: function(){
@@ -190,6 +191,7 @@ function FormularioEditarProyecto(){
 		
 	var options = {  
 		beforeSend: function(){
+			EditorUpdateContent();
 			DeshabilitarContent();
 		},
 	    success: function(response) { 
@@ -212,7 +214,7 @@ function FormularioEditarProyecto(){
 
 				LimpiarContent();
 			}else{
-				notificaError(response);
+				$("#content").html(response);
 			}
 		},
 		fail: function(){
