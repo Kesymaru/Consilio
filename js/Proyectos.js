@@ -222,3 +222,42 @@ function FormularioEditarProyecto(){
 
 	Editor('descripcion');
 }
+
+/**
+ * CONFIRMACION DE ELIMINAR PROYECTO
+ */
+function EliminarProyecto(){
+	var si = function (){
+		DelteProyecto();
+	}
+
+	var no = function (){
+		notificaAtencion("Operacion cancelada");
+	}
+
+	Confirmacion("Desae Eliminar el Proyecto y todos sus datos.", si, no);
+}
+
+/**
+ * ACCION DE ELIMINAR PROYECTO
+ */
+function DelteProyecto(){
+	var id = $("#proyectos .seleccionada").attr("id");
+	
+	var queryParams = {"func" : "EliminarProyecto", "id" : id};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxProyectos.php",
+		beforeSend: function(){
+		},
+		success: function(response){
+			$("#content").html(response);
+			FormularioEditarProyecto();
+			//SelectorMultipleFiltro();
+		},
+		fail: function(){
+		}
+	});
+}

@@ -128,7 +128,7 @@ class Proyectos{
 	* @return $link -> link de la imagen subida
 	* @return false si falla
 	*/
-	private function UploadImagen($imagen){
+	public function UploadImagen($imagen){
 		//SUBE LA IMAGEN
 		if($imagen['tmp_name'] != null && $imagen['tmp_name'] != ""){
 			$upload = new Upload();

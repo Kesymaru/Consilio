@@ -159,7 +159,7 @@ function EditarProyecto($id){
 							Edición Proyecto
 					  		<hr>
 					  	</div>
-					  	<input type="hidden" name="func" value="RegistrarProyecto" />
+					  	<input type="hidden" name="func" value="ActualizarProyecto" />
 					  	<input type="hidden" name="proyecto" value="'.$id.'" id="proyecto" />
 					  	<div class="datos" >
 					  		<table>
@@ -299,21 +299,33 @@ function ActualizarProyecto($id){
 		$imagen = "";
 		$descripcion = "";
 
-		//imagen
+		//sube imagen si tiene
 		if(isset($_FILES['imagen'])){
-			$imagen = $_FILES['imagen'];
+			$imagen = $proyectos->UploadImagen($_FILES['imagen']);
 		}
 
 		if(isset($_POST['descripcion'])){
 			$descripcion = $_POST['descripcion'];
 		}
 
-		if( !$proyectos->UpdateProyecto($_POST['nombre'], $_POST['cliente'], $descripcion, $imagen) ){
-			echo "ERROR: no se pudo actualizar el proyecto, ajaxProyectos.php ActualizarProyecto(".$id.") linea 312";
+		if( !$proyectos->UpdateProyecto($_POST['nombre'], $_POST['cliente'], $descripcion, $imagen, $estado) ){
+			echo "<br/>ERROR: no se pudo actualizar el proyecto, ajaxProyectos.php ActualizarProyecto(".$id.") linea 312";
 		}
 
 	}else{
-		echo "ERROR: faltan parametros requeridos para actualizar proyecto.";
+		echo "<br/>ERROR: faltan parametros requeridos para actualizar proyecto.";
+	}
+}
+
+/**
+ * ELIMINA UN PROYECTO
+ * @param $id -> id del proyecto
+ */
+function EliminarProyecto($id){
+	$proyecto = new Proyectos();
+
+	if(!$proyecto->DeleteProyecto($id)){
+		echo "<br/>Error: no se podo eliminar el proyecto.";
 	}
 }
 
