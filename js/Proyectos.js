@@ -3,7 +3,8 @@
 */
 
 /**
-* MUSTRA LISTA DE PROYECTOS
+* MUSTRA LISTA DE PROYECTOS EN CONTENT
+* VISTA AVANZADA CON TABLA Y DATOS DE LOS PROYECTOS
 */
 function Proyectos(){
 	$.cookie('vista', 'proyectos');
@@ -11,7 +12,7 @@ function Proyectos(){
 	if($("#menu2").is(":visible")){
 		Menu2();
 	}
-	
+
 	if($("#menu").is(":visible")){
 		ActivaMenu();
 	}
@@ -45,7 +46,7 @@ function ProyectosMenu(id){
 	
 	if(!$("#menu").is(":visible")){
 		ActivaMenu();
-		console.log('carga');
+		
 		var queryParams = {"func" : "Proyectos"};
 
 		//AJAX lineal
@@ -57,7 +58,9 @@ function ProyectosMenu(id){
 			},
 			success: function(response){
 				$("#menu").html(response);
-				$("#EliminarProyecto, #EditarProyecto, #DuplicarProyecto").hide();
+				console.log(id);
+				//$("#EliminarProyecto, #EditarProyecto, #DuplicarProyecto").hide();
+				
 				SelectProyecto(id);
 			},
 			fail: function(){
@@ -67,7 +70,7 @@ function ProyectosMenu(id){
 }
 
 /**
- * CARGA LOS PROYECTOS DE MANAERA LINEAL 
+ * CARGA LOS PROYECTOS DE MANAERA LINEAL EN MENU
  * @param id -> id del proyecto
  * @return true al terminar
  */
@@ -107,14 +110,16 @@ function ProyectosMenuLineal(id){
 * SELECCIONA UN PROYECTO
 */
 function SelectProyecto(id){
-	$("#proyectos li, #proyectos tr").removeClass("seleccionada");
-	$("#"+id).addClass("seleccionada");
+	if(0 <= id && id != "" && id != undefined){
+		$("#proyectos li, #proyectos tr").removeClass("seleccionada");
+		$("#"+id).addClass("seleccionada");
 
-	if(!$("#EliminarProyecto, #EditarProyecto, #DuplicarProyecto").is(":visible")){
-		$("#EliminarProyecto, #EditarProyecto, #DuplicarProyecto").fadeIn();
+		if(!$("#EliminarProyecto, #EditarProyecto, #DuplicarProyecto").is(":visible")){
+			$("#EliminarProyecto, #EditarProyecto, #DuplicarProyecto").fadeIn();
+		}
+
+		ContextMenuProyecto(id);
 	}
-
-	ContextMenuProyecto(id);
 }
 
 /**
@@ -133,7 +138,9 @@ function ContextMenuProyecto(id){
             "editar": {name: "Editar", icon: "edit"},
             "eliminar": {name: "Eliminar", icon: "delete"},
             "sep1": "---------",
+            "componer": {name: "Componer Proyecto", icon: "edit"},
             "duplicar": {name: "Duplicar Proyecto", icon: "edit"},
+            "sep2": "---------",
             "fold1a": {
                 "name": "Exportar", 
                 "icon": "exportar",
@@ -142,7 +149,7 @@ function ContextMenuProyecto(id){
 	                    "exportar-pdf": {"name": "PDF", "icon": "pdf"},
 	                }
             	},
-            	"fold2a": {
+            "fold2a": {
                 "name": "Enviar", 
                 "icon": "compartir",
 	                "items": {
@@ -174,6 +181,10 @@ function MenuProyecto(m){
 		EditarProyecto();
 	}else if(m == "clicked: duplicar"){
 		DuplicarProyecto();
+	}else if(m == "clicked: componer"){
+		//cambia a la vista de composicion del proyecto
+		var id = $("#proyectos .seleccionada").attr("id");
+		Componer(id);
 	}
 }
 
@@ -194,7 +205,6 @@ function NuevoProyecto(){
 		success: function(response){
 			$("#content").html(response);
 			FormularioNuevoProyecto();
-			//SelectorMultipleFiltro();
 		},
 		fail: function(){
 		}
@@ -220,7 +230,6 @@ function FormularioNuevoProyecto(){
 
 	    		Proyectos();
 
-				//LimpiarContent();
 			}else{
 				$("#content").html(response);
 			}
@@ -252,7 +261,8 @@ function EditarProyecto(){
 		success: function(response){
 			$("#content").html(response);
 			FormularioEditarProyecto();
-			//SelectorMultipleFiltro();
+			
+			SelectProyecto(id);
 		},
 		fail: function(){
 		}
@@ -275,9 +285,11 @@ function EditarProyectoDuplicado(id){
 		},
 		success: function(response){
 			$("#content").html(response);
+			
 			FormularioEditarProyecto();
 			
 			$("#content .titulo").html("Edición Proyecto Duplicado<hr/>");
+
 		},
 		fail: function(){
 		}
@@ -289,7 +301,7 @@ function EditarProyectoDuplicado(id){
 */
 function FormularioEditarProyecto(){
 	//validacion
-	$("#FormularioNuevoProyecto").validationEngine();
+	$("#FormularioEditarProyecto").validationEngine();
 		
 	var options = {  
 		beforeSend: function(){
@@ -301,20 +313,7 @@ function FormularioEditarProyecto(){
 	    	if(response.length <= 3){
 	    		notifica("Proyecto Actualizado.");
 
-	    		//actualiza nombre
-	    		var nombre = $("#nombre").val();
-	    		var proyecto = $("#proyecto").val();
-
-	    		if(nombre !== $("#"+proyecto).html() ){
-	    			$("#"+proyecto).fadeOut(500, function(){
-	    				$("#"+proyecto).html(nombre);
-	    				$("#"+proyecto).fadeIn();
-	    			});
-	    		}
-
 	    		Proyectos();
-
-				//LimpiarContent();
 			}else{
 				$("#content").html(response);
 			}
@@ -322,7 +321,7 @@ function FormularioEditarProyecto(){
 		fail: function(){
 		}
 	}; 
-	$('#FormularioNuevoProyecto').ajaxForm(options);
+	$('#FormularioEditarProyecto').ajaxForm(options);
 
 	Editor('descripcion');
 }

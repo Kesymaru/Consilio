@@ -14,7 +14,7 @@ class Proyectos{
 	*/
 	public function getProyectos(){
 		$base = new Database();
-		$query = "SELECT * FROM proyectos";
+		$query = "SELECT * FROM proyectos ORDER BY nombre";
 
 		$datos = $base->Select($query);
 
@@ -179,7 +179,7 @@ class Proyectos{
 	public function getProyectoDatos($id){
 		$base = new Database();
 		$query = "SELECT * FROM proyectos WHERE id = '".$id."'";
-		
+
 		$datos = $base->Select($query);
 
 		if(!empty($datos)){

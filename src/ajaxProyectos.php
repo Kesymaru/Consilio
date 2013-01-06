@@ -95,9 +95,9 @@ function Proyectos(){
 	}
 
 	$lista .= '<div class="datos-botones">
-				<button type="button" id="EliminarProyecto" title="Eliminar Proyecto Seleccionado" onClick="EliminarProyecto()">Eliminar</button>
-				<button type="button" id="EditarProyecto" title="Editar Proyecto Seleccionado" onClick="EditarProyecto()">Editar</button>
-				<button type="button" id="DuplicarProyecto" title="Duplicar Proyecto Seleccionado" onClick="DuplicarProyecto()">Duplicar</button>
+				<button type="button" id="EliminarProyecto" class="ocultos" title="Eliminar Proyecto Seleccionado" onClick="EliminarProyecto()">Eliminar</button>
+				<button type="button" id="EditarProyecto" class="ocultos" title="Editar Proyecto Seleccionado" onClick="EditarProyecto()">Editar</button>
+				<button type="button" id="DuplicarProyecto" class="ocultos" title="Duplicar Proyecto Seleccionado" onClick="DuplicarProyecto()">Duplicar</button>
 			   	<button type="button" id="NuevoProyecto" title="Crear Nuevo Proyecto" onClick="NuevoProyecto()">Nuevo Proyecto</button>
 			   </div>
 			   <!-- fin botonera -->
@@ -121,7 +121,7 @@ function ProyectosAvance(){
 			  		<button type="button" title="Buscar Proyectos" onClick="BuscarContent(\'buscar-Proyectos\')">Buscar</button>
 					<hr>
 					<div class="busqueda">
-						<input type="text" id="buscar-Proyectos" placeholder="Buscar"/>
+						<input type="text" title="Escriba Para Buscar Proyectos Por Nombre, Estado o Cliente" id="buscar-Proyectos" placeholder="Buscar"/>
 					</div>
 			  	</div>';
 
@@ -145,13 +145,19 @@ function ProyectosAvance(){
 		$lista .= '</table><!-- fin lista -->';
 
 	}else{
-		$lista .= "No hay proyectos";
+		$lista .= '<table class="table-list">
+					<tr>
+						<td>
+							No hay proyectos
+						</td>
+					</tr>
+				   </table>';
 	}
 
 	$lista .= '<div class="datos-botones">
-				<button type="button" id="EliminarProyecto" title="Eliminar Proyecto Seleccionado" onClick="EliminarProyecto()">Eliminar</button>
-				<button type="button" id="EditarProyecto" title="Editar Proyecto Seleccionado" onClick="EditarProyecto()">Editar</button>
-				<button type="button" id="DuplicarProyecto" title="Duplicar Proyecto Seleccionado" onClick="DuplicarProyecto()">Duplicar</button>
+				<button type="button" id="EliminarProyecto" class="ocultos" title="Eliminar Proyecto Seleccionado" onClick="EliminarProyecto()">Eliminar</button>
+				<button type="button" id="EditarProyecto" class="ocultos" title="Editar Proyecto Seleccionado" onClick="EditarProyecto()">Editar</button>
+				<button type="button" id="DuplicarProyecto" class="ocultos" title="Duplicar Proyecto Seleccionado" onClick="DuplicarProyecto()">Duplicar</button>
 			   	<button type="button" id="NuevoProyecto" title="Crear Nuevo Proyecto" onClick="NuevoProyecto()">Nuevo Proyecto</button>
 			   </div>
 			   <!-- fin botonera -->
@@ -257,7 +263,7 @@ function EditarProyecto($id){
 
 	if(!empty($datos)){
 		
-		$formulario .= '<form id="FormularioNuevoProyecto" enctype="multipart/form-data" method="post" action="src/ajaxProyectos.php" >
+		$formulario .= '<form id="FormularioEditarProyecto" enctype="multipart/form-data" method="post" action="src/ajaxProyectos.php" >
 					<div class="proyectos">
 						<div class="titulo">
 							Edición Proyecto

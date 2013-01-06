@@ -880,3 +880,25 @@ function PreviewImage(input, imagen) {
 		reader.readAsDataURL(input.files[0]);
 	}
 }
+
+/**
+ * TOOGLES CON ESTILO PARA CHECKBOXS
+ * @param estado -> estado true -> activo, false -> inactivo
+ * @param activo -> texto para activo
+ * @param inactivo -> texto para inactivo
+ * @param check -> id del checkbox a seleccionar
+ */
+function Toggle(estado,activo, inactivo, check){
+	notifica(estado+" "+activo+" "+inactivo+" "+check);
+	$('.toggle').toggles({
+		ontext:activo,
+		offtext:inactivo,
+		//checkbox:$('#'+check)
+	},
+	{
+		checkbox:$('#'+check)
+	},
+	{
+		on:estado
+	});
+}

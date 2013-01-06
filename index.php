@@ -19,11 +19,12 @@ $master = new Master();
 
 	<link rel="shortcut icon" href="/favicon.ico"> 
 
+	<!-- style -->
 	<link rel="stylesheet" href="css/style.css" type="text/css">
 	<link rel="stylesheet" href="css/jquery-ui-1.9.0.custom.css" type="text/css">
 	<link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css">
 
-	<!-- plugins -->
+	<!-- style plugins -->
 	<link rel="stylesheet" type="text/css" href="css/jquery.contextMenu.css">
 	<link rel="stylesheet" type="text/css" href="css/jquery.ui.timepicker.css">
 	<link rel="stylesheet" type="text/css" href="css/selector/jquery.multiselect.css">
@@ -59,6 +60,7 @@ $master = new Master();
 	<script type="text/javascript" src="js/Edicion.js"></script>
 	<script type="text/javascript" src="js/Clientes.js"></script>
 	<script type="text/javascript" src="js/Proyectos.js"></script>
+	<script type="text/javascript" src="js/Componer.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 	<script type="text/javascript" src="js/style.js"></script>
 
