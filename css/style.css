@@ -266,6 +266,33 @@ html, body{
 }
 
 /**
+ * TABLAS
+ */
+.table-list{
+	width: 100%;
+	margin: 0 auto;
+	text-align: center;
+	font-size: 20px;
+}
+
+.table-list tr:first-child td{
+	background-color: rgba(117, 114, 115, .5);
+}
+
+.table-list tr{
+	cursor: pointer;
+	border-bottom: 1px solid rgba(117, 114, 115, .1);
+}
+
+.table-list tr:hover{
+	background-color: rgba(117, 114, 115, .3);
+}
+
+.table-list td{
+	padding: 5px;
+}
+
+/**
 * BOTONERAS
 */
 .datos-botones{
@@ -1485,6 +1512,14 @@ html, body{
 	background-attachment:fixed;
 	background-position:center; 
 	vertical-align: middle;
+}
+
+/**
+ * CUSTOM TOOLTIPS
+ */
+.custom-tooltip-image{
+	height: 120px;
+	border: none solid transparent;
 }
 
 /**

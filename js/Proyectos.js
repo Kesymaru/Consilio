@@ -11,14 +11,16 @@ function Proyectos(){
 	if($("#menu2").is(":visible")){
 		Menu2();
 	}
-
-	if(!$("#menu").is(":visible")){
+	
+	if($("#menu").is(":visible")){
 		ActivaMenu();
 	}
 
-	LimpiarContent();
+	if($("#menu").html() !== ''){
+		$("#menu").html("");
+	}
 
-	var queryParams = {"func" : "Proyectos"};
+	var queryParams = {"func" : "ProyectosAvance"};
 
 	$.ajax({
 		data: queryParams,
@@ -27,8 +29,8 @@ function Proyectos(){
 		beforeSend: function(){
 		},
 		success: function(response){
-			$("#menu").html(response);
-			$("#EliminarProyecto, #EditarProyecto").hide();
+			$("#content").html(response);
+			$("#EliminarProyecto, #EditarProyecto, #DuplicarProyecto").hide();
 		},
 		fail: function(){
 		}
@@ -36,14 +38,80 @@ function Proyectos(){
 }
 
 /**
+ * LISTA DE PROYECTOS EN MENU
+ * @param id -> id del proyecto seleccionado
+ */
+function ProyectosMenu(id){
+	
+	if(!$("#menu").is(":visible")){
+		ActivaMenu();
+		console.log('carga');
+		var queryParams = {"func" : "Proyectos"};
+
+		//AJAX lineal
+		$.ajax({
+			data: queryParams,
+			type: "post",
+			url: "src/ajaxProyectos.php",
+			beforeSend: function(){
+			},
+			success: function(response){
+				$("#menu").html(response);
+				$("#EliminarProyecto, #EditarProyecto, #DuplicarProyecto").hide();
+				SelectProyecto(id);
+			},
+			fail: function(){
+			}
+		});
+	}
+}
+
+/**
+ * CARGA LOS PROYECTOS DE MANAERA LINEAL 
+ * @param id -> id del proyecto
+ * @return true al terminar
+ */
+function ProyectosMenuLineal(id){
+	//limpia content sin efectos es lineal
+	if($("#content").html() != ''){
+		$("#content").html(""); 
+	}
+
+	if(!$("#menu").is(":visible")){
+		ActivaMenu();
+	}
+
+	var queryParams = {"func" : "Proyectos"};
+
+	//AJAX lineal
+	$.ajax({
+		data: queryParams,
+		async: false, 
+		type: "post",
+		url: "src/ajaxProyectos.php",
+		beforeSend: function(){
+		},
+		success: function(response){
+			$("#menu").html(response);
+			$("#EliminarProyecto, #EditarProyecto, #DuplicarProyecto").hide();
+			SelectProyecto(id);
+		},
+		fail: function(){
+		}
+	});
+
+	return true;
+}
+
+/**
 * SELECCIONA UN PROYECTO
 */
 function SelectProyecto(id){
-	$("#proyectos li").removeClass("seleccionada");
+	$("#proyectos li, #proyectos tr").removeClass("seleccionada");
 	$("#"+id).addClass("seleccionada");
 
-	if(!$("#EliminarProyecto, #EditarProyecto").is(":visible")){
-		$("#EliminarProyecto, #EditarProyecto").fadeIn();
+	if(!$("#EliminarProyecto, #EditarProyecto, #DuplicarProyecto").is(":visible")){
+		$("#EliminarProyecto, #EditarProyecto, #DuplicarProyecto").fadeIn();
 	}
 
 	ContextMenuProyecto(id);
@@ -104,6 +172,8 @@ function MenuProyecto(m){
 		EliminarProyecto();
 	}else if(m == "clicked: editar"){
 		EditarProyecto();
+	}else if(m == "clicked: duplicar"){
+		DuplicarProyecto();
 	}
 }
 
@@ -111,6 +181,8 @@ function MenuProyecto(m){
 * NUEVO PROYECTO
 */
 function NuevoProyecto(){
+	ProyectosMenu();
+
 	var queryParams = {"func" : "NuevoProyecto"};
 
 	$.ajax({
@@ -148,7 +220,7 @@ function FormularioNuevoProyecto(){
 
 	    		Proyectos();
 
-				LimpiarContent();
+				//LimpiarContent();
 			}else{
 				$("#content").html(response);
 			}
@@ -161,8 +233,13 @@ function FormularioNuevoProyecto(){
 	Editor('descripcion');
 }
 
+/**
+ * EDICION DE UN PROYECTO
+ */
 function EditarProyecto(){
 	var id = $("#proyectos .seleccionada").attr("id");
+
+	ProyectosMenu(id);
 
 	var queryParams = {"func" : "EditarProyecto", "id" : id};
 
@@ -176,6 +253,31 @@ function EditarProyecto(){
 			$("#content").html(response);
 			FormularioEditarProyecto();
 			//SelectorMultipleFiltro();
+		},
+		fail: function(){
+		}
+	});
+}
+
+/**
+ * EDICION DE UN PROYECTO RECIEN DUPLICADO
+ * @param id -> id del proyecto
+ */
+function EditarProyectoDuplicado(id){
+
+	var queryParams = {"func" : "EditarProyecto", "id" : id};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxProyectos.php",
+		beforeSend: function(){
+		},
+		success: function(response){
+			$("#content").html(response);
+			FormularioEditarProyecto();
+			
+			$("#content .titulo").html("Edición Proyecto Duplicado<hr/>");
 		},
 		fail: function(){
 		}
@@ -212,7 +314,7 @@ function FormularioEditarProyecto(){
 
 	    		Proyectos();
 
-				LimpiarContent();
+				//LimpiarContent();
 			}else{
 				$("#content").html(response);
 			}
@@ -255,11 +357,91 @@ function DelteProyecto(){
 		beforeSend: function(){
 		},
 		success: function(response){
-			$("#content").html(response);
-			FormularioEditarProyecto();
-			//SelectorMultipleFiltro();
+			notifica("Proyecto Eliminado.");
+			$("#"+id).fadeOut(700, function(){
+				$("#"+id).remove();
+			});
 		},
 		fail: function(){
+			notificaError("Error: Proyectos.js DelteProyecto()");
 		}
 	});
+}
+
+/**
+ * CONFIRMACION DE CUPLICAR EL PROYECTO
+ */
+function DuplicarProyecto(){
+	var si = function (){
+		AccionDuplicarProyecto();
+	}
+
+	var no = function (){
+		notificaAtencion("Operacion cancelada");
+	}
+
+	Confirmacion("Desea Duplicar el Proyecto y todos sus datos.", si, no);
+}
+
+/**
+ * DUPLICAR PROYECTO
+ */
+function AccionDuplicarProyecto(){
+	var id = $("#proyectos .seleccionada").attr("id");
+
+	var queryParams = {"func" : "DuplicarProyecto", "id" : id};
+
+	var nuevo = '';
+
+	$.ajax({
+		data: queryParams,
+		async: false,
+		type: "post",
+		url: "src/ajaxProyectos.php",
+		beforeSend: function(){
+			 Loading();
+		},
+		success: function(response){
+			//devuelve el id del nuevo proyecto duplicado
+			if($.isNumeric(response)){
+				notifica("Proyecto Duplicado.");
+
+				nuevo = response;
+				nuevo = parseInt(response);
+
+				if(ProyectosMenuLineal(nuevo)){ //termino
+					LoadingClose();
+					EditarProyectoDuplicado(nuevo);
+				}
+				
+			}else{
+				$("content").html(response);
+			}
+		},
+		fail: function(){
+			LoadingClose();
+			$("#content").html("Error: Proyectos.js AccionDuplicarProyecto() AJAX fail.")
+		}
+	});
+}
+
+/******************** HELPERS ******************/
+/**
+ * LIMPIA EL CONTENIDO DE UNA VISTA QUE SEA AVANZADA
+ */
+function CancelarProyecto(){
+	notificaAtencion("Operacion Cancelada.");
+
+	//elimina el submit en un form
+	$("form").submit(function(e){
+		e.preventDefault();
+		return false;
+	});
+
+	if($("#menu").is(":visible")){
+		ActivaMenu();
+		$("#menu").html("");
+	}
+
+	Proyectos();
 }

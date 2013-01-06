@@ -1,71 +1,36 @@
+<!DOCTYPE html>
 <html>
 <head>
-	<title>Escala</title>
-	
-	<meta charset="utf-8">
-	<link rel="shortcut icon" href="/favicon.ico"> 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script>
+function readURL(input) {
+if (input.files && input.files[0]) {
+var reader = new FileReader();
 
-	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/redmond/jquery-ui.css" />
-	
-	<link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css">
+reader.onload = function (e) {
+$('#img_prev')
+.attr('src', e.target.result)
+.width(150)
+.height(200);
+};
 
-	<!-- plugins -->
-
-
-	<link rel="stylesheet" type="text/css" href="css/selector/jquery.multiselect.css">
-	<link rel="stylesheet" type="text/css" href="css/selector/jquery.multiselect.filter.css">
-
-
-	<!-- jquery local 
-	<script type="text/javascript" src="js/jquery-1.8.2.js"></script>
-	<script type="text/javascript" src="js/jquery-ui-1.9.0.custom.js"></script>
-	-->
-
-	<!-- jquery local -->
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-	<!-- <script type="text/javascript" src="js/jquery-ui-1.9.0.custom.js"></script> -->
-	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
-	
-	<!-- plugin para selector -->
-	<script type="text/javascript" src="js/selector/jquery.multiselect.js"></script>
-	<script type="text/javascript" src="js/selector/jquery.multiselect.filter.js"></script>
-	<script type="text/javascript" src="prettify.js"></script>
-<!--	<script type="text/javascript" src="js/jquery.ui.timepicker.js"></script> -->
-	
-	<script type="text/javascript">
-	function SelectorFiltro(){
-	$("select").multiselect().multiselectfilter({
-		//filtro
-	    filter: function(event, matches){
-	        if( !matches.length ){
-	            notificaAtencion("Deve seleccionar almenos una.");
-	        }else{
-	        	//selecciono
-	        	notifica(matches);
-	        }
-	    }
-	});
+reader.readAsDataURL(input.files[0]);
 }
-	</script>
+}
+</script>
+
+<meta charset=utf-8 />
+<title>JS Bin</title>
+<!--[if IE]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<style>
+article, aside, figure, footer, header, hgroup,
+menu, nav, section { display: block; }
+</style>
 </head>
 <body>
-
-<select id="test" multiple="multiple" style="width:370px">
-		<optgroup label="test">
-			<option value="red">Red</option>
-			<option value="green">Green</option>
-			<option value="blue">Blue</option>
-		</optgroup>
-		<optgroup label="foo">
-			<option value="orange">Orange</option>
-			<option value="purple">Purple</option>
-			<option value="yellow">Yellow</option>
-			<option value="brown">Brown</option>
-			<option value="black">Black</option>
-		</optgroup>
-</select>
-<script type="text/javascript">
-	SelectorFiltro();
-</script>
+<input type='file' onchange="readURL(this);" />
+<img id="img_prev" src="#" alt="your image" />
 </body>
 </html>

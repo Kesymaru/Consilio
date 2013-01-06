@@ -179,11 +179,63 @@ class Proyectos{
 	public function getProyectoDatos($id){
 		$base = new Database();
 		$query = "SELECT * FROM proyectos WHERE id = '".$id."'";
-
+		
 		$datos = $base->Select($query);
 
 		if(!empty($datos)){
 			 return $datos;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	 * DUPLICA UN PROYECTO
+	 * @param $id -> id del proyecto a duplicar
+	 * @return id del nuevo proyecto
+	 * @return false si falla
+	 */
+	public function DuplicarProyecto($id){
+		$base = new Database();
+
+		$query = "SELECT * FROM proyectos WHERE id = ".$id;
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			//duplica la imagen
+			$imagen = $this->DuplicarImagen($datos[0]['imagen']);
+
+			$query = "INSERT INTO proyectos (nombre, descripcion, cliente, imagen, status) VALUES ";
+			$query .= "('".$datos[0]['nombre']."', '".$datos[0]['descripcion']."', '".$datos[0]['cliente']."', '".$imagen."', '".$datos[0]['status']."' )";
+			
+			if($nuevo = $base->Insert($query)){
+				//todo duplicar registros
+				//$registros = new Registros();
+				//$registros->DuplicarRegistros();
+				return $base->getUltimoId();
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	 * DUPLICA LA IMAGEN DE UN PROYECTO
+	 * @param $link -> link de la imagen a copiar
+	 * @return $destino -> link de la imagen copiada
+	 * @return false si falla
+	 */
+	private function DuplicarImagen($link){
+		$link = "../".$link;
+		
+		$destino = basename($link);
+		$destino = "images/proyectos/".rand().$destino;
+
+		if(copy($link, "../".$destino)){
+			return $destino;
 		}else{
 			return false;
 		}
