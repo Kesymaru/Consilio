@@ -59,8 +59,8 @@ $master = new Master();
 	<!-- matriz -->
 	<script type="text/javascript" src="js/Edicion.js"></script>
 	<script type="text/javascript" src="js/Clientes.js"></script>
-	<script type="text/javascript" src="js/Proyectos.js"></script>
 	<script type="text/javascript" src="js/Componer.js"></script>
+	<script type="text/javascript" src="js/Proyectos.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 	<script type="text/javascript" src="js/style.js"></script>
 

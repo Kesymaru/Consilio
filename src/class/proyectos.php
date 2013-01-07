@@ -44,7 +44,20 @@ class Proyectos{
 		$query .= " VALUES ('".$nombre."', '".$cliente."', '".$descripcion."', '".$imagen."', '".$estado."')";
 
 		if($base->Insert($query)){
-			return true;
+			$proyecto = $base->getUltimoId();
+			$query = "SELECT * FROM proyectos WHERE id = ".$proyecto;
+			
+			$datos = $base->Select($query);
+
+			$registro = new Registros();
+
+			//crea registros para el nuevo proyecto
+			if($registro->NewRegistro($proyecto, "", $datos[0]['fecha'])){
+				return true;
+			}else{
+				return false;
+			}
+			
 		}else{
 			return false;
 		}

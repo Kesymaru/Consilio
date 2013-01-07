@@ -10,46 +10,71 @@ require_once("session.php");
 class Registros{
 	private $registros = array(); //array[][][][];
 
-	/**
-	* OBTIENE TODOS LOS REGISTROS DE UN PROYECTO Y LOS COMPONE EN UN SOLO ARRAY
-	* COMPONE CATEGORIAS, DATOS, OBSERVACION Y ARCHIVOS ADJUNTOS
-	* @param $proyecto -> id del proyecto 	
-	*/
-	public function getRegistros($proyecto){
+	public function __construct(){
 		//SEGURIDAD LOGUEADO
 		$session = new Session();
 		$session->Logueado();
+	}
+
+
+	/**
+	* OBTIEN LOS REGISTROS DE UN PROYECTO 
+	* @param $proyecto -> id del proyecto 
+	* @return $datos -> array[][] con los datos
+	* @return false -> fallo
+	*/
+	public function getRegistros($proyecto){
 
 		$base = new Database();
-		$consulta = $base->Select("SELECT * FROM registros WHERE proyecto = ".$proyecto);
 
-		if(!empty($consulta)){
-			
-			//COMPONE TODOS LOS REGISTROS DE UN PROYECTO
-			foreach ($consulta as $fila => $valors) {
-				$this->registros[$fila]['categoria'] = $this->getNorma($consulta[$fila]['categoria']);
-				
-				$this->registros[$fila]['datos'] = $this->getDatosNorma($consulta[$fila]['categoria']);
+		$query = "SELECT * FROM registros WHERE proyecto = ".$proyecto;
+		$datos = $base->Select($query);
 
-				$this->registros[$fila]['observacion'] = $this->getObservacion($consulta[$fila]['observacion']);
-				
-				$this->registros[$fila]['archivos'] = $this->getArchivos($proyecto, $consulta[$fila]['categoria']);
-			}
-
-			return $this->registros;
+		if(!empty($datos)){
+			return $datos;
 		}else{
-			//NO HAY DATOS PARA EL PROYECTO
 			return false;
 		}
 	}
 
 	/**
-	* HELPER
-	*/
-	public function MostrarArray(){
-		echo '<pre>';
-		print_r($this->registros);
-		echo '</pre>';
+	 * CREA NUEVO REGISTRO
+	 * @param $proyecto -> id del proyecto
+	 * @param $registro -> array[] con los ids de los registros sin serializar
+	 * @param $fecha -> fecha de creacion del proyecto
+	 */
+	public function NewRegistro($proyecto, $registro, $fecha){
+		$base = new Database();
+
+		$registro = serialize($registro);
+
+		$query = "INSERT INTO registros (proyecto, registro, fecha) VALUES";
+		$query .= " ('".$proyecto."', '".$registro."', '".$fecha."')";
+
+		if($base->Insert($query)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	 * ACTUALIZA UN REGISTRO
+	 * @param $id _> id del registro
+	 * @param $registro -> array[] con los registros sin serializar
+	 */
+	function UpdateRegistro($id, $registro){
+		$base = new Database();
+
+		$registro = serialize($registro);
+
+		$query = "UPDATE registros SET registro = '".$registro."' WHERE id = '".$id."'";
+
+		if($base->Update($query)){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 /************** OBSERVACIONES DE UNA CATEGORIA EN UN PROYECTO **************/
