@@ -13,6 +13,11 @@ if(isset($_POST['func'])){
 	switch ($_POST['func']){
 
 		//LISTA PROYECTOS
+		case 'ProyectosAvance':
+			ProyectosAvance();
+			break;
+
+		//LISTA PROYECTOS
 		case 'Proyectos':
 			Proyectos();
 			break;
@@ -41,10 +46,23 @@ if(isset($_POST['func'])){
 			}
 			break;
 
+<<<<<<< HEAD
 		//ELIMINA PROYECTO
 		case 'EliminarProyecto':
 			if(isset($_POST['id'])){
 				EliminarProyecto($_POST['id']);
+=======
+		//ELIMINAR UN PROYECTO
+		case 'EliminarProyecto':
+			if(isset($_POST['id'])){
+				//EliminarProyecto($_POST['id']);
+			}
+			break;
+
+		case 'DuplicarProyecto':
+			if(isset($_POST['id'])){
+				DuplicarProyecto($_POST['id']);
+>>>>>>> eef2587cd701bb14c739d5e592a04ba7e771e355
 			}
 			break;
 	}
@@ -89,14 +107,95 @@ function Proyectos(){
 	}
 
 	$lista .= '<div class="datos-botones">
-				<button type="button" id="EliminarProyecto" title="Eliminar Proyecto Seleccionado" onClick="EliminarProyecto()">Eliminar</button>
-				<button type="button" id="EditarProyecto" title="Editar Proyecto Seleccionado" onClick="EditarProyecto()">Editar</button>
+				<button type="button" id="EliminarProyecto" class="ocultos" title="Eliminar Proyecto Seleccionado" onClick="EliminarProyecto()">Eliminar</button>
+				<button type="button" id="EditarProyecto" class="ocultos" title="Editar Proyecto Seleccionado" onClick="EditarProyecto()">Editar</button>
+				<button type="button" id="DuplicarProyecto" class="ocultos" title="Duplicar Proyecto Seleccionado" onClick="DuplicarProyecto()">Duplicar</button>
 			   	<button type="button" id="NuevoProyecto" title="Crear Nuevo Proyecto" onClick="NuevoProyecto()">Nuevo Proyecto</button>
 			   </div>
 			   <!-- fin botonera -->
 			   </div>';
 
 	echo $lista;
+}
+
+/**
+* MUESTRA LISTA DE PROYECTOS AVANZADA
+*/
+function ProyectosAvance(){
+	$proyectos = new Proyectos();
+	$datos = $proyectos->getProyectos();
+
+	$lista = '';
+
+	$lista = '<div id="proyectos" class="tipos">
+				<div class="titulo">
+					Proyectos
+			  		<button type="button" title="Buscar Proyectos" onClick="BuscarContent(\'buscar-Proyectos\')">Buscar</button>
+					<hr>
+					<div class="busqueda">
+						<input type="text" title="Escriba Para Buscar Proyectos Por Nombre, Estado o Cliente" id="buscar-Proyectos" placeholder="Buscar"/>
+					</div>
+			  	</div>';
+
+	if(!empty($datos)){
+
+		$lista .= '<table class="table-list">
+					<tr>
+						<td>Nombre</td>
+						<td>Cliente</td>
+						<td>Estado</td>
+					</tr>';
+		
+		foreach ($datos as $fila => $proyecto) {
+			$lista .= '<tr id="'.$proyecto['id'].'" class="custom-tooltip" title="'.$proyecto['imagen'].'" onClick="SelectProyecto('.$proyecto['id'].')">
+			              <td>'.$proyecto['nombre'].'</td>
+					      <td>'.Cliente($proyecto['cliente']).'</td>
+					      <td>'.Estado($proyecto['status']).'</td>
+					   </tr>';
+		}
+
+		$lista .= '</table><!-- fin lista -->';
+
+	}else{
+		$lista .= '<table class="table-list">
+					<tr>
+						<td>
+							No hay proyectos
+						</td>
+					</tr>
+				   </table>';
+	}
+
+	$lista .= '<div class="datos-botones">
+				<button type="button" id="EliminarProyecto" class="ocultos" title="Eliminar Proyecto Seleccionado" onClick="EliminarProyecto()">Eliminar</button>
+				<button type="button" id="EditarProyecto" class="ocultos" title="Editar Proyecto Seleccionado" onClick="EditarProyecto()">Editar</button>
+				<button type="button" id="DuplicarProyecto" class="ocultos" title="Duplicar Proyecto Seleccionado" onClick="DuplicarProyecto()">Duplicar</button>
+			   	<button type="button" id="NuevoProyecto" title="Crear Nuevo Proyecto" onClick="NuevoProyecto()">Nuevo Proyecto</button>
+			   </div>
+			   <!-- fin botonera -->
+			   </div>';
+
+	echo $lista;
+}
+
+/**
+ * OBTIENE EL NOMBRE DEL CLIENTE
+ * @param $id -> id del cliente
+ */
+function Cliente($id){
+	$clientes = new Cliente();
+	return $clientes->getClienteDato("nombre", $id);
+}
+
+/**
+ * DEVUELVE EL ESTADO
+ */
+function Estado($estado){
+	if($estado == 1){
+		return "Activo";
+	}else{
+		return "Inactivo";
+	}
 }
 
 /**
@@ -124,9 +223,13 @@ function NuevoProyecto(){
 					  				<input type="text" name="nombre" title="Nombre Para Nuevo Proyecto" placeholder="Nombre" class="validate[required]" />
 					  			</td>
 					  			<td rowspan="3" class="td-user-image">
+<<<<<<< HEAD
 					  				<img src="images/es.png" />
+=======
+					  				<img id="image-preview" title="Imagen Para Nuevo Proyecto" src="images/es.png" />
+>>>>>>> eef2587cd701bb14c739d5e592a04ba7e771e355
 					  				<br/>
-					  				<input type="file" name="imagen" id="imagen" class="validate[optional]" />
+					  				<input type="file" name="imagen" id="imagen" class="validate[optional]" onchange="PreviewImage(this,\'image-preview\')"/>
 					  			</td>
 					  		</tr>
 					  		<tr>
@@ -140,9 +243,16 @@ function NuevoProyecto(){
 					  		</tr>
 					  		<tr>
 					  			<td>
+<<<<<<< HEAD
 					  			</td>
 					  			<td>
 					  				<select name="estado" />
+=======
+					  				Estado
+					  			</td>
+					  			<td>
+					  				<select name="estado">
+>>>>>>> eef2587cd701bb14c739d5e592a04ba7e771e355
 					  					<option value="1" selected>Activo</option>
 					  					<option value="0">Inactivo</option>
 					  				</select>
@@ -153,9 +263,9 @@ function NuevoProyecto(){
 					  		<textarea name="descripcion" id="descripcion"></textarea>
 					  	</div>
 					  	<div class="datos-botones">
-					  		<button type="button" title="Cancelar Edición" onClick="CancelarContent()">Cancelar</button>
+					  		<button type="button" title="Cancelar Edición" onClick="CancelarProyecto()">Cancelar</button>
 							<input type="reset" title="Limpiar Edición" value="Limpiar" />
-							<input type="submit" title="Guardar Edición" value="Guardar" />
+							<input type="submit" title="Guardar Edición" value="Guardar" onClick="EditorUpdateContent()" />
 						</div>
 					</form>';
 
@@ -175,7 +285,7 @@ function EditarProyecto($id){
 
 	if(!empty($datos)){
 		
-		$formulario .= '<form id="FormularioNuevoProyecto" enctype="multipart/form-data" method="post" action="src/ajaxProyectos.php" >
+		$formulario .= '<form id="FormularioEditarProyecto" enctype="multipart/form-data" method="post" action="src/ajaxProyectos.php" >
 					<div class="proyectos">
 						<div class="titulo">
 							Edición Proyecto
@@ -193,9 +303,13 @@ function EditarProyecto($id){
 					  				<input type="text" name="nombre" title="Nombre Para Nuevo Proyecto" placeholder="Nombre" class="validate[required]" value="'.$datos[0]['nombre'].'" />
 					  			</td>
 					  			<td rowspan="3" class="td-user-image">
+<<<<<<< HEAD
 					  				<img src="'.$datos[0]['imagen'].'" />
+=======
+					  				<img id="image-preview" title="Imagen Para El Proyecto" src="'.$datos[0]['imagen'].'" />
+>>>>>>> eef2587cd701bb14c739d5e592a04ba7e771e355
 					  				<br/>
-					  				<input type="file" name="imagen" id="imagen" class="validate[optional]" />
+					  				<input type="file" name="imagen" id="imagen" class="validate[optional]" onchange="PreviewImage(this,\'image-preview\')" />
 					  			</td>
 					  		</tr>
 					  		<tr>
@@ -212,6 +326,7 @@ function EditarProyecto($id){
 					  				Estado
 					  			</td>
 					  			<td>
+<<<<<<< HEAD
 					  				<select name="estado" >';
 
 		if($datos[0]['status'] == 0){
@@ -220,6 +335,16 @@ function EditarProyecto($id){
 		}else{
 			$formulario .= '<option value="1" selected>Activo</option>
 					  		<option value="0">Inactivo</option>';
+=======
+					  				<select name="estado">';
+		
+		if($datos[0]['status'] == 1){
+			$formulario .= '<option value="1" selected>Activo</option>
+					  		<option value="0">Inactivo</option>';
+		}else{
+			$formulario .= '<option value="1">Activo</option>
+					  		<option value="0" selected>Inactivo</option>';
+>>>>>>> eef2587cd701bb14c739d5e592a04ba7e771e355
 		}
 
 		$formulario .= '
@@ -233,14 +358,15 @@ function EditarProyecto($id){
 		$formulario .= base64_decode($datos[0]['descripcion']).'</textarea>
 					  	</div>
 					  	<div class="datos-botones">
-					  		<button type="button" title="Cancelar Edición" onClick="CancelarContent()">Cancelar</button>
+					  		<button type="button" title="Cancelar Edición" onClick="CancelarProyecto()">Cancelar</button>
 							<input type="reset" title="Limpiar Edición" value="Limpiar" />
-							<input type="submit" title="Guardar Edición" value="Guardar" />
+							<input type="submit" title="Guardar Edición" value="Guardar" onClick="EditorUpdateContent()" />
 						</div>
 					</form>';
 
 	}else{
-		$formulario .= "Error: no hay informacion sobre el proyecto.";
+		$formulario .= "Error: no hay informacion sobre el proyecto.<br/>";
+		$formulario .= "Los datos del proyecto id = ".$id." no pudieron ser encontrados.";
 	}
 
 	echo $formulario;
@@ -307,12 +433,16 @@ function RegistrarProyecto(){
 
 	if(isset($_POST['nombre']) && isset($_POST['cliente']) ){
 
-		$imagen = "";
+		$imagen = "images/es.png";
 		$descripcion = "";
 
 		//imagen
 		if(isset($_FILES['imagen'])){
 			$imagen = $proyectos->UploadImagen($_FILES['imagen']);
+<<<<<<< HEAD
+=======
+			echo $imagen;
+>>>>>>> eef2587cd701bb14c739d5e592a04ba7e771e355
 		}
 
 		if(isset($_POST['descripcion'])){
@@ -340,9 +470,9 @@ function ActualizarProyecto($id){
 		$imagen = "";
 		$descripcion = "";
 
-		//imagen
+		//sube imagen si tiene
 		if(isset($_FILES['imagen'])){
-			$imagen = $_FILES['imagen'];
+			$imagen = $proyectos->UploadImagen($_FILES['imagen']);
 		}
 
 		if(isset($_POST['descripcion'])){
@@ -350,11 +480,41 @@ function ActualizarProyecto($id){
 		}
 
 		if( !$proyectos->UpdateProyecto($id, $_POST['nombre'], $_POST['cliente'], $descripcion, $imagen, $_POST['estado']) ){
+<<<<<<< HEAD
 			echo "ERROR: no se pudo actualizar el proyecto, ajaxProyectos.php ActualizarProyecto(".$id.") linea 312";
+=======
+			echo "<br/>ERROR: no se pudo actualizar el proyecto, ajaxProyectos.php ActualizarProyecto(".$id.") linea 349";
+>>>>>>> eef2587cd701bb14c739d5e592a04ba7e771e355
 		}
 
 	}else{
-		echo "ERROR: faltan parametros requeridos para actualizar proyecto.";
+		echo "<br/>ERROR: faltan parametros requeridos para actualizar proyecto.";
+	}
+}
+
+/**
+ * ELIMINA UN PROYECTO
+ * @param $id -> id del proyecto
+ */
+function EliminarProyecto($id){
+	$proyecto = new Proyectos();
+
+	if(!$proyecto->DeleteProyecto($id)){
+		echo "<br/>Error: no se podo eliminar el proyecto.";
+	}
+}
+
+/**
+ * DUPLICA UN PROYECTO
+ * @param $id -> id del proyecto a duplicar
+ */
+function DuplicarProyecto($id){
+	$proyectos = new Proyectos();
+
+	if($nuevo = $proyectos->DuplicarProyecto($id)){
+		echo $nuevo;
+	}else{
+		echo "<br/>Error: No se pudo duplicar el proyecto, ajaxProyectos.php DuplicarProyecto()";
 	}
 }
 

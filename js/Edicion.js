@@ -3,6 +3,14 @@
 * EDICION DE CATEGORIAS
 */
 function EditarCategorias(){
+
+	if(!$("#menu").is(":visible")){
+		ActivaMenu();
+	}
+	if($("#content").html() != ""){
+		LimpiarContent();
+	}
+
 	if($('#normas').is(":visible")){
 		$('#normas').fadeOut(500, function(){
 			$('#normas').remove();
@@ -30,7 +38,6 @@ function EditarCategorias(){
 	}
 
 	$.cookie('accion', 'categorias');
-	ActivaMenu();
 	Padres();
 }
 
@@ -709,6 +716,13 @@ function EditarNormas(){
 * CARGA LAS NORMAS EN EL MENU
 */
 function Normas(){
+
+	if(!$("#menu").is(":visible")){
+		ActivaMenu();
+	}
+	if($("#content").html() != ""){
+		LimpiarContent();
+	}
 
 	var queryParams = {"func" : "Normas"};
 

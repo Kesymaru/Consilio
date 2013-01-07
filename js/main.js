@@ -13,8 +13,11 @@ $(document).ready(function(){
 	$(document).tooltip({
 		tooltipClass: "arrow",
 	  	position: {
-            my: "center top-70",
+            /*my: "center top-70",
             at: "center bottom",
+            collision: "flipfit"*/
+            my: "center bottom-2",
+            at: "center top",
             collision: "flipfit"
         },
         track: false,
@@ -27,7 +30,22 @@ $(document).ready(function(){
 	    	setTimeout(function(){
 	      		$(ui.tooltip).hide('clip');
 	   		}, 2000);
-	  	}
+	  	},
+	  	items: "img, [data-geo], [title]",
+            content: function() {
+                var element = $( this );
+                if ( element.hasClass( "custom-tooltip" ) ) {
+                    var imagen = element.attr( "title" );
+                    var text = element.text();
+                    return '<img class="custom-tooltip-image" alt="'+text+'" src="'+imagen+'" />';
+                }
+                if ( element.is( "[title]" ) ) {
+                    return element.attr( "title" );
+                }
+                if ( element.is( "img" ) ) {
+                    return element.attr( "title" );
+                }
+            }
 	});
 
 	$('.dropMenu button').button();
@@ -570,7 +588,7 @@ function Editor(id){
 }
 
 /*
-* ACTUALIZA LOS CAMBIOS ECHOS EN EL EDITOR
+* ACTUALIZA LOS CAMBIOS ECHOS EN EL EDITOR!
 */
 function EditorUpdateContent() {
     for (instance in CKEDITOR.instances) {
@@ -603,7 +621,11 @@ function Loading(){
   	$("#loader").css("display" , "block");
 }
 
-function LoadingClose(id){
+/**
+ * QUITA EL LOADER
+ * @return true cuando termina
+ */
+function LoadingClose(){
 	//$("#loader").css("display" , "none").delay(8000);
 	
 	$("#loader").animate({
@@ -736,7 +758,6 @@ function BuscarMenu(id){
 
 /**
 * FUNCION GENERICA PARA REALIZAR BUSQUEDAS EN EL MENU2
-* PARA BUSQUEDAS DE ARTICULOS
 */
 function BuscarMenu2(id){
 	if($("#"+id).is(":visible")){
@@ -749,6 +770,22 @@ function BuscarMenu2(id){
 	
 	//busqueda en vivo
 	BuscarMenu2Live(id);
+}
+
+/**
+* FUNCION GENERICA PARA REALIZAR BUSQUEDAS EN EL CONTENT
+*/
+function BuscarContent(id){
+	if($("#"+id).is(":visible")){
+		$("#"+id).slideUp();
+		$("#"+id).val("");
+		$("#menu2 li").fadeIn();
+	}else{
+		$("#"+id).slideDown();
+	}
+	
+	//busqueda en vivo
+	BuscarContentLive(id);
 }
 
 /**
@@ -797,4 +834,57 @@ function BuscarMenu2Live(input){
             }
         });
 	});
+}
+
+/**
+* BUSQUEDA EN VIVO MENU2
+*/
+function BuscarContentLive(input){
+	//actualiza al ir escribiendo
+	$("#"+input).keyup(function(){
+		var busqueda = $("#"+input).val(), count = 0;
+
+		//recorre opciones para buscar
+        $("#content li, #content tr").each(function(){
+ 
+            //esconde a los que no coinciden
+            if($(this).text().search(new RegExp(busqueda, "i")) < 0){
+                $(this).fadeOut();
+ 
+            //sino lo muestra
+            } else {
+                $(this).show();
+                count++;
+            }
+        });
+	});
+}
+
+/**
+ * PREVIEW IMAGEN 
+ * @param input -> id del input
+ * @param imagen -> id de la imagen donde se carga el preview
+ */
+function PreviewImage(input, imagen) {
+	if (input.files && input.files[0]) {
+		var reader = new FileReader();
+
+		reader.onload = function (e) {
+			$("#"+imagen).fadeOut(500, function(){
+				$('#'+imagen).attr('src', e.target.result);
+				$('#'+imagen).fadeIn();
+			});
+			
+		};
+
+		reader.readAsDataURL(input.files[0]);
+	}
+}
+
+/**
+ * AJAX BUSCAR CATEGORIAS
+ */
+function BuscarCategorias(){
+	var queryParams = {"func" : "BuscarCategorias"};
+	
 }

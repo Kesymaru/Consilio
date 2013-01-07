@@ -200,11 +200,10 @@ class Master{
 	* MENU DE EDICIONs
 	*/
 	public function MenuEdicion(){
-		echo '<li onClick="VistaEdicion(\'categorias\')">Categorias</li>';
-		echo '<li onClick="VistaEdicion(\'normas\')">Normas</li>';
-		echo '<li onClick="VistaEdicion(\'entidades\')">Entidades</li>';
-		echo '<li onClick="VistaEdicion(\'tipos\')">Tipos normas</li>';
-		//echo '<li></li>';
+		echo '<li onClick="EditarCategorias()">Categorias</li>';
+		echo '<li onClick="Normas()">Normas</li>';
+		echo '<li onClick="Entidades()">Entidades</li>';
+		echo '<li onClick="Tipos()">Tipos normas</li>';
 	}
 
 	/**

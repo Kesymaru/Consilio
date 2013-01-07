@@ -14,7 +14,7 @@ class Proyectos{
 	*/
 	public function getProyectos(){
 		$base = new Database();
-		$query = "SELECT * FROM proyectos";
+		$query = "SELECT * FROM proyectos ORDER BY nombre";
 
 		$datos = $base->Select($query);
 
@@ -30,6 +30,7 @@ class Proyectos{
 	* @param $nombre -> nombre del proyecto
 	* @param $descripcion -> descripcion del proyecto
 	* @param $imagen -> logo adjuntado al proyecto
+	* @param $estado -> estado del proyecto
 	* @return true si se guardo el nuevo proyecto correctamente
 	* @return false si fallo al guardase el nuevo proyecto
 	*/
@@ -38,12 +39,32 @@ class Proyectos{
 		
 		$nombre = mysql_real_escape_string($nombre);
 		$descripcion = base64_encode($descripcion);
+<<<<<<< HEAD
 
 		$query = "INSERT INTO proyectos (nombre, cliente, descripcion, imagen, status) ";
 		$query .= "VALUES ('".$nombre."', '".$cliente."', '".$descripcion."', '".$imagen."', '".$estado."')";
 		
+=======
+
+		$query = "INSERT INTO proyectos (nombre, cliente, descripcion, imagen, status)";
+		$query .= " VALUES ('".$nombre."', '".$cliente."', '".$descripcion."', '".$imagen."', '".$estado."')";
+
+>>>>>>> eef2587cd701bb14c739d5e592a04ba7e771e355
 		if($base->Insert($query)){
-			return true;
+			$proyecto = $base->getUltimoId();
+			$query = "SELECT * FROM proyectos WHERE id = ".$proyecto;
+			
+			$datos = $base->Select($query);
+
+			$registro = new Registros();
+
+			//crea registros para el nuevo proyecto
+			if($registro->NewRegistro($proyecto, "", $datos[0]['fecha'])){
+				return true;
+			}else{
+				return false;
+			}
+			
 		}else{
 			return false;
 		}
@@ -51,10 +72,15 @@ class Proyectos{
 
 	/**
 	* ACTUALIZA UN PROYECTO
+<<<<<<< HEAD
 	* @param $id -> id del proyecto
+=======
+	* @param $id -> id del proyecto ha actualizar
+>>>>>>> eef2587cd701bb14c739d5e592a04ba7e771e355
 	* @param $nombre -> nombre del proyecto
 	* @param $descripcion -> descripcion del proyecto
 	* @param $imagen -> logo adjuntado al proyecto
+	* @param $estado -> estado del proyecto
 	* @return true si se actualiza el proyecto correctamente
 	* @return false si fallo 
 	*/
@@ -64,6 +90,7 @@ class Proyectos{
 		$nombre = mysql_real_escape_string($nombre);
 		$descripcion = base64_encode($descripcion);
 
+<<<<<<< HEAD
 		if($imagen != ''){
 			if( $imagen = $this->UploadImagen($imagen) ){
 
@@ -80,6 +107,15 @@ class Proyectos{
 
 		$query = "UPDATE proyectos SET nombre = '".$nombre."', cliente = '".$cliente."', descripcion = '".$descripcion."', imagen = '".$imagen."', status = '".$estado."' WHERE id = ".$id;
 		
+=======
+		if($imagen != ''){ 
+			//actualiza imagen
+			$query = "UPDATE proyectos SET nombre = '".$nombre."', cliente = '".$cliente."', descripcion = '".$descripcion."', imagen = '".$imagen."', status = '".$estado."' WHERE id = ".$id;			
+		}else{
+			$query = "UPDATE proyectos SET nombre = '".$nombre."', cliente = '".$cliente."', descripcion = '".$descripcion."', status = '".$estado."' WHERE id = ".$id;
+		}
+
+>>>>>>> eef2587cd701bb14c739d5e592a04ba7e771e355
 		if($base->Update($query)){
 			return true;
 		}else{
@@ -141,7 +177,7 @@ class Proyectos{
 
 			$upload->SetValidExtensions(array('gif', 'jpg', 'jpeg', 'png')); 
 				        
-			$upload->SetUploadDirectory("../images/proyectos/"); //DIRECTORIO PARA IMAGENES DE LOS PROYECTOS
+			$upload->SetUploadDirectory("../images/proyectos/"); //DIRECTORIO PARA IMAGENES DE LOS USUARIOS
 
 			$upload->SetMaximumFileSize(90000000); //TAMANO MAXIMO PERMITIDO
 				        
@@ -197,6 +233,58 @@ class Proyectos{
 
 		if(!empty($datos)){
 			 return $datos;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	 * DUPLICA UN PROYECTO
+	 * @param $id -> id del proyecto a duplicar
+	 * @return id del nuevo proyecto
+	 * @return false si falla
+	 */
+	public function DuplicarProyecto($id){
+		$base = new Database();
+
+		$query = "SELECT * FROM proyectos WHERE id = ".$id;
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			//duplica la imagen
+			$imagen = $this->DuplicarImagen($datos[0]['imagen']);
+
+			$query = "INSERT INTO proyectos (nombre, descripcion, cliente, imagen, status) VALUES ";
+			$query .= "('".$datos[0]['nombre']."', '".$datos[0]['descripcion']."', '".$datos[0]['cliente']."', '".$imagen."', '".$datos[0]['status']."' )";
+			
+			if($nuevo = $base->Insert($query)){
+				//todo duplicar registros
+				//$registros = new Registros();
+				//$registros->DuplicarRegistros();
+				return $base->getUltimoId();
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	 * DUPLICA LA IMAGEN DE UN PROYECTO
+	 * @param $link -> link de la imagen a copiar
+	 * @return $destino -> link de la imagen copiada
+	 * @return false si falla
+	 */
+	private function DuplicarImagen($link){
+		$link = "../".$link;
+		
+		$destino = basename($link);
+		$destino = "images/proyectos/".rand().$destino;
+
+		if(copy($link, "../".$destino)){
+			return $destino;
 		}else{
 			return false;
 		}
