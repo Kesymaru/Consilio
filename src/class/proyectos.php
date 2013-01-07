@@ -39,17 +39,10 @@ class Proyectos{
 		
 		$nombre = mysql_real_escape_string($nombre);
 		$descripcion = base64_encode($descripcion);
-<<<<<<< HEAD
-
-		$query = "INSERT INTO proyectos (nombre, cliente, descripcion, imagen, status) ";
-		$query .= "VALUES ('".$nombre."', '".$cliente."', '".$descripcion."', '".$imagen."', '".$estado."')";
-		
-=======
 
 		$query = "INSERT INTO proyectos (nombre, cliente, descripcion, imagen, status)";
 		$query .= " VALUES ('".$nombre."', '".$cliente."', '".$descripcion."', '".$imagen."', '".$estado."')";
 
->>>>>>> eef2587cd701bb14c739d5e592a04ba7e771e355
 		if($base->Insert($query)){
 			$proyecto = $base->getUltimoId();
 			$query = "SELECT * FROM proyectos WHERE id = ".$proyecto;
@@ -72,11 +65,7 @@ class Proyectos{
 
 	/**
 	* ACTUALIZA UN PROYECTO
-<<<<<<< HEAD
-	* @param $id -> id del proyecto
-=======
 	* @param $id -> id del proyecto ha actualizar
->>>>>>> eef2587cd701bb14c739d5e592a04ba7e771e355
 	* @param $nombre -> nombre del proyecto
 	* @param $descripcion -> descripcion del proyecto
 	* @param $imagen -> logo adjuntado al proyecto
@@ -90,24 +79,6 @@ class Proyectos{
 		$nombre = mysql_real_escape_string($nombre);
 		$descripcion = base64_encode($descripcion);
 
-<<<<<<< HEAD
-		if($imagen != ''){
-			if( $imagen = $this->UploadImagen($imagen) ){
-
-				$query = "SELECT * FROM proyectos WHERE id = ".$id;
-				$imagenOld = $base->Select($query);
-				
-				$imagenOld = "../".$imagenOld[0]['imagen'];
-
-				if(!$base->DeleteImagen($imagenOld)){
-					echo 'Error: No se pudo eliminar la imagen antigua del proyecto.';
-				}
-			}
-		}
-
-		$query = "UPDATE proyectos SET nombre = '".$nombre."', cliente = '".$cliente."', descripcion = '".$descripcion."', imagen = '".$imagen."', status = '".$estado."' WHERE id = ".$id;
-		
-=======
 		if($imagen != ''){ 
 			//actualiza imagen
 			$query = "UPDATE proyectos SET nombre = '".$nombre."', cliente = '".$cliente."', descripcion = '".$descripcion."', imagen = '".$imagen."', status = '".$estado."' WHERE id = ".$id;			
@@ -115,7 +86,6 @@ class Proyectos{
 			$query = "UPDATE proyectos SET nombre = '".$nombre."', cliente = '".$cliente."', descripcion = '".$descripcion."', status = '".$estado."' WHERE id = ".$id;
 		}
 
->>>>>>> eef2587cd701bb14c739d5e592a04ba7e771e355
 		if($base->Update($query)){
 			return true;
 		}else{
@@ -204,19 +174,13 @@ class Proyectos{
 		$query = "DELETE FROM proyectos WHERE id = ".$id;
 
 		//BORRA LA IMAGEN DEL DIRECTORIO Y ELIMINA TODOS LOS REGISTROS DEL PROYECTO
-		/*if( $this->UpdateProyectoImagen("", $id) && $registros->DeleteRegistros($id) ){
+		if( $this->UpdateProyectoImagen("", $id) && $registros->DeleteRegistros($id) ){
 
 			if($base->Delete($query)){
 				return true;
 			}else{
 				return false;
 			}
-		}*/
-
-		if($base->Delete($query)){
-			return true;
-		}else{
-			return false;
 		}
 	}
 

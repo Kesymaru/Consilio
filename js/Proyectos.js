@@ -326,12 +326,6 @@ function FormularioEditarProyecto(){
 	Editor('descripcion');
 }
 
-<<<<<<< HEAD
-function EliminarProyecto(){
-	
-	var si = function (){
-		DeleteProyecto();
-=======
 /**
  * CONFIRMACION DE ELIMINAR PROYECTO
  */
@@ -379,44 +373,12 @@ function DelteProyecto(){
 function DuplicarProyecto(){
 	var si = function (){
 		AccionDuplicarProyecto();
->>>>>>> eef2587cd701bb14c739d5e592a04ba7e771e355
 	}
 
 	var no = function (){
 		notificaAtencion("Operacion cancelada");
 	}
 
-<<<<<<< HEAD
-	Confirmacion("Desea Eliminar el Proyecto<br/>Y toda su informacion asociada:", si, no);
-}
-
-function DeleteProyecto(){
-	var id = $("#proyectos .seleccionada").attr("id");
-
-	var queryParams = {"func" : "EliminarProyecto", "id" : id};
-
-	$.ajax({
-		data: queryParams,
-		type: "post",
-		url: "src/ajaxProyectos.php",
-		beforeSend: function(){
-		},
-		success: function(response){
-			if(response.length <= 3){
-				notifica("Proyecto Eliminado.");
-				
-				$("#"+id).fadeOut(700, function(){
-					$("#"+id).remove();
-				});
-			}else{
-				notificaError("Error: erro al borrar proyecto.");
-				$("#content").html(response);
-			}
-		},
-		fail: function(){
-		}
-	});
-=======
 	Confirmacion("Desea Duplicar el Proyecto y todos sus datos.", si, no);
 }
 
@@ -481,5 +443,4 @@ function CancelarProyecto(){
 	}
 
 	Proyectos();
->>>>>>> eef2587cd701bb14c739d5e592a04ba7e771e355
 }
