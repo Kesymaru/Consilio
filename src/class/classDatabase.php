@@ -26,8 +26,8 @@ class Database{
 		//verificar configuracion
 			
 		//Conectar 
-		$this->conect();
-					
+		$this->conect();		
+
 		if($this->dbDatabase != ""){
 			$this->setBase();
 			mysql_query("SET NAMES 'utf8'");
@@ -40,7 +40,7 @@ class Database{
 		//$this->dbLink= mysql_connect($this->dbHost, $this->dbUser, $this->dbPassword) or die ("1. No funciona por " . mysql_error()); 
 	}
 	//Seleccionar base	
-	private function setBase(){
+	public function setBase(){
 		mysql_select_db($this->dbDatabase) or die ("2. No funciona por " . mysql_error()); 
 	}
 		
@@ -195,12 +195,14 @@ class Database{
 	public function DeleteImagen($link){
 		
 		//no elimina las imagenes por defecto
-		if($link != 'images/es.png' && $link != '../../images/es.png'){
+		if($link != 'images/es.png' && $link != '../images/es.png'){
 			if(unlink($link)){
 				return true;
 			}else{
 				return false;
 			}
+		}else{
+			return true;
 		}
 	}
 

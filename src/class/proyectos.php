@@ -51,8 +51,10 @@ class Proyectos{
 
 			$registro = new Registros();
 
+			$reg = array('');
+			
 			//crea registros para el nuevo proyecto
-			if($registro->NewRegistro($proyecto, "", $datos[0]['fecha'])){
+			if($registro->NewRegistro($proyecto, $reg, $datos[0]['fecha'])){
 				return true;
 			}else{
 				return false;
@@ -170,13 +172,18 @@ class Proyectos{
 	*/
 	public function DeleteProyecto($id){
 		$registros = new Registros();
+		
 		$base = new Database();
-		$query = "DELETE FROM proyectos WHERE id = ".$id;
 
+		$imagen = $base->Select("SELECT * FROM proyectos WHERE id = ".$id);
+		$imagen = "../".$imagen[0]['imagen'];
+			
 		//BORRA LA IMAGEN DEL DIRECTORIO Y ELIMINA TODOS LOS REGISTROS DEL PROYECTO
-		if( $this->UpdateProyectoImagen("", $id) && $registros->DeleteRegistros($id) ){
+		if( $base->DeleteImagen($imagen) && $registros->DeleteRegistros($id) ){
+			$base2 = new Database();
+			$query = "DELETE FROM proyectos WHERE id = ".$id;
 
-			if($base->Delete($query)){
+			if($base2->Delete($query)){
 				return true;
 			}else{
 				return false;
@@ -223,10 +230,12 @@ class Proyectos{
 			$query .= "('".$datos[0]['nombre']."', '".$datos[0]['descripcion']."', '".$datos[0]['cliente']."', '".$imagen."', '".$datos[0]['status']."' )";
 			
 			if($nuevo = $base->Insert($query)){
-				//todo duplicar registros
-				//$registros = new Registros();
-				//$registros->DuplicarRegistros();
-				return $base->getUltimoId();
+				$nuevo = $base->getUltimoId();
+
+				$registros = new Registros();
+				$registros->DuplicarRegistros($id, $nuevo);
+				
+				return $nuevo;
 			}else{
 				return false;
 			}
@@ -239,7 +248,7 @@ class Proyectos{
 	 * DUPLICA LA IMAGEN DE UN PROYECTO
 	 * @param $link -> link de la imagen a copiar
 	 * @return $destino -> link de la imagen copiada
-	 * @return false si falla
+	 * @return imagen por defecto
 	 */
 	private function DuplicarImagen($link){
 		$link = "../".$link;
@@ -247,10 +256,15 @@ class Proyectos{
 		$destino = basename($link);
 		$destino = "images/proyectos/".rand().$destino;
 
+		//si la imagen no existe por alguna razon
+		if(file_exists($link)){
+			return "images/es.png";
+		}
+
 		if(copy($link, "../".$destino)){
 			return $destino;
 		}else{
-			return false;
+			return "images/es.png";
 		}
 	}
 }

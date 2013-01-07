@@ -25,7 +25,7 @@ function Componer(id){
 
 	//carga datos
 	ComponerProyecto(id);
-	ComponerCategorias();
+	ComponerCategorias(id);
 
 }
 
@@ -52,14 +52,14 @@ function ComponerProyecto(id){
 	});
 }
 
+/******************************* CATEGORIAS ****************************/
 
-/**************************** CATEGORIAS ***************/
 /**
  * CATEGORIAS DE COMPOSICION, MUESTRA LAS CATEGORIAS SELECCIONABLES
  */
-function ComponerCategorias(){
+function ComponerCategorias(id){
 
-	var queryParams = {"func" : "Categorias"};
+	var queryParams = {"func" : "Categorias", "proyecto" : id};
 
 	$.ajax({
 		data: queryParams,
@@ -69,11 +69,67 @@ function ComponerCategorias(){
 		},
 		success: function(response){
 			$("#menu").html(response);
+			FormularioComponerCategorias();
 		},
 		fail: function(){
 			notificaError("Error: Componer.js ComponerCategorias(), AJAX fail.");
 		}
 	});
+}
+
+/**
+* INCIALIZA EL FORMULARIO DE LAS CATEGORIAS
+*/
+function FormularioComponerCategorias(){
+	//validacion
+	//$("#FormularioComponerCategorias").validationEngine();
+	
+	var options = {
+		beforeSubmit: FormularioComponerCategoriasValidar,
+		beforeSend: function(){
+		},
+	    success: function(response) { 
+	    	$("#content").html(response);
+			if(response.length > 3){
+				notifica("Categorias Incluidas.");
+
+				var id = $("#proyecto").val();
+				notifica('actualizando '+id);
+				//actualiza la vista del prpoyecto
+				ComponerProyecto(id);
+
+			}else{
+				notificaError("Error: "+response);
+			}
+		},
+		fail: function(){
+			//notificaError("Error: Componer.js FormularioComponerCategorias() AJAX fail");
+		}
+	}; 
+	$('#FormularioComponerCategorias').ajaxForm(options);
+}
+
+/**
+* VIDA FormularioComponerCategorias\
+* @return true si es valido
+* @return false sino, ademas muestra notificacion
+*/
+function FormularioComponerCategoriasValidar(){
+	var total = 0;
+
+	//cuentas las categorias seleccionadas
+	$(".seleccionada").each(function(f,c){
+		total++;
+	});
+
+	console.log(total);
+
+	if(total == 0){
+		notificaAtencion("Seleccione alguna categoria");
+		return false;
+	}else{
+		return true;
+	}
 }
 
 /**
@@ -149,10 +205,11 @@ function MenuComponerCategoria(id){
         callback: function(key, options) {
             var m = "clicked: " + key;
             //window.console && console.log(m) || alert(m); 
-            MenuComponer(m);
+            MenuComponer(m, id);
         },
         items: {
-        	"excluir": {name: "Excluir", icon: "delete"}
+        	//"excluir": {name: "Excluir", icon: "delete"},
+        	"incluir": {name: "Incluir Selecciones", icon: "add", accesskey: "i"}
             //"editar": {name: "Editar", icon: "edit"},
             //"eliminar": {name: "Eliminar", icon: "delete"},
         }
@@ -162,9 +219,22 @@ function MenuComponerCategoria(id){
 /**
  * MENEJA FUNCIONES DEL MENU DE COMPOSICION
  * @param m -> evento del click a seleccionar opcion
+ * @param id -> id de la categoria
  */
-function MenuComponer(m){
+function MenuComponer(m, id){
+	if(m == 'clicked: excluir'){
+		notifica("la categoria seleccionada es "+id);
+		//ComponerExcluir();
+	}else if(m == 'clicked: incluir'){
+		GuardarCategorias();
+	}
+}
 
+/**
+* ENVIA FORMULARIO DE COMPONER CATEGORIAS PARA GUARDARLAS
+*/
+function GuardarCategorias(){
+	$('#FormularioComponerCategorias').submit();
 }
 
 /**

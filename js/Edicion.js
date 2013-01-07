@@ -716,6 +716,7 @@ function EditarNormas(){
 * CARGA LAS NORMAS EN EL MENU
 */
 function Normas(){
+	$.contextMenu( 'destroy' );
 
 	if(!$("#menu").is(":visible")){
 		ActivaMenu();
@@ -811,7 +812,7 @@ function NormaSeleccionada(id){
 * id -> id de la norma
 */
 function NormaOpciones(id){
-	
+
 	//SELECCIONA
 	var padre = $("#"+id).closest("div").attr('id');
 
@@ -851,11 +852,11 @@ function ContextMenuNorma(id){
             MenuNorma(m);
         },
         items: {
-        	"nueva": {name: "Nueva Norma", icon: "add"},
-            "editar": {name: "Editar", icon: "edit"},
-            "deshabilitar": {name: "Deshabilitar", icon: "delete"},
+        	"nueva": {name: "Nueva Norma", icon: "add", accesskey: "n"},
+            "editar": {name: "Editar", icon: "edit", accesskey: "e"},
+            "deshabilitar": {name: "Deshabilitar", icon: "delete", accesskey: "d"},
             "sep1": "---------",
-	        "articulos": {name: "Articulos", icon: "add"},
+	        "articulos": {name: "Articulos", icon: "add", accesskey: "a"},
         }
     });
 	
@@ -880,11 +881,11 @@ function ContextMenuNormaDeshabilitada(id){
             MenuNorma(m);
         },
         items: {
-			"nueva": {name: "Nueva Norma", icon: "add"},
-            "editar": {name: "Editar", icon: "edit"},
-            "habilitar": {name: "Habilitar", icon: "delete"},
+			"nueva": {name: "Nueva Norma", icon: "add", accesskey: "n"},
+            "editar": {name: "Editar", icon: "edit", accesskey: "e"},
+            "habilitar": {name: "Habilitar", icon: "delete", accesskey: "h"},
             "sep1": "---------",
-	        "articulos": {name: "Articulos", icon: "add"},
+	        "articulos": {name: "Articulos", icon: "add", accesskey: "a"},
         }
     });
 
@@ -1034,7 +1035,7 @@ function FormularioNorma(){
 			},
 	    	success: function(response) { 
 
-	    		if(response.length == 3){
+	    		if(response.length <= 3){
 	    			notifica("Norma Actualizada");
 	    			var norma = $("#norma").val();
 	    			var nombre = $("#nombre").val();
@@ -1059,7 +1060,7 @@ function FormularioNorma(){
 	    			LimpiarContent();
 	    		}else{
 	    			notificaError(response);
-	    			$("#FormularioNorma").validate();
+	    			//$("#FormularioNorma").validate();
 	    		}
 		    },
 		    fail: function(){
@@ -1077,6 +1078,7 @@ function DeshabilitarNorma(){
 	var norma = $(".seleccionada").attr('id');
 
 	var si = function (){
+		//$.contextMenu( 'destroy' );
 		DeshabilitaNorma(norma);
 	}
 
@@ -1093,8 +1095,8 @@ function DeshabilitarNorma(){
 * @param norma -> id de la norma
 */
 function DeshabilitaNorma(norma){
+
 	$("#"+norma).addClass("deshabilitado");
-	NormaOpciones(norma);
 
 	var queryParams = {"func" : "DeshabilitarNorma", "norma" : norma};
 
@@ -1113,6 +1115,8 @@ function DeshabilitaNorma(norma){
 					$("#articulos").addClass("deshabilitado");
 				}
 			}
+
+			NormaOpciones(norma);
 		},
 		fail: function(){
 
@@ -1125,9 +1129,11 @@ function DeshabilitaNorma(norma){
 * @param norma -> id de la norma ha deshabilitar
 */
 function HabilitarNorma(){
+
 	var norma = $(".seleccionada").attr('id');
 
 	var si = function (){
+		//$.contextMenu( 'destroy' );
 		HabilitaNorma(norma);
 	}
 
@@ -1144,8 +1150,8 @@ function HabilitarNorma(){
 * @param norma -> id de la norma
 */
 function HabilitaNorma(norma){
+
 	$("#"+norma).removeClass("deshabilitado");
-	NormaOpciones(norma);
 
 	var queryParams = {"func" : "HabilitarNorma", "norma" : norma};
 
@@ -1164,6 +1170,8 @@ function HabilitaNorma(norma){
 					$("#articulos").removeClass("deshabilitado");
 				}
 			}
+
+			NormaOpciones(norma);
 		},
 		fail: function(){
 
@@ -1403,9 +1411,9 @@ function ArticuloContextMenu(id){
             MenuArticulo(m);
         },
         items: {
-			"nuevo": {name: "Nuevo Articulo", icon: "add"},
-            "editar": {name: "Editar", icon: "edit"},
-            "eliminar": {name: "Eliminar", icon: "delete"}
+			"nuevo": {name: "Nuevo Articulo", icon: "add", accesskey: "n"},
+            "editar": {name: "Editar", icon: "edit", accesskey: "e"},
+            "eliminar": {name: "Eliminar", icon: "delete", accesskey: "l"}
         }
     });
 
@@ -1605,6 +1613,8 @@ function EliminarAdjunto(id){
 function Tipos(){
 	$.cookie('accion', 'tipos');
 
+	$.contextMenu( 'destroy' );
+
 	//activa el menu
 	if( !$("#menu").is(":visible")){
 		ActivaMenu();
@@ -1669,7 +1679,7 @@ function FormularioNuevoTipo(){
 		},
 	    success: function(response) { 
 
-	    	if(response.length == 2){
+	    	if(response.length <= 3){
 	    		notifica("Nuevo Tipo de Norma Creado.");
 	    		Tipos();
 	    		$("#content").html("")
@@ -1736,7 +1746,7 @@ function DeleteTipo(tipo){
 		beforeSend: function(){
 		},
 		success: function(response){
-			if(response.length == 2){
+			if(response.length <= 3){
 				notifica("Tipo Borrado");
 				
 				//borra tipo
@@ -1766,18 +1776,21 @@ function FormularioEditarTipo(){
 		beforeSend: function(){
 		},
 	    success: function(response) { 
-	    	if(response.length == 2){
+	    	if(response.length <= 3){
 	    		notifica("Tipo De Norma Actualizada.");
 	    		
 	    		var nombre = $("#nombre").val();
 	    		var tipo = $("#tipo").val();
 
-	    		$("#"+tipo).fadeOut(500, function(){
-	    			$("#"+tipo).html(nombre).fadeIn();
-	    		});
+	    		if(nombre != $("#"+tipo).html()){
+	    			$("#"+tipo).fadeOut(500, function(){
+		    			$("#"+tipo).html(nombre).fadeIn();
+		    		});
+	    		}
 
-	    		$("#content").html("");
-	    		
+	    		LimpiarContent();
+	    	}else{
+	    		notificaError(response);
 	    	}
 		},
 		fail: function(){
@@ -1813,9 +1826,9 @@ function TipoContextMenu(id){
             MenuTipos(m);
         },
         items: {
-        	"nuevo": {name: "Nuevo", icon: "add"},
-            "editar": {name: "Editar", icon: "edit"},
-            "eliminar": {name: "Eliminar", icon: "delete"},
+        	"nuevo": {name: "Nuevo", icon: "add", accesskey: "n"},
+            "editar": {name: "Editar", icon: "edit", accesskey: "e"},
+            "eliminar": {name: "Eliminar", icon: "delete", accesskey: "l"},
         }
     });
 }
@@ -1845,6 +1858,8 @@ function MenuTipos(m){
 */ 
 function Entidades(){
 	$.cookie("accion", 'entidades');
+
+	$.contextMenu( 'destroy' );
 
 	if( !$("#menu").is(":visible")){
 		ActivaMenu();
@@ -2015,7 +2030,7 @@ function DeleteEntidad(entidad){
 		beforeSend: function(){
 		},
 		success: function(response){
-			if(response.length == 0){
+			if(response.length <= 3){
 				$("#"+entidad+', .'+entidad).fadeOut(500, function(){
 					$("#"+entidad+', .'+entidad).remove();
 				});
@@ -2106,9 +2121,9 @@ function EntidadContextMenu(id){
             MenuEntidades(m);
         },
         items: {
-        	"nuevo": {name: "Nuevo", icon: "add"},
-            "editar": {name: "Editar", icon: "edit"},
-            "eliminar": {name: "Eliminar", icon: "delete"},
+        	"nuevo": {name: "Nuevo", icon: "add", accesskey: "n"},
+            "editar": {name: "Editar", icon: "edit", accesskey: "e"},
+            "eliminar": {name: "Eliminar", icon: "delete", accesskey: "l"},
         }
     });
 }

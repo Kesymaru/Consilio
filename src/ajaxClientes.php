@@ -119,7 +119,7 @@ function EditarCliente($id){
 					  			</td>
 					  			<td rowspan="5" class="td-user-image">
 					  				<img id="imagen-usuario" src="'.$datos[0]['imagen'].'" title="Imagen Del Cliente"><br/>
-					  				<input type="file" name="imagen" id="imagen" title="Seleccione Una Imagen Nueva Para El Cliente" />
+					  				<input type="file" name="imagen" id="imagen" title="Seleccione Una Imagen Nueva Para El Cliente" onChange="PreviewImage(this, \'imagen-usuario\');" />
 					  			</td>
 					  		</tr>
 					  		<tr>
@@ -197,7 +197,7 @@ function NuevoCliente(){
 					  			</td>
 					  			<td rowspan="5" class="td-user-image">
 					  				<img id="imagen-usuario" src="images/es.png" title="Imagen Del Nuevo Cliente"><br/>
-					  				<input type="file" name="imagen" id="imagen" title="Seleccione Una Imagen Nueva Para El Cliente" />
+					  				<input type="file" name="imagen" id="imagen" title="Seleccione Una Imagen Nueva Para El Cliente" onChange="PreviewImage(this, \'imagen-usuario\');" />
 					  			</td>
 					  		</tr>
 					  		<tr>

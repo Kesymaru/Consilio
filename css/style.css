@@ -113,6 +113,7 @@ html, body{
 #menu .tipos ul li:hover,
 #menu .root ul li:hover,
 #menu2 #articulos ul li:hover{
+	background-color: #D5D4D5; /*ie 8*/
 	background-color: rgba(117, 114, 115, .3);
 }
 
@@ -284,15 +285,20 @@ html, body{
 }
 
 .table-list tr:first-child td{
+	background-color: #BAB8B9; /*ie 8*/
 	background-color: rgba(117, 114, 115, .5);
 }
 
 .table-list tr{
 	cursor: pointer;
-	border-bottom: 1px solid rgba(117, 114, 115, .1);
+	border-width: 1px;
+	border-style: solid;
+	border-color: #F1F1F1; /*ie 8*/
+	border-color: rgba(117, 114, 115, .1);
 }
 
 .table-list tr:hover{
+	background-color: #A5A3A4;
 	background-color: rgba(117, 114, 115, .3);
 }
 
@@ -1524,6 +1530,10 @@ html, body{
 	background-attachment:fixed;
 	background-position:center; 
 	vertical-align: middle;
+}
+
+#loader-imagen #loader-imagen{
+	margin-top: 40%;
 }
 
 /**

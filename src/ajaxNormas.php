@@ -408,8 +408,10 @@ function ActualizarNorma($norma){
 	$registros = new Registros();
 
 	//ACTUALIZA NORMA
-	$registros->UpdateNorma($norma, $_POST['nombre'], $_POST['numero'], $_POST['tipo'], $_POST['status']);
-	echo 'ssssss';
+	if(!$registros->UpdateNorma($norma, $_POST['nombre'], $_POST['numero'], $_POST['tipo'], $_POST['status'])){
+		echo "Error: ajaxNormas.php ActualizarNorma() no se pudo actualizar el proyecto.";
+	}
+	
 }
 
 /**

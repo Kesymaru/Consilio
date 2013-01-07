@@ -77,6 +77,37 @@ class Registros{
 		}
 	}
 
+	/**
+	* DUPLICA UN REGISTRO
+	* @param $id -> id del registro a duplicar
+	* @param $nuevo -> id del nuevo registro
+	*/
+	function DuplicarRegistros($id, $nuevo){
+		$base = new Database();
+		$query = "SELECT * FROM registros WHERE id = ".$id;
+
+		$datos = $base->Select($query);
+		if(!empty($datos)){
+			if($this->NewRegistro($nuevo, $datos[0]['registro'], $datos[0]['fecha'])){
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			$query = "SELECT proyectos WHERE id = ".$nuevo;
+			$datos = $base->Select($query);
+
+			$registro = array('');
+
+			//crea registro vacio
+			if($this->NewRegistro($nuevo, $registro, $datos[0]['fecha'])){
+				return true;
+			}else{
+				return false;
+			}
+		}
+	}
+
 /************** OBSERVACIONES DE UNA CATEGORIA EN UN PROYECTO **************/
 
 	/**

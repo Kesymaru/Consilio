@@ -618,7 +618,12 @@ function SelectorMultipleFiltro(){
 * FUNCION PARA MOSTRAR EL LOADER DE JQUERY
 */
 function Loading(){
-  	$("#loader").css("display" , "block");
+  	if($.browser.msie && jQuery.browser.version < 10){
+		var imagen = '<img id="loader-imagen" src="images/ajax_loader_green_128.gif" />';
+		$("#loader").html(imagen);
+	}else{
+		$("#loader").css("display" , "block");
+	}
 }
 
 /**
@@ -626,7 +631,6 @@ function Loading(){
  * @return true cuando termina
  */
 function LoadingClose(){
-	//$("#loader").css("display" , "none").delay(8000);
 	
 	$("#loader").animate({
 		"display" : "none",
@@ -866,6 +870,7 @@ function BuscarContentLive(input){
  * @param imagen -> id de la imagen donde se carga el preview
  */
 function PreviewImage(input, imagen) {
+
 	if (input.files && input.files[0]) {
 		var reader = new FileReader();
 
@@ -879,12 +884,4 @@ function PreviewImage(input, imagen) {
 
 		reader.readAsDataURL(input.files[0]);
 	}
-}
-
-/**
- * AJAX BUSCAR CATEGORIAS
- */
-function BuscarCategorias(){
-	var queryParams = {"func" : "BuscarCategorias"};
-	
 }

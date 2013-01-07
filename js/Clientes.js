@@ -8,6 +8,8 @@
 function Clientes(){
 	$.cookie('vista', 'clientes');
 
+	$.contextMenu( 'destroy' ); //limpia context menus de otras vistas
+
 	if($("#menu2").is(":visible")){
 		Menu2();
 	}
@@ -17,7 +19,9 @@ function Clientes(){
 		ActivaMenu();
 	}
 
-	LimpiarContent();
+	if($("#content").html("") != ""){
+		LimpiarContent();		
+	}
 
 	var queryParams = {"func" : "Clientes"};
 
@@ -59,14 +63,14 @@ function ContextMenuCliente(id){
         callback: function(key, options) {
             var m = "clicked: " + key;
             //window.console && console.log(m) || alert(m); 
-            MenuCliente(m);
+            MenuCliente(m, id);
         },
         items: {
-			"nuevo": {name: "Nuevo Cliente", icon: "add"},
-            "editar": {name: "Editar", icon: "edit"},
-            "eliminar": {name: "Eliminar", icon: "delete"},
+			"nuevo": {name: "Nuevo Cliente", icon: "add", accesskey: "n"},
+            "editar": {name: "Editar", icon: "edit", accesskey: "e"},
+            "eliminar": {name: "Eliminar", icon: "delete", accesskey: "l"},
             "sep1": "---------",
-            "exportarClientes": {name: "Exportar Clientes", icon: "edit"}
+            "exportarClientes": {name: "Exportar Clientes", icon: "edit", accesskey: "x"}
         }
     });
 
@@ -79,22 +83,27 @@ function ContextMenuCliente(id){
 
 /**
 * MANEJADOR DE LAS ACCIONES DEL MENU DE UN ARTICULO
+* @param m -> evento seleccionado
+* @param id -> cliente seleccionado
 */
-function MenuCliente(m){
+function MenuCliente(m, id){
 
 	if(m == "clicked: nuevo"){
 		NuevoCliente();
 	}else if(m == "clicked: eliminar"){
-		EliminarCliente();
+		EliminarCliente(id);
 	}else if(m == "clicked: editar"){
-		EditarCliente();
+		EditarCliente(id);
 	}else if(m == "clicked: exportarClientes"){
 		ExportarClientes();
 	}
 }
 
-function EditarCliente(){
-	var id = $("#clientes .seleccionada").attr('id');
+/**
+* CARGA LA VISTA DE EDICION DE UN CLIENTE
+*/
+function EditarCliente(id){
+	//var id = $("#clientes .seleccionada").attr('id');
 
 	var queryParams = {"func" : "EditarCliente", "id" : id};
 
@@ -107,13 +116,6 @@ function EditarCliente(){
 		success: function(response){
 			$("#content").html(response);
 			FormularioEditarCliente();
-			
-			$(".contrasena").hide();
-
-			//preview de la imagen
-			$('#imagen').live('change', function(e){
-				//TODO PREVIEW IMAGE
-        	});
 
 		},
 		fail: function(){
@@ -180,7 +182,7 @@ function NuevoCliente(){
 		fail: function(){
 			notificaError("Error: Clientes.js NuevoCliente().")
 		}
-	})
+	});
 }
 
 /**
@@ -233,4 +235,45 @@ function ExportarClientes(){
 function AccionExportarClientes(){
 	top.location.href = 'src/class/exportar.php?tipo=clientes';
 	notificaAtencion('Asegurese de guardar el archivo en el disco duro.');
+}
+
+/**
+* ELIMINA CLIENTE
+*/
+function EliminarCliente(id){
+	var si = function (){
+		AccionEliminarCliente(id);
+	}
+
+	var no = function (){
+		notificaAtencion("Operacion cancelada");
+	}
+
+	Confirmacion("Desea Eliminar El Cliente y todos sus proyectos", si, no);
+}
+
+/**
+* ACCION DE ELIMINAR EL CLIENTE Y SUS PROYECTOS
+*/
+function AccionEliminarCliente(id){
+
+	var queryParams = {"func" : "EliminarCliente", "id" : id};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxClientes.php",
+		beforeSend: function(){
+		},
+		success: function(response){
+			if(response.length <= 3){
+				notifica("Cliente Eliminado");
+			}else{
+				notificaError("Error: "+response);
+			}
+		},
+		fail: function(){
+			notificaError("Error: Clientes.js AccionEliminarCliente() AJAX fail.")
+		}
+	});
 }

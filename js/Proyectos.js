@@ -9,6 +9,8 @@
 function Proyectos(){
 	$.cookie('vista', 'proyectos');
 
+	$.contextMenu( 'destroy' );
+
 	if($("#menu2").is(":visible")){
 		Menu2();
 	}
@@ -31,7 +33,7 @@ function Proyectos(){
 		},
 		success: function(response){
 			$("#content").html(response);
-			$("#EliminarProyecto, #EditarProyecto, #DuplicarProyecto").hide();
+			//$("#EliminarProyecto, #EditarProyecto, #DuplicarProyecto, #ComponerProyecto").hide();
 		},
 		fail: function(){
 		}
@@ -96,7 +98,7 @@ function ProyectosMenuLineal(id){
 		},
 		success: function(response){
 			$("#menu").html(response);
-			$("#EliminarProyecto, #EditarProyecto, #DuplicarProyecto").hide();
+			//$("#EliminarProyecto, #EditarProyecto, #DuplicarProyecto").hide();
 			SelectProyecto(id);
 		},
 		fail: function(){
@@ -114,8 +116,8 @@ function SelectProyecto(id){
 		$("#proyectos li, #proyectos tr").removeClass("seleccionada");
 		$("#"+id).addClass("seleccionada");
 
-		if(!$("#EliminarProyecto, #EditarProyecto, #DuplicarProyecto").is(":visible")){
-			$("#EliminarProyecto, #EditarProyecto, #DuplicarProyecto").fadeIn();
+		if(!$("#EliminarProyecto, #EditarProyecto, #DuplicarProyecto, #ComponerProyecto").is(":visible")){
+			$("#EliminarProyecto, #EditarProyecto, #DuplicarProyecto, #ComponerProyecto").fadeIn();
 		}
 
 		ContextMenuProyecto(id);
@@ -128,22 +130,24 @@ function SelectProyecto(id){
 function ContextMenuProyecto(id){
 	$.contextMenu({
         selector: '#'+id, 
+        //trigger: 'left',
         callback: function(key, options) {
             var m = "clicked: " + key;
             //window.console && console.log(m) || alert(m); 
             MenuProyecto(m);
         },
         items: {
-			"nuevo": {name: "Nuevo Proyecto", icon: "add"},
-            "editar": {name: "Editar", icon: "edit"},
-            "eliminar": {name: "Eliminar", icon: "delete"},
+			"nuevo": {name: "Nuevo Proyecto", icon: "add", accesskey: "n"},
+            "editar": {name: "Editar", icon: "edit", accesskey: "e"},
+            "eliminar": {name: "Eliminar", icon: "delete", accesskey: "l"},
             "sep1": "---------",
-            "componer": {name: "Componer Proyecto", icon: "edit"},
-            "duplicar": {name: "Duplicar Proyecto", icon: "edit"},
-            "sep2": "---------",
+            "componer": {name: "Componer Proyecto", icon: "edit", accesskey: "c"},
+            "duplicar": {name: "Duplicar Proyecto", icon: "edit", accesskey: "d"},
+            /*"sep2": "---------",
             "fold1a": {
                 "name": "Exportar", 
                 "icon": "exportar",
+                accesskey: "x",
 	                "items": {
 	                    "exportar-excel": {"name": "Excell" , "icon": "excel"},
 	                    "exportar-pdf": {"name": "PDF", "icon": "pdf"},
@@ -152,12 +156,13 @@ function ContextMenuProyecto(id){
             "fold2a": {
                 "name": "Enviar", 
                 "icon": "compartir",
+                accesskey: "v",
 	                "items": {
 	                    "informe-cliente": {"name": "A cliente" , "icon": "informe"},
 	                    "informe-link": {"name": "Por link" , "icon": "email"},
 	                    "informe-email": {"name": "Por email" , "icon": "email"},
 	                }
-            	}
+            	}*/
         }
     });
 
@@ -183,9 +188,16 @@ function MenuProyecto(m){
 		DuplicarProyecto();
 	}else if(m == "clicked: componer"){
 		//cambia a la vista de composicion del proyecto
-		var id = $("#proyectos .seleccionada").attr("id");
-		Componer(id);
+		ComponerProyectoSeleccionado()
 	}
+}
+
+/**
+* ENVIA C COMPONER
+*/
+function ComponerProyectoSeleccionado(){
+	var id = $("#proyectos .seleccionada").attr("id");
+	Componer(id);
 }
 
 /**
@@ -356,10 +368,16 @@ function DelteProyecto(){
 		beforeSend: function(){
 		},
 		success: function(response){
-			notifica("Proyecto Eliminado.");
-			$("#"+id).fadeOut(700, function(){
-				$("#"+id).remove();
-			});
+			
+			if(response.length <= 3){
+				notifica("Proyecto Eliminado.");
+				$("#"+id).fadeOut(700, function(){
+					$("#"+id).remove();
+				});
+			}else{
+				notificaError("Error: "+response);
+			}
+				
 		},
 		fail: function(){
 			notificaError("Error: Proyectos.js DelteProyecto()");
@@ -414,6 +432,7 @@ function AccionDuplicarProyecto(){
 				}
 				
 			}else{
+				LoadingClose();
 				$("content").html(response);
 			}
 		},

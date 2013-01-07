@@ -49,7 +49,7 @@ if(isset($_POST['func'])){
 		//ELIMINAR UN PROYECTO
 		case 'EliminarProyecto':
 			if(isset($_POST['id'])){
-				//EliminarProyecto($_POST['id']);
+				EliminarProyecto($_POST['id']);
 			}
 			break;
 
@@ -157,6 +157,7 @@ function ProyectosAvance(){
 	$lista .= '<div class="datos-botones">
 				<button type="button" id="EliminarProyecto" class="ocultos" title="Eliminar Proyecto Seleccionado" onClick="EliminarProyecto()">Eliminar</button>
 				<button type="button" id="EditarProyecto" class="ocultos" title="Editar Proyecto Seleccionado" onClick="EditarProyecto()">Editar</button>
+				<button type="button" id="ComponerProyecto" class="ocultos" title="Componer El Proyecto Seleccionado" onClick="ComponerProyectoSeleccionado()">Componer</button>
 				<button type="button" id="DuplicarProyecto" class="ocultos" title="Duplicar Proyecto Seleccionado" onClick="DuplicarProyecto()">Duplicar</button>
 			   	<button type="button" id="NuevoProyecto" title="Crear Nuevo Proyecto" onClick="NuevoProyecto()">Nuevo Proyecto</button>
 			   </div>
@@ -402,7 +403,6 @@ function RegistrarProyecto(){
 		//imagen
 		if(isset($_FILES['imagen'])){
 			$imagen = $proyectos->UploadImagen($_FILES['imagen']);
-			echo $imagen;
 		}
 
 		if(isset($_POST['descripcion'])){
@@ -410,7 +410,7 @@ function RegistrarProyecto(){
 		}
 
 		if( !$proyectos->NewProyecto($_POST['nombre'], $_POST['cliente'], $descripcion, $imagen, $_POST['estado']) ){
-			echo "ERROR: no se pudo registrar el nuevo proyecto, ajaxProyectos.php RegistrarProyecto() linea 165";
+			echo "ERROR: no se pudo registrar el nuevo proyecto, ajaxProyectos.php RegistrarProyecto() linea 413";
 		}
 
 	}else{
