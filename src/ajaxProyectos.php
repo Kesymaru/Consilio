@@ -40,6 +40,13 @@ if(isset($_POST['func'])){
 				ActualizarProyecto($_POST['proyecto']);			
 			}
 			break;
+
+		//ELIMINA PROYECTO
+		case 'EliminarProyecto':
+			if(isset($_POST['id'])){
+				EliminarProyecto($_POST['id']);
+			}
+			break;
 	}
 }
 
@@ -67,7 +74,12 @@ function Proyectos(){
 		$lista .= '<ul>';
 		
 		foreach ($datos as $fila => $proyecto) {
-			$lista .= '<li id="'.$proyecto['id'].'" onClick="SelectProyecto('.$proyecto['id'].')">'.$proyecto['nombre'].'</li>';
+			if($proyecto['status'] == 0){
+				$lista .= '<li class="inactivo" id="'.$proyecto['id'].'" onClick="SelectProyecto('.$proyecto['id'].')">'.$proyecto['nombre'].'</li>';
+			}else{
+				$lista .= '<li id="'.$proyecto['id'].'" onClick="SelectProyecto('.$proyecto['id'].')">'.$proyecto['nombre'].'</li>';
+			}
+			
 		}
 
 		$lista .= '</ul><!-- fin lista -->';
@@ -111,7 +123,7 @@ function NuevoProyecto(){
 					  			<td>
 					  				<input type="text" name="nombre" title="Nombre Para Nuevo Proyecto" placeholder="Nombre" class="validate[required]" />
 					  			</td>
-					  			<td rowspan="2" class="td-user-image">
+					  			<td rowspan="3" class="td-user-image">
 					  				<img src="images/es.png" />
 					  				<br/>
 					  				<input type="file" name="imagen" id="imagen" class="validate[optional]" />
@@ -125,6 +137,16 @@ function NuevoProyecto(){
 					  				';
 	$formulario .= SelectClientes().'
 								</td>
+					  		</tr>
+					  		<tr>
+					  			<td>
+					  			</td>
+					  			<td>
+					  				<select name="estado" />
+					  					<option value="1" selected>Activo</option>
+					  					<option value="0">Inactivo</option>
+					  				</select>
+					  			</td>
 					  		</tr>
 					  		</table>
 					  		Descripcion
@@ -159,7 +181,7 @@ function EditarProyecto($id){
 							Edición Proyecto
 					  		<hr>
 					  	</div>
-					  	<input type="hidden" name="func" value="RegistrarProyecto" />
+					  	<input type="hidden" name="func" value="ActualizarProyecto" />
 					  	<input type="hidden" name="proyecto" value="'.$id.'" id="proyecto" />
 					  	<div class="datos" >
 					  		<table>
@@ -170,7 +192,7 @@ function EditarProyecto($id){
 					  			<td>
 					  				<input type="text" name="nombre" title="Nombre Para Nuevo Proyecto" placeholder="Nombre" class="validate[required]" value="'.$datos[0]['nombre'].'" />
 					  			</td>
-					  			<td rowspan="2" class="td-user-image">
+					  			<td rowspan="3" class="td-user-image">
 					  				<img src="'.$datos[0]['imagen'].'" />
 					  				<br/>
 					  				<input type="file" name="imagen" id="imagen" class="validate[optional]" />
@@ -184,6 +206,25 @@ function EditarProyecto($id){
 					  				';
 		$formulario .= SelectedClientes($datos[0]['cliente']).'
 								</td>
+					  		</tr>
+					  		<tr>
+					  			<td>
+					  				Estado
+					  			</td>
+					  			<td>
+					  				<select name="estado" >';
+
+		if($datos[0]['status'] == 0){
+			$formulario .= '<option value="1">Activo</option>
+					  		<option value="0" selected>Inactivo</option>';
+		}else{
+			$formulario .= '<option value="1" selected>Activo</option>
+					  		<option value="0">Inactivo</option>';
+		}
+
+		$formulario .= '
+					  				</select>
+					  			</td>
 					  		</tr>
 					  		</table>
 					  		Descripcion
@@ -271,14 +312,14 @@ function RegistrarProyecto(){
 
 		//imagen
 		if(isset($_FILES['imagen'])){
-			$imagen = $_FILES['imagen'];
+			$imagen = $proyectos->UploadImagen($_FILES['imagen']);
 		}
 
 		if(isset($_POST['descripcion'])){
 			$descripcion = $_POST['descripcion'];
 		}
 
-		if( !$proyectos->NewProyecto($_POST['nombre'], $_POST['cliente'], $descripcion, $imagen) ){
+		if( !$proyectos->NewProyecto($_POST['nombre'], $_POST['cliente'], $descripcion, $imagen, $_POST['estado']) ){
 			echo "ERROR: no se pudo registrar el nuevo proyecto, ajaxProyectos.php RegistrarProyecto() linea 165";
 		}
 
@@ -308,12 +349,24 @@ function ActualizarProyecto($id){
 			$descripcion = $_POST['descripcion'];
 		}
 
-		if( !$proyectos->UpdateProyecto($_POST['nombre'], $_POST['cliente'], $descripcion, $imagen) ){
+		if( !$proyectos->UpdateProyecto($id, $_POST['nombre'], $_POST['cliente'], $descripcion, $imagen, $_POST['estado']) ){
 			echo "ERROR: no se pudo actualizar el proyecto, ajaxProyectos.php ActualizarProyecto(".$id.") linea 312";
 		}
 
 	}else{
 		echo "ERROR: faltan parametros requeridos para actualizar proyecto.";
+	}
+}
+
+/**
+* ELIMINA UN PROYECTO
+* @param $id -> id del proyecto a eliminar
+*/
+function EliminarProyecto($id){
+	$proyecto = new Proyecto();
+
+	if(!$proyecto->DeleteProyecto()){
+		echo "<br/>Error: no se podo eliminar el proyectos.";
 	}
 }
 

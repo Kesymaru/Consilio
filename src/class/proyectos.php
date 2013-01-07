@@ -33,13 +33,14 @@ class Proyectos{
 	* @return true si se guardo el nuevo proyecto correctamente
 	* @return false si fallo al guardase el nuevo proyecto
 	*/
-	function NewProyecto($nombre, $cliente, $descripcion, $imagen){
+	function NewProyecto($nombre, $cliente, $descripcion, $imagen, $estado){
 		$base = new Database();
 		
 		$nombre = mysql_real_escape_string($nombre);
-		$descripcion = base64_decode($descripcion);
+		$descripcion = base64_encode($descripcion);
 
-		$query = "INSERT INTO proyectos (nombre, cliente, descripcion, imagen, status) VALUES ('".$nombre."', '".$cliente."', '".$descripcion."', '".$imagen."', 1)";
+		$query = "INSERT INTO proyectos (nombre, cliente, descripcion, imagen, status) ";
+		$query .= "VALUES ('".$nombre."', '".$cliente."', '".$descripcion."', '".$imagen."', '".$estado."')";
 		
 		if($base->Insert($query)){
 			return true;
@@ -50,32 +51,34 @@ class Proyectos{
 
 	/**
 	* ACTUALIZA UN PROYECTO
+	* @param $id -> id del proyecto
 	* @param $nombre -> nombre del proyecto
 	* @param $descripcion -> descripcion del proyecto
 	* @param $imagen -> logo adjuntado al proyecto
 	* @return true si se actualiza el proyecto correctamente
 	* @return false si fallo 
 	*/
-	function UpdateProyecto($nombre, $cliente, $descripcion, $imagen, $estado){
+	function UpdateProyecto($id, $nombre, $cliente, $descripcion, $imagen, $estado){
 		$base = new Database();
 		
 		$nombre = mysql_real_escape_string($nombre);
-		$descripcion = base64_decode($descripcion);
+		$descripcion = base64_encode($descripcion);
 
 		if($imagen != ''){
 			if( $imagen = $this->UploadImagen($imagen) ){
+
 				$query = "SELECT * FROM proyectos WHERE id = ".$id;
 				$imagenOld = $base->Select($query);
 				
-				$imagenOld = "../".$imagenOld;
+				$imagenOld = "../".$imagenOld[0]['imagen'];
 
-				if(!$base->DeleteImage($imagenOld)){
+				if(!$base->DeleteImagen($imagenOld)){
 					echo 'Error: No se pudo eliminar la imagen antigua del proyecto.';
 				}
 			}
 		}
 
-		$query = "UPDATE proyectos SET nombre = '".$nombre."', cliente = '".$cliente."', descripcion = '".$descripcion."', imagen = '".$imagen."', status = '".$estado."'";
+		$query = "UPDATE proyectos SET nombre = '".$nombre."', cliente = '".$cliente."', descripcion = '".$descripcion."', imagen = '".$imagen."', status = '".$estado."' WHERE id = ".$id;
 		
 		if($base->Update($query)){
 			return true;
@@ -128,7 +131,7 @@ class Proyectos{
 	* @return $link -> link de la imagen subida
 	* @return false si falla
 	*/
-	private function UploadImagen($imagen){
+	public function UploadImagen($imagen){
 		//SUBE LA IMAGEN
 		if($imagen['tmp_name'] != null && $imagen['tmp_name'] != ""){
 			$upload = new Upload();
@@ -165,13 +168,19 @@ class Proyectos{
 		$query = "DELETE FROM proyectos WHERE id = ".$id;
 
 		//BORRA LA IMAGEN DEL DIRECTORIO Y ELIMINA TODOS LOS REGISTROS DEL PROYECTO
-		if( $this->UpdateProyectoImagen("", $id) && $registros->DeleteRegistros($id) ){
+		/*if( $this->UpdateProyectoImagen("", $id) && $registros->DeleteRegistros($id) ){
 
 			if($base->Delete($query)){
 				return true;
 			}else{
 				return false;
 			}
+		}*/
+
+		if($base->Delete($query)){
+			return true;
+		}else{
+			return false;
 		}
 	}
 

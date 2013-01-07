@@ -1438,6 +1438,16 @@ html, body{
     opacity: 0.40;
 }
 
+.inactivo{
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=40)";
+	    filter: alpha(opacity=40);
+	    -o-opacity: 0.40;
+	    -ms-opacity: 0.40; /*ie10*/
+	    -moz-opacity: 0.40;
+	    -webkit-opacity: 0.40;
+    opacity: 0.40;
+}
+
 .content-disable > #content{
 	opacity: .5 !important;
 }
