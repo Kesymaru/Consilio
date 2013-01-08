@@ -598,7 +598,7 @@ function EditorUpdateContent() {
 
 /**
 * CREA SELECTOR MULTIPLE CON FILTRO DE BUSQUEDA
-* @param id -> id del selector
+* @param id -> id del selectoR
 */
 function SelectorMultipleFiltro(){
 	$("select").multiselect().multiselectfilter({
