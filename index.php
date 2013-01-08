@@ -70,7 +70,7 @@ $master = new Master();
 	<script type="text/javascript" src="js/jquery.form.js"></script>
 	<script type="text/javascript" src="js/jquery.cookie.js"></script>
 	<script type="text/javascript" src="js/jquery.contextMenu.js"></script>
-	<script type="text/javascript" src="js/jquery.dataTables.js"></script>
+	<script type="text/javascript" src="js/jquery.jquery.fancybox.js"></script>
 
 	<!-- plugin para selector -->
 	<script type="text/javascript" src="js/selector/jquery.multiselect.js"></script>

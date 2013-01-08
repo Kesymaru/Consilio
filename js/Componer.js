@@ -96,7 +96,7 @@ function FormularioComponerCategorias(){
 				//obtiene el id del proyecto en composicion
 				var id = $("#proyecto").val();
 				
-				//actualiza la vista del prpoyecto
+				//actualiza la vista del proyecto
 				ComponerProyecto(id);
 				$("#content").hide();
 				$("#content").fadeIn();
@@ -228,6 +228,9 @@ function MenuComponer(m, id){
 		ExcluirCategorias();
 	}else if(m == 'clicked: incluir'){
 		GuardarCategorias();
+	}else if(m == 'clicked: ver'){
+		//vista de normas
+		PreviewCategoriaNormas(id);
 	}
 }
 
@@ -339,6 +342,7 @@ function SelectCategoriaIncluida(id){
 * PONE CONTEXT MENU DE UNA CATEGORIA SELECCIONADA
 */
 function MenuCategoriaIncluida(id){
+
 	$.contextMenu({
         selector: '#in'+id, 
         callback: function(key, options) {
@@ -348,8 +352,8 @@ function MenuCategoriaIncluida(id){
         },
         items: {
         	//"excluir": {name: "Excluir", icon: "delete"},
-        	"excluir": {name: "Excluir Selecciones", icon: "add", accesskey: "i"}
-            //"editar": {name: "Editar", icon: "edit"},
+        	"excluir": {name: "Excluir Selecciones", icon: "delete", accesskey: "x"},
+            "ver": {name: "Ver", icon: "edit", accesskey: "v"},
             //"eliminar": {name: "Eliminar", icon: "delete"},
         }
     });
@@ -384,10 +388,33 @@ function ExcluirCategorias(){
 		beforeSend: function(){
 		},
 		success: function(response){
-			$("#content").html(response);
+
+			if(response.length <= 3){
+
+				//actualiza la vista del proyecto
+				ComponerProyecto(proyecto);
+				$("#content").hide();
+				$("#content").fadeIn();
+
+			}else{
+				notificaError(response);
+			}
+
 		},
 		fail: function(response){
 			notificaError("Error: Componer.js ExcluirCategorias() AJAX fail.<hr>"+response);
 		}
 	});
+}
+
+/*************************** PREVISUALIZACIONES  ********************/
+
+/**
+* MUSTRA EL PREVIEW DE LAS NORMAS DE UNA CATEGORIA
+* @param id -> id de la categorias
+*/
+function PreviewCategoriaNormas(id){
+	if(!$("#menu2").is(":visible")){
+		Menu2();
+	}
 }
