@@ -93,7 +93,7 @@ function MenuCliente(m, id){
 	}else if(m == "clicked: eliminar"){
 		EliminarCliente(id);
 	}else if(m == "clicked: editar"){
-		EditarCliente(id);
+		EditarCliente();
 	}else if(m == "clicked: exportarClientes"){
 		ExportarClientes();
 	}
@@ -102,8 +102,8 @@ function MenuCliente(m, id){
 /**
 * CARGA LA VISTA DE EDICION DE UN CLIENTE
 */
-function EditarCliente(id){
-	//var id = $("#clientes .seleccionada").attr('id');
+function EditarCliente(){
+	var id = $("#clientes .seleccionada").attr('id');
 
 	var queryParams = {"func" : "EditarCliente", "id" : id};
 
@@ -197,8 +197,8 @@ function FormularioNuevoCliente(){
 			DeshabilitarContent();
 		},
 	    success: function(response) { 
-	    	$("#content").html(response);
-	    	if(response.length <= 0){
+	    	
+	    	if(response.length <= 3){
 	    		notifica("Cliente Creado.");
 
 	    		Clientes();
@@ -267,9 +267,13 @@ function AccionEliminarCliente(id){
 		},
 		success: function(response){
 			if(response.length <= 3){
-				notifica("Cliente Eliminado");
+				notifica("Cliente Eliminado.");
+				
+				$("#"+id).fadeOut(700, function(){
+					$("#"+id).remove();
+				})
 			}else{
-				notificaError("Error: "+response);
+				notificaError(response);
 			}
 		},
 		fail: function(){

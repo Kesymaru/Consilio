@@ -723,6 +723,7 @@ class Registros{
 	/**
 	* OBTIENE LOS DATOS DE UNA NORMA
 	* @param $norma -> id de la norma
+	* @return $datos -> array[][]
 	*/
 	function getDatosNorma($norma){
 		$base = new Database();

@@ -62,7 +62,7 @@ button.ui-button-icons-only { width: 3.7em; }
 
 /*button text element */
 .ui-button .ui-button-text { display: block; line-height: 1.4;  }
-.ui-button-text-only .ui-button-text { padding: .4em 1em; }
+.ui-button-text-only .ui-button-text { padding: 5px; }
 .ui-button-icon-only .ui-button-text, .ui-button-icons-only .ui-button-text { padding: .4em; text-indent: -9999999px; }
 .ui-button-text-icon-primary .ui-button-text, .ui-button-text-icons .ui-button-text { padding: .4em 1em .4em 2.1em; }
 .ui-button-text-icon-secondary .ui-button-text, .ui-button-text-icons .ui-button-text { padding: .4em 2.1em .4em 1em; }
@@ -316,28 +316,28 @@ body .ui-tooltip {  }
 
 /* Component containers
 ----------------------------------*/
-.ui-widget { font-family: Lucida Grande,Lucida Sans,Arial,sans-serif; font-size: 1.1em; }
+.ui-widget { font-family: 'Open Sans', sans-serif; }
 .ui-widget .ui-widget { font-size: 1em; }
-.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: Lucida Grande,Lucida Sans,Arial,sans-serif; font-size: 1em; }
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: 'Open Sans', sans-serif; }
 .ui-widget-content { border: 1px solid #737172; background: #f4f4f4 url(images/ui-bg_gloss-wave_30_f4f4f4_500x100.png) 50% top repeat-x; color: #000; }
 .ui-widget-content a { color: #000; }
-.ui-widget-header { border: 1px solid #ed9a22; background: #ed9a22 url(images/ui-bg_highlight-soft_25_ed9a22_1x100.png) 50% 50% repeat-x; color: #ffffff; font-weight: bold; }
+.ui-widget-header { border: 1px solid #D5D4D5; background: #D5D4D5; color: #ffffff; font-weight: bold; }
 .ui-widget-header a { color: #ffffff; }
 
 /* Interaction states
 ----------------------------------*/
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { border: 1px solid #a1ca4a; background: #a1ca4a; font-weight: bold; color: #fff; }
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { border: 1px solid #9E9C9D; background: #D5D4D5; font-weight: bold; color: #fff; }
 .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: #fff; text-decoration: none; }
-.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus { border: 1px solid #a1ca4a; background: #a1ca4a; font-weight: bold; color: #fff; }
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus { border: 1px solid #9E9C9D; background: #9E9C9D; font-weight: bold; color: #fff; }
 .ui-state-hover a, .ui-state-hover a:hover { color: #fff; text-decoration: none; }
-.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { border: 1px solid #6fa414; background: #6fa414 url(images/ui-bg_highlight-soft_45_6fa414_1x100.png) 50% 50% repeat-x; font-weight: bold; color: #ffffff; }
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { border: 1px solid #6fa414; background-color:#757273; font-weight: bold; color: #ffffff; }
 .ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited { color: #ffffff; text-decoration: none; }
 
 /* Interaction Cues
 ----------------------------------*/
-.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight  {border: 1px solid #6fa414; background: #6fa414 url(images/ui-bg_flat_55_6fa414_40x100.png) 50% 50% repeat-x; color: #333333; }
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight  {border: 1px solid #D5D4D5; background: #D5D4D5; color: #333333; }
 .ui-state-highlight a, .ui-widget-content .ui-state-highlight a,.ui-widget-header .ui-state-highlight a { color: #333333; }
-.ui-state-error, .ui-widget-content .ui-state-error, .ui-widget-header .ui-state-error {border: 1px solid #994d53; background: #994d53 url(images/ui-bg_flat_55_994d53_40x100.png) 50% 50% repeat-x; color: #ffffff; }
+.ui-state-error, .ui-widget-content .ui-state-error, .ui-widget-header .ui-state-error {border: 1px solid #757273; background: #757273; color: #ffffff; }
 .ui-state-error a, .ui-widget-content .ui-state-error a, .ui-widget-header .ui-state-error a { color: #ffffff; }
 .ui-state-error-text, .ui-widget-content .ui-state-error-text, .ui-widget-header .ui-state-error-text { color: #ffffff; }
 .ui-priority-primary, .ui-widget-content .ui-priority-primary, .ui-widget-header .ui-priority-primary { font-weight: bold; }
@@ -350,10 +350,10 @@ body .ui-tooltip {  }
 /* states and images */
 .ui-icon { width: 16px; height: 16px; background-image: url(images/ui-icons_ffffff_256x240.png); }
 .ui-widget-content .ui-icon {background-image: url(images/ui-icons_ffffff_256x240.png); }
-.ui-widget-header .ui-icon {background-image: url(images/ui-icons_a8a3ae_256x240.png); }
-.ui-state-default .ui-icon { background-image: url(images/ui-icons_6fa414_256x240.png); }
-.ui-state-hover .ui-icon, .ui-state-focus .ui-icon {background-image: url(images/ui-icons_ffffff_256x240.png); }
-.ui-state-active .ui-icon {background-image: url(images/ui-icons_ffffff_256x240.png); }
+.ui-widget-header .ui-icon {background-color: #D5D4D5; }
+.ui-state-default .ui-icon { background-color: #D5D4D5; }
+.ui-state-hover .ui-icon, .ui-state-focus .ui-icon {background-color: #9E9C9D; }
+.ui-state-active .ui-icon {background-color:#757273;}
 .ui-state-highlight .ui-icon {background-image: url(images/ui-icons_8d78a5_256x240.png); }
 .ui-state-error .ui-icon, .ui-state-error-text .ui-icon {background-image: url(images/ui-icons_ebccce_256x240.png); }
 

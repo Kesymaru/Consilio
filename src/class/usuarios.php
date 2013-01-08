@@ -10,13 +10,16 @@ require_once("imageUpload.php");
 * PARA MANEJAR LOS CLIENTES
 */
 class Cliente{
-	private $session = '';
 
 	/**
 	* ASEGURA QUE SOLO SI EL USUARIO ESTA LOGUEADO PUEDA USAR EL SCRIPT
 	*/
 	public function __construct(){
-		$this->session = new Session();
+		
+		//revisa que este logueado
+		$session = new Session();
+		$session->Logueado();
+		
 	}
 
 	/**
@@ -98,12 +101,6 @@ class Cliente{
 		$registro = mysql_real_escape_string($registro);
 		$skype = mysql_real_escape_string($skype);
 
-		if($imagen == "" || empty($imagen) || $imagen == null){
-			$imagen = "es.png";
-		}else{
-			//sube imagen
-		}
-
 		$query = "INSERT INTO clientes (nombre, email, registro, telefono, skype, imagen)";
 		$query .= " VALUES ('".$nombre."', '".$email."', '".$registro."', '".$telefono."', '".$skype."', '".$imagen."') ";
 
@@ -158,7 +155,7 @@ class Cliente{
 	* @return $link -> link de la imagen subida
 	* @return false si falla
 	*/
-	private function UploadImagen($imagen){
+	public function UploadImagen($imagen){
 		//SUBE LA IMAGEN
 		if($imagen['tmp_name'] != null && $imagen['tmp_name'] != ""){
 			$upload = new Upload();
@@ -180,6 +177,22 @@ class Cliente{
 			}else{
 				return false;
 			}
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* DELETE CLIENTE
+	* @param $id -> id del cliente
+	* @return true si se elimina el cliente y sus datos
+	*/
+	function DeleteCliente($id){
+		$base = new Database();
+		$query = "DELTE FROM clientes WHERE id = ".$id;
+		
+		if($base->Delete($query)){
+			return true;
 		}else{
 			return false;
 		}

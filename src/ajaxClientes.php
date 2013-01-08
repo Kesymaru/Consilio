@@ -283,15 +283,15 @@ function RegistrarCLiente(){
 	if(isset($_POST['nombre']) && isset($_POST['email']) && isset($_POST['registro']) && isset($_POST['telefono']) ){
 		
 		$imagen = "";
-		if(isset($_POST['imagen'])){
-			$imagen = $_POST['imagen'];
+		if(isset($_FILES['imagen'])){
+			$imagen = $cliente->UploadImagen($_FILES['imagen']);
 		}else{
 			$imagen = "images/es.png";
 		}
 
 		//update sin cambio de imagen
 		if(!$cliente->NewCliente($_POST['nombre'], $_POST['email'], $_POST['registro'], $_POST['telefono'], $_POST['skype'], $imagen )){
-			echo "Error: No se pudo crear el nuevo cliente.";
+			echo "Error: ajaxClientes.php RegistrarCliente() No se pudo crear el nuevo cliente.";
 		}
 
 	}else{
@@ -300,5 +300,13 @@ function RegistrarCLiente(){
 
 }
 
+/**
+* ELIMINA UN CLIENTE
+* @param $id -> id del cliente a borrar
+*/
+function EliminarCliente($id){
+	$cliente = new Cliente();
+
+}
 
 ?>

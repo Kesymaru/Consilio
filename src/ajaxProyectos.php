@@ -301,18 +301,25 @@ function EditarProyecto($id){
 					  				Estado
 					  			</td>
 					  			<td>
-					  				<select name="estado">';
+					  			
+					  				<div id="radio-estado">';
 		
 		if($datos[0]['status'] == 1){
-			$formulario .= '<option value="1" selected>Activo</option>
-					  		<option value="0">Inactivo</option>';
+			$formulario .= '<input id="radio-estado1" type="radio" checked="checked" name="estado" value="1">
+						  				<label for="radio-estado1">Activo</label>
+
+						  			<input id="radio-estado2" type="radio" name="estado" value="0">
+						  				<label for="radio-estado2">Inactivo</label>';
 		}else{
-			$formulario .= '<option value="1">Activo</option>
-					  		<option value="0" selected>Inactivo</option>';
+			$formulario .= '<input id="radio-estado1" type="radio" name="estado" value="1">
+						  				<label for="radio-estado1">Activo</label>
+
+						  			<input id="radio-estado2" type="radio" name="estado" checked="checked" value="0">
+						  				<label for="radio-estado2">Inactivo</label>';
 		}
 
 		$formulario .= '
-					  				</select>
+					  				</div>
 					  			</td>
 					  		</tr>
 					  		</table>

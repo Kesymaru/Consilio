@@ -56,7 +56,7 @@
       this._namespaceID = this.eventNamespace || ('multiselect' + multiselectID);
 
       var button = (this.button = $('<button type="button"><span class="ui-icon ui-icon-triangle-2-n-s"></span></button>'))
-        .addClass('ui-multiselect ui-widget ui-state-default ui-corner-all')
+        .addClass('ui-multiselect ui-widget ui-state-active ui-corner-all')
         .addClass(o.classes)
         .attr({ 'title':el.attr('title'), 'aria-haspopup':true, 'tabIndex':el.attr('tabIndex') })
         .insertAfter(el),
@@ -605,7 +605,7 @@
       }
 
       $.fn.hide.apply(this.menu, args);
-      this.button.removeClass('ui-state-active').trigger('blur').trigger('mouseleave');
+      this.button.removeClass('ui-state-default').trigger('blur').trigger('mouseleave');
       this._isOpen = false;
       this._trigger('close');
     },

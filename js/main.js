@@ -125,7 +125,7 @@ function ToolbarMenu(click){
 * ACTIVA EL MENU
 */
 function ActivaMenu(){
-	ActivaMenuFixIe(); //FIX PARA IE
+	//ActivaMenuFixIe(); //FIX PARA IE
 
 	//ESCONDE
 	if( $('#menu').is(':visible') && $.cookie('vista') ){
@@ -476,18 +476,6 @@ function LogOut(){
 		});
 }
 
-/**
-* SESSION CADUCADA FORZA LOGOUT
-*/
-function ForceLogOut(){
-	notifica('Su session ha caducado.<br/>Loguese de nuevo.');
-	setTimeout(function (){
-			$('body').fadeOut(1500, function(){
-		    	top.location.href = 'login.php';
-		});
-	},2000);
-}
-
 /********************************** HELPERS ******************************/
 
 /**
@@ -513,19 +501,6 @@ function Boton(id){
 
 function SetBotones(id){
 	$("#"+id).buttonset();
-}
-
-/**
-* INICIALIZA TABLA CON ORDENACION
-* UTILIZA EL PLUGIN table
-*/
-function Tabla(id){
-	$('#'+id).dataTable( {
-		"bDestroy"  : true,
-		"bStateSave": true,
-		"bPaginate": false,
-        "bLengthChange": false
-	} );
 }
 
 /**
@@ -884,4 +859,46 @@ function PreviewImage(input, imagen) {
 
 		reader.readAsDataURL(input.files[0]);
 	}
+}
+/**
+* BUSQUEDA GENERICA
+* @param id -> id del 
+*/
+function BuscarGenerica(id, target){
+	if($("#"+id).is(":visible")){
+		$("#"+id).slideUp();
+		$("#"+id).val("");
+		$("#"+target).fadeIn();
+	}else{
+		$("#"+id).slideDown();
+	}
+	
+	//busqueda en vivo
+	BuscarLive(id, target);
+}
+
+/**
+* BUSQUEDA EN VIVO GENERICA
+* @param input -> id del input 
+* @param target -> lugar donde buscar id
+*/
+function BuscarLive(input, target){
+	//actualiza al ir escribiendo
+	$("#"+input).keyup(function(){
+		var busqueda = $("#"+input).val(), count = 0;
+
+		//recorre opciones para buscar
+        $("#"+target).each(function(){
+ 
+            //esconde a los que no coinciden
+            if($(this).text().search(new RegExp(busqueda, "i")) < 0){
+                $(this).fadeOut();
+ 
+            //sino lo muestra
+            } else {
+                $(this).show();
+                count++;
+            }
+        });
+	});
 }

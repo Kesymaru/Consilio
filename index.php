@@ -30,6 +30,7 @@ $master = new Master();
 	<link rel="stylesheet" type="text/css" href="css/chosen.css">
 	<link rel="stylesheet" type="text/css" href="css/selector/jquery.multiselect.css">
 	<link rel="stylesheet" type="text/css" href="css/selector/jquery.multiselect.filter.css">
+	<link rel="stylesheet" type="text/css" href="fancybox/jquery.fancybox.css">
 
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800italic,800,600,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
 

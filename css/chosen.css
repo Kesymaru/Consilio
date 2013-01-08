@@ -4,10 +4,11 @@
   position: relative;
   display: inline-block;
   zoom: 1;
-  min-width: 150px;
+  min-width:146px;
   *display: inline;
 }
 .chzn-container .chzn-drop {
+  min-width: 150px;
   background: #fff;
   border: 1px solid #aaa;
   border-top: 0;
@@ -100,6 +101,7 @@
   z-index: 1010;
 }
 .chzn-container-single .chzn-search input {
+  min-width: inherit !important;
   background: #fff url('chosen-sprite.png') no-repeat 100% -20px;
   background: url('chosen-sprite.png') no-repeat 100% -20px, -webkit-gradient(linear, 0 0, 0 100%, color-stop(1%, #eeeeee), color-stop(15%, #ffffff));
   background: url('chosen-sprite.png') no-repeat 100% -20px, -webkit-linear-gradient(top, #eeeeee 1%, #ffffff 15%);
@@ -112,7 +114,9 @@
   border: 1px solid #aaa;
   font-family: sans-serif;
   font-size: 1em;
+
 }
+
 .chzn-container-single .chzn-drop {
   -webkit-border-radius: 0 0 4px 4px;
   -moz-border-radius   : 0 0 4px 4px;

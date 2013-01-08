@@ -232,6 +232,24 @@ function MenuComponer(m, id){
 		//vista de normas
 		PreviewCategoriaNormas(id);
 	}
+	else if(m == 'clicked: camino'){
+		CategoriaPath(id);
+	}
+}
+
+/**
+* MUSTRA PATH DE UNA CATEGORIA SELECCIONADA
+* @param id -> id de la categoria incluida
+*/
+function CategoriaPath(id){
+	notifica(id);
+	if($("#in"+id+" .path").is(":visible")){
+		//efecto progresivo
+		$("#in"+id+" .path").fadeOut();
+	}else{
+		//efecto progresivo
+		$("#in"+id+" .path").fadeIn();
+	}
 }
 
 /**
@@ -332,8 +350,12 @@ function ComponerLimpiarCamino(padre){
  * @param $id -> id de la seleccion
  */
 function SelectCategoriaIncluida(id){
-	//$("#categorias-incluidas td").removeClass("seleccionada");
-	$("#in"+id).addClass("seleccionada");
+
+	if($("#in"+id).hasClass('seleccionada')){
+		$("#in"+id).removeClass("seleccionada");
+	}else{
+		$("#in"+id).addClass("seleccionada");
+	}
 
 	MenuCategoriaIncluida(id);
 }
@@ -354,6 +376,7 @@ function MenuCategoriaIncluida(id){
         	//"excluir": {name: "Excluir", icon: "delete"},
         	"excluir": {name: "Excluir Selecciones", icon: "delete", accesskey: "x"},
             "ver": {name: "Ver", icon: "edit", accesskey: "v"},
+            "camino": {name: "Ver camino", icon: "edit", accesskey: "c"},
             //"eliminar": {name: "Eliminar", icon: "delete"},
         }
     });
@@ -414,7 +437,17 @@ function ExcluirCategorias(){
 * @param id -> id de la categorias
 */
 function PreviewCategoriaNormas(id){
-	if(!$("#menu2").is(":visible")){
-		Menu2();
-	}
+	var max = $("html").height()*0.50;
+	console.log(max);
+
+	$.fancybox({
+		'href'         : 'src/previewNormas.php?categoria='+id,
+		'width'        : '40%',
+		'height'       : '500',
+		'autoScale'    : false,
+		'transitionIn' : 'fade',
+		'transitionOut': 'elastic',
+		'type'         : 'iframe',
+		'title'        : 'Normas'
+   });
 }

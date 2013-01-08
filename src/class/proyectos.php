@@ -5,8 +5,15 @@
 require_once("classDatabase.php");
 require_once("usuarios.php"); 
 require_once("registros.php"); 
+require_once("session.php");
 
 class Proyectos{
+
+	public function __construct(){
+		//SEGURIDAD LOGUEADO
+		$session = new Session();
+		$session->Logueado();
+	}
 
 	/**
 	* OBTIENE LOS PROYECTOS 

@@ -253,6 +253,7 @@ function FormularioNuevoProyecto(){
 	$('#FormularioNuevoProyecto').ajaxForm(options);
 
 	Editor('descripcion');
+	$("#radio-estado").buttonset();
 }
 
 /**
@@ -337,6 +338,7 @@ function FormularioEditarProyecto(){
 	$('#FormularioEditarProyecto').ajaxForm(options);
 
 	Editor('descripcion');
+	$("#radio-estado").buttonset();
 }
 
 /**

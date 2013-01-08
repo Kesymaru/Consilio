@@ -12,7 +12,8 @@ class Session{
 		//sino se ha iniciado session
 		if( !isset($_SESSION['id']) ){
 			session_start();
-			$_SESSION['home'] = 'http://'.$_SERVER['HTTP_HOST'].'/Consilio';
+			//$_SESSION['home'] = 'http://'.$_SERVER['HTTP_HOST'].'/Consilio';
+			$_SESSION['home'] = '/Consilio';
 		}
 
 	}
@@ -24,10 +25,14 @@ class Session{
 	public function Logueado(){
 
 		if( !isset($_SESSION['logueado']) ){
-			$home = $_SESSION['home']."/login.php";
-			header('Location: '.$home);
-			//en javascript funciona mejor
-			//echo '<script>ForceLogOut()</script>';
+			$login = $_SESSION['home']."/login.php";
+
+			//redirecciona
+			echo '<script type="text/javascript">
+			window.location = "'.$login.'"
+			</script>';
+						
+			//header('Location: '.$login);
 			exit;
 		}else{
 			return true;

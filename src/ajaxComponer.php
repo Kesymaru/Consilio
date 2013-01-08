@@ -64,7 +64,7 @@ function Categorias($proyecto){
 			<div id="categorias-componer">
 				<div class="titulo">
 					Categorias
-					<button id="incluir-categorias" type="button" onClick="GuardarCategorias()">Incluir</button>
+					<button id="incluir-categorias" title="Incluir Categorias Seleccionadas" type="button" onClick="GuardarCategorias()">Incluir</button>
 					<hr>
 				  </div>';
 
@@ -157,14 +157,7 @@ function ComponerProyecto($id){
 
 	if(!empty($proyecto)){
 
-		if( !empty($registro[0]['registro']) ){
-			$datos = unserialize( $registro[0]['registro'] );
-			echo '<pre>';
-			print_r($datos);
-			echo '</pre>';
-
-			//echo $datos = unserialize($datos);
-		}
+		$datos = unserialize( $registro[0]['registro'] );
 
 		$datos = unserialize( $registro[0]['registro'] );	
 
@@ -218,9 +211,11 @@ function DatosRegistrados($datos){
 			if(TieneHijos($categoria)){
 				continue;
 			}else{
+				$nombre = CategoriaNombre($categoria);
+				$camino = Camino($categoria);
 				$lista .= '<tr>
-						<td id="in'.$categoria.'" onClick="SelectCategoriaIncluida('.$categoria.')">
-							'.CategoriaNombre($categoria).'
+						<td id="in'.$categoria.'" onClick="SelectCategoriaIncluida('.$categoria.')" title="'.$nombre.' Categoria Incluida">
+							'.$camino.'
 						</td>
 					</tr>';
 			}
@@ -239,6 +234,39 @@ function DatosRegistrados($datos){
 }
 
 /**
+* COMPONE EL CAMINO DE UNA CATEGORIA
+* @return $camino
+*/
+function Camino($categoria){
+	$camino = array();
+
+	$padre = $categoria;
+
+	$tiene = true;
+	$nombre = "";
+	do{
+		if(!$padre = getPadre($padre)){
+			$tiene = false;
+		}else{
+			$nombre = CategoriaNombre($padre);
+			$camino[] = $nombre." ".$padre;
+		}
+	}while($tiene);
+
+	//invierte el array
+	$path = array_reverse($camino);
+
+	$compuesto = '<ul class="camino">';
+
+	foreach ($path as $f => $c) {
+		$compuesto .= '<li class="path" >'.$c.' / </li>';
+	}
+	$compuesto .= '<li class="item">'.CategoriaNombre($categoria).'</ul>';
+
+	return $compuesto; //camino
+}
+
+/**
 * DETERMINA SI UNA CATEGORIA TIENE HIJOS
 * @param $padre -> categoria padre id
 * @return $hijos -> array[][] datos de los hijos del padre
@@ -254,6 +282,22 @@ function TieneHijos($padre){
 		return false;
 	}
 }
+
+/**
+* OBTIEN EL ID DE UN PADRE
+* @param $padre -> id del padre
+*/
+function getPadre($hijo){
+	$registros = new Registros();
+	$padre = $registros->getPadre($hijo);
+	
+	if(!empty($padre)){
+		return $padre;
+	}else{
+		return false;
+	}
+}
+
 /**
 * OBTIENE EL NOMBRE DE UNA CATEGORIA
 * @param $id -> id del 
