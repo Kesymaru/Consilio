@@ -93,10 +93,13 @@ function FormularioComponerCategorias(){
 			if(response.length > 3){
 				notifica("Categorias Incluidas.");
 
+				//obtiene el id del proyecto en composicion
 				var id = $("#proyecto").val();
-				notifica('actualizando '+id);
+				
 				//actualiza la vista del prpoyecto
 				ComponerProyecto(id);
+				$("#content").hide();
+				$("#content").fadeIn();
 
 			}else{
 				notificaError("Error: "+response);
@@ -118,11 +121,9 @@ function FormularioComponerCategoriasValidar(){
 	var total = 0;
 
 	//cuentas las categorias seleccionadas
-	$(".seleccionada").each(function(f,c){
+	$(".seleccionada").each(function(){
 		total++;
 	});
-
-	console.log(total);
 
 	if(total == 0){
 		notificaAtencion("Seleccione alguna categoria");
@@ -319,4 +320,13 @@ function ComponerLimpiarCamino(padre){
 		});
 	}
 
+}
+
+/**
+ * SELECCIONA UNA CATEGORIA 
+ * @param $id -> id de la seleccion
+ */
+function SelectCategoriaIncluida(id){
+	$("#categorias-incluidas td").removeClass("seleccionada");
+	$("#in"+id).addClass("seleccionada");
 }

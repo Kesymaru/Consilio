@@ -108,6 +108,21 @@ class Registros{
 		}
 	}
 
+	/**
+	* ELIMINA LOS REGISTROS DE UN PROYECTO
+	* @param $proyecto -> id del proyecto
+	*/
+	public function DeleteRegistros($proyecto){
+		$base = new Database();
+		$query = "DELETE FROM registros WHERE proyecto = ".$proyecto;
+
+		if($base->Delete($query)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 /************** OBSERVACIONES DE UNA CATEGORIA EN UN PROYECTO **************/
 
 	/**
@@ -617,21 +632,6 @@ class Registros{
 			}else{
 				return false;
 			}
-		}
-	}
-
-	/**
-	* ELIMINA TODOS LOS REGISTROS DE UN PROYECTO
-	* @param $proyecto -> id del proyecto
-	*/
-	public function DeleteRegistros($proyecto){
-		$base = new Database();
-		$query = "DELETE FROM registros WHERE proyecto = ".$proyecto;
-
-		if($base->Delete($query)){
-			return true;
-		}else{
-			return false;
 		}
 	}
 

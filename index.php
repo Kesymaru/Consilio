@@ -27,6 +27,7 @@ $master = new Master();
 	<!-- style plugins -->
 	<link rel="stylesheet" type="text/css" href="css/jquery.contextMenu.css">
 	<link rel="stylesheet" type="text/css" href="css/jquery.ui.timepicker.css">
+	<link rel="stylesheet" type="text/css" href="css/chosen.css">
 	<link rel="stylesheet" type="text/css" href="css/selector/jquery.multiselect.css">
 	<link rel="stylesheet" type="text/css" href="css/selector/jquery.multiselect.filter.css">
 
@@ -65,6 +66,7 @@ $master = new Master();
 	<script type="text/javascript" src="js/style.js"></script>
 
 	<!-- jquery plugins -->
+	<script type="text/javascript" src="js/chosen.jquery.min.js"></script>
 	<script type="text/javascript" src="js/jquery.form.js"></script>
 	<script type="text/javascript" src="js/jquery.cookie.js"></script>
 	<script type="text/javascript" src="js/jquery.contextMenu.js"></script>

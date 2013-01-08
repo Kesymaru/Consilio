@@ -352,7 +352,7 @@ function Tipos(){
 	$datos = $registros->getTipos();
 
 	if(!empty($datos)){
-		$tipos .= '<select name="tipo" title="Tipo De Norma" class="validate[required]">';
+		$tipos .= '<select id="tipo" name="tipo" title="Tipo De Norma" class="validate[required]">';
 
 		foreach ($datos as $fila => $tipo) {
 			$tipos .= '<option value="'.$tipo['id'].'">'.$tipo['nombre'].'</option>';
@@ -380,7 +380,7 @@ function TiposNorma($norma){
 	$datos =  $registros->getTipos();
 
 	if(!empty($datos)){
-		$tipos .= '<select name="tipo" title="Tipo De Norma" class="validate[required]" >';
+		$tipos .= '<select id="tipo" name="tipo" title="Tipo De Norma" class="validate[required]" >';
 
 		foreach ($datos as $fila => $tipo) {
 			if($tipo['id'] == $seleccionado){

@@ -217,6 +217,7 @@ function NuevoProyecto(){
 		success: function(response){
 			$("#content").html(response);
 			FormularioNuevoProyecto();
+			$("#cliente").chosen();
 		},
 		fail: function(){
 		}
@@ -273,7 +274,7 @@ function EditarProyecto(){
 		success: function(response){
 			$("#content").html(response);
 			FormularioEditarProyecto();
-			
+			$("#cliente").chosen();
 			SelectProyecto(id);
 		},
 		fail: function(){

@@ -951,6 +951,8 @@ function NuevaNorma(){
 				
 				//esconde el cuadro de adjuntos
 				$(".adjuntos").hide();
+
+				$("#tipo").chosen();
 			}else{
 				notificaError("Error. Al cargar fomrulario para Nueva Norma.");
 			}
@@ -1015,6 +1017,8 @@ function EditarNorma(){
 			FormularioNorma();
 
 			$(".adjuntos").hide();
+
+			$("#tipo").chosen();
 		},
 		fail: function(){
 
@@ -1064,7 +1068,7 @@ function FormularioNorma(){
 	    		}
 		    },
 		    fail: function(){
-				notificaError("Error: ocurrio un error :(<br/>Codigo: ajaxEdicion 000.");
+				notificaError("Error: Edicion.js FormularioNorma() AJAX fail.");
 		    }
 		}; 
 		$('#FormularioNorma').ajaxForm(options);
@@ -1931,13 +1935,16 @@ function FormularioNuevoGrupo(){
 		},
 	    success: function(response) { 
 	    	
-	    	if(response.length == 0){
+	    	if(response.length <= 3){
 	    		$("#content").html(response);
 	    		notifica("Nuevo Grupo de Entidades Agregado.");
 	    		Entidades();
+	    	}else{
+	    		notificaError(response);
 	    	}
 		},
 		fail: function(){
+			notificaError("Error: Edicion.js FormularioNuevoGrupo() AJAX fail");
 		}
 	}; 
 	$('#FormularioNuevoGrupo').ajaxForm(options);
@@ -1958,6 +1965,7 @@ function NuevaEntidad(){
 		success: function(response){
 			$("#content").html(response);
 			FormularioNuevaEntidad();
+			$("#grupos").chosen();
 		},
 		fail: function(){
 
@@ -1976,7 +1984,7 @@ function FormularioNuevaEntidad(){
 		beforeSend: function(){
 		},
 	    success: function(response) { 
-	    	if(response.length == 0){
+	    	if(response.length <= 3){
 	    		Entidades();
 	    		notifica("Entidad creada.")
 	    		$("#content").html();
@@ -2056,6 +2064,7 @@ function EditarEntidad(){
 		success: function(response){
 			$("#content").html(response);
 			FormularioEditarEntidad();
+			$("#padre").chosen();
 		},
 		fail: function(){
 		}

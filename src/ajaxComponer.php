@@ -171,7 +171,7 @@ function ComponerProyecto($id){
 					</div>
 			  	</div>';
 
-		$lista .= '<table class="table-list">
+		$lista .= '<table class="table-list" id="categorias-incluidas">
 				   <tr>
 				      <td>
 				      	Categorias Incluidas
@@ -207,39 +207,13 @@ function DatosRegistrados($datos){
 	$lista = "";
 
 	if(is_array($datos) && !empty($datos)){
-
-		/*foreach ($datos as $f => $categoria) {
-			$hijos = "";
-			
-			if($hijos = TieneHijos($categoria)){
-				$lista .= '<tr onClick="alert(\''.$categoria.'\')">
-							<td>
-							<ul>
-							<li class="root" id="in'.$categoria.'" onClick="alert('.$categoria.')" >NOMBRE</li>';
-
-				foreach ($hijos as $fi => $hijo) {
-					$lista .= '<li id="in+'.$hijo['id'].'">'.$hijo['nombre'].'</li>';
-				}
-
-				$lista .= '</ul>
-							</td>
-							</tr>';
-			}else if($padre){//es padre
-				$lista .= '<ul>
-							<li id="in'.$categoria.'">
-							nombre
-							</li>
-							</ul>';
-			}
-		}*/
-
 		foreach ($datos as $key => $categoria) {
 			if(TieneHijos($categoria)){
 				continue;
 			}else{
 				$lista .= '<tr>
-						<td>
-							'.$categoria.'
+						<td id="in'.$categoria.'" onClick="SelectCategoriaIncluida('.$categoria.')">
+							'.CategoriaNombre($categoria).'
 						</td>
 					</tr>';
 			}
@@ -279,7 +253,9 @@ function TieneHijos($padre){
 * @RETURN $nombre -> string con el nombre
 */
 function CategoriaNombre($id){
-
+	$registros = new Registros();
+	$nombre = $registros->getCategoriaDato("nombre", $id);
+	return $nombre;
 }
 
 /**
@@ -307,6 +283,8 @@ function IncluirCategorias($proyecto, $categorias){
 		if(!$registros->UpdateRegistro($proyecto, $nuevas)){
 			echo "Error: ajaxComponer.php IncluirCategorias() no se guardaron las nuevas categorias registros->UpdateRegistro() ";
 		}
+
+		echo 'incluidas';
 
 	}else{
 		echo "<br/>Error: ajaxComponer.js IncluirCategorias() categorias o registros invalidos.";

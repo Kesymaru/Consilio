@@ -347,7 +347,7 @@ function SelectClientes(){
 	$select = "";
 
 	if(!empty($datos)){
-		$select .= '<select name="cliente" title="Cliente Para Nuevo Proyecto" class="validate[required]">';
+		$select .= '<select id="cliente" name="cliente" title="Cliente Para Nuevo Proyecto" class="validate[required]">';
 
 		foreach ($datos as $fila => $cliente) {
 			$select .= '<option value="'.$cliente['id'].'">'.$cliente['nombre'].'</option>';
@@ -371,7 +371,7 @@ function SelectedClientes($id){
 	$select = "";
 
 	if(!empty($datos)){
-		$select .= '<select name="cliente" title="Cliente Para Nuevo Proyecto" class="validate[required]">';
+		$select .= '<select id="cliente" name="cliente" title="Cliente Para Nuevo Proyecto" class="validate[required]">';
 
 		foreach ($datos as $fila => $cliente) {
 			if($id == $cliente['id']){
