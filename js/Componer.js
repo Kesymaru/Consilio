@@ -223,9 +223,9 @@ function MenuComponerCategoria(id){
  * @param id -> id de la categoria
  */
 function MenuComponer(m, id){
+	//esxcluir selecciones
 	if(m == 'clicked: excluir'){
-		notifica("la categoria seleccionada es "+id);
-		//ComponerExcluir();
+		ExcluirCategorias();
 	}else if(m == 'clicked: incluir'){
 		GuardarCategorias();
 	}
@@ -322,11 +322,72 @@ function ComponerLimpiarCamino(padre){
 
 }
 
+/**************** CATEGORIAS INCLYUIDAS *********************/
+
 /**
  * SELECCIONA UNA CATEGORIA 
  * @param $id -> id de la seleccion
  */
 function SelectCategoriaIncluida(id){
-	$("#categorias-incluidas td").removeClass("seleccionada");
+	//$("#categorias-incluidas td").removeClass("seleccionada");
 	$("#in"+id).addClass("seleccionada");
+
+	MenuCategoriaIncluida(id);
+}
+
+/**
+* PONE CONTEXT MENU DE UNA CATEGORIA SELECCIONADA
+*/
+function MenuCategoriaIncluida(id){
+	$.contextMenu({
+        selector: '#in'+id, 
+        callback: function(key, options) {
+            var m = "clicked: " + key;
+            //window.console && console.log(m) || alert(m); 
+            MenuComponer(m, id);
+        },
+        items: {
+        	//"excluir": {name: "Excluir", icon: "delete"},
+        	"excluir": {name: "Excluir Selecciones", icon: "add", accesskey: "i"}
+            //"editar": {name: "Editar", icon: "edit"},
+            //"eliminar": {name: "Eliminar", icon: "delete"},
+        }
+    });
+}
+
+/**
+* EXCLUYE LAS CATEGORIAS SELECCIONADAS DE LAS INCLUIDAS
+*/
+function ExcluirCategorias(){
+	var excluidas = [];
+	
+	$("#categorias-incluidas .seleccionada").each(function(){
+		//notifica(this.id.substring(2) );
+		excluidas.push( this.id.substring(2) );
+	});
+
+	//alert("mostrando array");
+
+	for(var i =0; i <= excluidas.length; i++){
+		//notifica(excluidas[i]);
+	}
+	
+	var proyecto = $("#proyecto").val();
+
+	var queryParams = {"func" : "ExcluirCategorias", "proyecto" : proyecto, "categorias[]" : excluidas};
+
+	$.ajax({
+		data: queryParams,
+		async: false,
+		type: "post",
+		url: "src/ajaxComponer.php",
+		beforeSend: function(){
+		},
+		success: function(response){
+			$("#content").html(response);
+		},
+		fail: function(response){
+			notificaError("Error: Componer.js ExcluirCategorias() AJAX fail.<hr>"+response);
+		}
+	});
 }

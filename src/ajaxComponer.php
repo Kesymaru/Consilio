@@ -40,6 +40,14 @@ if(isset($_POST['func'])){
 				IncluirCategorias($_POST['proyecto'], $_POST['categoria']);
 			}
 			break;
+
+		//EXCLUIR CATEGORIAS
+		case 'ExcluirCategorias':
+			echo 'excluyendo';
+			if(isset($_POST['proyecto']) && isset($_POST['categorias'])){
+				ExcluirCategorias($_POST['proyecto'], $_POST['categorias']);
+			}
+			break;
 	}
 }
 
@@ -289,11 +297,37 @@ function IncluirCategorias($proyecto, $categorias){
 	}else{
 		echo "<br/>Error: ajaxComponer.js IncluirCategorias() categorias o registros invalidos.";
 	}
-	
 
-	
 }
 
+/**
+* EXCLUYE CATEGORIAS
+* @param $proyecto -> id del proyecto
+* @param $categorias -> array[] con los id a excluir
+*/
+function ExcluirCategorias($proyecto, $categorias){
+	$registros = new Registros();
 
+	$registro = $registros->getRegistros($proyecto);
+
+	$registradas = unserialize($registro[0]['registro']);
+
+	if(!empty($registradas)){
+		//botiene categorias que no se eliminan
+		$seleccionadas = array_diff($categorias, $registradas);
+
+		//actualiza el registro
+		if(!$registros->UpdateRegistro($proyecto, $seleccionadas)){
+			echo "Error: ajaxComponer.php ExcluirCategorias() no se actualizo el registro en registros->UpdateRegistro() ";
+		}
+
+		echo 'quedaron<br/><pre>';
+		print_r($seleccionadas);
+		echo '</pre>';
+
+	}else{
+		echo 'Error: ajaxComponer.php ExcluirCategorias(), no hay registros para el proyecto '.$proyecto;
+	}
+}
 
 ?>
