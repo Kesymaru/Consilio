@@ -97,7 +97,7 @@ class Registros{
 			$query = "SELECT proyectos WHERE id = ".$nuevo;
 			$datos = $base->Select($query);
 
-			$registro = array('');
+			$registro = array();
 
 			//crea registro vacio
 			if($this->NewRegistro($nuevo, $registro, $datos[0]['fecha'])){

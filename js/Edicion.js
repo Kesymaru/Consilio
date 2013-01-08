@@ -198,7 +198,7 @@ function FormularioNormasCategoria(){
 		},
 	    success: function(response) { 
 
-	    	if(response.length == 3){
+	    	if(response.length <= 3){
 	    		notifica("Norma Actualizada.");
 
 	    		var nombre = $("#nombre").val();
@@ -623,9 +623,9 @@ function NuevaCategoria(padre){
 				},
 		    	success: function(response) { 
 
-			        if(padre == 0 && response.length == 3){
+			        if(padre == 0 && response.length <= 3){
 			        	Padres();			        	
-			        }else if(response.length == 3) {
+			        }else if(response.length <= 3) {
 			        	Hijos(padre);
 			        }else{
 			        	$('#FormularioNuevaCategoria').validate();
@@ -1360,7 +1360,6 @@ function ValidaFormularioNuevoArticulo(){
 	EditorUpdateContent();
 	
 	//VALIDACION MANUAL
-	var permisos = $("#permisos").val();
 	var articulo = $("#articulo").val();
 	var entidades = $("#entidades").val();
 	var nombre = $("#nombre").val();
@@ -1370,9 +1369,6 @@ function ValidaFormularioNuevoArticulo(){
 		return true;
 	}else{
 				
-		if(permisos == null || permisos == ''){
-			notificaAtencion("Se requieren los permisos para el articulo.");
-		}
 		if(articulo == null || articulo == ''){
 			notificaAtencion("Se requiere un articulo.");
 		}

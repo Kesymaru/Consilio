@@ -189,18 +189,18 @@ function EditarNorma($norma){
 									</td>
 								</tr>
 								<tr>
-									<td>Numero</td>
-									<td>
-										<input type="number" id="numero" name="numero" title="Numero De La Norma" placeholder="Numero" class="validate[required, custom[number]]" value="'.$datos[0]['numero'].'" />
-									</td>
-								</tr>
-								<tr>
 									<td>Tipo</td>
 									<td>';
 
 		$formulario .= TiposNorma($norma); //selects seleccionados y disponibles para los tipos de normas
 
 		$formulario .= '			</td>
+								</tr>
+								<tr>
+									<td>Numero</td>
+									<td>
+										<input type="number" id="numero" name="numero" title="Numero De La Norma" placeholder="Numero" class="validate[required, custom[number]]" value="'.$datos[0]['numero'].'" />
+									</td>
 								</tr>
 								<tr>
 									<td>
@@ -270,12 +270,6 @@ function NuevaNorma(){
 									</td>
 								</tr>
 								<tr>
-									<td>Numero</td>
-									<td>
-										<input type="number" id="numero" name="numero" title="Numero De La Nueva Norma" placeholder="Numero" class="validate[required, custom[number]]" />
-									</td>
-								</tr>
-								<tr>
 									<td>
 										Tipo
 									</td>
@@ -284,6 +278,12 @@ function NuevaNorma(){
 	$formulario .= Tipos(); //selects disponibles para los tipos de normas
 
 	$formulario .= '				</td>
+								</tr>
+								<tr>
+									<td>Numero</td>
+									<td>
+										<input type="number" id="numero" name="numero" title="Numero De La Nueva Norma" placeholder="Numero" class="validate[required, custom[number]]" />
+									</td>
 								</tr>
 								<tr>
 									<td>
@@ -579,7 +579,7 @@ function NuevoArticulo($norma){
 							<div class="datos-botones">
 								<button type="button" title="Cancelar Edición" onClick="CancelarContent()">Cancelar</button>
 								<input type="reset" title="Limpiar Edición" value="Limpiar" />
-								<input type="submit" title="Guardar Edición" value="Guardar" />
+								<input type="submit" title="Guardar Edición" value="Guardar" onClick="EditorUpdateContent()" />
 							</div>
 						</form>
 						';

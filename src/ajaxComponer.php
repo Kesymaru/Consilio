@@ -149,11 +149,17 @@ function ComponerProyecto($id){
 	$proyecto = $proyectos->getProyectoDatos($id);
 
 	if(!empty($proyecto)){
-		$datos = "No hay registros.";
 
-		if(!empty($registro[0]['registro'])){
-			$datos = unserialize($registro[0]['registro']);			
+		if( !empty($registro[0]['registro']) ){
+			$datos = unserialize( $registro[0]['registro'] );
+			echo '<pre>';
+			print_r($datos);
+			echo '</pre>';
+
+			//echo $datos = unserialize($datos);
 		}
+
+		$datos = unserialize( $registro[0]['registro'] );	
 
 		$lista = '<div id="proyectos" class="tipos">
 				<div class="titulo">
@@ -200,26 +206,42 @@ function ComponerProyecto($id){
 function DatosRegistrados($datos){
 	$lista = "";
 
-	if(is_array($datos)){
+	if(is_array($datos) && !empty($datos)){
 
-		foreach ($datos as $f => $categoria) {
+		/*foreach ($datos as $f => $categoria) {
 			$hijos = "";
-
+			
 			if($hijos = TieneHijos($categoria)){
 				$lista .= '<tr onClick="alert(\''.$categoria.'\')">
 							<td>
 							<ul>
-							<li class="root" id="in'.$categoria.'" onClick="alert('.$categoria.')" >NOMBRE';
+							<li class="root" id="in'.$categoria.'" onClick="alert('.$categoria.')" >NOMBRE</li>';
 
 				foreach ($hijos as $fi => $hijo) {
-					$lista .= '<li id="in+'.$hijo.'">'
+					$lista .= '<li id="in+'.$hijo['id'].'">'.$hijo['nombre'].'</li>';
 				}
 
 				$lista .= '</ul>
 							</td>
 							</tr>';
-			}else{//es padre
-				$lista .= '<tr onClick="alert(\''.$categoria.'\')">';
+			}else if($padre){//es padre
+				$lista .= '<ul>
+							<li id="in'.$categoria.'">
+							nombre
+							</li>
+							</ul>';
+			}
+		}*/
+
+		foreach ($datos as $key => $categoria) {
+			if(TieneHijos($categoria)){
+				continue;
+			}else{
+				$lista .= '<tr>
+						<td>
+							'.$categoria.'
+						</td>
+					</tr>';
 			}
 		}
 
@@ -227,7 +249,7 @@ function DatosRegistrados($datos){
 	}else{
 		$lista .= '<tr id="nodata">
 						<td>
-							'.$datos.'
+							No hay datos
 						</td>
 				   </tr>';
 
@@ -245,13 +267,15 @@ function TieneHijos($padre){
 	$hijos = $registros->getHijos($padre);
 	
 	if(!empty($hijos)){
-		return $hijos;
+		//return $hijos;
+		return true;
 	}else{
 		return false;
 	}
 }
 /**
 * OBTIENE EL NOMBRE DE UNA CATEGORIA
+* @param $id -> id del 
 * @RETURN $nombre -> string con el nombre
 */
 function CategoriaNombre($id){
@@ -267,10 +291,6 @@ function IncluirCategorias($proyecto, $categorias){
 	$registros = new Registros();
 
 	$datos = $registros->getRegistros($proyecto);
-	
-	echo '<hr><pre>';
-	print_r($datos);
-	echo '</pre><hr>';
 
 	$registradas = unserialize($datos[0]['registro']);
 

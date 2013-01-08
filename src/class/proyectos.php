@@ -51,8 +51,8 @@ class Proyectos{
 
 			$registro = new Registros();
 
-			$reg = array('');
-			
+			$reg = array();
+
 			//crea registros para el nuevo proyecto
 			if($registro->NewRegistro($proyecto, $reg, $datos[0]['fecha'])){
 				return true;
