@@ -494,6 +494,7 @@ function ContextMenuSuperCategoria(id){
         items: {
             "nuevoPadre": {name: "Nueva SuperCategoria", icon: "add"}, //opcion solo para supercategorias
             "nueva": {name: "Nueva Subcategoria", icon: "add"},
+            "editar": {name: "Editar", icon: "edit"},
             "eliminar": {name: "Eliminar", icon: "delete"},
         }
     });
@@ -534,6 +535,8 @@ function MenuCategoria(m, id){
 
 		Confirmacion("Esta seguro que desea eliminar la categoria y todos sus subcategorias.", si, no);
 
+	}else if(m == 'clicked: editar'){
+		EditarCategoria(id);
 	}else if(m == 'clicked: finalizar'){
 
 	}
@@ -621,11 +624,14 @@ function FormularioNuevaCategoria(padre){
 			notifica('guardando '+padre);
 		},
 		success: function(response) { 
-			$("#content").html(response);
 			if(padre == 0 && response.length <= 3){
-				Padres();			        	
+				notifica("Categoria Creada.");
+				Padres();
+				LimpiarContent();
 			}else if(response.length <= 3) {
+				notifica("Categoria Creada.");
 				Hijos(padre);
+				LimpiarContent();
 			}else{
 			   notificaError(response);
 			}
@@ -651,6 +657,69 @@ function CancelarNuevaCateogria(padre){
 		});
     	return false;
 	});
+}
+
+/**
+* EDITA UNA CATEGORIA
+* @param id -> categoria
+*/
+function EditarCategoria(id){
+	var queryParams = {"func" : "EditarCategoria", "categoria" : id};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxEdicion.php",
+		beforeSend: function(){
+		},
+		success: function(response){
+
+			if(response.length > 0){
+				$("#content").html(response);
+				FormularioEditarCategoria(id);
+			}else{
+				notificaError("Error: Edicion.js EditarCategoria() no se resivieron los datos.");
+			}		
+		},
+		fail: function(){
+			notificaError("Error: Edicion.js EditarCategoria() AJAX fail.");
+		}
+	});
+}
+
+/**
+* FORMULARIO EDITAR CATEGORIA
+*/
+function FormularioEditarCategoria(id){
+	var options = {  
+		beforeSend: function(){
+			notifica('guardando edicion '+id);
+		},
+		success: function(response) { 
+			
+			if(response.length <= 3){
+				notifica("Categoria Actualizada");
+
+				//actualiza nombre si cambia
+				var nombre = $("#nombre").val();
+				
+				if($("#"+id).html() != nombre){
+					$("#"+id).fadeOut(500, function(){
+						$("#"+id).html(nombre);
+						$("#"+id).fadeIn();
+					});
+				}
+
+				LimpiarContent();
+			}
+			
+		},
+		fail: function(response){
+			notificaError("Error: Edicion.js FormularioEditarCategoria() AJAX fail.<br/>"+response);
+		}
+	};
+	$('#FormularioEditarCategoria').ajaxForm(options);
+	$('#FormularioEditarCategoria').validationEngine();
 }
 
 /**

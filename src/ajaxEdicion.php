@@ -56,10 +56,17 @@ if(isset($_POST['func'])){
 			}
 			break;
 
-		//ACTUALIZA DATOS, REGISTRA DATOS Y/O SUBE ARCHIVO
+		//ACTUALIZA DATOS AL SELECCIONAR NORMAS PARA LA CATEGORIA
 		case 'ActualizarCategoria':
 			if( isset($_POST['categoria']) && isset($_POST['normas']) ){
 				ActualizarCategoria( $_POST['categoria'], $_POST['normas']);
+			}
+			break;
+
+		//ACTUALIZA DATOS AL EDITAR LA CATEGORIA
+		case 'ActualizarDatosCategoria':
+			if( isset($_POST['nombre']) && isset($_POST['categoria']) ){
+				ActualizarDatosCategoria($_POST['categoria'], $_POST['nombre']);
 			}
 			break;
 
@@ -84,11 +91,17 @@ if(isset($_POST['func'])){
 			}
 			break;
 
+		//EDITAR CATEGORIA
+		case 'EditarCategoria':
+			if(isset($_POST['categoria'])){
+				EditarCategoria($_POST['categoria']);
+			}
+			break;
 	}
 }
 
 /**
-* CATEGORIAS PADRES
+* MUESTRA LAS CATEGORIAS ROOT
 */
 function Padres(){
 	echo '<div id="categorias">
@@ -120,12 +133,17 @@ function Padres(){
 			echo '<li id="'.$id.'" onClick="Hijos('.$id.')">'.$nombre.'</li>';
 		}
 		echo '</ul>';
+		echo '</div><!-- end root ->';
 	}else{
-		echo 'No hay datos.';
+		echo 'No hay categorias.
+				</div><!-- end root -->';
+		
+		//muestra boton para crear supercategoria
+		echo '<div class="datos-botones">
+			   		<button type="button" id="NuevaCategoria" title="Crear Nueva Categoria" onClick="NuevaCategoria(0)">Nueva Categoria</button>
+			   </div>';
 	}
-
-	echo '</div>';
-	echo '</div>';
+	echo '</div><!-- end categorias -->';
 }
 
 /**
@@ -332,39 +350,72 @@ function NormasSeleccionadas($categoria){
 
 /**
 * FROMULARIO PARA EDITAR UNA CATEGORIA
-* @param $padre -> id del padre al que pertenece
+* @param $id -> id de la categoria ha editar
 * @return $formulario -> formulario compuesto
 */
-function EditarCategoria($padre){
+function EditarCategoria($id){
+	$registros = new Registros();
+
+	$datos = $registros->getCategoria($id);
 	$formulario = '';
 
-	$formulario = '<form id="FormularioNuevaCategoria" enctype="multipart/form-data" method="post" action="src/ajaxEdicion.php" >
-					<div id="tipos" class="tipos">
-						<div class="titulo">
-							Edicion Cateogria
-					  		<hr>
-					  	</div>
-					  	<input type="hidden" name="func" value="RegistrarCategoria" />
-					  	<input type="hidden" id="padre" name="padre" value="'.$padre.'" />
-					  	<div class="datos">
-					  		<table>
-					  		<tr>
-					  			<td>Nombre</td>
-					  			<td>
-					  				<input type="text" name="nombre" id="nombre" placeholder="Nombre" class="validate[required]" />
-					  			</td>';
-	if($padre == 0){
-		$formulario .= '<td>
-							<img id="imagen-categoria" src="image/es.png" />
-						</td>
-						<td>
-							<input type="file" name="imagen" onChange="PreviewImage(this, \'imagen-categoria\')" />
-						</td>';
+	if(!empty($datos)){
+
+		if($datos[0]['padre'] != 0){
+			$titulo = 'Categoria';
+		}else{
+			$titulo = 'Supercategoria';
+		}
+
+		$formulario = '<form id="FormularioEditarCategoria" enctype="multipart/form-data" method="post" action="src/ajaxEdicion.php" >
+						<div id="tipos" class="tipos">
+							<div class="titulo">
+								Edicion '.$titulo.'
+						  		<hr>
+						  	</div>
+						  	<input type="hidden" name="func" value="ActualizarDatosCategoria" />
+						  	<input type="hidden" id="categoria" name="categoria" value="'.$id.'" />
+						  	<div class="datos">
+						  		<table>
+						  		<tr>
+						  			<td>Nombre</td>
+						  			<td>
+						  				<input type="text" name="nombre" id="nombre" placeholder="Nombre" class="validate[required]" value="'.$datos[0]['nombre'].'" />
+						  			</td>';
+		
+		if($datos[0]['padre'] == 0){
+			$formulario .= '<td rowspan="2" class="td-category-image">
+								<img id="imagen-categoria" src="'.$datos[0]['imagen'].'" />
+							</td>';
+		}
+
+		$formulario .= '</tr>';
+
+		if($datos[0]['padre'] == 0){
+			$formulario .= '<tr>
+								<td colspan="2">
+								<input title="Cambie la imagen de la Supercategoria" type="file" name="imagen" onChange="PreviewImage(this, \'imagen-categoria\')" />
+								</td>
+							</tr>';
+		}
+		
+		$formulario .= '</table>
+						<br/><br/>';
+
+	}else{
+		$formulario .= '<div id="tipos" class="tipos">
+							<div class="titulo">
+								Error Cateogria
+						  		<hr>
+						  	</div>
+						  	<div class="datos error" >
+						  		Categoria no encontrada.<br/>
+						  		Intentelo de nuevo.
+						  	</div>
+						';
 	}
 					  		
-	$formulario .=			'</tr>
-					  		</table>
-					  	</div>
+	$formulario .=	'</div>
 					  	<div class="datos-botones">
 					  		<button type="button" onClick="CancelarContent()">Cancelar</button>
 					  		<input type="reset" value="Limpiar" />
@@ -372,7 +423,7 @@ function EditarCategoria($padre){
 						</div>
 					</form>';
 
-	return $formulario;
+	echo $formulario;
 }
 
 /**
@@ -389,9 +440,30 @@ function ActualizarCategoria($categoria, $normas){
 
 	//actualiza nombre de la categoria
 	if( !$registros->UpdateCategoria($_POST['nombre'], $normas, $categoria) ){
-		echo 'Error. No se pudo actualizar la categoria.';
+		echo 'Error. No se pudo actualizar la categoria.<br/>ajaxEdicion.php ActualizarCategoria()';
 	}
 
+}
+
+/**
+* ACTUALIZA LOS DATOS DE UNA CATEGORIA
+* @param $id -> id categoria
+* @param $nombre
+*/
+function ActualizarDatosCategoria($id, $nombre){
+	$registro = new Registros();
+
+	if(isset($_FILES['imagen'])){
+		if( !$imagen = $registro->UploadImage($_FILES['imagen'], "images/categorias/") ){
+			$imagen = "images/es.png"; //fallback
+		}
+	}else{
+		$imagen = ""; //no tiene imagen
+	}
+
+	if( !$registro->UpdateDatosCategoria($nombre, $imagen, $id) ){
+		echo 'Error: No se pudo actualizar la categoria.<br/>ajaxEdicion.php ActualizarDatosCategoria()';
+	}
 }
 
 /**
@@ -401,20 +473,19 @@ function ActualizarCategoria($categoria, $normas){
 */
 function NuevaCategoria($padre){
 	$formulario = '';
+	
+	if($padre != 0){
+		$titulo = 'Categoria';
+	}else{
+		$titulo = 'Supercategoria';
+	}
 
 	$formulario = '<form id="FormularioNuevaCategoria" enctype="multipart/form-data" method="post" action="src/ajaxEdicion.php" >
 					<div id="tipos" class="tipos">
 						<div class="titulo">
-							';
-	if($padre != 0){
-		$formulario .= 'Nueva Categoria';
-	}else{
-		$formulario .= 'Nueva Supercategoria';
-	}
-
-	$formulario .= '
-					  		<hr>
-					  	</div>
+						Nueva '.$titulo.'
+						<hr>
+					</div>
 					  	<input type="hidden" name="func" value="RegistrarCategoria" />
 					  	<input type="hidden" id="padre" name="padre" value="'.$padre.'" />
 					  	<div class="datos">
@@ -422,20 +493,27 @@ function NuevaCategoria($padre){
 					  		<tr>
 					  			<td>Nombre</td>
 					  			<td>
-					  				<input type="text" name="nombre" id="nombre" placeholder="Nombre" class="validate[required]" />
+					  				<input type="text" name="nombre" id="nombre" placeholder="Nombre" class="validate[required]" title="Nombre de la '.$titulo.'" />
 					  			</td>';
 	if($padre == 0){
-		$formulario .= '<td>
-							<img id="imagen-categoria" src="image/es.png" />
+		$formulario .=   '<td rowspan="2" class="td-category-image">
+							<img id="imagen-categoria" title="Imagen Para Supercategoria" src="images/es.png" />
+						  </td>';
+	}
+	
+	$formulario .= '		</tr>';
+
+	if($padre == 0){
+		$formulario .= '<tr>
+						<td colspan="2">
+							<input title="Seleccione una imagen para la Supercategoria" type="file" name="imagen" onChange="PreviewImage(this, \'imagen-categoria\')" />
 						</td>
-						<td>
-							<input type="file" name="imagen" onChange="PreviewImage(this, \'imagen-categoria\')" />
-						</td>';
+						</tr>';
 	}
 					  		
-	$formulario .=			'</tr>
-					  		</table>
-					  	</div>
+	$formulario .=	'	</table>
+					<br/><br/>
+					 </div>
 					  	<div class="datos-botones">
 					  		<button type="button" onClick="CancelarContent()">Cancelar</button>
 					  		<input type="reset" value="Limpiar" />
@@ -454,17 +532,22 @@ function NuevaCategoria($padre){
 function RegistrarCategoria($nombre, $padre){
 	$registro = new Registros();
 
-	if($padre == 0){
-		if( !$imagen = $registro->UploadImage($_FILES['imagen'], "images/categorias/") ){
-			$imagen = "images/es.png"; //fallback
-			echo "Error: Imagen no valida, no se ha podido subir.";
+	if($padre == 0){ //es root tiene imagen
+		
+		if(isset($_FILES['imagen'])){
+			if( !$imagen = $registro->UploadImage($_FILES['imagen'], "images/categorias/") ){
+				$imagen = "images/es.png"; //fallback
+				echo "Error: Imagen no valida, no se ha podido subir.";
+			}
+		}else{
+			$imagen = "images/es.png"; //default
 		}
 
 		if( !$registro->NewCategoria($nombre, $imagen, $padre) ){
 			echo "Error: ajaxEdicion.php RegistrarCategoria() no se ha registrado la nueva categoria.";
 		}
 	}else{
-		$imagen = "images/es.png";
+		$imagen = ""; //no tiene imagen
 		if( !$registro->NewCategoria($nombre, $imagen, $padre) ){
 			echo "Error: ajaxEdicion.php RegistrarCategoria() no se ha registrado la nueva categoria.";
 		}

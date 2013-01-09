@@ -403,7 +403,37 @@ class Registros{
 				return true;
 			}else{
 				return false;
+			}
+		}else{
+			return false;
 		}
+	}
+
+	/**
+	* ACTUALIZA DATOS DE UNA CATEGORIA SIN MODIFICAR LAS NORMAS 
+	* @param $nombre
+	* @param $imagen -> link imagen subida
+	* @param $id
+	* @return true si actualiza
+	*/
+	public function UpdateDatosCategoria($nombre, $imagen, $id){
+		$base = new Database();
+
+		$nombre = mysql_real_escape_string($nombre);
+
+		$query = "UPDATE categorias SET nombre = '".$nombre."', imagen = '".$imagen."' WHERE id = '".$id."'";
+		
+		$datos = $base->Select("SELECT * FROM categorias WHERE id = ".$id);
+
+		//borra imagen anterior
+		$imagenOld = "../".$datos[0]['imagen'];
+
+		if(!$base->DeleteImagen($imagenOld)){
+			echo "<br/>Error: class Registros UpdateDatosCategoria() imagen no se pudo borrar.<br/>imagen: ".$imagenOld;
+		}
+		
+		if($base->Update($query)){
+			return true;
 		}else{
 			return false;
 		}

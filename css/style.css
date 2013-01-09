@@ -158,7 +158,8 @@ html, body{
 	text-align: left;
 }
 
-.datos .td-user-image {
+.datos .td-user-image,
+.datos .td-category-image{
 	vertical-align: middle;
 	text-align: center;
 }
@@ -169,6 +170,16 @@ html, body{
 }
 
 .datos .td-user-image img:hover{
+	border: 2px solid #A1CA4A;
+	box-shadow: 0 0 10px #A1CA4A;
+}
+
+.datos .td-category-image img{
+	border: 2px solid #fff;
+	height: 60px;
+}
+
+.datos .td-category-image img:hover{
 	border: 2px solid #A1CA4A;
 	box-shadow: 0 0 10px #A1CA4A;
 }
