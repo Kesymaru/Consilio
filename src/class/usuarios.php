@@ -192,6 +192,16 @@ class Cliente{
 		$query = "DELETE FROM clientes WHERE id = ".$id;
 		
 		if($base->Delete($query)){
+			$query = "SELECT * FROM proyectos WHERE cliente = ".$id;
+			$proyectos = $base->Select($query);
+
+			if(!empty($proyectos)){
+				//elimina registros de cada proyecto del cliente
+				foreach ($proyectos as $f => $proyecto) {
+					$query = "DELETE FROM registros WHERE proyecto = ".$proyecto['id'];
+					$base->Delete($query);
+				}
+			}
 			return true;
 		}else{
 			return false;
