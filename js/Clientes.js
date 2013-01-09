@@ -241,6 +241,7 @@ function AccionExportarClientes(){
 * ELIMINA CLIENTE
 */
 function EliminarCliente(id){
+
 	var si = function (){
 		AccionEliminarCliente(id);
 	}
@@ -256,7 +257,6 @@ function EliminarCliente(id){
 * ACCION DE ELIMINAR EL CLIENTE Y SUS PROYECTOS
 */
 function AccionEliminarCliente(id){
-
 	var queryParams = {"func" : "EliminarCliente", "id" : id};
 
 	$.ajax({
@@ -266,9 +266,10 @@ function AccionEliminarCliente(id){
 		beforeSend: function(){
 		},
 		success: function(response){
+			$("#content").html(response);
 			if(response.length <= 3){
 				notifica("Cliente Eliminado.");
-				
+
 				$("#"+id).fadeOut(700, function(){
 					$("#"+id).remove();
 				})

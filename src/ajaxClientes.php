@@ -39,6 +39,13 @@ if(isset($_POST['func'])){
 			RegistrarCliente();
 			break;
 
+		//EliminarCliente
+		case 'EliminarCliente':
+			if(isset($_POST['id'])){
+				EliminarCliente($_POST['id']);
+			}
+			break;
+
 	}
 }
 
@@ -307,6 +314,9 @@ function RegistrarCLiente(){
 function EliminarCliente($id){
 	$cliente = new Cliente();
 
+	if(!$cliente->DeleteCliente($id)){
+		echo 'Error: ajaxClientes.php no se pudo eliminar el cliente '.$id;
+	}
 }
 
 ?>

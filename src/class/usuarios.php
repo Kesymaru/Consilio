@@ -19,7 +19,7 @@ class Cliente{
 		//revisa que este logueado
 		$session = new Session();
 		$session->Logueado();
-		
+
 	}
 
 	/**
@@ -189,7 +189,7 @@ class Cliente{
 	*/
 	function DeleteCliente($id){
 		$base = new Database();
-		$query = "DELTE FROM clientes WHERE id = ".$id;
+		$query = "DELETE FROM clientes WHERE id = ".$id;
 		
 		if($base->Delete($query)){
 			return true;
