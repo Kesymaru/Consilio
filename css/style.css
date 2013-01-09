@@ -172,6 +172,10 @@ select{
 	text-align: left;
 }
 
+.datos .td-entidades{
+	vertical-align: middle;
+}
+
 .datos .td-user-image,
 .datos .td-category-image{
 	vertical-align: middle;

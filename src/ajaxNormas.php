@@ -533,7 +533,7 @@ function NuevoArticulo($norma){
 									</td>
 								</tr>
 								<tr>
-									<td>
+									<td class="td-entidades">
 										Entidades
 									</td>
 									<td>
@@ -638,9 +638,7 @@ function Entidades(){
 	}else{
 		$select .= '<div>No hay entidades.</div>';
 	}
-	$select .= '<script>
-					SelectorMultipleFiltro();
-				</script>';
+
 	//EL SELECT COMPUESTO
 	return $select;
 }
@@ -731,7 +729,7 @@ function EdicionArticulo($articulo){
 										</td>
 									</tr>
 									<tr>
-										<td>
+										<td class="td-entidades">
 											Entidades
 										</td>
 										<td>
@@ -890,9 +888,6 @@ function EntidadesArticulo($seleccionadas){
 	}else{
 		$select .= '<div>No hay entidades.</div>';
 	}
-	$select .= '<script>
-					SelectorMultipleFiltro();
-				</script>';
 	//EL SELECT COMPUESTO
 	return $select;
 }

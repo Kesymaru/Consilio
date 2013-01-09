@@ -1116,7 +1116,7 @@ function FormularioNorma(){
 
 	    			//si cambia el estado de la norma
 	    			var estado = $("#radio-estado :radio:checked").val();
-	    			
+
 	    			if( $("#"+norma).hasClass("deshabilitado") && estado == 1){
 	    				$("#"+norma).removeClass("deshabilitado");
 	    			}else if( !$("#"+norma).hasClass("deshabilitado") && estado == 0 ){
@@ -1421,6 +1421,7 @@ function FormularioNuevoArticulo(){
 	Editor('articulo');
 	
 	$( "#tabs" ).tabs(); //crea tabs para los textareas
+	$('#entidades').chosen();
 }
 
 /**
@@ -1649,6 +1650,7 @@ function FormularioEditarArticulo(){
 	Editor('articulo');
 	
 	$( "#tabs" ).tabs(); //crea tabs para los textareas
+	$('#entidades').chosen();
 }
 
 /**
