@@ -1011,6 +1011,8 @@ function NuevaNorma(){
 				$("#content").html(response);
 				FormularioNuevaNorma();
 				
+				$("#radio-estado").buttonset();
+
 				//esconde el cuadro de adjuntos
 				$(".adjuntos").hide();
 
@@ -1075,6 +1077,8 @@ function EditarNorma(){
 
 			$("#content").html(response);
 
+			$("#radio-estado").buttonset();
+
 			//carga formulario
 			FormularioNorma();
 
@@ -1111,8 +1115,8 @@ function FormularioNorma(){
 	    			$("#"+norma).html(nombre+" "+numero);
 
 	    			//si cambia el estado de la norma
-	    			var estado = $("#status").find(":selected").val();
-
+	    			var estado = $("#radio-estado :radio:checked").val();
+	    			
 	    			if( $("#"+norma).hasClass("deshabilitado") && estado == 1){
 	    				$("#"+norma).removeClass("deshabilitado");
 	    			}else if( !$("#"+norma).hasClass("deshabilitado") && estado == 0 ){

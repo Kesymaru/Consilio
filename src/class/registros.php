@@ -851,7 +851,7 @@ class Registros{
 	*/
 	public function HabilitarNorma($norma){
 		$base = new Database();
-		$query = "UPDATE normas SET status = 1 WHERE id = ".$norma;
+		$query = "UPDATE normas SET status = 1 WHERE id = '".$norma."'";
 
 		if($base->Update($query)){
 			return true;
@@ -865,13 +865,15 @@ class Registros{
 	* @param $nombre
 	* @param $numero
 	* @param $tipo
+	* @param $estado
+	* @return true si se registra
 	*/
-	public function RegistrarNorma($nombre, $numero, $tipo){
+	public function RegistrarNorma($nombre, $numero, $tipo, $estado){
 		$base = new Database();
 		$nombre = mysql_real_escape_string($nombre);
 		$numero = mysql_real_escape_string($numero);
 
-		$query = "INSERT INTO normas (nombre, numero, tipo) VALUES ('".$nombre."', '".$numero."', '".$tipo."')";
+		$query = "INSERT INTO normas (nombre, numero, tipo, status) VALUES ('".$nombre."', '".$numero."', '".$tipo."', '".$estado."')";
 
 		if($base->Insert($query)){
 			return true;

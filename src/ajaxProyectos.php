@@ -231,10 +231,13 @@ function NuevoProyecto(){
 					  				Estado
 					  			</td>
 					  			<td>
-					  				<select name="estado">
-					  					<option value="1" selected>Activo</option>
-					  					<option value="0">Inactivo</option>
-					  				</select>
+									<div id="radio-estado" title="Estado Del Proyecto">
+										<input id="radio-estado1" type="radio" checked="checked" name="estado" value="1">
+						  				<label for="radio-estado1">Activo</label>
+
+						  				<input id="radio-estado2" type="radio" name="estado" value="0">
+						  				<label for="radio-estado2">Inactivo</label>
+					  				</div>
 					  			</td>
 					  		</tr>
 					  		</table>
@@ -302,7 +305,7 @@ function EditarProyecto($id){
 					  			</td>
 					  			<td>
 					  			
-					  				<div id="radio-estado">';
+					  				<div id="radio-estado" title="Estado Del Proyecto">';
 		
 		if($datos[0]['status'] == 1){
 			$formulario .= '<input id="radio-estado1" type="radio" checked="checked" name="estado" value="1">

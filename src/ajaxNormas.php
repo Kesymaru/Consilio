@@ -207,17 +207,23 @@ function EditarNorma($norma){
 										Estado
 									</td>
 									<td>
-										<select id="status" title="Estado De La Norma" name="status" >';
+										<div id="radio-estado" title="Estado De La Norma">';
 		if($datos[0]['status'] == 1){
-			$formulario .= '			<option value="1" selected>Habilitado</option>
-										<option value="0">Deshabilitado</option>';
+			$formulario .= '			<input id="radio-estado1" type="radio" checked="checked" name="estado" value="1">
+						  				<label for="radio-estado1">Habilitado</label>
+
+						  				<input id="radio-estado2" type="radio" name="estado" value="0">
+						  				<label for="radio-estado2">Deshabilitado</label>';
 		}else{
-			$formulario .= '		<option value="1">Habilitado</option>
-									<option value="0" selected>Deshabilitado</option>';
+			$formulario .= '			<input id="radio-estado1" type="radio" name="estado" value="1">
+						  				<label for="radio-estado1">Habilitado</label>
+
+						  				<input id="radio-estado2" type="radio" checked="checked" name="estado" value="0">
+						  				<label for="radio-estado2">Deshabilitado</label>';
 		}
-											
-		$formulario .=      '
-										</select>
+
+		$formulario .= '
+					  					</div>
 									</td>
 								</tr>
 								</table>
@@ -290,10 +296,14 @@ function NuevaNorma(){
 										Estado
 									</td>
 									<td>
-										<select name="status" title="Estado De La Nueva Norma" >
-											<option value="1" selected>Habilitado</option>
-											<option value="0">Deshabilitado</option>
-										</select>
+										
+										<div id="radio-estado" title="Estado De La Nueva Norma">
+										<input id="radio-estado1" type="radio" checked="checked" name="estado" value="1">
+						  				<label for="radio-estado1">Habilitado</label>
+
+						  				<input id="radio-estado2" type="radio" name="estado" value="0">
+						  				<label for="radio-estado2">Deshabilitado</label>
+					  					</div>
 									</td>
 								</tr>
 							</table>
@@ -408,7 +418,7 @@ function ActualizarNorma($norma){
 	$registros = new Registros();
 
 	//ACTUALIZA NORMA
-	if(!$registros->UpdateNorma($norma, $_POST['nombre'], $_POST['numero'], $_POST['tipo'], $_POST['status'])){
+	if(!$registros->UpdateNorma($norma, $_POST['nombre'], $_POST['numero'], $_POST['tipo'], $_POST['estado'])){
 		echo "Error: ajaxNormas.php ActualizarNorma() no se pudo actualizar el proyecto.";
 	}
 	
@@ -438,11 +448,11 @@ function HabilitarNorma($norma){
 */
 function RegistrarNorma(){
 
-	if( isset($_POST['nombre']) && isset($_POST['numero']) && isset($_POST['tipo']) ){
+	if( isset($_POST['nombre']) && isset($_POST['numero']) && isset($_POST['tipo']) && isset($_POST['estado']) ){
 		$registros = new Registros();
-		$registros->RegistrarNorma($_POST['nombre'], $_POST['numero'], $_POST['tipo']);
+		$registros->RegistrarNorma($_POST['nombre'], $_POST['numero'], $_POST['tipo'], $_POST['estado']);
 	}else{
-		echo "Error: datos enviados incorrectos, ajaxNormas.php 422";
+		echo "Error: ajaxNormas.php RegistrarNorma() datos no validos.";
 	}
 }
 
