@@ -31,6 +31,9 @@ html, body{
 	font-family: 'Open Sans', sans-serif;
 }
 
+select{
+	min-width: 200px;
+}
 
 /* main */
 #main{
@@ -145,8 +148,19 @@ html, body{
 	border: 1px solid #dedede;
 	padding-top: 20px;
 	margin-top: 20px;
+	font-size: 18px;
 }
 
+.datos input{
+	font-size: 18px;
+}
+
+.datos input[type="text"],
+.datos input[type="number"],
+.datos input[type="tel"],
+.datos input[type="email"]{
+	min-width: 200px;
+}
 .datos textarea{
 	margin: 0 auto;
 }
@@ -176,7 +190,7 @@ html, body{
 
 .datos .td-category-image img{
 	border: 2px solid #fff;
-	height: 60px;
+	height: 80px;
 }
 
 .datos .td-category-image img:hover{
