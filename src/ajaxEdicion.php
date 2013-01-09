@@ -71,16 +71,9 @@ if(isset($_POST['func'])){
 			break;
 		
 		//GUARDA UNA NUEVA SUBCATEGORIA
-		case 'NuevaSubCategoria':
+		case 'RegistrarCategoria':
 			if( isset($_POST['padre']) && isset($_POST['nombre']) ){
-				$registro = new Registros();
-
-				if( $_POST['nombre'] != ''){
-					//crea la nueva subcategoria
-					$registro->NuevaSubCategoria($_POST['padre'], $_POST['nombre']);
-				}else{
-					echo "Debe tener un valor";
-				}
+				RegistrarCategoria($_POST['nombre'], $_POST['padre']);
 			}
 			break;
 
@@ -338,6 +331,51 @@ function NormasSeleccionadas($categoria){
 }
 
 /**
+* FROMULARIO PARA EDITAR UNA CATEGORIA
+* @param $padre -> id del padre al que pertenece
+* @return $formulario -> formulario compuesto
+*/
+function EditarCategoria($padre){
+	$formulario = '';
+
+	$formulario = '<form id="FormularioNuevaCategoria" enctype="multipart/form-data" method="post" action="src/ajaxEdicion.php" >
+					<div id="tipos" class="tipos">
+						<div class="titulo">
+							Edicion Cateogria
+					  		<hr>
+					  	</div>
+					  	<input type="hidden" name="func" value="RegistrarCategoria" />
+					  	<input type="hidden" id="padre" name="padre" value="'.$padre.'" />
+					  	<div class="datos">
+					  		<table>
+					  		<tr>
+					  			<td>Nombre</td>
+					  			<td>
+					  				<input type="text" name="nombre" id="nombre" placeholder="Nombre" class="validate[required]" />
+					  			</td>';
+	if($padre == 0){
+		$formulario .= '<td>
+							<img id="imagen-categoria" src="image/es.png" />
+						</td>
+						<td>
+							<input type="file" name="imagen" onChange="PreviewImage(this, \'imagen-categoria\')" />
+						</td>';
+	}
+					  		
+	$formulario .=			'</tr>
+					  		</table>
+					  	</div>
+					  	<div class="datos-botones">
+					  		<button type="button" onClick="CancelarContent()">Cancelar</button>
+					  		<input type="reset" value="Limpiar" />
+							<input type="submit" value="Guardar" />
+						</div>
+					</form>';
+
+	return $formulario;
+}
+
+/**
 * OBTIENE LOS DATOS ENVIADOS Y LOS GUARDA
 * @param $categoria -> id de la categoria ha registrar
 * @param $normas -> array[] con las normas seleccionadas
@@ -364,10 +402,17 @@ function ActualizarCategoria($categoria, $normas){
 function NuevaCategoria($padre){
 	$formulario = '';
 
-	$formulario = '<form id="FormularioNormasCategoria" enctype="multipart/form-data" method="post" action="src/ajaxEdicion.php" >
+	$formulario = '<form id="FormularioNuevaCategoria" enctype="multipart/form-data" method="post" action="src/ajaxEdicion.php" >
 					<div id="tipos" class="tipos">
 						<div class="titulo">
-							Nueva Categoria
+							';
+	if($padre != 0){
+		$formulario .= 'Nueva Categoria';
+	}else{
+		$formulario .= 'Nueva Supercategoria';
+	}
+
+	$formulario .= '
 					  		<hr>
 					  	</div>
 					  	<input type="hidden" name="func" value="RegistrarCategoria" />
@@ -378,56 +423,52 @@ function NuevaCategoria($padre){
 					  			<td>Nombre</td>
 					  			<td>
 					  				<input type="text" name="nombre" id="nombre" placeholder="Nombre" class="validate[required]" />
-					  			</td>
-					  		</tr>
-					  		</table>
-					  		<table id="normas-categoria">
-					  			<tr>
-					  				<th colspan="2">
-					  					Normas Incluidas
-					  					<button type="button" onClick="BuscarNormaCategoria(\'incluidas\')">Buscar</button>
-					  				</th>
-					  				<th colspan="2">
-					  					Normas Disponibles
-					  					<button type="button" onClick="BuscarNormaCategoria(\'disponibles\')">Buscar</button>
-					  				</th>
-					  			</tr>
-					  			<tr>
-					  				<td id="buscar-seleccionadas">
-					  					<input type="text" placeholder="Buscar" />
-					  				</td>
-
-					  				<td class="control" onClick="QuitarNormasSeleccionadas()" rowspan="2">
-					  					>
-					  				</td>
-					  				<td class="control" onClick="AgregarNormasSeleccionadas()" rowspan="2">
-					  					<
-					  				</td>
-
-					  				<td id="buscar-disponibles">
-					  					<input type="text" placeholder="Buscar" />
-					  				</td>
-					  			</tr>
-					  			<tr>
-					  				<td id="td-seleccionadas">
-					  					<ul id="seleccionadas"></ul>
-					  					<br/>
-					  				</td>
-					  				<td id="td-disponibles">';
-	$formulario .= Normas().'
-										<br/>
-					  				</td>
-					  			</tr>
+					  			</td>';
+	if($padre == 0){
+		$formulario .= '<td>
+							<img id="imagen-categoria" src="image/es.png" />
+						</td>
+						<td>
+							<input type="file" name="imagen" onChange="PreviewImage(this, \'imagen-categoria\')" />
+						</td>';
+	}
+					  		
+	$formulario .=			'</tr>
 					  		</table>
 					  	</div>
 					  	<div class="datos-botones">
 					  		<button type="button" onClick="CancelarContent()">Cancelar</button>
-							<button type="button" onClick="NuevaCategoria('.$padre.')" >Limpiar</button>
+					  		<input type="reset" value="Limpiar" />
 							<input type="submit" value="Guardar" />
 						</div>
 					</form>';
 
 	return $formulario;
+}
+
+/**
+ * REGISTRA UNA NUEVA CATEGORIA
+ * @param $nombre
+ * @param $padre
+ */
+function RegistrarCategoria($nombre, $padre){
+	$registro = new Registros();
+
+	if($padre == 0){
+		if( !$imagen = $registro->UploadImage($_FILES['imagen'], "images/categorias/") ){
+			$imagen = "images/es.png"; //fallback
+			echo "Error: Imagen no valida, no se ha podido subir.";
+		}
+
+		if( !$registro->NewCategoria($nombre, $imagen, $padre) ){
+			echo "Error: ajaxEdicion.php RegistrarCategoria() no se ha registrado la nueva categoria.";
+		}
+	}else{
+		$imagen = "images/es.png";
+		if( !$registro->NewCategoria($nombre, $imagen, $padre) ){
+			echo "Error: ajaxEdicion.php RegistrarCategoria() no se ha registrado la nueva categoria.";
+		}
+	}
 }
 
 /**

@@ -652,16 +652,17 @@ class Registros{
 
 	/**
 	* CREA UNA NUEVA SUBCATEGORIA
+	* @param $nombre -> nombre de la categoria
+	* @param $imagen -> link de la imagen subida *no requerida
 	* @param $padre -> id del padre
-	* @param $nombre -> nombre nuevo
 	*/
-	public function NuevaSubCategoria($padre, $nombre){
-
+	public function newCategoria($nombre, $imagen, $padre){
 		$base = new Database();
-		$query = "INSERT INTO categorias (nombre, padre) VALUES ( '".$nombre."', '".$padre."')";
 
 		$nombre = mysql_real_escape_string($nombre);
-		
+
+		$query = "INSERT INTO categorias (nombre, imagen, padre) VALUES ( '".$nombre."', '".$imagen."', '".$padre."')";
+				
 		if( $base->Insert($query)){
 			return true;
 		}else{
@@ -1290,6 +1291,42 @@ class Registros{
 
 		if($base->Update($query)){
 			return true;
+		}else{
+			return false;
+		}
+	}
+
+/*********************** HELPERS ************/
+	/**
+	 * SUBE UNA IMAGEN
+	 * @param $imagen -> imagen a subir
+	 * @param $destino -> directorio de destino
+	 * @return $link -> link de la nueva imagen
+	 * @return false -> si falla
+	 */
+	public function UploadImage($imagen, $destino){
+		//SUBE LA IMAGEN
+		if($imagen['tmp_name'] != null && $imagen['tmp_name'] != ""){
+			$upload = new Upload();
+        
+			$upload->SetFileName($imagen['name']);
+			$upload->SetTempName($imagen['tmp_name']);
+
+			$upload->SetValidExtensions(array('gif', 'jpg', 'jpeg', 'png')); 
+			
+			$destino = "../".$destino;
+			$upload->SetUploadDirectory($destino); //DESTINO
+
+			$upload->SetMaximumFileSize(90000000); //TAMANO MAXIMO PERMITIDO
+				        
+			if($upload->UploadFile()){
+				//SE OPTIENE EL LINK DE LA IMAGEN SUBIDA Y SE FORMATEA
+				$link = str_replace("../", "", $upload->GetUploadDirectory().$upload->GetFileName() );
+
+				return $link;
+			}else{
+				return false;
+			}
 		}else{
 			return false;
 		}

@@ -7,7 +7,8 @@
  * @param id -> id del articulo ha componer
  */
 function Componer(id){
-
+	$.contextMenu( 'destroy' );
+	
 	if( id == "" || id == undefined){
 		notificaError("Error: el proyecto para componer no es valido,<br/>Error: Componer.js Componer() id no valido.");
 		return;
@@ -392,12 +393,6 @@ function ExcluirCategorias(){
 		//notifica(this.id.substring(2) );
 		excluidas.push( this.id.substring(2) );
 	});
-
-	//alert("mostrando array");
-
-	for(var i =0; i <= excluidas.length; i++){
-		//notifica(excluidas[i]);
-	}
 	
 	var proyecto = $("#proyecto").val();
 
@@ -437,9 +432,6 @@ function ExcluirCategorias(){
 * @param id -> id de la categorias
 */
 function PreviewCategoriaNormas(id){
-	var max = $("html").height()*0.50;
-	console.log(max);
-
 	$.fancybox({
 		'href'         : 'src/previewNormas.php?categoria='+id,
 		'width'        : '40%',

@@ -3,6 +3,8 @@
 * EDICION DE CATEGORIAS
 */
 function EditarCategorias(){
+	
+	$.contextMenu( 'destroy' );
 
 	if(!$("#menu").is(":visible")){
 		ActivaMenu();
@@ -74,6 +76,7 @@ function Padres(){
 	if( $.cookie('categorias') != "" ){
 		categorias = $.cookie('categorias');
 	}
+
 }
 
 /**
@@ -86,13 +89,6 @@ function Hijos(padre){
 	//LimpiarCamino(padre);
 
 	var queryParams = {'func' : "Hijos", "padre" : padre};
-	
-	/*$('#Padre'+padre).removeClass('seleccionada');
-	$('#'+padre).addClass('seleccionada');*/
-
-	//SeleccionaHijo(padre);
-
-	//notifica($.cookie('categorias'));
 
 	//carga hijos
 	$.ajax({
@@ -243,7 +239,7 @@ function AgregarNormasSeleccionadas(){
 	//$("#td-disponibles").css("width",$("#td-disponibles").width())
 
 	$('#disponibles .seleccionada').each(function() {
-
+   		
    		$("#"+this.id).animate({
 	       	width: "0",
    			"font-size" : "0px"
@@ -302,8 +298,7 @@ function QuitarNormasSeleccionadas(){
 * @param tipo -> tipo de busqueda
 */
 function BuscarNormaCategoria(tipo){
-	notifica('muestra input');
-	
+		
 	if(tipo == 'incluidas'){
 		if( $("#buscar-seleccionadas input").is(":visible") ){
 			$("#buscar-seleccionadas input").val("");
@@ -321,6 +316,7 @@ function BuscarNormaCategoria(tipo){
 			$("#buscar-disponibles input").slideDown();
 		}
 	}
+
 	BuscarNormaCategoriaAcccion(tipo);
 }
 
@@ -461,20 +457,14 @@ function ContextMenuCategoria(id){
         callback: function(key, options) {
             var m = "clicked: " + key;
             //window.console && console.log(m) || alert(m); 
-            MenuCategoria(m);
+            MenuCategoria(m, id);
         },
         items: {
         	"nueva": {name: "Nueva Subcategoria", icon: "add"},
-            //"editar": {name: "Editar", icon: "edit"},
+            "editar": {name: "Editar", icon: "edit"},
             "eliminar": {name: "Eliminar", icon: "delete"},
         }
     });
-    
-    /*$('#'+id).on('click', function(e){
-        //console.log('clicked', this);
-        var cat = $(this).attr('id');
-        alert("Selec "+cat);
-	});*/
 	
 	//PERMITE REASIGNAR EL ID DE LA CATEGORIA A LA COOKIE
 	//UTIL PARA TENER MULTIPLES MENUS CONTEXTUALES
@@ -499,7 +489,7 @@ function ContextMenuSuperCategoria(id){
         callback: function(key, options) {
             var m = "clicked: " + key;
             //window.console && console.log(m) || alert(m); 
-            MenuCategoria(m);
+            MenuCategoria(m, id);
         },
         items: {
             "nuevoPadre": {name: "Nueva SuperCategoria", icon: "add"}, //opcion solo para supercategorias
@@ -507,12 +497,6 @@ function ContextMenuSuperCategoria(id){
             "eliminar": {name: "Eliminar", icon: "delete"},
         }
     });
-    
-    /*$('#'+id).on('click', function(e){
-        //console.log('clicked', this);
-        var cat = $(this).attr('id');
-        alert("Selec "+cat);
-	});*/
 	
 	//PERMITE REASIGNAR EL ID DE LA CATEGORIA A LA COOKIE
 	//UTIL PARA TENER MULTIPLES MENUS CONTEXTUALES
@@ -529,23 +513,19 @@ function ContextMenuSuperCategoria(id){
 /**
 * MANEJA EL MENU DE LA CATEGORIA
 * @param m -> opcion seleccionada desde el context menu
+* @param id -> id de l categoria
 */
-function MenuCategoria(m){
+function MenuCategoria(m, id){
 	var categoria = $.cookie('categoria');
 
 	if(m == 'clicked: nuevoPadre'){
 		NuevaCategoria(0);
-	}
-
-	if(m == 'clicked: nueva'){
-		NuevaCategoria(categoria);
-	}
-
-	//opcion de eliminar la categoria y sus hijos
-	if(m == 'clicked: eliminar'){
+	}else if(m == 'clicked: nueva'){
+		NuevaCategoria(id);
+	}else if(m == 'clicked: eliminar'){
 
 		var si = function (){
-			DeleteCategoria();
+			DeleteCategoria(id);
 		}
 
 		var no = function (){
@@ -553,16 +533,20 @@ function MenuCategoria(m){
 		}
 
 		Confirmacion("Esta seguro que desea eliminar la categoria y todos sus subcategorias.", si, no);
+
+	}else if(m == 'clicked: finalizar'){
+
 	}
 }
 
 /**
 * ELIMINA UNA CATEGORIA
+* @param categoria -> id de lc ategoria ha eliminar
 */
-function DeleteCategoria(){
+function DeleteCategoria(categoria){
 	//LA CATEGORIA VIENE EN LA COOKIE
-	var categoria = $.cookie('categoria');
-
+	//var categoria = $.cookie('categoria');
+	notifica(categoria);
 	var queryParams = {"func" : "DeleteCategoria", "categoria" : categoria};
 
 	$.ajax({
@@ -607,42 +591,51 @@ function NuevaCategoria(padre){
 		type: "post",
 		url: "src/ajaxEdicion.php",
 		beforeSend: function(){
-			$("#content").html('<img id="image-loader" src="images/ajax-loader.gif" />');
 		},
 		success: function(response){
 
-			$("#content").html(response);
+			if(response.length > 0){
+				$("#content").html(response);
+			}else{
+				notificaError("Error: Edicion.js NuevaCategoria() no se resivieron los datos.");
+			}
 			
 			//esconde las opciones de buscar
 			$("#buscar-disponibles input").hide();
 			$("#buscar-seleccionadas input").hide();
 
-			var options = {  
-				beforeSend: function(){
-
-				},
-		    	success: function(response) { 
-
-			        if(padre == 0 && response.length <= 3){
-			        	Padres();			        	
-			        }else if(response.length <= 3) {
-			        	Hijos(padre);
-			        }else{
-			        	$('#FormularioNuevaCategoria').validate();
-			        }
-			    },
-			    fail: function(){
-			    	notificaError("Error: en ajax al crear nueva categoria.");
-			    }
-			};
-			
-			$('#FormularioNuevaCategoria').ajaxForm(options);
-			$('#FormularioNuevaCategoria').validationEngine();
+			FormularioNuevaCategoria(padre);			
 		},
 		fail: function(){
-			notificaError("Error: ocurrio un error :(<br/>Codigo: ajaxEdicion 006, al crear subcategoria.");
+			notificaError("Error: Edicion.js NuevaCategoria() AJAX fail.");
 		}
 	});
+}
+
+/**
+ * INICIALIZA EL FORMULARIO DE NUEVA CATEGORIA
+ */
+function FormularioNuevaCategoria(padre){
+	var options = {  
+		beforeSend: function(){
+			notifica('guardando '+padre);
+		},
+		success: function(response) { 
+			$("#content").html(response);
+			if(padre == 0 && response.length <= 3){
+				Padres();			        	
+			}else if(response.length <= 3) {
+				Hijos(padre);
+			}else{
+			   notificaError(response);
+			}
+		},
+		fail: function(response){
+			notificaError("Error: Edicion.js FormularioNuevaCategoria() AJAX fail.<br/>"+response);
+		}
+	};
+	$('#FormularioNuevaCategoria').ajaxForm(options);
+	$('#FormularioNuevaCategoria').validationEngine();
 }
 
 /**

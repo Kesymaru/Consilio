@@ -684,7 +684,6 @@ function Adjuntos(){
 
 		});
 	}
-	
 }
 
 /**
