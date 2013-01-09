@@ -460,9 +460,9 @@ function ContextMenuCategoria(id){
             MenuCategoria(m, id);
         },
         items: {
-        	"nueva": {name: "Nueva Subcategoria", icon: "add"},
-            "editar": {name: "Editar", icon: "edit"},
-            "eliminar": {name: "Eliminar", icon: "delete"},
+        	"nueva": {name: "Nueva Subcategoria", icon: "add", accesskey: "n"},
+            "editar": {name: "Editar", icon: "edit", accesskey: "e"},
+            "eliminar": {name: "Eliminar", icon: "delete", accesskey: "l"},
         }
     });
 	
@@ -492,10 +492,10 @@ function ContextMenuSuperCategoria(id){
             MenuCategoria(m, id);
         },
         items: {
-            "nuevoPadre": {name: "Nueva SuperCategoria", icon: "add"}, //opcion solo para supercategorias
-            "nueva": {name: "Nueva Subcategoria", icon: "add"},
-            "editar": {name: "Editar", icon: "edit"},
-            "eliminar": {name: "Eliminar", icon: "delete"},
+            "nuevoPadre": {name: "Nueva SuperCategoria", icon: "add", accesskey: "s"}, //opcion solo para supercategorias
+            "nueva": {name: "Nueva Subcategoria", icon: "add", accesskey: "n"},
+            "editar": {name: "Editar", icon: "edit", accesskey: "e"},
+            "eliminar": {name: "Eliminar", icon: "delete", accesskey: "l"},
         }
     });
 	
@@ -1455,6 +1455,10 @@ function SelectArticulo(articulo){
 	
 	$("#articulos li").removeClass("seleccionada");
 	$("#articulo"+articulo).addClass("seleccionada");
+
+	if(!$("#articulos .ocultos").is(":visible")){
+		$("#articulos .ocultos").fadeIn();
+	}
 
 	//INICIALIZA EL MENU
 	ArticuloContextMenu(articulo);

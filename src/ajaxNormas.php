@@ -494,8 +494,8 @@ function Articulos($norma){
 	}
 
 	$lista .= '<div class="datos-botones">
-				<button type="button" title="Eliminar Articulo Seleccionado" onClick="BorrarArticulo()">Eliminar</button>
-				<button type="button" title="Editar Articulo Seleccionado" onClick="EditarArticulo()">Editar</button>
+				<button class="ocultos" type="button" title="Eliminar Articulo Seleccionado" onClick="BorrarArticulo()">Eliminar</button>
+				<button class="ocultos" type="button" title="Editar Articulo Seleccionado" onClick="EditarArticulo()">Editar</button>
 			   	<button type="button" title="Crear Nuevo Articulo" onClick="NuevoArticulo('.$norma.')">Nuevo Articulo</button>
 			   </div>
 			   </div>';

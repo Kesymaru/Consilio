@@ -241,6 +241,10 @@ function AccionExportarClientes(){
 * ELIMINA CLIENTE
 */
 function EliminarCliente(id){
+	
+	if(id == '' || id == undefined){
+		id = $("#clientes .seleccionada").attr("id");
+	}
 
 	var si = function (){
 		AccionEliminarCliente(id);

@@ -189,17 +189,41 @@ class Cliente{
 	*/
 	function DeleteCliente($id){
 		$base = new Database();
-		$query = "DELETE FROM clientes WHERE id = ".$id;
-		
-		if($base->Delete($query)){
+
+		$cliente = $base->Select("SELECT * FROM clientes WHERE id = ".$id);
+		$imagenCliente = "../".$cliente[0]['imagen'];
+
+		if(!$base->DeleteImagen($imagenCliente)){
+			echo '<hr>Error: usuarios.php Clientes->DeleteCliente() al eliminar imagen: '.$imagenCliente;
+		}
+
+		if($base->Delete("DELETE FROM clientes WHERE id = ".$id)){
+
 			$query = "SELECT * FROM proyectos WHERE cliente = ".$id;
 			$proyectos = $base->Select($query);
 
-			if(!empty($proyectos)){
-				//elimina registros de cada proyecto del cliente
+			if(!empty($proyectos)){	 //tiene proyectos			
+				//ELIMINA REGISTROS
 				foreach ($proyectos as $f => $proyecto) {
+
+					//elimina imagen del proyecto
+					$imagenProyecto = "../".$proyecto['imagen'];
+
+					if(!$base->DeleteImagen($imagenProyecto)){
+						echo '<hr>Error: usuarios.php Clientes->DeleteCliente() al eliminar imagen: '.$imagenProyecto;
+					}
+
 					$query = "DELETE FROM registros WHERE proyecto = ".$proyecto['id'];
-					$base->Delete($query);
+
+					//elimina registro del proyecto
+					if( !$base->Delete($query) ){
+						echo 'Error: usuarios.php Clientes->DeleteCliente() al eliminar registro del proyecto '.$proyecto['id'].' del cliente: '.$id;
+					}
+				}
+
+				//elimina proyectos del cliente
+				if( !$base->Delete("DELETE FROM proyectos WHERE cliente = ".$id) ){
+					echo 'Error: usuarios.php Clientes->DeleteCliente() al eliminar proyectos del cliente: '.$id;
 				}
 			}
 			return true;
