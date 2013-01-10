@@ -1,5 +1,10 @@
 <?php 
-	require_once("src/master.php"); 
+
+/**
+* INDEX DE MATRIZ PARA ADMIN
+*/
+
+require_once("src/master.php"); 
 
 $master = new Master();
 
