@@ -148,7 +148,7 @@ function Normas(){
 		}
 		echo '</ul>';
 	}else{
-		echo '--- No hay normas ---';
+		echo '<p class="no-hay">No hay normas</p>';
 	}
 	echo '</div>
 		 <div class="datos-botones">
