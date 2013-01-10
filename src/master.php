@@ -1,6 +1,7 @@
 <?php
+
 /**
-* CLASE MASTER 
+* CLASE MASTER METODOS PARA EL INDEX.PHP
 */
 	require_once("class/mail.php"); 
 	require_once('class/session.php');
@@ -210,14 +211,14 @@ class Master{
 	 * MENU DE CLIENTES
 	 */
 	public function MenuClientes(){
-			echo '<li onClick="Clientes()">Clientes</li>';
+		echo '<li onClick="Clientes()">Clientes</li>';
 	}
 
 	/**
 	 * MENU DE PROYECTOS
 	 */
 	public function MenuProyectos(){
-			echo '<li onClick="Proyectos()">Proyectos</li>';
+		echo '<li onClick="Proyectos()">Proyectos</li>';
 	}
 
 }
