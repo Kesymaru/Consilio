@@ -13,7 +13,7 @@ class Session{
 		if( !isset($_SESSION['id']) ){
 			session_start();
 			//$_SESSION['home'] = 'http://'.$_SERVER['HTTP_HOST'].'/Consilio';
-			$_SESSION['home'] = '/Consilio';
+			$_SESSION['home'] = '/matrizescala';
 		}
 
 	}
