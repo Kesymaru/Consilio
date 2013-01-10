@@ -7,7 +7,7 @@
 require_once("src/master.php"); 
 
 $master = new Master();
-
+echo 'hpla';
 ?>
 
 <!DOCTYPE html>
@@ -310,6 +310,3 @@ $master = new Master();
 </body>
 
 </html>
-<?php
-	echo 'hola';
-?>
