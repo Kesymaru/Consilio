@@ -154,7 +154,7 @@ $master = new Master();
 					?>
 					<ul class="dropMenu">
 						<?php
-							$master->MenuAdmin();
+							//$master->MenuAdmin();
 						?>
 					</ul>
 				</div>
