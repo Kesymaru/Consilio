@@ -107,7 +107,7 @@ function FormularioComponerCategorias(){
 			}
 		},
 		fail: function(){
-			//notificaError("Error: Componer.js FormularioComponerCategorias() AJAX fail");
+			notificaError("Error: Componer.js FormularioComponerCategorias() AJAX fail");
 		}
 	}; 
 	$('#FormularioComponerCategorias').ajaxForm(options);
