@@ -154,7 +154,7 @@ echo 'hpla';
 					?>
 					<ul class="dropMenu">
 						<?php
-							$master->MenuAdmin();
+							//$master->MenuAdmin();
 						?>
 					</ul>
 				</div>
@@ -162,7 +162,7 @@ echo 'hpla';
 					Edicion
 					<ul class="dropMenu">
 						<?php
-							$master->MenuEdicion();
+							//$master->MenuEdicion();
 						?>
 					</ul>
 				</div>
@@ -170,7 +170,7 @@ echo 'hpla';
 					Clientes
 					<ul class="dropMenu">
 						<?php
-							$master->MenuClientes();
+							//$master->MenuClientes();
 						?>
 					</ul>
 				</div>
@@ -178,7 +178,7 @@ echo 'hpla';
 					Proyectos
 					<ul class="dropMenu">
 						<?php
-							$master->MenuProyectos();
+							//$master->MenuProyectos();
 						?>
 					</ul>
 				</div>
