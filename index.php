@@ -310,3 +310,6 @@ $master = new Master();
 </body>
 
 </html>
+<?php
+	echo 'hola';
+?>
