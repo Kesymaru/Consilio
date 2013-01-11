@@ -544,7 +544,7 @@ function LimpiarContent(){
 * DESHABILITA CONTENT
 */
 function DeshabilitarContent(){
-	$('#content *').prop('disabled', true);
+	//$('#content *').prop('disabled', true);
 	$("#content").prepend('<div class="content-disable"><p><img src="images/ajax_loader_green_128.gif"/></p></div>');
 }
 
@@ -552,8 +552,8 @@ function DeshabilitarContent(){
 * HABILITA CONTENT SIN LIMPIARLO
 */
 function HabilitarContent(){
-	$('#content *').prop('disabled', false);
-	$("#content").remove();
+	//$('#content *').prop('disabled', false);
+	$(".content-disable").remove();
 }
 
 /**

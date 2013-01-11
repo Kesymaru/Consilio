@@ -621,22 +621,26 @@ function NuevaCategoria(padre){
 function FormularioNuevaCategoria(padre){
 	var options = {  
 		beforeSend: function(){
-			notifica('guardando '+padre);
+			DeshabilitarContent();
 		},
 		success: function(response) { 
 			if(padre == 0 && response.length <= 3){
 				notifica("Categoria Creada.");
 				Padres();
+				HabilitarContent();
 				LimpiarContent();
 			}else if(response.length <= 3) {
 				notifica("Categoria Creada.");
 				Hijos(padre);
+				HabilitarContent();
 				LimpiarContent();
 			}else{
-			   notificaError(response);
+			   HabilitarContent();
+			   notificaError("Error: Edicion.js FormularioNuevaCategoria() <br/>"+response);
 			}
 		},
 		fail: function(response){
+			HabilitarContent();
 			notificaError("Error: Edicion.js FormularioNuevaCategoria() AJAX fail.<br/>"+response);
 		}
 	};
@@ -693,10 +697,10 @@ function EditarCategoria(id){
 function FormularioEditarCategoria(id){
 	var options = {  
 		beforeSend: function(){
-			notifica('guardando edicion '+id);
+			DeshabilitarContent();
 		},
 		success: function(response) { 
-			
+
 			if(response.length <= 3){
 				notifica("Categoria Actualizada");
 
@@ -709,12 +713,15 @@ function FormularioEditarCategoria(id){
 						$("#"+id).fadeIn();
 					});
 				}
-
+				HabilitarContent();
 				LimpiarContent();
+			}else{
+				HabilitarContent();
+				notificaError("Error: Edicion.js FormularioEditarCategoria()<br/>"+response);
 			}
-			
 		},
 		fail: function(response){
+			HabilitarContent();
 			notificaError("Error: Edicion.js FormularioEditarCategoria() AJAX fail.<br/>"+response);
 		}
 	};
