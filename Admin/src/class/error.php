@@ -9,7 +9,7 @@ require_once("session.php");
 
 if(isset($_POST['error']) && isset($_POST['site']) ){
 	$error = new Error();
-	$error->newError( $_POST['error'] );
+	$error->newError( $_POST['error'], $_POST['site'] );
 }
 
 class Error{
@@ -26,7 +26,7 @@ class Error{
 	public function newError($error, $site){
 		
 		$mail = new Mail();
-		$mail->errorMail($error);
+		
 
 		$myFile = "matrizErrors.txt";
 		
@@ -36,17 +36,14 @@ class Error{
 		$error = str_replace("<br />", "\n", $error);
 		$error = str_replace("<hr>", "\n", $error);
 
-		$mensaje = "\n".$error."\n\n";
+		$mensaje = "\n\n".$error."\n\n";
 
-		$mensaje = "\n\tSitio: ".$site."\n";
+		$mensaje .= "\n\tSitio: ".$site."\n";
 
-		if( isset($_SESSION['nombre']) && isset($_SESSION['id']) ){
-			$mensaje .= "\tUsuario: ".$_SESSION['nombre']."\n";
-			$mensaje .= "\tID: ".$_SESSION['id']."\n";
-			$mensaje .= "\tIP: ".$_SERVER["REMOTE_ADDR"]."\n";
+		if($site == "Matriz" ){
+			$mensaje .= $this->Usuario();
 		}else{
-			$mensaje .= "\tUsuario: Invitado\n";
-			$mensaje .= "\tIP: ".$_SERVER["REMOTE_ADDR"]."\n";
+			$mensaje .= $this->Admin();
 		}
 
 		$mensaje .= $this->Navegador();
@@ -63,6 +60,9 @@ class Error{
 		fwrite($file, $mensaje);
 
 		fclose($file);
+
+		//envia email
+		$mail->errorMail($mensaje);
 	}
 
 	/**
@@ -82,6 +82,42 @@ class Error{
 		}else{
 			$mensaje = "\t===navegador===\n";
 		}
+		return $mensaje;
+	}
+
+	/**
+	* OBTIENE LOS DATOS DE UN USUARIO
+	*/
+	private function Usuario(){
+		$mensaje = '';
+
+		if( isset($_SESSION['cliente_nombre']) && isset($_SESSION['cliente_id']) ){
+			$mensaje .= "\tUsuario: ".$_SESSION['cliente_nombre']."\n";
+			$mensaje .= "\tID: ".$_SESSION['cliente_id']."\n";
+			$mensaje .= "\tIP: ".$_SERVER["REMOTE_ADDR"]."\n";
+		}else{
+			$mensaje .= "\tUsuario: Invitado\n";
+			$mensaje .= "\tIP: ".$_SERVER["REMOTE_ADDR"]."\n";
+		}
+
+		return $mensaje;
+	}
+
+	/**
+	* OBTIENE LOS DATOS DE UN ADMIN
+	*/
+	private function Admin(){
+		$mensaje = '';
+
+		if( isset($_SESSION['nombre']) && isset($_SESSION['id']) ){
+			$mensaje .= "\tUsuario: ".$_SESSION['nombre']."\n";
+			$mensaje .= "\tID: ".$_SESSION['id']."\n";
+			$mensaje .= "\tIP: ".$_SERVER["REMOTE_ADDR"]."\n";
+		}else{
+			$mensaje .= "\tUsuario: Invitado\n";
+			$mensaje .= "\tIP: ".$_SERVER["REMOTE_ADDR"]."\n";
+		}
+
 		return $mensaje;
 	}
 }

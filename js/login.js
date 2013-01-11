@@ -195,7 +195,7 @@ function notifica(text) {
 */
 function notificaError(text) {
 
-	var queryParams = {"error" : text, "site" : "Matriz-login"};
+	var queryParams = {"error" : text, "site" : "Matriz"};
 	$.ajax({
 		data: queryParams,
 		async: false,

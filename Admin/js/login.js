@@ -192,12 +192,12 @@ function notifica(text) {
 
 //notifica errores
 function notificaError(text) {
-	var queryParams = {"error" : text, "site" : "Admin-login"};
+	var queryParams = {"error" : text, "site" : "Admin"};
 	$.ajax({
 		data: queryParams,
 		async: false,
 		type: "post",
-		url: "Admin/src/class/error.php",
+		url: "src/class/error.php",
 		success: function(response){
 			text += "<br/>Notifcado al webmaster.";
 		}
