@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * MANEJO DE DATOS REGISTROS Y CATEGORIAS
+ */
 
 require_once("classDatabase.php");
 require_once("session.php");

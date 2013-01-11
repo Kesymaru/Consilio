@@ -112,7 +112,6 @@ function EditarCliente($id){
 	$formulario = "";
 
 	if(!empty($datos)){
-		$contrasena = $usuarios->Encriptar($datos[0]['contrasena']);
 
 		$formulario .= '<form id="FormularioEditarCliente" enctype="multipart/form-data" method="post" action="src/ajaxClientes.php" >
 					<div class="clientes">
@@ -141,7 +140,7 @@ function EditarCliente($id){
 					  				Contraseña
 					  			</td>
 					  			<td>
-					  				<input type="text" id="contrasena" title="Contraseña Del Cliente" name="contrasena" placeholder="Contraseña" class="validate[required]"  />
+					  				<input type="text" id="contrasena" title="Cambiar Contraseña Del Cliente" name="contrasena" placeholder="Contraseña Nueva" class="validate[optional]"  />
 					  			</td>
 					  		</tr>
 					  		<tr>
@@ -315,8 +314,15 @@ function ActualizarCliente($id){
 			}
 		}
 
+		//si cambia contrasena
+		if(isset($_POST['contrasena'])){
+			$contrasena = $_POST['contrasena'];
+		}else{
+			$contrasena = "";
+		}
+
 		//update sin cambio de imagen
-		if(!$cliente->UpdateCliente($id, $_POST['nombre'], $_POST['email'], $_POST['registro'], $_POST['telefono'], $_POST['skype'] )){
+		if( !$cliente->UpdateCliente($id, $_POST['nombre'], $_POST['email'], $_POST['registro'], $_POST['telefono'], $_POST['skype'], $_POST['usuario'], $contrasena )){
 			echo "Error: No se pudo actuaizar los datos del cliente.";
 		}
 

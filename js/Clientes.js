@@ -318,7 +318,6 @@ function ClienteUsuario(field, rules, i, options){
 	var error = false;
 	$.each(usuarios, function(f,c){
 		if (field.val() == c) {
-			notifica('Usuario no disponible');
 			//return 'Usuario no disponible';
 			error = true;
 		}

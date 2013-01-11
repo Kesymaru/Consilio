@@ -10,9 +10,11 @@ class Mail {
 	private $plantilla = '';
 	private $plantillaFooter = '';
 	private $webmaster = 'webmaster@matricez.com';
+	private $webmasterError = 'aalfaro@77digital.com';
 
 	public function __construct(){
 		session_start();
+		date_default_timezone_set('America/Costa_Rica');
 
 		//configuracion headers del email
 		$this->headers .= "From: " . $this->webmaster . "\r\n";
@@ -251,6 +253,74 @@ class Mail {
 
 		//envia mail
 		$this->enviar($email, "Informe ".$proyecto);
+	}
+
+	/**
+	 * ENVIA UN MAIL, NOTIFICA UN ERROR
+	 * $error -> mensaje del error
+	 */
+	function errorMail($error){
+		//configuracion headers del email
+		$this->headers = "From: " . $this->webmaster . "\r\n";
+		$this->headers .= "Reply-To: " . $this->webmasterError . "\r\n";
+		$this->headers .= "X-Mailer: Matricez" . "\r\n";
+		$this->headers .= "Content-Type: text/html; charset=utf-8\r\n";
+
+		$error = '<!doctype html>
+				<head>
+				<meta charset="utf-8">
+				</head>
+				<body>
+				<center>Se ha detectado un error</center>
+				<hr>
+				'.$error.'
+				<hr>
+				';
+		
+		if( isset($_SESSION['nombre']) && isset($_SESSION['id']) ){
+			$error .= '<table>
+						<tr>
+							<td>
+								Usuario
+							</td>
+							<td>
+								'.$_SESSION['nombre'].'
+							</td>
+						</tr>
+						<tr>
+							<td>
+								ID
+							</td>
+							<td>
+								'.$_SESSION['id'].'
+							</td>
+						</tr>
+						</table>
+						<hr>';
+		}else{
+			$error .= '<table>
+						<tr>
+							<td>
+								Usuario
+							</td>
+							<td>
+								Invitado
+							</td>
+						</tr>
+						</table>
+						<hr>';
+		}
+		
+		$error .= '<center>'.date("F j Y - g:i a").'</center><br/>';
+		$error .= '
+				</body>
+				</html>';
+		
+		$mensaje = $this->headers.$error;
+
+		if(!mail($this->webmasterError,  "ERROR", $error, $this->headers)){
+			$_SESSION['error'] = "El envio del email de registro ha fallado!<br/>Por favor comuniquese con ".$this->webmasterError;
+		}
 	}
 
 }

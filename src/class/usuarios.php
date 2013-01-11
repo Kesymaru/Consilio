@@ -19,7 +19,6 @@ class Cliente{
 		//revisa que este logueado
 		$session = new Session();
 		$session->Logueado();
-
 	}
 
 	/**
@@ -31,7 +30,12 @@ class Cliente{
 	public function getClienteDato($dato, $id){
 		$base = new Database();
 		$datos = $base->Select("SELECT ".$dato." FROM clientes WHERE id = '".$id."'");
-		return $datos[0][$dato];
+		
+		if(!empty($datos)){
+			return $datos[0][$dato];
+		}else{
+			return false;
+		}
 	}
 
 	/**
@@ -71,17 +75,28 @@ class Cliente{
 	/**
 	 * ACTUALIZA DATOS DE UN CLIENTE
 	 * @param $id, $nombre, $registro, $email, $telefono, $skype
+	 * @param $usuario 
+	 * @param $contrasena -> no requerido, si cambia
 	 */
-	public function UpdateCliente($id, $nombre, $email, $registro, $telefono, $skype ){
+	public function UpdateCliente($id, $nombre, $email, $registro, $telefono, $skype, $usuario, $contrasena ){
 		$base = new Database();
 		
 		$nombre = mysql_real_escape_string($nombre);
 		$email = mysql_real_escape_string($email);
 		$registro = mysql_real_escape_string($registro);
 		$skype = mysql_real_escape_string($skype);
+		$usuario = mysql_real_escape_string($usuario);
 
-		$query = "UPDATE clientes SET nombre = '".$nombre."', email = '".$email."', registro = '".$registro."', ";
-		$query .= "telefono = '".$telefono."', skype = '".$skype."' WHERE id = ".$id;
+		if($contrasena != ''){
+			$contrasena = $base->Encriptar($contrasena);
+
+			$query = "UPDATE clientes SET nombre = '".$nombre."', email = '".$email."', registro = '".$registro."', ";
+			$query .= "telefono = '".$telefono."', skype = '".$skype."', usuario = '".$usuario."', contrasena = '".$contrasena."' WHERE id = ".$id;
+
+		}else{
+			$query = "UPDATE clientes SET nombre = '".$nombre."', email = '".$email."', registro = '".$registro."', ";
+			$query .= "telefono = '".$telefono."', skype = '".$skype."', usuario = '".$usuario."' WHERE id = ".$id;
+		}
 
 		if( $base->Update($query) ){
 			return true;
