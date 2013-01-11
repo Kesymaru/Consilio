@@ -13,6 +13,11 @@ function Proyecto(id){
 		ActivaMenu()
 	}
 
+	//esconde el menu 2
+	if($("#menu2").is(":visible")){
+		Menu2()
+	}
+
 	if($("#content").html() !== ""){
 		LimpiarContent();
 	}
