@@ -217,17 +217,6 @@ $master = new Master();
 				}else if(!isset($_GET['proyecto'])){
 				?>
 					<div id="mensajeInicial">
-						Selecione un proyecto o cree uno nuevo para empezar.
-						<br/>
-						<button onClick="proyectoNuevo()">Crear Proyecto</button>
-						<?php
-							//determina si el cliente tiene proyectos
-							/*$sql = 'SELECT * FROM proyectos WHERE cliente = '.$_SESSION['id'];
-							$result = mysql_query($sql);
-							if($row = mysql_fetch_array($result)){
-								echo '<button onClick="verProyectos()">Seleccionar Proyecto</button>';
-							}*/
-						?>
 					</div>
 				<?php 
 				}
