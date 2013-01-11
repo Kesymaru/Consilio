@@ -225,6 +225,9 @@ function Articulos($id){
 * @param $id -> id del articulo
 */
 function DatosArticulo($id){
+	
+	date_default_timezone_set('America/Costa_Rica');
+
 	$registros = new Registros();
 	$datos = $registros->getArticulo($id);
 
