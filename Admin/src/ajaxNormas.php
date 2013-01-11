@@ -201,7 +201,7 @@ function EditarNorma($norma){
 								<tr>
 									<td>Numero</td>
 									<td>
-										<input type="number" id="numero" name="numero" title="Numero De La Norma" placeholder="Numero" class="validate[required]" value="'.$datos[0]['numero'].'" />
+										<input type="text" id="numero" name="numero" title="Numero De La Norma" placeholder="Numero" class="validate[required]" value="'.$datos[0]['numero'].'" />
 									</td>
 								</tr>
 								<tr>
@@ -290,7 +290,7 @@ function NuevaNorma(){
 								<tr>
 									<td>Numero</td>
 									<td>
-										<input type="number" id="numero" name="numero" title="Numero De La Nueva Norma" placeholder="Numero" class="validate[required]" />
+										<input type="text" id="numero" name="numero" title="Numero De La Nueva Norma" placeholder="Numero" class="validate[required]" />
 									</td>
 								</tr>
 								<tr>
