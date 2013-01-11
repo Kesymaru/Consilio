@@ -152,19 +152,19 @@ class Upload {
                 $UploadDirectory = $this->UploadDirectory;
 
                 if (!$UploadDirectory) {
-                        $this->SetMessage("ERROR: The directory variable is empty.");
+                        $this->SetMessage("ERROR: El directorio esta vacio.");
                         return false;
                 }
 
                 if (!is_dir($UploadDirectory)) {
-                        $this->SetMessage("ERROR: The directory '$UploadDirectory' does not exist.");
+                        $this->SetMessage("ERROR: El directorio '$UploadDirectory' no existe.");
                         return false;
                 }
 
-                /*if (!is_writable($UploadDirectory)) {
-                        $this->SetMessage("ERROR: The directory '$UploadDirectory' does not writable.");
+                if (!is_writable($UploadDirectory)) {
+                        $this->SetMessage("ERROR: El directorio '$UploadDirectory' no es escribible.");
                         return false;
-                }*/
+                }
 
                 if (substr($UploadDirectory, -1) != "/") {
                         $this->SetMessage("ERROR: The traling slash does not exist.");
