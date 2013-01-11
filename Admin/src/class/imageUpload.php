@@ -161,10 +161,10 @@ class Upload {
                         return false;
                 }
 
-                if (!is_writable($UploadDirectory)) {
+                /*if (!is_writable($UploadDirectory)) {
                         $this->SetMessage("ERROR: The directory '$UploadDirectory' does not writable.");
                         return false;
-                }
+                }*/
 
                 if (substr($UploadDirectory, -1) != "/") {
                         $this->SetMessage("ERROR: The traling slash does not exist.");
