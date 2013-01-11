@@ -284,6 +284,8 @@ function notificaAtencion(text) {
 
 /**
 * NOTIFICACION DE ERRORES
+* REGISTRA EL ERROR 
+* @param text -> texto del error
 */
 function notificaError(text) {
 
