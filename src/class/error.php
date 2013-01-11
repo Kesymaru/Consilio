@@ -33,6 +33,7 @@ class Error{
 		$error = str_replace("<br/>", "\n", $error);
 		$error = str_replace("<br>", "\n", $error);
 		$error = str_replace("<br/>", "\n", $error);
+		$error = str_replace("<br />", "\n", $error);
 		$error = str_replace("<hr>", "\n", $error);
 
 		$mensaje = "\n".$error."\n";

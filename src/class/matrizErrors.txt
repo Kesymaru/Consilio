@@ -1,0 +1,12 @@
+
+Error: Edicion.js FormularioEditarCategoria()
+ 
+<br />
+<b>Warning</b>:  unlink(../images/categorias/18525005.jpg) [<a href='function.unlink'>function.unlink</a>]: No such file or directory in <b>C:\wamp\www\matrizescala\src\class\classDatabase.php</b> on line <b>197</b><br />
+
+Error: class Registros UpdateDatosCategoria() imagen no se pudo borrar.
+imagen: ../images/categorias/18525005.jpg
+	Usuario: Andrey
+	ID: 1
+	January 11 2013 - 9:21 am
+ --------------------<>--------------------
