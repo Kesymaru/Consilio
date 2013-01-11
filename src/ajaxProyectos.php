@@ -204,7 +204,7 @@ function Articulos($id){
 
 	if(!empty($datos)){
 		$lista .= '<div class="titulo">
-				<button class="atras" type="button" onClick="ShowNormas()">Atraz</button>
+				<button class="atras" type="button" onClick="ShowNormas()">Atras</button>
 					'.$datos[0]['nombre'].'
 				</div>
 				<div class="datos">
