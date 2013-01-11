@@ -3,7 +3,7 @@
 /**
 * INDEX DE MATRIZ PARA ADMIN
 */
-echo exec('whoami');
+//echo exec('whoami');
 
 require_once("src/master.php"); 
 
