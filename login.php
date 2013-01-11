@@ -124,9 +124,8 @@ if( isset($_SESSION['logueado']) ){
 				}
 			?>
 			</div>
-			<!--
+
 			<span id="registrarse" onClick="loginbox(1)">Registrarse</span>
-			-->
 			<br/><br/>
 		</div>
 		<!-- end usuarios -->

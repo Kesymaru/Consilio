@@ -190,19 +190,33 @@ function notifica(text) {
 	},5000);
 }
 
-//notifica errores
+/**
+* NOTIFICA UN ERROR
+*/
 function notificaError(text) {
-	var n = noty({
-	  	text: text,
-	  	type: 'error',
-	    dismissQueue: true,
-	  	layout: 'topCenter',
-	  	closeWith: ['button'], // ['click', 'button', 'hover']
+
+	var queryParams = {"error" : text};
+	$.ajax({
+		data: queryParams,
+		async: false,
+		type: "post",
+		url: "src/class/error.php",
+		success: function(response){
+			text += "<br/>Notifcado al webmaster.";
+		}
 	});
-	//console.log('html: '+n.options.id);
-	  	
-	//tiempo para desaparecerlo solo 
-	setTimeout(function (){
+	
+  	var n = noty({
+  		text: text,
+  		type: 'error',
+    	dismissQueue: true,
+  		layout: 'topCenter',
+  		closeWith: ['button'], // ['click', 'button', 'hover']
+  	});
+  	//console.log('html: '+n.options.id);
+  	
+  	//tiempo para desaparecerlo solo 
+  	setTimeout(function (){
 		n.close();
 	},7000);
 }

@@ -3,10 +3,11 @@
 /**
 * CLASE MASTER METODOS PARA EL INDEX.PHP
 */
-	require_once("class/mail.php"); 
-	require_once('class/session.php');
-	require_once('class/classDatabase.php');
-	require_once('class/usuarios.php');
+
+require_once('class/session.php');
+require_once('class/classDatabase.php');
+require_once('class/usuarios.php');
+require_once('class/proyectos.php');
 
 class Master{
 
@@ -17,110 +18,6 @@ class Master{
 		$session = new Session();
 		//seguridad de que el usuario este logueado
 		$session->Logueado();
-	}
-
-/*** METODOS DE BUSQUEDA ***/
-
-	/**
-	* FUNCTIONALIDAD DE BUSQUEDA
-	* @param $busqueda 
-	*/
-	public function Buscar($buscar){
-		//$normas = $this->BuscarNormas($buscar);
-		$normas = '';
-		$categorias = $this->BuscarCategorias($buscar);
-		$proyectos = $this->BuscarProyectos($buscar);
-		
-		if( $normas == '' && $categorias == '' && $proyectos == ''){
-			echo '<div id="mensajeInicial">
-					No hay resultados para '.$buscar.'
-				  </div>';
-		}else{
-			echo $normas;
-			echo $categorias;
-			echo $proyectos;
-		}
-	}
-
-	//realiza busqueda en normas
-	private function BuscarNormas($busqueda){
-
-		$consultas = array( 0 => 'nombre', 1 => 'numero', 2 => 'requisito', 3 => 'permisos', 4 => 'entidad', 5 => 'resumen');
-		$resultadoTemp = '';
-		$resultado = '';
-		$contador = 0;
-
-		$base = new Database();
-
-		foreach ($consultas as $consulta => $value) {
-
-				$query = "SELECT * FROM normas WHERE ".$consultas[$consulta]." LIKE '%".$busqueda."%' LIMIT 0, 30";
-				$datos = $base->Select($query);
-
-				if(!empty($datos)){
-					foreach ($datos as $fila => $c) {
-
-						//etiqueta
-						$resultadoTemp .= '<div class="resultado">
-												<ul class="etiqueta"><li><a href="#">';
-						
-						if($consultas[$consulta] == 'nombre'){
-							$resultadoTemp .= 'Norma';
-						} else if($consultas[$consulta] == 'numero'){
-							$resultadoTemp .= 'N° Norma';
-						}else{
-							$resultadoTemp .= $consultas[$consulta];
-						}
-
-						//resultado
-						$resultadoTemp .= '</a></li></ul>
-						 '.$datos[$fila][$consultas[$consulta]].'</div>';
-						
-						$contador++;
-					}
-				}	
-		}
-
-		if(!empty($resultadoTemp)){
-			$resultado .= $this->Plural($contador, "Norma");
-			$resultado .= $resultadoTemp.'</div>';
-
-			return $resultado;
-		}else{
-			return '';
-		}
-	}
-
-
-	/**
-	* BUSCA EN CATEGORIAS
-	* @param $busqueda
-	* @return false -> sino hay resultados
-	*/
-	private function BuscarCategorias($busqueda){
-		$contador = 0;
-		$resultado = '';
-		$resultadoTemp = '';
-
-		//SELECCIONA LAS CATEGORIAS
-		$query = "SELECT * FROM categorias WHERE nombre LIKE '%".$busqueda."%' LIMIT 0, 30";
-		$base = new Database();
-		
-		$categorias = $base->Select($query);
-
-		if(!empty($categorias)){
-			foreach ($categorias as $fila => $categoria) {
-				$resultadoTemp .= '<div class="resultado"><ul class="etiqueta"><li><a href="#">Categoria';
-				$resultadoTemp .= '</a></li></ul>'.$categoria['nombre'].'</div>';
-				$contador++;
-			}
-
-			$resultado .= $this->Plural($contador, "Categoria");
-			$resultado .= $resultadoTemp."</div>";
-			return $resultado;
-		}else{
-			return '';
-		}
 	}
 
 	//busca en proyectos, presenta solo los del cliente logueado
@@ -154,12 +51,13 @@ class Master{
 	/**
 	* DATOS PARA EL MENU DEL ADMIN
 	*/
-	public function MenuAdmin(){
-		$admin = new Admin();
+	public function MenuCliente(){
+		$cliente = new Cliente();
 
-		echo '<li onClick="editar();"><img src="';
-		//echo $admin->getAdminDato("imagen");
-		echo '" /></li>';
+		/*echo '<li onClick="editar();"><img src="';
+		echo $admin->getAdminDato("imagen");
+		echo '" /></li>';/*/
+
 		echo '<li onClick="LogOut();">Salir</li>';
 
 	}
@@ -186,29 +84,69 @@ class Master{
 		}
 	}
 
-
-	/**
-	* MENU DE EDICIONs
-	*/
-	public function MenuEdicion(){
-		echo '<li onClick="EditarCategorias()">Categorias</li>';
-		echo '<li onClick="Normas()">Normas</li>';
-		echo '<li onClick="Entidades()">Entidades</li>';
-		echo '<li onClick="Tipos()">Tipos normas</li>';
-	}
-
-	/**
-	 * MENU DE CLIENTES
-	 */
-	public function MenuClientes(){
-		echo '<li onClick="Clientes()">Clientes</li>';
-	}
-
 	/**
 	 * MENU DE PROYECTOS
 	 */
 	public function MenuProyectos(){
-		echo '<li onClick="Proyectos()">Proyectos</li>';
+		$proyectos = new Proyectos();
+		$datos = $proyectos->getProyectos($_SESSION['cliente_id']);
+
+		if(!empty($datos)){
+			foreach ($datos as $key => $proyecto) {
+				echo '<li onClick="Proyecto('.$proyecto['id'].')">'.$proyecto['nombre'].'</li>';
+			}
+		}else{
+			echo '<li>No hay proyectos</li>';
+		}
+	}
+
+/************************ PROYECTOS *************/
+	
+	/**
+	* MUESTRA LA LISTA DE PROYECTOS DEL USUARIO
+	*/
+	public function Proyectos(){
+		$proyectos = new Proyectos();
+		$datos = $proyectos->getProyectos($_SESSION['cliente_id']);
+
+		$lista = '<div class="titulo" >
+					Mis Proyectos
+				</div>
+					<table class="table-list">';
+
+		if(!empty($datos)){
+			$lista .= '<tr>
+							<td>
+								Nombre
+							</td>
+							<td>
+								Descripcion
+							</td>
+						</tr>';
+
+			foreach ($datos as $key => $proyecto) {
+				$lista .= '<tr onClick="Proyecto('.$proyecto['id'].')" class="custom-tooltip" title="'.$_SESSION['datos'].$proyecto['imagen'].'" >
+								<td>
+									'.$proyecto['nombre'].'
+								</td>
+								<td>
+									'.base64_decode($proyecto['descripcion']).'
+								</td>
+						   </tr>';
+			}
+
+		}else{
+			$lista .= '<tr>
+						<td colspan="3">
+							No Tienes Proyectos Aun.
+							<br/>
+						</td>
+						</tr>';
+		}
+
+		$lista .= '</table>';
+
+		echo $lista;
 	}
 
 }

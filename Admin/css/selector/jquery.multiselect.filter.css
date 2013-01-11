@@ -1,0 +1,33 @@
+.ui-multiselect-hasfilter ul { position:relative; top:2px; display: block; margin: 0 auto; width: 80%; }
+.ui-multiselect-filter {display: block; font-size:0px;}
+.ui-multiselect-filter input { 
+	text-align: center; 
+	width:100%; 
+	margin: 0 auto;
+	font-size: 18px; 
+	display: block; 
+
+	padding-top: 3px;
+	padding-bottom: 3px;
+	background-color: #D5D4D5;
+	border: 0 solid transparent;
+	border-bottom: 1px solid rgba(117, 114, 115, .0);
+	font-size: 20px;
+
+	color: rgba(117, 114, 115, .4);
+	font-weight: bold;
+	box-shadow: none;
+	font-size: 20px;
+	outline: none; /**fix para webkit */
+}
+
+.ui-multiselect-filter input:focus,
+.ui-multiselect-filter input:active{
+	background-color: rgba(117, 114, 115, .2);
+	border-bottom: 1px solid rgba(117, 114, 115, .7);
+	color: #fff;
+}
+
+.ui-multiselect-filter input:hover{
+	border-bottom: 1px solid rgba(117, 114, 115, .7);
+}

@@ -1,7 +1,7 @@
 <?php 
 
 /**
-* INDEX DE MATRIZ PARA ADMIN
+* INDEX DE MATRIZ PARA CLIENTE
 */
 
 require_once("src/master.php"); 
@@ -64,10 +64,7 @@ $master = new Master();
 	<script type="text/javascript" src="js/noty/themes/default.js"></script>
 
 	<!-- matriz -->
-	<script type="text/javascript" src="js/Edicion.js"></script>
-	<script type="text/javascript" src="js/Clientes.js"></script>
-	<script type="text/javascript" src="js/Componer.js"></script>
-	<script type="text/javascript" src="js/Proyectos.js"></script>
+		<script type="text/javascript" src="js/Proyectos.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 
 	<!-- jquery plugins -->
@@ -120,12 +117,11 @@ $master = new Master();
 
 <?php
 	//muestra bienvenida una sola ves para cada logueo
-	if(!$_SESSION['bienvenida']){
-		echo '<script type="text/javascript">notifica(\'Hola '.$_SESSION['nombre'].'\')</script>';
-		$_SESSION['bienvenida'] = true;
+	if(!$_SESSION['cliente_bienvenida']){
+		echo '<script type="text/javascript">notifica(\'Hola '.$_SESSION['cliente_nombre'].'\')</script>';
+		$_SESSION['cliente_bienvenida'] = true;
 	}
 ?>
-
 	<!-- header -->
 	<div id="header">
 		<a href="index.php">
@@ -136,30 +132,15 @@ $master = new Master();
 			<div id="toolbarMenu">
 				<div id="menuUsuario">
 					<?php
-						echo $_SESSION['nombre'];
+						echo $_SESSION['cliente_nombre'];
 					?>
 					<ul class="dropMenu">
 						<?php
-							$master->MenuAdmin();
+							$master->MenuCliente();
 						?>
 					</ul>
 				</div>
-				<div id="menuEdicion">
-					Edicion
-					<ul class="dropMenu">
-						<?php
-							$master->MenuEdicion();
-						?>
-					</ul>
-				</div>
-				<div id="menuClientes">
-					Clientes
-					<ul class="dropMenu">
-						<?php
-							$master->MenuClientes();
-						?>
-					</ul>
-				</div>
+
 				<div id="menuProyectos">
 					Proyectos
 					<ul class="dropMenu">
@@ -214,78 +195,19 @@ $master = new Master();
 					</div>
 				<?php
 				}else if(!isset($_GET['proyecto'])){
+					//MUESTRA LOS PROYECTOS DEL CLIENTE
+					
+					$master->Proyectos();
 				?>
-					<div id="mensajeInicial">
-						Selecione un proyecto o cree uno nuevo para empezar.
-						<br/>
-						<button onClick="proyectoNuevo()">Crear Proyecto</button>
-						<?php
-							//determina si el cliente tiene proyectos
-							/*$sql = 'SELECT * FROM proyectos WHERE cliente = '.$_SESSION['id'];
-							$result = mysql_query($sql);
-							if($row = mysql_fetch_array($result)){
-								echo '<button onClick="verProyectos()">Seleccionar Proyecto</button>';
-							}*/
-						?>
-					</div>
 				<?php 
 				}
 
 				?>
 			<div id="nivel1">
 
-				<div id="listaNormas">
-					
-				</div>
-				<div id="generalidades">
-					
-				</div>
-
 			</div><!-- end nivel 1-->
 
 			<div id="nivel2">
-				<div id="columna1">
-					<!--
-					<div id="descripcionNorma">
-						
-						<div class="nombreNorma">
-							TODO titulo ajax categoria
-						</div>
-						<div>
-							TODO descripcion
-						</div>
-						
-					</div>
-					-->
-				</div> <!-- end columna1-->
-
-				<div id="columna2">
-					<!--
-					<div class="box">
-						TODO ajax para mostrar informacion de subcategorias<br/>
-						TODO mansory para acomodar las columnas
-					</div>
-					<div class="box">
-						TODO ajax para mostrar informacion de subcategorias<br/>
-						TODO mansory para acomodar las columnas
-						<br/>
-						<br/>
-					</div>
-					<div class="box">
-						TODO ajax para mostrar informacion de subcategorias<br/>
-						TODO mansory para acomodar las columnas
-						<br/>
-						<br/>
-						<br/>
-						<br/>
-					</div>
-					<div class="box">
-						TODO ajax para mostrar informacion de subcategorias<br/>
-						TODO mansory para acomodar las columnas
-					</div>
-					MODELO PARA BOX -->
-					
-				</div><!--end columna2 -->
 
 			</div><!-- end nivel 2-->
 

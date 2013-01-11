@@ -1,487 +1,349 @@
 <?php
-
 /**
-* AJAX PARA PROYECTOS
+* AJAX PARA PROYECTOS EN CLIENTES
 */
 
 require_once("class/proyectos.php");
-require_once("class/imageUpload.php");
-require_once("class/usuarios.php");
+require_once("class/registros.php");
 
 if(isset($_POST['func'])){
-	
-	switch ($_POST['func']){
+	switch ($_POST['func']) {
 
-		//LISTA PROYECTOS
-		case 'ProyectosAvance':
-			ProyectosAvance();
-			break;
-
-		//LISTA PROYECTOS
-		case 'Proyectos':
-			Proyectos();
-			break;
-
-		//NUEVO PROYECTO
-		case 'NuevoProyecto':
-			NuevoProyecto();
-			break;
-
-		//EDITAR PROYECTO
-		case 'EditarProyecto':
-			if(isset($_POST['id'])){
-				EditarProyecto($_POST['id']);
-			}
-			break;
-
-		//REGISTRA UN NUEVO PROYECTO
-		case 'RegistrarProyecto':
-			RegistrarProyecto();
-			break;
-
-		//ACTUALIZAR UN PROYECTO
-		case 'ActualizarProyecto':
+		//CARGA LAS CATEGORIAS ROOT DE UN PROYECTO
+		case 'CategoriasRoot':
 			if(isset($_POST['proyecto'])){
-				ActualizarProyecto($_POST['proyecto']);			
+				CategoriasRoot($_POST['proyecto']);
+			}
+
+		//OBTIENE LOS HIJOS DE UN PADRE SELECCIONADO
+		case 'Hijos':
+			if(isset($_POST['padre']) && isset($_POST['proyecto'])){
+				Hijos( $_POST['padre'], $_POST['proyecto'] );
 			}
 			break;
 
-		//ELIMINAR UN PROYECTO
-		case 'EliminarProyecto':
-			if(isset($_POST['id'])){
-				EliminarProyecto($_POST['id']);
+		//OBTIENE LOS IDS DE LOS HIJOS DE UN PADRE
+		case 'GetHijos':
+			if( isset($_POST['padre']) ){
+				$registros = new Registros();
+				//el id de todos los hijos
+				$hijos = $registros->getTodosHijos($_POST['padre']);
+				echo json_encode($hijos);
 			}
 			break;
 
-		case 'DuplicarProyecto':
+		//OBTIENE LOS IDS DE LOS HERMANOS DE UN PADRE
+		case 'GetHermanos':
+			if( isset($_POST['padre']) ){
+				$registros = new Registros();
+				//el id de todos los hijos
+				$hijos = $registros->getTodosHermanos($_POST['padre']);
+				echo json_encode($hijos);
+			}
+			break;
+
+		//DATOS DE UNA CATEGORIA
+		case 'Normas':
 			if(isset($_POST['id'])){
-				DuplicarProyecto($_POST['id']);
+				Normas($_POST['id']);
+			}
+			break;
+
+		//CARGA NORMA
+		case 'Articulos':
+			if(isset($_POST['id'])){
+				Articulos($_POST['id']);
+			}
+			break;
+
+		//DATOS DE UN ARTICULO
+		case 'DatosArticulo':
+			if(isset($_POST['id'])){
+				DatosArticulo($_POST['id']);
 			}
 			break;
 	}
+
 }
 
 /**
-* MUESTRA LISTA DE PROYECTOS
+* CATEGORIAS ROOT DE UN PROYECTO
 */
-function Proyectos(){
-	$proyectos = new Proyectos();
-	$datos = $proyectos->getProyectos();
+function CategoriasRoot($proyecto){
+	$registros = new Registros();
+
+	$datos = $registros->getRegistros($proyecto);
 
 	$lista = '';
 
-	$lista = '<div id="proyectos" class="tipos">
-				<div class="titulo">
-					Proyectos
-			  		<button type="button" title="Buscar Proyectos" onClick="BuscarMenu(\'buscar-Proyectos\')">Buscar</button>
-					<hr>
-					<div class="busqueda">
-						<input type="text" id="buscar-Proyectos" placeholder="Buscar"/>
-					</div>
-			  	</div>';
-
 	if(!empty($datos)){
+		$categorias = unserialize($datos[0]['registro']);
+
+		$lista .= '<ul id="supercategorias" class="categorias">';
+
+		if(!empty($categorias)){
+			foreach ($categorias as $key => $categoria) {
+				
+				$datosCategoria = $registros->getCategoriaDatos($categoria);
+
+				if($datosCategoria[0]['padre'] == 0){
+					
+					$lista .= '<li class="" id="'.$categoria.'" onClick="PadreHijos('.$categoria.','.$proyecto.')">';
+
+					$lista .= '<img title="'.$datosCategoria[0]['nombre'].'" src="'.$_SESSION['datos'].$datosCategoria[0]['imagen'].'" /><p>'.$datosCategoria[0]['nombre'].'</p>';
+
+					$lista .= '</li>';
+				}
+			}
+		}else{
+			$lista .= '<li>No hay datos</li>';
+		}
+
+		$lista .= '</ul>';
+	}else{
+
+	}
+
+	echo $lista;
+}
+
+/**
+* CARGA CATEGORIAS HIJAS DE UN PADRE
+* @param $padre -> id del padre
+*/
+function Hijos($padre, $proyecto){
+	$registros = new Registros();
+	$hijos = $registros->getHijos($_POST['padre']);
+
+	$lista = "";
+
+	if(!empty($hijos)){ //tiene hijos
+		$datos = $registros->getRegistros($proyecto);
+		$disponibles = unserialize($datos[0]['registro']);
+
+		$lista .= '<div class="categoria" id="Padre'.$padre.'">';
 
 		$lista .= '<ul>';
 		
-		foreach ($datos as $fila => $proyecto) {
-			$lista .= '<li id="'.$proyecto['id'].'" onClick="SelectProyecto('.$proyecto['id'].')">'.$proyecto['nombre'].'</li>';
+		foreach ($hijos as $f => $hijo) {
+
+			foreach ($disponibles as $s => $incluida) {
+				if($incluida == $hijo['id']){
+					$lista .= '<li id="'.$hijo['id'].'" onClick="Hijos('.$hijo['id'].', '.$proyecto.')">'.$hijo['nombre'].'</li>';
+				}else{
+					continue;
+				}
+			}
+			//carga hijos de la categoria
+			//$lista .= '<li id="'.$hijo['id'].'" onClick="Hijos('.$hijo['id'].', '.$proyecto.')">'.$hijo['nombre'].'</li>';
 		}
 
-		$lista .= '</ul><!-- fin lista -->';
+		$lista .= '</ul>';
+		$lista .= '</div>';
+
+		//tiene hijos por lo tanto no es hoja
+		//echo '<script>NormasCategoria('.$padre.');</script>';
 
 	}else{
-		$lista .= "No hay proyectos";
+		//no tiene hijos es una hoja
+		if( !$registros->EsRoot($padre) ){
+			$lista .= '<script>Normas('.$padre.','.$proyecto.');</script>';
+		}
 	}
-
-	$lista .= '<div class="datos-botones">
-				<button type="button" id="EliminarProyecto" class="ocultos" title="Eliminar Proyecto Seleccionado" onClick="EliminarProyecto()">Eliminar</button>
-				<button type="button" id="EditarProyecto" class="ocultos" title="Editar Proyecto Seleccionado" onClick="EditarProyecto()">Editar</button>
-				<button type="button" id="DuplicarProyecto" class="ocultos" title="Duplicar Proyecto Seleccionado" onClick="DuplicarProyecto()">Duplicar</button>
-			   	<button type="button" id="NuevoProyecto" title="Crear Nuevo Proyecto" onClick="NuevoProyecto()">Nuevo Proyecto</button>
-			   </div>
-			   <!-- fin botonera -->
-			   </div>';
 
 	echo $lista;
 }
 
 /**
-* MUESTRA LISTA DE PROYECTOS AVANZADA
-*/
-function ProyectosAvance(){
-	$proyectos = new Proyectos();
-	$datos = $proyectos->getProyectos();
+ * LISTA DE NORMAS DE UNA CATEGORIA
+ * @param $id -> id de la categoria
+ */
+function Normas($id){
+	$registros = new Registros();
+	$datos = $registros->getCategoriaDatos($id);
+
+	if(!empty($datos)){
+		$normas = unserialize($datos[0]['normas']);
+		
+		$lista = '<div class="titulo" id="normas" >
+				  	<button class="atras" type="button" onClick="ShowCategorias()">Atras</button>
+					'.$datos[0]['nombre'].'
+					</div>
+					<div class="datos">
+				<uL class="lista">';
+
+		if(!empty($normas)){
+			foreach ($normas as $key => $norma) {
+				$datosNormas = $registros->getDatosNorma($norma);
+
+				if($datosNormas[0]['status'] == 1){
+
+					$lista .= '<li id="'.$datosNormas[0]['id'].'" onClick="SelectNorma('.$datosNormas[0]['id'].')">'.$datosNormas[0]['nombre'].'</li>';
+				}
+			}
+		}else{
+			$lista .= '<li>No hay datos</li>';
+		}
+		
+
+		$lista .= '</ul>
+					</div>';
+	}
+	echo $lista;
+}
+
+/**
+ * MUESTRA LISTA DE ARTICULOS de una norma
+ * @param $id -> id de la norma
+ */
+function Articulos($id){
+	$registros = new Registros();
+	$datos = $registros->getArticulos($id);
 
 	$lista = '';
 
-	$lista = '<div id="proyectos" class="tipos">
+	if(!empty($datos)){
+		$lista .= '<div class="titulo">
+				<button class="atras" type="button" onClick="ShowNormas()">Atraz</button>
+					'.$datos[0]['nombre'].'
+				</div>
+				<div class="datos">
+				<ul class="lista">';
+
+		foreach ($datos as $fila => $norma) {
+				$lista .= '<li id="'.$norma['id'].'" onClick="SelectArticulo('.$norma['id'].')">'.$norma['nombre'].'</li>';
+		}
+		$lista .= '</ul>
+					</div>';
+
+		echo $lista;
+	}
+}
+
+/**
+* CARGA DATOS DE UN ARTICULO
+* @param $id -> id del articulo
+*/
+function DatosArticulo($id){
+	$registros = new Registros();
+	$datos = $registros->getArticulo($id);
+
+	$lista = '<div id="datos-articulo">
 				<div class="titulo">
-					Proyectos
-			  		<button type="button" title="Buscar Proyectos" onClick="BuscarContent(\'buscar-Proyectos\')">Buscar</button>
-					<hr>
-					<div class="busqueda">
-						<input type="text" title="Escriba Para Buscar Proyectos Por Nombre, Estado o Cliente" id="buscar-Proyectos" placeholder="Buscar"/>
-					</div>
+					Datos
 			  	</div>';
 
 	if(!empty($datos)){
+		foreach ($datos as $fila => $articulo) {
+			
+			foreach ($articulo as $dato => $valor) {
+				
+				if($dato == 'id' || $dato == "fecha" || $dato == "borrado" || $dato == "norma" || $dato == "nombre"){
+					continue;
+				}
 
-		$lista .= '<table class="table-list">
-					<tr>
-						<td>Nombre</td>
-						<td>Cliente</td>
-						<td>Estado</td>
-					</tr>';
-		
-		foreach ($datos as $fila => $proyecto) {
-			$lista .= '<tr id="'.$proyecto['id'].'" class="custom-tooltip" title="'.$proyecto['imagen'].'" onClick="SelectProyecto('.$proyecto['id'].')">
-			              <td>'.$proyecto['nombre'].'</td>
-					      <td>'.Cliente($proyecto['cliente']).'</td>
-					      <td>'.Estado($proyecto['status']).'</td>
-					   </tr>';
+				if($dato == 'resumen' || $dato == "permisos" || $dato == "articulo" || $dato == "sanciones"){
+					
+					$lista .= '<div class="box">
+									<div class="dato-titulo">
+										'.$dato.'
+									</div>
+									<div class="dato">
+										'.base64_decode($valor).'
+									</div>
+						   		</div>';
+					continue;
+				}
+
+				if($dato == "entidad"){
+					$entidades = unserialize($valor);
+
+					$nombres = Entidades($entidades);
+					
+					if(!empty($nombres)){
+						$lista .= '<div class="box">
+										<div class="dato-titulo">
+											'.$dato.'
+										</div>
+									<div class="dato">';
+
+						foreach ($nombres as $key => $nombre) {
+							$lista .= $nombre."<br/>";
+						}
+
+						$lista .= '</div>
+						   		</div>';
+					}
+
+					continue;
+				}
+
+				$lista .= '<div class="box">
+								<div class="dato-titulo">
+									'.$dato.'
+								</div>
+								<div class="dato">
+									'.$valor.'
+								</div>
+					   		</div>';
+			}
+		} //end foreach
+
+		$archivos = $registros->getArchivosArticulo($articulo['id']);
+
+		if(!empty($archivos)){
+			$lista .= '<div class="box">
+								<div class="dato-titulo">
+									Adjuntos
+								</div>
+								<div class="dato">
+								<ul>';
+
+			foreach ($archivos as $f => $archivo) {
+				$lista .= '<li>
+							<a title="Descargar Adjunto '.$archivo['nombre'].'" href="src/download.php?link='.$_SESSION['datos'].$archivo['link'].'">
+									'.$archivo['nombre'].'
+									<img src="images/folder.png" />
+							</a>
+							</li>';
+			}
+			$lista .= '</div>
+						</div>';
 		}
-
-		$lista .= '</table><!-- fin lista -->';
+		
+		$lista .= '<div id="datos-footer">
+						Última Actualización '.date("D F Y - g:i a").'
+					</div>
+					</div><!-- end datos cargados -->
+					</div><!-- end datos-articulo -->';
 
 	}else{
-		$lista .= '<table class="table-list">
-					<tr>
-						<td>
-							No hay proyectos
-						</td>
-					</tr>
-				   </table>';
+		$lista .= '<div class="">
+					<script>notificaError("Error ajaxProyectos.php DatosArticulo articulo '.$id.' <br/>No se encontraron datos.");
+					</div>
+					</div>';
 	}
-
-	$lista .= '<div class="datos-botones">
-				<button type="button" id="EliminarProyecto" class="ocultos" title="Eliminar Proyecto Seleccionado" onClick="EliminarProyecto()">Eliminar</button>
-				<button type="button" id="EditarProyecto" class="ocultos" title="Editar Proyecto Seleccionado" onClick="EditarProyecto()">Editar</button>
-				<button type="button" id="ComponerProyecto" class="ocultos" title="Componer El Proyecto Seleccionado" onClick="ComponerProyectoSeleccionado()">Componer</button>
-				<button type="button" id="DuplicarProyecto" class="ocultos" title="Duplicar Proyecto Seleccionado" onClick="DuplicarProyecto()">Duplicar</button>
-			   	<button type="button" id="NuevoProyecto" title="Crear Nuevo Proyecto" onClick="NuevoProyecto()">Nuevo Proyecto</button>
-			   </div>
-			   <!-- fin botonera -->
-			   </div>';
 
 	echo $lista;
 }
 
-/**
- * OBTIENE EL NOMBRE DEL CLIENTE
- * @param $id -> id del cliente
- */
-function Cliente($id){
-	$clientes = new Cliente();
-	return $clientes->getClienteDato("nombre", $id);
-}
 
 /**
- * DEVUELVE EL ESTADO
- */
-function Estado($estado){
-	if($estado == 1){
-		return "Activo";
-	}else{
-		return "Inactivo";
-	}
-}
-
-/**
-* FORMULARIO DE NUEVO PROYECTO
+* OBTIENE LAS ENTIDADES
+* @param $entidad -> array[] con las entidades
+* @return $nombres -> array[] con los nombres de las entidades registradas
 */
-function NuevoProyecto(){
+function Entidades($entidades){
+	$registro = new Registros();
 
-	$formulario = "";
-	
-	$formulario .= '<form id="FormularioNuevoProyecto" enctype="multipart/form-data" method="post" action="src/ajaxProyectos.php" >
-					<div class="proyectos">
-						<div class="titulo">
-							Edición Nuevo Proyecto
-					  		<hr>
-					  	</div>
-					  	<input type="hidden" name="func" value="RegistrarProyecto" />
+	$nombres = array();
 
-					  	<div class="datos" >
-					  		<table>
-					  		<tr>
-					  			<td>
-					  				Nombre
-					  			</td>
-					  			<td>
-					  				<input type="text" name="nombre" title="Nombre Para Nuevo Proyecto" placeholder="Nombre" class="validate[required]" />
-					  			</td>
-					  			<td rowspan="3" class="td-project-image">
-					  				<img id="image-preview" title="Imagen Para Nuevo Proyecto" src="images/es.png" />
-					  				<br/>
-					  				<input type="file" name="imagen" id="imagen" class="validate[optional]" onchange="PreviewImage(this,\'image-preview\')"/>
-					  			</td>
-					  		</tr>
-					  		<tr>
-					  			<td>
-					  				Cliente
-					  			</td>
-					  			<td>
-					  				';
-	$formulario .= SelectClientes().'
-								</td>
-					  		</tr>
-					  		<tr>
-					  			<td>
-					  				Estado
-					  			</td>
-					  			<td>
-									<div id="radio-estado" title="Estado Del Proyecto">
-										<input id="radio-estado1" type="radio" checked="checked" name="estado" value="1">
-						  				<label for="radio-estado1">Activo</label>
-
-						  				<input id="radio-estado2" type="radio" name="estado" value="0">
-						  				<label for="radio-estado2">Inactivo</label>
-					  				</div>
-					  			</td>
-					  		</tr>
-					  		</table>
-					  		Descripcion
-					  		<textarea name="descripcion" id="descripcion"></textarea>
-					  	</div>
-					  	<div class="datos-botones">
-					  		<button type="button" title="Cancelar Edición" onClick="CancelarProyecto()">Cancelar</button>
-							<input type="reset" title="Limpiar Edición" value="Limpiar" />
-							<input type="submit" title="Guardar Edición" value="Guardar" onClick="EditorUpdateContent()" />
-						</div>
-					</form>';
-
-	echo $formulario;
-}
-
-/**
-* FORMULARIO PARA EDITAR UN PROYECTO
-* @param $id -> id del proyecto
-*/ 
-function EditarProyecto($id){
-	$proyecto = new Proyectos();
-
-	$datos = $proyecto->getProyectoDatos($id);
-
-	$formulario = "";
-
-	if(!empty($datos)){
-		
-		$formulario .= '<form id="FormularioEditarProyecto" enctype="multipart/form-data" method="post" action="src/ajaxProyectos.php" >
-					<div class="proyectos">
-						<div class="titulo">
-							Edición Proyecto
-					  		<hr>
-					  	</div>
-					  	<input type="hidden" name="func" value="ActualizarProyecto" />
-					  	<input type="hidden" name="proyecto" value="'.$id.'" id="proyecto" />
-					  	<div class="datos" >
-					  		<table>
-					  		<tr>
-					  			<td>
-					  				Nombre
-					  			</td>
-					  			<td>
-					  				<input type="text" name="nombre" title="Nombre Para Nuevo Proyecto" placeholder="Nombre" class="validate[required]" value="'.$datos[0]['nombre'].'" />
-					  			</td>
-					  			<td rowspan="3" class="td-project-image">
-					  				<img id="image-preview" title="Imagen Para El Proyecto" src="'.$datos[0]['imagen'].'" />
-					  				<br/>
-					  				<input type="file" name="imagen" id="imagen" class="validate[optional]" onchange="PreviewImage(this,\'image-preview\')" />
-					  			</td>
-					  		</tr>
-					  		<tr>
-					  			<td>
-					  				Cliente
-					  			</td>
-					  			<td>
-					  				';
-		$formulario .= SelectedClientes($datos[0]['cliente']).'
-								</td>
-					  		</tr>
-					  		<tr>
-					  			<td>
-					  				Estado
-					  			</td>
-					  			<td>
-					  			
-					  				<div id="radio-estado" title="Estado Del Proyecto">';
-		
-		if($datos[0]['status'] == 1){
-			$formulario .= '<input id="radio-estado1" type="radio" checked="checked" name="estado" value="1">
-						  				<label for="radio-estado1">Activo</label>
-
-						  			<input id="radio-estado2" type="radio" name="estado" value="0">
-						  				<label for="radio-estado2">Inactivo</label>';
-		}else{
-			$formulario .= '<input id="radio-estado1" type="radio" name="estado" value="1">
-						  				<label for="radio-estado1">Activo</label>
-
-						  			<input id="radio-estado2" type="radio" name="estado" checked="checked" value="0">
-						  				<label for="radio-estado2">Inactivo</label>';
-		}
-
-		$formulario .= '
-					  				</div>
-					  			</td>
-					  		</tr>
-					  		</table>
-					  		Descripcion
-					  		<textarea name="descripcion" id="descripcion">';
-
-		$formulario .= base64_decode($datos[0]['descripcion']).'</textarea>
-					  	</div>
-					  	<div class="datos-botones">
-					  		<button type="button" title="Cancelar Edición" onClick="CancelarProyecto()">Cancelar</button>
-							<input type="reset" title="Limpiar Edición" value="Limpiar" />
-							<input type="submit" title="Guardar Edición" value="Guardar" onClick="EditorUpdateContent()" />
-						</div>
-					</form>';
-
-	}else{
-		$formulario .= "Error: no hay informacion sobre el proyecto.<br/>";
-		$formulario .= "Los datos del proyecto id = ".$id." no pudieron ser encontrados.";
+	foreach ($entidades as $fila => $id) {
+		$nombre = $registro->getEntidadDato("nombre", $id);
+		$nombres[] = $nombre;
 	}
 
-	echo $formulario;
-}
-
-/**
-* COMPONE EL SELECT CON LOS CLIENTES
-* @return $select -> lista de seleccion
-*/
-function SelectClientes(){
-	$clientes = new Cliente();
-	$datos = $clientes->getClientes();
-
-	$select = "";
-
-	if(!empty($datos)){
-		$select .= '<select id="cliente" name="cliente" title="Cliente Para Nuevo Proyecto" class="validate[required]">';
-
-		foreach ($datos as $fila => $cliente) {
-			$select .= '<option value="'.$cliente['id'].'">'.$cliente['nombre'].'</option>';
-		}
-
-		$select .= '</select>';
-	}else{
-		$select .= "No hay clientes.";
-	}
-	return $select;
-}
-
-/**
-* COMPONE SELECT CON EL CLIENTE SELECCIONADO
-* @param $id -> id de la opcion seleccionada
-*/
-function SelectedClientes($id){
-	$clientes = new Cliente();
-	$datos = $clientes->getClientes();
-
-	$select = "";
-
-	if(!empty($datos)){
-		$select .= '<select id="cliente" name="cliente" title="Cliente Para Nuevo Proyecto" class="validate[required]">';
-
-		foreach ($datos as $fila => $cliente) {
-			if($id == $cliente['id']){
-				$select .= '<option value="'.$cliente['id'].'" selected>'.$cliente['nombre'].'</option>';
-			}else{
-				$select .= '<option value="'.$cliente['id'].'">'.$cliente['nombre'].'</option>';
-			}
-			
-		}
-
-		$select .= '</select>';
-	}else{
-		$select .= "No hay clientes.";
-	}
-	return $select;
-}
-
-/**
-* REGISTRA UN NUEVO PROYECTO
-*/
-function RegistrarProyecto(){
-	$proyectos = new Proyectos();
-
-	if(isset($_POST['nombre']) && isset($_POST['cliente']) ){
-
-		$imagen = "images/es.png";
-		$descripcion = "";
-
-		//imagen
-		if(isset($_FILES['imagen'])){
-			$imagen = $proyectos->UploadImagen($_FILES['imagen']);
-		}
-
-		if(isset($_POST['descripcion'])){
-			$descripcion = $_POST['descripcion'];
-		}
-
-		if( !$proyectos->NewProyecto($_POST['nombre'], $_POST['cliente'], $descripcion, $imagen, $_POST['estado']) ){
-			echo "ERROR: no se pudo registrar el nuevo proyecto, ajaxProyectos.php RegistrarProyecto() linea 413";
-		}
-
-	}else{
-		echo "ERROR: faltan parametros requeridos para registrar el nuevo proyecto.";
-	}
-}
-
-/**
-* ACTUALIZA UN PROYECTO
-* @param $id -> id del proyecto
-*/
-function ActualizarProyecto($id){
-	$proyectos = new Proyectos();
-
-	if(isset($_POST['nombre']) && isset($_POST['cliente']) ){
-
-		$imagen = "";
-		$descripcion = "";
-
-		//sube imagen si tiene
-		if(isset($_FILES['imagen'])){
-			$imagen = $proyectos->UploadImagen($_FILES['imagen']);
-		}
-
-		if(isset($_POST['descripcion'])){
-			$descripcion = $_POST['descripcion'];
-		}
-
-		if( !$proyectos->UpdateProyecto($id, $_POST['nombre'], $_POST['cliente'], $descripcion, $imagen, $_POST['estado']) ){
-			echo "<br/>ERROR: no se pudo actualizar el proyecto, ajaxProyectos.php ActualizarProyecto(".$id.") linea 349";
-		}
-
-	}else{
-		echo "<br/>ERROR: faltan parametros requeridos para actualizar proyecto.";
-	}
-}
-
-/**
- * ELIMINA UN PROYECTO
- * @param $id -> id del proyecto
- */
-function EliminarProyecto($id){
-	$proyecto = new Proyectos();
-
-	if(!$proyecto->DeleteProyecto($id)){
-		echo "<br/>Error: no se podo eliminar el proyecto.";
-	}
-}
-
-/**
- * DUPLICA UN PROYECTO
- * @param $id -> id del proyecto a duplicar
- */
-function DuplicarProyecto($id){
-	$proyectos = new Proyectos();
-
-	if($nuevo = $proyectos->DuplicarProyecto($id)){
-		echo $nuevo;
-	}else{
-		echo "<br/>Error: No se pudo duplicar el proyecto, ajaxProyectos.php DuplicarProyecto()";
-	}
+	return $nombres;
 }
 
 ?>

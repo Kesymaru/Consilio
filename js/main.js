@@ -9,6 +9,10 @@ $(window).scroll(function () {
 
 
 $(document).ready(function(){
+	$('html, body, div, input, li').bind('cut copy paste', function(event) {
+        event.preventDefault();
+    });
+
 	//tooltips
 	$(document).tooltip({
 		tooltipClass: "arrow",
@@ -48,10 +52,11 @@ $(document).ready(function(){
             }
 	});
 
+
 	$('.dropMenu button').button();
 	$('.dropMenu').hide();
 
-	$("#menuUsuario, #menuProyectos, #menuClientes, #menuEdicion").click(function(){
+	$("#menuProyectos, #menuUsuario").click(function(){
 		
 		if($(".dropMenu").is(":visible")){
 			$(".dropMenu").slideUp();
@@ -83,6 +88,7 @@ $(document).ready(function(){
     Cookies();
 
 });
+
 
 /**
 * ACTIVA EL MENU
@@ -155,7 +161,7 @@ function ActivaMenu(){
 		$("#menu").animate({
 			opacity: 1,
 			//width: 'toggle'
-			width: "30%"
+			width: "10%"
 		}, { 
 			duration: 1500, 
 			queue: false,
@@ -163,18 +169,19 @@ function ActivaMenu(){
 				$("#menu").css({
 					'display' : 'block',
 					'float' : 'left',
+					'min-width' : '50px',
 				});
 			}
 		});
 
 		$("#content").animate({
-	       		width: '60%'
+	       		width: '80%'
 	    	}, { 
 	    		duration: 1500, 
 	    		queue: false,
 	    		complete: function(){
 	    			$("#content").css({
-						'width' : '60%',
+						'width' : '80%',
 						'margin' : '0',
 						'display' : 'inline-block'
 					});
@@ -183,43 +190,59 @@ function ActivaMenu(){
 	}	
 }
 
-/**********************
-* VISTA DE COMPOSICION
+/*
+* MUESTRA EL SEGUNDO MENU
 */
+function Menu2(){
+	//OPTIENE EL TAMANO EN PORCENTAJE
+	var w = ( 100 * parseFloat($('#content').css('width')) / parseFloat($('#content').parent().css('width')) ).toFixed() + '%';
 
-/**
-* CARGA LA VISTA DE COMPOSICION
-*/
-function VistaComposicion(){
-	$.cookie('vista', 'composicion');
+	if( w == "80%"){
+		if( !$("#menu2").is(":visible") ){
+			$("#menu2").css({
+				"display"    : "block",
+				"margin-left": "0",
+				"width"      : "0"
+			});
+		}
 
-	$('#proyectos').addClass('seleccionado');
+		//ANIMACION AL AUMENTAR EL TAMANO DEL MENU2
+		$("#content").animate({
+	       width: '50%',
+	    }, { duration: 500, queue: false });
 
-	ImageLoader();
+	    $("#menu2").animate({
+	       width: '30%'
+	    }, { 
+	    	duration: 500, 
+	    	queue: false,
+	    	complete: function(){
+	    		$("#menu2").css({
+					"display" : "block",
+					"opacity" : "1"
+				})
+	    	}
+	    });
 
-	notifica('menu activado');
+	}else{
+		//ESCONDE EL SEGUNDO MENU
+		$("#content").animate({
+	       width: '80%'
+	    }, { duration: 500, queue: false });
 
-	$("#content").load("ajax/vistaComposicion.php", function(){
-		$("#image-loader").remove();
-		ActivaMenu();
-	});
-}
-
-/**
-* IMAGEN DE LOADER
-*/
-function ImageLoader(){
-	$("#content").html("");
-	$("#content").html('<img id="image-loader" src="images/ajax-loader.gif" />');
-}
-
-/**
-* DIALOGO DE NOTA
-*/
-function nota(id){
-	$( "#dialogoContenido" ).load('ajax/nuevaNota.php');
-	$('#dialogo').hide();
-	$('#dialogo').slideDown();
+	    $("#menu2").animate({
+	       width: '0%'
+	    }, { 
+	    	duration: 500, 
+	    	queue: false,
+	    	complete: function(){
+	    		$("#menu2").css({
+					"display": "none",
+					"width"  : "0"
+				})
+	    	}
+	    });
+	}
 }
 
 /**
@@ -232,7 +255,6 @@ function Buscar(busqueda){
 		url: "src/ajax.php",
 		type: "post",
 		beforeSend: function(){
-			cont.html('<img class="loader" src="http://77digital.com/Desarrollo/dipo/images/loader.gif" alt="cargando" />');
 		},
 		success: function(response){
 			$('resultadoBusqueda').html(response);
@@ -286,7 +308,6 @@ function notificaAtencion(text) {
 * NOTIFICACION DE ERRORES
 */
 function notificaError(text) {
-
 	var queryParams = {"error" : text};
 	$.ajax({
 		data: queryParams,
@@ -370,7 +391,6 @@ function LogOut(){
 * LLEVA A HOME
 */
 function Home(){
-
 	$("body").fadeOut(500, function() {
 		window.location = 'index.php';
 	});
@@ -387,20 +407,12 @@ function Boton(id){
 	$("#"+id).button();
 }
 
-function SetBotones(id){
-	$("#"+id).buttonset();
-}
-
 /**
 * INICIALIZA LAS COOKIES
 */
 function Cookies(){
 	if($.cookie('vista') == null){
-		$.cookie('proyecto', 0, { expires: 7 });
-		$.cookie('vista', 0, { expires: 7 });
-		$.cookie('categoria', 0, { expires: 7 });
-		$.cookie('accion', 'home',{ expires: 7 });
-		$.cookie('restaurado', 0, { expires: 7 });
+		$.cookie('vista', 'home', { expires: 7 });
 	}
 	Inicializa();
 }
@@ -432,12 +444,6 @@ function Inicializa(){
 */
 function Editor(id){
 	var id = document.getElementById(id);
-	/*old loader
-	CKEDITOR.replace( id );
-	CKEDITOR.on("instanceReady", function(event){
-			$(".cke_path").remove();
-	});
-	*/
 	var editor = CKEDITOR.instances[id];
     if (editor) {
     	CKEDITOR.remove(editor);
@@ -457,23 +463,6 @@ function EditorUpdateContent() {
     for (instance in CKEDITOR.instances) {
         CKEDITOR.instances[instance].updateElement();
     }
-}
-
-/**
-* CREA SELECTOR MULTIPLE CON FILTRO DE BUSQUEDA
-* @param id -> id del selectoR
-*/
-function SelectorMultipleFiltro(){
-	$("select").multiselect().multiselectfilter({
-		//filtro
-	    filter: function(event, matches){
-	        if( !matches.length ){
-	            //notificaAtencion("Deve seleccionar almenos una opcion.");
-	        }else{
-	        	
-	        }
-	    }
-	});
 }
 
 
@@ -541,192 +530,6 @@ function LimpiarContent(){
 }
 
 /**
-* DESHABILITA CONTENT
-*/
-function DeshabilitarContent(){
-	//$('#content *').prop('disabled', true);
-	$("#content").prepend('<div class="content-disable"><p><img src="images/ajax_loader_green_128.gif"/></p></div>');
-}
-
-/**
-* HABILITA CONTENT SIN LIMPIARLO
-*/
-function HabilitarContent(){
-	//$('#content *').prop('disabled', false);
-	$(".content-disable").remove();
-}
-
-/**
-* MUESTRA EL FORM PARA ARCHIVOS ADJUNTOS
-*/
-function Adjuntos(){
-
-	if($(".adjuntos").is(":visible")){
-		$(".adjuntos").slideUp(700);
-	}else{
-		$(".adjuntos").slideDown(700,function(){
-			
-			if( !$("#mensajeAdjuntos").is(":visible") ){
-				notificaAtencion("<span id='mensajeAdjuntos'></span>Puede adjuntar:<br/>Imagenes,Documentos y comprimidos ZIP");
-			}
-
-		});
-	}
-}
-
-/**
-* CARGA UN INPUT MAS PARA UN ARCHIVO EXTRA
-*/
-function AdjuntoExtra(){
-	var extra = $(".adjuntos div:last").attr("id");
-	extra = extra.substring(7);
-	extra = parseInt(extra);
-	extra += 1;
-
-	//maximo
-	if( extra > 9 ){
-		notificaAtencion("Lo sentimos no se permiten mas de 10 archivos adjuntos.");
-		return;
-	}
-
-	var nuevo = '<div id="archivo'+extra+'" class="adjunto"><hr><span class="adjuntos-boton" onClick="EliminarAdjuntoExtra('+extra+')">-</span><input type="text" name="archivoNombre'+extra+'" placeholder="Nombre" /> <input type="file" name="archivo'+extra+'" /></div>'
-
-	$(".adjuntos").append(nuevo);
-	$("#archivo"+extra).hide();
-	$("#archivo"+extra).slideDown(700);
-}
-
-/**
-* BORRA UN INPUT EXTRA PARA UN ADJUNTO
-*/
-function EliminarAdjuntoExtra(id){
-	$("#archivo"+id).slideUp(700, function(){
-		$("#archivo"+id).remove();
-	});
-}
-
-/**
-* FUNCION GENERICA PARA REALIZAR BUSQUEDAS EN EL MENU
-* PARA BUSQUEDAS DE NORMAS, ENTIDADES Y TIPOS
-*/
-function BuscarMenu(id){
-	if($("#"+id).is(":visible")){
-		$("#"+id).slideUp();
-		$("#"+id).val("");
-		$("#menu li").fadeIn();
-	}else{
-		$("#"+id).slideDown();
-	}
-	
-	//busqueda en vivo
-	BuscarMenuLive(id);
-}
-
-/**
-* FUNCION GENERICA PARA REALIZAR BUSQUEDAS EN EL MENU2
-*/
-function BuscarMenu2(id){
-	if($("#"+id).is(":visible")){
-		$("#"+id).slideUp();
-		$("#"+id).val("");
-		$("#menu2 li").fadeIn();
-	}else{
-		$("#"+id).slideDown();
-	}
-	
-	//busqueda en vivo
-	BuscarMenu2Live(id);
-}
-
-/**
-* FUNCION GENERICA PARA REALIZAR BUSQUEDAS EN EL CONTENT
-*/
-function BuscarContent(id){
-	if($("#"+id).is(":visible")){
-		$("#"+id).slideUp();
-		$("#"+id).val("");
-		$("#menu2 li").fadeIn();
-	}else{
-		$("#"+id).slideDown();
-	}
-	
-	//busqueda en vivo
-	BuscarContentLive(id);
-}
-
-/**
-* BUSQUEDA EN VIVO
-*/
-function BuscarMenuLive(input){
-	//actualiza al ir escribiendo
-	$("#"+input).keyup(function(){
-		var busqueda = $("#"+input).val(), count = 0;
-
-		//recorre opciones para buscar
-        $("#menu li").each(function(){
- 
-            //esconde a los que no coinciden
-            if($(this).text().search(new RegExp(busqueda, "i")) < 0){
-                $(this).fadeOut();
- 
-            //sino lo muestra
-            } else {
-                $(this).show();
-                count++;
-            }
-        });
-	});
-}
-
-/**
-* BUSQUEDA EN VIVO MENU2
-*/
-function BuscarMenu2Live(input){
-	//actualiza al ir escribiendo
-	$("#"+input).keyup(function(){
-		var busqueda = $("#"+input).val(), count = 0;
-
-		//recorre opciones para buscar
-        $("#menu2 li").each(function(){
- 
-            //esconde a los que no coinciden
-            if($(this).text().search(new RegExp(busqueda, "i")) < 0){
-                $(this).fadeOut();
- 
-            //sino lo muestra
-            } else {
-                $(this).show();
-                count++;
-            }
-        });
-	});
-}
-
-/**
-* BUSQUEDA EN VIVO MENU2
-*/
-function BuscarContentLive(input){
-	//actualiza al ir escribiendo
-	$("#"+input).keyup(function(){
-		var busqueda = $("#"+input).val(), count = 0;
-
-		//recorre opciones para buscar
-        $("#content li, #content tr").each(function(){
- 
-            //esconde a los que no coinciden
-            if($(this).text().search(new RegExp(busqueda, "i")) < 0){
-                $(this).fadeOut();
- 
-            //sino lo muestra
-            } else {
-                $(this).show();
-                count++;
-            }
-        });
-	});
-}
-
-/**
  * PREVIEW IMAGEN 
  * @param input -> id del input
  * @param imagen -> id de la imagen donde se carga el preview
@@ -788,4 +591,20 @@ function BuscarLive(input, target){
             }
         });
 	});
+}
+
+/**
+* DESHABILITA CONTENT
+*/
+function DeshabilitarContent(){
+	//$('#content *').prop('disabled', true);
+	$("#content").prepend('<div class="content-disable"><p><img src="images/ajax_loader_green_128.gif"/></p></div>');
+}
+
+/**
+* HABILITA CONTENT SIN LIMPIARLO
+*/
+function HabilitarContent(){
+	//$('#content *').prop('disabled', false);
+	$(".content-disable").remove();
 }

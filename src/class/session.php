@@ -10,10 +10,11 @@ class Session{
 	public function __construct(){
 
 		//sino se ha iniciado session
-		if( !isset($_SESSION['admin']) ){
+		if( !isset($_SESSION['cliente']) ){
 			session_start();
 			//$_SESSION['home'] = 'http://'.$_SERVER['HTTP_HOST'].'/Consilio';
 			$_SESSION['home'] = '/matrizescala';
+			$_SESSION['datos'] = 'Admin/';
 		}
 
 	}
@@ -24,7 +25,7 @@ class Session{
 	*/
 	public function Logueado(){
 
-		if( !isset($_SESSION['admin']) ){
+		if( !isset($_SESSION['cliente']) ){
 			$login = $_SESSION['home']."/login.php";
 
 			//redirecciona
@@ -69,13 +70,16 @@ class Session{
 	public function LogIn($usuario, $password){
 		$base = new Database();
 
+		$usuario = mysql_real_escape_string($usuario);
+		$password = mysql_real_escape_string($password);
+
 		$password = $base->Encriptar($password);
 
 		//existe el usuario
-		if( $base->Existe("SELECT * FROM admin WHERE usuario = '".$usuario."' AND password = '".$password."'") ){
+		if( $base->Existe("SELECT * FROM clientes WHERE usuario = '".$usuario."' AND contrasena = '".$password."'") ){
 			
-			if($this->AdminIniciarSession($usuario, $password)){
-				$_SESSION['admin'] = true;
+			if($this->UserIniciarSession($usuario, $password)){
+				$_SESSION['cliente'] = true;
 				$this->Logueado();
 			}
 
@@ -86,28 +90,28 @@ class Session{
 	}
 
 	/**
-	* INICIALIZA LA SESSION DE UN ADMIN
+	* INICIALIZA LA SESSION DE UN USUARIO
 	* @param $usuario -> usuario del admin
 	* @param #password -> password encriptado
 	*/
-	private function AdminIniciarSession($usuario, $password){
-
+	private function UserIniciarSession($usuario, $password){
 		$base = new Database();
-		
-		$where = " usuario = '".$usuario."' AND contrasena = '".$password."'";
-		
-		$datos = $base->Select("SELECT * FROM admin WHERE usuario = '".$usuario."' AND password = '".$password."'");
+
+		$query = "SELECT * FROM clientes WHERE usuario = '".$usuario."' AND contrasena = '".$password."'";
+
+		$datos = $base->Select($query);
 
 		if(!empty($datos)){
+			//inicializa variables de session
 			foreach ($datos as $fila => $c) {
 				foreach ($datos[$fila] as $campo => $valor) {
 					if($campo != 'password'){
-						$_SESSION[$campo] = $valor;
+						$_SESSION['cliente_'.$campo] = $valor;
 					}
 				}
 			}
-			$_SESSION['tipo'] = 'admin';
-			$_SESSION['bienvenida'] = false;
+			$_SESSION['cliente'] = true;
+			$_SESSION['cliente_bienvenida'] = false;
 			return true;
 		}else{
 			return false;
@@ -119,7 +123,7 @@ class Session{
 	* LOGOUT 
 	*/
 	public function LogOut(){
-		session_unset($_SESSION['admin']);
+		session_unset($_SESSION['cliente']);
 		$_SESSION = array();
 		session_destroy ();
 	}
@@ -138,8 +142,8 @@ class SessionInvitado{
 		session_start();
 
 		//si el usuario no ha iniciado session
-		if( isset($_SESSION['admin']) ){
-			//$index = $_SERVER['HTTP_HOST'].'/matrizescala/index.php';
+		if( isset($_SESSION['cliente']) ){
+			//$index = 'http://'.$_SERVER['HTTP_HOST'].'/Consilio/index.php';
 			header('Location: '.'index.php');
 			exit;
 		}

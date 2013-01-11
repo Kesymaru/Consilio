@@ -171,7 +171,7 @@ class Database{
 	}
 
 	/**
-	* ENCRIPTA EN UN SOLO SENTIDO UN TEXTO
+	* ENCRIPTA Y DESENCRIPTA UN TEXTO
 	* @param $text => texto a encriptar o desencriptar
 	* @return $text => texto encriptado
 	*/
