@@ -244,6 +244,10 @@ function DatosArticulo($id){
 
 				if($dato == 'resumen' || $dato == "permisos" || $dato == "articulo" || $dato == "sanciones"){
 					
+					if(empty($valor)){
+						continue;
+					}
+					
 					$lista .= '<div class="box">
 									<div class="dato-titulo">
 										'.$dato.'
@@ -312,7 +316,7 @@ function DatosArticulo($id){
 		}
 		
 		$lista .= '<div id="datos-footer">
-						Última Actualización '.date("D F Y - g:i a").'
+						Última Actualización '.date("d m Y - g:i a").'
 					</div>
 					</div><!-- end datos cargados -->
 					</div><!-- end datos-articulo -->';
