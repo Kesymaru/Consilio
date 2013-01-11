@@ -423,13 +423,15 @@ class Registros{
 
 		$query = "UPDATE categorias SET nombre = '".$nombre."', imagen = '".$imagen."' WHERE id = '".$id."'";
 		
-		$datos = $base->Select("SELECT * FROM categorias WHERE id = ".$id);
+		if($imagen != ""){
+			$datos = $base->Select("SELECT * FROM categorias WHERE id = ".$id);
 
-		//borra imagen anterior
-		$imagenOld = "../".$datos[0]['imagen'];
+			//borra imagen anterior
+			$imagenOld = "../".$datos[0]['imagen'];
 
-		if(!$base->DeleteImagen($imagenOld)){
-			echo "<br/>Error: class Registros UpdateDatosCategoria() imagen no se pudo borrar.<br/>imagen: ".$imagenOld;
+			if(!$base->DeleteImagen($imagenOld)){
+				echo "<br/>Error: class Registros UpdateDatosCategoria() imagen no se pudo borrar.<br/>imagen: ".$imagenOld;
+			}
 		}
 		
 		if($base->Update($query)){
@@ -1109,6 +1111,25 @@ class Registros{
 		$datos = $base->Select($query);
 
 		return $datos;
+	}
+
+	/**
+	* OBTIEN UN DATO DE UN TIPO
+	* @param $id -> id del tipo
+	* @param $dato -> dato consultado
+	* @return $dato
+	* @return false si falla
+	*/
+	public function getTipoDato($dato, $id){
+		$base = new Database();
+		$query = "SELECT * FROM tipos WHERE id = '".$id."'";
+
+		$datos = $base->Select($query);
+		if(!empty($datos)){
+			return $datos[0][$dato];
+		}else{
+			return false;
+		}
 	}
 
 	/**

@@ -139,10 +139,12 @@ function Normas(){
 
 		foreach ($normas as $fila => $norma) {
 			
+			$tipo = $registros->getTipoDato("nombre", $norma['tipo']);
+
 			if($norma['status'] == 1){
-				echo '<li id="'.$norma['id'].'" onClick="NormaOpciones('.$norma['id'].')">'.$norma['nombre']." ".$norma['numero'].'</li>';
+				echo '<li title="'.$tipo.' #'.$norma['numero'].'" id="'.$norma['id'].'" onClick="NormaOpciones('.$norma['id'].')">'.$norma['nombre'].'</li>';
 			}else{
-				echo '<li id="'.$norma['id'].'" class="deshabilitado" onClick="NormaOpciones('.$norma['id'].')">'.$norma['nombre']." ".$norma['numero'].'</li>';
+				echo '<li title="'.$tipo.' #'.$norma['numero'].'" id="'.$norma['id'].'" class="deshabilitado" onClick="NormaOpciones('.$norma['id'].')">'.$norma['nombre'].'</li>';
 			}
 			
 		}
@@ -199,7 +201,7 @@ function EditarNorma($norma){
 								<tr>
 									<td>Numero</td>
 									<td>
-										<input type="number" id="numero" name="numero" title="Numero De La Norma" placeholder="Numero" class="validate[required, custom[number]]" value="'.$datos[0]['numero'].'" />
+										<input type="number" id="numero" name="numero" title="Numero De La Norma" placeholder="Numero" class="validate[required]" value="'.$datos[0]['numero'].'" />
 									</td>
 								</tr>
 								<tr>
@@ -288,7 +290,7 @@ function NuevaNorma(){
 								<tr>
 									<td>Numero</td>
 									<td>
-										<input type="number" id="numero" name="numero" title="Numero De La Nueva Norma" placeholder="Numero" class="validate[required, custom[number]]" />
+										<input type="number" id="numero" name="numero" title="Numero De La Nueva Norma" placeholder="Numero" class="validate[required]" />
 									</td>
 								</tr>
 								<tr>

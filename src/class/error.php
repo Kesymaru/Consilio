@@ -36,15 +36,18 @@ class Error{
 		$error = str_replace("<br />", "\n", $error);
 		$error = str_replace("<hr>", "\n", $error);
 
-		$mensaje = "\n".$error."\n";
+		$mensaje = "\n".$error."\n\n";
 
 		if( isset($_SESSION['nombre']) && isset($_SESSION['id']) ){
 			$mensaje .= "\tUsuario: ".$_SESSION['nombre']."\n";
 			$mensaje .= "\tID: ".$_SESSION['id']."\n";
+			$mensaje .= "\tIP: ".$_SERVER["REMOTE_ADDR"]."\n";
 		}else{
 			$mensaje .= "\tUsuario: Invitado\n";
+			$mensaje .= "\tIP: ".$_SERVER["REMOTE_ADDR"]."\n";
 		}
 
+		$mensaje .= $this->Navegador();
 		$mensaje .= "\t".date("F j Y - g:i a")."\n --------------------<>--------------------";
 		
 		if(filesize($myFile) > 0){
@@ -58,6 +61,26 @@ class Error{
 		fwrite($file, $mensaje);
 
 		fclose($file);
+	}
+
+	/**
+	* OBTIENE DATOS DEL NAVEGADOR
+	*/
+	private function Navegador(){
+		$_SERVER['HTTP_USER_AGENT'];
+		$browser = get_browser(null, true);
+		$mensaje = "";
+
+		if(is_array($browser)){
+			$mensaje .= "\tNavegador: ".$browser['browser']."\n";
+			$mensaje .= "\tPlataforma: ".$browser['platform']."\n";
+			$mensaje .= "\tVersion: ".$browser['version']."\n";
+			$mensaje .= "\tCSS: ".$browser['version']."\n";
+			$mensaje .= "\tJAVASCRIPT: ".$browser['javascript']."\n";
+		}else{
+			$mensaje = "\t===navegador===\n";
+		}
+		return $mensaje;
 	}
 }
 

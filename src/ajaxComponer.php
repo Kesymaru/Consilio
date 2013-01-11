@@ -235,6 +235,7 @@ function DatosRegistrados($datos){
 
 /**
 * COMPONE EL CAMINO DE UNA CATEGORIA
+* @param $categoria -> id de la categoria
 * @return $camino
 */
 function Camino($categoria){
@@ -249,7 +250,8 @@ function Camino($categoria){
 			$tiene = false;
 		}else{
 			$nombre = CategoriaNombre($padre);
-			$camino[] = $nombre." ".$padre;
+			//$camino[] = $nombre." ".$padre;
+			$camino[] = $nombre;
 		}
 	}while($tiene);
 
@@ -259,7 +261,7 @@ function Camino($categoria){
 	$compuesto = '<ul class="camino">';
 
 	foreach ($path as $f => $c) {
-		$compuesto .= '<li class="path" >'.$c.' / </li>';
+		$compuesto .= '<li class="path" >'.$c.' /</li>';
 	}
 	$compuesto .= '<li class="item">'.CategoriaNombre($categoria).'</ul>';
 
