@@ -161,6 +161,11 @@ select{
 .datos input[type="email"]{
 	min-width: 200px;
 }
+
+.datos input[type="file"]{
+	font-size: 13px;
+}
+
 .datos textarea{
 	margin: 0 auto;
 }
@@ -177,19 +182,22 @@ select{
 }
 
 .datos .td-user-image,
-.datos .td-category-image{
+.datos .td-category-image,
+.datos .td-project-image {
 	vertical-align: middle;
 	text-align: center;
 }
 
 .datos .td-user-image img{
 	border: 2px solid #fff;
-	height: 145px;
+	min-height: 100px;
+	max-height: 200px;
 }
 
-.datos .td-user-image img:hover{
-	border: 2px solid #A1CA4A;
-	box-shadow: 0 0 10px #A1CA4A;
+.datos .td-project-image img{
+	border: 2px solid #fff;
+	min-height: 100px;
+	max-height: 120px;
 }
 
 .datos .td-category-image img{
@@ -197,7 +205,9 @@ select{
 	height: 80px;
 }
 
-.datos .td-category-image img:hover{
+.datos .td-user-image img:hover,
+.datos .td-category-image img:hover,
+.datos .td-project-image img:hover{
 	border: 2px solid #A1CA4A;
 	box-shadow: 0 0 10px #A1CA4A;
 }
@@ -526,7 +536,7 @@ select{
 	display: inline-block;
 	text-align: center;
 	float: left;
-	width: 120px;
+	min-width: 120px;
 }
 
 #toolbarMenu .seleccionado{

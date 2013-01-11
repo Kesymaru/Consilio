@@ -69,7 +69,6 @@ $master = new Master();
 	<script type="text/javascript" src="js/Componer.js"></script>
 	<script type="text/javascript" src="js/Proyectos.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
-	<script type="text/javascript" src="js/style.js"></script>
 
 	<!-- jquery plugins -->
 	<script type="text/javascript" src="js/chosen.jquery.min.js"></script>
@@ -126,19 +125,6 @@ $master = new Master();
 		$_SESSION['bienvenida'] = true;
 	}
 ?>
-	<!-- dialogo emerjente -->
-	<div id="dialogo">
-		<div id="dialogoPrincipal">
-			<a href="#" id="closeDialogo" onClick="closeDialogo()">
-				<img src="images/close.png">
-			</a>
-			<!-- close button -->
-			<div id="dialogoContenido">
-				<!-- contenido AJAX -->
-				
-			</div>
-		</div>
-	</div>
 
 	<!-- header -->
 	<div id="header">
@@ -154,7 +140,7 @@ $master = new Master();
 					?>
 					<ul class="dropMenu">
 						<?php
-							//$master->MenuAdmin();
+							$master->MenuAdmin();
 						?>
 					</ul>
 				</div>

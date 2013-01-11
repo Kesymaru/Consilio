@@ -286,3 +286,44 @@ function AccionEliminarCliente(id){
 		}
 	});
 }
+
+/**
+* VALIDA USUARIO
+*/
+function ClienteUsuario(field, rules, i, options){
+	var usuarios = '';
+	var queryParams = {'func' : "GetUsers"};
+
+	$.ajax({
+		data: queryParams,
+		async: false,
+		type: "post",
+		url: "src/ajaxClientes.php",
+		beforeSend: function(){
+		},
+		success: function(response){
+			usuarios =  $.parseJSON(response);
+		},
+		fail: function(response){
+			notificaError("Error: "+response);
+		}
+	}).done(function(){
+	});
+
+	/*if (field.val() == "andrey") {
+		// this allows to use i18 for the error msgs
+		//return options.allrules.validate2fields.alertText;
+		return 'Usuario no disponible';
+	}*/
+	var error = false;
+	$.each(usuarios, function(f,c){
+		if (field.val() == c) {
+			notifica('Usuario no disponible');
+			//return 'Usuario no disponible';
+			error = true;
+		}
+	});
+	if(error){
+		return 'Usuario no disponible';
+	}
+}

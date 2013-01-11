@@ -158,11 +158,9 @@ class Master{
 		$admin = new Admin();
 
 		echo '<li onClick="editar();"><img src="';
-		echo $admin->getAdminDato("imagen");
+		//echo $admin->getAdminDato("imagen");
 		echo '" /></li>';
-
-		echo '<li><button onClick="EditarAdmin();">Editar</button>';
-		echo '<button onClick="LogOut();">Salir</button></li>';
+		echo '<li onClick="LogOut();">Salir</li>';
 
 	}
 
@@ -186,14 +184,6 @@ class Master{
 
 			return $plural;
 		}
-	}
-
-	/**
-	* IMPRIME LOS DATOS DE LA SESSION
-	*/
-	public function ImprimirSession(){
-		echo $_SESSION['nombre'];
-		echo $_SESSION['id'];
 	}
 
 

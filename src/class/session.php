@@ -10,7 +10,7 @@ class Session{
 	public function __construct(){
 
 		//sino se ha iniciado session
-		if( !isset($_SESSION['id']) ){
+		if( !isset($_SESSION['admin']) ){
 			session_start();
 			//$_SESSION['home'] = 'http://'.$_SERVER['HTTP_HOST'].'/Consilio';
 			$_SESSION['home'] = '/matrizescala';
@@ -24,7 +24,7 @@ class Session{
 	*/
 	public function Logueado(){
 
-		if( !isset($_SESSION['logueado']) ){
+		if( !isset($_SESSION['admin']) ){
 			$login = $_SESSION['home']."/login.php";
 
 			//redirecciona
@@ -75,7 +75,7 @@ class Session{
 		if( $base->Existe("SELECT * FROM admin WHERE usuario = '".$usuario."' AND password = '".$password."'") ){
 			
 			if($this->AdminIniciarSession($usuario, $password)){
-				$_SESSION['logueado'] = true;
+				$_SESSION['admin'] = true;
 				$this->Logueado();
 			}
 
@@ -106,6 +106,7 @@ class Session{
 					}
 				}
 			}
+			$_SESSION['tipo'] = 'admin';
 			$_SESSION['bienvenida'] = false;
 			return true;
 		}else{
@@ -118,7 +119,7 @@ class Session{
 	* LOGOUT 
 	*/
 	public function LogOut(){
-		session_unset($_SESSION['logueado']);
+		session_unset($_SESSION['admin']);
 		$_SESSION = array();
 		session_destroy ();
 	}
@@ -137,9 +138,9 @@ class SessionInvitado{
 		session_start();
 
 		//si el usuario no ha iniciado session
-		if( isset($_SESSION['id']) ){
-			$index = 'http://'.$_SERVER['HTTP_HOST'].'/Consilio/index.php';
-			header('Location: '.$index);
+		if( isset($_SESSION['admin']) ){
+			//$index = $_SERVER['HTTP_HOST'].'/matrizescala/index.php';
+			header('Location: '.'index.php');
 			exit;
 		}
 

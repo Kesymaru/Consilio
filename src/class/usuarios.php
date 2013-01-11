@@ -92,17 +92,28 @@ class Cliente{
 
 	/**
 	 * CREA UN NUEVO CLIENTE
+	 * @param $nombre
+	 * @param $email
+	 * @param $registro
+	 * @param $telefono
+	 * @param $skype
+	 * @param $imagen -> link de la imagen ya subida
+	 * @param $contrasena -> sin encriptar
 	 */
-	public function NewCliente($nombre, $email, $registro, $telefono, $skype, $imagen ){
+	public function NewCliente($nombre, $email, $registro, $telefono, $skype, $imagen, $contrasena, $usuario){
 		$base = new Database();
 		
 		$nombre = mysql_real_escape_string($nombre);
 		$email = mysql_real_escape_string($email);
 		$registro = mysql_real_escape_string($registro);
 		$skype = mysql_real_escape_string($skype);
+		$contrasena = mysql_real_escape_string($contrasena);
+		$usuario = mysql_real_escape_string($usuario);
 
-		$query = "INSERT INTO clientes (nombre, email, registro, telefono, skype, imagen)";
-		$query .= " VALUES ('".$nombre."', '".$email."', '".$registro."', '".$telefono."', '".$skype."', '".$imagen."') ";
+		$contrasena = $base->Encriptar($contrasena);
+
+		$query = "INSERT INTO clientes (nombre, email, registro, telefono, skype, imagen, contrasena, usuario)";
+		$query .= " VALUES ('".$nombre."', '".$email."', '".$registro."', '".$telefono."', '".$skype."', '".$imagen."', '".$contrasena."', '".$usuario."') ";
 
 		if($base->Insert($query)){
 			return true;
@@ -230,6 +241,27 @@ class Cliente{
 		}else{
 			return false;
 		}
+	}
+
+	/**
+	* OBTIENE USERS UTILIZADOS
+	*/
+	public function getUsers(){
+		$base = new Database();
+		$query = "SELECT usuario FROM clientes";
+
+		$datos = $base->Select($query);
+		return $datos;
+	}
+
+	/**
+	* DESENCRIPTA UN PASSWORD
+	* @param $password -> password ha desencriptar
+	*/
+	public function Encriptar($password){
+		$base = new Database();
+		$password = $base->Encriptar($password);
+		return $password;
 	}
 
 }

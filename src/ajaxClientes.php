@@ -46,6 +46,12 @@ if(isset($_POST['func'])){
 			}
 			break;
 
+		//OBTIENE LOS UUSARIOS Y LOS DEVUELVE EN UN ARRAY PARA VALIDAR
+		case 'GetUsers':
+			$users = GetUsers();
+			echo json_encode($users);
+			break;
+
 	}
 }
 
@@ -106,6 +112,8 @@ function EditarCliente($id){
 	$formulario = "";
 
 	if(!empty($datos)){
+		$contrasena = $usuarios->Encriptar($datos[0]['contrasena']);
+
 		$formulario .= '<form id="FormularioEditarCliente" enctype="multipart/form-data" method="post" action="src/ajaxClientes.php" >
 					<div class="clientes">
 						<div class="titulo">
@@ -119,14 +127,29 @@ function EditarCliente($id){
 					  		<table>
 					  		<tr>
 					  			<td>
+					  				Usuario
+					  			</td>
+					  			<td>
+					  				<input type="text" id="usuario" title="Usuario Del Nuevo Cliente" name="usuario" placeholder="Usuario" class="validate[required]" value="'.$datos[0]['usuario'].'" />
+					  			</td>
+					  			<td rowspan="6" class="td-user-image">
+					  				<img id="imagen-usuario" src="'.$datos[0]['imagen'].'" title="Imagen Del Cliente"><br/>					  				
+					  			</td>
+					  		</tr>
+					  		<tr>
+					  			<td>
+					  				Contraseña
+					  			</td>
+					  			<td>
+					  				<input type="text" id="contrasena" title="Contraseña Del Cliente" name="contrasena" placeholder="Contraseña" class="validate[required]"  />
+					  			</td>
+					  		</tr>
+					  		<tr>
+					  			<td>
 					  				Nombre
 					  			</td>
 					  			<td>
 					  				<input type="text" id="nombre" name="nombre" title="Nombre Del Cliente" placeholder="Nombre" value="'.$datos[0]['nombre'].'" class="validate[required]" />
-					  			</td>
-					  			<td rowspan="5" class="td-user-image">
-					  				<img id="imagen-usuario" src="'.$datos[0]['imagen'].'" title="Imagen Del Cliente"><br/>
-					  				<input type="file" name="imagen" id="imagen" title="Seleccione Una Imagen Nueva Para El Cliente" onChange="PreviewImage(this, \'imagen-usuario\');" />
 					  			</td>
 					  		</tr>
 					  		<tr>
@@ -159,6 +182,9 @@ function EditarCliente($id){
 					  			</td>
 					  			<td>
 					  				<input type="text" id="skype" name="skype" title="Skype Del Cliente" placeholder="Skype" value="'.$datos[0]['skype'].'" class="validate[optional]" />
+					  			</td>
+					  			<td style="text-align: center;">
+					  				<input size="18" type="file" name="imagen" id="imagen" title="Seleccione Una Imagen Nueva Para El Cliente" onChange="PreviewImage(this, \'imagen-usuario\');" />
 					  			</td>
 					  		</tr>
 					  		</table>
@@ -197,14 +223,29 @@ function NuevoCliente(){
 					  		<table>
 					  		<tr>
 					  			<td>
+					  				Usuario
+					  			</td>
+					  			<td>
+					  				<input type="text" id="usuario" title="Usuario Del Nuevo Cliente" name="usuario" placeholder="Usuario" class="validate[required, funcCall[ClienteUsuario] ]" />
+					  			</td>
+					  			<td rowspan="6" class="td-user-image">
+					  				<img id="imagen-usuario" src="images/es.png" title="Imagen Del Nuevo Cliente">
+					  			</td>
+					  		</tr>
+					  		<tr>
+					  			<td>
+					  				Contraseña
+					  			</td>
+					  			<td>
+					  				<input type="text" id="contrasena" title="Contraseña Del Nuevo Cliente" name="contrasena" placeholder="Contraseña" class="validate[required]" />
+					  			</td>
+					  		</tr>
+					  		<tr>
+					  			<td>
 					  				Nombre
 					  			</td>
 					  			<td>
 					  				<input type="text" id="nombre" name="nombre" title="Nombre Del Nuevo Cliente" placeholder="Nombre" class="validate[required]" />
-					  			</td>
-					  			<td rowspan="5" class="td-user-image">
-					  				<img id="imagen-usuario" src="images/es.png" title="Imagen Del Nuevo Cliente"><br/>
-					  				<input type="file" name="imagen" id="imagen" title="Seleccione Una Imagen Nueva Para El Cliente" onChange="PreviewImage(this, \'imagen-usuario\');" />
 					  			</td>
 					  		</tr>
 					  		<tr>
@@ -237,6 +278,9 @@ function NuevoCliente(){
 					  			</td>
 					  			<td>
 					  				<input type="text" id="skype" name="skype" title="Skype Del Nuevo Cliente" placeholder="Skype" class="validate[optional]" />
+					  			</td>
+					  			<td style="text-align: center;">
+					  				<input size="18" type="file" name="imagen" id="imagen" title="Seleccione Una Imagen Nueva Para El Cliente" onChange="PreviewImage(this, \'imagen-usuario\');" />
 					  			</td>
 					  		</tr>
 					  		</table>
@@ -287,7 +331,7 @@ function ActualizarCliente($id){
 function RegistrarCLiente(){
 	$cliente = new Cliente();
 
-	if(isset($_POST['nombre']) && isset($_POST['email']) && isset($_POST['registro']) && isset($_POST['telefono']) ){
+	if(isset($_POST['nombre']) && isset($_POST['email']) && isset($_POST['registro']) && isset($_POST['telefono']) && isset($_POST['contrasena']) && isset($_POST['usuario']) ){
 		
 		$imagen = "";
 		if(isset($_FILES['imagen'])){
@@ -297,7 +341,7 @@ function RegistrarCLiente(){
 		}
 
 		//update sin cambio de imagen
-		if(!$cliente->NewCliente($_POST['nombre'], $_POST['email'], $_POST['registro'], $_POST['telefono'], $_POST['skype'], $imagen )){
+		if(!$cliente->NewCliente($_POST['nombre'], $_POST['email'], $_POST['registro'], $_POST['telefono'], $_POST['skype'], $imagen, $_POST['contrasena'], $_POST['usuario'] )){
 			echo "Error: ajaxClientes.php RegistrarCliente() No se pudo crear el nuevo cliente.";
 		}
 
@@ -317,6 +361,25 @@ function EliminarCliente($id){
 	if(!$cliente->DeleteCliente($id)){
 		echo 'Error: ajaxClientes.php no se pudo eliminar el cliente '.$id;
 	}
+}
+
+/**
+* OBTIENE USUARIOS NO DISPONIBLES
+*/
+function GetUsers(){
+	$clientes = new Cliente();
+	$usuarios = $clientes->getUsers();
+
+	$users = array('');
+
+	if(!empty($usuarios)){
+
+		foreach ($usuarios as $f => $usuario) {
+			$users[] = $usuario['usuario'];
+		}
+	}
+
+	return $users;
 }
 
 ?>

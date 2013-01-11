@@ -51,15 +51,7 @@ $(document).ready(function(){
 	$('.dropMenu button').button();
 	$('.dropMenu').hide();
 
-	$('#proyectos').click(function(){
-		ToolbarMenu('proyectos');
-	});
-
-	$('#clientes').click(function(){
-		ToolbarMenu('clientes');
-	});
-
-	$("#menuProyectos, #menuClientes, #menuEdicion").click(function(){
+	$("#menuUsuario, #menuProyectos, #menuClientes, #menuEdicion").click(function(){
 		
 		if($(".dropMenu").is(":visible")){
 			$(".dropMenu").slideUp();
@@ -87,39 +79,10 @@ $(document).ready(function(){
 	$("#searchForm").validationEngine();
     $('input[placeholder]').placeholder();
 
-    //oculta dialogo
-    $('#dialogo').hide();
-
     //set cookies
     Cookies();
 
 });
-
-
-/**
-* PARA SELECCIONAR UNA VISTA
-*/
-function ToolbarMenu(click){
-	if( click == 'clientes' ){
-		$('#toolbar div').removeClass('seleccionado');
-		$('#clientes').addClass('seleccionado');
-		
-		//todo VistaClientes();
-	}
-
-	if( click == 'proyectos' ){
-		$('#toolbarMenu div').removeClass('seleccionado');
-		$('#proyectos').addClass('seleccionado');
-		
-		VistaProyecto();
-	}
-
-	if( click == 'edicion' ){
-		$('#toolbarMenu div').removeClass('seleccionado');
-		$('#edicion').addClass('seleccionado');
-		//VistaEdicion();
-	}
-}
 
 /**
 * ACTIVA EL MENU
@@ -279,93 +242,6 @@ function Buscar(busqueda){
 		}
 	});
 }
-
-/**
-* EDITAR DATOS USUARIO
-*/
-function EditarAdmin(){
-	$( "#dialogoContenido" ).load('ajax/admin.php');
-	$('#dialogo').hide();
-	$('#dialogo').slideDown();
-}
-
-/*
-	EDITAR PROYECTOS
-*/
-
-//proyecto nuevo
-function proyectoNuevo(){
-	$( "#dialogoContenido" ).load('ajax/nuevoProyecto.php');
-	$('#dialogo').hide();
-	$('#dialogo').slideDown();
-}
-
-//formulario nuevo proyecto
-function nuevoProyecto(){
-	//validacion datos
-	if ($('#formularioNuevoProyecto').validationEngine('validate')){
-		nombre = $('#proyecto').val();
-		descripcion = $('#descripcion').val();
-
-		//consulta proyectos del usuario
-		proyectos = [];
-		valido = false;
-
-		var queryParams = { "func" : 'getProyectos'};
-	  	$.ajax({
-	        data:  queryParams,
-	        url:   'ajax.php',
-	        type:  'post',
-	        success:  function (response) { 
-	        	proyectos = jQuery.parseJSON(response);
-	        	valido = validaProyectos(proyectos);
-
-	        	if(valido){
-					var queryParams = { "func" : 'nuevoProyecto', "nombre" : nombre, "descripcion" : descripcion};
-				  	$.ajax({
-				        data:  queryParams,
-				        async: false,
-				        url:   'ajax.php',
-				        type:  'post',
-				        success:  function (response) { 
-				        	resetMenuProyectos();
-				        	notifica('Proyecto creado exitosamente.');
-				        	//cierra el dialogo
-				        	closeDialogo();
-				        }
-					});
-				}else{
-					notificaError('Error el proyecto ya existe.');
-				}
-	        } 
-		});
-
-	}else{
-		notificaError('Error datos invalidos.');
-	}
-}
-
-
-/*
-	PROYECTOS
-*/
-
-//muestra la lista de proyectos en un dialogo
-function verProyectos(){
-	$( "#dialogoContenido" ).load('ajax/listaProyectos.php');
-	$('#dialogo').hide();
-	$('#dialogo').slideDown();
-}
-
-/*
-	DIALOGOS
-*/
-
-//cierra el dialogo
-function closeDialogo(){
-	$('#dialogo').slideUp();
-}
-
 
 /*
 	NOTIFICACIONES

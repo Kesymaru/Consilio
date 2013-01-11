@@ -211,7 +211,7 @@ function NuevoProyecto(){
 					  			<td>
 					  				<input type="text" name="nombre" title="Nombre Para Nuevo Proyecto" placeholder="Nombre" class="validate[required]" />
 					  			</td>
-					  			<td rowspan="3" class="td-user-image">
+					  			<td rowspan="3" class="td-project-image">
 					  				<img id="image-preview" title="Imagen Para Nuevo Proyecto" src="images/es.png" />
 					  				<br/>
 					  				<input type="file" name="imagen" id="imagen" class="validate[optional]" onchange="PreviewImage(this,\'image-preview\')"/>
@@ -284,7 +284,7 @@ function EditarProyecto($id){
 					  			<td>
 					  				<input type="text" name="nombre" title="Nombre Para Nuevo Proyecto" placeholder="Nombre" class="validate[required]" value="'.$datos[0]['nombre'].'" />
 					  			</td>
-					  			<td rowspan="3" class="td-user-image">
+					  			<td rowspan="3" class="td-project-image">
 					  				<img id="image-preview" title="Imagen Para El Proyecto" src="'.$datos[0]['imagen'].'" />
 					  				<br/>
 					  				<input type="file" name="imagen" id="imagen" class="validate[optional]" onchange="PreviewImage(this,\'image-preview\')" />
