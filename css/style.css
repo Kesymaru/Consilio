@@ -234,7 +234,7 @@ select{
 
 .datos .td-user-image img{
 	border: 2px solid #fff;
-	height: 145px;
+	max-height: 145px;
 	max-width: 250px;
 }
 
