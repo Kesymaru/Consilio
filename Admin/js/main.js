@@ -287,7 +287,7 @@ function notificaAtencion(text) {
 */
 function notificaError(text) {
 
-	var queryParams = {"error" : text};
+	var queryParams = {"error" : text, "site" : "Admin"};
 	$.ajax({
 		data: queryParams,
 		async: false,

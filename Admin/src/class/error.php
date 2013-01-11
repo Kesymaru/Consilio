@@ -7,7 +7,7 @@
 require_once("mail.php");
 require_once("session.php");
 
-if(isset($_POST['error']) ){
+if(isset($_POST['error']) && isset($_POST['site']) ){
 	$error = new Error();
 	$error->newError( $_POST['error'] );
 }
@@ -21,9 +21,9 @@ class Error{
 	/**
 	 * REGISTRA NUEVO ERROR
 	 * @param $error -> mensaje
-	 * @param $usuario -> usuario
+	 * @param $site -> sitio donde ocurrio
 	 */
-	public function newError($error){
+	public function newError($error, $site){
 		
 		$mail = new Mail();
 		$mail->errorMail($error);
@@ -37,6 +37,8 @@ class Error{
 		$error = str_replace("<hr>", "\n", $error);
 
 		$mensaje = "\n".$error."\n\n";
+
+		$mensaje = "\n\tSitio: ".$site."\n";
 
 		if( isset($_SESSION['nombre']) && isset($_SESSION['id']) ){
 			$mensaje .= "\tUsuario: ".$_SESSION['nombre']."\n";

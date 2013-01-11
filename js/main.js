@@ -308,12 +308,12 @@ function notificaAtencion(text) {
 * NOTIFICACION DE ERRORES
 */
 function notificaError(text) {
-	var queryParams = {"error" : text};
+	var queryParams = {"error" : text, "site" : "Matriz"};
 	$.ajax({
 		data: queryParams,
 		async: false,
 		type: "post",
-		url: "src/class/error.php",
+		url: "Admin/src/class/error.php",
 		success: function(response){
 			text += "<br/>Notifcado al webmaster.";
 		}

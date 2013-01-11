@@ -192,6 +192,17 @@ function notifica(text) {
 
 //notifica errores
 function notificaError(text) {
+	var queryParams = {"error" : text, "site" : "Admin-login"};
+	$.ajax({
+		data: queryParams,
+		async: false,
+		type: "post",
+		url: "Admin/src/class/error.php",
+		success: function(response){
+			text += "<br/>Notifcado al webmaster.";
+		}
+	});
+
 	var n = noty({
 	  	text: text,
 	  	type: 'error',
