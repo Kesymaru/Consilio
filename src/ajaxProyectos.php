@@ -247,7 +247,7 @@ function DatosArticulo($id){
 					if(empty($valor)){
 						continue;
 					}
-					
+
 					$lista .= '<div class="box">
 									<div class="dato-titulo">
 										'.$dato.'
@@ -316,7 +316,7 @@ function DatosArticulo($id){
 		}
 		
 		$lista .= '<div id="datos-footer">
-						Última Actualización '.date("d m Y - g:i a").'
+						Última Actualización '.date("m d Y - g:i a").'
 					</div>
 					</div><!-- end datos cargados -->
 					</div><!-- end datos-articulo -->';
