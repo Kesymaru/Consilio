@@ -21,7 +21,8 @@ $(document).ready(function(){
 	});
 
 	//notificacion 
-	notificaAtencion("Sitio para el Admin.");
+	var mensaje = 'Sitio para el Admin.Si no eres administrador<br/>ve al siguiente link:<br/><b><a href="../login.php">Matriz</a></b>';
+	notificaAtencion(mensaje);
 });
 
 function loginbox(cambio){
