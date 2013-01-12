@@ -19,6 +19,9 @@ $(document).ready(function(){
     $('#formID').submit(function() {
 		return false;
 	});
+
+	//notificacion 
+	notificaAtencion("Sitio para el Admin.");
 });
 
 function loginbox(cambio){

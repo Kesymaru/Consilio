@@ -62,7 +62,7 @@ if( isset($_SESSION['logueado']) ){
 			<div class="titulo">
 		<?php
 			if(!isset($_GET['reset'])){
-				echo 'Admins';
+				echo 'Admin';
 			}else{
 				echo 'Admin Password Reseteado';
 			}
