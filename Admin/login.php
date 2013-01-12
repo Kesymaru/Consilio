@@ -20,7 +20,7 @@ if( isset($_SESSION['logueado']) ){
 <html>
 
 <head>
-	<title>Escala Login</title>
+	<title>Escala Admin</title>
 	
 	<meta charset="utf-8">
 	<link rel="shortcut icon" href="/favicon.ico"> 
@@ -62,9 +62,9 @@ if( isset($_SESSION['logueado']) ){
 			<div class="titulo">
 		<?php
 			if(!isset($_GET['reset'])){
-				echo 'Ingresar';
+				echo 'Admins';
 			}else{
-				echo 'Password Reseteado';
+				echo 'Admin Password Reseteado';
 			}
 		?>
 			</div>
