@@ -21,7 +21,7 @@ $(document).ready(function(){
 	});
 
 	//notificacion 
-	var mensaje = 'Sitio para el Admin.<br/>Si no eres administrador ve al siguiente link:<br/><b><a href="../login.php">Matriz</a></b>';
+	var mensaje = 'Sitio para el Admin.<br/>Si no eres administrador<br/>ve al siguiente link:<br/><b><a href="../login.php"> Matriz </a></b>';
 	notificaAtencion(mensaje);
 });
 
