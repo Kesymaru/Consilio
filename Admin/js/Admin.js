@@ -105,7 +105,6 @@ function MenuAdmin(m, id){
 */
 function EditarAdmin(){
 	var id = $("#admins .seleccionada").attr("id");
-	console.log(id);
 	var queryParams = {"func" : "EditarAdmin", "id" : id};
 
 	$.ajax({
@@ -115,9 +114,10 @@ function EditarAdmin(){
 		beforesend: function(){
 		},
 		successs: function(response){
-			$("#menu").html(response);
-			if(response.length){
-				$("#menu").html(response);
+
+			if(response.length > 0){
+				$("#content").html(response);
+				FormularioEditarAdmin();
 			}else{
 				notificaError(response);
 			}
