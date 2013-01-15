@@ -23,8 +23,11 @@ function Admin(){
 		beforesend: function(){
 		},
 		success: function(response){
-			$("#menu").html(response);
-			notifica(response);
+			if(response.length > 0){
+				$("#menu").html(response);
+			}else{
+				notificaError(response);
+			}
 		},	
 		fail: function(response){
 			notificaError("Error: AJAX fail Admin.JS Admin.<br/>"+response);
