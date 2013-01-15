@@ -188,16 +188,12 @@ select{
 	text-align: center;
 }
 
-.datos .td-user-image img{
-	border: 2px solid #fff;
-	min-height: 100px;
-	max-height: 200px;
-}
-
+.datos .td-user-image img,
 .datos .td-project-image img{
 	border: 2px solid #fff;
 	min-height: 100px;
-	max-height: 120px;
+	max-height: 200px;
+	max-width: 350px;
 }
 
 .datos .td-category-image img{

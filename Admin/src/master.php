@@ -161,7 +161,7 @@ class Master{
 		//echo '<li onClick="editar();"><img src="';
 		//echo $imagen;
 		//echo '" /></li>';
-		echo '<li onClick="Admin();">Admins</li>';
+		echo '<li onClick="Admin();">Admin</li>';
 		echo '<li onClick="LogOut();">Salir</li>';
 
 	}

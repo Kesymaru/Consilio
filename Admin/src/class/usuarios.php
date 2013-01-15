@@ -335,17 +335,74 @@ class Admin{
 	* ACTUALIZA UN ADMIN
 	* NO ACTUALIZA LA CONTRASENA
 	* @param $id -> id del admin
+	* @param $usuario -> usuario
 	* @param $nombre -> nombre
 	* @param $apellidos -> apellidos del admin
 	* @param $email -> email
 	* @param $telefono -> telefono
 	* @param $skype
 	* @param $imagen -> link de la imagen subida
-	* @param $usuario -> usuario
+	* @param $password -> password nuevo si cambia
 	* @return true si se actualiza
 	* @return false si falla
 	*/
-	function UpdateAdmin($id, $nombre, $apellidos, $email, $telefono, $skype, $imagen, $usuario){
+	public function UpdateAdmin($id, $usuario, $nombre, $apellidos, $email, $telefono, $skype, $imagen, $password){
+		$base = new Database();
+
+		$nombre =  mysql_real_escape_string($nombre);
+		$apellidos = mysql_real_escape_string($apellidos);
+		$email = mysql_real_escape_string($email);
+		$telefono = mysql_real_escape_string($telefono);
+		$skype = mysql_real_escape_string($skype);
+		$usuario = mysql_real_escape_string($usuario);
+		$imagen = mysql_real_escape_string($imagen);
+		$password = mysql_real_escape_string($password);
+
+		if($imagen != '' && $imagen != null && !empty($imagen)){
+			$query = "UPDATE admin SET nombre = '".$nombre."', apellidos = '".$apellidos."', email = '".$email."', telefono = '".$telefono."', skype = '".$skype."', usuario = '".$usuario."', imagen = '".$imagen."'";
+			
+			//elimina la imagen vieja
+			$query2 = "SELECT * FROM admin WHERE id = '".$id."'";
+			$imagen = $base->Select($query2);
+			$imagenOld = "../".$imagen[0]['imagen'];
+
+			if(!$base->DeleteImagen($imagenOld)){
+				echo '<br/>Error: imagen anterior del Admin no se pudo borrar.<br/>usuarios.php class Admin() UpdateAdmin()<br/>';
+			}
+
+		}else{
+			$query = "UPDATE admin SET nombre = '".$nombre."', apellidos = '".$apellidos."', email = '".$email."', telefono = '".$telefono."', skype = '".$skype."', usuario = '".$usuario."'";
+		}
+
+		if($password != ''){
+			$password = $base->Encriptar($password);
+			$query .= ", password = '".$password."' ";
+		}
+
+		$query .= " WHERE id = '".$id."'";
+		
+		if($base->Update($query)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* ACTUALIZA UN ADMIN
+	* NO ACTUALIZA LA CONTRASENA
+	* @param $usuario -> usuario
+	* @param $nombre -> nombre
+	* @param $apellidos -> apellidos del admin
+	* @param $email -> email
+	* @param $telefono -> telefono
+	* @param $skype
+	* @param $imagen -> link de la imagen subida
+	* @param $password -> contrasena sin ecncriptar
+	* @return true si se actualiza
+	* @return false si falla
+	*/
+	public function NewAdmin($usuario, $nombre, $apellidos, $email, $telefono, $skype, $imagen, $password){
 		$base = new Database();
 
 		$nombre =  mysql_real_escape_string($nombre);
@@ -356,13 +413,13 @@ class Admin{
 		$usuario = mysql_real_escape_string($usuario);
 		$imagen = mysql_real_escape_string($imagen);
 
-		if($imagen !== '' || $imagen == null || empty($imagen)){
-			$query = "UPDATE admin SET nombre = '".$nombre."', apellidos = '".$apellidos."', email = '".$emai."', telefono = '".$telefono."', skype = '".$skype."', imagen = '".$imagen."', usuario = '".$usuario."'";
-		}else{
-			$query = "UPDATE admin SET nombre = '".$nombre."', apellidos = '".$apellidos."', email = '".$emai."', telefono = '".$telefono."', skype = '".$skype."', usuario = '".$usuario."'";
-		}
+		$password = mysql_real_escape_string($password);
+		$password = $base->Encriptar($password);
+
+		$query = "INSERT INTO admin (usuario, nombre, apellidos, email, telefono, skype, imagen, password ) VALUES ";
+		$query .= " ( '".$usuario."', '".$nombre."', '".$apellidos."', '".$email."', '".$telefono."', '".$skype."', '".$imagen."', '".$password."' ) ";
 		
-		if($base->Update($query)){
+		if($base->Insert($query)){
 			return true;
 		}else{
 			return false;
@@ -370,25 +427,89 @@ class Admin{
 	}
 
 	/**
-	* ACTUALIZA LA CONTRASENA DE UNA ADMIN
+	* OBTIENE TODOS LOS USUARIOS TOMADOS EXCEPTO EL DEL ADMIN
 	* @param $id -> id del admin
-	* @param $password -> new password
-	* @return true -> si se actualiza
-	* @return false -> si falla
+	* @return $datos -> array[][] lista de usuarios disponibles
 	*/
-	function UpdatePassword($id, $password){
+	function getUsersAdmin($id){
 		$base = new Database();
-		$password = mysql_real_escape_string($password);
-		$password = $base->Encriptar($password);
+		$query = "SELECT * FROM admin WHERE id != '".$id."'";
 
-		$query = "UPDATE admin SET password = '".$password."' WHERE id = '".$id."'";
-		if($base->Update($query)){
-			return true;
+		$datos = $base->Select($query);
+		return $datos;
+	}
+
+	/**
+	* OBTIENE TODOS LOS USUARIOS YA TOMADOS
+	* @return $datos -> array[][] lista de usuarios disponibles
+	*/
+	function getUsers(){
+		$base = new Database();
+		$query = "SELECT * FROM admin";
+
+		$datos = $base->Select($query);
+		return $datos;
+	}
+
+	/**
+	* SUBE UNA IMAGEN PARA ADMIN
+	* @param $imagen -> file de la imagen ha dubir
+	* @return $link -> link de la imagen subida
+	* @return false si falla
+	*/
+	public function UploadImagen($imagen){
+		//SUBE LA IMAGEN
+		if($imagen['tmp_name'] != null && $imagen['tmp_name'] != ""){
+			$upload = new Upload();
+        
+			$upload->SetFileName($imagen['name']);
+			$upload->SetTempName($imagen['tmp_name']);
+
+			$upload->SetValidExtensions(array('gif', 'jpg', 'jpeg', 'png')); 
+				        
+			$upload->SetUploadDirectory("../images/admin/"); //DIRECTORIO PARA IMAGENES DE LOS USUARIOS
+
+			$upload->SetMaximumFileSize(90000000); //TAMANO MAXIMO PERMITIDO
+				        
+			if($upload->UploadFile()){
+				//SE OPTIENE EL LINK DE LA IMAGEN SUBIDA Y SE FORMATEA
+				$link = str_replace("../", "", $upload->GetUploadDirectory().$upload->GetFileName() );
+
+				return $link;
+			}else{
+				return false;
+			}
 		}else{
 			return false;
 		}
 	}
 
+	/**
+	* ELIMINA UN ADMIN
+	* @param $id -> id del admin
+	* @return true si se elimina
+	*/
+	function DeleteAdmin($id){
+		$base = new Database();
+		$query = "DELETE FROM admin WHERE id = '".$id."'";
+		
+		$query2 = "SELECT * FROM admin WHERE id = '".$id."'";
+		$datos = $base->Select($query2);
+
+		if(!empty($datos)){
+			$imagen = "../".$datos[0]['imagen'];
+			
+			if(!$base->DeleteImagen($imagen)){
+				echo "<br/>Error: No se pudo borrar la imagen del Admin.<br/>imagen:$imagen<br/>Usuarios.php DeleteAdmin().";
+			}
+		}
+
+		if($base->Delete($query)){
+			return true;
+		}else{	
+			return false;
+		}
+	}
 }
 
 ?>

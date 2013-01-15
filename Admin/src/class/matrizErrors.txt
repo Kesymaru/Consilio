@@ -1,0 +1,84 @@
+
+
+ 
+
+Error: No se pudo borrar la imagen del Admin.
+Usuarios.php DeleteAdmin().
+
+
+	Sitio: Admin
+	Usuario: Andrey
+	ID: 1
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 15 2013 - 2:18 pm
+ --------------------<>--------------------
+
+ 
+
+Error: No se pudo borrar la imagen del Admin.
+imagen:../images/admin/Desert.jpg
+Usuarios.php DeleteAdmin().
+
+
+	Sitio: Admin
+	Usuario: Andrey
+	ID: 1
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 15 2013 - 2:20 pm
+ --------------------<>--------------------
+
+ 
+
+
+<b>Warning</b>:  unlink(../) [<a href='function.unlink'>function.unlink</a>]: Permission denied in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>197</b>
+
+
+Error: imagen anterior del Admin no se pudo borrar.
+usuarios.php class Admin() UpdateAdmin()
+
+
+
+	Sitio: Admin
+	Usuario: Andrey
+	ID: 1
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 15 2013 - 2:24 pm
+ --------------------<>--------------------
+
+ 
+
+
+<b>Warning</b>:  unlink(../) [<a href='function.unlink'>function.unlink</a>]: Permission denied in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>197</b>
+
+
+Error: No se pudo borrar la imagen del Admin.
+imagen:../
+Usuarios.php DeleteAdmin().
+
+
+	Sitio: Admin
+	Usuario: Andrey
+	ID: 1
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 15 2013 - 2:25 pm
+ --------------------<>--------------------
