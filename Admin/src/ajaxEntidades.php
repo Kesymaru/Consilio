@@ -73,10 +73,12 @@ function Entidades(){
 	$lista = '<div id="entidades" class="entidades">
 				<div class="titulo">
 					Entidades
-			  		<button type="button" title="Buscar Entidades" onClick="BuscarMenu(\'buscar-Entidades\')">Buscar</button>
+			  		<button type="button" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-entidades\', \'buscar-entidades\', \'entidades\', false)">Buscar</button>
 					<hr>
-					<div class="busqueda">
-						<input type="text" id="buscar-Entidades" placeholder="Buscar"/>
+					<div class="busqueda" id="busqueda-entidades">
+						<div class="buscador">
+							<input type="search" title="Escriba Para Buscar Entidades" id="buscar-entidades" placeholder="Buscar Entidades"/>
+						</div>
 					</div>
 			  	</div>';
 

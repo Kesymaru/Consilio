@@ -73,10 +73,12 @@ function Proyectos(){
 	$lista = '<div id="proyectos" class="tipos">
 				<div class="titulo">
 					Proyectos
-			  		<button type="button" title="Buscar Proyectos" onClick="BuscarMenu(\'buscar-Proyectos\')">Buscar</button>
+			  		<button class="boton-buscar" type="button" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-proyectos\', \'buscar-proyectos\', \'proyectos\', false)">Buscar</button>
 					<hr>
-					<div class="busqueda">
-						<input type="text" id="buscar-Proyectos" placeholder="Buscar"/>
+					<div class="busqueda" id="busqueda-proyectos">
+						<div class="buscador">
+							<input type="search" title="Escriba Para Buscar Proyectos" id="buscar-proyectos" placeholder="Buscar Proyectos"/>
+						</div>
 					</div>
 			  	</div>';
 
@@ -85,7 +87,7 @@ function Proyectos(){
 		$lista .= '<ul>';
 		
 		foreach ($datos as $fila => $proyecto) {
-			$lista .= '<li id="'.$proyecto['id'].'" onClick="SelectProyecto('.$proyecto['id'].')">'.$proyecto['nombre'].'</li>';
+			$lista .= '<li title="Proyecto De '.Cliente($proyecto['cliente']).'" id="'.$proyecto['id'].'" onClick="SelectProyecto('.$proyecto['id'].')">'.$proyecto['nombre'].'</li>';
 		}
 
 		$lista .= '</ul><!-- fin lista -->';
@@ -118,27 +120,28 @@ function ProyectosAvance(){
 	$lista = '<div id="proyectos" class="tipos">
 				<div class="titulo">
 					Proyectos
-			  		<button type="button" title="Buscar Proyectos" onClick="BuscarContent(\'buscar-Proyectos\')">Buscar</button>
+			  		<button type="button" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-proyectos\', \'buscar-proyectos\', \'proyectos\', true)">Buscar</button>
 					<hr>
-					<div class="busqueda">
-						<input type="text" title="Escriba Para Buscar Proyectos Por Nombre, Estado o Cliente" id="buscar-Proyectos" placeholder="Buscar"/>
+					<div class="busqueda" id="busqueda-proyectos">
+						<div class="buscador">
+							<input type="search" title="Escriba Para Buscar Proyectos" id="buscar-proyectos" placeholder="Buscar Proyectos"/>
+						</div>
 					</div>
 			  	</div>';
 
 	if(!empty($datos)){
-
-		$lista .= '<table class="table-list">
+		$lista .= '<table id="proyectos" class="table-list">
 					<tr>
-						<td>Nombre</td>
-						<td>Cliente</td>
-						<td>Estado</td>
-					</tr>';
+						<th>Nombre</th>
+						<th>Cliente</th>
+						<th>Estado</th>';
+
 		
 		foreach ($datos as $fila => $proyecto) {
 			$lista .= '<tr id="'.$proyecto['id'].'" class="custom-tooltip" title="'.$proyecto['imagen'].'" onClick="SelectProyecto('.$proyecto['id'].')">
-			              <td>'.$proyecto['nombre'].'</td>
-					      <td>'.Cliente($proyecto['cliente']).'</td>
-					      <td>'.Estado($proyecto['status']).'</td>
+			              <td class="nombre">'.$proyecto['nombre'].'</td>
+					      <td class="cliente">'.Cliente($proyecto['cliente']).'</td>
+					      <td class="estado">'.Estado($proyecto['status']).'</td>
 					   </tr>';
 		}
 

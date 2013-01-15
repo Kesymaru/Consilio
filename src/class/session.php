@@ -66,6 +66,7 @@ class Session{
 
 	/**
 	* SE ENCARGA DE LOGUEAR USUARIO
+	* REGISTRA VISITA
 	*/
 	public function LogIn($usuario, $password){
 		$base = new Database();
@@ -112,6 +113,9 @@ class Session{
 			}
 			$_SESSION['cliente'] = true;
 			$_SESSION['cliente_bienvenida'] = false;
+			
+			$this->RegistrarVisita($_SESSION['cliente_id']);
+
 			return true;
 		}else{
 			return false;
@@ -126,6 +130,31 @@ class Session{
 		session_unset($_SESSION['cliente']);
 		$_SESSION = array();
 		session_destroy ();
+	}
+
+	/**
+	* REGISTRA UNA VISITA DEL CLIENTE
+	* @param $id -> id del cliente
+	*/
+	public function RegistrarVisita($id){
+		$base = new Database();
+		$query = "SELECT * FROM clientes WHERE id = '".$id."'";
+
+		$datos = $base->Select($query);
+		if(empty($datos[0]['visitas'])){
+			$registros = array();
+			$registros[] = date("Y-m-d H:i:s");
+		}else{
+			$registros = array();
+			$registros = unserialize($datos[0]['visitas']);
+			if(!empty($registros)){
+				$registros[] = date("Y-m-d H:i:s");
+			}
+		}
+		$visitas = serialize($registros);
+
+		$query = "UPDATE clientes SET visitas = '".$visitas."' WHERE id = '".$id."'";
+		$base->Update($query);
 	}
 
 }

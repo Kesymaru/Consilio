@@ -67,10 +67,12 @@ function Clientes(){
 	$lista = '<div id="clientes" class="tipos">
 				<div class="titulo">
 					Clientes
-			  		<button type="button" title="Buscar Clientes" onClick="BuscarMenu(\'buscar-Tipos\')">Buscar</button>
+			  		<button class="boton-buscar" type="button" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-clientes\', \'buscar-clientes\', \'clientes\', false)">Buscar</button>
 					<hr>
-					<div class="busqueda">
-						<input type="text" id="buscar-Tipos" placeholder="Buscar"/>
+					<div class="busqueda" id="busqueda-clientes">
+						<div class="buscador">
+							<input type="search" title="Escriba Para Buscar" id="buscar-clientes" placeholder="Buscar"/>
+						</div>
 					</div>
 			  	</div>';
 

@@ -121,10 +121,12 @@ function Normas(){
 	echo '<div id="normas" class="normas">
 		  	<div class="titulo">
 				Normas
-				<button type="button" title="Buscar Normas" onClick="BuscarMenu(\'buscar-normas\')">Buscar</button>
+				<button class="boton-buscar" type="button" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-normas\', \'buscar-normas\', \'normas\', false)">Buscar</button>
 				<hr>
-				<div class="busqueda">
-					<input type="text" id="buscar-normas" placeholder="Buscar"/>
+				<div class="busqueda" id="busqueda-normas">
+					<div class="buscador">
+						<input type="search" title="Escriba Para Buscar Normas" id="buscar-normas" placeholder="Buscar Normas"/>
+					</div>
 				</div>
 		  	</div>';
 	echo '<div class="root2" id="PadreNormas">';
@@ -481,10 +483,12 @@ function Articulos($norma){
 		$lista .= '<div id="articulos" class="'.$visibilidad.'">
 					  <div class="titulo">
 					  	Articulos de '.$registros->getDatoNorma("nombre", $norma).' '.$registros->getDatoNorma("numero", $norma).'
-					  	<button type="button" title="Buscar Articulos" onClick="BuscarMenu2(\'buscar-articulos\')">Buscar</button>
+					  	<button class="boton-buscar" type="button" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-articulos\', \'buscar-articulos\', \'articulos\', false)">Buscar</button>
 						<hr>
-						<div class="busqueda">
-							<input type="text" id="buscar-articulos" placeholder="Buscar"/>
+						<div class="busqueda" id="busqueda-articulos">
+							<div class="buscador">
+								<input type="search" title="Escriba Para Buscar Articulos" id="buscar-articulos" placeholder="Buscar Articulos"/>
+							</div>
 						</div>
 					  </div>
 				      <ul>';

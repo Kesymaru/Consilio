@@ -156,10 +156,12 @@ class Master{
 	*/
 	public function MenuAdmin(){
 		$admin = new Admin();
+		//$imagen = $admin->getAdminDato("imagen");
 
-		echo '<li onClick="editar();"><img src="';
-		//echo $admin->getAdminDato("imagen");
-		echo '" /></li>';
+		//echo '<li onClick="editar();"><img src="';
+		//echo $imagen;
+		//echo '" /></li>';
+		echo '<li onClick="Admin();">Admins</li>';
 		echo '<li onClick="LogOut();">Salir</li>';
 
 	}

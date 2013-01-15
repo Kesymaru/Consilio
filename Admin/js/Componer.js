@@ -434,7 +434,7 @@ function ExcluirCategorias(){
 function PreviewCategoriaNormas(id){
 	$.fancybox({
 		'href'         : 'src/previewNormas.php?categoria='+id,
-		'width'        : '40%',
+		'width'        : '50%',
 		'height'       : '500',
 		'autoScale'    : false,
 		'transitionIn' : 'fade',

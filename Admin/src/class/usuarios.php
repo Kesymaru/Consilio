@@ -19,6 +19,8 @@ class Cliente{
 		//revisa que este logueado
 		$session = new Session();
 		$session->Logueado();
+
+		date_default_timezone_set('America/Costa_Rica');
 	}
 
 	/**
@@ -125,10 +127,11 @@ class Cliente{
 		$contrasena = mysql_real_escape_string($contrasena);
 		$usuario = mysql_real_escape_string($usuario);
 
+		$fecha = date("Y-m-d H:i:s");
 		$contrasena = $base->Encriptar($contrasena);
 
-		$query = "INSERT INTO clientes (nombre, email, registro, telefono, skype, imagen, contrasena, usuario)";
-		$query .= " VALUES ('".$nombre."', '".$email."', '".$registro."', '".$telefono."', '".$skype."', '".$imagen."', '".$contrasena."', '".$usuario."') ";
+		$query = "INSERT INTO clientes (nombre, email, registro, telefono, skype, imagen, contrasena, usuario, fecha_ingreso)";
+		$query .= " VALUES ('".$nombre."', '".$email."', '".$registro."', '".$telefono."', '".$skype."', '".$imagen."', '".$contrasena."', '".$usuario."', '".$fecha."') ";
 
 		if($base->Insert($query)){
 			return true;
@@ -209,7 +212,7 @@ class Cliente{
 	}
 
 	/**
-	* DELETE CLIENTE
+	* ELIMINA UN CLIENTE, SUS DATOS Y PROYECTOS
 	* @param $id -> id del cliente
 	* @return true si se elimina el cliente y sus datos
 	*/
@@ -236,20 +239,20 @@ class Cliente{
 					$imagenProyecto = "../".$proyecto['imagen'];
 
 					if(!$base->DeleteImagen($imagenProyecto)){
-						echo '<hr>Error: usuarios.php Clientes->DeleteCliente() al eliminar imagen: '.$imagenProyecto;
+						echo '<br/>Error: usuarios.php Clientes->DeleteCliente() al eliminar imagen: '.$imagenProyecto;
 					}
 
 					$query = "DELETE FROM registros WHERE proyecto = ".$proyecto['id'];
 
-					//elimina registro del proyecto
+					//elimina registros del proyecto
 					if( !$base->Delete($query) ){
-						echo 'Error: usuarios.php Clientes->DeleteCliente() al eliminar registro del proyecto '.$proyecto['id'].' del cliente: '.$id;
+						echo '<br/>Error: usuarios.php Clientes->DeleteCliente() al eliminar registro del proyecto '.$proyecto['id'].' del cliente: '.$id;
 					}
 				}
 
 				//elimina proyectos del cliente
 				if( !$base->Delete("DELETE FROM proyectos WHERE cliente = ".$id) ){
-					echo 'Error: usuarios.php Clientes->DeleteCliente() al eliminar proyectos del cliente: '.$id;
+					echo '<br/>Error: usuarios.php Clientes->DeleteCliente() al eliminar proyectos del cliente: '.$id;
 				}
 			}
 			return true;
@@ -285,68 +288,101 @@ class Cliente{
 * PARA LOS ADMINS
 */
 class Admin{
-	private $session = '';
 
 	/**
 	* ASEGURA QUE SOLO SI EL USUARIO ESTA LOGUEADO PUEDA USAR EL SCRIPT
 	*/
 	public function __construct(){
-		$this->session = new Session();
+		$session = new Session();
+		$session->Logueado();
 	}
 
 /*** METODOS PARA DATOS DE ADMIN ***/
+	
+	/**
+	* OBTIENE LOS DATOS DE TODOS LOS ADMINS
+	* @return $datos -> array[][] con los datos
+	* @return false -> si fallas
+	*/
+	public function getAdmins(){
+		$base = new Database();
+		$query = "SELECT * FROM admin";
+
+		if($datos = $base->Select($query)){
+			return $datos;
+		}else{
+			return false;
+		}
+	}
 
 	/**
-	* METODO PARA OBTENER DATOS DE ADMIN
-	* @param $dato -> dato a obtener
+	* OBTIENE TODOS LOS DATOS DE UN ADMIN
+	* @param $id -> id del admin
 	* @return dato consultado
 	*/
-	public function getAdminDato($dato){
+	public function getAdminDatos($id){
 		$base = new Database();
-		$datos = $base->Select("SELECT ".$dato." FROM admin WHERE id = '".$_SESSION['id']."'");
-		return $datos[0][$dato];
+		$query = "SELECT * FROM admin WHERE id = '".$id."'";
+
+		if($datos = $base->Select($query)){
+			return $datos;
+		}else{
+			return false;
+		}
 	}
 
 	/**
-	* METODO PARA ACTUALIZAR UN DATO DEL USUARIO
-	* @param $dato -> dato ha actualizar
-	* @param $nuevo -> el nuevo dato
+	* ACTUALIZA UN ADMIN
+	* NO ACTUALIZA LA CONTRASENA
+	* @param $id -> id del admin
+	* @param $nombre -> nombre
+	* @param $apellidos -> apellidos del admin
+	* @param $email -> email
+	* @param $telefono -> telefono
+	* @param $skype
+	* @param $imagen -> link de la imagen subida
+	* @param $usuario -> usuario
+	* @return true si se actualiza
+	* @return false si falla
 	*/
-	public function setAdminDato($dato, $nuevo){
-		$base = new Database();
-		$query = "UPDATE admin SET ".$dato." = '".$nuevo."' WHERE id = ".$_SESSION['id'];
-		$base->Update($query);
-
-		//actualiza datos en session
-		$this->session->Update("admin");
-	}
-
-	/**
-	* METODO PARA CAMBIAR EL PASSWORD DEL ADMIN
-	* @param $password -> password sin encriptar
-	*/
-	public function setAdminPassword($password){
-		$base = new Database();
-		$password = $base->Encriptar($password);
-
-		$query = "UPDATE admin SET password = '".$password."' WHERE id = ".$_SESSION['id'];
-		$base->Update($query);
-	}
-
-	/**
-	* METODO PARA ACTUALIZAR LA IMAGEN DEL ADMIN
-	* @param $link -> link de la imagen
-	*/
-	public function setAdminImagen($link){
+	function UpdateAdmin($id, $nombre, $apellidos, $email, $telefono, $skype, $imagen, $usuario){
 		$base = new Database();
 
-		//link viejo
-		$imagenOld = $this->getAdminDato('imagen');
+		$nombre =  mysql_real_escape_string($nombre);
+		$apellidos = mysql_real_escape_string($apellidos);
+		$email = mysql_real_escape_string($email);
+		$telefono = mysql_real_escape_string($telefono);
+		$skype = mysql_real_escape_string($skype);
+		$usuario = mysql_real_escape_string($usuario);
+		$imagen = mysql_real_escape_string($imagen);
 
-		$query = "UPDATE admin SET imagen = '".$link."' WHERE id = ".$_SESSION['id'];
+		if($imagen !== '' || $imagen == null || empty($imagen)){
+			$query = "UPDATE admin SET nombre = '".$nombre."', apellidos = '".$apellidos."', email = '".$emai."', telefono = '".$telefono."', skype = '".$skype."', imagen = '".$imagen."', usuario = '".$usuario."'";
+		}else{
+			$query = "UPDATE admin SET nombre = '".$nombre."', apellidos = '".$apellidos."', email = '".$emai."', telefono = '".$telefono."', skype = '".$skype."', usuario = '".$usuario."'";
+		}
 		
 		if($base->Update($query)){
-			$base->DeleteImagen($imagenOld);
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* ACTUALIZA LA CONTRASENA DE UNA ADMIN
+	* @param $id -> id del admin
+	* @param $password -> new password
+	* @return true -> si se actualiza
+	* @return false -> si falla
+	*/
+	function UpdatePassword($id, $password){
+		$base = new Database();
+		$password = mysql_real_escape_string($password);
+		$password = $base->Encriptar($password);
+
+		$query = "UPDATE admin SET password = '".$password."' WHERE id = '".$id."'";
+		if($base->Update($query)){
 			return true;
 		}else{
 			return false;

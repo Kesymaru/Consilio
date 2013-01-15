@@ -61,10 +61,12 @@ function Tipos(){
 	$lista = '<div id="tipos" class="tipos">
 				<div class="titulo">
 					Tipos Norma
-			  		<button type="button" title="Buscar Tipos" onClick="BuscarMenu(\'buscar-Tipos\')">Buscar</button>
+			  		<button class="boton-buscar" type="button" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-tipos\', \'buscar-tipos\', \'tipos\', false)">Buscar</button>
 					<hr>
-					<div class="busqueda">
-						<input type="text" id="buscar-Tipos" placeholder="Buscar"/>
+					<div class="busqueda" id="busqueda-tipos">
+						<div class="buscador">
+							<input type="search" title="Escriba Para Buscar Tipos" id="buscar-tipos" placeholder="Buscar Tipos"/>
+						</div>
 					</div>
 			  	</div>';
 

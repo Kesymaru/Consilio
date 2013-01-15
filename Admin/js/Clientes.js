@@ -201,11 +201,10 @@ function FormularioNuevoCliente(){
 	    	if(response.length <= 3){
 	    		notifica("Cliente Creado.");
 
-	    		Clientes();
-	    		
 				LimpiarContent();
+				Clientes();
 			}else{
-				$("#content").html(response);
+				notificaError(response);
 			}
 		},
 		fail: function(){

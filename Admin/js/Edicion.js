@@ -13,12 +13,6 @@ function EditarCategorias(){
 		LimpiarContent();
 	}
 
-	if($('#normas').is(":visible")){
-		$('#normas').fadeOut(500, function(){
-			$('#normas').remove();
-		})
-	}
-
 	//OPTIENE EL TAMANO EN PORCENTAJE
 	var w = ( 100 * parseFloat($('#menu').css('width')) / parseFloat($('#menu').parent().css('width')) ) + '%';
 

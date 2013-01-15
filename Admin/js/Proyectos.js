@@ -60,7 +60,6 @@ function ProyectosMenu(id){
 			},
 			success: function(response){
 				$("#menu").html(response);
-				console.log(id);
 				//$("#EliminarProyecto, #EditarProyecto, #DuplicarProyecto").hide();
 				
 				SelectProyecto(id);

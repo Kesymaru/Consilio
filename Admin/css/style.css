@@ -265,14 +265,53 @@ select{
 
 .datos #buscar-disponibles,
 .datos #buscar-seleccionadas,
-.busqueda{
+.busqueda,
+.busqueda-avanzada{
 	padding: 0;
 	margin: 0 !important;
 }
 
+.busqueda{
+	display: none;
+	margin: 0 auto;
+	width: 100%;
+	text-align: center;
+}
+
+.busqueda .buscador {
+	/*display: none;*/
+	display: block;
+	margin: 0 auto;
+	margin-top: 0;
+	width: 80%;
+	background-color: #C8C7C7; /*para ie8*/
+	background-color: rgba(117, 114, 115, .4);
+
+	border-left: 1px solid rgba(117, 114, 115, 1);
+	border-right: 1px solid rgba(117, 114, 115, 1);
+	border-top: 0 solid transparent;
+	border-bottom: 1px solid rgba(117, 114, 115, 1);
+
+	color: #757273;
+		-o-border-radius-bottomright: 5px;
+		-o-border-radius-bottomleft: 5px;
+		-ms-border-radius-bottomright: 5px;
+		-ms-border-radius-bottomleft: 5px;
+		-moz-border-radius-bottomright: 5px;
+		-moz-border-radius-bottomleft: 5px;
+		-webkit-border-bottom-right-radius: 5px;
+		-webkit-border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+	
+	padding: 5px;
+	font-size: 18px;
+	font-weight: bold;
+	text-align: center;
+}
+
 .datos #buscar-disponibles input,
-.datos #buscar-seleccionadas input,
-.busqueda input{
+.datos #buscar-seleccionadas input{
 	display: none;
 	margin: 0 auto;
 	margin-top: 0;
@@ -303,14 +342,42 @@ select{
 	text-align: center;
 }
 
+.buscador input[type="text"],
+.buscador input[type="search"]{
+	margin-top: 0;
+	width: 100%;
+	color: #757273;
+	padding: 0px;
+	font-size: 18px;
+	font-weight: bold;
+	text-align: center;
+	border-width: 0;
+	border-color: transparent;
+	background: transparent;
+	background-color: transparent;
+
+	-webkit-appearance: none;
+  	-webkit-box-sizing: content-box;
+  	outline:none;
+}
+
+.buscador input[type="search"]:active,
+.buscador input[type="search"]:focus,
+.buscador input[type="search"]:hover,
+.buscador input[type="text"]:active,
+.buscador input[type="text"]:focus,
+.buscador input[type="text"]:hover{
+	color: #FFFFFF;
+}
+
 .datos #buscar-disponibles input:hover,
 .datos #buscar-seleccionadas input:hover,
 .datos #buscar-disponibles input:active,
 .datos #buscar-seleccionadas input:active,
 .datos #buscar-disponibles input:focus,
 .datos #buscar-seleccionadas input:focus,
-.busqueda input:hover,
-.busqueda input:active{
+.busqueda:hover .buscador,
+.busqueda:active .buscador{
 	color: #FFFFFF;
 	background-color: #757273; /*para ie8*/
 	background-color: rgba(117, 114, 115, .7);
@@ -319,6 +386,10 @@ select{
 .datos #normas-categoria ul li:hover{
 	background-color: #D5D4D5;
 	color: #fff;
+}
+
+.no-resultados{
+	display: none;
 }
 
 /**
@@ -331,9 +402,10 @@ select{
 	font-size: 20px;
 }
 
-.table-list tr:first-child td{
+.table-list th{
 	background-color: #BAB8B9; /*ie 8*/
 	background-color: rgba(117, 114, 115, .5);
+	padding: 5px;
 }
 
 .table-list tr{

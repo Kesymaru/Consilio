@@ -29,6 +29,7 @@ $(document).ready(function(){
 			//se cierran despues de 2 segundos
 	    	setTimeout(function(){
 	      		$(ui.tooltip).hide('clip');
+	      		$(".ui-effects-wrapper").remove();
 	   		}, 2000);
 	  	},
 	  	items: "img, [data-geo], [title]",
@@ -608,127 +609,6 @@ function EliminarAdjuntoExtra(id){
 }
 
 /**
-* FUNCION GENERICA PARA REALIZAR BUSQUEDAS EN EL MENU
-* PARA BUSQUEDAS DE NORMAS, ENTIDADES Y TIPOS
-*/
-function BuscarMenu(id){
-	if($("#"+id).is(":visible")){
-		$("#"+id).slideUp();
-		$("#"+id).val("");
-		$("#menu li").fadeIn();
-	}else{
-		$("#"+id).slideDown();
-	}
-	
-	//busqueda en vivo
-	BuscarMenuLive(id);
-}
-
-/**
-* FUNCION GENERICA PARA REALIZAR BUSQUEDAS EN EL MENU2
-*/
-function BuscarMenu2(id){
-	if($("#"+id).is(":visible")){
-		$("#"+id).slideUp();
-		$("#"+id).val("");
-		$("#menu2 li").fadeIn();
-	}else{
-		$("#"+id).slideDown();
-	}
-	
-	//busqueda en vivo
-	BuscarMenu2Live(id);
-}
-
-/**
-* FUNCION GENERICA PARA REALIZAR BUSQUEDAS EN EL CONTENT
-*/
-function BuscarContent(id){
-	if($("#"+id).is(":visible")){
-		$("#"+id).slideUp();
-		$("#"+id).val("");
-		$("#menu2 li").fadeIn();
-	}else{
-		$("#"+id).slideDown();
-	}
-	
-	//busqueda en vivo
-	BuscarContentLive(id);
-}
-
-/**
-* BUSQUEDA EN VIVO
-*/
-function BuscarMenuLive(input){
-	//actualiza al ir escribiendo
-	$("#"+input).keyup(function(){
-		var busqueda = $("#"+input).val(), count = 0;
-
-		//recorre opciones para buscar
-        $("#menu li").each(function(){
- 
-            //esconde a los que no coinciden
-            if($(this).text().search(new RegExp(busqueda, "i")) < 0){
-                $(this).fadeOut();
- 
-            //sino lo muestra
-            } else {
-                $(this).show();
-                count++;
-            }
-        });
-	});
-}
-
-/**
-* BUSQUEDA EN VIVO MENU2
-*/
-function BuscarMenu2Live(input){
-	//actualiza al ir escribiendo
-	$("#"+input).keyup(function(){
-		var busqueda = $("#"+input).val(), count = 0;
-
-		//recorre opciones para buscar
-        $("#menu2 li").each(function(){
- 
-            //esconde a los que no coinciden
-            if($(this).text().search(new RegExp(busqueda, "i")) < 0){
-                $(this).fadeOut();
- 
-            //sino lo muestra
-            } else {
-                $(this).show();
-                count++;
-            }
-        });
-	});
-}
-
-/**
-* BUSQUEDA EN VIVO MENU2
-*/
-function BuscarContentLive(input){
-	//actualiza al ir escribiendo
-	$("#"+input).keyup(function(){
-		var busqueda = $("#"+input).val(), count = 0;
-
-		//recorre opciones para buscar
-        $("#content li, #content tr").each(function(){
- 
-            //esconde a los que no coinciden
-            if($(this).text().search(new RegExp(busqueda, "i")) < 0){
-                $(this).fadeOut();
- 
-            //sino lo muestra
-            } else {
-                $(this).show();
-                count++;
-            }
-        });
-	});
-}
-
-/**
  * PREVIEW IMAGEN 
  * @param input -> id del input
  * @param imagen -> id de la imagen donde se carga el preview
@@ -749,45 +629,98 @@ function PreviewImage(input, imagen) {
 		reader.readAsDataURL(input.files[0]);
 	}
 }
+
+
 /**
-* BUSQUEDA GENERICA
-* @param id -> id del 
+* BUSQUEDA AVANZADA CON OPCIONES
+* @param id -> id del div contenedor a mostrar y ocultar
+* @param input -> id del input para el search
+* @param target -> id del lugar donde realuzar la busqueda
+* @param table -> true busqueda en tabla, false en lista
 */
-function BuscarGenerica(id, target){
+function Busqueda(id, input, target, table){
+
+	if(table){
+		target += " tr";
+	}else{
+		target += " li";
+	}
+
 	if($("#"+id).is(":visible")){
 		$("#"+id).slideUp();
-		$("#"+id).val("");
+		
+		$("#"+input).val("");
 		$("#"+target).fadeIn();
+
+		$("#"+target).removeClass('no');
+		$("#"+target).removeClass('si');
 	}else{
 		$("#"+id).slideDown();
 	}
-	
+
 	//busqueda en vivo
-	BuscarLive(id, target);
+	BusquedaLive(input, target);
+
 }
 
 /**
-* BUSQUEDA EN VIVO GENERICA
-* @param input -> id del input 
-* @param target -> lugar donde buscar id
+* BUSQUEDA AVANZADA
+* @param input -> id del input de search
+* @param target -> id del lugar donde buscar
 */
-function BuscarLive(input, target){
+function BusquedaLive(input, target){
+
 	//actualiza al ir escribiendo
 	$("#"+input).keyup(function(){
-		var busqueda = $("#"+input).val(), count = 0;
+		var busqueda = $("#"+input).val();
+		//var busqueda = $("#"+input).val().split(","), count = 0;
+		busqueda = busqueda.replace(/\s/g, ""); //quita espacios en blanco
+		busqueda = busqueda.split(","); //compone array separando por las comas
+		busqueda = busqueda, count = 0;
 
 		//recorre opciones para buscar
         $("#"+target).each(function(){
- 
-            //esconde a los que no coinciden
-            if($(this).text().search(new RegExp(busqueda, "i")) < 0){
-                $(this).fadeOut();
- 
-            //sino lo muestra
-            } else {
-                $(this).show();
-                count++;
-            }
+        	var element = $(this);
+
+        	$.each(busqueda,function(fila, valor){
+        		var title = element.attr('title');
+        		var clase = element.attr('class');
+
+        		if(title ==  undefined || title == null){
+        			title = '';
+        		}
+        		if(clase ==  undefined || clase == null){
+        			clase = '';
+        		}
+
+        		//busqueda
+        		if(element.text().search(new RegExp(valor, "i")) < 0 && title.search(new RegExp(valor, "i")) < 0  && clase.search(new RegExp(valor, "i")) < 0 ){
+	                
+	                element.hide();
+	                
+	                if(!element.hasClass('si')){
+		 				element.addClass('no');	                	
+	                }
+
+	            //muestra considencias
+	            } else {
+
+	            	if(!element.hasClass('no')){
+	            		element.show();
+	                	count++;
+	            	}else{
+	            		element.removeClass('no');
+	            		element.addClass('si');
+	            	}
+
+	            	//element.fadeIn();
+	                //count++;
+	            }
+        	});
+
         });
+        $("#"+target).removeClass('no');
+        $("#"+target).removeClass('si');
 	});
+
 }
