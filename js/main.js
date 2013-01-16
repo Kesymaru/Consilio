@@ -221,9 +221,6 @@ function Menu2(){
 					"display" : "block",
 					"opacity" : "1"
 				});
-				if($(".datos").is(":visible")){
-					Box();
-				}
 	    	}
 	    });
 
@@ -243,9 +240,6 @@ function Menu2(){
 					"display": "none",
 					"width"  : "0"
 				});
-				if($(".datos").is(":visible")){
-					Box();
-				}
 	    	}
 	    });
 	}
@@ -536,70 +530,6 @@ function LimpiarContent(){
 }
 
 /**
- * PREVIEW IMAGEN 
- * @param input -> id del input
- * @param imagen -> id de la imagen donde se carga el preview
- */
-function PreviewImage(input, imagen) {
-
-	if (input.files && input.files[0]) {
-		var reader = new FileReader();
-
-		reader.onload = function (e) {
-			$("#"+imagen).fadeOut(500, function(){
-				$('#'+imagen).attr('src', e.target.result);
-				$('#'+imagen).fadeIn();
-			});
-			
-		};
-
-		reader.readAsDataURL(input.files[0]);
-	}
-}
-/**
-* BUSQUEDA GENERICA
-* @param id -> id del 
-*/
-function BuscarGenerica(id, target){
-	if($("#"+id).is(":visible")){
-		$("#"+id).slideUp();
-		$("#"+id).val("");
-		$("#"+target).fadeIn();
-	}else{
-		$("#"+id).slideDown();
-	}
-	
-	//busqueda en vivo
-	BuscarLive(id, target);
-}
-
-/**
-* BUSQUEDA EN VIVO GENERICA
-* @param input -> id del input 
-* @param target -> lugar donde buscar id
-*/
-function BuscarLive(input, target){
-	//actualiza al ir escribiendo
-	$("#"+input).keyup(function(){
-		var busqueda = $("#"+input).val(), count = 0;
-
-		//recorre opciones para buscar
-        $("#"+target).each(function(){
- 
-            //esconde a los que no coinciden
-            if($(this).text().search(new RegExp(busqueda, "i")) < 0){
-                $(this).fadeOut();
- 
-            //sino lo muestra
-            } else {
-                $(this).show();
-                count++;
-            }
-        });
-	});
-}
-
-/**
 * DESHABILITA CONTENT
 */
 function DeshabilitarContent(){
@@ -615,35 +545,97 @@ function HabilitarContent(){
 	$(".content-disable").remove();
 }
 
-/********************** MANSORY **********/
-/*
-function Box(){
 
-	$('.datos').masonry({
-	  gutterWidth: 20,
-	  isAnimated: true,
-	  itemSelector: '.box',
-	  columnWidth: function( containerWidth ) {
+/**
+* BUSQUEDA AVANZADA CON OPCIONES
+* @param id -> id del div contenedor a mostrar y ocultar
+* @param input -> id del input para el search
+* @param target -> id del lugar donde realuzar la busqueda
+* @param table -> true busqueda en tabla, false en lista
+*/
+function Busqueda(id, input, target, table){
 
-		if(containerWidth <= 1000 ){
-	  		return containerWidth / 1;
-	  	}else{
-	  		return containerWidth / 2;
-	  	}
-	  },
-	  animationOptions: {
-	    duration: 700
-	  },
-	  isResizable: true,
-	  isFitWidth: true
+	if(table){
+		target += "tr";
+	}else{
+		target += " li";
+	}
+
+	if($("#"+id).is(":visible")){
+		$("#"+id).slideUp();
+		
+		$("#"+input).val("");
+		$("#"+target).fadeIn();
+
+		$("#"+target).removeClass('no');
+		$("#"+target).removeClass('si');
+	}else{
+		$("#"+id).slideDown();
+	}
+
+	//busqueda en vivo
+	BusquedaLive(input, target);
+
+}
+
+/**
+* BUSQUEDA AVANZADA
+* @param input -> id del input de search
+* @param target -> id del lugar donde buscar
+*/
+function BusquedaLive(input, target){
+
+	//actualiza al ir escribiendo
+	$("#"+input).keyup(function(){
+		var busqueda = $("#"+input).val();
+		//var busqueda = $("#"+input).val().split(","), count = 0;
+		busqueda = busqueda.replace(/\s/g, ""); //quita espacios en blanco
+		busqueda = busqueda.split(","); //compone array separando por las comas
+		busqueda = busqueda, count = 0;
+
+		//recorre opciones para buscar
+        $("#"+target).each(function(){
+        	var element = $(this);
+
+        	$.each(busqueda,function(fila, valor){
+        		var title = element.attr('title');
+        		var clase = element.attr('class');
+
+        		if(title ==  undefined || title == null){
+        			title = '';
+        		}
+        		if(clase ==  undefined || clase == null){
+        			clase = '';
+        		}
+
+        		//busqueda
+        		if(element.text().search(new RegExp(valor, "i")) < 0 && title.search(new RegExp(valor, "i")) < 0  && clase.search(new RegExp(valor, "i")) < 0 ){
+	                
+	                element.hide();
+	                
+	                if(!element.hasClass('si')){
+		 				element.addClass('no');	                	
+	                }
+
+	            //muestra considencias
+	            } else {
+
+	            	if(!element.hasClass('no')){
+	            		element.show();
+	                	count++;
+	            	}else{
+	            		element.removeClass('no');
+	            		element.addClass('si');
+	            	}
+
+	            	//element.fadeIn();
+	                //count++;
+	            }
+        	});
+
+        });
+        $("#"+target).removeClass('no');
+        $("#"+target).removeClass('si');
 	});
 
 }
-/*
-function Box(){
-	$(".datos .box").gridster({
-        widget_margins: [10, 10],
-        widget_base_dimensions: [140, 140],
-        min_cols: 6
-    });
-}*/

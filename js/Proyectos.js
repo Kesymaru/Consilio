@@ -66,11 +66,15 @@ function PadreHijos(padre, proyecto){
 		LimpiarContent();
 	}
 
+	$("#td-categorias, #td-normas, #td-articulos").html("");
+
+	ShowCategorias();
+
 	$("#supercategorias li").removeClass("root-selected");
 
 	$("#supercategorias #"+padre).addClass("root-selected");
 
-	$("#menu2").html('<table class="panel"><tr><td id="td-categorias" ></td> <td id="td-normas" ></td> <td id="td-articulos" ></td></tr></table>');
+	//$("#menu2").html('<table class="panel"><tr><td colspan="3"> <ul id="camino"><li id="camino-categorias" onClick="ShowCategorias()">Categorias</li></ul> </td></tr>  <tr><td id="td-categorias" ></td> <td id="td-normas" ></td> <td id="td-articulos" ></td></tr></table>');
 
 	Hijos(padre, proyecto);
 
@@ -82,7 +86,7 @@ function PadreHijos(padre, proyecto){
 */
 function Hijos(padre, proyecto){
 
-	//LimpiarHermanos(padre, proyecto);		
+	LimpiarHermanos(padre, proyecto);		
 
 	var queryParams = {'func' : "Hijos", "padre" : padre, "proyecto" : proyecto};
 
@@ -98,8 +102,7 @@ function Hijos(padre, proyecto){
 			if(response.length > 0){
 
 				$("#td-categorias").append(response);
-
-
+				
 				var totalWidth = 0;
 
 				$("#td-categorias li").each(function(index){
@@ -170,12 +173,18 @@ function LimpiarCamino(padre, proyecto){
 * @param padre
 */
 function LimpiarHermanos(padre, proyecto){
+	
+	if($(".datos").is(":visible")){
+		$(".datos").fadeOut();
+	}
+
 	//BORRA HERMANOS ASINCRONAMENTE
 	var queryParams = {'func' : 'GetHermanos', 'padre' : padre, 'proyecto' : proyecto};
 	
 	$.ajax({
 		data: queryParams,
 		type: "post",
+		async: false,
 		url: "src/ajaxProyectos.php",
 		beforeSend: function(){
 		},
@@ -329,7 +338,6 @@ function DatosArticulo(id){
 				$("#datos-articulo").hide()
 				$("#datos-articulo").fadeIn();
 				Menu2();
-				//Box();
 			}else{
 				notificaError("Error: "+response);
 			}
@@ -347,6 +355,9 @@ function DatosArticulo(id){
 */
 function ShowNormas(){
 	$("#td-normas div").hide();
+	
+	$("#camino-normas").fadeIn();
+	$("#camino-articulos").fadeOut();
 
 	$("#td-normas").animate({
 		"width" : "100%"
@@ -379,6 +390,8 @@ function ShowArticulos(html){
 	$("#td-articulos").html(html);
 	$("#td-articulos div").hide();
 
+	$("#camino-articulos").fadeIn();
+
 	$("#td-articulos").animate({
 		"width" : "100%"
 	},700, function(){
@@ -409,6 +422,8 @@ function ShowArticulos(html){
 function ShowCategorias(){
 	/*$("#td-categorias").html(html);
 	$("#td-categorias ul li").hide();*/
+
+	$("#camino-normas, #camino-articulos").fadeOut();
 
 	$("#td-categorias").animate({
 		"width" : "100%"

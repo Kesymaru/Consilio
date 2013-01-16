@@ -165,11 +165,8 @@ function Normas($id){
 	if(!empty($datos)){
 		$normas = unserialize($datos[0]['normas']);
 		
-		$lista = '<div class="titulo" id="normas" >
-				  	<button class="atras" type="button" onClick="ShowCategorias()">Atras</button>
-					'.$datos[0]['nombre'].'
-					</div>
-					<div class="datos">
+		$lista = '
+				<div class="datos">
 				<uL class="lista">';
 
 		if(!empty($normas)){
@@ -199,14 +196,11 @@ function Normas($id){
 function Articulos($id){
 	$registros = new Registros();
 	$datos = $registros->getArticulos($id);
-
+	$norma = $registros->getDatoNorma("nombre", $id);
 	$lista = '';
 
 	if(!empty($datos)){
-		$lista .= '<div class="titulo">
-				<button class="atras" type="button" onClick="ShowNormas()">Atras</button>
-					'.$datos[0]['nombre'].'
-				</div>
+		$lista .= '
 				<div class="datos">
 				<ul class="lista">';
 
@@ -231,13 +225,16 @@ function DatosArticulo($id){
 	$registros = new Registros();
 	$datos = $registros->getArticulo($id);
 
-	$lista = '<div id="datos-articulo">
+	$lista = '';
+
+	if(!empty($datos)){
+		$lista = '<div id="datos-articulo">
 				<div class="titulo">
-					Datos
+					<button class="izquierda" type="button" onClick="Menu2()">Panel</button>
+					'.$datos[0]['nombre'].'
 			  	</div>
 			  	<div class="datos">';
 
-	if(!empty($datos)){
 		foreach ($datos as $fila => $articulo) {
 			
 			foreach ($articulo as $dato => $valor) {

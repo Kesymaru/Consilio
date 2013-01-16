@@ -176,7 +176,42 @@ $master = new Master();
 		<!-- end menu -->
 
 		<div id="menu2">
+			<!-- tabla para el panel donde se muestran las lista -->
+			<table class="panel" >
+			<tr>
+				<td colspan="3" class="panel-camino"> 
+					<ul id="camino">
+						<li id="camino-categorias" onClick="ShowCategorias()">		Categorias
+						</li>
+						<li class="ocultos" id="camino-normas" onClick="ShowNormas()">		Normas
+						</li>
+						<li class="ocultos" id="camino-articulos" onClick="ShowArticulos()">		Articulos
+						</li>
 
+						<button class="derecha" type="button" title="Buscar" onClick="Busqueda('busqueda', 'buscar', 'panel', false)">Buscar</button>
+
+					</ul> 
+				</td>
+			</tr> 
+			<tr>
+				<td colspan="3">
+					<div class="busqueda" id="busqueda">
+						<div class="buscador">
+						<input type="search" title="Escriba Para Buscar Administradores" id="buscar" placeholder="Buscar"/>
+						</div>
+					</div>
+				</td>
+			</tr>
+			<tr id="panel">
+				<td id="td-categorias" >
+				</td> 
+				<td id="td-normas" >
+				</td> 
+				<td id="td-articulos" >
+				</td>
+			</tr>
+			</table>
+			<!-- end table -->
 		</div>
 		<!-- end menu 2 -->
 
