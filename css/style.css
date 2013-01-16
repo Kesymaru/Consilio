@@ -840,12 +840,11 @@ select{
 	/*margin: 10px auto;*/
 	border: 1px solid #dedede;
 	border-radius: 5px;
-	/*width: 95%;*/
-	min-width: 25%;
+	float: left;
 	/**max-width: 95%;*/
-	margin-top: 10px;
-	margin-bottom: 10px;
-	width: auto;
+	margin-left: 5%;
+	margin-right: 5%;
+	width: 40%;
 }
 
 .box div{

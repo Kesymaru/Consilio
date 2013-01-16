@@ -616,7 +616,7 @@ function HabilitarContent(){
 }
 
 /********************** MANSORY **********/
-
+/*
 function Box(){
 
 	$('.datos').masonry({
