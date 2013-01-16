@@ -66,13 +66,15 @@ function logIn(){
 				if(response.length <= 3){
 					top.location.href = 'index.php';
 				}else{
-				    notificaError(response);
+				    notificaIntento(response);
 				}
+			},
+			fail: function(response){
+				notificaError("Error: AJAX fail login.js logIN().<br/>"+response);
 			}
 		});
 	}else{
-		console.log('Datos no validos');
-		notificaError('Datos no validos.')
+		notificaIntento('Datos no validos.')
 	}
 }
 
@@ -122,11 +124,11 @@ function resetar(){
 
 	//muestra errores
 	if(usuario != '' && email != '' && !reseteado ){
-		notificaError('Error usuario y email no registrados.');
+		notificaIntento('Error usuario y email no registrados.');
 	}else if(usuario != '' && !reseteado ){
-		notificaError('Error usuario no registrado.');
+		notificaIntento('Error usuario no registrado.');
 	}else if(email != '' && !reseteado ){
-		notificaError('Error email no registrado.');
+		notificaIntento('Error email no registrado.');
 	}
 
 }
@@ -162,10 +164,13 @@ function registro(){
 				    notificaError(response);
 				}
 				        
+			},
+			fail: function(response){
+				notificaError("Error: AJAX fail login.js registro().<br/>"+response);
 			}
 		});
 	}else{
-		notificaError('Error datos invalidos.')
+		notificaIntento('Error datos invalidos.')
 	}
 }
 
@@ -235,5 +240,21 @@ function notificaAtencion(text) {
   	setTimeout(function (){
 		n.close();
 	},10000);
+}
+
+//nNOTIFICACION PARA INTENTO FALLIDO
+function notificaIntento(text) {
+  	var n = noty({
+  		text: text,
+  		type: 'error',
+    	dismissQueue: true,
+  		layout: 'topCenter',
+  		closeWith: ['button'], // ['click', 'button', 'hover']
+  	});
+  	
+  	//tiempo para desaparecerlo solo 
+  	setTimeout(function (){
+		n.close();
+	},7000);
 }
 

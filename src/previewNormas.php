@@ -1,3 +1,12 @@
+<?php
+
+/**
+ * MUESTRA PREVIEW DE LAS NORMAS INCLUIDAS EN UN PROYECTO
+ * DOBLE CLICK EN AL NORMA MUESTRA LOS ARTICULOS DE ESTA
+ */
+
+?>
+
 <html>
 <head>
 	<meta charset="utf-8">
