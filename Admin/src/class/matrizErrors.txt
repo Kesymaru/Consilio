@@ -82,3 +82,63 @@ Usuarios.php DeleteAdmin().
 	JAVASCRIPT: 1
 	January 15 2013 - 2:25 pm
  --------------------<>--------------------
+
+ 
+El usuario o la contraseña es incorrecta
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 15 2013 - 2:37 pm
+ --------------------<>--------------------
+
+ 
+El usuario o la contraseña es incorrecta
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 15 2013 - 2:37 pm
+ --------------------<>--------------------
+
+ 
+El usuario o la contraseña es incorrecta
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 15 2013 - 2:37 pm
+ --------------------<>--------------------
+
+ 
+El usuario o la contraseña es incorrecta
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 15 2013 - 3:07 pm
+ --------------------<>--------------------

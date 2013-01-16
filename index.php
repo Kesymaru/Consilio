@@ -36,6 +36,7 @@ $master = new Master();
 	<link rel="stylesheet" type="text/css" href="css/selector/jquery.multiselect.css">
 	<link rel="stylesheet" type="text/css" href="css/selector/jquery.multiselect.filter.css">
 	<link rel="stylesheet" type="text/css" href="fancybox/jquery.fancybox.css">
+	<link rel="stylesheet" type="text/css" href="css/jquery.gridster.css">
 
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800italic,800,600,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
 
@@ -73,6 +74,8 @@ $master = new Master();
 	<script type="text/javascript" src="js/jquery.cookie.js"></script>
 	<script type="text/javascript" src="js/jquery.contextMenu.js"></script>
 	<script type="text/javascript" src="fancybox/jquery.fancybox.js"></script>
+	<script type="text/javascript" src="js/jquery.masonry.min.js"></script>
+	<script type="text/javascript" src="js/jquery.gridster.js"></script>
 
 	<!-- plugin para selector -->
 	<script type="text/javascript" src="js/selector/jquery.multiselect.js"></script>
@@ -131,6 +134,7 @@ $master = new Master();
 		<div class="toolbar">
 			<div id="toolbarMenu">
 				<div id="menuUsuario">
+					<img class="icon" src="images/user.png" />
 					<?php
 						echo $_SESSION['cliente_nombre'];
 					?>
@@ -142,6 +146,7 @@ $master = new Master();
 				</div>
 
 				<div id="menuProyectos">
+					<img class="icon" src="images/list.png" />
 					Proyectos
 					<ul class="dropMenu">
 						<?php
@@ -154,7 +159,7 @@ $master = new Master();
 			<!-- end opciones de menu -->
 			<div id="search">
 				<form id="searchForm" method="get" action="index.php">
-					<input type="text" class="validate[required]" data-prompt-position="bottomRight" placeholder="hacer busqueda" required="requiered" name="buscar">
+					<input type="text" class="validate[required]" data-prompt-position="bottomRight" placeholder="hacer busqueda..." required="requiered" name="buscar">
 					<input type="submit" name="accion">
 				</form>
 			</div>

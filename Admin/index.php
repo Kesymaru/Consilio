@@ -137,6 +137,7 @@ $master = new Master();
 		<div class="toolbar">
 			<div id="toolbarMenu">
 				<div id="menuUsuario">
+					<img class="icon" src="images/user.png" />
 					<?php
 						echo $_SESSION['nombre'];
 					?>
@@ -147,6 +148,7 @@ $master = new Master();
 					</ul>
 				</div>
 				<div id="menuEdicion">
+					<img class="icon" src="images/edit.png" />
 					Edicion
 					<ul class="dropMenu">
 						<?php
@@ -155,6 +157,7 @@ $master = new Master();
 					</ul>
 				</div>
 				<div id="menuClientes">
+					<img class="icon" src="images/adress.png" />
 					Clientes
 					<ul class="dropMenu">
 						<?php
@@ -163,6 +166,7 @@ $master = new Master();
 					</ul>
 				</div>
 				<div id="menuProyectos">
+					<img class="icon" src="images/list.png" />
 					Proyectos
 					<ul class="dropMenu">
 						<?php

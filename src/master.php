@@ -20,6 +20,14 @@ class Master{
 		$session->Logueado();
 	}
 
+	/**
+	* BUSQUEDA PARA UN CLIENTE
+	* PERMITE LA BUSQUEDA DE PROYECTOS, NORMAS Y LEYES
+	*/
+	public function Buscar($busqueda){
+
+	}
+
 	//busca en proyectos, presenta solo los del cliente logueado
 	private function BuscarProyectos($busqueda){
 		$contador = 0;
@@ -54,10 +62,9 @@ class Master{
 	public function MenuCliente(){
 		$cliente = new Cliente();
 
-		/*echo '<li onClick="editar();"><img src="';
-		echo $admin->getAdminDato("imagen");
-		echo '" /></li>';/*/
+		//$imagen = $cliente->getClienteDato("imagen", $_SESSION['cliente_id']);
 
+		//echo '<li class="user-imge"><img src="'.$_SESSION['datos'].$imagen.'" /></li>';
 		echo '<li onClick="LogOut();">Salir</li>';
 
 	}

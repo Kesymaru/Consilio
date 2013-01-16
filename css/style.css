@@ -191,8 +191,7 @@ select{
 .datos{
 	width: 100%;
 	margin: 0 auto;
-	padding-top: 10px;
-	margin-top: 10px;
+	
 	font-size: 18px;
 }
 
@@ -567,7 +566,7 @@ select{
 	vertical-align: middle;
 	border-radius: 5px;
 	cursor: pointer;
-	padding-right: 2px;
+	paddtoolbarMenuing-right: 2px;
 	padding-left: 2px;
 }
 
@@ -580,6 +579,12 @@ select{
 	min-width: 120px;
 }
 
+#toolbarMenu .icon{
+	float: left;
+	margin: 0;
+	height: 20px;
+}
+
 #toolbarMenu .seleccionado{
 	background-color: #a1ca4a !important;
 	color: #fff;
@@ -589,12 +594,13 @@ select{
 	z-index: 999;
 	position: absolute;
 	padding: 0;
-	min-width: 100px;
+	min-width: 120px;
 	margin-top: 15px;
 	box-shadow: 0 15px 30px #dedede;
+	font-size: 18px;
 }
 
-
+/*
 .dropMenu:before {
   content: '';
   width: 0px;
@@ -609,11 +615,12 @@ select{
   margin-bottom: -1px;
   z-index: 1000;
 }
-
+*/
 .dropMenu li{
-	width: 120px;
+	min-width: 120px;
+	max-width: 250px;
 	display: block;
-	padding: 10px;
+	padding: 5px;
 	background-color: #fff;
 	border: 1px solid #dedede;
 	color: #747273;
@@ -623,20 +630,9 @@ select{
 	background-color: #a1ca4a; 
 }
 
-/* imagen del usuario */
-.dropMenu img{
-	width: 100px;
-}
 
-.dropMenu button{
-	font-size: 12px;
-	border: 0;
-
-		-ms-box-shadow: none; /* IE 9 */
-		-moz-box-shadow: none; /* Firefox */
-		-webkit-box-shadow: none; /* Safari and Chrome */
-		-o-box-shadow: none; /* Opera */
-	box-shadow: none;
+.dropMenu .user-imge img{
+	width: 100%;
 }
 
 /* search */
@@ -680,7 +676,7 @@ select{
 	padding: 0 !important;
 	margin-right: 0 !important;
 	color: #fff !important;
-	background-color: #a1ca4a !important;
+	background-color: #a0ca49 !important;
 	font-size: 20px;
 
 		-o-box-shadow: none; /* Opera */
@@ -729,19 +725,8 @@ select{
 	border: 0 solid transparent !important;
 	border-left: 1px solid #fff !important;
 	color: transparent !important; 
-	background-color: transparent !important;
+	background: url(../images/search.png) 10px 0 no-repeat;;
 	padding: 0;
-}
-
-.search img{
-	height: 25px;
-	border: 0 solid transparent !important;
-	border-left: 1px solid #fff !important;
-	color: transparent !important; 
-	background-color: transparent !important;
-	padding: 0;
-	float: right;
-	cursor: pointer;
 }
 
 .search input[type="submit"],
@@ -852,11 +837,15 @@ select{
 * BOXES
 */
 .box{
-	margin: 0 auto;
+	/*margin: 10px auto;*/
 	border: 1px solid #dedede;
 	border-radius: 5px;
-	width: 95%;
-	margin: 10px auto;
+	/*width: 95%;*/
+	min-width: 25%;
+	/**max-width: 95%;*/
+	margin-top: 10px;
+	margin-bottom: 10px;
+	width: auto;
 }
 
 .box div{
@@ -866,8 +855,9 @@ select{
 }
 
 .box .dato{
-	width: 90%;
-	margin: 10px auto;
+	width: auto;
+	max-width: 100%;
+	margin: 10px 10px;
 }
 
 .box .dato-titulo{

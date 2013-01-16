@@ -96,7 +96,7 @@ function CategoriasRoot($proyecto){
 				}
 			}
 		}else{
-			$lista .= '<li>No hay datos</li>';
+			$lista .= '<li></li>';
 		}
 
 		$lista .= '</ul>';
@@ -234,7 +234,8 @@ function DatosArticulo($id){
 	$lista = '<div id="datos-articulo">
 				<div class="titulo">
 					Datos
-			  	</div>';
+			  	</div>
+			  	<div class="datos">';
 
 	if(!empty($datos)){
 		foreach ($datos as $fila => $articulo) {
@@ -251,7 +252,7 @@ function DatosArticulo($id){
 						continue;
 					}
 
-					$lista .= '<div class="box">
+					$lista .= '<div class="box" >
 									<div class="dato-titulo">
 										'.$dato.'
 									</div>
@@ -299,7 +300,7 @@ function DatosArticulo($id){
 		$archivos = $registros->getArchivosArticulo($articulo['id']);
 
 		if(!empty($archivos)){
-			$lista .= '<div class="box">
+			$lista .= '<div class="box" >
 								<div class="dato-titulo">
 									Adjuntos
 								</div>
@@ -318,10 +319,13 @@ function DatosArticulo($id){
 						</div>';
 		}
 		
-		$lista .= '<div id="datos-footer">
+		$lista .= '</div><!-- end datos cargados -->
+					</div><!-- end datos -->
+
+					<div id="datos-footer">
 						Última Actualización '.date("m d Y - g:i a").'
 					</div>
-					</div><!-- end datos cargados -->
+
 					</div><!-- end datos-articulo -->';
 
 	}else{

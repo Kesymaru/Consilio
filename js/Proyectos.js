@@ -328,6 +328,8 @@ function DatosArticulo(id){
 				$("#content").html(response);
 				$("#datos-articulo").hide()
 				$("#datos-articulo").fadeIn();
+				Menu2();
+				//Box();
 			}else{
 				notificaError("Error: "+response);
 			}

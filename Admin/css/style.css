@@ -607,6 +607,12 @@ select{
 	min-width: 120px;
 }
 
+#toolbarMenu .icon{
+	float: left;
+	margin: 0;
+	height: 20px;
+}
+
 #toolbarMenu .seleccionado{
 	background-color: #a1ca4a !important;
 	color: #fff;
@@ -756,19 +762,8 @@ select{
 	border: 0 solid transparent !important;
 	border-left: 1px solid #fff !important;
 	color: transparent !important; 
-	background-color: transparent !important;
+	background: url(../images/search.png) 10px 0 no-repeat;;
 	padding: 0;
-}
-
-.search img{
-	height: 25px;
-	border: 0 solid transparent !important;
-	border-left: 1px solid #fff !important;
-	color: transparent !important; 
-	background-color: transparent !important;
-	padding: 0;
-	float: right;
-	cursor: pointer;
 }
 
 .search input[type="submit"],

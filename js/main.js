@@ -220,7 +220,10 @@ function Menu2(){
 	    		$("#menu2").css({
 					"display" : "block",
 					"opacity" : "1"
-				})
+				});
+				if($(".datos").is(":visible")){
+					Box();
+				}
 	    	}
 	    });
 
@@ -239,7 +242,10 @@ function Menu2(){
 	    		$("#menu2").css({
 					"display": "none",
 					"width"  : "0"
-				})
+				});
+				if($(".datos").is(":visible")){
+					Box();
+				}
 	    	}
 	    });
 	}
@@ -608,3 +614,36 @@ function HabilitarContent(){
 	//$('#content *').prop('disabled', false);
 	$(".content-disable").remove();
 }
+
+/********************** MANSORY **********/
+
+function Box(){
+
+	$('.datos').masonry({
+	  gutterWidth: 20,
+	  isAnimated: true,
+	  itemSelector: '.box',
+	  columnWidth: function( containerWidth ) {
+
+		if(containerWidth <= 1000 ){
+	  		return containerWidth / 1;
+	  	}else{
+	  		return containerWidth / 2;
+	  	}
+	  },
+	  animationOptions: {
+	    duration: 700
+	  },
+	  isResizable: true,
+	  isFitWidth: true
+	});
+
+}
+/*
+function Box(){
+	$(".datos .box").gridster({
+        widget_margins: [10, 10],
+        widget_base_dimensions: [140, 140],
+        min_cols: 6
+    });
+}*/
