@@ -74,13 +74,13 @@ function Proyectos(){
 				<div class="titulo">
 					Proyectos
 			  		<button class="boton-buscar" type="button" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-proyectos\', \'buscar-proyectos\', \'proyectos\', false)">Buscar</button>
-					<hr>
-					<div class="busqueda" id="busqueda-proyectos">
-						<div class="buscador">
-							<input type="search" title="Escriba Para Buscar Proyectos" id="buscar-proyectos" placeholder="Buscar Proyectos"/>
-						</div>
+			  	</div>
+
+			  	<div class="busqueda" id="busqueda-proyectos">
+					<div class="buscador">
+						<input type="search" title="Escriba Para Buscar Proyectos" id="buscar-proyectos" placeholder="Buscar Proyectos"/>
 					</div>
-			  	</div>';
+				</div>';
 
 	if(!empty($datos)){
 
@@ -120,14 +120,14 @@ function ProyectosAvance(){
 	$lista = '<div id="proyectos" class="tipos">
 				<div class="titulo">
 					Proyectos
-			  		<button type="button" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-proyectos\', \'buscar-proyectos\', \'proyectos\', true)">Buscar</button>
-					<hr>
-					<div class="busqueda" id="busqueda-proyectos">
-						<div class="buscador">
-							<input type="search" title="Escriba Para Buscar Proyectos" id="buscar-proyectos" placeholder="Buscar Proyectos"/>
-						</div>
+			  		<button class="boton-buscar" type="button" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-proyectos\', \'buscar-proyectos\', \'proyectos\', true)">Buscar</button>
+			  	</div>
+
+			  	<div class="busqueda" id="busqueda-proyectos">
+					<div class="buscador">
+						<input type="search" title="Escriba Para Buscar Proyectos" id="buscar-proyectos" placeholder="Buscar Proyectos"/>
 					</div>
-			  	</div>';
+				</div>';
 
 	if(!empty($datos)){
 		$lista .= '<table id="proyectos" class="table-list">
@@ -201,7 +201,6 @@ function NuevoProyecto(){
 					<div class="proyectos">
 						<div class="titulo">
 							Edición Nuevo Proyecto
-					  		<hr>
 					  	</div>
 					  	<input type="hidden" name="func" value="RegistrarProyecto" />
 
@@ -274,7 +273,6 @@ function EditarProyecto($id){
 					<div class="proyectos">
 						<div class="titulo">
 							Edición Proyecto
-					  		<hr>
 					  	</div>
 					  	<input type="hidden" name="func" value="ActualizarProyecto" />
 					  	<input type="hidden" name="proyecto" value="'.$id.'" id="proyecto" />

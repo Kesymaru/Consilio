@@ -62,13 +62,12 @@ function Tipos(){
 				<div class="titulo">
 					Tipos Norma
 			  		<button class="boton-buscar" type="button" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-tipos\', \'buscar-tipos\', \'tipos\', false)">Buscar</button>
-					<hr>
-					<div class="busqueda" id="busqueda-tipos">
-						<div class="buscador">
-							<input type="search" title="Escriba Para Buscar Tipos" id="buscar-tipos" placeholder="Buscar Tipos"/>
-						</div>
+			  	</div>
+			  	<div class="busqueda" id="busqueda-tipos">
+					<div class="buscador">
+						<input type="search" title="Escriba Para Buscar Tipos" id="buscar-tipos" placeholder="Buscar Tipos"/>
 					</div>
-			  	</div>';
+				</div>';
 
 	if(!empty($tipos)){
 
@@ -104,7 +103,6 @@ function NuevoTipo(){
 					<div id="tipos" class="tipos">
 						<div class="titulo">
 							Nuevo Tipo
-					  		<hr>
 					  	</div>
 					  	<input type="hidden" name="func" value="RegistrarTipo" />
 
@@ -160,7 +158,6 @@ function EditarTipo($id){
 					<div id="tipos" class="tipos">
 						<div class="titulo">
 							Edicion Tipo de Norma
-					  		<hr>
 					  	</div>
 					  	<input type="hidden" name="func" value="ActualizarTipo" />
 					  	<input type="hidden" id="tipo" name="tipo" value="'.$id.'" />

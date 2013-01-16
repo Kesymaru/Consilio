@@ -8,6 +8,11 @@ function Admin(){
 	if(!$("#menu").is(":visible")){
 		ActivaMenu();
 	}
+	
+	if($("#menu2").is(":visible")){
+		Menu2();
+	}
+
 	if($("#content").html() != ""){
 		LimpiarContent();
 	}

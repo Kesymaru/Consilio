@@ -107,7 +107,6 @@ function Padres(){
 	echo '<div id="categorias">
 				<div class="titulo">
 					Categorias
-					<hr>
 				  </div>';
 	echo '<div class="root" id="Padre0">';
 
@@ -206,7 +205,6 @@ function NormasCategoria($categoria){
 					<div id="tipos" class="tipos">
 						<div class="titulo">
 							Normas de '.$nombre.'
-					  		<hr>
 					  	</div>
 					  	<input type="hidden" name="func" value="ActualizarCategoria" />
 					  	<input type="hidden" id="categoria" name="categoria" value="'.$categoria.'" />
@@ -371,7 +369,6 @@ function EditarCategoria($id){
 						<div id="tipos" class="tipos">
 							<div class="titulo">
 								Edicion '.$titulo.'
-						  		<hr>
 						  	</div>
 						  	<input type="hidden" name="func" value="ActualizarDatosCategoria" />
 						  	<input type="hidden" id="categoria" name="categoria" value="'.$id.'" />
@@ -406,7 +403,6 @@ function EditarCategoria($id){
 		$formulario .= '<div id="tipos" class="tipos">
 							<div class="titulo">
 								Error Cateogria
-						  		<hr>
 						  	</div>
 						  	<div class="datos error" >
 						  		Categoria no encontrada.<br/>
@@ -484,7 +480,6 @@ function NuevaCategoria($padre){
 					<div id="tipos" class="tipos">
 						<div class="titulo">
 						Nueva '.$titulo.'
-						<hr>
 					</div>
 					  	<input type="hidden" name="func" value="RegistrarCategoria" />
 					  	<input type="hidden" id="padre" name="padre" value="'.$padre.'" />

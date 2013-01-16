@@ -68,13 +68,13 @@ function Clientes(){
 				<div class="titulo">
 					Clientes
 			  		<button class="boton-buscar" type="button" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-clientes\', \'buscar-clientes\', \'clientes\', false)">Buscar</button>
-					<hr>
-					<div class="busqueda" id="busqueda-clientes">
-						<div class="buscador">
-							<input type="search" title="Escriba Para Buscar" id="buscar-clientes" placeholder="Buscar"/>
-						</div>
+			  	</div>
+
+			  	<div class="busqueda" id="busqueda-clientes">
+					<div class="buscador">
+						<input type="search" title="Escriba Para Buscar" id="buscar-clientes" placeholder="Buscar"/>
 					</div>
-			  	</div>';
+				</div>';
 
 	if(!empty($clientes)){
 
@@ -119,7 +119,6 @@ function EditarCliente($id){
 					<div class="clientes">
 						<div class="titulo">
 							Edición Cliente
-					  		<hr>
 					  	</div>
 					  	<input type="hidden" name="func" value="ActualizarCliente" />
 					  	<input type="hidden" id="cliente-id" name="cliente-id" value="'.$id.'" />
@@ -216,7 +215,6 @@ function NuevoCliente(){
 					<div class="clientes">
 						<div class="titulo">
 							Edición Nuevo Cliente
-					  		<hr>
 					  	</div>
 					  	<input type="hidden" name="func" value="RegistrarCliente" />
 

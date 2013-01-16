@@ -65,7 +65,7 @@ function Categorias($proyecto){
 				<div class="titulo">
 					Categorias
 					<button id="incluir-categorias" title="Incluir Categorias Seleccionadas" type="button" onClick="GuardarCategorias()">Incluir</button>
-					<hr>
+
 				  </div>';
 
 	echo '<div class="root" id="Padre0">';
@@ -165,7 +165,7 @@ function ComponerProyecto($id){
 				<div class="titulo">
 					'.$proyecto[0]['nombre'].'
 					<button class="boton-buscar" type="button" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-categorias\', \'buscar-categorias\', \'categorias-incluidas\', false)">Buscar</button>
-					<hr>
+
 					<div class="busqueda" id="busqueda-categorias">
 						<div class="buscador">
 							<input type="search" title="Escriba Para Buscar Categorias Incluidas" id="buscar-categorias" placeholder="Buscar Categorias Incluidas"/>
@@ -190,7 +190,7 @@ function ComponerProyecto($id){
 				<div class="titulo">
 					Proyecto No encontrado
 			  		<button type="button" title="Buscar Proyectos" onClick="BuscarContent(\'buscar-Proyectos\')">Buscar</button>
-					<hr>
+			  		
 					<div class="busqueda">
 						<input type="text" title="Escriba Para Buscar Proyectos Por Nombre, Estado o Cliente" id="buscar-Proyectos" placeholder="Buscar"/>
 					</div>

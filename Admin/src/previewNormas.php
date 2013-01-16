@@ -100,10 +100,10 @@ function Normas($categoria, $proyecto){
 			<div class="titulo">
 
 				<input type="hidden" name="proyecto" id="proyecto" value="'.$proyecto.'" />
-				<button type="button" class="atras" onClick="Cambio()">Atras</button>
+				<button type="button" class="izquierda" onClick="Cambio()">Atras</button>
 				'.$categoriaDatos[0]['nombre'].'
-				<button type="button" class="siguiente" onClick="Articulos()">Siguiente</button>
-				<hr>
+				<button type="button" class="derecha" onClick="Articulos()">Siguiente</button>
+				
 				
 			</div>
 			<div class="datos-preview">';
@@ -113,15 +113,17 @@ function Normas($categoria, $proyecto){
 			    <input type="hidden" name="func" value="RegistrarArticulos" />
 			  	<input type="hidden" id="articulos_proyecto" name="proyecto" value="" />
 			  	<input type="hidden" id="articulos_norma" name="norma" value="" />
+			  	<div class="subtitulo">
+				  		Articulos
 
-			  		Articulos
-					<button class="boton-buscar" type="button" title="Buscar Articulos" onClick="Busqueda(\'busqueda-articulos\', \'buscar-articulos\', \'articulos\', false)">Buscar</button>
-					
+						<button class="boton-buscar" type="button" title="Buscar Articulos" onClick="Busqueda(\'busqueda-articulos\', \'buscar-articulos\', \'articulos\', false)">Buscar</button>
+				</div>		
 					<div class="busqueda" id="busqueda-articulos">
 						<div class="buscador">
 							<input type="search" title="Escriba Para Buscar Normas" id="buscar-articulos" placeholder="Buscar Articulos"/>
 						</div>
 					</div>
+
 					<ul id="articulos-list">
 						<li>No hay Articulos</li>
 					</ul>
@@ -149,8 +151,10 @@ function Normas($categoria, $proyecto){
 					<input type="hidden" id="normas_categoria" name="categoria" value="'.$categoria.'" />
 					<input type="hidden" id="normas_proyecto" name="proyecto" value="'.$proyecto.'" />
 
-					Normas
-					<button class="boton-buscar" type="button" title="Buscar Normas" onClick="Busqueda(\'busqueda-normas\', \'buscar-normas\', \'normas\', false)">Buscar</button>
+					<div class="subtitulo">
+						Normas
+						<button class="boton-buscar" type="button" title="Buscar Normas" onClick="Busqueda(\'busqueda-normas\', \'buscar-normas\', \'normas\', false)">Buscar</button>
+					</div>
 
 					<div class="busqueda" id="busqueda-normas">
 						<div class="buscador">
@@ -205,8 +209,11 @@ function Normas($categoria, $proyecto){
 					<input type="hidden" id="normas_categoria" name="categoria" value="'.$categoria.'" />
 					<input type="hidden" id="normas_proyecto" name="proyecto" value="'.$proyecto.'" />
 
-					Normas
-					<button class="boton-buscar" type="button" title="Buscar Normas" onClick="Busqueda(\'busqueda-normas\', \'buscar-normas\', \'normas\', false)">Buscar</button>
+					<div class="subtitulo">
+						<button class="izquierda" type="button" onClick="SelectAllNormas()">Todo</button>
+						Normas
+						<button class="boton-buscar" type="button" title="Buscar Normas" onClick="Busqueda(\'busqueda-normas\', \'buscar-normas\', \'normas\', false)">Buscar</button>
+					</div>
 
 					<div class="busqueda" id="busqueda-normas">
 						<div class="buscador">
@@ -317,7 +324,7 @@ function Articulos($proyecto, $norma){
 		}
 
 	}else{
-		
+
 		//no hay incluidas
 		if(!empty($datos)){
 

@@ -74,13 +74,12 @@ function Entidades(){
 				<div class="titulo">
 					Entidades
 			  		<button type="button" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-entidades\', \'buscar-entidades\', \'entidades\', false)">Buscar</button>
-					<hr>
-					<div class="busqueda" id="busqueda-entidades">
-						<div class="buscador">
+			  	</div>
+			  	<div class="busqueda" id="busqueda-entidades">
+					<div class="buscador">
 							<input type="search" title="Escriba Para Buscar Entidades" id="buscar-entidades" placeholder="Buscar Entidades"/>
-						</div>
 					</div>
-			  	</div>';
+				</div>';
 
 	if(!empty($entidades)){
 		$lista .= '<ul>';
@@ -123,7 +122,6 @@ function NuevoGrupo(){
 					<div id="tipos" class="tipos">
 						<div class="titulo">
 							Nuevo Grupo de Entidades
-					  		<hr>
 					  	</div>
 					  	<input type="hidden" name="func" value="RegistrarGrupo" />
 					  	<div class="datos">
@@ -158,7 +156,6 @@ function NuevaEntidad(){
 					<div id="tipos" class="tipos">
 						<div class="titulo">
 							Nueva Entidad
-					  		<hr>
 					  	</div>
 					  	<input type="hidden" name="func" value="RegistrarEntidad" />
 					  	<div class="datos">
@@ -204,7 +201,6 @@ function EditarEntidad($id){
 						<div id="tipos" class="tipos">
 							<div class="titulo">
 								Edicion Entidad
-						  		<hr>
 						  	</div>
 						  	<input type="hidden" name="func" value="ActualizarEntidad" />
 						  	<input type="hidden" name="id" value="'.$id.'" />

@@ -122,13 +122,13 @@ function Normas(){
 		  	<div class="titulo">
 				Normas
 				<button class="boton-buscar" type="button" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-normas\', \'buscar-normas\', \'normas\', false)">Buscar</button>
-				<hr>
-				<div class="busqueda" id="busqueda-normas">
-					<div class="buscador">
-						<input type="search" title="Escriba Para Buscar Normas" id="buscar-normas" placeholder="Buscar Normas"/>
-					</div>
+		  	</div>
+
+		  	<div class="busqueda" id="busqueda-normas">
+				<div class="buscador">
+					<input type="search" title="Escriba Para Buscar Normas" id="buscar-normas" placeholder="Buscar Normas"/>
 				</div>
-		  	</div>';
+			</div>';
 	echo '<div class="root2" id="PadreNormas">';
 
 	$registros = new Registros();
@@ -179,7 +179,6 @@ function EditarNorma($norma){
 
 		$formulario .= '<div class="titulo">
 							Edicion Norma
-							<hr>
 						</div>
 						<form id="FormularioNorma" enctype="multipart/form-data" method="post" action="src/ajaxNormas.php">
 							<div class="datos">
@@ -267,7 +266,6 @@ function NuevaNorma(){
 	$formulario = "";
 	$formulario .= '<div class="titulo">
 						Nueva Norma
-						<hr>
 					</div>
 					<form id="FormularioNuevaNorma" enctype="multipart/form-data" method="post" action="src/ajaxNormas.php">
 							<div class="datos">
@@ -340,7 +338,6 @@ function NuevaNorma(){
 	}else{
 		$error = '<div class="titulo">
 						Error
-						<hr>
 					</div>
 					<div class="datos error">
 						<p>
@@ -484,13 +481,14 @@ function Articulos($norma){
 					  <div class="titulo">
 					  	Articulos de '.$registros->getDatoNorma("nombre", $norma).' '.$registros->getDatoNorma("numero", $norma).'
 					  	<button class="boton-buscar" type="button" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-articulos\', \'buscar-articulos\', \'articulos\', false)">Buscar</button>
-						<hr>
-						<div class="busqueda" id="busqueda-articulos">
+					  </div>
+
+					  <div class="busqueda" id="busqueda-articulos">
 							<div class="buscador">
 								<input type="search" title="Escriba Para Buscar Articulos" id="buscar-articulos" placeholder="Buscar Articulos"/>
 							</div>
-						</div>
-					  </div>
+					   </div>
+
 				      <ul>';
 
 		//carga la lista
@@ -503,7 +501,6 @@ function Articulos($norma){
 		$lista .= '<div id="articulos" class="'.$visibilidad.'">
 					  <div class="titulo">
 					  	Articulos de '.$registros->getDatoNorma("nombre", $norma).' '.$registros->getDatoNorma("numero", $norma).'
-					  	<hr>
 					  </div>
 					  No hay articulos.
 					  <br/>';
@@ -523,7 +520,6 @@ function NuevoArticulo($norma){
 	$formulario = "";
 	$formulario .= '<div class="titulo">
 						Nuevo Articulo
-						<hr>
 					</div>
 					<form id="FormularioNuevoArticulo" enctype="multipart/form-data" method="post" action="src/ajaxNormas.php" >
 							<div class="datos">
@@ -718,7 +714,6 @@ function EdicionArticulo($articulo){
 
 		$formulario .= '<div class="titulo">
 							Edicion Articulo
-							<hr>
 						</div>
 						<form id="FormularioEditarArticulo" enctype="multipart/form-data" method="post" action="src/ajaxNormas.php" >
 								<div class="datos">

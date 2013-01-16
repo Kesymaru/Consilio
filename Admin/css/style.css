@@ -530,12 +530,21 @@ select{
 * TITULOS
 */
 
-.titulo{
-	display: block;
+.titulo,
+.subtitulo{
+	display: inline-block;
 	text-align: center;
 	font-size: 20px;
 	color: #747273;
-	padding: 0;
+	width: 100%;
+	border-bottom: 1px solid #dedede;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.subtitulo{
+	border-bottom: 1px solid #757273; /*para ie8*/
+	border-bottom: 1px solid rgba(117, 114, 115, .7);
 }
 
 .titulo hr{
@@ -1202,8 +1211,14 @@ select{
 /**
  * PREVIEW
  */
+ .preview{
+ 	width: 100%;
+ 	display: block;
+ 	border-collapse: collapse;
+ }
 .preview .datos-preview{
 	width: 100%;
+	display: block;
 }
 
 .preview .table-preview{
@@ -1216,37 +1231,44 @@ select{
 .preview .table-preview #articulos{
 	text-align: center;
 	font-size: 20px;
-	padding: 5px;
+	padding: 0;
 }
 
 .preview .table-preview #normas li,
 .preview .table-preview #articulos li{
-	padding: 5px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-bottom: 1px solid #dedede;
 }
 
 .preview .preview-botones{
 	width: 100%;
 	position: fixed;
-	bottom: 1px;
+	bottom: 0;
 	text-align: center;
+}
+
+.preview .titulo{
+	display: inline-block;
+	width: 100%;
+	border-bottom: 0px solid transparent !important;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-weight: bold;
 }
 
 /*
 	CONTROLES 
 */
-.topControls {
-	display: block;
-	text-align: center;
-	margin-top: 20px;
+.derecha,
+.boton-buscar{
+	float: right;
+	margin-right: 10px;
 }
 
-.topControls hr{
-	margin-top: -20px;
-	margin-bottom: 40px;
-	z-index: -3;
-	border: 1px solid rgba(117, 114, 115, 0.3);
-	vertical-align: middle;
-	width: 80%;
+.izquierda{
+	float: left;
+	margin-left: 10px;
 }
 
 /**

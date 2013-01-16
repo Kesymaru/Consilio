@@ -72,13 +72,13 @@ function Admins(){
 				<div class="titulo">
 					Administradores
 			  		<button class="boton-buscar" type="button" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-admins\', \'buscar-admins\', \'admins\', false)">Buscar</button>
-					<hr>
-					<div class="busqueda" id="busqueda-admins">
-						<div class="buscador">
-							<input type="search" title="Escriba Para Buscar Administradores" id="buscar-admins" placeholder="Buscar"/>
-						</div>
+			  	</div>
+
+			  	<div class="busqueda" id="busqueda-admins">
+					<div class="buscador">
+						<input type="search" title="Escriba Para Buscar Administradores" id="buscar-admins" placeholder="Buscar"/>
 					</div>
-			  	</div>';
+				</div>';
 
 	if(!empty($datos)){
 		$lista .= '<ul>';
@@ -124,7 +124,6 @@ function EditarAdmin($id){
 					<div class="clientes">
 						<div class="titulo">
 							Edición Admin
-					  		<hr>
 					  	</div>
 					  	<input type="hidden" name="func" value="ActualizarAdmin" />
 					  	<input type="hidden" id="admin-id" name="admin-id" value="'.$id.'" />
@@ -261,7 +260,6 @@ function NuevoAdmin(){
 					<div class="clientes">
 						<div class="titulo">
 							Edición Nuevo Admin
-					  		<hr>
 					  	</div>
 					  	<input type="hidden" name="func" value="RegistrarAdmin" />
 
