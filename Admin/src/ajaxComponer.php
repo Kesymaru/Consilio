@@ -164,10 +164,12 @@ function ComponerProyecto($id){
 		$lista = '<div id="proyectos" class="tipos">
 				<div class="titulo">
 					'.$proyecto[0]['nombre'].'
-			  		<button type="button" title="Buscar Proyectos" onClick="BuscarContent(\'buscar-Composicion\')">Buscar</button>
+					<button class="boton-buscar" type="button" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-categorias\', \'buscar-categorias\', \'categorias-incluidas\', false)">Buscar</button>
 					<hr>
-					<div class="busqueda">
-						<input type="text" title="Escriba Para Buscar." id="buscar-Composicion" placeholder="Buscar"/>
+					<div class="busqueda" id="busqueda-categorias">
+						<div class="buscador">
+							<input type="search" title="Escriba Para Buscar Categorias Incluidas" id="buscar-categorias" placeholder="Buscar Categorias Incluidas"/>
+						</div>
 					</div>
 			  	</div>';
 
@@ -340,7 +342,7 @@ function IncluirCategorias($proyecto, $categorias){
 		echo 'incluidas';
 
 	}else{
-		echo "<br/>Error: ajaxComponer.js IncluirCategorias() categorias o registros invalidos.";
+		echo "<br/>Error: ajaxComponer.php IncluirCategorias() categorias o registros invalidos.";
 	}
 
 }

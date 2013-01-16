@@ -1200,7 +1200,7 @@ select{
 }
 
 /**
- * 
+ * PREVIEW
  */
 .preview .datos-preview{
 	width: 100%;
@@ -1222,6 +1222,13 @@ select{
 .preview .table-preview #normas li,
 .preview .table-preview #articulos li{
 	padding: 5px;
+}
+
+.preview .preview-botones{
+	width: 100%;
+	position: fixed;
+	bottom: 1px;
+	text-align: center;
 }
 
 /*

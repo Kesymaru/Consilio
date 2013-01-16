@@ -344,7 +344,7 @@ function ComponerLimpiarCamino(padre){
 
 }
 
-/**************** CATEGORIAS INCLYUIDAS *********************/
+/**************** CATEGORIAS INCLUIDAS *********************/
 
 /**
  * SELECCIONA UNA CATEGORIA 
@@ -432,8 +432,9 @@ function ExcluirCategorias(){
 * @param id -> id de la categorias
 */
 function PreviewCategoriaNormas(id){
+	var proyecto = $("#proyecto").val();
 	$.fancybox({
-		'href'         : 'src/previewNormas.php?categoria='+id,
+		'href'         : 'src/previewNormas.php?categoria='+id+'&proyecto='+proyecto,
 		'width'        : '50%',
 		'height'       : '500',
 		'autoScale'    : false,

@@ -42,11 +42,49 @@ $(document).ready(function(){
 
 	$("#articulos").css("width","0");
 
-	$("#articulos, .siguiente, .atras").hide();
+	$("#articulos, .siguiente, .atras, #GuardarArticulos").hide();
+
+	//formularios
+	FormularioArticulos();
+	FormularioNormas();
 
 	//carga dobles clicks
 	NormaDobleClick();
 });
+
+/**
+* INCIALIZA EL FORMULARIO PARA LOS ARTICULOS
+*/
+function FormularioArticulos(){
+		
+	var options = {  
+		beforeSend: function(){
+		},
+	    success: function(response) { 
+		},
+		fail: function(){
+		}
+	}; 
+	$('#FormularioArticulos').ajaxForm(options);
+	
+}
+
+/**
+* INICIALIZA EL FORMULARIO PARA LAS NORMAS
+*/
+function FormularioNormas(){
+		
+	var options = {  
+		beforeSend: function(){
+		},
+	    success: function(response) { 
+		},
+		fail: function(){
+		}
+	}; 
+	$('#FormularioNormas').ajaxForm(options);
+	
+}
 
 /**
  * CARGA LA FUNCTION DE DOBLE CLICK PARA CADA NORMA
@@ -54,10 +92,19 @@ $(document).ready(function(){
 function NormaDobleClick(){
 	$("#normas li").each(function(f,c){
 
+		$("#"+this.id).click(function(){
+			SelectNormas(this.id);
+			return;
+		});
+
 		$("#"+this.id).dblclick(function(){
+			$("#normas #"+this.id).addClass("seleccionada");
+			$("#norma"+this.id).attr('checked', true);
 			Articulos(this.id);
 			return;
 		});
+
+
 
 	});
 }
@@ -69,18 +116,41 @@ function NormaDobleClick(){
 function SelectNormas(id){
 	if($("#normas #"+id).hasClass("seleccionada")){
 		$("#normas #"+id).removeClass("seleccionada");
+		$("#norma"+id).attr('checked', false);
 	}else{
 		$("#normas #"+id).addClass("seleccionada");
+		$("#norma"+id).attr('checked', true);
 	}
-	
-	//Cambio();
+}
+
+/**
+* SELECCIONA UN ARTICULO
+*/
+function SelectArticulo(id){
+	if($("#articulos #"+id).hasClass("seleccionada")){
+		$("#articulos #"+id).removeClass("seleccionada");
+		$("#articulo"+id).attr('checked', false);
+	}else{
+		$("#articulos #"+id).addClass("seleccionada");
+		$("#articulo"+id).attr('checked', true);
+	}
+
+
 }
 
 function Articulos(norma){
 
 	Cambio();
 
-	var queryParams = {"func" : "Articulos", "norma" : norma};
+	var proyecto = $("#proyecto").val();
+
+	var queryParams = {"func" : "Articulos", "norma" : norma, "proyecto" : proyecto};
+
+	$("#articulos_proyecto").val(proyecto);
+	$("#articulos_norma").val(norma);
+
+	console.log("norma: "+norma);
+	console.log("proyecto "+proyecto)
 
 	$.ajax({
 		data: queryParams,
@@ -119,8 +189,8 @@ function Cambio(){
 			});
 		});
 
-		$(".siguiente").fadeOut();
-		$(".atras").fadeIn();
+		$(".siguiente, #GuardarNormas").fadeOut();
+		$(".atras, #GuardarArticulos").fadeIn();
 
 	}else{
 
@@ -145,9 +215,24 @@ function Cambio(){
 
 		
 
-		$(".siguiente").fadeIn();
-		$(".atras").fadeOut();
+		$(".siguiente, #GuardarNormas").fadeIn();
+		$(".atras, #GuardarArticulos").fadeOut();
 	}
+}
+
+/**
+* GUARDA LAS SELECCIONES EN ARTICULOSs
+*/
+function GuardarArticulos(){
+	$("#FormularioArticulos").submit();
+}
+
+
+/**
+* GUARDA LAS SELECCIONES EN ARTICULOSs
+*/
+function GuardarNormas(){
+	$("#FormularioNormas").submit();
 }
 
 /**

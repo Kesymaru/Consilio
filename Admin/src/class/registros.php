@@ -123,6 +123,120 @@ class Registros{
 		}
 	}
 
+	/**
+	* OBTIENE LOS REGISTROS DE LAS NORMAS INCLUIDAS DE UNA CATGORIA
+	* @param $categoria -> id de la categoria
+	* @param $proyecto -> id del proyecto
+	* @return $datos -> array[][] con los datos
+	* @return false si  falla
+	*/
+	public function getRegistrosNorma($proyecto, $categoria){
+		$base = new Database();
+		$query = "SELECT * FROM registros_normas WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."'";
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			return $datos;
+		}else{
+			//no hay datos
+			return false;
+		}
+	}
+
+	/**
+	* REGISTRA SINO EXISTE O ACTUALIZA SI EXISTE NORMAS SELECCIONADAS
+	* @param $proyecto -> id del proyecto
+	* @param $categoria -> id de la categoria
+	* @param $registro -> array sin serializar
+	* @return true si se registra o actualiza
+	* @return false si fala
+	*/
+	public function RegistrarRegirstroNorma($proyecto, $categoria, $registro){
+		$base = new Database();
+		
+		$registro = serialize($registro);
+
+		$query = "SELECT * FROM registros_normas WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."'";
+
+		if($base->Existe($query)){
+			$query = "UPDATE registros_normas SET registro = '".$registro."' WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."'";
+
+			if($base->Update($query)){
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			$query = "INSERT INTO registros_normas ( proyecto, categoria, registro ) VALUES ";
+			$query .= "( '".$proyecto."', '".$categoria."', '".$registro."' )";
+
+			if($base->Insert($query)){
+				return true;
+			}else{
+				return false;
+			}
+		}
+
+	}
+
+	/**
+	* OBTIENE LOS REGISTROS DE LOS ARTICULOS INCLUIDOS DE UNA NORMA
+	* @param $proyecto -> id del proyecto
+	* @param $norma -> id de la norma
+	* @return $datos -> array[][] con los datos
+	* @return false si  falla
+	*/
+	public function getRegistrosArticulos($proyecto, $norma){
+		$base = new Database();
+		$query = "SELECT * FROM registros_articulos WHERE proyecto = '".$proyecto."' AND norma = '".$norma."'";
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			return $datos;
+		}else{
+			//no hay datos
+			return false;
+		}
+	}
+
+	/**
+	* REGISTRA SINO EXISTE O ACTUALIZA SI EXISTE
+	* @param $proyecto -> id del proyecto
+	* @param $norma -> id de la norma
+	* @param $registro -> array sin serializar
+	* @return true si se registra o actualiza
+	* @return false si fala
+	*/
+	public function RegistrarRegirstroArticulo($proyecto, $norma, $registro){
+		$base = new Database();
+		
+		$registro = serialize($registro);
+
+		$query = "SELECT * FROM registros_articulos WHERE proyecto = '".$proyecto."' AND norma = '".$norma."'";
+
+		if($base->Existe($query)){
+			$query = "UPDATE registros_articulos SET registro = '".$registro."' WHERE proyecto = '".$proyecto."' AND norma = '".$norma."'";
+
+			if($base->Update($query)){
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			$query = "INSERT INTO registros_articulos ( proyecto, norma, registro ) VALUES ";
+			$query .= "( '".$proyecto."', '".$norma."', '".$registro."' )";
+
+			if($base->Insert($query)){
+				return true;
+			}else{
+				return false;
+			}
+		}
+
+	}
+
 /************** OBSERVACIONES DE UNA CATEGORIA EN UN PROYECTO **************/
 
 	/**
