@@ -837,14 +837,13 @@ select{
 * BOXES
 */
 .box{
-	/*margin: 10px auto;*/
-	border: 1px solid #dedede;
-	border-radius: 5px;
-	float: left;
-	/**max-width: 95%;*/
-	margin-left: 5%;
-	margin-right: 5%;
-	width: 40%;
+	border: 1px solid #DEDEDE;
+    border-radius: 5px;
+    float: left;
+    margin-left: 3%;
+    margin-right: 3%;
+    margin-top: 20px;
+    width: 42%;
 }
 
 .box div{
@@ -868,12 +867,15 @@ select{
 	padding-top: 5px;
 	padding-bottom: 5px;
 	border-bottom: 1px solid #dedede;
+	text-transform: capitalize;
 }
 
 #datos-footer{
 	text-align: center;
 	margin-top: 20px;
 	margin-bottom: 20px;
+	width: 100%;
+	display: inline-block;
 }
 
 .box p{
