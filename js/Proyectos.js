@@ -256,7 +256,7 @@ function Normas(id){
 		}
 	});
 
-	/** NOMBRE DE LA CATEGORIA **/
+	/** NOMBRE DE LA CATEGORIA 
 	var queryParams = {"func" : "CategoriaNombre", "id" : id};
 
 	$.ajax({
@@ -276,7 +276,7 @@ function Normas(id){
 		fail: function(response){
 			notificaError("Error: AJAX fail Proyectos.js Normas()<br/>"+response);
 		}
-	});
+	});**/
 }
 
 /**
@@ -316,7 +316,7 @@ function Articulos(id){
 		}
 	});
 
-	/** NOMBRE DEL ARTIOCULO **/
+	/** NOMBRE DEL ARTIOCULO 
 	var queryParams = {"func" : "NormaNombre", "id" : id};
 
 	$.ajax({
@@ -336,7 +336,7 @@ function Articulos(id){
 		fail: function(response){
 			notificaError("Error: AJAX fail Proyectos.js Articulos()<br/>"+response);
 		}
-	});
+	});**/
 }
 
 
