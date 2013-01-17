@@ -229,9 +229,12 @@ function MenuComponer(m, id){
 		ExcluirCategorias();
 	}else if(m == 'clicked: incluir'){
 		GuardarCategorias();
-	}else if(m == 'clicked: ver'){
+	}else if(m == 'clicked: normas'){
 		//vista de normas
 		PreviewCategoriaNormas(id);
+	}
+	else if(m == 'clicked: observacion'){
+		Observacion(id);
 	}
 	else if(m == 'clicked: camino'){
 		CategoriaPath(id);
@@ -376,9 +379,9 @@ function MenuCategoriaIncluida(id){
         items: {
         	//"excluir": {name: "Excluir", icon: "delete"},
         	"excluir": {name: "Excluir Selecciones", icon: "delete", accesskey: "x"},
-            "ver": {name: "Ver", icon: "edit", accesskey: "v"},
+            "normas": {name: "Seleccionar Normas", icon: "edit", accesskey: "s"},
+            "observacion": {name: "Observacion", icon: "edit"},
             "camino": {name: "Ver camino", icon: "edit", accesskey: "c"},
-            //"eliminar": {name: "Eliminar", icon: "delete"},
         }
     });
 }
@@ -442,5 +445,24 @@ function PreviewCategoriaNormas(id){
 		'transitionOut': 'elastic',
 		'type'         : 'iframe',
 		'title'        : 'Normas'
+   });
+}
+
+/**
+* MUSTRA LAS OBSERVACIONES DE LA CATEGORIA INCLUIDA
+* @param id -> id de la categorias
+*/
+function Observacion(id){
+	var proyecto = $("#proyecto").val();
+
+	$.fancybox({
+		'href'         : 'src/observaciones.php?categoria='+id+'&proyecto='+proyecto,
+		'width'        : '70%',
+		'height'       : '500',
+		'autoScale'    : false,
+		'transitionIn' : 'fade',
+		'transitionOut': 'elastic',
+		'type'         : 'iframe',
+		'title'        : 'Observaciones'
    });
 }

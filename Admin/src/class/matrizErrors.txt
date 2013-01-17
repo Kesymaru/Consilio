@@ -1,0 +1,81 @@
+
+
+Error:  
+func
+
+
+	Sitio: Admin
+	Usuario: Andrey
+	ID: 1
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 17 2013 - 12:39 pm
+ --------------------<>--------------------
+
+Error:  
+func
+
+
+	Sitio: Admin
+	Usuario: Andrey
+	ID: 1
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 17 2013 - 12:39 pm
+ --------------------<>--------------------
+
+Error: No   
+func
+
+
+	Sitio: Admin
+	Usuario: Andrey
+	ID: 1
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 17 2013 - 12:40 pm
+ --------------------<>--------------------
+
+Error: No   
+func
+
+
+	Sitio: Admin
+	Usuario: Andrey
+	ID: 1
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 17 2013 - 12:40 pm
+ --------------------<>--------------------
+
+Error: No   
+
+
+
+	Sitio: Admin
+	Usuario: Andrey
+	ID: 1
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 17 2013 - 12:40 pm
+ --------------------<>--------------------
