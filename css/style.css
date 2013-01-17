@@ -120,7 +120,6 @@ select{
 	list-style: none;
 	border: 0;
 	width: 100%;
-	font-weight: bold;
 	font-size: 20px;
 	cursor: pointer;
 	padding-bottom: 10px;
@@ -373,6 +372,8 @@ select{
 
 #camino li{
 	width: auto !important;
+	white-space: pre-wrap;
+    text-overflow: ellipsis;
 	list-style: none;
 	float: left;
 	margin-right: 10px;
@@ -862,11 +863,10 @@ select{
 	display: inline-block;
 	color: #757374;
 	text-align: center;
-	font-weight: bold;
 	padding-top: 5px;
 	padding-bottom: 5px;
 	border-bottom: 1px solid #dedede;
-	text-transform: capitalize;
+	text-transform: uppercase;
 }
 
 #datos-footer{

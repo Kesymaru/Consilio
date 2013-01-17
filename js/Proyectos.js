@@ -7,7 +7,6 @@
 * @param id -> id del proyecto
 */
 function Proyecto(id){
-	notifica("mostrando proyecto "+id);
 		
 	if(!$("#menu").is(":visible")){
 		ActivaMenu()
@@ -256,6 +255,28 @@ function Normas(id){
 			notificaError("Error: AJAX fail Proyectos.js Normas()<br/>"+response);
 		}
 	});
+
+	/** NOMBRE DE LA CATEGORIA **/
+	var queryParams = {"func" : "CategoriaNombre", "id" : id};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxProyectos.php",
+		beforesend: function(){
+		},
+		success: function(response){
+			if(response.length > 0){
+				$("#camino-categorias").html(response);
+			}else{ 
+				//fallback
+				$("#camino-categorias").html("Categorias");
+			}
+		},
+		fail: function(response){
+			notificaError("Error: AJAX fail Proyectos.js Normas()<br/>"+response);
+		}
+	});
 }
 
 /**
@@ -288,6 +309,28 @@ function Articulos(id){
 				ShowArticulos();
 			}else{
 				notificaError("Error: "+response);
+			}
+		},
+		fail: function(response){
+			notificaError("Error: AJAX fail Proyectos.js Articulos()<br/>"+response);
+		}
+	});
+
+	/** NOMBRE DEL ARTIOCULO **/
+	var queryParams = {"func" : "NormaNombre", "id" : id};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxProyectos.php",
+		beforesend: function(){
+		},
+		success: function(response){
+			if(response.length > 0){
+				$("#camino-normas").html(response);
+			}else{ 
+				//fallback
+				$("#camino-normas").html("Normas");
 			}
 		},
 		fail: function(response){
@@ -348,6 +391,8 @@ function DatosArticulo(id){
 * MUESTRA Y OCULTA NORMAS
 */
 function ShowNormas(){
+	$("#camino-normas").html("Normas");
+
 	$("#td-normas div").hide();
 	
 	$("#camino-normas").fadeIn();
@@ -381,6 +426,7 @@ function ShowNormas(){
 * MUESTRA Y OCULTA NORMAS
 */
 function ShowArticulos(html){
+
 	$("#td-articulos").html(html);
 	$("#td-articulos div").hide();
 
@@ -416,6 +462,8 @@ function ShowArticulos(html){
 function ShowCategorias(){
 	/*$("#td-categorias").html(html);
 	$("#td-categorias ul li").hide();*/
+
+	$("#camino-categorias").html("Categorias");
 
 	$("#camino-normas, #camino-articulos").fadeOut();
 

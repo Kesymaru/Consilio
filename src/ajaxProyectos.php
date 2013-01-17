@@ -62,6 +62,29 @@ if(isset($_POST['func'])){
 				DatosArticulo($_POST['id']);
 			}
 			break;
+
+		/** NOMBRE PARA EL CAMINO ***/
+		
+		//NOMBRE DE LA NORMA
+		case 'NormaNombre':
+			if(isset($_POST['id'])){
+				NormaNombre($_POST['id']);
+			}
+			break;
+
+		//NOMBRE DEL ARTICULO
+		case 'ArticuloNombre':
+			if(isset($_POST['id'])){
+				ArticuloNombre($_POST['id']);
+			}
+			break;
+
+		//NOMBRE DE LA CATEGORIA
+		case 'CategoriaNombre':
+			if(isset($_POST['id'])){
+				CategoriaNombre($_POST['id']);
+			}
+			break;
 	}
 
 }
@@ -352,6 +375,39 @@ function Entidades($entidades){
 	}
 
 	return $nombres;
+}
+
+
+/*************** HELPERS *************/
+
+/**
+* OBTIENE EL NOMBRE DE UNA NORMA
+*/
+function NormaNombre($id){
+	$registros = new Registros();
+	$nombre =  $registros->getDatoNorma("nombre", $id);
+
+	echo $nombre;
+}
+
+/**
+* OBTIENE EL NOMBRE DE UN ARTICULO
+*/
+function ArticuloNombre($id){
+	$registros = new Registros();
+	$nombre =  $registros->getDatoArticulo("nombre", $id);
+
+	echo $nombre;
+}
+
+/**
+* OBTIENE EL NOMBRE DE UNA CATEGORIA
+*/
+function CategoriaNombre($id){
+	$registros = new Registros();
+	$nombre =  $registros->getCategoriaDato("nombre", $id);
+
+	echo $nombre;
 }
 
 ?>
