@@ -372,8 +372,6 @@ select{
 
 #camino li{
 	width: auto !important;
-	white-space: pre-wrap;
-    text-overflow: ellipsis;
 	list-style: none;
 	float: left;
 	margin-right: 10px;
