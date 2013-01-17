@@ -265,12 +265,6 @@ function SelectNorma(id){
 	$("#td-normas li").removeClass("seleccionada");
 	$("#td-normas #"+id).addClass("seleccionada");
 
-	//doble click para mostrar la norma
-	/*$("#"+id).dblclick(function(){
-		Articulos(id);
-		return;
-	});*/
-
 	Articulos(id);
 }
 
@@ -307,7 +301,7 @@ function Articulos(id){
 * SELECCIONA UN ARTICULO
 */
 function SelectArticulo(id){
-	$("#td-articulos").removeClass("seleccionada");
+	$("#td-articulos li").removeClass("seleccionada");
 	$("#td-articulos #"+id).addClass("seleccionada");
 
 	//TODO DOBLE CLICK

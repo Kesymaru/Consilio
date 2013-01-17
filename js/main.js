@@ -87,6 +87,10 @@ $(document).ready(function(){
     //set cookies
     Cookies();
 
+    if( $("#logoCliente").height() < 100 ){
+    	var padding = ( 100 - $("#logoCliente").height() ) / 2;
+    	$("#logoCliente").css("padding-top", padding);
+    }
 });
 
 

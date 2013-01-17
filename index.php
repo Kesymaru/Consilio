@@ -129,6 +129,9 @@ $master = new Master();
 	<div id="header">
 		<a href="index.php">
 			<img src="images/logo.png" class="logo">
+			<?php
+				$master->Logo();
+			?>	
 		</a>
 
 		<div class="toolbar">

@@ -151,7 +151,6 @@ select{
 	list-style: none;
 	border: 0;
 	padding: 5px;
-	font-weight: bold;
 	font-size: 20px;
 	cursor: pointer;
 }
@@ -159,7 +158,6 @@ select{
 .lista{
 	list-style: none;
 	border: 0;
-	font-weight: bold;
 	font-size: 20px;
 	cursor: pointer;
 	text-align: center;
@@ -365,7 +363,6 @@ select{
 .panel .panel-camino{
 	padding-top: 5px;
 	padding-bottom: 5px;
-	font-weight: bold;
 	border-bottom: 1px solid #dedede;
 }
 
@@ -384,7 +381,7 @@ select{
 }
 
 #camino li:hover{
-	border-bottom: 2px solid #D5D4D5;
+	border-bottom: 2px solid #A0CA49;
 }
 
 /**
@@ -535,6 +532,20 @@ select{
 	float: left;
 	margin-left: 5%;
 	height: 100px;
+}
+
+.logoCliente{
+	float: left;
+	margin-left: 2%;
+	display: inline-block;
+	vertical-align: middle;
+	height: 100px;
+}
+
+.logoCliente img{
+	max-height: 100%;
+	max-width: 260px;
+
 }
 
 .toolbar{

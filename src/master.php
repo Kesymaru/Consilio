@@ -21,6 +21,23 @@ class Master{
 	}
 
 	/**
+	* PONE EL LOGO DEL CLIENTE AL LADO DEL DE ESCALA
+	*/
+	public function Logo(){
+		$cliente = new Cliente();
+
+		$logo = $cliente->getClienteDato("imagen", $_SESSION['cliente_id']);
+		$logo = $_SESSION['datos'].$logo;
+		
+		//SI EL CLIENTE TIENE IMAGEN
+		if(file_exists($logo)){
+			echo '<div class="logoCliente">
+				<img id="logoCliente" src="'.$logo.'" />
+				</div>';
+		}
+	}
+
+	/**
 	* BUSQUEDA PARA UN CLIENTE
 	* PERMITE LA BUSQUEDA DE PROYECTOS, NORMAS Y LEYES
 	*/
