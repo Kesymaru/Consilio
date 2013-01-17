@@ -86,16 +86,13 @@ $(document).ready(function(){
 
     //set cookies
     Cookies();
+});
 
-    if( $("#logoCliente").height() < 100 ){
-    	var padding = $("#logoCliente").height();
-    	padding = 100 - padding;
-    	console.log(padding);
+$(window).load(function(){
 
-    	padding = padding / 2;
+	if( $("#logoCliente").height() < 100 ){
+    	var padding = ( 100 - $("#logoCliente").height() ) / 2;
     	
-    	console.log(padding);
-
     	$("#logoCliente").css("padding-top", padding);
     }
 });
