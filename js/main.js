@@ -90,8 +90,11 @@ $(document).ready(function(){
     if( $("#logoCliente").height() < 100 ){
     	var padding = 100 - $("#logoCliente").height();
     	
+    	console.log(padding);
+    	
     	padding = padding / 2;
-    	notifica(padding);
+    	
+    	console.log(padding);
 
     	$("#logoCliente").css("padding-top", padding);
     }
