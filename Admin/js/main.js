@@ -698,14 +698,14 @@ function BusquedaLive(input, target){
 	                
 	                element.hide();
 	                
-	                if(!element.hasClass('si')){
+	                if( !element.hasClass('si') ){
 		 				element.addClass('no');	                	
 	                }
 
 	            //muestra considencias
 	            } else {
 
-	            	if(!element.hasClass('no')){
+	            	if( !element.hasClass('no') ){
 	            		element.show();
 	                	count++;
 	            	}else{

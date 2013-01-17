@@ -164,14 +164,14 @@ function ComponerProyecto($id){
 		$lista = '<div id="proyectos" class="tipos">
 				<div class="titulo">
 					'.$proyecto[0]['nombre'].'
-					<button class="boton-buscar" type="button" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-categorias\', \'buscar-categorias\', \'categorias-incluidas\', false)">Buscar</button>
+					<button class="boton-buscar" type="button" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-categorias\', \'buscar-categorias\', \'categorias-incluidas\', true)">Buscar</button>
+			  	</div>
 
-					<div class="busqueda" id="busqueda-categorias">
-						<div class="buscador">
-							<input type="search" title="Escriba Para Buscar Categorias Incluidas" id="buscar-categorias" placeholder="Buscar Categorias Incluidas"/>
-						</div>
+			  	<div class="busqueda" id="busqueda-categorias">
+					<div class="buscador">
+						<input type="search" title="Escriba Para Buscar Categorias Incluidas" id="buscar-categorias" placeholder="Buscar Categorias Incluidas"/>
 					</div>
-			  	</div>';
+				</div>';
 
 		$lista .= '<table class="table-list" id="categorias-incluidas">
 				   <tr>
