@@ -88,10 +88,10 @@ $(document).ready(function(){
     Cookies();
 
     if( $("#logoCliente").height() < 100 ){
-    	var padding = 100 - $("#logoCliente").height();
-    	
+    	var padding = $("#logoCliente").height();
+    	padding = 100 - padding;
     	console.log(padding);
-    	
+
     	padding = padding / 2;
     	
     	console.log(padding);
