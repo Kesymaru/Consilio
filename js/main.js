@@ -89,7 +89,10 @@ $(document).ready(function(){
 
     if( $("#logoCliente").height() < 100 ){
     	var padding = 100 - $("#logoCliente").height();
+    	
     	padding = padding / 2;
+    	notifica(padding);
+
     	$("#logoCliente").css("padding-top", padding);
     }
 });
