@@ -5,6 +5,7 @@
 
 require_once("class/proyectos.php");
 require_once("class/registros.php");
+require_once('class/usuarios.php');
 
 if(isset($_POST['func'])){
 	switch ($_POST['func']) {
@@ -338,12 +339,16 @@ function DatosArticulo($id){
 			$lista .= '</div>
 						</div>';
 		}
-		
-		$lista .= '</div><!-- end datos cargados -->
-					</div><!-- end datos -->
 
+		$lista .= '</div><!-- end datos cargados -->
+					</div><!-- end datos -->';
+
+		$lista .= PanelComentarios();
+
+		$lista .= '
 					<div id="datos-footer">
 						Última Actualización '.date("m d Y - g:i a").'
+						<button type="button" onClick="Comentar()">Comentar</button>
 					</div>
 
 					</div><!-- end datos-articulo -->';
@@ -408,6 +413,36 @@ function CategoriaNombre($id){
 	$nombre =  $registros->getCategoriaDato("nombre", $id);
 
 	echo $nombre;
+}
+
+/**
+* COMPONE EL PANEL PARA LOS COMENTARIOS
+*/
+function PanelComentarios(){
+	$cliente = new Cliente();
+	$logo = $cliente->getClienteDato("imagen", $_SESSION['cliente_id']);
+	$logo = $_SESSION['datos'].$logo;
+
+	$panel = '';
+
+	$panel .= '<div id="panel-comentario">
+						
+					<div id="panel-editor">
+							<textarea id="comentario" placeholder="Comentar ..." name="comentario"></textarea>
+					</div>
+
+					<div id="panel-imagen">
+						<div class="img-wrapper" >
+							<img title="'.$_SESSION['cliente_nombre'].'" src="'.$logo.'" />
+						</div>
+					</div>
+						
+					<button type="button" onClick="Comentar()">Cancelar</button>
+					<button type="button" onClick="AgregarComentario()">Guardar</button>
+
+				</div>';
+
+	return $panel;
 }
 
 ?>

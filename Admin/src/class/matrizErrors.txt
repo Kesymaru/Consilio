@@ -79,3 +79,35 @@ Error: No
 	JAVASCRIPT: 1
 	January 17 2013 - 12:40 pm
  --------------------<>--------------------
+
+Error: 
+111
+
+
+	Sitio: Matriz
+	Usuario: 77digital
+	ID: 5
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 17 2013 - 6:11 pm
+ --------------------<>--------------------
+
+Error: 
+111
+
+
+	Sitio: Matriz
+	Usuario: 77digital
+	ID: 5
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 17 2013 - 6:11 pm
+ --------------------<>--------------------

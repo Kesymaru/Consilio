@@ -13,9 +13,10 @@ body
 	color: #333;
 
 	/* Remove the background color to make it transparent */
-	background-color: #fff;
+	background-color: #f3efe6;
 
 	margin: 20px;
+	margin-right: 40px;
 }
 
 .cke_editable

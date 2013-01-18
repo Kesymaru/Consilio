@@ -5,23 +5,21 @@
 
 CKEDITOR.editorConfig = function( config ) {
 	// Define changes to default configuration here. For example:
-	config.language = 'es';
-	config.uiColor = '#FFFFFF';
+	//config.language = 'es';
+	config.uiColor = '#f3efe6';
 	
 	config.toolbarGroups = [
-			{ name: 'document'},
-			{ name: 'undo' },
-			{ name: 'editing'},
-			{ name: 'basicstyles'},
-			{ name: 'colors' },
-			{ name: 'insert' },
-			{ name: 'links' },
-			{ name: 'paragraph'},
-			{ name: 'styles' },
-			{ name: 'others' },
-			{ name: 'tools' }
-		];
+		{ name: 'undo'},
+		{ name: 'editing',     groups: [ 'find', 'selection' ] },
+		{ name: 'links' },
+		{ name: 'insert' },
+		{ name: 'forms' },
+		{ name: 'tools' },
+		{ name: 'others' },
+		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+		{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ] },
+	];
 
-	config.removeButtons = 'Cut,Copy,Paste,Form,Flash,Find,Replace,Save,New_Page,Anchor,Image,About,Source,Iframe,ShowBlocks,Checkbox,Radio,TextField,Textarea,SelectionField,SelectAll,Button,ImageButton,HiddenField';
+	config.removeButtons = 'Maximize,Table,Cut,Copy,Paste,Form,Flash,Find,Replace,Save,New_Page,Anchor,Image,About,Source,Iframe,ShowBlocks,Checkbox,Radio,TextField,Textarea,SelectionField,SelectAll,Button,ImageButton,HiddenField';
 
 };

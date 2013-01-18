@@ -421,6 +421,9 @@ function Boton(id){
 function Cookies(){
 	if($.cookie('vista') == null){
 		$.cookie('vista', 'home', { expires: 7 });
+		$.cookie('proyecto', '', { expires: 7 });
+		$.cookie('categoria', 'home', { expires: 7 });
+		$.cookie('norma', 'home', { expires: 7 });
 	}
 	Inicializa();
 }
@@ -460,8 +463,10 @@ function Editor(id){
 
     CKEDITOR.replace(id);
     CKEDITOR.on("instanceReady", function(event){
-		$(".cke_path").remove();
+		$(".cke_path, .cke_bottom").remove();
 	});
+
+	return true;
 }
 
 /*

@@ -128,13 +128,16 @@ $master = new Master();
 	<!-- header -->
 	<div id="header">
 		<a href="index.php">
-			<img src="images/logo.png" class="logo">
-			<?php
-				$master->Logo();
-			?>	
+			<img src="images/logo.png" class="logo">	
 		</a>
+		<?php
+			//$master->Logo();
+		?>
 
 		<div class="toolbar">
+			<?php
+			$master->Logo();
+			?>
 			<div id="toolbarMenu">
 				<div id="menuUsuario">
 					<img class="icon" src="images/user.png" />
@@ -168,7 +171,7 @@ $master = new Master();
 			</div>
 			<!-- end para search -->
 		</div>
-
+		
 	</div> <!-- end header -->
 
 	<div id="main">
@@ -184,11 +187,12 @@ $master = new Master();
 			<tr>
 				<td colspan="3" class="panel-camino"> 
 					<ul id="camino">
-						<li id="camino-categorias" onClick="ShowCategorias()">		Categorias
+						<li id="camino-categorias" onClick="ShowCategorias()">			Categorias /
 						</li>
-						<li class="ocultos" id="camino-normas" onClick="ShowNormas()">		Normas
+						<li class="ocultos" id="camino-normas" onClick="ShowNormas()">		Normas /
 						</li>
-						<li class="ocultos" id="camino-articulos" onClick="ShowArticulos()">		Articulos
+						<li class="ocultos" id="camino-articulos" onClick="ShowArticulos()">		
+							Articulos
 						</li>
 
 						<button class="derecha" type="button" title="Buscar" onClick="Busqueda('busqueda', 'buscar', 'panel', false)">Buscar</button>

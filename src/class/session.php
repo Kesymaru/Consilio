@@ -111,6 +111,7 @@ class Session{
 					}
 				}
 			}
+
 			$_SESSION['cliente'] = true;
 			$_SESSION['cliente_bienvenida'] = false;
 			

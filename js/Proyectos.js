@@ -21,6 +21,8 @@ function Proyecto(id){
 		LimpiarContent();
 	}
 
+	$.cookie('proyecto', id);
+
 	CategoriasRoot(id);
 }
 
@@ -234,6 +236,7 @@ function SeleccionaHijo(hijo){
 * @param $id -> id categoria
 */
 function Normas(id){
+	$.cookie('norma', id);
 
 	var queryParams = {"func" : "Normas", "id" : id};
 
@@ -375,6 +378,7 @@ function DatosArticulo(id){
 				$("#datos-articulo").hide()
 				$("#datos-articulo").fadeIn();
 				Menu2();
+				Editor('comentario');
 			}else{
 				notificaError("Error: "+response);
 			}
@@ -385,13 +389,79 @@ function DatosArticulo(id){
 	});
 }
 
+/**
+* MUESTRA PANEL PARA COMENTARIO
+*/
+function Comentar(){
+	if( $("#panel-comentario").is(":visible") ){
+		
+		$("#panel-comentario").slideUp(1000, function(){
+			$("#datos-footer").css("background-color", "#fff");
+		});
+		
+	}else{
+
+		$("#datos-footer").css("background-color", "#f3efe6");
+
+		$("#panel-comentario").slideDown(1000);
+	}
+}
+
+/**
+* GUARDA EL COMENTARIO
+* @param proyecto
+* @param categoria
+* @param norma
+* @param articulo
+*/
+function AgregarComentario(articulo){
+	var proyecto = $.cookie('proyecto');
+
+	EditorUpdateContent();
+
+	var comentario = $("#comentario").val();
+
+	if(comentario.length <= 0 && comentario != "Comentar..."){
+		notificaAtencion("Escriba un comentario.");
+		return;
+	}
+
+	var queryParams = { "func" : "NuevoComentario",
+						"proyecto" : proyecto, 
+						"articulo" : articulo, 
+						"comentario": comentario };
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxComentarios.php",
+		beforesend: function(){
+		},
+		success: function(response){
+			notifica(response);
+			if(response.length <= 3){
+				notifica("Comentario Agregado");
+				Comentar();
+			}else{
+				notificaError("Error: "+response);
+			}
+			
+		},
+		fail: function(response){
+			notificaError("Error: AJAX fail Proyectos.js AgregarComentario.<br/>"+response);
+		}
+	});
+
+}
+	
+
 /****************************** HELPERS *******************/
 
 /**
 * MUESTRA Y OCULTA NORMAS
 */
 function ShowNormas(){
-	$("#camino-normas").html("Normas");
+	$("#camino-normas").html("Normas /");
 
 	$("#td-normas div").hide();
 	
@@ -463,7 +533,7 @@ function ShowCategorias(){
 	/*$("#td-categorias").html(html);
 	$("#td-categorias ul li").hide();*/
 
-	$("#camino-categorias").html("Categorias");
+	$("#camino-categorias").html("Categorias /");
 
 	$("#camino-normas, #camino-articulos").fadeOut();
 
