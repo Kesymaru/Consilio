@@ -87,7 +87,7 @@ $(document).ready(function(){
     //set cookies
     Cookies();
 });
-
+/*
 $(window).load(function(){
 
 	if( $("#logoCliente").height() < 100 ){
@@ -95,7 +95,7 @@ $(window).load(function(){
     	
     	$("#logoCliente").css("padding-top", padding);
     }
-});
+});*/
 
 
 /**

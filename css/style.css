@@ -539,7 +539,7 @@ select{
 	margin-right: 25px;
 	display: inline-block;
 	vertical-align: middle;
-	height: 100px;
+	height: 50px;
 }
 
 .logoCliente img{
@@ -552,7 +552,7 @@ select{
 	border: 0;
 	display: block;
 	margin-right: 6%;
-	margin-top: 10px;
+	margin-top: 30px;
 }
 
 /* clientes */
