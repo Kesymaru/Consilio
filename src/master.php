@@ -129,7 +129,7 @@ class Master{
 	/**
 	* MUESTRA LA LISTA DE PROYECTOS DEL USUARIO
 	*/
-	public function Proyectos(){
+	public function Proyectos2(){
 		$proyectos = new Proyectos();
 		$datos = $proyectos->getProyectos($_SESSION['cliente_id']);
 
@@ -173,6 +173,99 @@ class Master{
 		echo $lista;
 	}
 
+
+	/**
+	* MUESTRA LA LISTA DE PROYECTOS DEL USUARIO
+	*/
+	public function Proyectos(){
+		$proyectos = new Proyectos();
+		$datos = $proyectos->getProyectos($_SESSION['cliente_id']);
+
+		$lista = '<div class="titulo" >
+					Mis Proyectos
+				</div>';
+
+		$lista .= '<table class="mis-proyectos">';
+
+		if(!empty($datos)){
+
+			
+
+			$columna = '';
+
+			if(3 <= sizeof($datos) ){
+				$columna = 3;
+			}else if( 2 == sizeof($datos) ){
+				$columna = 2;
+			}else{
+				$columna = 1;
+			}
+
+			$cuenta = 1;
+
+			foreach ($datos as $fila => $proyecto) {
+
+				if($cuenta == 1){
+					$lista == '<tr>';
+				}
+				if($cuenta <= $columna){
+					$lista .= '<td class="columna'.$columna.' cl'.$cuenta.'">';
+				}
+
+				$imagen = "";
+
+				if($proyecto['imagen'] == "images/es.png"){
+					$cliente = new Cliente();
+					$imagen = $_SESSION['datos'].$cliente->getClienteDato("imagen", $_SESSION['cliente_id']);
+				}else{
+					$imagen = $_SESSION['datos'].$proyecto['imagen'];
+				}
+
+				//fallback de la imagenes
+				if(!file_exists($imagen)){
+					$imagen = "images/es.png";
+				}
+
+				$lista .= '<div onClick="Proyecto('.$proyecto['id'].')" class="proyecto-detalles">';
+
+				$lista .= '<div class="proyecto-img">
+								<img src="'.$imagen.'" >
+							</div>';
+
+				$lista .= '<div class="proyecto-titulo">
+						   	 '.$proyecto['nombre'].'
+						   </div>';
+				
+				$lista .= '<div class="proyecto-decripcion">
+						   	 '.base64_decode($proyecto['descripcion']).'
+						   </div>';
+
+				$lista .= '</div>';
+
+				if($cuenta <= $columna){
+					$lista .= '</td>';
+				}
+				if($cuenta == $columna ){
+					$lista .= '</tr>';
+					$cuenta = 0;
+				}
+
+				$cuenta++;
+			}
+
+			$lista .= '</div><!-- end mis proyectos -->';
+		}else{
+			$lista .= "<tr>
+						<td>
+						No tienes proyectos.
+					   </td>
+					   <tr>";
+		}
+
+		$lista .= '</table';
+
+		echo $lista;
+	}
 }
 
 ?>
