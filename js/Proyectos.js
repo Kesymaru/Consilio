@@ -363,8 +363,8 @@ function SelectArticulo(id){
 * CARGA LOS DATOS DE UN ARTICULO
 */
 function DatosArticulo(id){
-
-	var queryParams = {"func" : "DatosArticulo", "id" : id};
+	var proyecto = $.cookie('proyecto');
+	var queryParams = {"func" : "DatosArticulo", "proyecto" : proyecto, "id" : id};
 
 	$.ajax({
 		data: queryParams,
@@ -393,6 +393,10 @@ function DatosArticulo(id){
 * MUESTRA PANEL PARA COMENTARIO
 */
 function Comentar(){
+	var tamano = 3 + ( $("#content").outerHeight() - $("#datos-articulo .titulo").outerHeight() ) - $("#datos-footer").outerHeight() ;
+	$("#panel-comentario, #comentarios").css("max-height", tamano);
+	console.log(tamano);
+
 	if( $("#panel-comentario").is(":visible") ){
 		
 		$("#panel-comentario").slideUp(1000, function(){
@@ -404,6 +408,19 @@ function Comentar(){
 		$("#datos-footer").css("background-color", "#f3efe6");
 
 		$("#panel-comentario").slideDown(1000);
+	}
+}
+
+function NewComentario(){
+
+	if( !$("#comentarios").is(":visible") ){
+		$("#comentarios").slideDown();
+		$("#new-comentario").slideUp();
+		$("#NewComentario").show();
+	}else{
+		$("#NewComentario").hide();
+		$("#new-comentario").slideDown();
+		$("#comentarios").slideUp();
 	}
 }
 
@@ -435,7 +452,7 @@ function AgregarComentario(articulo){
 		beforesend: function(){
 		},
 		success: function(response){
-			
+
 			if(response.length <= 3){
 				notifica("Comentario Agregado");
 				Comentar();

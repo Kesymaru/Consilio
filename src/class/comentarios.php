@@ -14,7 +14,7 @@ class Comentarios{
 	}
 
 	public function getComentarios($proyecto, $articulo){
-		$base = new Datase();
+		$base = new Database();
 		$query = "SELECT * FROM comentarios WHERE proyecto = '".$proyecto."' AND articulo = '".$articulo."'";
 
 		$datos = $base->Select($query);

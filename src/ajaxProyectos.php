@@ -6,6 +6,7 @@
 require_once("class/proyectos.php");
 require_once("class/registros.php");
 require_once('class/usuarios.php');
+require_once("class/comentarios.php");
 
 if(isset($_POST['func'])){
 	switch ($_POST['func']) {
@@ -59,8 +60,8 @@ if(isset($_POST['func'])){
 
 		//DATOS DE UN ARTICULO
 		case 'DatosArticulo':
-			if(isset($_POST['id'])){
-				DatosArticulo($_POST['id']);
+			if( isset($_POST['proyecto']) && isset($_POST['id'])){
+				DatosArticulo($_POST['proyecto'], $_POST['id']);
 			}
 			break;
 
@@ -240,9 +241,10 @@ function Articulos($id){
 
 /**
 * CARGA DATOS DE UN ARTICULO
+* @param $proyecto -> id del proyecto
 * @param $id -> id del articulo
 */
-function DatosArticulo($id){
+function DatosArticulo($proyecto, $id){
 	
 	date_default_timezone_set('America/Costa_Rica');
 
@@ -343,7 +345,7 @@ function DatosArticulo($id){
 		$lista .= '</div><!-- end datos cargados -->
 					</div><!-- end datos -->';
 
-		$lista .= PanelComentarios($id);
+		$lista .= PanelComentarios($proyecto, $id);
 
 		$lista .= '
 					<div id="datos-footer">
@@ -417,15 +419,60 @@ function CategoriaNombre($id){
 
 /**
 * COMPONE EL PANEL PARA LOS COMENTARIOS
+* @param $proyecto -> id del proyecto
+* @param $articulo -> id del articulo
 */
-function PanelComentarios($articulo){
+function PanelComentarios($proyecto, $articulo){
+	$comentarios = new Comentarios();
+	$datos = $comentarios->getComentarios($proyecto, $articulo);
+	
 	$cliente = new Cliente();
-	$logo = $cliente->getClienteDato("imagen", $_SESSION['cliente_id']);
-	$logo = $_SESSION['datos'].$logo;
+	$logo = $_SESSION['datos'].$cliente->getClienteDato("imagen", $_SESSION['cliente_id']);
 
 	$panel = '';
+	$oculto = '';
+	$panel .= '<div id="panel-comentario">';
 
-	$panel .= '<div id="panel-comentario">
+	if(!empty($datos)){
+		$oculto = 'ocultos';
+
+		$panel .= '<div id="comentarios"> <table class="comentarios" >';
+		
+		//compone los comentarios
+		foreach ($datos as $fila => $comentario) {
+			
+			$usuario = $cliente->getClienteDato("nombre", $comentario['usuario']);
+			$usuarioImg = $_SESSION['datos'].$cliente->getClienteDato("imagen", $comentario['usuario']); 
+			
+			$panel .= '<tr>
+						<td class="comentario-imagen">
+							<div class="div-imagen">
+								<div title="'.$usuario.'" class="img-wrapper2" >
+									<img src="'.$usuarioImg.'" />
+								</div>
+							</div>
+							<span>'.$usuario.'</span>
+					</td>';
+			
+
+			$panel .= '<td class="comentario" >
+						'.base64_decode($comentario['comentario']).'
+					   </td>
+					   </tr>';
+		}
+
+		$panel .= '<tr><td colspan="2">
+					
+					<button id="NewComentario" type="button" onClick="NewComentario()">Comentar</button>
+
+				  </td></tr>';
+
+		$panel .= '</table></div>';
+		
+
+	}
+
+	$panel .= '<div id="new-comentario" class="'.$oculto.'">
 						
 					<div id="panel-editor">
 							<textarea id="comentario" placeholder="Comentar ..." name="comentario"></textarea>
@@ -435,12 +482,19 @@ function PanelComentarios($articulo){
 						<div title="'.$_SESSION['cliente_nombre'].'" class="img-wrapper" >
 							<img src="'.$logo.'" />
 						</div>
-					</div>
-						
-					<button type="button" onClick="Comentar()">Cancelar</button>
-					<button type="button" onClick="AgregarComentario('.$articulo.')">Guardar</button>
+					</div>';
+
+	if($coulto == ''){
+		$panel .= '<button type="button" onClick="Comentar()">Cancelar</button>';
+	}else{
+		$panel .= '<button type="button" onClick="NewComentario()">Cancelar</button>';
+	}
+					
+	$panel .='	<button type="button" onClick="AgregarComentario('.$articulo.')">Guardar</button>
 
 				</div>';
+
+	$panel .= '</div>';
 
 	return $panel;
 }
