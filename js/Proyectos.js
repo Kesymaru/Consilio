@@ -426,10 +426,7 @@ function AgregarComentario(articulo){
 		return;
 	}
 
-	var queryParams = { "func" : "NuevoComentario",
-						"proyecto" : proyecto, 
-						"articulo" : articulo, 
-						"comentario": comentario };
+	var queryParams = { "func" : "NuevoComentario", "proyecto" : proyecto, "articulo" : articulo, "comentario": comentario };
 
 	$.ajax({
 		data: queryParams,
@@ -438,7 +435,7 @@ function AgregarComentario(articulo){
 		beforesend: function(){
 		},
 		success: function(response){
-			notifica(response);
+			
 			if(response.length <= 3){
 				notifica("Comentario Agregado");
 				Comentar();

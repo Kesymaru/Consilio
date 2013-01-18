@@ -35,15 +35,15 @@ class Comentarios{
 	* @return tru si se crea
 	*/
 	public function newComentario($proyecto, $articulo, $comentario, $usuario){
-		$base = new Datase();
-		$comentario = base64_decode($comentario);
+		$base = new Database();
+		$comentario = base64_encode($comentario);
 
 		$proyecto = mysql_real_escape_string($proyecto);
 		$articulo = mysql_real_escape_string($articulo);
 
-		$query = "INSERT INTO comentarios ( proyecto, articulo, comentario, usuario, tipo ) ";
-		$query .= " VALUES ( '".$proyecto."', '".$articulo."', '".$comentario."', '".$usuario."', 0 )";
-
+		$query = "INSERT INTO comentarios ( comentario, proyecto, articulo, usuario, tipo ) ";
+		$query .= " VALUES ( '".$comentario."', '".$proyecto."', '".$articulo."', '".$usuario."', 0 )";
+		
 		if($base->Insert($query)){
 			return true;
 		}else{

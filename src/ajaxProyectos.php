@@ -343,7 +343,7 @@ function DatosArticulo($id){
 		$lista .= '</div><!-- end datos cargados -->
 					</div><!-- end datos -->';
 
-		$lista .= PanelComentarios();
+		$lista .= PanelComentarios($id);
 
 		$lista .= '
 					<div id="datos-footer">
@@ -418,7 +418,7 @@ function CategoriaNombre($id){
 /**
 * COMPONE EL PANEL PARA LOS COMENTARIOS
 */
-function PanelComentarios(){
+function PanelComentarios($articulo){
 	$cliente = new Cliente();
 	$logo = $cliente->getClienteDato("imagen", $_SESSION['cliente_id']);
 	$logo = $_SESSION['datos'].$logo;
@@ -438,7 +438,7 @@ function PanelComentarios(){
 					</div>
 						
 					<button type="button" onClick="Comentar()">Cancelar</button>
-					<button type="button" onClick="AgregarComentario()">Guardar</button>
+					<button type="button" onClick="AgregarComentario('.$articulo.')">Guardar</button>
 
 				</div>';
 

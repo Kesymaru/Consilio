@@ -1,87 +1,7 @@
 
 
-Error:  
-func
-
-
-	Sitio: Admin
-	Usuario: Andrey
-	ID: 1
-	IP: 127.0.0.1
-	Navegador: Firefox
-	Plataforma: Win7
-	Version: 18.0
-	CSS: 18.0
-	JAVASCRIPT: 1
-	January 17 2013 - 12:39 pm
- --------------------<>--------------------
-
-Error:  
-func
-
-
-	Sitio: Admin
-	Usuario: Andrey
-	ID: 1
-	IP: 127.0.0.1
-	Navegador: Firefox
-	Plataforma: Win7
-	Version: 18.0
-	CSS: 18.0
-	JAVASCRIPT: 1
-	January 17 2013 - 12:39 pm
- --------------------<>--------------------
-
-Error: No   
-func
-
-
-	Sitio: Admin
-	Usuario: Andrey
-	ID: 1
-	IP: 127.0.0.1
-	Navegador: Firefox
-	Plataforma: Win7
-	Version: 18.0
-	CSS: 18.0
-	JAVASCRIPT: 1
-	January 17 2013 - 12:40 pm
- --------------------<>--------------------
-
-Error: No   
-func
-
-
-	Sitio: Admin
-	Usuario: Andrey
-	ID: 1
-	IP: 127.0.0.1
-	Navegador: Firefox
-	Plataforma: Win7
-	Version: 18.0
-	CSS: 18.0
-	JAVASCRIPT: 1
-	January 17 2013 - 12:40 pm
- --------------------<>--------------------
-
-Error: No   
-
-
-
-	Sitio: Admin
-	Usuario: Andrey
-	ID: 1
-	IP: 127.0.0.1
-	Navegador: Firefox
-	Plataforma: Win7
-	Version: 18.0
-	CSS: 18.0
-	JAVASCRIPT: 1
-	January 17 2013 - 12:40 pm
- --------------------<>--------------------
-
 Error: 
-111
+3. Error en consulta INSERT INTO comentarios ( proyecto, articulo, comentario, usuario, tipo )  VALUES ( '1', '2', '��j���Z�֬u���Z��饫?��', '5', 0 )Unknown column 'comentario' in 'field list'
 
 
 	Sitio: Matriz
@@ -93,11 +13,11 @@ Error:
 	Version: 18.0
 	CSS: 18.0
 	JAVASCRIPT: 1
-	January 17 2013 - 6:11 pm
+	January 18 2013 - 10:35 am
  --------------------<>--------------------
 
 Error: 
-111
+3. Error en consulta INSERT INTO comentarios ( proyecto, articulo, comentario, usuario, tipo )  VALUES ( '1', '2', '��j���Z�֬u���Z��饫?��', '5', 0 )Duplicate entry '0' for key 'PRIMARY'
 
 
 	Sitio: Matriz
@@ -109,5 +29,53 @@ Error:
 	Version: 18.0
 	CSS: 18.0
 	JAVASCRIPT: 1
-	January 17 2013 - 6:11 pm
+	January 18 2013 - 10:37 am
+ --------------------<>--------------------
+
+Error: 
+INSERT INTO comentarios ( comentario, proyecto, articulo, usuario, tipo )  VALUES ( '��j���Z�֬u���Z��饫?��', '1', '2', '5', 0 )
+
+
+	Sitio: Matriz
+	Usuario: 77digital
+	ID: 5
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 18 2013 - 10:40 am
+ --------------------<>--------------------
+
+Error: 
+INSERT INTO comentarios ( comentario, proyecto, articulo, usuario, tipo )  VALUES ( 'PHA+YXNkYXNkPC9wPgoKPHA+ZGFzZGFzZGFzZDwvcD4KCjxwPmFzZDwvcD4KCjxwPmFzPC9wPgoKPHA+ZDwvcD4K', '1', '2', '5', 0 )
+
+
+	Sitio: Matriz
+	Usuario: 77digital
+	ID: 5
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 18 2013 - 10:40 am
+ --------------------<>--------------------
+
+Error: 
+INSERT INTO comentarios ( comentario, proyecto, articulo, usuario, tipo )  VALUES ( 'PHA+VW4gPHN0cm9uZz5jb21lbnRhcmlvPC9zdHJvbmc+LCBjb24gYWxnbyBkZSA8dT48ZW0+Zm9ybWF0bzwvZW0+PC91PiEhPC9wPgoKPGJsb2NrcXVvdGU+CjxwPlVuIDxzdHJvbmc+Y29tZW50YXJpbzwvc3Ryb25nPiwgY29uIGFsZ28gZGUgPHU+PGVtPmZvcm1hdG88L2VtPjwvdT4hITwvcD4KPC9ibG9ja3F1b3RlPgo=', '1', '2', '5', 0 )
+
+
+	Sitio: Matriz
+	Usuario: 77digital
+	ID: 5
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 18 2013 - 10:41 am
  --------------------<>--------------------

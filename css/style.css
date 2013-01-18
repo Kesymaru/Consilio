@@ -188,8 +188,9 @@ select{
 .datos{
 	width: 100%;
 	margin: 0 auto;
-	
 	font-size: 18px;
+	overflow:auto;
+	margin-bottom: 70px;
 }
 
 .derecha{
