@@ -184,21 +184,21 @@ class Master{
 		$lista = '<div class="titulo" >
 					Mis Proyectos
 				</div>';
-
-		$lista .= '<table class="mis-proyectos">';
+		
 
 		if(!empty($datos)){
-
-			
 
 			$columna = '';
 
 			if(3 <= sizeof($datos) ){
 				$columna = 3;
+				$lista .= '<table class="mis-proyectos td3">';
 			}else if( 2 == sizeof($datos) ){
 				$columna = 2;
-			}else{
+				$lista .= '<table class="mis-proyectos td2">';
+			}else{ 
 				$columna = 1;
+				$lista .= '<table class="mis-proyectos">';
 			}
 
 			$cuenta = 1;
@@ -209,7 +209,7 @@ class Master{
 					$lista == '<tr>';
 				}
 				if($cuenta <= $columna){
-					$lista .= '<td class="columna'.$columna.' cl'.$cuenta.'">';
+					$lista .= '<td onClick="Proyecto('.$proyecto['id'].')" class="columna'.$columna.' cl'.$cuenta.'">';
 				}
 
 				$imagen = "";
@@ -226,14 +226,16 @@ class Master{
 					$imagen = "images/es.png";
 				}
 
-				$lista .= '<div onClick="Proyecto('.$proyecto['id'].')" class="proyecto-detalles">';
+				$lista .= '<div class="proyecto-detalles">';
 
-				$lista .= '<div class="proyecto-img">
-								<img src="'.$imagen.'" >
+				$lista .= '<div class="div-imagen proyecto-img">
+								<div title="'.$proyecto['nombre'].'" class="img-wrapper" >
+									<img src="'.$imagen.'" >
+								</div>
 							</div>';
 
 				$lista .= '<div class="proyecto-titulo">
-						   	 '.$proyecto['nombre'].'
+						   	 	'.$proyecto['nombre'].'
 						   </div>';
 				
 				$lista .= '<div class="proyecto-decripcion">

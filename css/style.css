@@ -893,7 +893,8 @@ select{
 	float: left;
 }
 
-#panel-imagen {
+/** IMAGEN ***/
+.panel-imagen {
 	float: right;
 	display: inline-block;
 	width: 20%;
@@ -901,18 +902,35 @@ select{
 	margin-bottom: 20px;
 }
 
-#panel-imagen img{
-	height: 70px;
+.div-imagen img{
+	height: 80px;
 	/*margin:-65px 0 0 -100px;*/
 }
 
 .img-wrapper {
-	height:70px; 
-	width:70px; 
-	border-radius:70px; 
+	height:80px; 
+	width:80px; 
+	border-radius:80px; 
 	border:4px solid white; 
 	overflow:hidden;
 	margin: 0 auto;
+
+		-o-transition: all 6s ease-out;
+		-ms-transition: all 6s ease-out;
+		-moz-transition: all 6s ease-out;
+		-webkit-transition: all 6s ease-out;
+	transition: all 6s ease-out;
+}
+
+.img-wrapper:hover{
+
+		-o-transition: all 0.5s ease-out;
+		-ms-transition: all 0.5s ease-out;
+		-moz-transition: all 0.5s ease-out;
+		-webkit-transition: all 0.5s ease-out;
+	transition: all 0.5s ease-out;
+
+	border:4px solid #A1CA4A; 
 }
 
 .box p{
@@ -1181,78 +1199,19 @@ select{
 * PROYECTOS
 */
 .mis-proyectos{
-	width: 100%;
 	border: none;
 	border-collapse: collapse;
 	margin-bottom: 20px;
-}
-
-.columna1{
-	width: 100%;
-	text-align: center;
-	marging: 0;
-	padding: 0;
-}
-
-.columna2{
-	width: 50%;
-	text-align: center;
-	marging: 0;
-	padding: 0;
-}
-
-.columna3{
-	width: 33%;
-	text-align: center;
-	marging: 0;
-	padding: 0;
-}
-
-.columna1 .proyecto-detalles{
-	cursor: pointer;
-	margin: 0 auto;
-	width: 50%;
-	height: 100%;
-}
-
-.cl1 .proyecto-detalles{
-	cursor: pointer;
-	margin-right: 0;
-	margin-left: auto;
-	width: 80%;
-}
-
-.cl2 .proyecto-detalles{
-	cursor: pointer;
 	margin-right: auto;
-	margin-left: 0;
-	width: 80%;
-}
-
-.columna3 .proyecto-detalles{
-	cursor: pointer;
-	margin-right: 0;
 	margin-left: auto;
-	width: 80%;
-	height: 100%;
 }
 
-.proyecto-img{
-	float: left;
-	width: 70px;
-	height: 70px;
-	display: inline-block;
-	margin-right: 20px;
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
-
-.proyecto-img img{
-	height:70px; 
-	width:70px; 
-	border-radius:70px; 
-	border: 4px solid white; 
-	overflow: hidden;
+.mis-proyectos td{
+	marging: 0;
+	padding: 0;
+	border-bottom: 2px solid #fff;
+	padding-bottom: 10px;
+	cursor: pointer;
 
 		-o-transition: all 6s ease-out;
 		-ms-transition: all 6s ease-out;
@@ -1261,23 +1220,106 @@ select{
 	transition: all 6s ease-out;
 }
 
-.proyecto-detalles:hover .proyecto-img img,
-.proyecto-img img:hover{
+.mis-proyectos td:hover{
+		-o-transition: all 2s ease-out;
+		-ms-transition: all 2s ease-out;
+		-moz-transition: all 2s ease-out;
+		-webkit-transition: all 2s ease-out;
+	transition: all 2s ease-out;
+
+	border-bottom: 2px solid #A1CA4A;
+}
+
+.mis-proyectos td:hover .proyecto-img .img-wrapper{
 		-o-transition: all 0.5s ease-out;
 		-ms-transition: all 0.5s ease-out;
 		-moz-transition: all 0.5s ease-out;
 		-webkit-transition: all 0.5s ease-out;
 	transition: all 0.5s ease-out;
-	border:4px solid #A1CA4A; 
+
+	border: 4px solid #A1CA4A;
+}
+
+.td3{
+	width: 100%;
+}
+
+.td2{
+	width: 90%;
+}
+
+.columna1{
+	width: 40%;
+	text-align: center;
+}
+
+.columna2{
+	width: 50%;
+	text-align: center;
+}
+
+.columna3{
+	width: 33%;
+	text-align: center;
+}
+
+.columna1 .proyecto-detalles{
+	margin: 0 auto;
+	width: 50%;
+	height: 100%;
+}
+
+.cl1 .proyecto-detalles{
+	margin-right: 0;
+	margin-left: auto;
+	width: 80%;
+}
+
+.cl2 .proyecto-detalles{
+	margin-right: auto;
+	margin-left: 0;
+	width: 80%;
+}
+
+.columna3 .proyecto-detalles{
+	margin-right: 0;
+	margin-left: auto;
+	width: 80%;
+	height: 100%;
+}
+
+.proyecto-img{
+	float: left !important;
+	width: 80px;
+	height: 80px;
+	display: inline-block;
+	margin-right: 20px !important;
+	margin-top: 10px !important;
+	margin-bottom: 10px !important;
+}
+
+.proyecto-img .img-wrapper{
+	float: left;
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+	margin-bottom: 0 !important;
+	margin-top: 0 !important;
 }
 
 .proyecto-titulo{
 	margin-top: 20px;
+	margin-bottom: 10px;
 	display: block;
 	font-size: 20px;
 	color: #A1CA4A;
 	text-align: left;
 	text-transform: capitalize;
+
+		-o-transition: all 6s ease-out;
+		-ms-transition: all 6s ease-out;
+		-moz-transition: all 6s ease-out;
+		-webkit-transition: all 6s ease-out;
+	transition: all 6s ease-out;
 }
 
 .proyecto-decripcion{

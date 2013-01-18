@@ -431,9 +431,9 @@ function PanelComentarios(){
 							<textarea id="comentario" placeholder="Comentar ..." name="comentario"></textarea>
 					</div>
 
-					<div id="panel-imagen">
-						<div class="img-wrapper" >
-							<img title="'.$_SESSION['cliente_nombre'].'" src="'.$logo.'" />
+					<div class="div-imagen panel-imagen">
+						<div title="'.$_SESSION['cliente_nombre'].'" class="img-wrapper" >
+							<img src="'.$logo.'" />
 						</div>
 					</div>
 						
