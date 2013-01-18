@@ -60,8 +60,8 @@ if(isset($_POST['func'])){
 
 		//DATOS DE UN ARTICULO
 		case 'DatosArticulo':
-			if( isset($_POST['proyecto']) && isset($_POST['id'])){
-				DatosArticulo($_POST['proyecto'], $_POST['id']);
+			if( isset($_POST['proyecto']) && isset($_POST['categoria']) && isset($_POST['id'])){
+				DatosArticulo($_POST['proyecto'], $_POST['categoria'], $_POST['id']);
 			}
 			break;
 
@@ -242,9 +242,10 @@ function Articulos($id){
 /**
 * CARGA DATOS DE UN ARTICULO
 * @param $proyecto -> id del proyecto
+* @param $categoria -> id de la categoria
 * @param $id -> id del articulo
 */
-function DatosArticulo($proyecto, $id){
+function DatosArticulo($proyecto, $categoria, $id){
 	
 	date_default_timezone_set('America/Costa_Rica');
 
@@ -345,7 +346,7 @@ function DatosArticulo($proyecto, $id){
 		$lista .= '</div><!-- end datos cargados -->
 					</div><!-- end datos -->';
 
-		$lista .= PanelComentarios($proyecto, $id);
+		$lista .= PanelComentarios($proyecto, $categoria, $id);
 
 		$lista .= '
 					<div id="datos-footer">
@@ -420,11 +421,12 @@ function CategoriaNombre($id){
 /**
 * COMPONE EL PANEL PARA LOS COMENTARIOS
 * @param $proyecto -> id del proyecto
+* @param $categoria -> id categoria
 * @param $articulo -> id del articulo
 */
-function PanelComentarios($proyecto, $articulo){
+function PanelComentarios($proyecto, $categoria, $articulo){
 	$comentarios = new Comentarios();
-	$datos = $comentarios->getComentarios($proyecto, $articulo);
+	$datos = $comentarios->getComentarios($proyecto, $categoria, $articulo);
 	
 	$cliente = new Cliente();
 	$logo = $_SESSION['datos'].$cliente->getClienteDato("imagen", $_SESSION['cliente_id']);
@@ -484,7 +486,7 @@ function PanelComentarios($proyecto, $articulo){
 						</div>
 					</div>';
 
-	if($coulto == ''){
+	if($oculto == ''){
 		$panel .= '<button type="button" onClick="Comentar()">Cancelar</button>';
 	}else{
 		$panel .= '<button type="button" onClick="NewComentario()">Cancelar</button>';

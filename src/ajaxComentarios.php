@@ -12,10 +12,10 @@ if(isset($_POST['func'])){
 	switch ($_POST['func']) {
 
 		case 'NuevoComentario':
-			if( isset($_POST['proyecto']) && isset($_POST['articulo']) && isset($_POST['comentario']) ){
+			if( isset($_POST['proyecto']) && isset($_POST['categoria']) && isset($_POST['articulo']) && isset($_POST['comentario']) ){
 				
-				NuevoComentario($_POST['proyecto'], $_POST['articulo'], $_POST['comentario'] );
-				
+				NuevoComentario($_POST['proyecto'], $_POST['categoria'], $_POST['articulo'], $_POST['comentario'] );
+
 			}
 			break;
 		
@@ -28,10 +28,10 @@ if(isset($_POST['func'])){
 /**
 * GUARDA UN NUEVO ARTICULO
 */
-function NuevoComentario($proyecto, $articulo, $comentario ){
+function NuevoComentario($proyecto, $categoria, $articulo, $comentario ){
 	$comentarios = new Comentarios();
 
-	if( !$comentarios->newComentario($proyecto, $articulo, $comentario, $_SESSION['cliente_id'])){
+	if( !$comentarios->newComentario($proyecto, $categoria, $articulo, $comentario, $_SESSION['cliente_id'])){
 		echo 'Error: no se pudo crear el nuevo comentario';
 	}
 

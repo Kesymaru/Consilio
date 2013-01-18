@@ -235,8 +235,8 @@ function SeleccionaHijo(hijo){
 * CARGA LAS NORMAS DE LA CATEGORIA
 * @param $id -> id categoria
 */
-function Normas(id){
-	$.cookie('norma', id);
+function Normas(id, proyecto){
+	$.cookie('categoria', id);
 
 	var queryParams = {"func" : "Normas", "id" : id};
 
@@ -364,7 +364,8 @@ function SelectArticulo(id){
 */
 function DatosArticulo(id){
 	var proyecto = $.cookie('proyecto');
-	var queryParams = {"func" : "DatosArticulo", "proyecto" : proyecto, "id" : id};
+	var categoria = $.cookie("categoria");
+	var queryParams = {"func" : "DatosArticulo", "proyecto" : proyecto, "categoria" : categoria, "id" : id};
 
 	$.ajax({
 		data: queryParams,
@@ -394,8 +395,7 @@ function DatosArticulo(id){
 */
 function Comentar(){
 	var tamano = 3 + ( $("#content").outerHeight() - $("#datos-articulo .titulo").outerHeight() ) - $("#datos-footer").outerHeight() ;
-	$("#panel-comentario, #comentarios").css("max-height", tamano);
-	console.log(tamano);
+	
 
 	if( $("#panel-comentario").is(":visible") ){
 		
@@ -404,6 +404,7 @@ function Comentar(){
 		});
 		
 	}else{
+		$("#panel-comentario, #comentarios").css("max-height", tamano);
 
 		$("#datos-footer").css("background-color", "#f3efe6");
 
@@ -426,14 +427,11 @@ function NewComentario(){
 
 /**
 * GUARDA EL COMENTARIO
-* @param proyecto
-* @param categoria
-* @param norma
 * @param articulo
 */
 function AgregarComentario(articulo){
 	var proyecto = $.cookie('proyecto');
-
+	var categoria = $.cookie('categoria');
 	EditorUpdateContent();
 
 	var comentario = $("#comentario").val();
@@ -443,7 +441,7 @@ function AgregarComentario(articulo){
 		return;
 	}
 
-	var queryParams = { "func" : "NuevoComentario", "proyecto" : proyecto, "articulo" : articulo, "comentario": comentario };
+	var queryParams = { "func" : "NuevoComentario", "proyecto" : proyecto, "categoria" : categoria, "articulo" : articulo, "comentario": comentario };
 
 	$.ajax({
 		data: queryParams,
