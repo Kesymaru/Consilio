@@ -200,7 +200,7 @@ function Normas($id){
 
 				if($datosNormas[0]['status'] == 1){
 
-					$lista .= '<li id="'.$datosNormas[0]['id'].'" onClick="SelectNorma('.$datosNormas[0]['id'].')">'.$datosNormas[0]['nombre'].'</li>';
+					$lista .= '<li id="'.$datosNormas[0]['id'].'"  title="'.$datosNormas[0]['nombre'].' #'.$datosNormas[0]['numero'].'" onClick="SelectNorma('.$datosNormas[0]['id'].')">'.$datosNormas[0]['nombre'].'</li>';
 				}
 			}
 		}else{
@@ -230,7 +230,7 @@ function Articulos($id){
 				<ul class="lista">';
 
 		foreach ($datos as $fila => $norma) {
-				$lista .= '<li id="'.$norma['id'].'" onClick="SelectArticulo('.$norma['id'].')">'.$norma['nombre'].'</li>';
+				$lista .= '<li id="'.$norma['id'].'" title="'.$norma['nombre'].'" onClick="SelectArticulo('.$norma['id'].')">'.$norma['nombre'].'</li>';
 		}
 		$lista .= '</ul>
 					</div>';
@@ -252,15 +252,29 @@ function DatosArticulo($proyecto, $categoria, $id){
 	$registros = new Registros();
 	$datos = $registros->getArticulo($id);
 
+	$observacion = $registros->getObservacion($proyecto, $categoria);
 	$lista = '';
 
 	if(!empty($datos)){
 		$lista = '<div id="datos-articulo">
 				<div class="titulo">
-					<button class="izquierda" type="button" onClick="Menu2()">Panel</button>
+					<!--<button class="izquierda" type="button"  onClick="Menu2()" >Panel</button>-->
+
+					<img class="icon izquierda" onClick="Menu2()" src="images/next.png" />
 					'.$datos[0]['nombre'].'
 			  	</div>
 			  	<div class="datos">';
+
+		if(!empty($observacion)){
+			$lista .= '<div class="box" >
+							<div class="dato-titulo">
+								Observaciones
+							</div>
+							<div class="dato">
+								'.base64_decode($observacion[0]['observacion']).'
+							</div>
+						</div>';
+		}
 
 		foreach ($datos as $fila => $articulo) {
 			
@@ -351,7 +365,7 @@ function DatosArticulo($proyecto, $categoria, $id){
 		$lista .= '
 					<div id="datos-footer">
 						Última Actualización '.date("m d Y - g:i a").'
-						<button type="button" onClick="Comentar()">Comentar</button>
+						<img class="icon derecha" onClick="Comentar()" src="images/coment.png" />
 					</div>
 
 					</div><!-- end datos-articulo -->';
@@ -433,7 +447,8 @@ function PanelComentarios($proyecto, $categoria, $articulo){
 
 	$panel = '';
 	$oculto = '';
-	$panel .= '<div id="panel-comentario">';
+	$panel .= '<div id="panel-comentario">
+				';
 
 	if(!empty($datos)){
 		$oculto = 'ocultos';
@@ -484,7 +499,8 @@ function PanelComentarios($proyecto, $categoria, $articulo){
 						<div title="'.$_SESSION['cliente_nombre'].'" class="img-wrapper" >
 							<img src="'.$logo.'" />
 						</div>
-					</div>';
+					</div>
+					<div>';
 
 	if($oculto == ''){
 		$panel .= '<button type="button" onClick="Comentar()">Cancelar</button>';
@@ -494,9 +510,10 @@ function PanelComentarios($proyecto, $categoria, $articulo){
 					
 	$panel .='	<button type="button" onClick="AgregarComentario('.$articulo.')">Guardar</button>
 
-				</div>';
+				</div>
+				</div><!-- end new comentario -->';
 
-	$panel .= '</div>';
+	$panel .= '</div><!-- end panel -->';
 
 	return $panel;
 }

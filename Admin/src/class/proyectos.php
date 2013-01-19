@@ -38,17 +38,18 @@ class Proyectos{
 	* @param $descripcion -> descripcion del proyecto
 	* @param $imagen -> logo adjuntado al proyecto
 	* @param $estado -> estado del proyecto
+	* @param $visible -> estado de visibilidad del proyecto
 	* @return true si se guardo el nuevo proyecto correctamente
 	* @return false si fallo al guardase el nuevo proyecto
 	*/
-	function NewProyecto($nombre, $cliente, $descripcion, $imagen, $estado){
+	function NewProyecto($nombre, $cliente, $descripcion, $imagen, $estado, $visible){
 		$base = new Database();
 		
 		$nombre = mysql_real_escape_string($nombre);
 		$descripcion = base64_encode($descripcion);
 
-		$query = "INSERT INTO proyectos (nombre, cliente, descripcion, imagen, status)";
-		$query .= " VALUES ('".$nombre."', '".$cliente."', '".$descripcion."', '".$imagen."', '".$estado."')";
+		$query = "INSERT INTO proyectos (nombre, cliente, descripcion, imagen, status, visible, fecha_creacion )";
+		$query .= " VALUES ('".$nombre."', '".$cliente."', '".$descripcion."', '".$imagen."', '".$estado."', '".$visible."', NOW() )";
 
 		if($base->Insert($query)){
 			$proyecto = $base->getUltimoId();
@@ -61,7 +62,7 @@ class Proyectos{
 			$reg = array();
 
 			//crea registros para el nuevo proyecto
-			if($registro->NewRegistro($proyecto, $reg, $datos[0]['fecha'])){
+			if($registro->NewRegistro($proyecto, $reg, $datos[0]['fecha_creacion'])){
 				return true;
 			}else{
 				return false;
@@ -79,20 +80,27 @@ class Proyectos{
 	* @param $descripcion -> descripcion del proyecto
 	* @param $imagen -> logo adjuntado al proyecto
 	* @param $estado -> estado del proyecto
+	* @param $visible -> estado de visibilidad del proyecto
 	* @return true si se actualiza el proyecto correctamente
 	* @return false si fallo 
 	*/
-	function UpdateProyecto($id, $nombre, $cliente, $descripcion, $imagen, $estado){
+	function UpdateProyecto($id, $nombre, $cliente, $descripcion, $imagen, $estado, $visible){
 		$base = new Database();
 		
 		$nombre = mysql_real_escape_string($nombre);
 		$descripcion = base64_encode($descripcion);
 
+		//si se desactiva
+		$desactivo = '';
+		if($estado == 0){
+			$desactivo = ", fecha_desactivacion = NOW() ";
+		}
+
 		if($imagen != ''){ 
 			//actualiza imagen
-			$query = "UPDATE proyectos SET nombre = '".$nombre."', cliente = '".$cliente."', descripcion = '".$descripcion."', imagen = '".$imagen."', status = '".$estado."' WHERE id = ".$id;			
+			$query = "UPDATE proyectos SET nombre = '".$nombre."', cliente = '".$cliente."', descripcion = '".$descripcion."', imagen = '".$imagen."', status = '".$estado."', visible = '".$visible."', fecha_actualizacion = NOW() ".$desactivo." WHERE id = ".$id;			
 		}else{
-			$query = "UPDATE proyectos SET nombre = '".$nombre."', cliente = '".$cliente."', descripcion = '".$descripcion."', status = '".$estado."' WHERE id = ".$id;
+			$query = "UPDATE proyectos SET nombre = '".$nombre."', cliente = '".$cliente."', descripcion = '".$descripcion."', status = '".$estado."', visible = '".$visible."', fecha_actualizacion = NOW() ".$desactivo." WHERE id = ".$id;
 		}
 
 		if($base->Update($query)){

@@ -212,18 +212,19 @@ class Master{
 					$lista .= '<td onClick="Proyecto('.$proyecto['id'].')" class="columna'.$columna.' cl'.$cuenta.'">';
 				}
 
-				$imagen = "";
-
-				if($proyecto['imagen'] == "images/es.png"){
-					$cliente = new Cliente();
-					$imagen = $_SESSION['datos'].$cliente->getClienteDato("imagen", $_SESSION['cliente_id']);
-				}else{
-					$imagen = $_SESSION['datos'].$proyecto['imagen'];
-				}
+				$imagen = $_SESSION['datos'].$proyecto['imagen'];
 
 				//fallback de la imagenes
-				if(!file_exists($imagen)){
-					$imagen = "images/es.png";
+				if(!file_exists($imagen) || $imagen == $_SESSION['datos']."images/es.png" ){
+					$cliente = new Cliente();
+					//primer fallback usa la del usuario
+					$imagen = $_SESSION['datos'].$cliente->getClienteDato("imagen", $_SESSION['cliente_id']);
+
+					if(!file_exists($imagen)){
+						//segundo fallback usa la default
+						$imagen = "images/es.png";
+					}
+					
 				}
 
 				$lista .= '<div class="proyecto-detalles">';

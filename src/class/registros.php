@@ -45,20 +45,21 @@ class Registros{
 
 	/**
 	* OBTIENE LOS DATOS DE LA OBSERVACION
-	* @param $id -> id de la observacion
+	* @param $proyecto -> id del proyecto
+	* @param $categoria -> id de la categoria
 	* @return $datos[][] -> datos de la observacion
-	* @return false si falla
+	* @return false si falla o no tiene datos
 	*/
-	public function getObservacion($id){
+	public function getObservacion($proyecto, $categoria){
 		$base = new Database();
-		$query = "SELECT * FROM observaciones WHERE id = ".$id;
+		$query = "SELECT * FROM observaciones WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."'";
 		
 		$datos = $base->Select($query);
 		
 		if(!empty($datos)){
 			return $datos;
 		}else{
-			return null;
+			return false;
 		}
 	}
 

@@ -195,8 +195,8 @@ $master = new Master();
 							Articulos
 						</li>
 
-						<button class="derecha" type="button" title="Buscar" onClick="Busqueda('busqueda', 'buscar', 'panel', false)">Buscar</button>
-
+						<!-- <button class="derecha" type="button" title="Buscar" onClick="Busqueda('busqueda', 'buscar', 'panel', false)">Buscar</button> -->
+						<img class="icon derecha" title="Buscar" onClick="Busqueda('busqueda', 'buscar', 'panel', false)" src="images/search2.png" />
 					</ul> 
 				</td>
 			</tr> 
@@ -250,17 +250,15 @@ $master = new Master();
 				}
 
 				?>
-			<div id="nivel1">
-
-			</div><!-- end nivel 1-->
-
-			<div id="nivel2">
-
-			</div><!-- end nivel 2-->
 
 		</div><!-- end content -->
-
 	</div><!-- end main -->
+
+<div class="disclaim" >
+	<div>
+		<p>2013 Escala Consultores. Todos los derechos reservados</p>
+	</div>
+</div>	
 
 </body>
 

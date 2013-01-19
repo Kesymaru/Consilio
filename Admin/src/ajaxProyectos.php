@@ -213,7 +213,7 @@ function NuevoProyecto(){
 					  			<td>
 					  				<input type="text" name="nombre" title="Nombre Para Nuevo Proyecto" placeholder="Nombre" class="validate[required]" />
 					  			</td>
-					  			<td rowspan="3" class="td-project-image">
+					  			<td rowspan="4" class="td-project-image">
 					  				<img id="image-preview" title="Imagen Para Nuevo Proyecto" src="images/es.png" />
 					  				<br/>
 					  				<input type="file" name="imagen" id="imagen" class="validate[optional]" onchange="PreviewImage(this,\'image-preview\')"/>
@@ -228,6 +228,7 @@ function NuevoProyecto(){
 	$formulario .= SelectClientes().'
 								</td>
 					  		</tr>
+					  		<!-- desactivacion
 					  		<tr>
 					  			<td>
 					  				Estado
@@ -239,6 +240,21 @@ function NuevoProyecto(){
 
 						  				<input id="radio-estado2" type="radio" name="estado" value="0">
 						  				<label for="radio-estado2">Inactivo</label>
+					  				</div>
+					  			</td>
+					  		</tr>
+					  		-->
+					  		<tr>
+					  			<td>
+					  				Visible
+					  			</td>
+					  			<td>
+									<div id="radio-visible" title="Visibilidad Del Proyecto Para El cliente">
+										<input id="radio-visible1" type="radio" checked="checked" name="visible" value="1">
+						  				<label for="radio-visible1">Visible</label>
+
+						  				<input id="radio-visible2" type="radio" name="visible" value="0">
+						  				<label for="radio-visible2">Oculto</label>
 					  				</div>
 					  			</td>
 					  		</tr>
@@ -285,7 +301,7 @@ function EditarProyecto($id){
 					  			<td>
 					  				<input type="text" name="nombre" title="Nombre Para Nuevo Proyecto" placeholder="Nombre" class="validate[required]" value="'.$datos[0]['nombre'].'" />
 					  			</td>
-					  			<td rowspan="3" class="td-project-image">
+					  			<td rowspan="4" class="td-project-image">
 					  				<img id="image-preview" title="Imagen Para El Proyecto" src="'.$datos[0]['imagen'].'" />
 					  				<br/>
 					  				<input type="file" name="imagen" id="imagen" class="validate[optional]" onchange="PreviewImage(this,\'image-preview\')" />
@@ -326,6 +342,31 @@ function EditarProyecto($id){
 					  				</div>
 					  			</td>
 					  		</tr>
+					  		<tr>
+					  			<td>
+					  				Visible
+					  			</td>
+					  			<td>
+					  				<div id="radio-visible" title="Visibilidad Del Proyecto Para El cliente">';
+		
+		if($datos[0]['visible'] == 1){
+
+			$formulario .= '<input id="radio-visible1" type="radio" checked="checked" name="visible" value="1">
+						  				<label for="radio-visible1">Visible</label>
+
+						  			<input id="radio-visible2" type="radio" name="visible" value="0">
+						  				<label for="radio-visible2">Oculto</label>';
+		}else{
+			$formulario .= '<input id="radio-visible1" type="radio" name="visible" value="1">
+						  				<label for="radio-visible1">Visible</label>
+
+						  			<input id="radio-visible2" type="radio" name="visible" checked="checked" value="0">
+						  				<label for="radio-visible2">Oculto</label>';
+		}					  			
+		
+		$formulario .= '    
+								</td>
+							</tr>
 					  		</table>
 					  		Descripcion
 					  		<textarea name="descripcion" id="descripcion">';
@@ -420,7 +461,17 @@ function RegistrarProyecto(){
 			$descripcion = $_POST['descripcion'];
 		}
 
-		if( !$proyectos->NewProyecto($_POST['nombre'], $_POST['cliente'], $descripcion, $imagen, $_POST['estado']) ){
+		$estado = 1;
+		/*if($_POST['estado'] == 1 || $_POST['estado'] == 0){
+			$estado = $_POST['estado'];
+		}*/
+
+		$visible = 1;
+		if($_POST['visible'] == 1 || $_POST['visible'] == 0){
+			$visible = $_POST['visible'];
+		}
+
+		if( !$proyectos->NewProyecto( $_POST['nombre'], $_POST['cliente'], $descripcion, $imagen, $estado, $visible )){
 			echo "ERROR: no se pudo registrar el nuevo proyecto, ajaxProyectos.php RegistrarProyecto() linea 413";
 		}
 
@@ -450,7 +501,17 @@ function ActualizarProyecto($id){
 			$descripcion = $_POST['descripcion'];
 		}
 
-		if( !$proyectos->UpdateProyecto($id, $_POST['nombre'], $_POST['cliente'], $descripcion, $imagen, $_POST['estado']) ){
+		$estado = 1;
+		if($_POST['estado'] == 1 || $_POST['estado'] == 0){
+			$estado = $_POST['estado'];
+		}
+
+		$visible = 1;
+		if($_POST['visible'] == 1 || $_POST['visible'] == 0){
+			$visible = $_POST['visible'];
+		}
+
+		if( !$proyectos->UpdateProyecto($id, $_POST['nombre'], $_POST['cliente'], $descripcion, $imagen, $estado, $visible )){
 			echo "<br/>ERROR: no se pudo actualizar el proyecto, ajaxProyectos.php ActualizarProyecto(".$id.") linea 349";
 		}
 

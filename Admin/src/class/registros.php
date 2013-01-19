@@ -48,8 +48,8 @@ class Registros{
 
 		$registro = serialize($registro);
 
-		$query = "INSERT INTO registros (proyecto, registro, fecha) VALUES";
-		$query .= " ('".$proyecto."', '".$registro."', '".$fecha."')";
+		$query = "INSERT INTO registros (proyecto, registro, fecha_creacion) VALUES";
+		$query .= " ('".$proyecto."', '".$registro."', '".$fecha."' )";
 
 		if($base->Insert($query)){
 			return true;
@@ -68,7 +68,7 @@ class Registros{
 
 		$registro = serialize($registro);
 
-		$query = "UPDATE registros SET registro = '".$registro."' WHERE id = '".$id."'";
+		$query = "UPDATE registros SET registro = '".$registro."', fecha_actualizacion = NOW() WHERE id = '".$id."'";
 
 		if($base->Update($query)){
 			return true;
@@ -88,7 +88,7 @@ class Registros{
 
 		$datos = $base->Select($query);
 		if(!empty($datos)){
-			if($this->NewRegistro($nuevo, $datos[0]['registro'], $datos[0]['fecha'])){
+			if($this->NewRegistro($nuevo, $datos[0]['registro'], $datos[0]['fecha_creacion'])){
 				return true;
 			}else{
 				return false;
@@ -100,7 +100,7 @@ class Registros{
 			$registro = array();
 
 			//crea registro vacio
-			if($this->NewRegistro($nuevo, $registro, $datos[0]['fecha'])){
+			if($this->NewRegistro($nuevo, $registro, $datos[0]['fecha_creacion'])){
 				return true;
 			}else{
 				return false;
@@ -276,7 +276,7 @@ class Registros{
 		$query = "SELECT * FROM observaciones WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."'";
 
 		if($base->Existe($query)){
-			$query = "UPDATE observaciones SET observacion = '".$observacion."' WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."'";
+			$query = "UPDATE observaciones SET observacion = '".$observacion."', fecha_actualizacion = NOW() WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."'";
 			
 			if($base->Update($query)){
 				return true;
@@ -284,7 +284,7 @@ class Registros{
 				return false;
 			}
 		}else{
-			$query = "INSERT INTO observaciones ( observacion, categoria, proyecto) VALUES ('".$observacion."', '".$categoria."', '".$proyecto."')";
+			$query = "INSERT INTO observaciones ( observacion, categoria, proyecto, fecha_creacion ) VALUES ('".$observacion."', '".$categoria."', '".$proyecto."', NOW() )";
 			
 			if($base->Insert($query)){
 				return true;
@@ -393,9 +393,9 @@ class Registros{
 		$base = new Database();
 
 		if($tipo == 'norma'){
-			$query = "INSERT INTO archivos (nombre, link, norma) VALUES ('".$nombre."', '".$link."', '".$pertenece."')";
+			$query = "INSERT INTO archivos (nombre, link, norma, fecha_creacion ) VALUES ('".$nombre."', '".$link."', '".$pertenece."', NOW() )";
 		}else if($tipo == 'articulo'){
-			$query = "INSERT INTO archivos (nombre, link, articulo) VALUES ('".$nombre."', '".$link."', '".$pertenece."')";
+			$query = "INSERT INTO archivos (nombre, link, articulo, fecha_creacion ) VALUES ('".$nombre."', '".$link."', '".$pertenece."', NOW() )";
 		}
 
 		if($base->Insert($query)){
@@ -463,11 +463,12 @@ class Registros{
 			if(!empty($datos)){
 
 				//crea el snapshot del archivo con los datos
-				$query = "INSERT INTO snapshots_archivos (nombre, link, norma, articulo, id) VALUES ";
+				$query = "INSERT INTO snapshots_archivos (nombre, link, norma, articulo, id, fecha_creacion, fecha_snapshot ) VALUES ";
+
 				if($tipo == 'norma'){
-					$query .= "( '".$datos[0]['nombre']."', '".$datos[0]['link']."', '".$datos[0]['norma']."', 0, '".$nuevoLink."' )";
+					$query .= "( '".$datos[0]['nombre']."', '".$datos[0]['link']."', '".$datos[0]['norma']."', 0, '".$nuevoLink."', '".$datos[0]['fecha_creacion']."', NOW() )";
 				}else{
-					$query .= "( '".$datos[0]['nombre']."', '".$datos[0]['link']."', 0, '".$datos[0]['articulo']."', '".$nuevoLink."' )";
+					$query .= "( '".$datos[0]['nombre']."', '".$datos[0]['link']."', 0, '".$datos[0]['articulo']."', '".$nuevoLink."', '".$datos[0]['fecha_creacion']."', NOW() )";
 				}
 					
 				if($base->Insert($query)){

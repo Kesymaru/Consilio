@@ -22,7 +22,7 @@ class Proyectos{
 	*/
 	public function getProyectos($usuario){
 		$base = new Database();
-		$query = "SELECT * FROM proyectos WHERE cliente = '".$usuario."' ORDER BY nombre";
+		$query = "SELECT * FROM proyectos WHERE cliente = '".$usuario."' AND visible = '1' ORDER BY nombre";
 
 		$datos = $base->Select($query);
 

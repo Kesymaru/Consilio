@@ -253,6 +253,7 @@ function FormularioNuevoProyecto(){
 
 	Editor('descripcion');
 	$("#radio-estado").buttonset();
+	$("#radio-visible").buttonset();
 }
 
 /**
@@ -338,6 +339,7 @@ function FormularioEditarProyecto(){
 
 	Editor('descripcion');
 	$("#radio-estado").buttonset();
+	$("#radio-visible").buttonset();
 }
 
 /**

@@ -50,8 +50,8 @@ class Comentarios{
 		$proyecto = mysql_real_escape_string($proyecto);
 		$articulo = mysql_real_escape_string($articulo);
 
-		$query = "INSERT INTO comentarios ( comentario, proyecto, categoria, articulo, usuario, tipo ) ";
-		$query .= " VALUES ( '".$comentario."', '".$proyecto."', '".$categoria."', '".$articulo."', '".$usuario."', 0 )";
+		$query = "INSERT INTO comentarios ( comentario, proyecto, categoria, articulo, usuario, tipo, fecha_creacion ) ";
+		$query .= " VALUES ( '".$comentario."', '".$proyecto."', '".$categoria."', '".$articulo."', '".$usuario."', 0, NOW() )";
 
 		if($base->Insert($query)){
 			return true;

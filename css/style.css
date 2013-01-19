@@ -61,6 +61,30 @@ select{
 	display: block;
 }
 
+.disclaim{
+	
+	height: 10%;
+	display: table;
+	vertical-align: middle;
+	width: 100%;
+	margin: 0;
+	text-align: center;
+	bottom: 0;
+}
+
+.disclaim div{
+	display: table-cell;
+	vertical-align: middle;
+	width: 100%;
+}
+
+.disclaim div p{
+	font-size: 15px;
+	background-color: #f7991c;
+	padding: 7px;
+	color: #fff;
+}
+
 /*
 *	MENU
 */
@@ -583,6 +607,18 @@ select{
 	float: left;
 	margin: 0;
 	height: 20px;
+}
+
+.icon{
+	height: 28px;
+	cursor: pointer;
+	margin-bottom: 0;
+	margin-top: -5px;
+}
+
+.close{
+	float: left;
+	margin-top: -20px;
 }
 
 #toolbarMenu .seleccionado{

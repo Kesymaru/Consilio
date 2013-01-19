@@ -142,19 +142,19 @@ class Session{
 		$query = "SELECT * FROM clientes WHERE id = '".$id."'";
 
 		$datos = $base->Select($query);
-		if(empty($datos[0]['visitas'])){
+		if(empty($datos[0]['log'])){
 			$registros = array();
 			$registros[] = date("Y-m-d H:i:s");
 		}else{
 			$registros = array();
-			$registros = unserialize($datos[0]['visitas']);
+			$registros = unserialize($datos[0]['log']);
 			if(!empty($registros)){
 				$registros[] = date("Y-m-d H:i:s");
 			}
 		}
 		$visitas = serialize($registros);
 
-		$query = "UPDATE clientes SET visitas = '".$visitas."' WHERE id = '".$id."'";
+		$query = "UPDATE clientes SET log = '".$visitas."' WHERE id = '".$id."'";
 		$base->Update($query);
 	}
 
