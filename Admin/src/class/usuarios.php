@@ -415,7 +415,7 @@ class Admin{
 		$password = mysql_real_escape_string($password);
 		$password = $base->Encriptar($password);
 
-		$query = "INSERT INTO admin (usuario, nombre, apellidos, email, telefono, skype, imagen, password, facha_creacion ) VALUES ";
+		$query = "INSERT INTO admin (usuario, nombre, apellidos, email, telefono, skype, imagen, password, fecha_creacion ) VALUES ";
 		$query .= " ( '".$usuario."', '".$nombre."', '".$apellidos."', '".$email."', '".$telefono."', '".$skype."', '".$imagen."', '".$password."', NOW() ) ";
 		
 		if($base->Insert($query)){
