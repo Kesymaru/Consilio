@@ -1227,21 +1227,15 @@ select{
 	display: block;
 }
 
-.preview .table-preview{
-	width: 100%;
-	border-collapse: collapse;
-	border: 0 solid transparent;
-}
-
-.preview .table-preview #normas,
-.preview .table-preview #articulos{
+.preview .datos-preview #normas,
+.preview .datos-preview #articulos{
 	text-align: center;
 	font-size: 20px;
 	padding: 0;
 }
 
-.preview .table-preview #normas li,
-.preview .table-preview #articulos li{
+.preview .datos-preview #normas li,
+.preview .datos-preview #articulos li{
 	padding-top: 5px;
 	padding-bottom: 5px;
 	border-bottom: 1px solid #dedede;
@@ -1265,10 +1259,14 @@ select{
 
 .preview #normas{
 	width: 100%;
+	display: inline-block;
+	float: left;
 }
 
 .preview #articulos{
 	width: 0%;
+	display: inline-block;
+	float: right;
 }
 
 /*
