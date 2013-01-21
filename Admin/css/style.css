@@ -93,7 +93,6 @@ select{
 	text-align: center;
 	display: block;
 	min-width: 150px;
-	padding-top: 20px;
 }
 
 #menu .categorias-componer ul{
@@ -625,6 +624,13 @@ select{
 #toolbarMenu .seleccionado{
 	background-color: #a1ca4a !important;
 	color: #fff;
+}
+
+.icon{
+	height: 28px;
+	cursor: pointer;
+	margin-bottom: 0;
+	margin-top: -5px;
 }
 
 .dropMenu{
@@ -1255,6 +1261,14 @@ select{
 	padding-top: 5px;
 	padding-bottom: 5px;
 	font-weight: bold;
+}
+
+.preview #normas{
+	width: 100%;
+}
+
+.preview #articulos{
+	width: 0%;
 }
 
 /*

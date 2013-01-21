@@ -164,7 +164,7 @@ function ComponerProyecto($id){
 		$lista = '<div id="proyectos" class="tipos">
 				<div class="titulo">
 					'.$proyecto[0]['nombre'].'
-					<button class="boton-buscar" type="button" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-categorias\', \'buscar-categorias\', \'categorias-incluidas\', true)">Buscar</button>
+					<img class="boton-buscar icon" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-categorias\', \'buscar-categorias\', \'categorias-incluidas\', true)" src="images/search2.png">
 			  	</div>
 
 			  	<div class="busqueda" id="busqueda-categorias">

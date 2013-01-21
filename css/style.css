@@ -29,7 +29,7 @@ html, body{
 	height: 100%;
 	/*overflow: hidden;*/
 	font-family: 'Open Sans', sans-serif;
-
+	
 	-moz-user-select: none;  
 	-webkit-user-select: none;  
 	-ms-user-select: none;  
@@ -616,11 +616,6 @@ select{
 	margin-top: -5px;
 }
 
-.close{
-	float: left;
-	margin-top: -20px;
-}
-
 #toolbarMenu .seleccionado{
 	background-color: #a1ca4a !important;
 	color: #fff;
@@ -683,30 +678,24 @@ select{
 	border-radius: 5px;
 	vertical-align: middle;
 	font-size: 20px;
+	
+	-moz-user-select: auto !important;  
+	-webkit-user-select: auto !important;  
+	-ms-user-select: auto !important;  
+	-o-user-select: auto !important;  
+	user-select: auto !important;
 }
 
-.search{
-	background-color: #a1ca4a;
-	border: 0;
-	margin: 0;
+#search input{
 	display: inline-block;
-	text-align: left;
-	vertical-align: middle;
-	font-size: 20px;
-	padding: 8px;
-	border-radius: 5px;
-	margin-bottom: 20px;
+	-moz-user-select: auto !important;  
+	-webkit-user-select: auto !important;  
+	-ms-user-select: auto !important;  
+	-o-user-select: auto !important;  
+	user-select: auto !important;
 }
 
-#search input, 
-#search button,
-.search input,
-.search button{
-	display: inline-block;
-}
-
-#search input[type="text"],
-.search input[type="text"]{
+#search input[type="text"]{
 	width: 200px;
 	border: 0 solid transparent !important;
 	padding: 0 !important;
@@ -727,35 +716,22 @@ select{
 	margin:  0 !important;
 }
 
-#search ::-webkit-input-placeholder, 
-.search ::-webkit-input-placeholder{
+#search ::-webkit-input-placeholder{
    	color: #fff !important;  
    	border: 0 !important;
-
-   		-o-box-shadow: none; /* Opera */
-   		-ms-box-shadow: none; /* IE 9 */
-		-moz-box-shadow: none; /* Firefox */
-		-webkit-box-shadow: none; /* Safari and Chrome */
+		-webkit-box-shadow: none; 
 	box-shadow: none;
 }
 
-#search input:-moz-placeholder,
-.search input:-moz-placeholder{  
+#search input:-moz-placeholder,{  
    	color: #fff !important;  
    	border: 0 !important;
-   		-ms-box-shadow: none; /* IE 9 */
-		-moz-box-shadow: none; /* Firefox */
-		-webkit-box-shadow: none; /* Safari and Chrome */
-		-o-box-shadow: none; /* Opera */
+		-moz-box-shadow: none;
 	box-shadow: none;
 }
 
 #search input[type="submit"],
-#search input[type="submit"]:active,
-.search input[type="submit"],
-.search input[type="submit"]:active,
-.search button,
-.search button:active{
+#search input[type="submit"]:active{
 	width: 40px;
 	height: 20px;
 	border: 0 solid transparent !important;
@@ -763,15 +739,6 @@ select{
 	color: transparent !important; 
 	background: url(../images/search.png) 10px 0 no-repeat;;
 	padding: 0;
-}
-
-.search input[type="submit"],
-.search input[type="submit"]:active,
-.search button,
-.search button:active{
-	border: none !important;
-	border-radius:  none !important;
-	margin-bottom: 8px !important; 
 }
 
 /* 
@@ -945,6 +912,8 @@ select{
 
 #NewComentario{
 	margin-top: 10px;
+	display: block;
+	margin: 0 auto;
 }
 
 .comentarios td{

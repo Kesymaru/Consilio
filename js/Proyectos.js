@@ -21,6 +21,19 @@ function Proyecto(id){
 		LimpiarContent();
 	}
 
+	//selecciona el proyecto en el toolbar
+	$("#menuProyectos ul li").removeClass("seleccionado");
+	$("#menuProyectos #menuProyecto"+id).addClass("seleccionado");
+
+	if( $("#menuProyecto"+id).html() != $("#menuProyectos span").html() ){
+		
+		$("#menuProyectos span").fadeOut(500, function(){
+			$("#menuProyectos span").html( $("#menuProyecto"+id).html() );
+			$("#menuProyectos span").fadeIn();
+		});
+		
+	}
+
 	$.cookie('proyecto', id);
 
 	CategoriasRoot(id);
@@ -365,20 +378,24 @@ function SelectArticulo(id){
 function DatosArticulo(id){
 	var proyecto = $.cookie('proyecto');
 	var categoria = $.cookie("categoria");
-	var queryParams = {"func" : "DatosArticulo", "proyecto" : proyecto, "categoria" : categoria, "id" : id};
+
+	var queryParams = {"func" : "DatosArticulo", "proyecto" : proyecto, "categoria" : categoria, "id" : id };
 
 	$.ajax({
-		data: queryParams,
+		cache: false,
 		type: "post",
+		data: queryParams,
 		url: "src/ajaxProyectos.php",
-		beforesend: function(){
-		},
 		success: function(response){
+
 			if(response.length > 0){
+				
 				$("#content").html(response);
 				$("#datos-articulo").hide()
 				$("#datos-articulo").fadeIn();
+				
 				Menu2();
+				
 				Editor('comentario');
 			}else{
 				notificaError("Error: "+response);

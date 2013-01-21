@@ -71,7 +71,7 @@ function Admins(){
 	$lista = '<div id="admins" class="tipos">
 				<div class="titulo">
 					Administradores
-			  		<button class="boton-buscar" type="button" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-admins\', \'buscar-admins\', \'admins\', false)">Buscar</button>
+			  		<img class="boton-buscar icon" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-admins\', \'buscar-admins\', \'admins\', false)" src="images/search2.png" >
 			  	</div>
 
 			  	<div class="busqueda" id="busqueda-admins">

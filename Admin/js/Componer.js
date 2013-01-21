@@ -380,7 +380,7 @@ function MenuCategoriaIncluida(id){
         	//"excluir": {name: "Excluir", icon: "delete"},
         	"excluir": {name: "Excluir Selecciones", icon: "delete", accesskey: "x"},
             "normas": {name: "Seleccionar Normas", icon: "edit", accesskey: "s"},
-            "observacion": {name: "Observacion", icon: "edit"},
+            "observacion": {name: "Observacion", icon: "edit", accesskey: "o"},
             "camino": {name: "Ver camino", icon: "edit", accesskey: "c"},
         }
     });

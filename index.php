@@ -153,7 +153,7 @@ $master = new Master();
 
 				<div id="menuProyectos">
 					<img class="icon" src="images/list.png" />
-					Proyectos
+					<span>Proyectos</span>
 					<ul class="dropMenu">
 						<?php
 							$master->MenuProyectos();
@@ -165,8 +165,8 @@ $master = new Master();
 			<!-- end opciones de menu -->
 			<div id="search">
 				<form id="searchForm" method="get" action="index.php">
-					<input type="text" class="validate[required]" data-prompt-position="bottomRight" placeholder="hacer busqueda..." required="requiered" name="buscar">
-					<input type="submit" name="accion">
+					<input type="text" class="validate[required]" data-prompt-position="bottomRight" placeholder="hacer busqueda" name="buscar">
+					<input type="submit">
 				</form>
 			</div>
 			<!-- end para search -->
@@ -195,8 +195,8 @@ $master = new Master();
 							Articulos
 						</li>
 
-						<!-- <button class="derecha" type="button" title="Buscar" onClick="Busqueda('busqueda', 'buscar', 'panel', false)">Buscar</button> -->
 						<img class="icon derecha" title="Buscar" onClick="Busqueda('busqueda', 'buscar', 'panel', false)" src="images/search2.png" />
+
 					</ul> 
 				</td>
 			</tr> 
@@ -232,10 +232,13 @@ $master = new Master();
 						<script language=javascript>
 							$.cookie('vista','buscar');
 						</script>
+
 						<?php
 							$master->Buscar($_GET['buscar']);
 						?>
+
 						<button onClick="Home()" id="LimpiarBusqueda">Limpiar</button>
+						
 						<script type="text/javascript">
 							Boton('LimpiarBusqueda');
 						</script>
@@ -243,7 +246,6 @@ $master = new Master();
 				<?php
 				}else if(!isset($_GET['proyecto'])){
 					//MUESTRA LOS PROYECTOS DEL CLIENTE
-					
 					$master->Proyectos();
 				?>
 				<?php 

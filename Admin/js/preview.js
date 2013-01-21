@@ -42,7 +42,7 @@ $(document).ready(function(){
 
 	$("#articulos").css("width","0");
 
-	$("#articulos, .siguiente, .atras, #GuardarArticulos").hide();
+	$("#articulos, #next, #preview, #GuardarArticulos").hide();
 
 	//formularios
 	FormularioArticulos();
@@ -121,6 +121,8 @@ function SelectNormas(id){
 		$("#normas #"+id).addClass("seleccionada");
 		$("#norma"+id).attr('checked', true);
 	}
+
+	$("#next").fadeIn();
 }
 
 /**
@@ -168,55 +170,99 @@ function Articulos(norma){
 function Cambio(){
 
 	if(!$("#articulos").is(":visible")){
-		$("#articulos").show();
+		
+		$("#articulos").fadeIn();
 
-		$("#articulos").animate({
-			"width" : "100%",
-			"display" : "block"
-		},700, function(){
-			$("#articulos").css({
-				'width' : "100%",
-				"display" : "block"
-			});
-		});
+		$("#normas").fadeOut();
 
-		$("#normas").animate({
-			"width" : "0"
-		},700, function(){
-			$("#normas").css({
-				'width' : "0",
-				"display" : "none"
-			});
-		});
-
-		$(".siguiente, #GuardarNormas").fadeOut();
-		$(".atras, #GuardarArticulos").fadeIn();
+		$("#next, #GuardarNormas").fadeOut();
+		$("#preview, #GuardarArticulos").fadeIn();
 
 	}else{
 
+		$("#articulos").fadeOut();
+
+		$("#normas").fadeIn();
+
+		$("#next, #GuardarNormas").fadeIn();
+		$("#preview, #GuardarArticulos").fadeOut();
+	}
+}
+
+function Cambio2(){
+
+	if(!$("#articulos").is(":visible")){
+
+		$("#normas").css("display" , "table-cell");
+		$("#articulos").css("display" , "table-cell");
+		$("#articulos form").hide();
+
+		$("#normas").animate({
+			//opacity: 0,
+			width: "0%"
+		}, { 
+			duration: 1500, 
+			queue: false,
+			complete: function(){
+				$("#normas").css({
+					'width' : "0",
+					"display" : "none"
+				});
+				$("#articulos form").show();
+			}
+		});
+
+    	$("#articulos").animate({
+			width: "100%",
+			"display" : "table-cell"
+		}, { 
+			duration: 1500, 
+			queue: false,
+			complete: function(){
+				$("#articulos").css({
+					'width' : "100%",
+					"display" : "table-cell"
+				});
+			}
+		});
+
+		$("#next, #GuardarNormas").fadeOut();
+		$("#preview, #GuardarArticulos").fadeIn();
+
+	}else{
+		$("#normas").css("display" , "table-cell");
+		$("#articulos").css("display" , "table-cell");
+
 		$("#articulos").animate({
-			"width" : "0"
-		},700, function(){
-			$("#articulos").css({
+			//opacity: 0,
+			width: "0%"
+		}, { 
+			duration: 1500, 
+			queue: false,
+			complete: function(){
+				$("#articulos").css({
 				'width' : "0",
 				"display" : "none"
 			});
-		});
-		
-		$("#normas").animate({
-			"width" : "100%",
-			"display" : "block"
-		},700, function(){
-			$("#normas").css({
-				'width' : "100%",
-				"display" : "block"
-			});
+			}
 		});
 
-		
+    	$("#normas").animate({
+			width: "100%",
+			"display" : "table-cell"
+		}, { 
+			duration: 1500, 
+			queue: false,
+			complete: function(){
+				$("#normas").css({
+					'width' : "100%",
+					"display" : "table-cell"
+				});
+			}
+		});
 
-		$(".siguiente, #GuardarNormas").fadeIn();
-		$(".atras, #GuardarArticulos").fadeOut();
+		$("#next, #GuardarNormas").fadeIn();
+		$("#preview, #GuardarArticulos").fadeOut();
 	}
 }
 

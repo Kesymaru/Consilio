@@ -61,7 +61,7 @@ function Tipos(){
 	$lista = '<div id="tipos" class="tipos">
 				<div class="titulo">
 					Tipos Norma
-			  		<button class="boton-buscar" type="button" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-tipos\', \'buscar-tipos\', \'tipos\', false)">Buscar</button>
+			  		<img class="boton-buscar icon" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-tipos\', \'buscar-tipos\', \'tipos\', false)" src="images/search2.png">
 			  	</div>
 			  	<div class="busqueda" id="busqueda-tipos">
 					<div class="buscador">

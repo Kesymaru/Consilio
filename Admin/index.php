@@ -180,7 +180,7 @@ $master = new Master();
 			<div id="search">
 				<form id="searchForm" method="get" action="index.php">
 					<input type="text" class="validate[required]" data-prompt-position="bottomRight" placeholder="hacer busqueda" required="requiered" name="buscar">
-					<input type="submit" name="accion">
+					<input type="submit">
 				</form>
 			</div>
 			<!-- end para search -->

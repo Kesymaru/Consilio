@@ -121,7 +121,7 @@ function Normas(){
 	echo '<div id="normas" class="normas">
 		  	<div class="titulo">
 				Normas
-				<button class="boton-buscar" type="button" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-normas\', \'buscar-normas\', \'normas\', false)">Buscar</button>
+				<img class="boton-buscar icon" type="button" title="Buscar Normas" onClick="Busqueda(\'busqueda-normas\', \'buscar-normas\', \'normas\', false)" src="images/search2.png" >
 		  	</div>
 
 		  	<div class="busqueda" id="busqueda-normas">
@@ -479,8 +479,10 @@ function Articulos($norma){
 
 		$lista .= '<div id="articulos" class="'.$visibilidad.'">
 					  <div class="titulo">
-					  	Articulos de '.$registros->getDatoNorma("nombre", $norma).' '.$registros->getDatoNorma("numero", $norma).'
-					  	<button class="boton-buscar" type="button" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-articulos\', \'buscar-articulos\', \'articulos\', false)">Buscar</button>
+					  	Articulos '.$registros->getDatoNorma("nombre", $norma).' #'.$registros->getDatoNorma("numero", $norma).'
+
+					  	<img class="boton-buscar icon" type="button" title="Buscar Articulos" onClick="Busqueda(\'busqueda-articulos\', \'buscar-articulos\', \'articulos\', false)" src="images/search2.png" >
+
 					  </div>
 
 					  <div class="busqueda" id="busqueda-articulos">
@@ -500,7 +502,7 @@ function Articulos($norma){
 		//no tiene articulos no se ocupa el buscador
 		$lista .= '<div id="articulos" class="'.$visibilidad.'">
 					  <div class="titulo">
-					  	Articulos de '.$registros->getDatoNorma("nombre", $norma).' '.$registros->getDatoNorma("numero", $norma).'
+					  	Articulos '.$registros->getDatoNorma("nombre", $norma).' #'.$registros->getDatoNorma("numero", $norma).'
 					  </div>
 					  No hay articulos.
 					  <br/>';

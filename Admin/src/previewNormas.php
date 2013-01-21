@@ -76,6 +76,182 @@ function Cierre(){
 * @param $categoria -> id de la categoria
 * @param $proyecto -> id del proyecto
 */
+function Normas2($categoria, $proyecto){
+
+	$registros = new Registros();
+
+	//obtiene todos los datos de la categoria
+	$categoriaDatos = $registros->getCategoria( $categoria );
+
+	//normas de la categoria
+	$normas = unserialize($categoriaDatos[0]['normas']);
+
+	//normas incluidas
+	$incluidas = $registros->getRegistrosNorma($proyecto, $categoria);
+
+	if(!empty($incluidas)){
+		$incluidas = unserialize( $incluidas[0]['registro'] );
+	}else{
+		$incluidas = '';
+	}
+
+	//titulo
+	echo '<div class="preview">
+			<div class="titulo">
+
+				<input type="hidden" name="proyecto" id="proyecto" value="'.$proyecto.'" />
+				
+				<img src="../images/previous.png" class="izquierda icon" onClick="Cambio()" title="Ir Atras">
+				'.$categoriaDatos[0]['nombre'].'
+				<img src="../images/next.png" class="derecha icon" onClick="Articulos()" title="Ir Siguiente">
+				
+				
+			</div>
+			<div class="datos-preview">';
+
+	$td_articulos = '<div id="articulos">
+			  <form id="FormularioArticulos" enctype="multipart/form-data" method="post" action="previewNormas.php" >
+			    <input type="hidden" name="func" value="RegistrarArticulos" />
+			  	<input type="hidden" id="articulos_proyecto" name="proyecto" value="" />
+			  	<input type="hidden" id="articulos_norma" name="norma" value="" />
+			  	<div class="subtitulo">
+			  			<button class="izquierda icon" onClick="SelectAllArticulos()" 	titl="Seleccionar Todo" src="images/">Todo</button>
+				  		Articulos
+						<img class="boton-buscar icon" title="Buscar Articulos" onClick="Busqueda(\'busqueda-articulos\', \'buscar-articulos\', \'articulos\', false)" src="../images/search2.png">
+				</div>		
+					<div class="busqueda" id="busqueda-articulos">
+						<div class="buscador">
+							<input type="search" title="Escriba Para Buscar Normas" id="buscar-articulos" placeholder="Buscar Articulos"/>
+						</div>
+					</div>
+
+					<ul id="articulos-list">
+						<li>No hay Articulos</li>
+					</ul>
+
+			  </form> <!--  end form articulos -->
+			  </div>
+			 
+			 </div><!-- end datos-preview -->
+
+			 <div  class="preview-botones">
+			 	<button type="button" id="GuardarNormas" onClick="GuardarNormas()">Guardar</button>
+			 	<button type="button" id="GuardarArticulos" onClick="GuardarArticulos();">Guardar</button>
+			 </div>';
+
+	if( !empty($incluidas)){
+		
+		echo '<div id="normas">
+				<form id="FormularioNormas" enctype="multipart/form-data" method="post" action="previewNormas.php" >
+					<input type="hidden" name="func" value="RegistrarNormas" />
+					<input type="hidden" id="normas_categoria" name="categoria" value="'.$categoria.'" />
+					<input type="hidden" id="normas_proyecto" name="proyecto" value="'.$proyecto.'" />
+
+					<div class="subtitulo">
+						<button class="izquierda icon" onClick="SelectAllNormas()" 	titl="Seleccionar Todo" src="images/">Todo</button>
+						Normas
+						<img class="boton-buscar icon" title="Buscar Normas" onClick="Busqueda(\'busqueda-normas\', \'buscar-normas\', \'normas\', false)" src="../images/search2.png" >
+					</div>
+
+					<div class="busqueda" id="busqueda-normas">
+						<div class="buscador">
+							<input type="search" title="Escriba Para Buscar Normas" id="buscar-normas" placeholder="Buscar Normas"/>
+						</div>
+					</div>';
+
+		echo '<ul>';
+
+		//lista de normas de la categoria
+		foreach ($normas as $f => $norma) {
+
+			$datos = $registros->getDatosNorma($norma);
+
+			if(!empty($datos)){
+				
+				$tipo = $registros->getTipoDato("nombre", $datos[0]['tipo']);
+
+				//si esta seleccionada
+				if(in_array($datos[0]['id'], $incluidas)){
+
+					echo '<li class="seleccionada" id="'.$datos[0]['id'].'" title="'.$tipo.' #'.$datos[0]['numero'].'"  >
+					<input checked type="checkbox" id="norma'.$datos[0]['id'].'" name="normas[]" value="'.$datos[0]['id'].'" />
+					'.$datos[0]['nombre'].'
+					</li>';
+
+				}else{
+					echo '<li id="'.$datos[0]['id'].'" title="'.$tipo.' #'.$datos[0]['numero'].'"  >
+					<input type="checkbox" id="norma'.$datos[0]['id'].'" name="normas[]" value="'.$datos[0]['id'].'" />
+					'.$datos[0]['nombre'].'
+					</li>';
+				}
+			}
+		}
+
+		echo '</ul>
+			  </form><!-- end form normas -->
+			  </div>';
+			  
+		echo $td_articulos;
+
+	}else{
+		//NO HAY INCLUIDAS
+		
+		if(!empty($normas)){
+
+			echo '<div id="normas">
+				<form id="FormularioNormas" enctype="multipart/form-data" method="post" action="previewNormas.php" >
+					<input type="hidden" name="func" value="RegistrarNormas" />
+					<input type="hidden" id="normas_categoria" name="categoria" value="'.$categoria.'" />
+					<input type="hidden" id="normas_proyecto" name="proyecto" value="'.$proyecto.'" />
+
+					<div class="subtitulo">
+						<button class="izquierda icon" onClick="SelectAllNormas()" titl="Seleccionar Todo" src="images/">Todo</button>
+						Normas
+						<img class="boton-buscar icon" title="Buscar Normas" onClick="Busqueda(\'busqueda-normas\', \'buscar-normas\', \'normas\', false)" src="../images/search2.png" >
+					</div>
+
+					<div class="busqueda" id="busqueda-normas">
+						<div class="buscador">
+							<input type="search" title="Escriba Para Buscar Normas" id="buscar-normas" placeholder="Buscar Normas"/>
+						</div>
+					</div>';
+
+		echo '<ul>';
+
+		//lista de normas de la categoria
+		foreach ($normas as $f => $norma) {
+
+			$datos = $registros->getDatosNorma($norma);
+
+			if(!empty($normas)){
+				$tipo = $registros->getTipoDato("nombre", $datos[0]['tipo']);
+				echo '<li id="'.$datos[0]['id'].'" title="'.$tipo.' #'.$datos[0]['numero'].'"  >
+				<input type="checkbox" id="norma'.$datos[0]['id'].'" name="normas[]" value="'.$datos[0]['id'].'" />
+				'.$datos[0]['nombre'].'
+				</li>';
+			}
+		}
+
+		echo '</ul>
+			  </form><!-- end form normas -->
+			  </div>';
+
+		echo $td_articulos;
+
+		}else{
+			echo 'No hay Normas.
+				 </div><!-- end datos-preview -->';
+		}
+	}
+
+	echo '</div><!-- end -->';
+}
+
+/**
+* MUESTRA LA LISTA DE LAS NORMAS DE LA CATEGORIA
+* @param $categoria -> id de la categoria
+* @param $proyecto -> id del proyecto
+*/
 function Normas($categoria, $proyecto){
 
 	$registros = new Registros();
@@ -100,23 +276,28 @@ function Normas($categoria, $proyecto){
 			<div class="titulo">
 
 				<input type="hidden" name="proyecto" id="proyecto" value="'.$proyecto.'" />
-				<button type="button" class="izquierda" onClick="Cambio()">Atras</button>
+				
+				<img id="preview" src="../images/previous.png" class="izquierda icon" onClick="Cambio()" title="Ir Atras">
 				'.$categoriaDatos[0]['nombre'].'
-				<button type="button" class="derecha" onClick="Articulos()">Siguiente</button>
+				<img id="next" src="../images/next.png" class="derecha icon" onClick="Articulos()" title="Ir Siguiente">
 				
 				
 			</div>
 			<div class="datos-preview">';
 
-	$td_articulos = '<td id="articulos">
+	$td_articulos = '
+				<td id="articulos">
 			  <form id="FormularioArticulos" enctype="multipart/form-data" method="post" action="previewNormas.php" >
 			    <input type="hidden" name="func" value="RegistrarArticulos" />
 			  	<input type="hidden" id="articulos_proyecto" name="proyecto" value="" />
 			  	<input type="hidden" id="articulos_norma" name="norma" value="" />
+			  	
 			  	<div class="subtitulo">
+			  			
+			  			<button class="izquierda icon" onClick="SelectAllArticulos()" 	titl="Seleccionar Todo" src="images/">Todo</button>
 				  		Articulos
-
-						<button class="boton-buscar" type="button" title="Buscar Articulos" onClick="Busqueda(\'busqueda-articulos\', \'buscar-articulos\', \'articulos\', false)">Buscar</button>
+						<img class="boton-buscar icon" title="Buscar Articulos" onClick="Busqueda(\'busqueda-articulos\', \'buscar-articulos\', \'articulos\', false)" src="../images/search2.png">
+						
 				</div>		
 					<div class="busqueda" id="busqueda-articulos">
 						<div class="buscador">
@@ -129,10 +310,8 @@ function Normas($categoria, $proyecto){
 					</ul>
 
 			  </form> <!--  end form articulos -->
-			  </td>
-
 			  </tr>
-			 </table>
+			  </table> <!-- end  normas y articulos -->
 			 
 			 </div><!-- end datos-preview -->
 
@@ -143,8 +322,8 @@ function Normas($categoria, $proyecto){
 
 	if( !empty($incluidas)){
 		
-		echo '<table class="table-preview">
-			<tr>
+		echo '<table class="table-preview" >
+				<tr>
 				<td id="normas">
 				<form id="FormularioNormas" enctype="multipart/form-data" method="post" action="previewNormas.php" >
 					<input type="hidden" name="func" value="RegistrarNormas" />
@@ -152,8 +331,9 @@ function Normas($categoria, $proyecto){
 					<input type="hidden" id="normas_proyecto" name="proyecto" value="'.$proyecto.'" />
 
 					<div class="subtitulo">
+						<button class="izquierda icon" onClick="SelectAllNormas()" 	titl="Seleccionar Todo" src="images/">Todo</button>
 						Normas
-						<button class="boton-buscar" type="button" title="Buscar Normas" onClick="Busqueda(\'busqueda-normas\', \'buscar-normas\', \'normas\', false)">Buscar</button>
+						<img class="boton-buscar icon" title="Buscar Normas" onClick="Busqueda(\'busqueda-normas\', \'buscar-normas\', \'normas\', false)" src="../images/search2.png" >
 					</div>
 
 					<div class="busqueda" id="busqueda-normas">
@@ -201,18 +381,16 @@ function Normas($categoria, $proyecto){
 		
 		if(!empty($normas)){
 
-			echo '<table class="table-preview">
-			<tr>
-				<td id="normas">
+			echo '<div id="normas">
 				<form id="FormularioNormas" enctype="multipart/form-data" method="post" action="previewNormas.php" >
 					<input type="hidden" name="func" value="RegistrarNormas" />
 					<input type="hidden" id="normas_categoria" name="categoria" value="'.$categoria.'" />
 					<input type="hidden" id="normas_proyecto" name="proyecto" value="'.$proyecto.'" />
 
 					<div class="subtitulo">
-						<button class="izquierda" type="button" onClick="SelectAllNormas()">Todo</button>
+						<button class="izquierda icon" onClick="SelectAllNormas()" titl="Seleccionar Todo" src="images/">Todo</button>
 						Normas
-						<button class="boton-buscar" type="button" title="Buscar Normas" onClick="Busqueda(\'busqueda-normas\', \'buscar-normas\', \'normas\', false)">Buscar</button>
+						<img class="boton-buscar icon" title="Buscar Normas" onClick="Busqueda(\'busqueda-normas\', \'buscar-normas\', \'normas\', false)" src="../images/search2.png" >
 					</div>
 
 					<div class="busqueda" id="busqueda-normas">
@@ -239,7 +417,7 @@ function Normas($categoria, $proyecto){
 
 		echo '</ul>
 			  </form><!-- end form normas -->
-			  </td>';
+			  </div>';
 
 		echo $td_articulos;
 

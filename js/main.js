@@ -1,12 +1,6 @@
-var menu = '';
-
 /**
-* PARA EL MENU COMO PANEL DESPLAZABLE CON SCROLL
+* JAVASCRIPT PARA ESCALA MATRIZ
 */
-$(window).scroll(function () { 
-      $("#manu .scollers").css("display", "inline").fadeOut("slow"); 
-});
-
 
 $(document).ready(function(){
 	$('html, body, div, input, li').bind('cut copy paste', function(event) {
@@ -86,6 +80,10 @@ $(document).ready(function(){
 
     //set cookies
     Cookies();
+
+    // no seleccionable
+    $('html, body, table').disableSelection();
+    
 });
 /*
 $(window).load(function(){

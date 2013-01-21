@@ -67,7 +67,7 @@ function Clientes(){
 	$lista = '<div id="clientes" class="tipos">
 				<div class="titulo">
 					Clientes
-			  		<button class="boton-buscar" type="button" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-clientes\', \'buscar-clientes\', \'clientes\', false)">Buscar</button>
+			  		<img class="boton-buscar icon" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-clientes\', \'buscar-clientes\', \'clientes\', false)" src="images/search2.png" >
 			  	</div>
 
 			  	<div class="busqueda" id="busqueda-clientes">
@@ -81,7 +81,9 @@ function Clientes(){
 		$lista .= '<ul>';
 		
 		foreach ($clientes as $fila => $cliente) {
-			$lista .= '<li id="'.$cliente['id'].'" onClick="SelectCliente('.$cliente['id'].')">'.$cliente['nombre'].'</li>';
+			$lista .= '<li id="'.$cliente['id'].'" title="'.$cliente['nombre'].' '.$cliente['registro'].'" onClick="SelectCliente('.$cliente['id'].')">'
+				.$cliente['nombre'].'
+				</li>';
 		}
 
 		$lista .= '</ul><!-- fin lista -->';

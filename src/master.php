@@ -42,7 +42,12 @@ class Master{
 	* PERMITE LA BUSQUEDA DE PROYECTOS, NORMAS Y LEYES
 	*/
 	public function Buscar($busqueda){
+		$resultados = '<div class="titulo" >
+							Busqueda
+						</div>';
 
+
+		echo $resultados;
 	}
 
 	//busca en proyectos, presenta solo los del cliente logueado
@@ -117,7 +122,7 @@ class Master{
 
 		if(!empty($datos)){
 			foreach ($datos as $key => $proyecto) {
-				echo '<li onClick="Proyecto('.$proyecto['id'].')">'.$proyecto['nombre'].'</li>';
+				echo '<li id="menuProyecto'.$proyecto['id'].'" onClick="Proyecto('.$proyecto['id'].')">'.$proyecto['nombre'].'</li>';
 			}
 		}else{
 			echo '<li>No hay proyectos</li>';
@@ -125,53 +130,6 @@ class Master{
 	}
 
 /************************ PROYECTOS *************/
-	
-	/**
-	* MUESTRA LA LISTA DE PROYECTOS DEL USUARIO
-	*/
-	public function Proyectos2(){
-		$proyectos = new Proyectos();
-		$datos = $proyectos->getProyectos($_SESSION['cliente_id']);
-
-		$lista = '<div class="titulo" >
-					Mis Proyectos
-				</div>
-					<table class="table-list">';
-
-		if(!empty($datos)){
-			$lista .= '<tr>
-							<td>
-								Nombre
-							</td>
-							<td>
-								Descripcion
-							</td>
-						</tr>';
-
-			foreach ($datos as $key => $proyecto) {
-				$lista .= '<tr onClick="Proyecto('.$proyecto['id'].')" class="custom-tooltip" title="'.$_SESSION['datos'].$proyecto['imagen'].'" >
-								<td>
-									'.$proyecto['nombre'].'
-								</td>
-								<td>
-									'.base64_decode($proyecto['descripcion']).'
-								</td>
-						   </tr>';
-			}
-
-		}else{
-			$lista .= '<tr>
-						<td colspan="3">
-							No Tienes Proyectos Aun.
-							<br/>
-						</td>
-						</tr>';
-		}
-
-		$lista .= '</table>';
-
-		echo $lista;
-	}
 
 
 	/**

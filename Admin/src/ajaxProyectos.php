@@ -73,7 +73,7 @@ function Proyectos(){
 	$lista = '<div id="proyectos" class="tipos">
 				<div class="titulo">
 					Proyectos
-			  		<button class="boton-buscar" type="button" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-proyectos\', \'buscar-proyectos\', \'proyectos\', false)">Buscar</button>
+			  		<img class="boton-buscar icon" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-proyectos\', \'buscar-proyectos\', \'proyectos\', false)" src="images/search2.png" >
 			  	</div>
 
 			  	<div class="busqueda" id="busqueda-proyectos">
@@ -120,7 +120,7 @@ function ProyectosAvance(){
 	$lista = '<div id="proyectos" class="tipos">
 				<div class="titulo">
 					Proyectos
-			  		<button class="boton-buscar" type="button" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-proyectos\', \'buscar-proyectos\', \'proyectos\', true)">Buscar</button>
+			  		<img class="boton-buscar icon" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-proyectos\', \'buscar-proyectos\', \'proyectos\', true)" src="images/search2.png">
 			  	</div>
 
 			  	<div class="busqueda" id="busqueda-proyectos">
@@ -134,14 +134,17 @@ function ProyectosAvance(){
 					<tr>
 						<th>Nombre</th>
 						<th>Cliente</th>
-						<th>Estado</th>';
+						<th>Estado</th>
+						<th>Visibilidad</th>
+					</tr>';
 
 		
 		foreach ($datos as $fila => $proyecto) {
 			$lista .= '<tr id="'.$proyecto['id'].'" class="custom-tooltip" title="'.$proyecto['imagen'].'" onClick="SelectProyecto('.$proyecto['id'].')">
-			              <td class="nombre">'.$proyecto['nombre'].'</td>
-					      <td class="cliente">'.Cliente($proyecto['cliente']).'</td>
-					      <td class="estado">'.Estado($proyecto['status']).'</td>
+			              <td>'.$proyecto['nombre'].'</td>
+					      <td>'.Cliente($proyecto['cliente']).'</td>
+					      <td>'.Estado($proyecto['status']).'</td>
+					      <td>'.Visibilidad($proyecto['visible']).'</td>
 					   </tr>';
 		}
 
@@ -187,6 +190,17 @@ function Estado($estado){
 		return "Activo";
 	}else{
 		return "Inactivo";
+	}
+}
+
+/**
+* DEVUELVE LA VISIBILIDAD DE UN PROYECTO
+*/
+function Visibilidad($visibilidad){
+	if($visibilidad == 1){
+		return "Visible";
+	}else{
+		return "Oculto";
 	}
 }
 

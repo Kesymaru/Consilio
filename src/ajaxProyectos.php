@@ -60,6 +60,7 @@ if(isset($_POST['func'])){
 
 		//DATOS DE UN ARTICULO
 		case 'DatosArticulo':
+
 			if( isset($_POST['proyecto']) && isset($_POST['categoria']) && isset($_POST['id'])){
 				DatosArticulo($_POST['proyecto'], $_POST['categoria'], $_POST['id']);
 			}
@@ -89,6 +90,8 @@ if(isset($_POST['func'])){
 			break;
 	}
 
+}else{
+	echo "Error: Falta de parametros.";
 }
 
 /**
