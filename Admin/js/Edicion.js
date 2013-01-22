@@ -689,26 +689,35 @@ function EditarCategoria(id){
 * FORMULARIO EDITAR CATEGORIA
 */
 function FormularioEditarCategoria(id){
+	console.log("formulario edicion categoria");
 	var options = {  
 		beforeSend: function(){
-			DeshabilitarContent();
+			if( !$.cookie("autosave") ){
+				DeshabilitarContent();
+			}
 		},
 		success: function(response) { 
 
-			if(response.length <= 3){
-				notifica("Categoria Actualizada");
-
+			if( response.length <= 3 ){
 				//actualiza nombre si cambia
 				var nombre = $("#nombre").val();
-				
+					
 				if($("#"+id).html() != nombre){
 					$("#"+id).fadeOut(500, function(){
 						$("#"+id).html(nombre);
 						$("#"+id).fadeIn();
 					});
 				}
-				HabilitarContent();
-				LimpiarContent();
+
+				if( $.cookie("autosave") ){
+
+				}else{
+					notifica("Categoria Actualizada");
+
+					HabilitarContent();
+					LimpiarContent();
+				}
+				
 			}else{
 				HabilitarContent();
 				notificaError("Error: Edicion.js FormularioEditarCategoria()<br/>"+response);
@@ -719,8 +728,9 @@ function FormularioEditarCategoria(id){
 			notificaError("Error: Edicion.js FormularioEditarCategoria() AJAX fail.<br/>"+response);
 		}
 	};
-	$('#FormularioEditarCategoria').ajaxForm(options);
 	$('#FormularioEditarCategoria').validationEngine();
+	$('#FormularioEditarCategoria').ajaxForm(options);
+	//AutoSave('FormularioEditarCategoria');
 }
 
 /**

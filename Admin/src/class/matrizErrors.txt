@@ -1,73 +1,106 @@
 
 
+Error: Edicion.js FormularioEditarCategoria()
  
 
 
-<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Access denied for user 'matrizroot'@'localhost' (using password: YES) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>38</b>
+<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Access denied for user 'matrizroot'@'localhost' (using password: YES) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>39</b>
 
 1. No funciona por Access denied for user 'matrizroot'@'localhost' (using password: YES)
 
 
 	Sitio: Admin
-	Usuario: Invitado
+	Usuario: Andrey
+	ID: 1
 	IP: 127.0.0.1
-	Navegador: Firefox
+	Navegador: Chrome
 	Plataforma: Win7
-	Version: 18.0
-	CSS: 18.0
+	Version: 24.0
+	CSS: 24.0
 	JAVASCRIPT: 1
-	January 21 2013 - 9:15 am
+	January 22 2013 - 11:16 am
  --------------------<>--------------------
 
+Error: Edicion.js FormularioEditarCategoria()
  
 
 
-<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Access denied for user 'matrizroot'@'localhost' (using password: YES) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>38</b>
+<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Access denied for user 'matrizroot'@'localhost' (using password: YES) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>39</b>
 
 1. No funciona por Access denied for user 'matrizroot'@'localhost' (using password: YES)
 
 
 	Sitio: Admin
-	Usuario: Invitado
+	Usuario: Andrey
+	ID: 1
 	IP: 127.0.0.1
-	Navegador: Firefox
+	Navegador: Chrome
 	Plataforma: Win7
-	Version: 18.0
-	CSS: 18.0
+	Version: 24.0
+	CSS: 24.0
 	JAVASCRIPT: 1
-	January 21 2013 - 9:15 am
+	January 22 2013 - 11:16 am
  --------------------<>--------------------
 
+Error: Edicion.js FormularioEditarCategoria()
  
 
 
-<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Access denied for user 'matrizroot'@'localhost' (using password: YES) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>38</b>
+<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Access denied for user 'matrizroot'@'localhost' (using password: YES) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>39</b>
 
 1. No funciona por Access denied for user 'matrizroot'@'localhost' (using password: YES)
 
 
 	Sitio: Admin
-	Usuario: Invitado
+	Usuario: Andrey
+	ID: 1
 	IP: 127.0.0.1
-	Navegador: Firefox
+	Navegador: Chrome
 	Plataforma: Win7
-	Version: 18.0
-	CSS: 18.0
+	Version: 24.0
+	CSS: 24.0
 	JAVASCRIPT: 1
-	January 21 2013 - 9:15 am
+	January 22 2013 - 11:17 am
  --------------------<>--------------------
 
-ie 8 test error
+Error: Edicion.js FormularioEditarCategoria()
+ 
 
 
-	Sitio: Matriz
-	Usuario: 77digital
-	ID: 5
+<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Access denied for user 'matrizroot'@'localhost' (using password: YES) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>39</b>
+
+1. No funciona por Access denied for user 'matrizroot'@'localhost' (using password: YES)
+
+
+	Sitio: Admin
+	Usuario: Andrey
+	ID: 1
 	IP: 127.0.0.1
-	Navegador: IE
+	Navegador: Chrome
 	Plataforma: Win7
-	Version: 8.0
-	CSS: 8.0
+	Version: 24.0
+	CSS: 24.0
 	JAVASCRIPT: 1
-	January 21 2013 - 11:30 am
+	January 22 2013 - 11:17 am
+ --------------------<>--------------------
+
+Error: Edicion.js FormularioEditarCategoria()
+ 
+
+
+<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Access denied for user 'matrizroot'@'localhost' (using password: YES) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>39</b>
+
+1. No funciona por Access denied for user 'matrizroot'@'localhost' (using password: YES)
+
+
+	Sitio: Admin
+	Usuario: Andrey
+	ID: 1
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 24.0
+	CSS: 24.0
+	JAVASCRIPT: 1
+	January 22 2013 - 11:17 am
  --------------------<>--------------------

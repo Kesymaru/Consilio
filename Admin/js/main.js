@@ -314,6 +314,10 @@ function notificaError(text) {
   	setTimeout(function (){
 		n.close();
 	},7000);
+
+	if( $("content-disable").is(":visible") ){
+		HabilitarContent();
+	}
 }
 
 /**
@@ -400,6 +404,7 @@ function SetBotones(id){
 function Cookies(){
 	if($.cookie('vista') == null){
 		$.cookie('proyecto', 0, { expires: 7 });
+		$.cookie('autosave', false, { expires: 7 });
 		$.cookie('vista', 0, { expires: 7 });
 		$.cookie('categoria', 0, { expires: 7 });
 		$.cookie('accion', 'home',{ expires: 7 });
@@ -547,15 +552,13 @@ function LimpiarContent(){
 * DESHABILITA CONTENT
 */
 function DeshabilitarContent(){
-	//$('#content *').prop('disabled', true);
-	$("#content").prepend('<div class="content-disable"><p><img src="images/ajax_loader_green_128.gif"/></p></div>');
+	$("#content").prepend('<div class="content-disable" id="content-disable"><p><img src="images/ajax_loader_green_128.gif"/></p></div>');
 }
 
 /**
 * HABILITA CONTENT SIN LIMPIARLO
 */
 function HabilitarContent(){
-	//$('#content *').prop('disabled', false);
 	$(".content-disable").remove();
 }
 
@@ -722,5 +725,23 @@ function BusquedaLive(input, target){
         $("#"+target).removeClass('no');
         $("#"+target).removeClass('si');
 	});
+
+}
+
+/**
+* FUNCION PARA EL AUTO SALVADO DE LOS FORMULARIOS
+*/
+function AutoSave(form){
+
+    setInterval(function() {
+    	$("#"+form).find("input, select").change(function(){
+    		notifica("cambio en input")
+    	});
+
+    	$.cookie("autosave", true);
+    	notifica("auto guardando");
+    	$("#"+form).submit();
+    	$.cookie("autosave", false);
+	}, 5000);
 
 }

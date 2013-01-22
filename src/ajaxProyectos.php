@@ -123,9 +123,9 @@ function CategoriasRoot($proyecto){
 					//fallback de las imagen
 					if( file_exists($imagen) ){
 						//$imagen = "images/es.png";
-						echo 'existe '.$imagen.'<hr>';
+						//echo 'existe '.$imagen.'<hr>';
 					}else{
-						echo 'no existe '.$imagen.'<hr>';
+						//echo 'no existe '.$imagen.'<hr>';
 						//$imagen = "images/es.png";
 					}
 
