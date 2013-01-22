@@ -35,6 +35,7 @@ class Database{
 	//Conexion
 	public function conect(){
 		//$this->dbLink = mysql_connect($this->dbHost, $this->dbUser) or die ("1. No funciona por " . mysql_error()); 
+		
 		$this->dbLink= mysql_connect($this->dbHost, $this->dbUser, $this->dbPassword) or die ("1. No funciona por " . mysql_error()); 
 	}
 	//Seleccionar base	
