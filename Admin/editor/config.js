@@ -4,24 +4,21 @@
  */
 
 CKEDITOR.editorConfig = function( config ) {
-	// Define changes to default configuration here. For example:
 	config.language = 'es';
 	config.uiColor = '#FFFFFF';
+	config.toolbarStartupExpanded = false;
+	config.toolbarCanCollapse = true;
+	config.toolbarGroupCycling = true;
+	config.disableNativeSpellChecker = true;
 	
 	config.toolbarGroups = [
-			{ name: 'document'},
-			{ name: 'undo' },
-			{ name: 'editing'},
-			{ name: 'basicstyles'},
-			{ name: 'colors' },
-			{ name: 'insert' },
-			{ name: 'links' },
-			{ name: 'paragraph'},
-			{ name: 'styles' },
-			{ name: 'others' },
-			{ name: 'tools' }
-		];
+			{ name: 'spellchecker'},
+			{ name: 'document', groups: [ 'undo', 'document', 'find', 'spellchecker', 'links', 'insert' ] },
+			{ name: 'editing', groups: [ 'basicstyles', 'align', 'indent', 'list', 'blocks', 'colors' ] },
 
-	config.removeButtons = 'Cut,Copy,Paste,Form,Flash,Find,Replace,Save,New_Page,Anchor,Image,About,Source,Iframe,ShowBlocks,Checkbox,Radio,TextField,Textarea,SelectionField,SelectAll,Button,ImageButton,HiddenField';
+			{ name: 'insert', groups: [ 'styles', 'tools' ] },
+	];
+
+	config.removeButtons = 'CreateDiv,Cut,Copy,Paste,Form,Flash,Save,New_Page,Anchor,Image,About,Source,Iframe,ShowBlocks,Checkbox,Radio,TextField,Textarea,SelectionField,SelectAll,Button,ImageButton,HiddenField';
 
 };
