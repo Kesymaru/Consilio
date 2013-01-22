@@ -112,6 +112,11 @@ function Hijos(padre){
 					totalWidth += $("#Padre0").width() + 100;
 
 					$("#categorias").css('width', totalWidth); //aumenta el tamano del contenedor de categorias
+					
+					var height = $("#categorias").height();
+					$("#categorias ul").each(function(){
+						$(this).css("height", height);
+					});				
 				});
 				SeleccionaHijo(padre);
 			}
