@@ -554,23 +554,28 @@ function NuevoArticulo($norma){
 								<!-- tabs para los datos -->
 								<div id="tabs">
 								    <ul>
-								        <li><a href="#tabs-1" title="Edición de Resumen Del Nuevo Articulo">Resumen</a></li>
-								        <li><a href="#tabs-2" title="Edición de Permisos Del Nuevo Articulo">Permisos</a></li>
-								        <li><a href="#tabs-3" title="Edición de Sanciones Del Nuevo Articulo">Sanciones</a></li>
-								        <li><a href="#tabs-4" title="Edición de Articulos Del Nuevo Articulo">Articulos</a></li>
+								    	<li>
+								    		<a href="#tabs-1" title="Edición de Articulos Del Nuevo Articulo">Articulos</a></li>
+								        <li>
+								        	<a href="#tabs-2" title="Edición de Resumen Del Nuevo Articulo">Resumen</a></li>
+								        <li>
+								        	<a href="#tabs-3" title="Edición de Sanciones Del Nuevo Articulo">Sanciones</a></li>
+								        <li>
+								        	<a href="#tabs-4" title="Edición de Permiso o Documentación Asociada Del Articulo">Permiso o Documentación</a>
+								        </li>
 								    </ul>
 
 								    <div id="tabs-1">
-								    	<textarea class="validate[required]" id="resumen" name="resumen" ></textarea>
+								    	<textarea class="validate[required]" id="articulo" name="articulo" ></textarea>
 								    </div>
 								    <div id="tabs-2">
-								    	<textarea class="validate[required]" id="permisos" name="permisos" ></textarea>
+								    	<textarea class="validate[required]" id="resumen" name="resumen" ></textarea>
 								    </div>
 								    <div id="tabs-3">
 								    	<textarea class="validate[opcional]" id="sanciones" name="sanciones" ></textarea>
 								    </div>
-								    <div id="tabs-4">
-								    	<textarea class="validate[required]" id="articulo" name="articulo" ></textarea>
+								     <div id="tabs-4">
+								    	<textarea class="validate[required]" id="permisos" name="permisos" ></textarea>
 								    </div>
 
 							    </div>
@@ -749,32 +754,33 @@ function EdicionArticulo($articulo){
 								<!-- tabs para los datos -->
 								<div id="tabs">
 								    <ul>
-								        <li>
-								        	<a href="#tabs-1" title="Edición de Resumen Del Articulo">Resumen</a>
+								    	<li>
+								        	<a href="#tabs-1" title="Edición de Articulos Del Articulo">Articulos</a>
 								        </li>
 								        <li>
-								        	<a href="#tabs-2" title="Edición de Permisos Del Articulo">Permisos</a>
+								        	<a href="#tabs-2" title="Edición de Resumen Del Articulo">Resumen</a>
 								        </li>
 								        <li>
 								        	<a href="#tabs-3" title="Edición de Sanciones Del Articulo">Sanciones</a>
 								        </li>
 								        <li>
-								        	<a href="#tabs-4" title="Edición de Articulos Del Articulo">Articulos</a>
+								        	<a href="#tabs-4" title="Edición de Permiso o Documentación Asociada Del Articulo">Permiso o Documentación</a>
 								        </li>
 								    </ul>
 
-								    <div id="tabs-1">
-								    	<textarea class="validate[required]" id="resumen" name="resumen" >'.base64_decode($datos[0]['resumen']).'</textarea>
+								     <div id="tabs-1">
+								    	<textarea class="validate[required]" id="articulo" name="articulo" >'.base64_decode($datos[0]['articulo']).'</textarea>
 								    </div>
 								    <div id="tabs-2">
-								    	<textarea class="validate[required]" id="permisos" name="permisos" >'.base64_decode($datos[0]['permisos']).'</textarea>
+								    	<textarea class="validate[required]" id="resumen" name="resumen" >'.base64_decode($datos[0]['resumen']).'</textarea>
 								    </div>
 								    <div id="tabs-3">
 								    	<textarea class="validate[opcional]" id="sanciones" name="sanciones" >'.base64_decode($datos[0]['sanciones']).'</textarea>
 								    </div>
 								    <div id="tabs-4">
-								    	<textarea class="validate[required]" id="articulo" name="articulo" >'.base64_decode($datos[0]['articulo']).'</textarea>
-								    </div>';
+								    	<textarea class="validate[required]" id="permisos" name="permisos" >'.base64_decode($datos[0]['permisos']).'</textarea>
+								    </div>
+								   ';
 		if(empty($archivos)){
 			$formulario .= ' 		<div class="editor-footer">
 							    		<img id="adjuntar-icon" title="Adjuntar Archivos" src="images/folder-upload.png" onClick="Adjuntos()" />

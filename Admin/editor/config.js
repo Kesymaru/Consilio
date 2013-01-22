@@ -4,12 +4,13 @@
  */
 
 CKEDITOR.editorConfig = function( config ) {
-	config.language = 'es';
+	
 	config.uiColor = '#FFFFFF';
 	config.toolbarStartupExpanded = false;
 	config.toolbarCanCollapse = true;
 	config.toolbarGroupCycling = true;
 	config.disableNativeSpellChecker = true;
+	config.language = 'es';
 	
 	config.toolbarGroups = [
 			{ name: 'spellchecker'},

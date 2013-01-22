@@ -352,7 +352,7 @@ class Registros{
         $upload->SetTempName($archivo['tmp_name']);
         
         //FORMATOS DE ARCHIVOS PERMITIDOS
-        $upload->SetValidExtensions(array('gif', 'jpg', 'jpeg', 'png', 'zip', 'rar', 'pdf', 'txt', 'xls', 'xlsx', 'ods', 'docx', '.odt', 'rtf', 'pptx', 'ppt', 'pptm')); 
+        $upload->SetValidExtensions(array('gif', 'jpg', 'jpeg', 'png', 'zip', 'rar', 'pdf', 'txt', 'xls', 'xlsx', 'ods', 'docx', 'doc', 'odt', 'rtf', 'pptx', 'ppt', 'pptm')); 
         
         //DIRECTORIO PARA ARCHIVOS
         $upload->SetUploadDirectory("../archivos/"); 
@@ -844,7 +844,7 @@ class Registros{
 	*/
 	public function getNormas(){
 		$base = new Database();
-		$query = "SELECT * FROM normas";
+		$query = "SELECT * FROM normas ORDER BY nombre";
 
 		$datos = $base->Select($query);
 
@@ -1027,7 +1027,7 @@ class Registros{
 	*/
 	public function getArticulos($norma){
 		$base = new Database();
-		$query = "SELECT * FROM articulos WHERE norma = ".$norma." AND borrado = 0";
+		$query = "SELECT * FROM articulos WHERE norma = ".$norma." AND borrado = 0 ORDER BY nombre";
 
 		$datos = $base->Select($query);
 
@@ -1223,7 +1223,7 @@ class Registros{
 	*/
 	public function getTipos(){
 		$base = new Database();
-		$query = "SELECT * FROM tipos";
+		$query = "SELECT * FROM tipos ORDER BY nombre";
 
 		$datos = $base->Select($query);
 
@@ -1329,7 +1329,7 @@ class Registros{
 	*/
 	public function getEntidades(){
 		$base = new Database();
-		$query = "SELECT * FROM entidades"; //OBTIENE LAS PADRES
+		$query = "SELECT * FROM entidades ORDER BY nombre"; //OBTIENE LAS PADRES
 
 		$datos = $base->Select($query);
 
@@ -1346,7 +1346,7 @@ class Registros{
 	public function getPadresEntidades(){
 		$padres = array();
 		$base = new Database();
-		$query = "SELECT * FROM entidades WHERE grupo = 1 OR padre = 0";
+		$query = "SELECT * FROM entidades WHERE grupo = 1 OR padre = 0 ORDER BY nombre";
 
 		$entidades = $base->Select($query);
 

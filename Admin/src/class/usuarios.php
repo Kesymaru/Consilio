@@ -46,7 +46,7 @@ class Cliente{
 	*/
 	public function getClientes(){
 		$base = new Database();
-		$query = "SELECT * FROM clientes";
+		$query = "SELECT * FROM clientes ORDER BY nombre";
 
 		$datos = $base->Select($query);
 
@@ -305,7 +305,7 @@ class Admin{
 	*/
 	public function getAdmins(){
 		$base = new Database();
-		$query = "SELECT * FROM admin";
+		$query = "SELECT * FROM admin ORDER BY nombre";
 
 		if($datos = $base->Select($query)){
 			return $datos;
