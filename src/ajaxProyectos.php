@@ -118,7 +118,18 @@ function CategoriasRoot($proyecto){
 					
 					$lista .= '<li class="" id="'.$categoria.'" onClick="PadreHijos('.$categoria.','.$proyecto.')">';
 
-					$lista .= '<img title="'.$datosCategoria[0]['nombre'].'" src="'.$_SESSION['datos'].$datosCategoria[0]['imagen'].'" /><p>'.$datosCategoria[0]['nombre'].'</p>';
+					$imagen = $_SESSION['datos'].$datosCategoria[0]['imagen'];
+					
+					//fallback de las imagen
+					if( file_exists($imagen) ){
+						//$imagen = "images/es.png";
+						echo 'existe '.$imagen.'<hr>';
+					}else{
+						echo 'no existe '.$imagen.'<hr>';
+						//$imagen = "images/es.png";
+					}
+
+					$lista .= '<img title="'.$datosCategoria[0]['nombre'].'" src="'.$imagen.'" /><p>'.$datosCategoria[0]['nombre'].'</p>';
 
 					$lista .= '</li>';
 				}
