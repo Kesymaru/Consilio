@@ -132,7 +132,6 @@ function Hijos(padre){
 * @param hijo -> id hijo seleccionado
 */
 function SeleccionaHijo(hijo){
-
 	var padre = $("#"+hijo).closest("div").attr('id');
 
 	$("#"+padre+' li').removeClass('seleccionada');
@@ -364,10 +363,10 @@ function BuscarNormaCategoriaAcccion(tipo){
 
 /**
 * ORDENAR CATEGORIAS, PERMITE ORDENAR LAS NORMAS
-* @param padre -> id del padre
+* @param id -> id de la categoria dentro del nivel
 */
-function OrdenarCategorias(padre){
-	var queryParams = {"func" : "ListaCategorias", "padre" : padre};
+function OrdenarCategorias(id){
+	var queryParams = {"func" : "ListaCategorias", "id" : id};
 
 	$.ajax({
 		data: queryParams,
@@ -392,8 +391,10 @@ function OrdenarCategorias(padre){
 
 /**
 * GUARDA EL ORDEN DE LA LISTA DE CATEGORIAS
+* @param padre -> id del padre para refrescar
+* @param id -> id categoria seleccionada
 */
-function GuardarOrdenCategorias(){
+function GuardarOrdenCategorias(padre, id){
 	var categorias = new Array();
 
 	$("#listaCategorias li").each(function(){
@@ -414,7 +415,38 @@ function GuardarOrdenCategorias(){
 		beforeSend: function(){
 		},
 		success: function(response){
-			$("#content").html(response);
+			
+			notifica(response.length+" "+padre+" "+id);
+
+			if(response.length <= 3){
+				notifica("Orden Guardado.");
+
+				LimpiarContent();
+				
+				if(padre == 0){
+					Padres();
+				}else{
+					Hijos(padre);
+				}
+
+				$("#"+id+", #Padre"+padre).live(function(){
+					console.log("listo");
+					console.log($("#"+id).html());
+
+					console.log( $("#"+id).hasClass('seleccionada') );
+
+					if( $("#"+id).hasClass('seleccionada') ){
+						$("#"+id).removeClass('seleccionada');
+						$("#"+id).addClass('seleccionada');
+					}else{
+						$("#"+id).addClass('seleccionada');
+					}
+
+				});
+				
+			}else{
+				notificaError("Error: Edicion.js GuardarOrdenCategorias().<br/>"+response);
+			}
 		},
 		fail: function(response){
 			notificaError("Error: AJAX fail,<br/>"+response);
@@ -521,6 +553,7 @@ function ContextMenuCategoria(id){
         },
         items: {
         	"nueva": {name: "Nueva Subcategoria", icon: "add", accesskey: "n"},
+        	"ordenar": {name: "Ordenar Nivel", icon: "add", accesskey: "o"},
             "editar": {name: "Editar", icon: "edit", accesskey: "e"},
             "eliminar": {name: "Eliminar", icon: "delete", accesskey: "l"},
         }
@@ -554,6 +587,7 @@ function ContextMenuSuperCategoria(id){
         items: {
             "nuevoPadre": {name: "Nueva SuperCategoria", icon: "add", accesskey: "s"}, //opcion solo para supercategorias
             "nueva": {name: "Nueva Subcategoria", icon: "add", accesskey: "n"},
+            "ordenar": {name: "Ordenar Nivel", icon: "add", accesskey: "o"},
             "editar": {name: "Editar", icon: "edit", accesskey: "e"},
             "eliminar": {name: "Eliminar", icon: "delete", accesskey: "l"},
         }
@@ -597,8 +631,8 @@ function MenuCategoria(m, id){
 
 	}else if(m == 'clicked: editar'){
 		EditarCategoria(id);
-	}else if(m == 'clicked: finalizar'){
-
+	}else if(m == 'clicked: ordenar'){
+		OrdenarCategorias(id);
 	}
 }
 

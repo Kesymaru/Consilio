@@ -99,8 +99,8 @@ if(isset($_POST['func'])){
 			break;
 
 		case 'ListaCategorias':
-			if(isset($_POST['padre'])){
-				ListaCategorias($_POST['padre']);
+			if(isset($_POST['id'])){
+				ListaCategorias($_POST['id']);
 			}
 			break;
 
@@ -644,10 +644,12 @@ function TieneHijos($padre){
 
 /**
 * CREA LISTA ORDENADA DE LAS CATEGORIAS DE UN PADRE
-* @param $padre -> id del padre
+* @param $id -> id de la categoria dentro de un nivel
 */
-function ListaCategorias($padre){
+function ListaCategorias($id){
 	$registros = new Registros();
+
+	$padre = $registros->getCategoriaDato("padre", $id);
 
 	$lista = '<div class="titulo">
 				Ordenar Categorias
@@ -679,7 +681,7 @@ function ListaCategorias($padre){
 
 	$lista .= '<div class="datos-botones">
 				<button type="button" title="Limpiar Orden" onClick="OrdenarCategorias('.$padre.')">Limpiar</button>
-				<button type="button" onClick="GuardarOrdenCategorias()" title="Guardar Orden De La Lista" >Guardar</button>
+				<button type="button" onClick="GuardarOrdenCategorias('.$padre.')" title="Guardar Orden De La Lista" >Guardar</button>
 			   </div>
 			   <!-- fin botonera -->
 			   </div>';
