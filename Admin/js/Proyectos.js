@@ -340,6 +340,16 @@ function FormularioEditarProyecto(){
 	Editor('descripcion');
 	$("#radio-estado").buttonset();
 	$("#radio-visible").buttonset();
+
+	//imagenes
+	$(".td-project-image img").hide();
+	var height = $(".td-project-image").closest("td").height();
+	var width = $(".td-project-image").closest("td").width();
+	$('.td-project-image img').css({
+		"max-height" : height,
+		"max-width" : width
+	});
+	$(".td-project-image img").fadeIn();
 }
 
 /**

@@ -52,6 +52,10 @@ $(document).ready(function(){
 
 	$("#menuUsuario, #menuProyectos, #menuClientes, #menuEdicion").click(function(){
 		
+		if($("#searchbar").is(":visible")){
+			BuscarGlobalHide()
+		}
+
 		if($(".dropMenu").is(":visible")){
 			$(".dropMenu").slideUp();
 			$(".dropMenu").closest("div").css({
@@ -77,6 +81,7 @@ $(document).ready(function(){
 
 	$("#searchForm").validationEngine();
     $('input[placeholder]').placeholder();
+    $("#searchbar").hide();
 
     //set cookies
     Cookies();
@@ -622,6 +627,14 @@ function PreviewImage(input, imagen) {
 		reader.onload = function (e) {
 			$("#"+imagen).fadeOut(500, function(){
 				$('#'+imagen).attr('src', e.target.result);
+
+				var height = $("#"+imagen).closest("td").height();
+				var width = $("#"+imagen).closest("td").width();
+				$('#'+imagen).css({
+					"max-height" : height,
+					"max-width" : width
+				});
+
 				$('#'+imagen).fadeIn();
 			});
 			
@@ -835,4 +848,29 @@ function AutoSave(form){
     	$.cookie("autosave", false);
 	}, 5000);
 
+}
+
+
+/**
+* MUESTRA EL BUSCADOR GLOBAL
+*/
+function BuscarGlobal(){
+
+	if($("#searchbar").is(":visible")){
+		BuscarGlobalHide()
+	}else{
+		BuscarGlobalShow()
+	}
+
+}
+
+function BuscarGlobalHide(){
+	$("#searchbar").hide();
+	$("#searchbar input").val('');
+	$("#toolbarMenu, #toolbarMenu div").css("background-color", "#fff");
+}
+
+function BuscarGlobalShow(){
+	$("#searchbar").show();
+	$("#toolbarMenu, #toolbarMenu div").css("background-color", "#F4F4F4");
 }

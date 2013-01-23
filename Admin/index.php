@@ -176,12 +176,12 @@ $master = new Master();
 				</div>
 			</div>
 
+			<div id="searchbar">
+				<input type="search" placeholder="Buscar..." id="buscar" />
+			</div>
 			<!-- end opciones de menu -->
-			<div id="search">
-				<form id="searchForm" method="get" action="index.php">
-					<input type="text" class="validate[required]" data-prompt-position="bottomRight" placeholder="hacer busqueda" required="requiered" name="buscar">
-					<input type="submit">
-				</form>
+			<div id="search" title="Buscar">
+				<img class="icon" src="images/search2.png" onClick="BuscarGlobal()" />
 			</div>
 			<!-- end para search -->
 		</div>

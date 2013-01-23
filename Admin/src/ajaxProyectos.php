@@ -227,7 +227,7 @@ function NuevoProyecto(){
 					  			<td>
 					  				<input type="text" name="nombre" title="Nombre Para Nuevo Proyecto" placeholder="Nombre" class="validate[required]" />
 					  			</td>
-					  			<td rowspan="4" class="td-project-image">
+					  			<td rowspan="3" class="td-project-image">
 					  				<img id="image-preview" title="Imagen Para Nuevo Proyecto" src="images/es.png" />
 					  				<br/>
 					  				<input type="file" name="imagen" id="imagen" class="validate[optional]" onchange="PreviewImage(this,\'image-preview\')"/>

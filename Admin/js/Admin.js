@@ -187,6 +187,15 @@ function FormularioEditarAdmin(id){
 
 	$('#FormularioEditarAdmin').ajaxForm(options);
 
+	//imagenes
+	$(".td-user-image img").hide();
+	var height = $(".td-user-image").closest("td").height();
+	var width = $(".td-user-image").closest("td").width();
+	$('.td-user-image img').css({
+		"max-height" : height,
+		"max-width" : width
+	});
+	$(".td-user-image img").fadeIn();
 }
 
 /**

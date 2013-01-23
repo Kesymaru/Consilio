@@ -392,9 +392,8 @@ function OrdenarCategorias(id){
 /**
 * GUARDA EL ORDEN DE LA LISTA DE CATEGORIAS
 * @param padre -> id del padre para refrescar
-* @param id -> id categoria seleccionada
 */
-function GuardarOrdenCategorias(padre, id){
+function GuardarOrdenCategorias(padre){
 	var categorias = new Array();
 
 	$("#listaCategorias li").each(function(){
@@ -416,8 +415,6 @@ function GuardarOrdenCategorias(padre, id){
 		},
 		success: function(response){
 			
-			notifica(response.length+" "+padre+" "+id);
-
 			if(response.length <= 3){
 				notifica("Orden Guardado.");
 
@@ -428,21 +425,6 @@ function GuardarOrdenCategorias(padre, id){
 				}else{
 					Hijos(padre);
 				}
-
-				$("#"+id+", #Padre"+padre).live(function(){
-					console.log("listo");
-					console.log($("#"+id).html());
-
-					console.log( $("#"+id).hasClass('seleccionada') );
-
-					if( $("#"+id).hasClass('seleccionada') ){
-						$("#"+id).removeClass('seleccionada');
-						$("#"+id).addClass('seleccionada');
-					}else{
-						$("#"+id).addClass('seleccionada');
-					}
-
-				});
 				
 			}else{
 				notificaError("Error: Edicion.js GuardarOrdenCategorias().<br/>"+response);
