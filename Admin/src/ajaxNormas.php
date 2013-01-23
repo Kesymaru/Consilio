@@ -57,6 +57,25 @@ if(isset($_POST['func'])){
 			}
 			break;
 
+		//VALIDACION IN LIVE SI EL NOMBRE DE UNA NORMA ESTA DISPONIBLE
+		case 'NormasDisponibles':
+			if( isset($_POST['norma'])){
+				echo json_encode( NormasDisponiblesEdicion($_POST['norma']) );
+			}else{
+				echo json_encode( NormasDisponibles() );
+			}
+			break;
+
+		//VALIDACION IN LIVE SI EL NUMERO DE UNA NORMA ESTA DISPONIBLE
+		case 'NumeroNormasDisponibles':
+			if( isset($_POST['norma']) && isset($_POST['tipo'])){
+
+				echo json_encode( NumeroNormasDisponiblesEdicion( $_POST['norma'], $_POST['tipo']) );
+			}else if( isset($_POST['tipo']) ){
+				echo json_encode( NumeroNormasDisponibles($_POST['tipo']) );
+			}
+			break;
+
 	/************************ ARTICULOS *****************/
 
 		//FORMULARIO PARA NUEVO ARTICULO
@@ -188,7 +207,7 @@ function EditarNorma($norma){
 								<tr>
 									<td>Nombre</td>
 									<td>
-										<input type="text" id="nombre" name="nombre" title="Nombre De La Norma" placeholder="Nombre" class="validate[required]" value="'.$datos[0]['nombre'].'" />
+										<input type="text" id="nombre" name="nombre" title="Nombre De La Norma" placeholder="Nombre" class="validate[required, funcCall[NormaDisponibleEdicion] ]" value="'.$datos[0]['nombre'].'" />
 									</td>
 								</tr>
 								<tr>
@@ -202,7 +221,7 @@ function EditarNorma($norma){
 								<tr>
 									<td>Numero</td>
 									<td>
-										<input type="text" id="numero" name="numero" title="Numero De La Norma" placeholder="Numero" class="validate[required]" value="'.$datos[0]['numero'].'" />
+										<input type="text" id="numero" name="numero" title="Numero De La Norma" placeholder="Numero" class="validate[required, funcCall[NumeroNormaDisponibleEdicion] ]" value="'.$datos[0]['numero'].'" />
 									</td>
 								</tr>
 								<tr>
@@ -274,7 +293,7 @@ function NuevaNorma(){
 								<tr>
 									<td>Nombre</td>
 									<td>
-										<input type="text" id="nombre" name="nombre" title="Nombre De La Nueva Norma" placeholder="Nombre" class="validate[required]" />
+										<input type="text" id="nombre" name="nombre" title="Nombre De La Nueva Norma" placeholder="Nombre" class="validate[required, funcCall[NormaDisponible] ]" />
 									</td>
 								</tr>
 								<tr>
@@ -290,7 +309,7 @@ function NuevaNorma(){
 								<tr>
 									<td>Numero</td>
 									<td>
-										<input type="text" id="numero" name="numero" title="Numero De La Nueva Norma" placeholder="Numero" class="validate[required]" />
+										<input type="text" id="numero" name="numero" title="Numero De La Nueva Norma" placeholder="Numero" class="validate[required, funcCall[NumeroNormaDisponible] ]" />
 									</td>
 								</tr>
 								<tr>
@@ -456,6 +475,95 @@ function RegistrarNorma(){
 		echo "Error: ajaxNormas.php RegistrarNorma() datos no validos.";
 	}
 }
+
+/**
+* CREA LISTA CON LAS NORMAS NO DISPONIBLES
+*/
+function NormasDisponibles(){
+	$registros = new Registros();
+
+	$datos = $registros->getNormas();
+	$normas = array();
+
+	if(!empty($datos)){
+		foreach ($datos as $fila => $norma) {
+			$normas[] = $norma['nombre'];
+		}
+	}else{
+		return '';
+	}
+
+	return $normas;
+}
+
+/**
+* NORMAS NO DISPONIBLES, IGNORANDO LA PROPIA
+* @param $id -> id de la norma
+*/
+function NormasDisponiblesEdicion($id){
+	$registros = new Registros();
+
+	$datos = $registros->getNormas();
+	$normas = array();
+
+	if(!empty($datos)){
+		foreach ($datos as $fila => $norma) {
+			if($norma['id'] != $id){
+				$normas[] = $norma['nombre'];
+			}
+		}
+	}else{
+		return '';
+	}
+
+	return $normas;
+}
+
+/**
+* VALIDACION PARA NUMEROS DE UNA NORMA NO DISPONIBLES
+* @param $tipo -> tipo para el numero
+*/
+function NumeroNormasDisponibles($tipo){
+	$registros = new Registros();
+
+	$datos = $registros->getNormasTipo($tipo);
+	$numero = array();
+
+	if(!empty($datos)){
+		foreach ($datos as $fila => $norma) {
+			$numero[] = $norma['numero'];
+		}
+	}else{
+		return '';
+	}
+
+	return $numero;
+}
+
+/**
+* VALIDACION PARA NUMEROS DE UNA NORMA NO DISPONIBLES
+* @param $id -> id de la norma
+* @param $tipo -> tipo para el numero
+*/
+function NumeroNormasDisponiblesEdicion($id, $tipo){
+	$registros = new Registros();
+
+	$datos = $registros->getNormasTipo($tipo);
+	$numero = array();
+
+	if(!empty($datos)){
+		foreach ($datos as $fila => $norma) {
+			if($norma['id'] != $id){
+				$numero[] = $norma['numero'];
+			}
+		}
+	}else{
+		return '';
+	}
+
+	return $numero;
+}
+
 
 /************************************ ARTICULOS *************************/
 

@@ -922,6 +922,25 @@ class Registros{
 	}
 
 	/**
+	* OBTIENE TODAS LAS NORMAS DE SOLO UN TIPO
+	* @param $tipo -> id del tipo
+	*/
+	public function getNormasTipo($tipo){
+		$base = new Database();
+		$tipo = mysql_real_escape_string($tipo);
+
+		$query = "SELECT * FROM normas WHERE tipo = '".$tipo."' ORDER BY nombre";
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			return $datos;
+		}else{
+			return false;
+		}
+	}
+
+	/**
 	* OBTIENE TODAS LAS NORMAS HABILITADAS
 	*/
 	public function getNormasHabilitadas(){

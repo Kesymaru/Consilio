@@ -1343,6 +1343,158 @@ function HabilitaNorma(norma){
 
 }
 
+/**
+* VALIDA QUE LA NORMA ESTE DISPONIBLE
+*/
+function NormaDisponible(field, rules, i, options){
+	var normas = '';
+
+	var queryParams = {'func' : "NormasDisponibles"};
+
+	$.ajax({
+		data: queryParams,
+		async: false,
+		type: "post",
+		url: "src/ajaxNormas.php",
+		beforeSend: function(){
+		},
+		success: function(response){
+			normas =  $.parseJSON(response);
+		},
+		fail: function(response){
+			notificaError("Error: Edicion.js NormaDisponible().<br/>"+response);
+		}
+	});
+
+	var error = false;
+
+	$.each(normas, function(f,c){
+
+		if ( field.val().toLowerCase() == c.toLowerCase() ) {
+			error = true;
+		}
+
+	});
+	if(error){
+		return 'Nombre De Norma no disponible.';
+	}
+}
+
+/**
+* VALIDA NORMAS DISPONIBLES IGNORANDO LA PROPIA
+*/
+function NormaDisponibleEdicion(field, rules, i, options){
+	var normas = '';
+	var norma = $("#norma").val();
+
+	var queryParams = {'func' : "NormasDisponibles", "norma" : norma};
+
+	$.ajax({
+		data: queryParams,
+		async: false,
+		type: "post",
+		url: "src/ajaxNormas.php",
+		beforeSend: function(){
+		},
+		success: function(response){
+			normas =  $.parseJSON(response);
+		},
+		fail: function(response){
+			notificaError("Error: Edicion.js NormaDisponibleEdicion().<br/>"+response);
+		}
+	});
+
+	var error = false;
+
+	$.each(normas, function(f,c){
+
+		if ( field.val().toLowerCase() == c.toLowerCase() ) {
+			error = true;
+		}
+
+	});
+	if(error){
+		return 'Nombre De Norma no disponible.';
+	}
+}
+
+/**
+* VALIDA QUE LA NORMA ESTE DISPONIBLE
+*/
+function NumeroNormaDisponible(field, rules, i, options){
+	var normas = '';
+	var tipo = $("#tipo").val();
+
+	var queryParams = {'func' : "NumeroNormasDisponibles", "tipo" : tipo};
+
+	$.ajax({
+		data: queryParams,
+		async: false,
+		type: "post",
+		url: "src/ajaxNormas.php",
+		beforeSend: function(){
+		},
+		success: function(response){
+			normas =  $.parseJSON(response);
+		},
+		fail: function(response){
+			notificaError("Error: Edicion.js NormaDisponible().<br/>"+response);
+		}
+	});
+
+	var error = false;
+
+	$.each(normas, function(f,c){
+
+		if ( field.val().toLowerCase() == c.toLowerCase() ){
+			error = true;
+		}
+
+	});
+	if(error){
+		return 'Numero De Norma no disponible.';
+	}
+}
+
+/**
+* VALIDA QUE LA NORMA ESTE DISPONIBLE, IGNORANDO LA PROPIA
+*/
+function NumeroNormaDisponibleEdicion(field, rules, i, options){
+	var normas = '';
+	var tipo = $("#tipo").val();
+	var norma = $("#norma").val();
+
+	var queryParams = {'func' : "NumeroNormasDisponibles", "tipo" : tipo, "norma" : norma};
+
+	$.ajax({
+		data: queryParams,
+		async: false,
+		type: "post",
+		url: "src/ajaxNormas.php",
+		beforeSend: function(){
+		},
+		success: function(response){
+			normas =  $.parseJSON(response);
+		},
+		fail: function(response){
+			notificaError("Error: Edicion.js NormaDisponible().<br/>"+response);
+		}
+	});
+
+	var error = false;
+
+	$.each(normas, function(f,c){
+
+		if ( field.val().toLowerCase() == c.toLowerCase() ){
+			error = true;
+		}
+
+	});
+	if(error){
+		return 'Numero De Norma no disponible.';
+	}
+}
+
 /*
 * MUESTRA EL SEGUNDO MENU
 */

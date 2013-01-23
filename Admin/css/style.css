@@ -604,7 +604,7 @@ select{
 	border: 0;
 	text-align: right;
 	margin-top: 10px;
-	margin-bottom: 30px;
+	margin-bottom: 20px;
 }
 
 .logo{
@@ -767,6 +767,7 @@ select{
 	background-color: #a1ca4a;
 	color: #fff;
 	border: 0;
+	outline: none;
 }
 
 #search #buscar{

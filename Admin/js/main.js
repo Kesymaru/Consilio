@@ -1,9 +1,10 @@
 /**
 * PARA EL MENU COMO PANEL DESPLAZABLE CON SCROLL
 */
-$(window).scroll(function () { 
-      $("#manu .scollers").css("display", "inline").fadeOut("slow"); 
-});
+/*$(window).resize(function () { 
+	console.log('windows');
+	FixedElements();
+});*/
 
 
 $(document).ready(function(){
@@ -80,7 +81,7 @@ $(document).ready(function(){
 		}
 	}).bind("mouseleave",function(){
 		var id = this.id;
-		$('#'+this.id+" .dropMenu").delay(2000).slideUp(700, function(){
+		$('#'+this.id+" .dropMenu").delay(1000).slideUp(700, function(){
 			$('#'+id).css({
 				'background-color' : '#fff',
 				'color' : '#000'
@@ -882,4 +883,26 @@ function BuscarGlobalHide(){
 function BuscarGlobalShow(){
 	$("#searchbar").show();
 	$("#toolbarMenu, #toolbarMenu div").css("background-color", "#F4F4F4");
+}
+
+/**
+* ARREGLA LOS TITULOS Y BOTONERAS PARA PONERLAS FIXED DENTRO DEL DIV CONEDOR
+*/
+function FixedElements(){
+	console.log("fixed elements");
+	
+	var menuTitulo = 0;
+	var menu2Titulo = 0;
+
+	//posiciones
+	menuTitulo = $("#menu .titulo").offset();
+	menu2Titulo = $("#menu2 .titulo").offset();
+
+	$("#menu .titulo").css(menuTitulo);
+	$("#menu .titulo").css({
+		"position" : "absolute",
+		"width" : $("#menu").width(),
+		"background" : "#FFFFFF",
+		"z-index" : 9
+	});
 }
