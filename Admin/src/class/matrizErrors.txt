@@ -1,0 +1,20 @@
+
+
+ 
+
+
+<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Access denied for user 'matrizroot'@'localhost' (using password: YES) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>39</b>
+
+1. No funciona por Access denied for user 'matrizroot'@'localhost' (using password: YES)
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 24.0
+	CSS: 24.0
+	JAVASCRIPT: 1
+	January 23 2013 - 12:25 pm
+ --------------------<>--------------------
