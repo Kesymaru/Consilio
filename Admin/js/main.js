@@ -50,13 +50,14 @@ $(document).ready(function(){
 	$('.dropMenu button').button();
 	$('.dropMenu').hide();
 
-	$("#menuUsuario, #menuProyectos, #menuClientes, #menuEdicion").click(function(){
+	$("#menuUsuario, #menuProyectos, #menuClientes, #menuEdicion").bind('click',function(){
 		
 		if($("#searchbar").is(":visible")){
 			BuscarGlobalHide()
 		}
 
 		if($(".dropMenu").is(":visible")){
+			$(".dropMenu").clearQueue();
 			$(".dropMenu").slideUp();
 			$(".dropMenu").closest("div").css({
 				'background-color' : '#fff',
@@ -77,6 +78,14 @@ $(document).ready(function(){
 			});
 			$('#'+this.id+" .dropMenu").slideDown();
 		}
+	}).bind("mouseleave",function(){
+		var id = this.id;
+		$('#'+this.id+" .dropMenu").delay(2000).slideUp(700, function(){
+			$('#'+id).css({
+				'background-color' : '#fff',
+				'color' : '#000'
+			});
+		});
 	});
 
 	$("#searchForm").validationEngine();
