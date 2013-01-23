@@ -115,7 +115,7 @@ function Hijos(padre){
 					
 					var height = $("#categorias").height();
 					$("#categorias ul").each(function(){
-						$(this).css("height", height);
+						$(this).css("min-height", height);
 					});				
 				});
 				SeleccionaHijo(padre);
@@ -360,6 +360,67 @@ function BuscarNormaCategoriaAcccion(tipo){
             }
         });
 	});
+}
+
+/**
+* ORDENAR CATEGORIAS, PERMITE ORDENAR LAS NORMAS
+* @param padre -> id del padre
+*/
+function OrdenarCategorias(padre){
+	var queryParams = {"func" : "ListaCategorias", "padre" : padre};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxEdicion.php",
+		beforeSend: function(){
+		},
+		success: function(response){
+			$("#content").html(response);
+			$( "#listaCategorias" ).sortable({
+		      placeholder: "ui-state-highlight"
+		    });
+    		//$( "#listaCategorias" ).disableSelection();
+    		
+		},
+		fail: function(response){
+			notificaError("Error: AJAX fail,<br/>"+response);
+		}
+	});
+
+}
+
+/**
+* GUARDA EL ORDEN DE LA LISTA DE CATEGORIAS
+*/
+function GuardarOrdenCategorias(){
+	var categorias = new Array();
+
+	$("#listaCategorias li").each(function(){
+
+		var id = $(this).attr("id");
+		var id = id.substring(4);
+
+		categorias.push(id);
+
+	});
+
+	var queryParams = {"func" : "OrdenarCategorias", "categorias" : categorias};
+	
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxEdicion.php",
+		beforeSend: function(){
+		},
+		success: function(response){
+			$("#content").html(response);
+		},
+		fail: function(response){
+			notificaError("Error: AJAX fail,<br/>"+response);
+		}
+	});
+
 }
 
 /**
@@ -1713,6 +1774,10 @@ function Tipos(){
 		Menu2();
 	}
 
+	if( $("#content").is(":visible") ){
+		$("#content").html("");
+	}
+
 	var queryParams = {"func" : "Tipos"};
 
 	$.ajax({
@@ -1766,15 +1831,18 @@ function FormularioNuevoTipo(){
 		beforeSend: function(){
 		},
 	    success: function(response) { 
-
-	    	if(response.length <= 3){
+	    	console.log(response.length);
+	    	if(response.length <= 5 ){
 	    		notifica("Nuevo Tipo de Norma Creado.");
 	    		Tipos();
-	    		$("#content").html("")
+	    		
+	    		$("#content").html("");
+	    	}else{
+	    		notificaError("Error: Edicion.js FormularioNuevoTipo() <br/>"+response);
 	    	}
 		},
-		fail: function(){
-
+		fail: function(response){
+			notificaError("Error: AJAX fail, Edicion.js FormularioNueoTipo().<br/>"+response)
 		}
 	}; 
 	$('#FormularioNuevoTipo').ajaxForm(options);
@@ -1834,7 +1902,7 @@ function DeleteTipo(tipo){
 		beforeSend: function(){
 		},
 		success: function(response){
-			if(response.length <= 3){
+			if(response.length <= 5){
 				notifica("Tipo Borrado");
 				
 				//borra tipo
@@ -1845,10 +1913,11 @@ function DeleteTipo(tipo){
 				//borra content
 				$("#content").html("");
 			}else{
-				notificaError(response);
+				notificaError("Error: Edicion.js DeleteTipo().<br/>"+response);
 			}
 		},
-		fail: function(){
+		fail: function(response){
+			notificaError("Error: AJAX fail.<br/>"+response);
 		}
 	})
 }
@@ -1864,7 +1933,7 @@ function FormularioEditarTipo(){
 		beforeSend: function(){
 		},
 	    success: function(response) { 
-	    	if(response.length <= 3){
+	    	if(response.length <= 5){
 	    		notifica("Tipo De Norma Actualizada.");
 	    		
 	    		var nombre = $("#nombre").val();
@@ -1878,11 +1947,11 @@ function FormularioEditarTipo(){
 
 	    		LimpiarContent();
 	    	}else{
-	    		notificaError(response);
+	    		notificaError("Error: Edicion.js FormularioEditarTipo().<br/>"+response);
 	    	}
 		},
-		fail: function(){
-
+		fail: function(response){
+			notificaError("Error: AJAX fail, Edicion.js FomrularioEditarTipo().<br/>"+response);
 		}
 	}; 
 	$('#FormularioEditarTipo').ajaxForm(options);
@@ -1955,6 +2024,10 @@ function Entidades(){
 
 	if($("#menu2").is(":visible")){
 		Menu2();
+	}
+
+	if( $("#content").is(":visible") ){
+		$("#content").html("");
 	}
 
 	var queryParams = {"func" : "Entidades"};

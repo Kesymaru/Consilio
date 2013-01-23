@@ -97,6 +97,18 @@ if(isset($_POST['func'])){
 				EditarCategoria($_POST['categoria']);
 			}
 			break;
+
+		case 'ListaCategorias':
+			if(isset($_POST['padre'])){
+				ListaCategorias($_POST['padre']);
+			}
+			break;
+
+		case 'OrdenarCategorias':
+			if(isset($_POST['categorias'])){
+				OrdenarCategorias( $_POST['categorias'] );
+			}
+			break;
 	}
 }
 
@@ -630,5 +642,77 @@ function TieneHijos($padre){
 	}
 }
 
+/**
+* CREA LISTA ORDENADA DE LAS CATEGORIAS DE UN PADRE
+* @param $padre -> id del padre
+*/
+function ListaCategorias($padre){
+	$registros = new Registros();
+
+	$lista = '<div class="titulo">
+				Ordenar Categorias
+			  		<img class="boton-buscar icon" title="Buscar Categorias" onClick="BusquedaFocus(\'busqueda-categorias\', \'buscar-categorias\', \'listaCategorias\', false)" src="images/search2.png" >
+			  	</div>
+
+			  	<div class="busqueda" id="busqueda-categorias">
+					<div class="buscador">
+						<input type="search" title="Escriba Para Buscar Categorias" id="buscar-categorias" placeholder="Buscar Categorias"/>
+					</div>
+				</div>
+				<div class="datosLista">';
+
+	$datos = $registros->getCategorias($padre);
+
+	if( !empty($datos) ){
+		$lista .= '<ul class="list" id="listaCategorias">';
+		
+		foreach ($datos as $fila => $categoria) {
+			$lista .= '<li id="list'.$categoria['id'].'" >'.$categoria['nombre'].'</li>';
+		}
+
+		$lista .= '</ul>
+					</div>';
+	}else{
+		$lista .= "No hay subcategorias.
+					</div>";
+	}
+
+	$lista .= '<div class="datos-botones">
+				<button type="button" title="Limpiar Orden" onClick="OrdenarCategorias('.$padre.')">Limpiar</button>
+				<button type="button" onClick="GuardarOrdenCategorias()" title="Guardar Orden De La Lista" >Guardar</button>
+			   </div>
+			   <!-- fin botonera -->
+			   </div>';
+
+	echo $lista;
+}
+
+/**
+* ORDENA LAS CATEGORIAS
+* @param $categorias -> array[][] con el id de la categoria y su posicion en la lista
+*/
+function OrdenarCategorias($categorias){
+	$registros = new Registros();
+	$errors = '';
+
+	if(is_array($categorias)){
+		$posicion = 0;
+		foreach ($categorias as $fila => $id) {
+			$posicion++;
+
+			//actualiza la psicion de la categori
+			if( !$registros->UpdateCategoriaPosicion($id, $posicion) ){
+				$errors .= 'Error: ajaxEdicion.php OrdenarCategorias().<br/>No se pudo actualizar la categoria con el id: '.$id.'<hr>';
+			}
+		}
+
+		if($errors != ''){
+			echo $errors;
+		}
+	}else{	
+		echo "error NO ES ARRAY.<br/>";
+		echo $categorias;
+	}
+}
 
 ?>

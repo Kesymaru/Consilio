@@ -46,7 +46,9 @@ class Registros{
 	public function NewRegistro($proyecto, $registro, $fecha){
 		$base = new Database();
 
+		$proyecto = mysql_real_escape_string($proyecto);
 		$registro = serialize($registro);
+		$fecha = mysql_real_escape_string($fecha);
 
 		$query = "INSERT INTO registros (proyecto, registro, fecha_creacion) VALUES";
 		$query .= " ('".$proyecto."', '".$registro."', '".$fecha."' )";
@@ -66,6 +68,7 @@ class Registros{
 	function UpdateRegistro($id, $registro){
 		$base = new Database();
 
+		$id = mysql_real_escape_string($id);
 		$registro = serialize($registro);
 
 		$query = "UPDATE registros SET registro = '".$registro."', fecha_actualizacion = NOW() WHERE id = '".$id."'";
@@ -84,6 +87,9 @@ class Registros{
 	*/
 	function DuplicarRegistros($id, $nuevo){
 		$base = new Database();
+
+		$id = mysql_real_escape_string($id);
+		$nuevo = mysql_real_escape_string($nuevo);
 		$query = "SELECT * FROM registros WHERE id = ".$id;
 
 		$datos = $base->Select($query);
@@ -114,6 +120,8 @@ class Registros{
 	*/
 	public function DeleteRegistros($proyecto){
 		$base = new Database();
+
+		$proyecto = mysql_real_escape_string($proyecto);
 		$query = "DELETE FROM registros WHERE proyecto = ".$proyecto;
 
 		if($base->Delete($query)){
@@ -132,6 +140,9 @@ class Registros{
 	*/
 	public function getRegistrosNorma($proyecto, $categoria){
 		$base = new Database();
+
+		$proyecto = mysql_real_escape_string($proyecto);
+		$categoria = mysql_real_escape_string($categoria);
 		$query = "SELECT * FROM registros_normas WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."'";
 
 		$datos = $base->Select($query);
@@ -155,6 +166,9 @@ class Registros{
 	public function RegistrarRegirstroNorma($proyecto, $categoria, $registro){
 		$base = new Database();
 		
+		$proyecto = mysql_real_escape_string($proyecto);
+		$categoria = mysql_real_escape_string($categoria);
+
 		$registro = serialize($registro);
 
 		$query = "SELECT * FROM registros_normas WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."'";
@@ -189,6 +203,9 @@ class Registros{
 	*/
 	public function getRegistrosArticulos($proyecto, $norma){
 		$base = new Database();
+
+		$proyecto = mysql_real_escape_string($proyecto);
+		$norma = mysql_real_escape_string($norma);
 		$query = "SELECT * FROM registros_articulos WHERE proyecto = '".$proyecto."' AND norma = '".$norma."'";
 
 		$datos = $base->Select($query);
@@ -212,6 +229,9 @@ class Registros{
 	public function RegistrarRegirstroArticulo($proyecto, $norma, $registro){
 		$base = new Database();
 		
+		$proyecto = mysql_real_escape_string($proyecto);
+		$norma = mysql_real_escape_string($norma);
+
 		$registro = serialize($registro);
 
 		$query = "SELECT * FROM registros_articulos WHERE proyecto = '".$proyecto."' AND norma = '".$norma."'";
@@ -603,12 +623,56 @@ class Registros{
 	*/
 	public function getHijos($padre){
 		$base = new Database();
-		$query = "SELECT * FROM categorias WHERE padre = ".$padre;
+		$padre = mysql_real_escape_string($padre);
+		$query = "SELECT * FROM categorias WHERE padre = '".$padre."' ORDER BY posicion";
 
 		$datos = $base->Select($query);
 
 		if(!empty($datos)){
 			return $datos;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* OBTIENE LAS CATEGORIAS HIJAS DE UN PADRE, EN LISTA
+	* @param $padre -> id del padre
+	* @param return $datos -> array[][] con los datos
+	* @return false si falla
+	*/
+	function getCategorias($padre){
+		$base = new Database();
+
+		$padre = mysql_real_escape_string($padre);
+
+		$query = "SELECT * FROM categorias WHERE padre = '".$padre."' ORDER BY posicion";
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			return $datos;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* ACTUALIZA LA POSICION DE UNA CATEGORIA 
+	* NOTA: lista es decendente
+	* @param $id -> id de la categoria
+	* @param $posicion -> valor de la posicion de la lista
+	*/
+	function UpdateCategoriaPosicion($id, $posicion){
+		$base = new Database();
+		
+		$id = mysql_real_escape_string($id);
+		$posicion = mysql_real_escape_string($posicion);
+
+		$query = "UPDATE categorias SET posicion = '".$posicion."' WHERE id = '".$id."'";
+
+		if($base->Update($query)){
+			return true;
 		}else{
 			return false;
 		}
@@ -622,7 +686,10 @@ class Registros{
 	public function getTodosHijos($padre){
 		$hijos = array();
 		$base = new Database();
-		$query = "SELECT * FROM categorias WHERE padre = ".$padre;
+		
+		$padre = mysql_real_escape_string($padre);
+
+		$query = "SELECT * FROM categorias WHERE padre = '".$padre."' ORDER BY posicion";
 
 		$datos = $base->Select($query);
 
@@ -646,7 +713,7 @@ class Registros{
 		$base = new Database();
 
 		//el padre del hijo
-		$query = "SELECT DISTINCT padre, id FROM categorias WHERE id = ".$hijo;
+		$query = "SELECT DISTINCT padre, id FROM categorias WHERE id = '".$hijo."' ORDER BY posicion";
 
 		$datos = $base->Select($query);
 
@@ -766,7 +833,6 @@ class Registros{
 		}
 	}
 
-/************** DATOS DE CATEGORIAS **************/
 
 	/**
 	* REGISTRA UN DATO, SE ASEGURA DE REGISTRARLO SI ES NUEVO O ACTUALIZARLO SI EXISTE
@@ -1311,6 +1377,7 @@ class Registros{
 		$base = new Database();
 		
 		$nombre = mysql_real_escape_string($nombre);
+		$id = mysql_real_escape_string($id);
 
 		$query = "UPDATE tipos SET nombre = '".$nombre."' WHERE id = ".$id;
 
@@ -1419,7 +1486,9 @@ class Registros{
 	*/
 	public function NewEntidad($padre, $nombre){
 		$base = new Database();
+		
 		$nombre = mysql_real_escape_string($nombre);
+		$padre = mysql_real_escape_string($padre);
 
 		$query = "INSERT INTO entidades (padre, nombre) VALUES ('".$padre."', '".$nombre."')";
 
@@ -1472,7 +1541,10 @@ class Registros{
 	*/
 	public function UpdateEntidad($id, $nombre, $padre){
 		$base = new Database();
+
+		$id = mysql_real_escape_string($id);
 		$nombre = mysql_real_escape_string($nombre);
+		$padre = mysql_real_escape_string($padre);
 
 		$query = "UPDATE entidades SET nombre = '".$nombre."', padre = '".$padre."' WHERE id = ".$id;
 
@@ -1521,10 +1593,5 @@ class Registros{
 
 }
 
-/*
-$registros = new Registros();
-$registros->getRegistros(51);
-$registros->MostrarArray();
-*/
 
 ?>

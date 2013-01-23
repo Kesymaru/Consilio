@@ -1,5 +1,3 @@
-var menu = '';
-
 /**
 * PARA EL MENU COMO PANEL DESPLAZABLE CON SCROLL
 */
@@ -726,6 +724,99 @@ function BusquedaLive(input, target){
         $("#"+target).removeClass('si');
 	});
 
+}
+
+/**
+* BUSQUEDA QUE ENFOCA EN LUGAR DE MOSTRAR LOS RESULTADOS
+* @param id -> id del div contenedor a mostrar y ocultar
+* @param input -> id del input para el search
+* @param target -> id del lugar donde realuzar la busqueda
+* @param table -> true busqueda en tabla, false en lista
+*/
+function BusquedaFocus(id, input, target, table){
+
+	if(table){
+		target += " tr";
+	}else{
+		target += " li";
+	}
+
+	if($("#"+id).is(":visible")){
+		$("#"+id).slideUp();
+		
+		$("#"+input).val("");
+		$("#"+target).fadeIn();
+
+		$("#"+target).removeClass('no');
+		$("#"+target).removeClass('si');
+		$("#"+target).removeClass('focus');
+
+	}else{
+		$("#"+id).slideDown();
+	}
+
+	//busqueda en vivo
+	BusquedaFocusLive(input, target);
+
+}
+
+/**
+* BUSQUEDA AVANZADA
+* @param input -> id del input de search
+* @param target -> id del lugar donde buscar
+*/
+function BusquedaFocusLive(input, target){
+
+	//actualiza al ir escribiendo
+	$("#"+input).keyup(function(){
+		var busqueda = $("#"+input).val();
+		//var busqueda = $("#"+input).val().split(","), count = 0;
+		busqueda = busqueda.replace(/\s/g, ""); //quita espacios en blanco
+		busqueda = busqueda.split(","); //compone array separando por las comas
+		busqueda = busqueda, count = 0;
+
+		//recorre opciones para buscar
+        $("#"+target).each(function(){
+        	var element = $(this);
+
+        	$.each(busqueda,function(fila, valor){
+        		var title = element.attr('title');
+        		var clase = element.attr('class');
+
+        		if(title ==  undefined || title == null){
+        			title = '';
+        		}
+        		if(clase ==  undefined || clase == null){
+        			clase = '';
+        		}
+
+        		//busqueda
+        		if(element.text().search(new RegExp(valor, "i")) < 0 && title.search(new RegExp(valor, "i")) < 0  && clase.search(new RegExp(valor, "i")) < 0 ){
+	                
+	               	//element.removeClass('focus');
+	                
+	                if( element.hasClass('focus') ){
+		 				element.removeClass('focus'); 
+	                }
+
+	            //muestra considencias
+	            } else {
+
+	            	if( !element.hasClass('focus') ){
+	            		element.addClass('focus');
+	                	count++;
+	            	}else{
+	            		element.addClass('focus');
+	            	}
+	            }
+        	});
+
+			if(busqueda == ''){
+				$("#"+target).removeClass('focus');
+			}
+
+        });
+	});
 }
 
 /**

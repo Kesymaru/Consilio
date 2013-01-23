@@ -196,11 +196,11 @@ function EditarTipo($id){
 * ELIMINA UN TIPO
 * @param id -> id del tipo ha eliminar
 */
-function EliminarTipo($tipo){
+function EliminarTipo($id){
 	$registros = new Registros();
 
-	if( !$registros->DeleteTipo($tipo) ){
-		echo "Error: no se pudo borrar el tipo.";
+	if( !$registros->DeleteTipo($id) ){
+		echo "Error: ajaxTipos.php EliminarTipo().<br/>No se pudo eliminar el tipo con el id: ".$id;
 	}
 }
 
@@ -213,7 +213,7 @@ function ActualizarTipo($nombre, $id){
 	$registros = new Registros();
 
 	if( !$registros->UpdateTipo($nombre, $id)){
-		echo "Error: no se podo actualizar la norma.";
+		echo "Error: ajaxTipos.php ActualizarTipo().<br/>No se podo actualizar el tipo con el id: ".$id;
 	}
 }
 

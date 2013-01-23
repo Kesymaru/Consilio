@@ -167,7 +167,7 @@ function EditarCliente($id){
 					  				Registro
 					  			</td>
 					  			<td>
-					  				<input type="text" id="registro" name="registro" title="Registro Del Cliente" placeholder="Registro" value="'.$datos[0]['registro'].'" class="validate[required, custom[number]]" />
+					  				<input type="text" id="registro" name="registro" title="Registro Del Cliente" placeholder="Registro" value="'.$datos[0]['registro'].'" class="validate[required]" />
 					  			</td>
 					  		</tr>
 					  		<tr>
@@ -262,7 +262,7 @@ function NuevoCliente(){
 					  				Registro
 					  			</td>
 					  			<td>
-					  				<input type="text" id="registro" name="registro" title="Registro Del Nuevo Cliente" placeholder="Registro" class="validate[required, custom[number]]" />
+					  				<input type="text" id="registro" name="registro" title="Registro Del Nuevo Cliente" placeholder="Registro" class="validate[required]" />
 					  			</td>
 					  		</tr>
 					  		<tr>
