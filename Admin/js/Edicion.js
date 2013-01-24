@@ -1621,7 +1621,7 @@ function NuevoArticulo(norma){
 		success: function(response){
 			$("#content").html(response);
 			$(".adjuntos").hide();
-			FormularioNuevoArticulo();
+			FormularioNuevoArticulo(norma);
 		},
 		fail: function(){
 			notificaError("Ocurrion un error :(<br/>Al cargar edicion de nueva norma.");
@@ -1633,7 +1633,7 @@ function NuevoArticulo(norma){
 /**
 * INICIALIZA FORMULARIO PARA NUEVO ARTICULO
 */
-function FormularioNuevoArticulo(){
+function FormularioNuevoArticulo(norma){
 
 	var options = {  
 		beforeSubmit: ValidaFormularioNuevoArticulo,
@@ -1667,6 +1667,12 @@ function FormularioNuevoArticulo(){
 	
 	$( "#tabs" ).tabs(); //crea tabs para los textareas
 	$('#entidades').chosen();
+	
+	$("#FormularioNuevoArticulo #nombre").change(function(){
+		ArticuloDisponible(norma);
+	});
+
+	jQuery('#FormularioNuevoArticulo').validationEngine('hideAll')
 }
 
 /**
@@ -1686,16 +1692,72 @@ function ValidaFormularioNuevoArticulo(){
 	}else{
 				
 		if(articulo == null || articulo == ''){
-			notificaAtencion("Se requiere un articulo.");
+			jQuery('#articulo').validationEngine('showPrompt', "Se requiere un articulo.", 'error', true);
+			
+			CKEDITOR.instances['articulo'].on('blur', function() {
+				ValidaFormularioNuevoArticulo();
+			});
+
+		}else{
+			jQuery('#articulo').validationEngine('hide');
 		}
+
 		if(entidades == null || entidades == ''){
-			notificaAtencion("Se requiere almenos una entidad.");
+			jQuery('#entidades').validationEngine('showPrompt', "Se requiere almenos una entidad.", 'error', true);
+			$("#entidades").change(function(){
+				ValidaFormularioNuevoArticulo();
+			});
+		}else{
+			jQuery('#entidades').validationEngine('hide');
 		}
+
 		if(nombre == null || nombre == ''){
-			notificaAtencion("Se requiere un nombre para el articulo.");
+			jQuery('#nombre').validationEngine('showPrompt', "Se requiere un nombre para el articulo.", 'error', true);
+		}else{
+			jQuery('#nombre').validationEngine('hide');
 		}
-			return false;
+
+		return false;
 	}    
+}
+
+/**
+* VALIDACION DEL ARTICULO
+*/
+function ArticuloDisponible(norma){
+	var normas = '';
+
+	var queryParams = {'func' : "ArticuloDisponible", "norma" : norma};
+
+	$.ajax({
+		data: queryParams,
+		async: false,
+		type: "post",
+		url: "src/ajaxNormas.php",
+		beforeSend: function(){
+		},
+		success: function(response){
+			normas =  $.parseJSON(response);
+		},
+		fail: function(response){
+			notificaError("Error: Edicion.js ArticuloDisponible().<br/>"+response);
+		}
+	});
+
+	var error = false;
+
+	$.each(normas, function(f,c){
+
+		if ( $("#FormularioNuevoArticulo #nombre").val().toLowerCase() == c.toLowerCase() ) {
+			error = true;
+		}
+
+	});
+	if(error){
+		jQuery('#FormularioNuevoArticulo #nombre').validationEngine('showPrompt', 'Articulo no disponible', 'error', true);
+	}else{
+		jQuery('#FormularioNuevoArticulo #nombre').validationEngine('hide');
+	}
 }
 
 /**

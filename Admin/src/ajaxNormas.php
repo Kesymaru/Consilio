@@ -120,6 +120,15 @@ if(isset($_POST['func'])){
 			}
 			break;
 
+		//VALIDACION IN LIVE SI EL ARTICULO ESTA DISPONIBLE
+		case 'ArticuloDisponible':
+			if( isset($_POST['norma']) && isset($_POST['articulo']) ){
+				echo json_encode( ArticuloDisponibleEdicion( $_POST['norma'], $_POST['articulo'] ) );
+			}else if( isset($_POST['norma']) ){
+				echo json_encode( ArticuloDisponible( $_POST['norma'] ) );
+			}
+			break;
+
 	/************************ ARCHIVOS *****************/
 
 		case 'EliminarArchivo':
@@ -1036,6 +1045,28 @@ function EliminarArchivo($id){
 		echo 'Error no se pudo borrar el archivo.';
 	}
 }
+
+/**
+* ARTICULOS NO DISPONIBLES
+* @param $norma -> id de la norma
+*/
+function ArticuloDisponible($norma){
+	$registros = new Registros();
+
+	$datos = $registros->getArticulos( $norma );
+	$articulos = array();
+
+	if(!empty($datos)){
+		foreach ($datos as $fila => $articulo) {
+			$articulos[] = $articulo['nombre'];
+		}
+	}else{
+		return '';
+	}
+
+	return $articulos;
+}
+
 
 /***************** MANEJO DE ARCHIVOS **************/
 

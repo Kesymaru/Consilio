@@ -56,9 +56,10 @@ $(document).ready(function(){
 		if($("#searchbar").is(":visible")){
 			BuscarGlobalHide()
 		}
+		
+		$(".dropMenu").clearQueue();
 
 		if($(".dropMenu").is(":visible")){
-			$(".dropMenu").clearQueue();
 			$(".dropMenu").slideUp();
 			$(".dropMenu").closest("div").css({
 				'background-color' : '#fff',
