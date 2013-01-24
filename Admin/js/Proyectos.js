@@ -169,7 +169,7 @@ function ContextMenuProyecto(id){
 
 	//doble click para editar el cliente
 	$("#"+id).dblclick(function(){
-
+		console.log($.cookie('cargando'));
 		if( $.cookie('cargando') == "false"){
 			$.cookie('cargando', true);
 			EditarProyecto();
@@ -281,9 +281,11 @@ function EditarProyecto(){
 		},
 		success: function(response){
 			$("#content").html(response);
+			
 			FormularioEditarProyecto();
 			$("#cliente").chosen();
 			SelectProyecto(id);
+			$.cookie('cargando', false);
 		},
 		fail: function(){
 		}

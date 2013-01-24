@@ -6,8 +6,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 body
 {
 	/* Font */
-	font-family: sans-serif, Arial, Verdana, "Trebuchet MS";
-	font-size: 12px;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 16px;
 
 	/* Text color */
 	color: #333;
@@ -20,14 +20,14 @@ body
 
 .cke_editable
 {
-	font-size: 13px;
+	font-size: 16px;
 	line-height: 1.6em;
 }
 
 blockquote
 {
 	font-style: italic;
-	font-family: Georgia, Times, "Times New Roman", serif;
+	font-family: 'Open Sans', sans-serif;
 	padding: 2px 0;
 	border-style: solid;
 	border-color: #ccc;

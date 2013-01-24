@@ -1525,13 +1525,12 @@ select{
 	height: 100%;
 	width: 100%;
 	position: absolute;
-	/*padding-top: 25%;*/
 	background-color: #fff;
 
 		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 	    filter: alpha(opacity=50);
 	    -o-opacity: 0.50;
-	    -ms-opacity: 0.50; /*ie10*/
+	    -ms-opacity: 0.50; 
 	    -moz-opacity: 0.50;
 	    -webkit-opacity: 0.50;
     opacity: 0.50;
@@ -1558,7 +1557,6 @@ select{
 	display: none;
 	background-color: rgba(121, 118, 116, .8);
 	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#928F8E, endColorstr=#928F8E)";
-	/*background-image: url('../images/ajax_loader_green_128.gif');*/
 	background-repeat:no-repeat;
 	background-attachment:fixed;
 	background-position:center; 
