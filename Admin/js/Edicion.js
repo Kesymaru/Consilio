@@ -116,7 +116,10 @@ function Hijos(padre){
 					var height = $("#categorias").height();
 					$("#categorias ul").each(function(){
 						$(this).css("min-height", height);
-					});				
+					});	
+
+					$("#menu").scrollTo( $("#"+padre) , 700);
+							
 				});
 				SeleccionaHijo(padre);
 			}

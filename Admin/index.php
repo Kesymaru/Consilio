@@ -79,6 +79,7 @@ $master = new Master();
 	<script type="text/javascript" src="js/jquery.cookie.js"></script>
 	<script type="text/javascript" src="js/jquery.contextMenu.js"></script>
 	<script type="text/javascript" src="fancybox/jquery.fancybox.js"></script>
+	<script type="text/javascript" src="js/jquery.scrollTo-min.js"></script>
 
 	<!-- plugin para selector -->
 	<script type="text/javascript" src="js/selector/jquery.multiselect.js"></script>

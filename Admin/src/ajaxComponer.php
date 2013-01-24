@@ -8,6 +8,7 @@
 require_once("class/proyectos.php");
 require_once("class/imageUpload.php");
 require_once("class/registros.php");
+require_once("class/usuarios.php");
 
 if(isset($_POST['func'])){
 	
@@ -159,11 +160,13 @@ function ComponerProyecto($id){
 
 		$datos = unserialize( $registro[0]['registro'] );
 
-		$datos = unserialize( $registro[0]['registro'] );	
+		//$datos = unserialize( $registro[0]['registro'] );	
+
+		$cliente = ProyectoCliente($proyecto[0]['cliente']);
 
 		$lista = '<div id="proyectos" class="tipos">
-				<div class="titulo">
-					'.$proyecto[0]['nombre'].'
+				<div class="titulo" title="Proyecto: '.$proyecto[0]['nombre'].$cliente.'">
+					Proyecto: '.$proyecto[0]['nombre'].'
 					<img class="boton-buscar icon" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-categorias\', \'buscar-categorias\', \'categorias-incluidas\', true)" src="images/search2.png">
 			  	</div>
 
@@ -199,6 +202,20 @@ function ComponerProyecto($id){
 	}
 
 	echo $lista;
+}
+
+/**
+* OBTIENE EL NOMBRE DEL CLIENTE
+* @param $id -> id del cliente
+*/
+function ProyectoCliente($id){
+	$registros = new Cliente();
+	//$nombre = $registros->getClienteDato("nombre", $id);
+	if( $nombre = $registros->getClienteDato("nombre", $id) ){
+		return " De: ".$nombre;
+	}else{
+		return '';
+	}
 }
 
 /**

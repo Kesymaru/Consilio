@@ -57,8 +57,8 @@ select{
 	margin-right: 0;
 	background-color: #FFFFFF;
 	border: 1px solid #dedede;
-	/*overflow-x: auto !important;
-	overflow-y: auto !important;*/
+	overflow-x: auto !important;
+	/*overflow-y: auto !important;*/
 	padding: 0;
 	position: relative;
 }
