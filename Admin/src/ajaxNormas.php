@@ -157,7 +157,7 @@ function Normas(){
 					<input type="search" title="Escriba Para Buscar Normas" id="buscar-normas" placeholder="Buscar Normas"/>
 				</div>
 			</div>';
-	echo '<div class="root2" id="PadreNormas">';
+	echo '<div class="root2 scroll" id="PadreNormas">';
 
 	$registros = new Registros();
 	$normas = $registros->getNormas();
@@ -172,9 +172,9 @@ function Normas(){
 			$tipo = $registros->getTipoDato("nombre", $norma['tipo']);
 
 			if($norma['status'] == 1){
-				echo '<li title="'.$tipo.' #'.$norma['numero'].'" id="'.$norma['id'].'" onClick="NormaOpciones('.$norma['id'].')">'.$norma['nombre'].'</li>';
+				echo '<li title="'.$tipo.' Nº '.$norma['numero'].'" id="'.$norma['id'].'" onClick="NormaOpciones('.$norma['id'].')">'.$norma['nombre'].'</li>';
 			}else{
-				echo '<li title="'.$tipo.' #'.$norma['numero'].'" id="'.$norma['id'].'" class="deshabilitado" onClick="NormaOpciones('.$norma['id'].')">'.$norma['nombre'].'</li>';
+				echo '<li title="'.$tipo.' Nº '.$norma['numero'].'" id="'.$norma['id'].'" class="deshabilitado" onClick="NormaOpciones('.$norma['id'].')">'.$norma['nombre'].'</li>';
 			}
 			
 		}
@@ -183,7 +183,7 @@ function Normas(){
 		echo '<p class="no-hay">No hay normas</p>';
 	}
 	echo '</div>
-		 <div class="datos-botones">
+		 <div class="menu-botones">
 			<button id="DeshabilitarNorma" title="Deshabilitar Norma Seleccionada" onClick="DeshabilitarNorma()">Deshabilitar</button>
 			<button id="HabilitarNorma" title="Habilitar Norma Seleccionada" onClick="HabilitarNorma()">Habilitar</button>
 			<button id="EditarNorma" title="Editar Norma Seleccionada" onClick="EditarNorma()">Editar</button>
@@ -608,13 +608,17 @@ function Articulos($norma){
 							</div>
 					   </div>
 
+				      <div class="scroll">
 				      <ul>';
 
 		//carga la lista
 		foreach ($articulos as $fila => $articulo) {
-			$lista .= '<li id="articulo'.$articulo['id'].'" onClick="SelectArticulo('.$articulo['id'].')">'.$articulo['nombre'].'</li>';
+
+			$lista .= '<li id="articulo'.$articulo['id'].'" title="'.$articulo['nombre'].'" onClick="SelectArticulo('.$articulo['id'].')">'.$articulo['nombre'].'</li>';
 		}
 
+		$lista .= '</ul>
+					</div> <!-- end scroll -->';
 	}else{
 		//no tiene articulos no se ocupa el buscador
 		$lista .= '<div id="articulos" class="'.$visibilidad.'">
@@ -625,7 +629,7 @@ function Articulos($norma){
 					  <br/>';
 	}
 
-	$lista .= '<div class="datos-botones">
+	$lista .= '<div class="menu-botones">
 				<button class="ocultos" type="button" title="Eliminar Articulo Seleccionado" onClick="BorrarArticulo()">Eliminar</button>
 				<button class="ocultos" type="button" title="Editar Articulo Seleccionado" onClick="EditarArticulo()">Editar</button>
 			   	<button type="button" title="Crear Nuevo Articulo" onClick="NuevoArticulo('.$norma.')">Nuevo Articulo</button>
@@ -842,7 +846,7 @@ function EdicionArticulo($articulo){
 						<form id="FormularioEditarArticulo" enctype="multipart/form-data" method="post" action="src/ajaxNormas.php" >
 								<div class="datos">
 									<input type="hidden" value="ActualizarArticulo" name="func" />
-									<input type="hidden" value="'.$datos[0]['norma'].'" name="norma" />
+									<input type="hidden" value="'.$datos[0]['norma'].'" name="norma" id="norma" />
 									<input type="hidden" value="'.$datos[0]['id'].'" name="id" id="id" />
 									<table>
 									<tr>
@@ -1059,6 +1063,30 @@ function ArticuloDisponible($norma){
 	if(!empty($datos)){
 		foreach ($datos as $fila => $articulo) {
 			$articulos[] = $articulo['nombre'];
+		}
+	}else{
+		return '';
+	}
+
+	return $articulos;
+}
+
+/**
+* ARTICULOS NO DISPONIBLES IGNORANDO EL PROPIO DEL ARTICULO
+*@para $norma -> id norma
+* @param $id -> id del articulo
+*/
+function ArticuloDisponibleEdicion($norma, $id){
+	$registros = new Registros();
+
+	$datos = $registros->getArticulos( $norma );
+	$articulos = array();
+
+	if(!empty($datos)){
+		foreach ($datos as $fila => $articulo) {
+			if( $articulo['id'] != $id ){
+				$articulos[] = $articulo['nombre'];
+			}
 		}
 	}else{
 		return '';

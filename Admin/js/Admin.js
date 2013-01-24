@@ -25,17 +25,20 @@ function Admin(){
 		data: queryParams,
 		type: "post",
 		url: "src/ajaxAdmin.php",
-		beforesend: function(){
+		beforeSend: function(){
+			Loading();
 		},
 		success: function(response){
+			LoadingClose();
 			if(response.length > 0){
 				$("#menu").html(response);
+				MenuScroll();
 			}else{
 				notificaError(response);
 			}
 		},	
 		fail: function(response){
-			notificaError("Error: AJAX fail Admin.JS Admin.<br/>"+response);
+			notificaError("Error: AJAX fail Admin.js Admin().<br/>"+response);
 		}
 	});
 }

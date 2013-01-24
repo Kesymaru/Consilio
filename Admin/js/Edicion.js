@@ -167,10 +167,6 @@ function NormasCategoria(id){
 
 			$("#content").html(response);
 			FormularioNormasCategoria();
-
-			//esconde las opciones de buscar
-			$("#buscar-disponibles input").hide();
-			$("#buscar-seleccionadas input").hide();
 		},
 		fail: function(){
 			notificaError("Error: ocurrio un error.<br/>Codigo: ajaxEdicion 002.");
@@ -898,16 +894,20 @@ function Normas(){
 
 					$("#menu").append(response);
 					$("#normas").hide();
-					$("#normas").fadeIn(1000);
+					$("#normas").fadeIn(1000, function(){
+						MenuScroll();
+					});
 
 					$("#ArticulosNorma, #DeshabilitarNorma, #EditarNorma, #AgregarArticulo, #HabilitarNorma ").hide();
-				});
+				});				
 
 			}else{
 				$("#menu").html("");
 				$("#menu").append(response);
 				$("#normas").hide();
-				$("#normas").fadeIn(1000);
+				$("#normas").fadeIn(1000, function(){
+					MenuScroll();
+				});
 
 				$("#ArticulosNorma, #DeshabilitarNorma, #EditarNorma, #AgregarArticulo, #HabilitarNorma ").hide();
 			}
@@ -1591,12 +1591,13 @@ function Articulos(){
 				$("#articulos").fadeOut(500, function(){
 					$("#articulos").remove();
 					$("#menu2").append(response);
+					Menu2Scroll()
 				});
 
 			}else{
 
 				$("#menu2").append(response);
-
+				Menu2Scroll();
 			}
 		},
 		fail: function(){
@@ -1680,31 +1681,25 @@ function FormularioNuevoArticulo(norma){
 */
 function ValidaFormularioNuevoArticulo(){
 	EditorUpdateContent();
-	
+
 	//VALIDACION MANUAL
 	var articulo = $("#articulo").val();
 	var entidades = $("#entidades").val();
 	var nombre = $("#nombre").val();
 
-	if( permisos != '' && permisos != null && articulo != '' && articulo != null && entidades != '' && entidades != null && nombre != '' && nombre != null ){
-
+	if( articulo != '' && articulo != null && entidades != '' && entidades != null && nombre != '' && nombre != null ){
+		console.log("todos validados");
+		jQuery('#articulo').validationEngine('hide');
+		jQuery('#entidades').validationEngine('hide');
+		jQuery('#nombre').validationEngine('hide');
 		return true;
 	}else{
-				
-		if(articulo == null || articulo == ''){
-			jQuery('#articulo').validationEngine('showPrompt', "Se requiere un articulo.", 'error', true);
-			
-			CKEDITOR.instances['articulo'].on('blur', function() {
-				ValidaFormularioNuevoArticulo();
-			});
-
-		}else{
-			jQuery('#articulo').validationEngine('hide');
-		}
 
 		if(entidades == null || entidades == ''){
 			jQuery('#entidades').validationEngine('showPrompt', "Se requiere almenos una entidad.", 'error', true);
+			
 			$("#entidades").change(function(){
+				console.log("cambio");
 				ValidaFormularioNuevoArticulo();
 			});
 		}else{
@@ -1715,6 +1710,17 @@ function ValidaFormularioNuevoArticulo(){
 			jQuery('#nombre').validationEngine('showPrompt', "Se requiere un nombre para el articulo.", 'error', true);
 		}else{
 			jQuery('#nombre').validationEngine('hide');
+		}
+
+		if(articulo == null || articulo == ''){
+			jQuery('#articulo').validationEngine('showPrompt', "Se requiere un articulo.", 'error', true);
+			
+			CKEDITOR.instances['articulo'].on('blur', function() {
+				ValidaFormularioNuevoArticulo();
+			});
+
+		}else{
+			jQuery('#articulo').validationEngine('hide');
 		}
 
 		return false;
@@ -1797,7 +1803,10 @@ function ArticuloContextMenu(id){
 
 	//doble click para editar articulo seleccionado
 	$("#articulo"+id).dblclick(function(){
-		EditarArticulo();
+		if( $.cookie('cargando') == "false"){
+			$.cookie('cargando', true);
+			EditarArticulo();
+		}
 		return;
 	});
 }
@@ -1903,6 +1912,7 @@ function EditarArticulo(){
 			}else{
 				notificaError(response);
 			}
+			$.cookie('cargando', false);
 		},
 		fail: function(){
 			LoadingClose();
@@ -1958,6 +1968,51 @@ function FormularioEditarArticulo(){
 	
 	$( "#tabs" ).tabs(); //crea tabs para los textareas
 	$('#entidades').chosen();
+
+	var norma = $("#norma").val();
+	$("#FormularioEditarArticulo #nombre").change(function(){
+		ArticuloDisponibleEdicion(norma);
+	});
+}
+
+/**
+* VALIDACION DEL ARTICULO, NO ES SENSIBLE A MAYOUSCULAS O MINUSCULAS
+*/
+function ArticuloDisponibleEdicion(norma){
+	var normas = '';
+	var articulo = $("#id").val();
+
+	var queryParams = {'func' : "ArticuloDisponible", "norma" : norma, "articulo" : articulo};
+
+	$.ajax({
+		data: queryParams,
+		async: false,
+		type: "post",
+		url: "src/ajaxNormas.php",
+		beforeSend: function(){
+		},
+		success: function(response){
+			normas =  $.parseJSON(response);
+		},
+		fail: function(response){
+			notificaError("Error: Edicion.js ArticuloDisponible().<br/>"+response);
+		}
+	});
+
+	var error = false;
+
+	$.each(normas, function(f,c){
+
+		if ( $("#FormularioEditarArticulo #nombre").val().toLowerCase() == c.toLowerCase() ) {
+			error = true;
+		}
+
+	});
+	if(error){
+		jQuery('#FormularioEditarArticulo #nombre').validationEngine('showPrompt', 'Articulo no disponible', 'error', true);
+	}else{
+		jQuery('#FormularioEditarArticulo #nombre').validationEngine('hide');
+	}
 }
 
 /**
@@ -2020,10 +2075,11 @@ function Tipos(){
 		success: function(response){
 			LoadingClose();
 			$("#menu").html(response);
+			MenuScroll();
 			$("#EliminarTipo, #EditarTipo").hide();
 		},
 		fail: function(){
-			notificaError("Ocurrion un error :(<br/>Al intentar cargar los tipos.");
+			notificaError("Error: AJAX fail Edicion.js Tipos().<br/>"+response);
 		}
 	});
 	
@@ -2218,6 +2274,12 @@ function TipoContextMenu(id){
             "eliminar": {name: "Eliminar", icon: "delete", accesskey: "l"},
         }
     });
+
+    //doble click para editar el tipo
+	$("#"+id).dblclick(function(){
+		EditarTipo();
+		return;
+	});
 }
 
 /**
@@ -2267,14 +2329,17 @@ function Entidades(){
 		type: "post",
 		url: "src/ajaxEntidades.php",
 		beforeSend: function(){
+			Loading();
 		},
 		success: function(response){
+			LoadingClose();
 			$("#menu").html(response);
 			$("#EliminarEntidad, #EditarEntidad").hide();
+			MenuScroll();
 		},
-		fail: function(){
-
-		}
+		fail: function(response){
+			notificaError("Error: AJAX FAIL Edicion.js Entidades().<br/>"+response);
+		}	
 	});
 }
 
@@ -2522,6 +2587,12 @@ function EntidadContextMenu(id){
             "eliminar": {name: "Eliminar", icon: "delete", accesskey: "l"},
         }
     });
+
+    //doble click para editar la entidad
+	$("#"+id).dblclick(function(){
+		EditarEntidad();
+		return;
+	});
 }
 
 /**

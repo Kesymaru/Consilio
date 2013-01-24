@@ -149,7 +149,7 @@ $master = new Master();
 				</div>
 				<div id="menuEdicion">
 					<img class="icon" src="images/edit.png" />
-					Edicion
+					Edición
 					<ul class="dropMenu">
 						<?php
 							$master->MenuEdicion();

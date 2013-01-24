@@ -30,9 +30,12 @@ function Clientes(){
 		type: "post",
 		url: "src/ajaxClientes.php",
 		beforeSend: function(){
+			Loading();
 		},
 		success: function(response){
+			LoadingClose();
 			$("#menu").html(response);
+			MenuScroll();
 			$("#EliminarCliente, #EditarCliente").hide();
 		},
 		fail: function(){

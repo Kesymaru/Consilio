@@ -81,7 +81,8 @@ function Admins(){
 				</div>';
 
 	if(!empty($datos)){
-		$lista .= '<ul>';
+		$lista .= '<div class="scroll">
+					<ul>';
 
 		foreach ($datos as $fila => $admin) {
 			if( $_SESSION['id'] == $admin['id']){
@@ -92,12 +93,13 @@ function Admins(){
 			}
 		}
 
-		$lista .= '</ul>';
+		$lista .= '</ul>
+					</div> <!-- end scroll -->';
 	}else{
 		$lista .= 'No hay datos';
 	}
 
-	$lista .= '<div class="datos-botones">
+	$lista .= '<div class="menu-botones">
 				<button class="ocultos" type="button" id="EliminarAdmin" title="Eliminar Admin Seleccionado" onClick="EliminarAdmin()">Eliminar</button>
 				<button class="ocultos" type="button" id="EditarAdmin" title="Editar Admin Seleccionado" onClick="EditarAdmin()">Editar</button>
 			   	<button type="button" id="NuevoAdmin" title="Crear Nuevo Admin" onClick="NuevoAdmin()">Nuevo Admin</button>

@@ -1,11 +1,46 @@
 /**
 * PARA EL MENU COMO PANEL DESPLAZABLE CON SCROLL
 */
-/*$(window).resize(function () { 
-	console.log('windows');
-	FixedElements();
-});*/
+$(window).resize(function () { 
+	
+	if($("#menu").is(":visible")){
+		MenuScroll();
+	}
 
+	if($("#menu2").is(":visible")){
+		Menu2Scroll();
+	}
+});
+
+$.ajaxSetup({
+    beforeSend: function() {
+        // show loading dialog // works
+    },
+    complete: function(xhr, stat) {
+       	//MenuScroll();
+    },
+    success: function(result,status,xhr) {
+        alert('success');
+    }
+});
+
+function MenuScroll(){
+	var altoMenu = $("#menu").innerHeight() - ( $("#menu .titulo").outerHeight() + $("#menu .menu-botones").outerHeight(true) );
+	
+	$("#menu .scroll").css({
+		'height' : altoMenu,
+		'overflow' : "auto"
+	});
+}
+
+function Menu2Scroll(){
+	var altoMenu = $("#menu2").innerHeight() - ( $("#menu2 .titulo").outerHeight() + $("#menu2 .menu-botones").outerHeight(true) );
+	
+	$("#menu2 .scroll").css({
+		'height' : altoMenu,
+		'overflow' : "auto"
+	});
+}
 
 $(document).ready(function(){
 	//tooltips
@@ -419,6 +454,7 @@ function Cookies(){
 	if($.cookie('vista') == null){
 		$.cookie('proyecto', 0, { expires: 7 });
 		$.cookie('autosave', false, { expires: 7 });
+		$.cookie('cargando', false);
 		$.cookie('vista', 0, { expires: 7 });
 		$.cookie('categoria', 0, { expires: 7 });
 		$.cookie('accion', 'home',{ expires: 7 });
@@ -671,7 +707,27 @@ function Busqueda(id, input, target, table){
 		target += " li";
 	}
 
-	if($("#"+id).is(":visible")){
+	var parent = $("#"+id).parent("div").parent("div").attr("id");
+
+	if( $("#"+id).is(":visible") ){
+
+		if(parent == "menu" || parent == "menu2"){
+			
+			var scroll = $("#"+parent).innerHeight() - ( $("#"+parent+" .titulo").outerHeight() + $("#"+parent+" .menu-botones").outerHeight(true) );
+
+			$("#"+parent+" .scroll").animate({
+				"height": scroll,
+			}, { 
+				duration: 400, 
+				queue: false,
+				complete: function(){
+					$("#"+parent+" .scroll").css({
+						"height" : scroll
+					});
+				}
+			});
+		}
+		
 		$("#"+id).slideUp();
 		
 		$("#"+input).val("");
@@ -680,6 +736,23 @@ function Busqueda(id, input, target, table){
 		$("#"+target).removeClass('no');
 		$("#"+target).removeClass('si');
 	}else{
+		
+		if(parent == "menu" || parent == "menu2"){
+
+			var scroll = $("#"+parent+" .scroll").innerHeight() - $("#"+id).innerHeight();
+
+			$("#"+parent+" .scroll").animate({
+				"height": scroll,
+			}, { 
+				duration: 400, 
+				queue: false,
+				complete: function(){
+					$("#"+parent+" .scroll").css({
+						"height" : scroll
+					});
+				}
+			});
+		}
 		$("#"+id).slideDown();
 	}
 
@@ -697,6 +770,7 @@ function BusquedaLive(input, target){
 
 	//actualiza al ir escribiendo
 	$("#"+input).keyup(function(){
+		
 		var busqueda = $("#"+input).val();
 		//var busqueda = $("#"+input).val().split(","), count = 0;
 		busqueda = busqueda.replace(/\s/g, ""); //quita espacios en blanco
@@ -884,26 +958,4 @@ function BuscarGlobalHide(){
 function BuscarGlobalShow(){
 	$("#searchbar").show();
 	$("#toolbarMenu, #toolbarMenu div").css("background-color", "#F4F4F4");
-}
-
-/**
-* ARREGLA LOS TITULOS Y BOTONERAS PARA PONERLAS FIXED DENTRO DEL DIV CONEDOR
-*/
-function FixedElements(){
-	console.log("fixed elements");
-	
-	var menuTitulo = 0;
-	var menu2Titulo = 0;
-
-	//posiciones
-	menuTitulo = $("#menu .titulo").offset();
-	menu2Titulo = $("#menu2 .titulo").offset();
-
-	$("#menu .titulo").css(menuTitulo);
-	$("#menu .titulo").css({
-		"position" : "absolute",
-		"width" : $("#menu").width(),
-		"background" : "#FFFFFF",
-		"z-index" : 9
-	});
 }

@@ -84,19 +84,21 @@ function Proyectos(){
 
 	if(!empty($datos)){
 
-		$lista .= '<ul>';
+		$lista .= '<div class="scroll">
+					<ul>';
 		
 		foreach ($datos as $fila => $proyecto) {
 			$lista .= '<li title="Proyecto De '.Cliente($proyecto['cliente']).'" id="'.$proyecto['id'].'" onClick="SelectProyecto('.$proyecto['id'].')">'.$proyecto['nombre'].'</li>';
 		}
 
-		$lista .= '</ul><!-- fin lista -->';
+		$lista .= '</ul><!-- fin lista -->
+					</div> <!-- end scroll -->';
 
 	}else{
 		$lista .= "No hay proyectos";
 	}
 
-	$lista .= '<div class="datos-botones">
+	$lista .= '<div class="menu-botones">
 				<button type="button" id="EliminarProyecto" class="ocultos" title="Eliminar Proyecto Seleccionado" onClick="EliminarProyecto()">Eliminar</button>
 				<button type="button" id="EditarProyecto" class="ocultos" title="Editar Proyecto Seleccionado" onClick="EditarProyecto()">Editar</button>
 				<button type="button" id="DuplicarProyecto" class="ocultos" title="Duplicar Proyecto Seleccionado" onClick="DuplicarProyecto()">Duplicar</button>

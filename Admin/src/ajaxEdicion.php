@@ -233,16 +233,23 @@ function NormasCategoria($categoria){
 					  			<tr>
 					  				<th colspan="2">
 					  					Normas Incluidas
-					  					<button type="button" title="Buscar Normas Incluidas" onClick="BuscarNormaCategoria(\'incluidas\')">Buscar</button>
+					  					
+					  					<img class="boton-buscar icon" type="button" title="Buscar Normas Disponibles" onClick="Busqueda(\'busqueda-normas-incluidas\', \'buscar-incluidas-input\', \'seleccionadas\', false)" src="images/search2.png" >
 					  				</th>
 					  				<th colspan="2">
 					  					Normas Disponibles
-					  					<button type="button" title="Buscar Normas Disponibles" onClick="BuscarNormaCategoria(\'disponibles\')">Buscar</button>
+
+					  					<img class="boton-buscar icon" type="button" title="Buscar Normas Disponibles" onClick="Busqueda(\'busqueda-normas-disponibles\', \'buscar-disponibles-input\', \'disponibles\', false)" src="images/search2.png" >
 					  				</th>
 					  			</tr>
+
 					  			<tr>
 					  				<td id="buscar-seleccionadas">
-					  					<input type="text" title="Escriba Para Buscar" placeholder="Buscar" />
+
+					  					<div class="busqueda" id="busqueda-normas-incluidas">
+											<div class="buscador">
+												<input type="search" title="Escriba Para Buscar Normas Incluidas" id="buscar-incluidas-input" placeholder="Buscar Normas Incluidas"/>
+											</div>
 					  				</td>
 
 					  				<td class="control" onClick="QuitarNormasSeleccionadas()" rowspan="2" title="Excluir Selecciones">
@@ -253,9 +260,14 @@ function NormasCategoria($categoria){
 					  				</td>
 
 					  				<td id="buscar-disponibles">
-					  					<input type="text" title="Escriba Para Buscar" placeholder="Buscar" />
+
+					  					<div class="busqueda" id="busqueda-normas-disponibles">
+											<div class="buscador">
+												<input type="search" title="Escriba Para Buscar Normas Disponibles" id="buscar-disponibles-input" placeholder="Buscar Normas Disponibles"/>
+											</div>
 					  				</td>
 					  			</tr>
+
 					  			<tr>
 					  				<td id="td-seleccionadas">';
 	$formulario .= NormasSeleccionadas($categoria).'

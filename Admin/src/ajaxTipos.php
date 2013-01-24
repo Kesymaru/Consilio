@@ -71,18 +71,20 @@ function Tipos(){
 
 	if(!empty($tipos)){
 
-		$lista .= '<ul>';
+		$lista .= '<div class="scroll">
+					<ul>';
 		
 		foreach ($tipos as $fila => $tipo) {
 			$lista .= '<li id="'.$tipo['id'].'" onClick="SelectTipo('.$tipo['id'].')">'.$tipo['nombre'].'</li>';
 		}
 
-		$lista .= '</ul><!-- fin lista -->';
+		$lista .= '</ul><!-- end lista -->
+					</div> <!-- end scroll -->';
 	}else{
 		$lista .= 'No hay tipos';
 	}
 
-	$lista .= '<div class="datos-botones">
+	$lista .= '<div class="menu-botones">
 				<button type="button" id="EliminarTipo" title="Eliminar Tipo Seleccionado" onClick="EliminarTipo()">Eliminar</button>
 				<button type="button" id="EditarTipo" title="Editar Tipo Seleccionado" onClick="EditarTipo()">Editar</button>
 			   	<button type="button" id="NuevoTipo" title="Crear Nuevo Tipo" onClick="NuevoTipo()">Nuevo Tipo</button>

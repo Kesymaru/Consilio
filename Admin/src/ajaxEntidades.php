@@ -82,7 +82,8 @@ function Entidades(){
 				</div>';
 
 	if(!empty($entidades)){
-		$lista .= '<ul>';
+		$lista .= '<div class="scroll">
+					<ul>';
 
 		foreach ($entidades as $fila => $entidad) {
 			$lista .= '<li class="grupo" id="'.$entidad['id'].'" onClick="SelectEntidad('.$entidad['id'].')">'.$entidad['nombre'].'</li>';
@@ -96,13 +97,14 @@ function Entidades(){
 			}
 		}
 
-		$lista .= '</ul>';
+		$lista .= '</ul>
+					</div><!-- end scroll -->';
 
 	}else{
 		$lista .= 'No hay entidades.';
 	}
 
-	$lista .= '<div class="datos-botones">
+	$lista .= '<div class="menu-botones">
 				<button type="button" id="EliminarEntidad" title="Eliminar Entidad Seleccionada" onClick="EliminarEntidad()">Eliminar</button>
 				<button type="button" id="EditarEntidad" title="Editar Entidad Seleccionada" onClick="EditarEntidad()">Editar</button>
 				<button type="button" id="NuevoEntidad" title="Crear Nuevo Grupo De Entidades" onClick="NuevoGrupo()">Nuevo Grupo</button>

@@ -60,11 +60,13 @@ function ProyectosMenu(id){
 			},
 			success: function(response){
 				$("#menu").html(response);
+				MenuScroll();
 				//$("#EliminarProyecto, #EditarProyecto, #DuplicarProyecto").hide();
 				
 				SelectProyecto(id);
 			},
-			fail: function(){
+			fail: function(response){
+				notificaError("Error: AJAX fail Proyectos.js ProyectosMenu().<br/>"+response);
 			}
 		});
 	}
@@ -167,7 +169,12 @@ function ContextMenuProyecto(id){
 
 	//doble click para editar el cliente
 	$("#"+id).dblclick(function(){
-		EditarProyecto();
+
+		if( $.cookie('cargando') == "false"){
+			$.cookie('cargando', true);
+			EditarProyecto();
+		}
+		
 		return;
 	});
 }

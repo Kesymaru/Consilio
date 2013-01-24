@@ -4,14 +4,16 @@
  */
 
 CKEDITOR.editorConfig = function( config ) {
-	
+	config.defaultLanguage = 'es';
 	config.uiColor = '#FFFFFF';
-	config.toolbarStartupExpanded = false;
-	config.toolbarCanCollapse = true;
-	config.toolbarGroupCycling = true;
-	config.disableNativeSpellChecker = true;
-	config.language = 'es';
 	
+	config.toolbarStartupExpanded = false;
+	config.toolbarCanCollapse = true; //colapsa el toolbar
+	config.toolbarGroupCycling = true; 
+	config.disableNativeSpellChecker = true; //desabilita la correccion ortografica nativa del browser
+	config.scayt_autoStartup = true; //chequea la ortografia por defecto
+	config.scayt_sLang = 'es_ES';
+		
 	config.toolbarGroups = [
 			{ name: 'spellchecker'},
 			{ name: 'document', groups: [ 'undo', 'document', 'find', 'spellchecker', 'links', 'insert' ] },

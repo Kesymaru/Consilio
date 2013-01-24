@@ -78,7 +78,8 @@ function Clientes(){
 
 	if(!empty($clientes)){
 
-		$lista .= '<ul>';
+		$lista .= '<div class="scroll">
+					<ul>';
 		
 		foreach ($clientes as $fila => $cliente) {
 			$lista .= '<li id="'.$cliente['id'].'" title="'.$cliente['nombre'].' '.$cliente['registro'].'" onClick="SelectCliente('.$cliente['id'].')">'
@@ -86,13 +87,14 @@ function Clientes(){
 				</li>';
 		}
 
-		$lista .= '</ul><!-- fin lista -->';
+		$lista .= '</ul><!-- end lista -->
+					</div> <!-- end scroll -->';
 
 	}else{
 		$lista = "No hay clientes";
 	}
 
-	$lista .= '<div class="datos-botones">
+	$lista .= '<div class="menu-botones">
 				<button type="button" id="EliminarCliente" title="Eliminar Cliente Seleccionado" onClick="EliminarCliente()">Eliminar</button>
 				<button type="button" id="EditarCliente" title="Editar Cliente Seleccionado" onClick="EditarCliente()">Editar</button>
 			   	<button type="button" id="NuevoCliente" title="Crear Nuevo Cliente" onClick="NuevoCliente()">Nuevo Cliente</button>
