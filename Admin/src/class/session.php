@@ -16,6 +16,8 @@ class Session{
 			$_SESSION['home'] = '/matrizescala/Admin';
 		}
 
+		date_default_timezone_set('America/Costa_Rica');
+
 	}
 	
 	/**

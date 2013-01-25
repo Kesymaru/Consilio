@@ -17,6 +17,8 @@ class Session{
 			$_SESSION['datos'] = 'Admin/';
 		}
 
+		date_default_timezone_set('America/Costa_Rica');
+		
 	}
 	
 	/**
