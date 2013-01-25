@@ -8,15 +8,14 @@ CKEDITOR.editorConfig = function( config ) {
 	config.uiColor = '#FFFFFF';
 	
 	config.toolbarStartupExpanded = false;
-	config.toolbarCanCollapse = true; //colapsa el toolbar
+	//config.toolbarCanCollapse = true; //colapsa el toolbar
 	config.toolbarGroupCycling = true; 
 	config.disableNativeSpellChecker = true; //desabilita la correccion ortografica nativa del browser
 	config.scayt_autoStartup = true; //chequea la ortografia por defecto
 	config.scayt_sLang = 'es_ES';
 		
 	config.toolbarGroups = [
-			{ name: 'spellchecker'},
-			{ name: 'document', groups: [ 'undo', 'document', 'find', 'spellchecker', 'links', 'insert' ] },
+			{ name: 'document', groups: [ 'undo', 'spellchecker', 'document', 'find', 'links', 'insert' ] },
 			{ name: 'editing', groups: [ 'basicstyles', 'align', 'indent', 'list', 'blocks', 'colors' ] },
 
 			{ name: 'insert', groups: [ 'styles', 'tools' ] },

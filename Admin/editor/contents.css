@@ -16,12 +16,16 @@ body
 	background-color: #fff;
 
 	margin: 20px;
+	text-align:justify;
+	text-justify:inter-word;
 }
 
 .cke_editable
 {
 	font-size: 16px;
 	line-height: 1.6em;
+	text-align:justify;
+	text-justify:inter-word;
 }
 
 blockquote

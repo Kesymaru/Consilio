@@ -17,12 +17,17 @@ body
 
 	margin: 20px;
 	margin-right: 40px;
+
+	text-align:justify;
+	text-justify:inter-word;
 }
 
 .cke_editable
 {
 	font-size: 13px;
 	line-height: 1.6em;
+	text-align:justify;
+	text-justify:inter-word;
 }
 
 blockquote
