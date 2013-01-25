@@ -392,3 +392,39 @@ function UsuariosDiponiblesAdmin(field, rules, i, options){
 		return 'Usuario no disponible.';
 	}
 }
+
+/**
+* MUESTRA LOS LOG DE LOS ADMINS
+*/
+function AdminLogs(){
+
+	if($("#menu").is(":visible")){
+		ActivaMenu();
+	}
+	if($("#menu2").is(":visible")){
+		Menu2();
+	}
+
+	var queryParams = {"func" : "AdminLogs"};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxAdmin.php",
+		beforeSend: function(){
+			Loading();
+		},
+		success: function(response){
+			if( response.length > 0){
+				$("#content").html(response);
+			}else{
+				notificaError("Error: Admin.js AdminLogs() no hay logs para admins."+response);
+			}
+			LoadingClose();
+		},
+		fail: function(response){
+			notificaError("Error: AJAX fail, Edicion AdminLogs().<br/>"+response);
+			LoadingClose();
+		}
+	});
+}

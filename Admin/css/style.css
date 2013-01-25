@@ -206,6 +206,25 @@ select{
 	border-collapse: separate;
 	border-spacing: 10px 10px;
 	text-align: left;
+	max-width: 100%;
+}
+
+.datos table .full{
+	text-align: center;
+	vertical-align: middle;
+}
+
+.datos table .full textarea{
+	width: 100%;
+	max-width: 100%;
+	display: block;
+	margin-top: 5px;
+	min-height: 75px;
+	font-size: 16px;
+}
+
+.datos table .full textarea.horiz { 
+	resize:none;
 }
 
 .datos .td-entidades{

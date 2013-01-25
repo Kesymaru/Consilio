@@ -18,3 +18,88 @@
 	JAVASCRIPT: 1
 	January 23 2013 - 12:25 pm
  --------------------<>--------------------
+
+Error: AJAX error.
+scr/ajaxAdmin.php
+
+
+	Sitio: Admin
+	Usuario: Andrey
+	ID: 1
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 25 2013 - 4:21 pm
+ --------------------<>--------------------
+
+Error: AJAX error.
+scr/ajaxAdmin.php
+
+
+	Sitio: Admin
+	Usuario: Andrey
+	ID: 1
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 25 2013 - 4:22 pm
+ --------------------<>--------------------
+
+Error: AJAX error.
+func=AdminLogs
+scr/ajaxAdmin.php
+
+
+	Sitio: Admin
+	Usuario: Andrey
+	ID: 1
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 25 2013 - 4:23 pm
+ --------------------<>--------------------
+
+Error: AJAX error.
+[object Object]
+func=AdminLogs
+scr/ajaxAdmin.php
+
+
+	Sitio: Admin
+	Usuario: Andrey
+	ID: 1
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 25 2013 - 4:24 pm
+ --------------------<>--------------------
+
+Error: AJAX error.
+[object Object]
+func=AdminLogs
+scr/ajaxAdmin.php
+
+
+	Sitio: Admin
+	Usuario: Andrey
+	ID: 1
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 25 2013 - 4:24 pm
+ --------------------<>--------------------

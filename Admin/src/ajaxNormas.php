@@ -214,9 +214,12 @@ function EditarNorma($norma){
 								<input type="hidden" value="'.$norma.'" id="norma" name="norma" />
 								<table>
 								<tr>
-									<td>Nombre</td>
-									<td>
-										<input type="text" id="nombre" name="nombre" title="Nombre De La Norma" placeholder="Nombre" class="validate[required, funcCall[NormaDisponibleEdicion] ]" value="'.$datos[0]['nombre'].'" />
+									
+									<td colspan="2" class="full">
+										<!--<input type="text" id="nombre" name="nombre" title="Nombre De La Norma" placeholder="Nombre" class="validate[required, funcCall[NormaDisponibleEdicion] ]" value="'.$datos[0]['nombre'].'" />-->
+										Nombre
+										<textarea name="nombre" id="nombre" title="Nombre De La Norma" placeholder="Nombre" >'.$datos[0]['nombre'].'</textarea>
+
 									</td>
 								</tr>
 								<tr>
@@ -300,9 +303,10 @@ function NuevaNorma(){
 								<input type="hidden" value="CrearNorma" name="func" />
 								<table>
 								<tr>
-									<td>Nombre</td>
-									<td>
-										<input type="text" id="nombre" name="nombre" title="Nombre De La Nueva Norma" placeholder="Nombre" class="validate[required, funcCall[NormaDisponible] ]" />
+									<td class="full" colspan="2">
+										Nombre
+										<!-- <input type="text" id="nombre" name="nombre" title="Nombre De La Nueva Norma" placeholder="Nombre" class="validate[required, funcCall[NormaDisponible] ]" /> -->
+										<textarea name="nombre" id="nombre" title="Nombre De La Norma" placeholder="Nombre" ></textarea>
 									</td>
 								</tr>
 								<tr>

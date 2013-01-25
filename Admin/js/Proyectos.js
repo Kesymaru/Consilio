@@ -466,6 +466,28 @@ function AccionDuplicarProyecto(){
 	});
 }
 
+/**
+* ENVIA PROYECTO POR MAIL
+*/
+function EnviarProyectoCliente(){
+	
+}
+
+/**
+* ENVIA PROYECTO AL CLIENTE
+* @param proyecto -> id del proyecto
+*/
+function EnviarProyectoMail(){
+	
+}
+
+/**
+* ENVIA PROYECTO POR LINK
+**/
+function EnviarProyectoLink(){
+	
+}
+
 /******************** HELPERS ******************/
 /**
  * LIMPIA EL CONTENIDO DE UNA VISTA QUE SEA AVANZADA

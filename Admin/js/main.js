@@ -24,6 +24,15 @@ $.ajaxSetup({
     }
 });*/
 
+//errore de ajax
+$(document).ajaxError(function(event, request, settings) {
+	if($("#loader").is(":visible")){
+		LoadingClose();
+	}
+	notificaError("Error: AJAX error.<br/>"+settings.data+"<br/>"+settings.url+"");
+
+});
+
 function MenuScroll(){
 	var altoMenu = $("#menu").innerHeight() - ( $("#menu .titulo").outerHeight() + $("#menu .menu-botones").outerHeight(true) );
 	

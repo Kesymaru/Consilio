@@ -155,15 +155,24 @@ class Master{
 	* DATOS PARA EL MENU DEL ADMIN
 	*/
 	public function MenuAdmin(){
-		$admin = new Admin();
+		//$admin = new Admin();
 		//$imagen = $admin->getAdminDato("imagen");
+
+		$menu = '';
 
 		//echo '<li onClick="editar();"><img src="';
 		//echo $imagen;
 		//echo '" /></li>';
-		echo '<li onClick="Admin();">Admin</li>';
-		echo '<li onClick="LogOut();">Salir</li>';
+		$menu .= '<li onClick="Admin();">Admin</li>';
+		
+		if($_SESSION['id'] == 1){
+			$menu .= '<li onClick="AdminLogs()">Logs</li>';
+		}
 
+		$menu .= '<li onClick="LogOut();">Salir</li>';
+
+
+		echo $menu;
 	}
 
 	/**

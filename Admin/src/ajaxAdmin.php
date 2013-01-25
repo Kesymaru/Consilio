@@ -58,6 +58,12 @@ if(isset($_POST['func'])){
 				EliminarAdmin($_POST['id']);
 			}
 		break;
+
+		/***** ADMIN LOGS ********/
+		//LOGS ADMINS
+		case 'AdminLogs':
+			AdminLogs();
+			break;
 	}
 }
 
@@ -422,6 +428,58 @@ function EliminarAdmin($id){
 	if(!$admin->DeleteAdmin($id)){
 		echo '<br/>Error: no se pudo eliminar el admin con el id = '.$id;
 	}
+}
+
+
+/*********************** ADMIN LOGS *************/
+
+function AdminLogs(){
+	$admin =  new Admin();
+	$datos = $admin->getAdmins();
+
+	$lista = '<div class="titulo">
+				Admin Logs
+			 </div>';
+
+	if(!empty($datos)){
+		$lista .= '<table class="table-list">
+					<tr>
+						<th>
+							Admin
+						</th>
+						<th>
+							Ultimo Acceso
+						</th>
+						<th>
+							Activo
+						</th>
+					</tr>';
+		
+		foreach ($datos as $fila => $admin) {
+			$lista .= '<tr><td>'.$admin['nombre'].'</td>';
+			$logs  = unserialize($admin['log']);
+
+			if(!empty($logs)){
+				$lista .= '<td>'.$logs[ sizeof($logs)-1 ].'</td>';
+			}else{
+				$lista .= '<td></td>';
+			}
+
+			if($admin['activo'] == 1){
+				$lista .= '<td>Activo</td>';
+			}else{
+				$lista .= '<td>No Activo</td>';
+			}
+			$lista .= '</tr>';
+		}
+
+		$lista .= '</table>';
+
+	}else{
+		return '';
+	}
+
+	echo $lista;
 }
 
 ?>

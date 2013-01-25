@@ -108,6 +108,9 @@ class Session{
 			}
 			$_SESSION['tipo'] = 'admin';
 			$_SESSION['bienvenida'] = false;
+
+			$this->RegistrarVisita($_SESSION['id']);
+
 			return true;
 		}else{
 			return false;
@@ -115,13 +118,55 @@ class Session{
 
 	}
 
+
 	/**
 	* LOGOUT 
 	*/
 	public function LogOut(){
+		$this->SalidaAdmin($_SESSION['id']);
+
 		session_unset($_SESSION['admin']);
 		$_SESSION = array();
 		session_destroy ();
+	}
+
+	/**
+	* REGISTRA LA ENTRADA DEL ADMIN EN LOG
+	* @param $id -> id del admin
+	*/
+	private function RegistrarVisita($id){
+		$base = new Database();
+		$id = mysql_real_escape_string($id);
+
+		$query = "SELECT * FROM admin WHERE id = '".$id."'";
+
+		$datos = $base->Select($query);
+		if(empty($datos[0]['log'])){
+			$registros = array();
+			$registros[] = date("Y-m-d H:i:s");
+		}else{
+			$registros = array();
+			$registros = unserialize($datos[0]['log']);
+			if(!empty($registros)){
+				$registros[] = date("Y-m-d H:i:s");
+			}
+		}
+		$log = serialize($registros);
+
+		$query = "UPDATE admin SET log = '".$log."', activo = 1 WHERE id = '".$id."'";
+		$base->Update($query);
+	}
+
+	/**
+	* REGISTRA SALIDA DEL ADMIN
+	* @param $id -> id del admin
+	*/
+	private function SalidaAdmin($id){
+		$base = new Database();
+		$id = mysql_real_escape_string($id);
+
+		$query = "UPDATE admin SET activo = 0 WHERE id = '".$id."'";
+		$base->Update($query);
 	}
 
 }
