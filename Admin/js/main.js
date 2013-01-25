@@ -11,7 +11,7 @@ $(window).resize(function () {
 		Menu2Scroll();
 	}
 });
-
+/*
 $.ajaxSetup({
     beforeSend: function() {
         // show loading dialog // works
@@ -22,7 +22,7 @@ $.ajaxSetup({
     success: function(result,status,xhr) {
         alert('success');
     }
-});
+});*/
 
 function MenuScroll(){
 	var altoMenu = $("#menu").innerHeight() - ( $("#menu .titulo").outerHeight() + $("#menu .menu-botones").outerHeight(true) );

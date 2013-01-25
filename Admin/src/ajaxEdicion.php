@@ -109,6 +109,13 @@ if(isset($_POST['func'])){
 				OrdenarCategorias( $_POST['categorias'] );
 			}
 			break;
+
+		//LISTA SORTABLE PARA NORMAS INCLUIDAS DE UNA CATEGORIA
+		case 'ListaNormasIncluidas':
+			if(isset($_POST['categoria'])){
+				ListaNormasIncluidas( $_POST['categoria']);
+			}
+			break;
 	}
 }
 
@@ -218,7 +225,6 @@ function NormasCategoria($categoria){
 						<div class="titulo">
 							Normas de '.$nombre.'
 					  	</div>
-					  	<input type="hidden" name="func" value="ActualizarCategoria" />
 					  	<input type="hidden" id="categoria" name="categoria" value="'.$categoria.'" />
 					  	<div class="datos">
 					  		<table>
@@ -271,11 +277,9 @@ function NormasCategoria($categoria){
 					  			<tr>
 					  				<td id="td-seleccionadas">';
 	$formulario .= NormasSeleccionadas($categoria).'
-					  					<br/>
 					  				</td>
 					  				<td id="td-disponibles">';
 	$formulario .= NormasDisponibles($categoria).'
-										<br/>
 					  				</td>
 					  			</tr>
 					  		</table>
@@ -303,7 +307,7 @@ function NormasDisponibles($categoria){
 	$normas = $registros->getNormasHabilitadas();
 
 	if(!empty($normas)){	
-		$lista .= '<ul id="disponibles">';
+		$lista .= '<ul id="disponibles" class="connectedSortable">';
 		foreach ($normas as $fila => $norma) {
 			
 			$esta = false;
@@ -320,11 +324,19 @@ function NormasDisponibles($categoria){
 
 				//si la norma no esta seleccionada
 				if(!$esta){
-					$lista .= '<li id="norma'.$norma['id'].'" onClick="SelectNorma('.$norma['id'].')">'.$norma['nombre'].' - '.$norma['numero'].'</li>';
+					$lista .= '<li id="norma'.$norma['id'].'" 
+					title="'.$registros->getTipoDato("nombre", $norma['tipo']).' Nº '.$norma['numero'].'"
+					onClick="SelectNorma('.$norma['id'].')">
+					'.$norma['nombre'].'
+					</li>';
 				}
 			//si no tiene seleccionadas muestra todas las normas
 			}else{ 
-				$lista .= '<li id="norma'.$norma['id'].'" onClick="SelectNorma('.$norma['id'].')">'.$norma['nombre'].' - '.$norma['numero'].'</li>';
+				$lista .= '<li id="norma'.$norma['id'].'" 
+				title="'.$registros->getTipoDato("nombre", $norma['tipo']).' Nº '.$norma['numero'].'"
+				onClick="SelectNorma('.$norma['id'].')">
+				'.$norma['nombre'].'
+				</li>';
 			}
 		}
 		$lista .= '</ul>';
@@ -348,23 +360,28 @@ function NormasSeleccionadas($categoria){
 	$normas = $registros->getNormasHabilitadas();
 
 	if(!empty($normas) && !empty($seleccionadas)){
-		$lista .= '<ul id="seleccionadas">';
-		foreach ($normas as $fila => $norma) {
+		//ksort($seleccionadas); //ordena por keys un array
 
-			foreach ($seleccionadas as $valor ) {
+		$lista .= '<ul id="seleccionadas" class="connectedSortable">';
 
-				if($valor == $norma['id']){
-					//norma en la lista
-					$lista .= '<li id="norma'.$norma['id'].'" onClick="SelectNorma('.$norma['id'].')">'.$norma['nombre'].' - '.$norma['numero'].'</li>';
+		foreach ($seleccionadas as $id) {
+			
+			foreach ($normas as $fila => $disponible) {
+				
+				if($disponible['id'] == $id){
 					
-					//inputs hiddens con los valores seleccionados
-					$lista .= '<input id="normaSelected'.$norma['id'].'" type="hidden" name="normas[]" value="'.$norma['id'].'" />';
+					$lista .= '<li id="norma'.$id.'" 
+					title="'. $registros->getTipoDato("nombre", $disponible['tipo']). ' Nº '.$disponible['numero'].'" 
+					onClick="SelectNorma('.$id.')">
+						'.$disponible['nombre'].'
+					</li>';
 				}
 			}
 		}
+
 		$lista .= '</ul>';
 	}else{
-		$lista .= '<ul id="seleccionadas"></ul>';
+		$lista .= '<ul id="seleccionadas" class="connectedSortable"></ul>';
 	}
 
 	return $lista;
@@ -456,7 +473,11 @@ function ActualizarCategoria($categoria, $normas){
 	$registros = new Registros();
 
 	//ordena los ids de las normas desendentemente
-	sort($normas);
+	//sort($normas);
+	/*echo '<pre>';
+	print_r($normas);
+	echo '</pre>';
+	echo $_POST['nombre'];*/
 
 	//actualiza nombre de la categoria
 	if( !$registros->UpdateCategoria($_POST['nombre'], $normas, $categoria) ){
@@ -728,5 +749,9 @@ function OrdenarCategorias($categorias){
 		echo $categorias;
 	}
 }
+
+/***************** LISTAS ORDENABLES ******************/
+
+
 
 ?>

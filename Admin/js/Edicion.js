@@ -169,6 +169,11 @@ function NormasCategoria(id){
 
 			$("#content").html(response);
 			FormularioNormasCategoria();
+			
+			$( "#seleccionadas, #disponibles" ).sortable({
+		        placeholder: "placeholder-sortable",
+		        connectWith: ".connectedSortable"
+		    }).disableSelection();
 		},
 		fail: function(){
 			notificaError("Error: ocurrio un error.<br/>Codigo: ajaxEdicion 002.");
@@ -181,40 +186,54 @@ function NormasCategoria(id){
 * INICIALIZA EL FORMULARIO PARA NORMAS CATEGORIA
 */
 function FormularioNormasCategoria(){
-	//validacion
-	$("#FormularioNormasCategoria").validationEngine();
-		
-	var options = {  
-		beforeSend: function(){
-			DeshabilitarContent();
-		},
-	    success: function(response) { 
 
-	    	if(response.length <= 3){
-	    		notifica("Norma Actualizada.");
+	$('#FormularioNormasCategoria').submit(function() { 
+		var normas = [];
 
-	    		var nombre = $("#nombre").val();
-	    		var categoria = $("#categoria").val();
+		$("#seleccionadas li").each(function(){
+			console.log( $(this).attr("id") );
+			var id = $(this).attr("id");
+			id = id.substr(5); //normaX
+			normas.push(id);
+		});
 
-	    		if($("#"+categoria).html() != nombre){
-	    			$("#"+categoria).fadeOut(700, function(){
-	    				$("#"+categoria).html(nombre);
-	    				$("#"+categoria).fadeIn();
-	    			});
-	    		}
-
-	    		LimpiarContent();
-
-	    	}else{
-	    		$("html").html(response);
-	    		$("#FormularioNormasCategoria").validate();
-	    	}
-		},
-		fail: function(){
-			notificaError("Error: ocurrio un error :(<br/>Codigo: ajaxEdicion 000.");
+		//si no tiene normas incluidas
+		if(normas == null || normas == ""){
+			normas = "";
 		}
-	}; 
-	$('#FormularioNormasCategoria').ajaxForm(options);
+
+		var categoria = $("#categoria").val();
+		var nombre = $("#nombre").val();
+
+		var queryParams = {"func" : "ActualizarCategoria", "categoria" : categoria, "normas" : normas, "nombre" : nombre };
+
+		$.ajax({
+			data: queryParams,
+			type: "post",
+			url: "src/ajaxEdicion.php",
+			beforeSend: function(){
+				DeshabilitarContent();
+			},
+			success: function(response){
+				if(response.length <= 3){
+		    		notifica("Norma Actualizada.");
+
+		    		if($("#"+categoria).html() != nombre){
+		    			$("#"+categoria).fadeOut(700, function(){
+		    				$("#"+categoria).html(nombre);
+		    				$("#"+categoria).fadeIn();
+		    			});
+		    		}
+
+		    	}else{
+		    		notifica("error "+response);
+		    	}
+		    	LimpiarContent();
+			}
+		})
+ 
+        return false; 
+    });
 }
 
 /**
@@ -251,8 +270,7 @@ function AgregarNormasSeleccionadas(){
 	    		$("#"+this.id).remove();
 
 	    		$("#seleccionadas").append('<li id="norma'+id+'" onClick="SelectNorma(\''+id+'\')">'+norma+'</li>');
-	    		//agrega el input
-	    		$("#td-seleccionadas").append('<input id="normaSelected'+id+'" type="hidden" name="normas[]" value="'+id+'" />')
+	    		$("#norma"+id).hide().fadeIn();
 	    	} 
 	    });
 	});
@@ -284,78 +302,9 @@ function QuitarNormasSeleccionadas(){
 	    		$("#normaSelected"+id).remove();
 
 	    		$("#disponibles").append('<li id="norma'+id+'" onClick="SelectNorma(\''+id+'\')">'+norma+'</li>');
+	    		$("#norma"+id).hide().fadeIn();
 	    	} 
 	    });
-	});
-}
-
-/**
-* MUESTRA LA BUSQUEDA EN EL CUADRO DE SELECCION DE NORMAS
-* @param tipo -> tipo de busqueda
-*/
-function BuscarNormaCategoria(tipo){
-		
-	if(tipo == 'incluidas'){
-		if( $("#buscar-seleccionadas input").is(":visible") ){
-			$("#buscar-seleccionadas input").val("");
-			$("#buscar-seleccionadas input").slideUp();
-			$("#td-seleccionadas li").fadeIn();
-		}else{
-			$("#buscar-seleccionadas input").slideDown();
-		}
-	}else if(tipo == 'disponibles'){
-		if($("#buscar-disponibles input").is(":visible")){
-			$("#buscar-disponibles input").val("");
-			$("#buscar-disponibles input").slideUp();
-			$("#td-disponibles li").fadeIn();
-		}else{
-			$("#buscar-disponibles input").slideDown();
-		}
-	}
-
-	BuscarNormaCategoriaAcccion(tipo);
-}
-
-/**
-* ACCION DE BUSCAR EN LIVE
-*/
-function BuscarNormaCategoriaAcccion(tipo){
-	var selector = '';
-	var input = "";
-	var busqueda = "";
-
-	if(tipo == 'incluidas'){
-		selector = "td-seleccionadas";
-		input = "#buscar-seleccionadas input";
-	}else if(tipo == 'disponibles'){
-		selector = "td-disponibles";
-		input = "#buscar-disponibles input";
-	}
-
-	//actualiza al ir escribiendo
-	$(input).keyup(function(){
-
-		if(tipo == 'incluidas'){
-			busqueda = $("#buscar-seleccionadas input").val();
-			var count = 0;
-		}else if(tipo == 'disponibles'){
-			busqueda = $("#buscar-disponibles input").val();
-			var count = 0;
-		}
-		
-		//recorre opciones para buscar
-        $("#"+selector+" li").each(function(){
- 
-            //esconde a los que no coinciden
-            if($(this).text().search(new RegExp(busqueda, "i")) < 0){
-                $(this).fadeOut();
- 
-            //sino lo muestra
-            } else {
-                $(this).show();
-                count++;
-            }
-        });
 	});
 }
 
@@ -375,7 +324,7 @@ function OrdenarCategorias(id){
 		success: function(response){
 			$("#content").html(response);
 			$( "#listaCategorias" ).sortable({
-		      placeholder: "ui-state-highlight"
+		      placeholder: "placeholder-sortable"
 		    });
     		//$( "#listaCategorias" ).disableSelection();
     		
@@ -533,9 +482,10 @@ function ContextMenuCategoria(id){
         },
         items: {
         	"nueva": {name: "Nueva Subcategoria", icon: "add", accesskey: "n"},
-        	"ordenar": {name: "Ordenar Nivel", icon: "add", accesskey: "o"},
             "editar": {name: "Editar", icon: "edit", accesskey: "e"},
             "eliminar": {name: "Eliminar", icon: "delete", accesskey: "l"},
+            "sep1": "---------",
+            "ordenar": {name: "Ordenar Nivel", icon: "add", accesskey: "o"},
         }
     });
 	
@@ -567,9 +517,10 @@ function ContextMenuSuperCategoria(id){
         items: {
             "nuevoPadre": {name: "Nueva SuperCategoria", icon: "add", accesskey: "s"}, //opcion solo para supercategorias
             "nueva": {name: "Nueva Subcategoria", icon: "add", accesskey: "n"},
-            "ordenar": {name: "Ordenar Nivel", icon: "add", accesskey: "o"},
             "editar": {name: "Editar", icon: "edit", accesskey: "e"},
             "eliminar": {name: "Eliminar", icon: "delete", accesskey: "l"},
+            "sep1": "---------",
+            "ordenar": {name: "Ordenar Nivel", icon: "add", accesskey: "o"},
         }
     });
 	
@@ -769,7 +720,7 @@ function EditarCategoria(id){
 * FORMULARIO EDITAR CATEGORIA
 */
 function FormularioEditarCategoria(id){
-	console.log("formulario edicion categoria");
+	
 	var options = {  
 		beforeSend: function(){
 			if( !$.cookie("autosave") ){

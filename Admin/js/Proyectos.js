@@ -144,7 +144,7 @@ function ContextMenuProyecto(id){
             "sep1": "---------",
             "componer": {name: "Componer Proyecto", icon: "edit", accesskey: "c"},
             "duplicar": {name: "Duplicar Proyecto", icon: "edit", accesskey: "d"},
-            /*"sep2": "---------",
+            "sep2": "---------",
             "fold1a": {
                 "name": "Exportar", 
                 "icon": "exportar",
@@ -163,7 +163,7 @@ function ContextMenuProyecto(id){
 	                    "informe-link": {"name": "Por link" , "icon": "email"},
 	                    "informe-email": {"name": "Por email" , "icon": "email"},
 	                }
-            	}*/
+            	}
         }
     });
 
@@ -281,7 +281,7 @@ function EditarProyecto(){
 		},
 		success: function(response){
 			$("#content").html(response);
-			
+
 			FormularioEditarProyecto();
 			$("#cliente").chosen();
 			SelectProyecto(id);

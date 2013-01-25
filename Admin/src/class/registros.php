@@ -548,6 +548,31 @@ class Registros{
 		$base = new Database();
 
 		$nombre = mysql_real_escape_string($nombre);
+		$id = mysql_real_escape_string($id);
+		$normas = serialize($normas);
+
+		$query = "UPDATE categorias SET nombre = '".$nombre."', normas = '".$normas."' WHERE id = '".$id."'";
+
+		if( $base->Existe("SELECT * FROM categorias WHERE id = ".$id )){
+			if($base->Update($query)){
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* REGISTRO DE CATEGORIAS INCLUIDAS
+	* @param $id -> id de la categoria
+	*/
+	public function UpdateCategoria2($nombre, $normas, $id){
+		$base = new Database();
+
+		$nombre = mysql_real_escape_string($nombre);
+		$id = mysql_real_escape_string($id);
 		$normas = serialize($normas);
 
 		$query = "UPDATE categorias SET nombre = '".$nombre."', normas = '".$normas."' WHERE id = '".$id."'";
@@ -574,6 +599,8 @@ class Registros{
 		$base = new Database();
 
 		$nombre = mysql_real_escape_string($nombre);
+		$imagen = mysql_real_escape_string($imagen);
+		$id = mysql_real_escape_string($id);
 
 		$query = "UPDATE categorias SET nombre = '".$nombre."', imagen = '".$imagen."' WHERE id = '".$id."'";
 		

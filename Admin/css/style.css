@@ -250,7 +250,11 @@ select{
 	height: 28px;
 	background-color: #D5D4D5; /*ie8*/
 	background-color: rgba(117, 114, 115, .3);
-	border-bottom: 1px solid rgba(117, 114, 115, .4);+
+	border-bottom: 1px solid rgba(117, 114, 115, .4);
+}
+
+.datos #normas-categoria th:first-child{
+	border-right: 1px solid rgba(117, 114, 115, .4);
 }
 
 .datos #normas-categoria .control{
@@ -286,6 +290,25 @@ select{
 .datos #buscar-disponibles,
 .datos #buscar-seleccionadas{
 	width: 45%;
+	vertical-align: top;
+}
+
+.datos #td-seleccionadas ul,
+.datos #td-disponibles ul{
+	min-height: 150px;
+	margin: 0;
+}
+
+.datos #td-seleccionadas ul li,
+.datos #td-disponibles ul li{
+	min-height: 20px;
+	border-bottom: 1px solid #dedede;
+}
+
+.placeholder-sortable{
+	min-height: 20px;
+	box-shadow: 0 0 5px #A1CA4A;
+	background-color: #F4F4F4;
 }
 
 .busqueda,
