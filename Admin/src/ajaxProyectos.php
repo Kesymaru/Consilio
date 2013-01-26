@@ -58,6 +58,15 @@ if(isset($_POST['func'])){
 				DuplicarProyecto($_POST['id']);
 			}
 			break;
+
+		/**************** ENVIOS *************/
+		
+		//envio al cliente
+		case 'EnviarProyectoCliente':
+			if(isset($_POST['proyecto'])){
+				EnviarProyectoCliente($_POST['proyecto']);
+			}
+			break;
 	}
 }
 
@@ -561,5 +570,35 @@ function DuplicarProyecto($id){
 		echo "<br/>Error: No se pudo duplicar el proyecto, ajaxProyectos.php DuplicarProyecto()";
 	}
 }
+
+
+/************************************* ENVIOS **********************/
+
+/**
+* ENVIO DE UN PROYECTO A SU CLIENTE
+* @param $proyecto -> id del proyecto
+*/
+function EnviarProyectoCliente($proyecto){
+	$registros = new Proyectos();
+	$cliente = new Cliente();
+
+	$clieneId = $registros->getProyectoDato("cliente",$proyecto);
+	$proyectoNombre = $registros->getProyectoDato("nombre",$proyecto);
+	$datos = $cliente->getDatosCliente($clieneId); //datos del cliente
+
+	//si el id es valido
+	if(!empty($id)){
+
+		$mail = new Mail();
+
+		$mensaje = "Su proyecto ya se encuentra disponible en la matriz, puede acceder desde este momento en el siguiente enlace.";
+
+		$mail->correo($datos[0]['email'], "Proyecto: $proyectoNombre", $$datos[0]['nombre'], "/proyectos?id=$proyecto", $mensaje);
+
+	}else{
+		echo "Error: el id del cliente no es valido.<br/>ajaxProyectos.php EnviarProyectoCliente(), id : $id<br/>";
+	}
+}
+
 
 ?>

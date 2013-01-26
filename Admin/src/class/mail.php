@@ -10,7 +10,7 @@ class Mail {
 	private $plantilla = '';
 	private $plantillaFooter = '';
 	private $webmaster = 'webmaster@matricez.com';
-	private $webmasterError = 'aalfaro@77digital.com';
+	private $webmasterError = 'aalfaro@77digital.com'; //notificacion de errores
 
 	public function __construct(){
 		session_start();
@@ -26,6 +26,7 @@ class Mail {
 		$this->plantilla = '<!doctype html>
 		<head>
 			<meta charset="utf-8">
+			<title>Matriz Escala</title>
 			<style type="text/css">
 			
 			html, body{
@@ -90,6 +91,7 @@ class Mail {
 		<br/>
 		<br/>
 		<br/>
+		</body>
 		<div class="footer">
 			<div>
 				Este mail fue generado automaticamente.<br/>
@@ -112,18 +114,28 @@ class Mail {
 	* ENVIA EL MAIL
 	* @param $para -> string mail de destino
 	* @param $asunto -> string subject del mail
+	* @param $mensake -> mensaje compuesto con la plantilla
+	* @return true si se envia
+	* @return false sino
 	*/
-	private function enviar($para, $asunto){
-		if(!mail($para, $asunto, $this->plantilla, $this->headers)){
-			$_SESSION['error'] = "El envio del email de registro ha fallado!<br/>Por favor comuniquese con ".$admin;
+	private function enviar($para, $asunto, $mensaje){
+		if(mail($para, $asunto, $mensaje, $this->headers)){
+			return true;
+		}else{
+			return false;
 		}
 	}
 
-	//mail de registro
+	/**
+	* MAIL PARA NOTIFICA UN NUEVO REGISTRO CON SU PASSWORD
+	* @param $para -> direccion a la cual enviar el mail
+	* @param $usuario -> usuario nuevo registro
+	* @param $password -> passwod del nuevo registro
+	*/
 	public function mailRegistro($para, $usuario, $password){
 
 		//crea mensaje
-		$this->plantilla .= '
+		$mensaje .= '
 		<table class="tabla">
 			<tr class="titulo">
 				<td colspan="2">
@@ -156,10 +168,12 @@ class Mail {
 			</tr>	
 		</table>';
 
-		$this->plantilla .= $this->plantillaFooter;
+		$mensaje = $this->plantilla . $mensaje . $this->plantillaFooter;
 
 		//envia mail
-		$this->enviar($para, "Registro Matriz");
+		if(!$this->enviar($para, "Registro Matriz Escala", $mensaje)){
+			echo 'Error: no se podo enviar el mail de confirmacion del registro.<br/>Por favor comuniquese con:<br/>'.$this->$webmaster;
+		}
 	}
 
 	/**
@@ -218,41 +232,55 @@ class Mail {
 	}
 
 	/**
-	* ENVIA MAIL CORREPONDIENTE DE UN INFORME
-	* @param $email -> string email del cliente
-	* @param $cliente -> String nombre del cliente
-	* @param $proyecto -> String nombre del proyecto
-	* @param $url -> string url para la vista del proyecto
+	* ENVIA UN CORREO GENERICO
+	* @param $para -> direccion diestinatario
+	* @param $asunto -> asunto del mail
+	* @param $nombre -> nombre de usuario
+	* @param $
 	*/
-	public function mailInformeCliente($email, $cliente, $proyecto, $url){
+	public function correo($para, $asunto, $nombre, $link = "", $mensaje){
+		
+		if($de == ""){
+			$de = $this->webmaster;
+		}
 
-		//CREA MENSAJE PARA NOTIFICAR A UN CLIENTE
-		$this->plantilla .= '
+		if($link == ""){
+			$link = '/login.php';
+		}
+
+		$mensajeFinal = '
 		<table class="tabla">
 			<tr class="titulo">
 				<td colspan="2">
-					Informe '.$proyecto.'
+					Nueva Contraseña
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2">
-					Estimado cliente le informamos que desde ahora el proyecto '.$proyecto.' puede ser monitoreado desde el siguiente enlace:
+				<td colspan="2">';
+		if( $nombre != ""){
+			$mensajeFinal .= "Hola, $nombre:<br/>";
+		}
+					
+		$mensajeFinal .= $mensaje.'
 				</td>
 			</tr>
 			<tr>
 				<td colspan="2" class="link">
-					<a href="'.$_SESSION['home'].$url.'" >
-						<img scr="'.$_SESSION['home'].'/images/mailIngresarBoton.png" title="Ingresar" alt="Ingresar">
+					<a href="'.$_SESSION['matriz'].$link.'" >
+						<img scr="'.$_SESSION['matriz'].'/images/mailIngresarBoton.png" title="Ingresar" alt="Ingresar">
 					</a>
-					<img class="logo" src="'.$_SESSION['home'].'/images/logoMail.png" title="Matriz" alt="Matriz">
+					<img class="logo" src="'.$_SESSION['matriz'].'/images/logoMail.png" title="Matriz" alt="Matriz">
 				</td>
 			</tr>	
-		</table>';
+		</table>
+		';
 
-		$this->plantilla .= $this->plantillaFooter;
-
-		//envia mail
-		$this->enviar($email, "Informe ".$proyecto);
+		$mensajeFinal = $this->plantilla . $mensajeFinal . $this->plantillaFooter;
+		
+		if(!enviar($para, $asunto, $mensajeFinal)){
+			echo "Error: no se pudo enviar el mail.";
+			return false;
+		}
 	}
 
 	/**

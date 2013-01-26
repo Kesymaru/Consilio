@@ -127,6 +127,7 @@ function SelectProyecto(id){
 
 /**
 * CARGA EL CONTEXT MENU DE UN PROYECTO
+* @param id -> id del proyecto
 */
 function ContextMenuProyecto(id){
 	$.contextMenu({
@@ -135,7 +136,7 @@ function ContextMenuProyecto(id){
         callback: function(key, options) {
             var m = "clicked: " + key;
             //window.console && console.log(m) || alert(m); 
-            MenuProyecto(m);
+            MenuProyecto(m, id);
         },
         items: {
 			"nuevo": {name: "Nuevo Proyecto", icon: "add", accesskey: "n"},
@@ -159,9 +160,9 @@ function ContextMenuProyecto(id){
                 "icon": "compartir",
                 accesskey: "v",
 	                "items": {
-	                    "informe-cliente": {"name": "A cliente" , "icon": "informe"},
-	                    "informe-link": {"name": "Por link" , "icon": "email"},
-	                    "informe-email": {"name": "Por email" , "icon": "email"},
+	                    "enviar-cliente": {"name": "A cliente" , "icon": "informe"},
+	                    "enviar-link": {"name": "Por link" , "icon": "email"},
+	                    "enviar-email": {"name": "Por email" , "icon": "email"},
 	                }
             	}
         }
@@ -181,8 +182,10 @@ function ContextMenuProyecto(id){
 
 /**
 * MANEJADOR DE LAS ACCIONES DEl PROYECTO
+* @param m -> evento seleccionado
+* @param id -> id del proyecto
 */
-function MenuProyecto(m){
+function MenuProyecto(m, id){
 
 	if(m == "clicked: nuevo"){
 		NuevoProyecto();
@@ -195,6 +198,8 @@ function MenuProyecto(m){
 	}else if(m == "clicked: componer"){
 		//cambia a la vista de composicion del proyecto
 		ComponerProyectoSeleccionado()
+	}else if(m == "clicked: enviar-cliente"){
+		EnviarProyectoCliente(id);
 	}
 }
 
@@ -467,10 +472,40 @@ function AccionDuplicarProyecto(){
 }
 
 /**
-* ENVIA PROYECTO POR MAIL
+* ENVIA AL CLIENTE
+* @param proyecto -> id proyecto
 */
-function EnviarProyectoCliente(){
-	
+function EnviarProyectoCliente(proyecto){
+	var si = function (){
+		AccionEnviarProyectoCliente(proyecto);
+	}
+
+	var no = function (){
+		notificaAtencion("Operacion cancelada");
+	}
+
+	Confirmacion("Desea Enviarle el link para el proyecto al cliente.", si, no);
+}
+
+function AccionEnviarProyectoCliente(proyecto){
+
+	var queryParams = {"func" : "EnviarProyectoCliente", "proyecto" : proyecto};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxProyectos.php",
+		success: function(response){
+			if(response.length <= 3){
+				notifica("Proyecto Enviado Al cliente");
+			}else{
+				notificaError("Error: Proyectos.js AccionAnviarProyectoCliente.<br/>"+response);
+			}
+		},
+		fail: function(response){
+			notificaError("Error: AJAX fail Proyectos.js AccionAnviarProyectoCliente().<br/>"+response);
+		}
+	});
 }
 
 /**
@@ -478,14 +513,14 @@ function EnviarProyectoCliente(){
 * @param proyecto -> id del proyecto
 */
 function EnviarProyectoMail(){
-	
+
 }
 
 /**
 * ENVIA PROYECTO POR LINK
 **/
 function EnviarProyectoLink(){
-	
+
 }
 
 /******************** HELPERS ******************/
