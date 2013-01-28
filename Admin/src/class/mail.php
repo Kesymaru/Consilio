@@ -23,7 +23,7 @@ class Mail {
 		$this->headers .= "Content-Type: text/html; charset=utf-8\r\n";
 
 		//CREA PANTILLA HEADER
-		$this->plantilla = '<!doctype html>
+		/*$this->plantilla = '<!doctype html>
 		<head>
 			<meta charset="utf-8">
 			<title>Matriz Escala</title>
@@ -102,6 +102,16 @@ class Mail {
 			</style>
 		</head>
 
+		<body class="mail">
+		<br/>
+		<br/>
+		<br/>';*/
+
+		$this->plantilla = '<!doctype html>
+		<head>
+			<meta charset="utf-8">
+			<title>Matriz Escala</title>
+		</head>
 		<body class="mail">
 		<br/>
 		<br/>
