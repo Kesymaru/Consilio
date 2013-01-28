@@ -19,7 +19,7 @@ class Mail {
 		//configuracion headers del email
 		$this->headers .= "From: " . $this->webmaster . "\r\n";
 		$this->headers .= "Reply-To: " . $this->webmaster . "\r\n";
-		$this->headers .= "X-Mailer: Matricez" . "\r\n";
+		//$this->headers .= "X-Mailer: Matricez" . "\r\n";
 		$this->headers .= "Content-Type: text/html; charset=utf-8\r\n";
 
 		//CREA PANTILLA HEADER
@@ -259,13 +259,12 @@ $_SESSION['matriz'] = $protocolo.$dominio.'/matrizescala';
 if ( function_exists( 'mail' ) )
 {
     echo 'mail() is available';
-    mail();
 }
 else
 {
     echo 'mail() has been disabled';
 }
-/*
+
 
 $mail = new Mail();
 $correo = array();
@@ -284,10 +283,6 @@ if( !$mail->correo($correo)){
 if(!mail('aalfaro@77digital.com', 'testting mail', 'prueba de mail')){
 	echo 'error mail no enviado';s
 }
-*/
-
-phpinfo();
-
 
 
 ?>
