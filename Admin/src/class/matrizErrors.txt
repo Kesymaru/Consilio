@@ -1,122 +1,31 @@
-
+s
 
  
-
-
-<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Access denied for user 'matrizroot'@'localhost' (using password: YES) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>39</b>
-
-1. No funciona por Access denied for user 'matrizroot'@'localhost' (using password: YES)
+El usuario o la contraseña es incorrecta
 
 
 	Sitio: Admin
 	Usuario: Invitado
 	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 24.0
-	CSS: 24.0
-	JAVASCRIPT: 1
-	January 23 2013 - 12:25 pm
- --------------------<>--------------------
-
-Error: AJAX error.
-scr/ajaxAdmin.php
-
-
-	Sitio: Admin
-	Usuario: Andrey
-	ID: 1
-	IP: 127.0.0.1
 	Navegador: Firefox
 	Plataforma: Win7
 	Version: 18.0
 	CSS: 18.0
 	JAVASCRIPT: 1
-	January 25 2013 - 4:21 pm
+	January 28 2013 - 11:34 am
  --------------------<>--------------------
 
-Error: AJAX error.
-scr/ajaxAdmin.php
-
-
-	Sitio: Admin
-	Usuario: Andrey
-	ID: 1
-	IP: 127.0.0.1
-	Navegador: Firefox
-	Plataforma: Win7
-	Version: 18.0
-	CSS: 18.0
-	JAVASCRIPT: 1
-	January 25 2013 - 4:22 pm
- --------------------<>--------------------
-
-Error: AJAX error.
-func=AdminLogs
-scr/ajaxAdmin.php
-
-
-	Sitio: Admin
-	Usuario: Andrey
-	ID: 1
-	IP: 127.0.0.1
-	Navegador: Firefox
-	Plataforma: Win7
-	Version: 18.0
-	CSS: 18.0
-	JAVASCRIPT: 1
-	January 25 2013 - 4:23 pm
- --------------------<>--------------------
-
-Error: AJAX error.
-[object Object]
-func=AdminLogs
-scr/ajaxAdmin.php
-
-
-	Sitio: Admin
-	Usuario: Andrey
-	ID: 1
-	IP: 127.0.0.1
-	Navegador: Firefox
-	Plataforma: Win7
-	Version: 18.0
-	CSS: 18.0
-	JAVASCRIPT: 1
-	January 25 2013 - 4:24 pm
- --------------------<>--------------------
-
-Error: AJAX error.
-[object Object]
-func=AdminLogs
-scr/ajaxAdmin.php
-
-
-	Sitio: Admin
-	Usuario: Andrey
-	ID: 1
-	IP: 127.0.0.1
-	Navegador: Firefox
-	Plataforma: Win7
-	Version: 18.0
-	CSS: 18.0
-	JAVASCRIPT: 1
-	January 25 2013 - 4:24 pm
- --------------------<>--------------------
-
-Error: Proyectos.js AccionAnviarProyectoCliente.
  
-envio
+El usuario o la contraseña es incorrecta
 
 
 	Sitio: Admin
-	Usuario: Andrey
-	ID: 1
+	Usuario: Invitado
 	IP: 127.0.0.1
 	Navegador: Firefox
 	Plataforma: Win7
 	Version: 18.0
 	CSS: 18.0
 	JAVASCRIPT: 1
-	January 25 2013 - 5:38 pm
+	January 28 2013 - 11:34 am
  --------------------<>--------------------

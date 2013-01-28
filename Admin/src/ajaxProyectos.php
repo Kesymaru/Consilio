@@ -7,6 +7,7 @@
 require_once("class/proyectos.php");
 require_once("class/imageUpload.php");
 require_once("class/usuarios.php");
+require_once("class/mail.php");
 
 if(isset($_POST['func'])){
 	
@@ -582,21 +583,34 @@ function EnviarProyectoCliente($proyecto){
 	$registros = new Proyectos();
 	$cliente = new Cliente();
 
-	$clieneId = $registros->getProyectoDato("cliente",$proyecto);
+	$clienteId = $registros->getProyectoDato("cliente",$proyecto);
 	$proyectoNombre = $registros->getProyectoDato("nombre",$proyecto);
-	$datos = $cliente->getDatosCliente($clieneId); //datos del cliente
+	$datos = $cliente->getDatosCliente($clienteId); //datos del cliente
 
-	//si el id es valido
-	if(!empty($id)){
+	if(!empty($datos)){
 
 		$mail = new Mail();
 
-		$mensaje = "Su proyecto ya se encuentra disponible en la matriz, puede acceder desde este momento en el siguiente enlace.";
+		//composicion del correo
+		$correp = array();
+		$correo['mensaje'] = "Su proyecto ya se encuentra disponible en la matriz, puede acceder desde este momento en el siguiente enlace:";
+		$correo['nombre'] = $datos[0]['nombre'];
+		$correo['asunto'] = "Proyecto: $proyectoNombre";
+		$correo['link'] = "/index.php?proyecto=$proyecto";
 
-		$mail->correo($datos[0]['email'], "Proyecto: $proyectoNombre", $$datos[0]['nombre'], "/proyectos?id=$proyecto", $mensaje);
+		//imagen del proyecto, fallback imagen del cliente
+		$imagenSize = getimagesize($_SESSION['home'].'/'.$datos[0]['imagen']);
+		if( is_array($imagenSize) && $datos[0]['imagen'] != "images/es.png" ){
+			$imagen = '/'.$datos[0]['imagen'];
+			$correo['imagen'] = $imagen;
+		}
+
+		$correo['userId'] = $clienteId;
+
+		$mail->correo($correo);
 
 	}else{
-		echo "Error: el id del cliente no es valido.<br/>ajaxProyectos.php EnviarProyectoCliente(), id : $id<br/>";
+		echo "Error: el id del cliente no es valido.<br/>ajaxProyectos.php EnviarProyectoCliente(), id : $clienteId <br/>";
 	}
 }
 

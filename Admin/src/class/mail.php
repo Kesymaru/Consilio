@@ -13,7 +13,7 @@ class Mail {
 	private $webmasterError = 'aalfaro@77digital.com'; //notificacion de errores
 
 	public function __construct(){
-		session_start();
+				
 		date_default_timezone_set('America/Costa_Rica');
 
 		//configuracion headers del email
@@ -44,12 +44,17 @@ class Mail {
 			.tabla td{
 				padding: 10px;
 			}
-			.titulo{
+			.asunto th{
+				text-align: center;
 				background-color: #6FA414;
 				text-align: center !important;
 				font-size: 22px;
 				font-weight: bold;
+				padding: 10px;
 				color: #fff;
+			}
+			.contenido{
+				text-align: left;
 			}
 			.link{
 				background-color: #a1ca4a;
@@ -57,8 +62,15 @@ class Mail {
 				vertical-align: middle;
 			}
 			.logo{
+				display: inline-block;
+				float: left;
+				max-height: 80px;
+			}
+			.logoCliente{
+				display: inline-block;
 				float: right;
-				height: 80px;
+				max-height: 80px;
+				max-width: 250px;
 			}
 			.footer{
 				font-size: 12px;
@@ -99,9 +111,9 @@ class Mail {
 				<hr>
 				email: '.$this->webmaster.'
 				<br/>
-				website: <a href="'.$_SESSION['home'].'">matricez.com</a>
+				website: <a href="'.$_SESSION['matriz'].'">matricez.com</a>
 				<br/>
-				tel: (506)123456
+				tel: (506) 123456
 			</div>
 			<br/>
 		</div>
@@ -194,7 +206,7 @@ class Mail {
 			</tr>
 			<tr>
 				<td colspan="2">
-					Hola, '.$nombre.':<br/>
+					Hola, '.$nombre.':<br/><br/>
 					Hace poco has pedido cambiar tu contraseña de Matricez.
 				</td>
 			</tr>
@@ -233,52 +245,102 @@ class Mail {
 
 	/**
 	* ENVIA UN CORREO GENERICO
-	* @param $para -> direccion diestinatario
-	* @param $asunto -> asunto del mail
-	* @param $nombre -> nombre de usuario
-	* @param $
+	* @param $carreo -> array con datos, para, nombre, link, imagen, mensaje, notas
 	*/
-	public function correo($para, $asunto, $nombre, $link = "", $mensaje){
-		
-		if($de == ""){
-			$de = $this->webmaster;
-		}
-
-		if($link == ""){
-			$link = '/login.php';
-		}
-
-		$mensajeFinal = '
-		<table class="tabla">
-			<tr class="titulo">
-				<td colspan="2">
-					Nueva Contraseña
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2">';
-		if( $nombre != ""){
-			$mensajeFinal .= "Hola, $nombre:<br/>";
-		}
-					
-		$mensajeFinal .= $mensaje.'
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2" class="link">
-					<a href="'.$_SESSION['matriz'].$link.'" >
-						<img scr="'.$_SESSION['matriz'].'/images/mailIngresarBoton.png" title="Ingresar" alt="Ingresar">
-					</a>
-					<img class="logo" src="'.$_SESSION['matriz'].'/images/logoMail.png" title="Matriz" alt="Matriz">
-				</td>
-			</tr>	
-		</table>
-		';
-
-		$mensajeFinal = $this->plantilla . $mensajeFinal . $this->plantillaFooter;
-		
-		if(!enviar($para, $asunto, $mensajeFinal)){
+	public function correo($correo){
+				
+		/*if(!$this->enviar($para, $asunto, $mensajeFinal)){
 			echo "Error: no se pudo enviar el mail.";
+			return false;
+		}*/
+
+		if(!empty($correo)){
+			//TITULO CON ASUNTO
+			if(array_key_exists('asunto', $correo)){
+				$mensajeFinal = '
+				<table class="tabla">
+					<tr class="asunto">
+						<th colspan="2" >
+							'.$correo['asunto'].'
+						</th>
+					</tr>';
+			}else{
+				$mensajeFinal = '
+				<table class="tabla">
+					<tr class="asunto">
+						<th colspan="2" >
+							Notificacion
+						</th>
+					</tr>';
+			}
+
+			//CONTENIDO
+			$mensajeFinal .= '<tr class="contenido">
+						        <td colspan="2">';
+
+			//titulo mensaje
+			if(array_key_exists('nombre', $correo)){
+				$nombre = $correo['nombre'];
+				$mensajeFinal .= "Hola, $nombre:<br/><br/>";
+			}else{
+				$mensajeFinal .= "Estimado usuario:<br/><br/>";
+			}
+
+			//mensaje REQUERIDO
+			if(array_key_exists('mensaje', $correo)){
+				$mensajeFinal .= $correo['mensaje'];
+			}else{
+				echo "Error: mail.php correo() se necesita un mensaje para enviar el mail.";
+				return false; //requerido
+			}
+
+			if(array_key_exists('link', $correo)){
+				$link = $_SESSION['matriz'].$correo['link'];
+			}else{
+				if(array_key_exists('userId', $correo)){
+					$usarId = $correo['userId'];
+					$link = $_SESSION['matriz'].'/login.php?user='.$userId;
+				}else{
+					$link = $_SESSION['matriz'].'/login.php';
+				}
+			}
+			//link
+			$mensajeFinal .= '<br/>
+					 	<br/><a href="'.$link.'" >
+							'.$link.'
+						</a>
+
+					</td>
+					</tr>'; //fin contenido
+
+			//footer del mensaje 
+			$mensajeFinal .= '
+					<tr>
+						<td>
+							
+							<img class="logo" src="'.$_SESSION['matriz'].'/images/logoMail.png" title="Matriz" alt="Matriz">
+						</td>';
+
+			//imagen del cliente
+			if( array_key_exists('imagen', $correo) ){
+
+				$mensajeFinal .= '
+						<td>
+							<img class="logoCliente" src="'.$_SESSION['home'].$correo['imagen'].'" alt="'.$nombre.'" title="'.$nombre.'">
+						</td>';
+			}
+
+			$mensajeFinal.=	'
+					</tr>	
+				</table>
+				';
+
+			//mensaje armado
+			$mensajeFinal = $this->plantilla . $mensajeFinal . $this->plantillaFooter;
+
+			echo $mensajeFinal;
+		}else{
+			echo "Error: mail.php datos requeridos no enviados, $correo esta vacio.";
 			return false;
 		}
 	}

@@ -12,8 +12,13 @@ class Session{
 		//sino se ha iniciado session
 		if( !isset($_SESSION['admin']) ){
 			session_start();
+
+			$protocolo = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        	$dominio = $_SERVER['HTTP_HOST'];
+
 			//$_SESSION['home'] = 'http://'.$_SERVER['HTTP_HOST'].'/Consilio';
-			$_SESSION['home'] = '/matrizescala/Admin';
+			$_SESSION['home'] = $protocolo.$dominio.'/matrizescala/Admin';
+			$_SESSION['matriz'] = $protocolo.$dominio.'/matrizescala';
 		}
 
 		date_default_timezone_set('America/Costa_Rica');

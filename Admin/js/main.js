@@ -468,6 +468,8 @@ function Cookies(){
 		$.cookie('categoria', 0, { expires: 7 });
 		$.cookie('accion', 'home',{ expires: 7 });
 		$.cookie('restaurado', 0, { expires: 7 });
+
+		$.cookie("super", 'false');
 	}
 	Inicializa();
 }

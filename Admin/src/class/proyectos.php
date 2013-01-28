@@ -111,7 +111,7 @@ class Proyectos{
 	}
 
 	/**
-	 * SUBE Y GUARDA EL LINK DE LA IMAGEN DE UN CLIENTE
+	 * SUBE Y GUARDA EL LINK DE LA IMAGEN DE UN PROYECTO
 	 * @param $id -> id del cliente
 	 * @param $imagen -> file de la imagen ha subir
 	 * @return true si se realiza
@@ -219,6 +219,25 @@ class Proyectos{
 
 		if(!empty($datos)){
 			 return $datos;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* OBTIEN UN DATO DE UN PROYECTO
+	* @param $dato -> datos olicitado
+	* @param $id -> id del proyecto
+	* @return dato solicitado
+	*/
+	public function getProyectoDato($dato, $id){
+		$base = new Database();
+		$query = "SELECT * FROM proyectos WHERE id = '".$id."'";
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			 return $datos[0][$dato];
 		}else{
 			return false;
 		}

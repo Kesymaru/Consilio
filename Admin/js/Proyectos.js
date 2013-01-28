@@ -130,6 +130,49 @@ function SelectProyecto(id){
 * @param id -> id del proyecto
 */
 function ContextMenuProyecto(id){
+
+	if($.cookie('super') == 'false'){
+
+	$.contextMenu({
+        selector: '#'+id, 
+        //trigger: 'left',
+        callback: function(key, options) {
+            var m = "clicked: " + key;
+            //window.console && console.log(m) || alert(m); 
+            MenuProyecto(m, id);
+        },
+        items: {
+			"nuevo": {name: "Nuevo Proyecto", icon: "add", accesskey: "n"},
+            "editar": {name: "Editar", icon: "edit", accesskey: "e"},
+            "eliminar": {name: "Eliminar", icon: "delete", accesskey: "l"},
+            "sep1": "---------",
+            "componer": {name: "Componer Proyecto", icon: "edit", accesskey: "c"},
+            "duplicar": {name: "Duplicar Proyecto", icon: "edit", accesskey: "d"},
+            /*"sep2": "---------",
+            "fold1a": {
+                "name": "Exportar", 
+                "icon": "exportar",
+                accesskey: "x",
+	                "items": {
+	                    "exportar-excel": {"name": "Excell" , "icon": "excel"},
+	                    "exportar-pdf": {"name": "PDF", "icon": "pdf"},
+	                }
+            	},
+            "fold2a": {
+                "name": "Enviar", 
+                "icon": "compartir",
+                accesskey: "v",
+	                "items": {
+	                    "enviar-cliente": {"name": "A cliente" , "icon": "informe"},
+	                    "enviar-link": {"name": "Por link" , "icon": "email"},
+	                    "enviar-email": {"name": "Por email" , "icon": "email"},
+	                }
+            	}*/
+        }
+    });
+	
+	}else{
+	
 	$.contextMenu({
         selector: '#'+id, 
         //trigger: 'left',
@@ -167,6 +210,8 @@ function ContextMenuProyecto(id){
             	}
         }
     });
+    	
+	}
 
 	//doble click para editar el cliente
 	$("#"+id).dblclick(function(){
@@ -499,7 +544,8 @@ function AccionEnviarProyectoCliente(proyecto){
 			if(response.length <= 3){
 				notifica("Proyecto Enviado Al cliente");
 			}else{
-				notificaError("Error: Proyectos.js AccionAnviarProyectoCliente.<br/>"+response);
+				$("#content").html(response);
+				//notificaError("Error: Proyectos.js AccionAnviarProyectoCliente.<br/>"+response);
 			}
 		},
 		fail: function(response){
