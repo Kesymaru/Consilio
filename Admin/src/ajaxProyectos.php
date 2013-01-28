@@ -63,9 +63,9 @@ if(isset($_POST['func'])){
 		/**************** ENVIOS *************/
 		
 		//envio al cliente
-		case 'EnviarProyectoCliente':
+		case 'NotificarProyectoCliente':
 			if(isset($_POST['proyecto'])){
-				EnviarProyectoCliente($_POST['proyecto']);
+				NotificarProyectoCliente($_POST['proyecto']);
 			}
 			break;
 	}
@@ -573,13 +573,13 @@ function DuplicarProyecto($id){
 }
 
 
-/************************************* ENVIOS **********************/
+/************************************* NOTIFICACION PROYECTOS **********************/
 
 /**
 * ENVIO DE UN PROYECTO A SU CLIENTE
 * @param $proyecto -> id del proyecto
 */
-function EnviarProyectoCliente($proyecto){
+function NotificarProyectoCliente($proyecto){
 	$registros = new Proyectos();
 	$cliente = new Cliente();
 
@@ -609,6 +609,9 @@ function EnviarProyectoCliente($proyecto){
 		$correo['de'] = $_SESSION['email'];
 		$correo['confirmacion'] = $_SESSION['email'];
 		$correo['userId'] = $clienteId;
+		$correo['mobile'] = $_SESSION['mobile'];
+		$correo['telefono'] = $_SESSION['telefono'];
+		$correo['fax'] = "1234";
 
 		if(!$mail->correo($correo)){
 			echo "Error: AnviarProyectoCliente() fallo envio de mail.<br/>";

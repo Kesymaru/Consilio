@@ -244,7 +244,7 @@ function MenuProyecto(m, id){
 		//cambia a la vista de composicion del proyecto
 		ComponerProyectoSeleccionado()
 	}else if(m == "clicked: enviar-cliente"){
-		EnviarProyectoCliente(id);
+		NotificarProyectoCliente(id);
 	}
 }
 
@@ -520,9 +520,9 @@ function AccionDuplicarProyecto(){
 * ENVIA AL CLIENTE
 * @param proyecto -> id proyecto
 */
-function EnviarProyectoCliente(proyecto){
+function NotificarProyectoCliente(proyecto){
 	var si = function (){
-		AccionEnviarProyectoCliente(proyecto);
+		AccionNotificarProyectoCliente(proyecto);
 	}
 
 	var no = function (){
@@ -532,9 +532,9 @@ function EnviarProyectoCliente(proyecto){
 	Confirmacion("Desea Enviarle el link para el proyecto al cliente.", si, no);
 }
 
-function AccionEnviarProyectoCliente(proyecto){
+function AccionNotificarProyectoCliente(proyecto){
 
-	var queryParams = {"func" : "EnviarProyectoCliente", "proyecto" : proyecto};
+	var queryParams = {"func" : "NotificarProyectoCliente", "proyecto" : proyecto};
 
 	$.ajax({
 		data: queryParams,
@@ -558,14 +558,14 @@ function AccionEnviarProyectoCliente(proyecto){
 * ENVIA PROYECTO AL CLIENTE
 * @param proyecto -> id del proyecto
 */
-function EnviarProyectoMail(){
+function NotificarProyectoMail(){
 
 }
 
 /**
 * ENVIA PROYECTO POR LINK
 **/
-function EnviarProyectoLink(){
+function NotificarProyectoLink(){
 
 }
 

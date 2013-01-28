@@ -101,28 +101,6 @@ class Mail {
 		<br/>
 		<br/>';
 
-		//CREA PLANTILLA FOOTER
-		$this->plantillaFooter = '
-		<br/>
-		<br/>
-		<br/>
-		</body>
-		<div class="footer">
-			<div class="footer-content">
-				Este mail fue generado automaticamente.<br/>
-				Para mayor informacion y ayuda:
-				<hr class="hr">
-				email: '.$this->webmaster.'
-				<br/>
-				website: <a href="'.$_SESSION['matriz'].'">matricez.com</a>
-				<br/>
-				tel: (506) 123456
-			</div>
-			<br/>
-		</div>
-		</body>
-		</html>';
-
 	}
 
 	/**
@@ -131,27 +109,90 @@ class Mail {
 	* @retunr $header -> header conmpuesto
 	*/
 	private function header($correo){
-
+		$header = '';
 		if( array_key_exists('de', $correo) ){
-			$this->headers .= "From: " . $correo['de'] . "\r\n";
+			$header .= "From: " . $correo['de'] . "\r\n";
 
 			if( array_key_exists('responder', $correo) ){
-				$this->headers .= "Reply-To: " . $correo['responder'] . "\r\n";
+				$header .= "Reply-To: " . $correo['responder'] . "\r\n";
 			}else{
-				$this->headers .= "Reply-To: " . $correo['de'] . "\r\n";
+				$header .= "Reply-To: " . $correo['de'] . "\r\n";
 			}
 
 		}else{
-			$this->headers .= "From: " . $this->webmaster . "\r\n";
-			$this->headers .= "Reply-To: " . $this->webmaster . "\r\n";
+			$header .= "From: " . $this->webmaster . "\r\n";
+			$header .= "Reply-To: " . $this->webmaster . "\r\n";
 		}
 		
 		if(array_key_exists('confirmacion', $correo)){
-			$this->headers .= "X-Confirm-Reading-To:" . $correo['confirmacion'] . "\r\n";
+			$header .= "X-Confirm-Reading-To:" . $correo['confirmacion'] . "\r\n";
 		}
 
-		$this->headers .= "X-Mailer: Matricez" . "\r\n";
-		$this->headers .= "Content-Type: text/html; charset=utf-8\r\n";
+		$header .= "X-Mailer: Matricez" . "\r\n";
+		$header .= "Content-Type: text/html; charset=utf-8\r\n";
+
+		return $header;
+	}
+
+	/**
+	* CONFIGURA EL FOOTER
+	* @param $correo -> array con la configuracion
+	*/
+	private function footer(){
+		$footer = '';
+
+		if( array_key_exists("de", $correo)){
+			
+			$footer = '
+				<br/>
+				<br/>
+				<br/>
+				</body>
+				<div class="footer">
+					<div class="footer-content">';
+			
+			if( array_key_exists('mobile', $correo)){
+				$footer .= $correo['mobile'].'<br/>';
+			}
+
+			if( array_key_exists('telefono', $correo)){;
+				$footer .= $correo['telefono'].'<br/>';
+			}
+
+			if( array_key_exists('fax', $correo)){;
+				$footer .= $correo['fax'].'<br/>';
+			}
+			
+			$footer .= $correo['de'].'<br/>
+				</div>
+					<br/>
+				</div>
+				</body>
+				</html>';
+
+		}else{
+
+			$footer = '
+				<br/>
+				<br/>
+				<br/>
+				</body>
+				<div class="footer">
+					<div class="footer-content">
+						Este mail fue generado automaticamente.<br/>
+						Para mayor informacion y ayuda:
+						<hr class="hr">
+						email: '.$this->webmaster.'
+						<br/>
+						website: <a href="'.$_SESSION['matriz'].'">matricez.com</a>
+						<br/>
+						tel: (506) 123456
+					</div>
+					<br/>
+				</div>
+				</body>
+				</html>';
+		}
 	}
 
 	/**
@@ -243,14 +284,13 @@ class Mail {
 				';
 
 			//mensaje armado
-			$mensajeFinal = $this->plantilla . $mensajeFinal . $this->plantillaFooter;
+			$mensajeFinal = $this->plantilla . $mensajeFinal . $this->footer($correo);
 
 			if( array_key_exists('email', $correo) ){
 
 				$mensajeFinal = $this->mailStyle($mensajeFinal);
-				$this->header($correo);
-				
-				if( mail($correo['email'], $correo['asunto'], $mensajeFinal, $this->headers) ){
+
+				if( mail($correo['email'], $correo['asunto'], $mensajeFinal, $this->header($correo)) ){
 					return true;				
 				}else{
 					echo "Error: no se pudo enviar el mail.<br/>A la direccion: ".$correo['email'];
