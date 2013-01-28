@@ -9,7 +9,7 @@ class Mail {
 	private $heades = '';
 	private $plantilla = '';
 	private $plantillaFooter = '';
-	private $webmaster = 'webmaster@matricez.com';
+	private $webmaster = 'aalfaro@77digital.com';
 	private $webmasterError = 'aalfaro@77digital.com'; //notificacion de errores
 
 	public function __construct(){
