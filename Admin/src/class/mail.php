@@ -249,10 +249,6 @@ class Mail {
 	*/
 	public function correo($correo){
 				
-		/*if(!$this->enviar($para, $asunto, $mensajeFinal)){
-			echo "Error: no se pudo enviar el mail.";
-			return false;
-		}*/
 
 		if(!empty($correo)){
 			//TITULO CON ASUNTO
@@ -338,7 +334,12 @@ class Mail {
 			//mensaje armado
 			$mensajeFinal = $this->plantilla . $mensajeFinal . $this->plantillaFooter;
 
-			echo $mensajeFinal;
+			if($this->enviar($para, $asunto, $mensajeFinal)){
+				return true;				
+			}else{
+				echo "Error: no se pudo enviar el mail.";
+				return false;
+			}
 		}else{
 			echo "Error: mail.php datos requeridos no enviados, $correo esta vacio.";
 			return false;
