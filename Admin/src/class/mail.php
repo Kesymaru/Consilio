@@ -144,9 +144,13 @@ class Mail {
 				$mensajeFinal = '
 				<table class="tabla">
 					<tr class="asunto">
+						<td class="espacio" rowspan="3">
+						</td>
 						<th colspan="2">
 							'.$correo['asunto'].'
 						</th>
+						<td class="espacio" rowspan="3">
+						</td>
 					</tr>';
 			}else{
 				$mensajeFinal = '
@@ -263,7 +267,7 @@ class Mail {
 		$tema = array(
 			'class="mail"' => 'style="background-color: #f4f4f4;"',
 
-			'class="tabla"' => 'style="border: 1px solid #747273; margin: 0 auto; border-collapse: collapse;box-shadow: 0 0 2px 1px #747273; padding: 0; min-width: 500px; font-size: 20px;"',
+			'class="tabla"' => 'style="border: 1px solid #747273; margin: 0 auto; border-collapse: collapse;box-shadow: 0 0 2px 1px #747273; padding: 0; width:100%; font-size: 20px;"',
 
 			'class="tabla-td"' => 'style="padding: 10px;"',
 
