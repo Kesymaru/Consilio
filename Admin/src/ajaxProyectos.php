@@ -606,7 +606,9 @@ function NotificarProyectoCliente($proyecto){
 		}
 
 		$correo['email'] = $datos[0]['email'];
-		$correo['de'] = $_SESSION['email'];
+		$correo['remitente'] = $_SESSION['email'];
+		$correo['nombreRemitente'] = "Test Bla";
+		$correo['tituloRemitente'] = "Asociado";
 		$correo['confirmacion'] = $_SESSION['email'];
 		$correo['userId'] = $clienteId;
 		$correo['mobile'] = $_SESSION['mobile'];

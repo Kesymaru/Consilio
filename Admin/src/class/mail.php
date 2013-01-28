@@ -138,61 +138,95 @@ class Mail {
 	* CONFIGURA EL FOOTER
 	* @param $correo -> array con la configuracion
 	*/
-	private function footer(){
-		$footer = '';
-
-		if( array_key_exists("de", $correo)){
+	private function footer($correo){
 			
-			$footer = '
-				<br/>
+		$footer = '<br/>
 				<br/>
 				<br/>
 				</body>
 				<div class="footer">
-					<div class="footer-content">';
-			
-			if( array_key_exists('mobile', $correo)){
-				$footer .= $correo['mobile'].'<br/>';
-			}
+					<table class="footer-content">
+					<tr>
+						<td colspan="2">';
 
-			if( array_key_exists('telefono', $correo)){;
-				$footer .= $correo['telefono'].'<br/>';
-			}
-
-			if( array_key_exists('fax', $correo)){;
-				$footer .= $correo['fax'].'<br/>';
-			}
-			
-			$footer .= $correo['de'].'<br/>
-				</div>
-					<br/>
-				</div>
-				</body>
-				</html>';
-
-		}else{
-
-			$footer = '
-				<br/>
-				<br/>
-				<br/>
-				</body>
-				<div class="footer">
-					<div class="footer-content">
-						Este mail fue generado automaticamente.<br/>
-						Para mayor informacion y ayuda:
-						<hr class="hr">
-						email: '.$this->webmaster.'
-						<br/>
-						website: <a href="'.$_SESSION['matriz'].'">matricez.com</a>
-						<br/>
-						tel: (506) 123456
-					</div>
-					<br/>
-				</div>
-				</body>
-				</html>';
+		if(array_key_exists("nombreRemitente", $correo)){
+			$footer .= $correo['nombreRemitente'];
 		}
+
+		if(array_key_exists("tituloRemitente", $correo)){
+				$footer .= ".".$correo['tituloRemitente'].",";
+			}
+
+		$footer .= '
+						Consultores Escala<br/>
+						Oficentro Ejecutivo la sabana Torre 7, Piso 2<br/>
+						Sabana Sur, San Jose, Costa Rica
+						</td>
+					</tr>';
+					
+
+		if(array_key_exists("mobile", $correo)){
+			$footer .= '<tr>
+						<td>
+							Mobile:
+						</td>
+						<td>
+							'.$correo['mobile'].'
+						</td>
+					</tr>';
+		}
+
+		if(array_key_exists("telefono", $correo)){
+			$footer .= '<tr>
+							<td>
+								Oficina
+							</td>
+							<td>
+							'.$correo['telefono'].'
+							</td>
+						</tr>';
+		}
+							
+
+		if(array_key_exists("fax", $correo)){
+			$footer .= '<tr>
+							<td>
+								Fax
+							</td>
+							<td coslpan="2">
+								'.$correo['fax'].'
+							</td>
+						</tr>';
+		}
+
+		if(array_key_exists("remitente", $correo)){
+			$footer .= '<tr>
+							<td coslpan="2">
+								'.$this->webmaster.'
+							</td>
+						</tr>';
+		}
+							
+		$footer .=   '<tr>
+						<td>
+							Website:
+						</td>
+						<tr>
+							<a href="'.$_SESSION['matriz'].'">matricez.com</a>
+						</td>
+					</tr>
+					</table';
+
+		$footer .= '<div class="disclaim">
+				<b class="b">Aviso de Confidencialidad.<b> Este correo electrónico y/o el material adjunto es para el usu exclusivo de la persona o entidad a la que expresamente se le ha enviado y puede contener información confidencial o material privilegiado. Si usted no es el destinatario legítimo del mismo por favor reportélo inmediatamente al remitente del correo y borrelo. Cualquier revisión queda expresamente prohibido. Este correo electrónico no pretende ni debe ser considerado como constitutivo de ninguna relación legal contractual o de otra índole similar.
+
+				</div>
+				<br/>
+				</div>
+				</body>
+				</html>';
+
+		return $footer;
 	}
 
 	/**
@@ -355,7 +389,11 @@ class Mail {
 
 			'class="footer-content"' => 'style="font-size: 12px; border: 0; text-align: center"',
 
-			'class="hr"' => 'style="width:200px; border: 1px solid #747273;vertical-align: middle;"',
+			'class="footer-content"' => 'style="width:90%; border: 0px; margin: 0 auto;"',
+
+			'class="disclaim"' => 'style="width: 100%; border: 0; text-align: left; font-size: 12px; margin-top: 5px; margin-bottom: 10px; padding-left: 10px; padding-right: 10px;"',
+
+			'class="b"' => 'style="font-weight: bold;"',
 
 			);
 
