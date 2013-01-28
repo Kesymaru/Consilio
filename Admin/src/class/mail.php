@@ -287,7 +287,7 @@ class Mail {
 
 			'class="titulo"' => 'style="text-align: center; color: #FFFFFF; font-weight: bold;"',
 
-			'class="titulo"' => 'style="font-size: 12px; border: 0; text-align: center"',
+			'class="footer-content"' => 'style="font-size: 12px; border: 0; text-align: center"',
 
 			'class="hr"' => 'style="width:200px; border: 1px solid #747273;vertical-align: middle;"',
 
