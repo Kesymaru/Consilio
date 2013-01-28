@@ -74,6 +74,7 @@ class Mail {
 				max-width: 250px;
 			}
 			.footer{
+				background-color: #FFFFFF;
 				font-size: 12px;
 				width: 100%;
 				display: block;
