@@ -62,6 +62,9 @@ class Mail {
 				text-align: center;
 				vertical-align: middle;
 			}
+			.contenidoFooter{
+				background-color: #FFFFFF;
+			}
 			.logo{
 				display: inline-block;
 				float: left;
@@ -74,7 +77,6 @@ class Mail {
 				max-width: 250px;
 			}
 			.footer{
-				background-color: #FFFFFF;
 				font-size: 12px;
 				width: 100%;
 				display: block;
@@ -192,7 +194,7 @@ class Mail {
 
 			//footer del mensaje 
 			$mensajeFinal .= '
-					<tr>
+					<tr class="contenidoFooter">
 						<td>
 							
 							<img class="logo" src="'.$_SESSION['matriz'].'/images/logoMail.png" title="Matriz" alt="Matriz">
