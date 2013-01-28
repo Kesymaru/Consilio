@@ -267,4 +267,6 @@ $correo['userId'] = 1;
 
 $mail->correo($correo);
 
+mail('aalfaro@77digital.com', 'testting mail', 'prueba de mail');
+
 ?>
