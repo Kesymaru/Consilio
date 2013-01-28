@@ -251,6 +251,7 @@ class Mail {
 				
 
 		if(!empty($correo)){
+
 			//TITULO CON ASUNTO
 			if(array_key_exists('asunto', $correo)){
 				$mensajeFinal = '
@@ -334,12 +335,18 @@ class Mail {
 			//mensaje armado
 			$mensajeFinal = $this->plantilla . $mensajeFinal . $this->plantillaFooter;
 
-			if($this->enviar($para, $asunto, $mensajeFinal)){
-				return true;				
+			if( array_key_exists('imagen', $correo) ){
+				if($this->enviar($para, $asunto, $mensajeFinal)){
+					return true;				
+				}else{
+					echo "Error: no se pudo enviar el mail.";
+					return false;
+				}
 			}else{
-				echo "Error: no se pudo enviar el mail.";
+				echo 'Error: no se especifica un destinatario o este no es valido.<br/>';
 				return false;
 			}
+			
 		}else{
 			echo "Error: mail.php datos requeridos no enviados, $correo esta vacio.";
 			return false;
