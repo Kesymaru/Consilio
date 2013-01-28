@@ -256,6 +256,16 @@ $_SESSION['matriz'] = $protocolo.$dominio.'/matrizescala';
 
 }
 
+if ( function_exists( 'mail' ) )
+{
+    echo 'mail() is available';
+}
+else
+{
+    echo 'mail() has been disabled';
+}
+
+
 $mail = new Mail();
 $correo = array();
 $correo['nombre'] = 'andrey test';
@@ -265,8 +275,15 @@ $correo['link'] = '/index.poryecto?11';
 $correo['email'] = 'aalfaro@77digital.com';
 $correo['userId'] = 1;
 
-$mail->correo($correo);
 
-mail('aalfaro@77digital.com', 'testting mail', 'prueba de mail');
+if( !$mail->correo($correo)){
+	echo 'no enviado';
+}
+
+if(!mail('aalfaro@77digital.com', 'testting mail', 'prueba de mail')){
+	echo 'error mail no enviado';s
+}
+
+
 
 ?>
