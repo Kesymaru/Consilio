@@ -55,6 +55,7 @@ class Mail {
 			}
 			.contenido{
 				text-align: left;
+				background-color: #FFFFFF;
 			}
 			.link{
 				background-color: #a1ca4a;
