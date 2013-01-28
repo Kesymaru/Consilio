@@ -336,12 +336,14 @@ class Mail {
 			$mensajeFinal = $this->plantilla . $mensajeFinal . $this->plantillaFooter;
 
 			if( array_key_exists('imagen', $correo) ){
-				if($this->enviar($para, $asunto, $mensajeFinal)){
+
+				if($this->enviar( $correo['mail'], $correo['asunto'], $mensajeFinal) ){
 					return true;				
 				}else{
 					echo "Error: no se pudo enviar el mail.";
 					return false;
 				}
+
 			}else{
 				echo 'Error: no se especifica un destinatario o este no es valido.<br/>';
 				return false;
