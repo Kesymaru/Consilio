@@ -277,15 +277,15 @@ class Mail {
 
 			'class="contenidoFooter"' => 'style="background-color: #FFFFFF;"',
 
-			'class="logo"' => 'style="display:block; float: right; height: 80px; padding-left: 10px;"',
+			'class="logo"' => 'style="display:block; float: left; height: 80px; padding-left: 10px;  padding-bottom: 10px;"',
 			
 			'class="td-logo"' => 'style="text-align: left; height: 80px;"',
 
-			'class="logoCliente"' => 'style="display:block; float: left; height: 80px; width: 250px; padding-right: 10px;"',
+			'class="logoCliente"' => 'style="display:block; float: right; height: 80px; width: 250px; padding-right: 10px; padding-bottom: 10px;"',
 
 			'class="td-logoCliente"' => 'style="text-align: right; height: 80px;"',
 
-			'class="footer"' => 'style="font-size: 12px; width: 100%; display: block; vertical-align: middle; text-align: center;"',
+			'class="footer"' => 'style="font-size: 12px; width: 100%; display: block; vertical-align: middle; text-align: center; background-color: #f4f4f4;"',
 
 			'class="titulo"' => 'style="text-align: center; color: #FFFFFF; font-weight: bold;"',
 
