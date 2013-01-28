@@ -87,14 +87,14 @@ class Mail {
 				display: block;
 				vertical-align: middle;
 			}
-			.footer div{
+			.footer-content{
 				font-size: 12px;
 				border: 0;
 				margin: 0 auto;
 				display: table;
 				text-align: center;
 			}
-			.footer div hr{
+			.footer-content hr{
 				min-width: 350px;
 				border: 1px solid #747273;
 				vertical-align: middle;
@@ -114,10 +114,10 @@ class Mail {
 		<br/>
 		</body>
 		<div class="footer">
-			<div>
+			<div class="footer-content">
 				Este mail fue generado automaticamente.<br/>
 				Para mayor informacion y ayuda:
-				<hr>
+				<hr class="hr">
 				email: '.$this->webmaster.'
 				<br/>
 				website: <a href="'.$_SESSION['matriz'].'">matricez.com</a>
@@ -144,13 +144,9 @@ class Mail {
 				$mensajeFinal = '
 				<table class="tabla">
 					<tr class="asunto">
-						<td class="espacio" rowspan="3">
-						</td>
 						<th colspan="2">
 							'.$correo['asunto'].'
 						</th>
-						<td class="espacio" rowspan="3">
-						</td>
 					</tr>';
 			}else{
 				$mensajeFinal = '
@@ -204,7 +200,7 @@ class Mail {
 			//footer del mensaje 
 			$mensajeFinal .= '
 					<tr class="contenidoFooter">
-						<td class="tabla-td">
+						<td class="td-logo">
 							
 							<img class="logo" src="'.$_SESSION['matriz'].'/images/logoMail.png" title="Matriz" alt="Matriz">
 						</td>';
@@ -213,7 +209,7 @@ class Mail {
 			if( array_key_exists('imagen', $correo) ){
 
 				$mensajeFinal .= '
-						<td class="tabla-td">
+						<td class="td-logoCliente">
 							<img class="logoCliente" src="'.$_SESSION['home'].$correo['imagen'].'" alt="'.$nombre.'" title="'.$nombre.'">
 						</td>';
 			}
@@ -279,13 +275,22 @@ class Mail {
 
 			'class="contenidoFooter"' => 'style="background-color: #FFFFFF;"',
 
-			'class="logo"' => 'style="display: inline-block; float: left; max-height: 80px;"',
+			'class="logo"' => 'style="display: inline-block; height: 80px;"',
 			
-			'class="logoCliente"' => 'style="display: inline-block; float: right; max-height: 80px; max-width: 250px;"',
+			'class="td-logo"' => 'style="text-align: left; height: 80px;"',
 
-			'class="footer"' => 'style="font-size: 12px; width: 100%; display: block; vertical-align: middle;"',
+			'class="logoCliente"' => 'style="display: inline-block; height: 80px; width: 250px;"',
 
-			'class="titulo"' => 'style="text-align: center; color: #FFFFFF; font-weight: bold;"'
+			'class="td-logoCliente"' => 'style="text-align: right; height: 80px;"',
+
+			'class="footer"' => 'style="font-size: 12px; width: 100%; display: block; vertical-align: middle; text-align: center;"',
+
+			'class="titulo"' => 'style="text-align: center; color: #FFFFFF; font-weight: bold;"',
+
+			'class="titulo"' => 'style="font-size: 12px; border: 0;margin: 0 auto; display: table; text-align: center"',
+
+			'class="hr"' => 'style="width:50%;border: 1px solid #747273;vertical-align: middle;"',
+
 			);
 
 		foreach ($tema as $class => $style) {
