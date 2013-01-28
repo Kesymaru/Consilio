@@ -216,7 +216,7 @@ class Mail {
 
 			if( array_key_exists('email', $correo) ){
 
-				if( mail($correo['email'], $asunto, $mensajeFinal, $this->headers) ){
+				if( mail($correo['email'], $correo['asunto'], $mensajeFinal, $this->headers) ){
 					return true;				
 				}else{
 					echo "Error: no se pudo enviar el mail.<br/>A la direccion: ".$correo['email'];
