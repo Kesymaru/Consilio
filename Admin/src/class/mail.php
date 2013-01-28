@@ -219,7 +219,7 @@ class Mail {
 
 		$footer .= '<div class="disclaim">
 				<p>
-					<span class="b">Aviso de Confidencialidad.<span> Este correo electrónico y/o el material adjunto es para el usu exclusivo de la persona o entidad a la que expresamente se le ha enviado y puede contener información confidencial o material privilegiado. Si usted no es el destinatario legítimo del mismo por favor reportélo inmediatamente al remitente del correo y borrelo. Cualquier revisión queda expresamente prohibido. Este correo electrónico no pretende ni debe ser considerado como constitutivo de ninguna relación legal contractual o de otra índole similar.
+					<span class="b">Aviso de Confidencialidad.</span><br/> Este correo electrónico y/o el material adjunto es para el usu exclusivo de la persona o entidad a la que expresamente se le ha enviado y puede contener información confidencial o material privilegiado. Si usted no es el destinatario legítimo del mismo por favor reportélo inmediatamente al remitente del correo y borrelo. Cualquier revisión queda expresamente prohibido. Este correo electrónico no pretende ni debe ser considerado como constitutivo de ninguna relación legal contractual o de otra índole similar.
 				</p>
 				</div>
 				</div>
@@ -331,7 +331,7 @@ class Mail {
 					return false;
 				}*/
 				echo $mensajeFinal;
-
+				return true;
 			}else{
 				echo 'Error: no se especifica un destinatario o este no es valido.<br/>';
 				return false;

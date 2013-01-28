@@ -616,7 +616,7 @@ function NotificarProyectoCliente($proyecto){
 		$correo['fax'] = "1234";
 
 		if(!$mail->correo($correo)){
-			echo "Error: AnviarProyectoCliente() fallo envio de mail.<br/>";
+			//echo "Error: AnviarProyectoCliente() fallo envio de mail.<br/>";
 		}
 
 	}else{
