@@ -608,7 +608,10 @@ function EnviarProyectoCliente($proyecto){
 		$correo['email'] = $datos[0]['email'];
 		$correo['userId'] = $clienteId;
 
-		$mail->correo($correo);
+		if(!$mail->correo($correo)){
+			echo "Error: AnviarProyectoCliente() fallo envio de mail.<br/>";
+		}
+		echo $correo['email'];
 
 	}else{
 		echo "Error: el id del cliente no es valido.<br/>ajaxProyectos.php EnviarProyectoCliente(), id : $clienteId <br/>";
