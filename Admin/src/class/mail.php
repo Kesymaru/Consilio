@@ -281,7 +281,7 @@ if( !$mail->correo($correo)){
 }
 
 if(!mail('aalfaro@77digital.com', 'testting mail', 'prueba de mail')){
-	echo 'error mail no enviado';s
+	echo 'error mail no enviado';
 }
 
 
