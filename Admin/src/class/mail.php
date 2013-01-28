@@ -224,7 +224,7 @@ class Mail {
 
 			if( array_key_exists('email', $correo) ){
 
-				$mensajeFinal = mailStyle($mensajeFinal);
+				$mensajeFinal = $this->mailStyle($mensajeFinal);
 
 				if( mail($correo['email'], $correo['asunto'], $mensajeFinal, $this->headers) ){
 					return true;				
