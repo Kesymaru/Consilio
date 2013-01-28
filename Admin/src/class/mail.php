@@ -278,11 +278,11 @@ $correo['userId'] = 1;
 
 if( !$mail->correo($correo)){
 	echo 'no enviado';
-}
+}*/
 
 if(!mail('aalfaro@77digital.com', 'testting mail', 'prueba de mail')){
 	echo 'error mail no enviado';s
-}*/
+}
 
 
 
