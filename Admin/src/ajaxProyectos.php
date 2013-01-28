@@ -611,7 +611,7 @@ function NotificarProyectoCliente($proyecto){
 		$correo['tituloRemitente'] = "Asociado";
 		$correo['confirmacion'] = $_SESSION['email'];
 		$correo['userId'] = $clienteId;
-		$correo['mobile'] = $_SESSION['mobile'];
+		$correo['mobile'] = "15478";
 		$correo['telefono'] = $_SESSION['telefono'];
 		$correo['fax'] = "1234";
 

@@ -6,9 +6,8 @@
 
 class Mail {
 
-	private $heades = '';
 	private $plantilla = '';
-	private $plantillaFooter = '';
+	private $disclaim = '';
 	private $webmaster = 'aalfaro@77digital.com';
 	private $webmasterError = 'aalfaro@77digital.com'; //notificacion de errores
 
@@ -26,6 +25,15 @@ class Mail {
 		<br/>
 		<br/>';
 
+		$this->disclaim = '<div class="disclaim" >
+					<span class="bold" >
+					Aviso de Confidencialidad.
+					</span>
+					<br/>
+					Este correo electrónico y/o el material adjunto es para el usu exclusivo de la persona o entidad a la que expresamente se le ha enviado y puede contener información confidencial o material privilegiado. Si usted no es el destinatario legítimo del mismo por favor reportélo inmediatamente al remitente del correo y borrelo. Cualquier revisión queda expresamente prohibido. Este correo electrónico no pretende ni debe ser considerado como constitutivo de ninguna relación legal contractual o de otra índole similar.
+				</div>
+				</body>
+				</html>';
 	}
 
 	/**
@@ -35,13 +43,13 @@ class Mail {
 	*/
 	private function header($correo){
 		$header = '';
-		if( array_key_exists('de', $correo) ){
-			$header .= "From: " . $correo['de'] . "\r\n";
+		if( array_key_exists('remitente', $correo) ){
+			$header .= "From: " . $correo['remitente'] . "\r\n";
 
 			if( array_key_exists('responder', $correo) ){
 				$header .= "Reply-To: " . $correo['responder'] . "\r\n";
 			}else{
-				$header .= "Reply-To: " . $correo['de'] . "\r\n";
+				$header .= "Reply-To: " . $correo['remitente'] . "\r\n";
 			}
 
 		}else{
@@ -65,12 +73,10 @@ class Mail {
 	*/
 	private function footer($correo){
 			
-		$footer = '<br/>
-				<br/>
-				<br/>
+		$footer = '
 				<table class="footer">
 					<tr>
-						<td colspan="2">';
+						<td rowspan="7" class="direccion" >';
 
 		if(array_key_exists("nombreRemitente", $correo)){
 			$footer .= $correo['nombreRemitente'];
@@ -122,10 +128,24 @@ class Mail {
 						</tr>';
 		}
 
+		if(array_key_exists("skype", $correo)){
+			$footer .= '<tr>
+							<td>
+								Skype
+							</td>
+							<td coslpan="2">
+								'.$correo['skype'].'
+							</td>
+						</tr>';
+		}
+
 		if(array_key_exists("remitente", $correo)){
 			$footer .= '<tr>
-							<td coslpan="2">
-								'.$this->webmaster.'
+							<td>
+								Email
+							</td>
+							<td>
+								'.$correo['remitente'].'
 							</td>
 						</tr>';
 		}
@@ -134,21 +154,15 @@ class Mail {
 						<td>
 							Website:
 						</td>
-						<tr>
+						<td>
 							<a href="'.$_SESSION['matriz'].'">matricez.com</a>
 						</td>
 					</tr>
-					</table';
+					</table>';
 
-		$disclaim = '<div class="disclaim">
-				<p>
-					<span class="b">Aviso de Confidencialidad.</span><br/> Este correo electrónico y/o el material adjunto es para el usu exclusivo de la persona o entidad a la que expresamente se le ha enviado y puede contener información confidencial o material privilegiado. Si usted no es el destinatario legítimo del mismo por favor reportélo inmediatamente al remitente del correo y borrelo. Cualquier revisión queda expresamente prohibido. Este correo electrónico no pretende ni debe ser considerado como constitutivo de ninguna relación legal contractual o de otra índole similar.
-				</p>
-				</div>
-				</body>
-				</html>';
+		$footer .= $this->disclaim;
 
-		return $footer.$disclaim;
+		return $footer;
 	}
 
 	/**
@@ -246,14 +260,13 @@ class Mail {
 
 				$mensajeFinal = $this->mailStyle($mensajeFinal);
 
-				/*if( mail($correo['email'], $correo['asunto'], $mensajeFinal, $this->header($correo)) ){
+				if( mail($correo['email'], $correo['asunto'], $mensajeFinal, $this->header($correo)) ){
 					return true;				
 				}else{
 					echo "Error: no se pudo enviar el mail.<br/>A la direccion: ".$correo['email'];
 					return false;
-				}*/
-				echo $mensajeFinal;
-				return true;
+				}
+
 			}else{
 				echo 'Error: no se especifica un destinatario o este no es valido.<br/>';
 				return false;
@@ -308,11 +321,13 @@ class Mail {
 
 			'class="titulo"' => 'style="text-align: center; color: #FFFFFF; font-weight: bold;"',
 
-			'class="footer"' => 'style="font-size: 12px; border: 0; text-align: center; width:90%; border: 0px; margin: 0 auto; background-color: #f4f4f4;"',
+			'class="footer"' => 'style="font-size: 16px; border: 0; text-align: left; border: 0px; margin: 20px auto; background-color: #f4f4f4;"',
 
-			'class="disclaim"' => 'style="width: 100%; display: block; border: 0; text-align: left !important; font-size: 12px; margin-top: 5px; margin-bottom: 10px; padding-left: 10px; padding-right: 10px; background-color: #f4f4f4;"',
+			'class="direccion"' => 'style="padding-right: 20px;"',
 
-			'class="b"' => 'style="font-weight: bold;"',
+			'class="disclaim"' => 'style="width: 90%; display: block; border-top: 1px solid #dedede; text-align: left !important; font-size: 14px; margin-bottom: 10px; padding-left: 10px; padding-right: 10px; background-color: #f4f4f4; padding-top: 5px; margin-left: auto; margin-right: auto;',
+
+			'class="bold"' => 'style="font-weight: bold !important;"',
 
 			);
 
