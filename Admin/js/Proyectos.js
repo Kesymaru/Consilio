@@ -544,7 +544,7 @@ function AccionNotificarProyectoCliente(proyecto){
 			if(response.length <= 3){
 				notifica("Proyecto Enviado Al cliente");
 			}else{
-				//$("#content").html(response);
+				$("#content").html(response);
 				notificaError("Error: Proyectos.js AccionAnviarProyectoCliente.<br/>"+response);
 			}
 		},

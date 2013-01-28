@@ -218,10 +218,10 @@ class Mail {
 					</table';
 
 		$footer .= '<div class="disclaim">
-				<b class="b">Aviso de Confidencialidad.<b> Este correo electrónico y/o el material adjunto es para el usu exclusivo de la persona o entidad a la que expresamente se le ha enviado y puede contener información confidencial o material privilegiado. Si usted no es el destinatario legítimo del mismo por favor reportélo inmediatamente al remitente del correo y borrelo. Cualquier revisión queda expresamente prohibido. Este correo electrónico no pretende ni debe ser considerado como constitutivo de ninguna relación legal contractual o de otra índole similar.
-
+				<p>
+					<span class="b">Aviso de Confidencialidad.<span> Este correo electrónico y/o el material adjunto es para el usu exclusivo de la persona o entidad a la que expresamente se le ha enviado y puede contener información confidencial o material privilegiado. Si usted no es el destinatario legítimo del mismo por favor reportélo inmediatamente al remitente del correo y borrelo. Cualquier revisión queda expresamente prohibido. Este correo electrónico no pretende ni debe ser considerado como constitutivo de ninguna relación legal contractual o de otra índole similar.
+				</p>
 				</div>
-				<br/>
 				</div>
 				</body>
 				</html>';
@@ -324,12 +324,13 @@ class Mail {
 
 				$mensajeFinal = $this->mailStyle($mensajeFinal);
 
-				if( mail($correo['email'], $correo['asunto'], $mensajeFinal, $this->header($correo)) ){
+				/*if( mail($correo['email'], $correo['asunto'], $mensajeFinal, $this->header($correo)) ){
 					return true;				
 				}else{
 					echo "Error: no se pudo enviar el mail.<br/>A la direccion: ".$correo['email'];
 					return false;
-				}
+				}*/
+				echo $mensajeFinal;
 
 			}else{
 				echo 'Error: no se especifica un destinatario o este no es valido.<br/>';
@@ -383,7 +384,7 @@ class Mail {
 
 			'class="td-logoCliente"' => 'style="text-align: right; height: 80px;"',
 
-			'class="footer"' => 'style="font-size: 12px; width: 100%; display: block; vertical-align: middle; text-align: center; background-color: #f4f4f4;"',
+			'class="footer"' => 'style="font-size: 12px; display: block; vertical-align: middle; text-align: center; background-color: #f4f4f4;"',
 
 			'class="titulo"' => 'style="text-align: center; color: #FFFFFF; font-weight: bold;"',
 
@@ -391,7 +392,7 @@ class Mail {
 
 			'class="footer-content"' => 'style="width:90%; border: 0px; margin: 0 auto;"',
 
-			'class="disclaim"' => 'style="width: 100%; border: 0; text-align: left; font-size: 12px; margin-top: 5px; margin-bottom: 10px; padding-left: 10px; padding-right: 10px;"',
+			'class="disclaim"' => 'style="width: 100%; display: block; border: 0; text-align: left; font-size: 12px; margin-top: 5px; margin-bottom: 10px; padding-left: 10px; padding-right: 10px;"',
 
 			'class="b"' => 'style="font-weight: bold;"',
 
