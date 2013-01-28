@@ -128,7 +128,6 @@ class Mail {
 	*/
 	public function correo($correo){
 				
-
 		if(!empty($correo)){
 
 			//TITULO CON ASUNTO
@@ -246,5 +245,26 @@ class Mail {
 	}
 
 }
+if( !isset($_SESSION['home'])){
+	session_start();
+
+$protocolo = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+$dominio = $_SERVER['HTTP_HOST'];
+
+$_SESSION['home'] = $protocolo.$dominio.'/matrizescala/Admin';
+$_SESSION['matriz'] = $protocolo.$dominio.'/matrizescala';
+
+}
+
+$mail = new Mail();
+$correo = array();
+$correo['nombre'] = 'andrey test';
+$correo['mensaje'] = 'test de mensaje';
+$correo['asunto'] = 'test mail';
+$correo['link'] = '/index.poryecto?11';
+$correo['email'] = 'aalfaro@77digital.com';
+$correo['userId'] = 1;
+
+$mail->correo($correo);
 
 ?>
