@@ -265,7 +265,7 @@ class Mail {
 		$tema = array(
 			'class="mail"' => 'style="background-color: #f4f4f4;"',
 
-			'class="tabla"' => 'style="border: 1px solid #747273; border-collapse: collapse; box-shadow: 0 0 2px 1px #747273; padding: 0; width:100%; font-size: 20px;"',
+			'class="tabla"' => 'style="border: 1px solid #747273; border-collapse: collapse; box-shadow: 0 0 2px 1px #747273; padding: 0; width:90%; margin: 0 auto; font-size: 20px;"',
 
 			'class="tabla-td"' => 'style="padding: 10px;"',
 
@@ -277,11 +277,11 @@ class Mail {
 
 			'class="contenidoFooter"' => 'style="background-color: #FFFFFF;"',
 
-			'class="logo"' => 'style="display:block; height: 80px; padding-left: 10px;"',
+			'class="logo"' => 'style="display:block; float: right; height: 80px; padding-left: 10px;"',
 			
 			'class="td-logo"' => 'style="text-align: left; height: 80px;"',
 
-			'class="logoCliente"' => 'style="display:block; height: 80px; width: 250px; padding-right: 10px;"',
+			'class="logoCliente"' => 'style="display:block; float: left; height: 80px; width: 250px; padding-right: 10px;"',
 
 			'class="td-logoCliente"' => 'style="text-align: right; height: 80px;"',
 
