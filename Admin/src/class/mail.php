@@ -131,116 +131,12 @@ class Mail {
 	* @return false sino
 	*/
 	private function enviar($para, $asunto, $mensaje){
-		if(mail($para, $asunto, $mensaje, $this->headers)){
+		
+		if(){
 			return true;
 		}else{
 			return false;
 		}
-	}
-
-	/**
-	* MAIL PARA NOTIFICA UN NUEVO REGISTRO CON SU PASSWORD
-	* @param $para -> direccion a la cual enviar el mail
-	* @param $usuario -> usuario nuevo registro
-	* @param $password -> passwod del nuevo registro
-	*/
-	public function mailRegistro($para, $usuario, $password){
-
-		//crea mensaje
-		$mensaje .= '
-		<table class="tabla">
-			<tr class="titulo">
-				<td colspan="2">
-					Registro Exitoso
-				</td>
-			</tr>
-			<tr class="fila">
-				<td>
-					Usuario:
-				</td>
-				<td>
-					'.$usuario.'
-				</td>
-			</tr>
-			<tr class="fila">
-				<td>
-					Contrasena:
-				</td>
-				<td>
-					'.$password.'
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2" class="link">
-					<a href="'.$_SESSION['home'].'/login.php??usuario='.$usuario.'&reset=1" >
-						<img scr="'.$_SESSION['home'].'/images/mailIngresarBoton.png" title="Ingresar" alt="Ingresar">
-					</a>
-					<img class="logo" src="http://admin.77digital.com/Consilio/images/logoMail.png" title="Matriz" alt="Matriz">
-				</td>
-			</tr>	
-		</table>';
-
-		$mensaje = $this->plantilla . $mensaje . $this->plantillaFooter;
-
-		//envia mail
-		if(!$this->enviar($para, "Registro Matriz Escala", $mensaje)){
-			echo 'Error: no se podo enviar el mail de confirmacion del registro.<br/>Por favor comuniquese con:<br/>'.$this->$webmaster;
-		}
-	}
-
-	/**
-	* MAIL PARA CUANDO SE RESETEA UN PASSWORD
-	* @param $para -> mail distinatario
-	* @param $nombre -> nombre del usuario
-	* @param $usuario -> usuario
-	* @param $password -> nuevo password y sin encriptar
-	*/
-	public function mailResetPassword($para, $nombre, $usuario, $password){
-
-		$this->plantilla .= '
-		<table class="tabla">
-			<tr class="titulo">
-				<td colspan="2">
-					Nueva Contraseña
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					Hola, '.$nombre.':<br/><br/>
-					Hace poco has pedido cambiar tu contraseña de Matricez.
-				</td>
-			</tr>
-			<tr class="fila">
-				<td>
-					Usuario:
-				</td>
-				<td>
-					'.$usuario.'
-				</td>
-			</tr>
-			<tr class="fila">
-				<td>
-					Contrasena:
-				</td>
-				<td>
-					'.$password.'
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2" class="link">
-					<a href="'.$_SESSION['home'].'/login.php?usuario='.$usuario.'&reset=1" >
-						<img scr="'.$_SESSION['home'].'/images/mailIngresarBoton.png" title="Ingresar" alt="Ingresar">
-					</a>
-					<img class="logo" src="'.$_SESSION['home'].'/images/logoMail.png" title="Matriz" alt="Matriz">
-				</td>
-			</tr>	
-		</table>
-		';
-
-		$this->plantilla .= $this->plantillaFooter;
-		
-		//envia mail
-		$this->enviar($para, "Nueva Contraseña Matricez");
 	}
 
 	/**
@@ -335,12 +231,12 @@ class Mail {
 			//mensaje armado
 			$mensajeFinal = $this->plantilla . $mensajeFinal . $this->plantillaFooter;
 
-			if( array_key_exists('mail', $correo) ){
+			if( array_key_exists('email', $correo) ){
 
-				if($this->enviar( $correo['mail'], $correo['asunto'], $mensajeFinal) ){
+				if( mail($correo['email'], $asunto, $mensajeFinal, $this->headers) ){
 					return true;				
 				}else{
-					echo "Error: no se pudo enviar el mail.";
+					echo "Error: no se pudo enviar el mail.<br/>A la direccion: ".$correo['email'];
 					return false;
 				}
 
