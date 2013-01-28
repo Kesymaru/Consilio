@@ -263,7 +263,7 @@ class Mail {
 		$tema = array(
 			'class="mail"' => 'style="background-color: #f4f4f4;"',
 
-			'class="tabla"' => 'style="border: 1px solid #747273; margin: 0 auto; border-collapse: collapse;box-shadow: 0 0 2px 1px #747273; padding: 0; width:100%; font-size: 20px;"',
+			'class="tabla"' => 'style="border: 1px solid #747273; border-collapse: collapse; box-shadow: 0 0 2px 1px #747273; padding: 0; width:100%; font-size: 20px;"',
 
 			'class="tabla-td"' => 'style="padding: 10px;"',
 
@@ -275,11 +275,11 @@ class Mail {
 
 			'class="contenidoFooter"' => 'style="background-color: #FFFFFF;"',
 
-			'class="logo"' => 'style="display: inline-block; height: 80px;"',
+			'class="logo"' => 'style="display:block; height: 80px; padding-left: 10px;"',
 			
 			'class="td-logo"' => 'style="text-align: left; height: 80px;"',
 
-			'class="logoCliente"' => 'style="display: inline-block; height: 80px; width: 250px;"',
+			'class="logoCliente"' => 'style="display:block; height: 80px; width: 250px; padding-right: 10px;"',
 
 			'class="td-logoCliente"' => 'style="text-align: right; height: 80px;"',
 
@@ -287,9 +287,9 @@ class Mail {
 
 			'class="titulo"' => 'style="text-align: center; color: #FFFFFF; font-weight: bold;"',
 
-			'class="titulo"' => 'style="font-size: 12px; border: 0;margin: 0 auto; display: table; text-align: center"',
+			'class="titulo"' => 'style="font-size: 12px; border: 0; text-align: center"',
 
-			'class="hr"' => 'style="width:50%;border: 1px solid #747273;vertical-align: middle;"',
+			'class="hr"' => 'style="width:200px; border: 1px solid #747273;vertical-align: middle;"',
 
 			);
 
