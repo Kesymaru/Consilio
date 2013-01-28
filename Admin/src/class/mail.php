@@ -245,44 +245,6 @@ class Mail {
 	}
 
 }
-if( !isset($_SESSION['home'])){
-	session_start();
-
-$protocolo = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-$dominio = $_SERVER['HTTP_HOST'];
-
-$_SESSION['home'] = $protocolo.$dominio.'/matrizescala/Admin';
-$_SESSION['matriz'] = $protocolo.$dominio.'/matrizescala';
-
-}
-
-if ( function_exists( 'mail' ) )
-{
-    echo 'mail() is available';
-}
-else
-{
-    echo 'mail() has been disabled';
-}
-
-
-$mail = new Mail();
-$correo = array();
-$correo['nombre'] = 'andrey test';
-$correo['mensaje'] = 'test de mensaje';
-$correo['asunto'] = 'test mail';
-$correo['link'] = '/index.poryecto?11';
-$correo['email'] = 'aalfaro@77digital.com';
-$correo['userId'] = 1;
-
-
-if( !$mail->correo($correo)){
-	echo 'no enviado';
-}
-
-if(!mail('aalfaro@77digital.com', 'testting mail', 'prueba de mail')){
-	echo 'error mail no enviado';
-}
 
 
 ?>
