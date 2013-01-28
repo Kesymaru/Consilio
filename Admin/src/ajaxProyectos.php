@@ -607,13 +607,23 @@ function NotificarProyectoCliente($proyecto){
 
 		$correo['email'] = $datos[0]['email'];
 		$correo['remitente'] = $_SESSION['email'];
-		$correo['nombreRemitente'] = "Test Bla";
-		$correo['tituloRemitente'] = "Asociado";
-		$correo['confirmacion'] = $_SESSION['email'];
+		$correo['nombreRemitente'] = $_SESSION['nombre'].' '.$_SESSION['apellidos'];
+		
+		if(isset($_SESSION['titulo'])){
+			$correo['tituloRemitente'] = $_SESSION['titulo'];
+		}
+		
 		$correo['userId'] = $clienteId;
-		$correo['mobile'] = "15478";
+
+		if(isset($_SESSION['mobile'])){
+			$correo['mobile'] = $_SESSION['mobile'];
+		}
+		if(isset($_SESSION['fax'])){
+			$correo['fax'] = $_SESSION['fax'];
+		}
+
 		$correo['telefono'] = $_SESSION['telefono'];
-		$correo['fax'] = "1234";
+		
 
 		if(!$mail->correo($correo)){
 			//echo "Error: AnviarProyectoCliente() fallo envio de mail.<br/>";

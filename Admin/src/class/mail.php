@@ -83,7 +83,7 @@ class Mail {
 		}
 
 		if(array_key_exists("tituloRemitente", $correo)){
-				$footer .= ".".$correo['tituloRemitente'].",";
+				$footer .= ". ".$correo['tituloRemitente'].", ";
 			}
 
 		$footer .= '

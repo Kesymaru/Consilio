@@ -44,7 +44,6 @@ class Session{
 		}else{
 			return true;
 		}
-
 	}
 
 	/**
@@ -109,7 +108,9 @@ class Session{
 			foreach ($datos as $fila => $c) {
 				foreach ($datos[$fila] as $campo => $valor) {
 					if($campo != 'password'){
-						$_SESSION[$campo] = $valor;
+						if(!empty($valor)){
+							$_SESSION[$campo] = $valor;
+						}
 					}
 				}
 			}
