@@ -217,7 +217,7 @@ class Mail {
 					</tr>
 					</table';
 
-		$footer .= '<div class="disclaim">
+		$disclaim = '<div class="disclaim">
 				<p>
 					<span class="b">Aviso de Confidencialidad.</span><br/> Este correo electrónico y/o el material adjunto es para el usu exclusivo de la persona o entidad a la que expresamente se le ha enviado y puede contener información confidencial o material privilegiado. Si usted no es el destinatario legítimo del mismo por favor reportélo inmediatamente al remitente del correo y borrelo. Cualquier revisión queda expresamente prohibido. Este correo electrónico no pretende ni debe ser considerado como constitutivo de ninguna relación legal contractual o de otra índole similar.
 				</p>
@@ -226,7 +226,7 @@ class Mail {
 				</body>
 				</html>';
 
-		return $footer;
+		return $footer.$disclaim;
 	}
 
 	/**
@@ -392,7 +392,7 @@ class Mail {
 
 			'class="footer-content"' => 'style="width:90%; border: 0px; margin: 0 auto;"',
 
-			'class="disclaim"' => 'style="width: 100%; display: block; border: 0; text-align: left; font-size: 12px; margin-top: 5px; margin-bottom: 10px; padding-left: 10px; padding-right: 10px;"',
+			'class="disclaim"' => 'style="width: 100%; display: block; border: 0; text-align: left !important; font-size: 12px; margin-top: 5px; margin-bottom: 10px; padding-left: 10px; padding-right: 10px;"',
 
 			'class="b"' => 'style="font-weight: bold;"',
 
