@@ -214,7 +214,7 @@ class Mail {
 			//mensaje armado
 			$mensajeFinal = $this->plantilla . $mensajeFinal . $this->plantillaFooter;
 
-			/*if( array_key_exists('email', $correo) ){
+			if( array_key_exists('email', $correo) ){
 
 				if( mail($correo['email'], $asunto, $mensajeFinal, $this->headers) ){
 					return true;				
@@ -226,7 +226,7 @@ class Mail {
 			}else{
 				echo 'Error: no se especifica un destinatario o este no es valido.<br/>';
 				return false;
-			}*/
+			}
 			
 		}else{
 			echo "Error: mail.php datos requeridos no enviados, $correo esta vacio.";
