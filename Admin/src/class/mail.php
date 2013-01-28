@@ -281,7 +281,7 @@ class Mail {
 
 			'class="footer"' => 'style="font-size: 12px; width: 100%; display: block; vertical-align: middle;"',
 
-			'class="titulo"' => 'style="text-align: center; color: #FFFFFF; font-weight: bold;"';
+			'class="titulo"' => 'style="text-align: center; color: #FFFFFF; font-weight: bold;"'
 			);
 
 		foreach ($tema as $class => $style) {
