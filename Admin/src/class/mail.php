@@ -138,16 +138,16 @@ class Mail {
 			if(array_key_exists('asunto', $correo)){
 				$mensajeFinal = '
 				<table class="tabla">
-					<tr class="asunto">
-						<th colspan="2" >
+					<tr>
+						<th colspan="2" class="asunto" >
 							'.$correo['asunto'].'
 						</th>
 					</tr>';
 			}else{
 				$mensajeFinal = '
 				<table class="tabla">
-					<tr class="asunto">
-						<th colspan="2" >
+					<tr>
+						<th colspan="2" class="asunto" >
 							Notificacion
 						</th>
 					</tr>';
@@ -155,7 +155,7 @@ class Mail {
 
 			//CONTENIDO
 			$mensajeFinal .= '<tr class="contenido">
-						        <td colspan="2">';
+						        <td colspan="2" class="tabla-td">';
 
 			//titulo mensaje
 			if(array_key_exists('nombre', $correo)){
@@ -195,7 +195,7 @@ class Mail {
 			//footer del mensaje 
 			$mensajeFinal .= '
 					<tr class="contenidoFooter">
-						<td>
+						<td class="tabla-td">
 							
 							<img class="logo" src="'.$_SESSION['matriz'].'/images/logoMail.png" title="Matriz" alt="Matriz">
 						</td>';
@@ -204,7 +204,7 @@ class Mail {
 			if( array_key_exists('imagen', $correo) ){
 
 				$mensajeFinal .= '
-						<td>
+						<td class="tabla-td">
 							<img class="logoCliente" src="'.$_SESSION['home'].$correo['imagen'].'" alt="'.$nombre.'" title="'.$nombre.'">
 						</td>';
 			}
@@ -247,6 +247,43 @@ class Mail {
 			$_SESSION['error'] = "El envio del email de registro ha fallado!<br/>Por favor comuniquese con ".$this->webmasterError;
 		}
 	}
+
+	/**
+	* REMPLAZE LAS CLASES POR EL ESTILO DIRECTO
+	* @param $mensaje -> texto del mensaje a remplazar clases
+	* @return $mensaje con estilo directo
+	*/
+	private function mailStyle($mensaje){
+
+		$tema = array(
+			'class="mail"' => 'style="background-color: #f4f4f4;"',
+
+			'class="tabla"' => 'style="border: 1px solid #747273; margin: 0 auto; border-collapse: collapse;box-shadow: 0 0 2px 1px #747273; padding: 0; min-width: 500px; font-size: 20px;"',
+
+			'class="tabla-td"' => 'style="padding: 10px;"',
+
+			'class="asunto"' => 'style="text-align: center; background-color: #6FA414; text-align: center !important; font-size: 22px; font-weight: bold; padding: 10px; color: #fff;"',
+
+			'class="contenido"' => 'style="text-align: left; background-color: #FFFFFF;"',
+
+			'class="link"' => 'style="background-color: #a1ca4a; text-align: center; vertical-align: middle;"',
+
+			'class="contenidoFooter"' => 'style="background-color: #FFFFFF;"',
+
+			'class="logo"' => 'style="display: inline-block; float: left; max-height: 80px;"',
+			
+			'class="logoCliente"' => 'style="display: inline-block; float: right; max-height: 80px; max-width: 250px;"',
+
+			'class="footer"' => 'style="font-size: 12px; width: 100%; display: block; vertical-align: middle;"',
+			);
+
+		foreach ($tema as $class => $style) {
+			$mensaje = str_replace( $class, $style, $mensaje);
+		}
+
+		return $mensaje;
+	}
+
 
 }
 
