@@ -259,11 +259,7 @@ $_SESSION['matriz'] = $protocolo.$dominio.'/matrizescala';
 if ( function_exists( 'mail' ) )
 {
     echo 'mail() is available';
-    
-    if(!mail('aalfaro@77digital.com', 'testting mail', 'prueba de mail')){
-		echo 'error mail no enviado';s
-	}	
-
+    mail();
 }
 else
 {
@@ -283,9 +279,14 @@ $correo['userId'] = 1;
 
 if( !$mail->correo($correo)){
 	echo 'no enviado';
-}*/
+}
 
+if(!mail('aalfaro@77digital.com', 'testting mail', 'prueba de mail')){
+	echo 'error mail no enviado';s
+}
+*/
 
+phpinfo();
 
 
 
