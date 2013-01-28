@@ -29,7 +29,7 @@ class Mail {
 			<title>Matriz Escala</title>
 			<style type="text/css">
 			
-			html, body{
+			.mail{
 				background-color: #f4f4f4;
 			}
 			.tabla{
@@ -41,17 +41,22 @@ class Mail {
 				min-width: 500px;
 				font-size: 20px;
 			}
-			.tabla td{
+			.tabla-td{
 				padding: 10px;
 			}
-			.asunto th{
+			.asunto{
 				text-align: center;
 				background-color: #6FA414;
 				text-align: center !important;
 				font-size: 22px;
 				font-weight: bold;
 				padding: 10px;
-				color: #fff;
+				color: #FFFFFF;
+			}
+			.titulo{
+				text-align: center;
+				color: #FFFFFF;
+				font-weight: bold;
 			}
 			.contenido{
 				text-align: left;
@@ -97,7 +102,7 @@ class Mail {
 			</style>
 		</head>
 
-		<body>
+		<body class="mail">
 		<br/>
 		<br/>
 		<br/>';
@@ -138,8 +143,8 @@ class Mail {
 			if(array_key_exists('asunto', $correo)){
 				$mensajeFinal = '
 				<table class="tabla">
-					<tr>
-						<th colspan="2" class="asunto" >
+					<tr class="asunto">
+						<th colspan="2">
 							'.$correo['asunto'].'
 						</th>
 					</tr>';
@@ -262,7 +267,7 @@ class Mail {
 
 			'class="tabla-td"' => 'style="padding: 10px;"',
 
-			'class="asunto"' => 'style="text-align: center; background-color: #6FA414; text-align: center !important; font-size: 22px; font-weight: bold; padding: 10px; color: #fff;"',
+			'class="asunto"' => 'style="text-align: center; background-color: #6FA414; font-size: 22px; font-weight: bold; padding: 10px; color: #FFFFFF;"',
 
 			'class="contenido"' => 'style="text-align: left; background-color: #FFFFFF;"',
 
@@ -275,6 +280,8 @@ class Mail {
 			'class="logoCliente"' => 'style="display: inline-block; float: right; max-height: 80px; max-width: 250px;"',
 
 			'class="footer"' => 'style="font-size: 12px; width: 100%; display: block; vertical-align: middle;"',
+
+			'class="titulo"' => 'style="text-align: center; color: #FFFFFF; font-weight: bold;"';
 			);
 
 		foreach ($tema as $class => $style) {
