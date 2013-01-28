@@ -605,6 +605,7 @@ function EnviarProyectoCliente($proyecto){
 			$correo['imagen'] = $imagen;
 		}
 
+		$correo['mail'] = $datos[0]['mail'];
 		$correo['userId'] = $clienteId;
 
 		$mail->correo($correo);

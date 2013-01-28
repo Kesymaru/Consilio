@@ -335,7 +335,7 @@ class Mail {
 			//mensaje armado
 			$mensajeFinal = $this->plantilla . $mensajeFinal . $this->plantillaFooter;
 
-			if( array_key_exists('imagen', $correo) ){
+			if( array_key_exists('mail', $correo) ){
 
 				if($this->enviar( $correo['mail'], $correo['asunto'], $mensajeFinal) ){
 					return true;				
