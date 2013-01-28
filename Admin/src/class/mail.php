@@ -278,7 +278,7 @@ class Mail {
 			);
 
 		foreach ($tema as $class => $style) {
-			$mensaje = str_replace( $class, $style, $mensaje);
+			$mensaje = str_replace( $class, $class.' '.$style, $mensaje);
 		}
 
 		return $mensaje;
