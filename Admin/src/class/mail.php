@@ -16,12 +16,6 @@ class Mail {
 				
 		date_default_timezone_set('America/Costa_Rica');
 
-		//configuracion headers del email
-		$this->headers .= "From: " . $this->webmaster . "\r\n";
-		$this->headers .= "Reply-To: " . $this->webmaster . "\r\n";
-		//$this->headers .= "X-Mailer: Matricez" . "\r\n";
-		$this->headers .= "Content-Type: text/html; charset=utf-8\r\n";
-
 		//CREA PANTILLA HEADER
 		$this->plantilla = '<!doctype html>
 		<head>
@@ -132,6 +126,35 @@ class Mail {
 	}
 
 	/**
+	* CONFIGURACION DEL HEADER
+	* @param $correo -> array con la configuracion y datos para el header
+	* @retunr $header -> header conmpuesto
+	*/
+	private function header($correo){
+
+		if( array_key_exists('de', $correo) ){
+			$this->headers .= "From: " . $correo['de'] . "\r\n";
+
+			if( array_key_exists('responder', $correo) ){
+				$this->headers .= "Reply-To: " . $correo['responder'] . "\r\n";
+			}else{
+				$this->headers .= "Reply-To: " . $correo['de'] . "\r\n";
+			}
+
+		}else{
+			$this->headers .= "From: " . $this->webmaster . "\r\n";
+			$this->headers .= "Reply-To: " . $this->webmaster . "\r\n";
+		}
+		
+		if(array_key_exists('confirmacion', $correo)){
+			$this->headers .= "X-Confirm-Reading-To:" . $correo['confirmacion'] . "\r\n";
+		}
+
+		$this->headers .= "X-Mailer: Matricez" . "\r\n";
+		$this->headers .= "Content-Type: text/html; charset=utf-8\r\n";
+	}
+
+	/**
 	* ENVIA UN CORREO GENERICO
 	* @param $carreo -> array con datos, para, nombre, link, imagen, mensaje, notas
 	*/
@@ -225,7 +248,8 @@ class Mail {
 			if( array_key_exists('email', $correo) ){
 
 				$mensajeFinal = $this->mailStyle($mensajeFinal);
-
+				$this->header($correo);
+				
 				if( mail($correo['email'], $correo['asunto'], $mensajeFinal, $this->headers) ){
 					return true;				
 				}else{
