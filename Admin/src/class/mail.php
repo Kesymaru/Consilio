@@ -264,7 +264,7 @@ else
 {
     echo 'mail() has been disabled';
 }
-
+/*
 
 $mail = new Mail();
 $correo = array();
@@ -282,7 +282,7 @@ if( !$mail->correo($correo)){
 
 if(!mail('aalfaro@77digital.com', 'testting mail', 'prueba de mail')){
 	echo 'error mail no enviado';s
-}
+}*/
 
 
 
