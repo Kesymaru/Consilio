@@ -279,13 +279,110 @@ class Mail {
 	}
 
 	/**
-	 * ENVIA UN MAIL, NOTIFICA UN ERROR
-	 * $error -> mensaje del error
-	 */
-	function errorMail($error){
+	* OBTIENE EL CORREO COMPUESTO
+	* @param $carreo -> array con datos, para, nombre, link, imagen, mensaje, notas
+	*/
+	public function getCorreo($correo){
+				
+		if(!empty($correo)){
 
-		if( !mail($this->webmasterError,  "ERROR", $error, $this->headers) ){
-			$_SESSION['error'] = "El envio del email de registro ha fallado!<br/>Por favor comuniquese con ".$this->webmasterError;
+			//TITULO CON ASUNTO
+			if(array_key_exists('asunto', $correo)){
+				$mensajeFinal = '
+				<table class="tabla">
+					<tr class="asunto">
+						<th colspan="2">
+							'.$correo['asunto'].'
+						</th>
+					</tr>';
+			}else{
+				$mensajeFinal = '
+				<table class="tabla">
+					<tr>
+						<th colspan="2" class="asunto" >
+							Notificacion
+						</th>
+					</tr>';
+			}
+
+			//CONTENIDO
+			$mensajeFinal .= '<tr class="contenido">
+						        <td colspan="2" class="tabla-td">';
+
+			//titulo mensaje
+			if(array_key_exists('nombre', $correo)){
+				$nombre = $correo['nombre'];
+				$mensajeFinal .= "Hola, $nombre:<br/><br/>";
+			}else{
+				$mensajeFinal .= "Estimado usuario:<br/><br/>";
+			}
+
+			//mensaje REQUERIDO
+			if(array_key_exists('mensaje', $correo)){
+				$mensajeFinal .= $correo['mensaje'];
+			}else{
+				echo "Error: mail.php correo() se necesita un mensaje para enviar el mail.";
+				return false; //requerido
+			}
+
+			if(array_key_exists('link', $correo)){
+				$link = $_SESSION['matriz'].$correo['link'];
+			}else{
+				if(array_key_exists('userId', $correo)){
+					$usarId = $correo['userId'];
+					$link = $_SESSION['matriz'].'/login.php?user='.$userId;
+				}else{
+					$link = $_SESSION['matriz'].'/login.php';
+				}
+			}
+			//link
+			$mensajeFinal .= '<br/>
+					 	<br/><a href="'.$link.'" >
+							'.$link.'
+						</a>
+
+					</td>
+					</tr>'; //fin contenido
+
+			//footer del mensaje 
+			$mensajeFinal .= '
+					<tr class="contenidoFooter">
+						<td class="td-logo">
+							
+							<img class="logo" src="'.$_SESSION['matriz'].'/images/logoMail.png" title="Matriz" alt="Matriz">
+						</td>';
+
+			//imagen del cliente
+			if( array_key_exists('imagen', $correo) ){
+
+				$mensajeFinal .= '
+						<td class="td-logoCliente">
+							<img class="logoCliente" src="'.$_SESSION['home'].$correo['imagen'].'" alt="'.$nombre.'" title="'.$nombre.'">
+						</td>';
+			}
+
+			$mensajeFinal.=	'
+					</tr>	
+				</table>
+				';
+
+			//mensaje armado
+			$mensajeFinal = $this->plantilla . $mensajeFinal . $this->footer($correo);
+
+			if( array_key_exists('email', $correo) ){
+
+				$mensajeFinal = $this->mailStyle($mensajeFinal);
+
+				return $mensajeFinal;
+
+			}else{
+				echo 'Error: no se especifica un destinatario o este no es valido.<br/>';
+				return false;
+			}
+			
+		}else{
+			echo "Error: mail.php datos requeridos no enviados, $correo esta vacio.";
+			return false;
 		}
 	}
 
@@ -339,6 +436,16 @@ class Mail {
 	}
 
 
+	/**
+	 * ENVIA UN MAIL, NOTIFICA UN ERROR
+	 * $error -> mensaje del error
+	 */
+	function errorMail($error){
+
+		if( !mail($this->webmasterError,  "ERROR", $error, $this->headers) ){
+			$_SESSION['error'] = "El envio del email de registro ha fallado!<br/>Por favor comuniquese con ".$this->webmasterError;
+		}
+	}
 }
 
 

@@ -281,6 +281,59 @@ class Cliente{
 		return $password;
 	}
 
+	/*************** helpers ***********/
+
+	/**
+	* COMPONE LOS DATOS NECESARIOS PARA UN MAIL DEL USUARIO
+	* @param $id -> id del usuario
+	* @return $correo -> array[] con los datos
+	*/
+	public function getCorreo($id){
+		$datos = $this->getDatosCliente($id);
+
+		if(!empty($datos)){
+			//COMPOSICION DEL CORREO
+			$correp = array();
+
+			$correo['nombre'] = $datos[0]['nombre'];
+			
+			//imagen del proyecto, fallback imagen del cliente
+			$imagenSize = getimagesize($_SESSION['home'].'/'.$datos[0]['imagen']);
+			if( is_array($imagenSize) && $datos[0]['imagen'] != "images/es.png" ){
+				$imagen = '/'.$datos[0]['imagen'];
+				$correo['imagen'] = $imagen;
+			}
+
+			$correo['email'] = $datos[0]['email'];
+
+			$correo['userId'] = $datos[0]['id'];
+
+			//datos del remitente
+			$correo['remitente'] = $_SESSION['email'];
+			$correo['nombreRemitente'] = $_SESSION['nombre'].' '.$_SESSION['apellidos'];
+
+			if(isset($_SESSION['titulo'])){
+				$correo['tituloRemitente'] = $_SESSION['titulo'];
+			}
+
+			if(isset($_SESSION['mobile'])){
+				$correo['mobile'] = $_SESSION['mobile'];
+			}
+			if(isset($_SESSION['fax'])){
+				$correo['fax'] = $_SESSION['fax'];
+			}
+			if(isset($_SESSION['skype'])){
+				$correo['skype'] = $_SESSION['skype'];
+			}
+
+			$correo['telefono'] = $_SESSION['telefono'];
+
+			return $correo;
+		}else{
+			return false; //error no hay datos para el id del cliente
+		}
+	}
+
 }
 
 /**

@@ -552,8 +552,8 @@ function AccionNotificarProyectoCliente(proyecto){
 			if(response.length <= 3){
 				notifica("Proyecto Enviado Al cliente");
 			}else{
-				//$("html").html(response);
-				notificaError("Error: Proyectos.js AccionAnviarProyectoCliente.<br/>"+response);
+				$("html").html(response);
+				//notificaError("Error: Proyectos.js AccionAnviarProyectoCliente.<br/>"+response);
 			}
 		},
 		fail: function(response){
@@ -567,16 +567,31 @@ function AccionNotificarProyectoCliente(proyecto){
 * @param proyecto -> id del proyecto
 */
 function NotificarProyectoMail(proyecto){
-	notifica("dd");
+	
 	var queryParams = {"func" : "ProyectoMail", "proyecto" : proyecto};
+	var alto = $("html").height() * 0.7;
+	notifica(alto);
 
-	$.fancybox({
-		 ajax : {
-	        type    : "POST",
-	        data    : queryParams,
-	        url : "src/componerMail.php"
-    	}
-   });
+	 $.fancybox({
+	 	'width'           : '70%',
+		'height'          : alto,
+        padding         : 10,
+        autoSize        : false,
+        fitToView       : false,
+        arrows          : false,
+        href            : "src/componerMail.php",
+        type            : 'ajax',
+        ajax            : {
+                type    : "POST",
+                cache   : false,
+                data    : queryParams,
+        },
+        scrolling       : 'no',
+		autoScale       : false,
+		transitionIn    : 'fade',
+		transitionOut   : 'elastic',
+		title           : 'Componer Mail Proyecto'
+    });
 }
 
 /**
@@ -584,7 +599,30 @@ function NotificarProyectoMail(proyecto){
 * @param proyecto -> id del proyecto
 **/
 function NotificarProyectoLink(proyecto){
+	var queryParams = {"func" : "ProyectoLink", "proyecto" : proyecto};
 
+	 $.fancybox({
+	 	'width'           : '70%',
+	 	'height' : '100',
+        padding         : 10,
+        autoSize        : false,
+        fitToView       : false,
+        arrows          : false,
+        href            : "src/componerMail.php",
+        type            : 'ajax',
+        ajax            : {
+                type    : "POST",
+                cache   : false,
+                data    : queryParams,
+        },
+        scrolling       : 'no',
+		autoScale       : false,
+		transitionIn    : 'fade',
+		transitionOut   : 'elastic',
+		title           : 'Link Proyecto'
+    });
+
+	notificaAtencion("Asegurese de copiar el link.");
 }
 
 /******************** HELPERS ******************/

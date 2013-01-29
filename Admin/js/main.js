@@ -519,6 +519,26 @@ function Editor(id){
 	});
 }
 
+function EditorAlto(id, alto){
+	//config.height = alto; 
+	
+	var id = document.getElementById(id);
+	var editor = CKEDITOR.instances[id];
+    if (editor) {
+    	CKEDITOR.remove(editor);
+    	editor.destroy(true);
+    }
+
+    CKEDITOR.replace(id, {
+        height: alto
+	});
+    CKEDITOR.on("instanceReady", function(event){
+		$(".cke_path").remove();
+	});
+
+	//editor.resize( '100%', alto );
+}
+
 /*
 * ACTUALIZA LOS CAMBIOS ECHOS EN EL EDITOR!
 */

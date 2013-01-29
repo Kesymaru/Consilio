@@ -1276,6 +1276,33 @@ select{
 	float: right;
 }
 
+/**
+* COMPONER MAIL
+*/
+.tabla-mail{
+	width: 100%;
+	border: 0;
+	border-collapse: collapse;
+}
+
+.tabla-mail .para{
+
+}
+
+
+.link-copiar{
+	font-size: 18px;
+	text-align: center;
+	display: table;
+	width: 100%;
+	height: 75px;
+}
+
+.link-copiar div{
+	width: 100%;
+	display: table-cell;
+	vertical-align: middle;
+}
 /*
 	CONTROLES 
 */

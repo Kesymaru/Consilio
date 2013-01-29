@@ -585,56 +585,19 @@ function NotificarProyectoCliente($proyecto){
 
 	$clienteId = $registros->getProyectoDato("cliente",$proyecto);
 	$proyectoNombre = $registros->getProyectoDato("nombre",$proyecto);
-	$datos = $cliente->getDatosCliente($clienteId); //datos del cliente
 
-	if(!empty($datos)){
+	$mail = new Mail();
+	$correo = $cliente->getCorreo($clienteId);
+	
+	$correo['asunto'] = "Proyecto: $proyectoNombre";
+	$correo['mensaje'] = "Su proyecto ya se encuentra disponible en la matriz, puede acceder desde este momento en el siguiente enlace:";
+	$correo['link'] = "/index.php?proyecto=$proyecto";
 
-		$mail = new Mail();
+	/*if(!$mail->correo($correo)){
+		//echo "Error: AnviarProyectoCliente() fallo envio de mail.<br/>";
+	}*/
 
-		//composicion del correo
-		$correp = array();
-		$correo['mensaje'] = "Su proyecto ya se encuentra disponible en la matriz, puede acceder desde este momento en el siguiente enlace:";
-		$correo['nombre'] = $datos[0]['nombre'];
-		$correo['asunto'] = "Proyecto: $proyectoNombre";
-		$correo['link'] = "/index.php?proyecto=$proyecto";
-
-		//imagen del proyecto, fallback imagen del cliente
-		$imagenSize = getimagesize($_SESSION['home'].'/'.$datos[0]['imagen']);
-		if( is_array($imagenSize) && $datos[0]['imagen'] != "images/es.png" ){
-			$imagen = '/'.$datos[0]['imagen'];
-			$correo['imagen'] = $imagen;
-		}
-
-		$correo['email'] = $datos[0]['email'];
-		$correo['remitente'] = $_SESSION['email'];
-		$correo['nombreRemitente'] = $_SESSION['nombre'].' '.$_SESSION['apellidos'];
-		
-		if(isset($_SESSION['titulo'])){
-			$correo['tituloRemitente'] = $_SESSION['titulo'];
-		}
-
-		$correo['userId'] = $clienteId;
-
-		if(isset($_SESSION['mobile'])){
-			$correo['mobile'] = $_SESSION['mobile'];
-		}
-		if(isset($_SESSION['fax'])){
-			$correo['fax'] = $_SESSION['fax'];
-		}
-		if(isset($_SESSION['skype'])){
-			$correo['skype'] = $_SESSION['skype'];
-		}
-
-		$correo['telefono'] = $_SESSION['telefono'];
-		
-
-		if(!$mail->correo($correo)){
-			//echo "Error: AnviarProyectoCliente() fallo envio de mail.<br/>";
-		}
-
-	}else{
-		echo "Error: el id del cliente no es valido.<br/>ajaxProyectos.php EnviarProyectoCliente(), id : $clienteId <br/>";
-	}
+	echo $mail->getCorreo($correo);
 }
 
 
