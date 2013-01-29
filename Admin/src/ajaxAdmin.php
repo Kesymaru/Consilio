@@ -310,6 +310,14 @@ function NuevoAdmin(){
 					  		</tr>
 					  		<tr>
 					  			<td>
+					  				Titulo
+					  			</td>
+					  			<td>
+					  				<input type="text" name="titulo" title="Titulo Del Nuevo Admin" placeholder="Titulo" class="validate[optional]" />
+					  			</td>
+					  		</tr>
+					  		<tr>
+					  			<td>
 					  				Email
 					  			</td>
 					  			<td>
@@ -322,6 +330,22 @@ function NuevoAdmin(){
 					  			</td>
 					  			<td>
 					  				<input type="tel" id="telefono" name="telefono" title="Telefono Del Nuevo Admin" placeholder="Telefono" class="validate[required, custom[phone]]" />
+					  			</td>
+					  		</tr>
+					  		<tr>
+					  			<td>
+					  				Mobile
+					  			</td>
+					  			<td>
+					  				<input type="tel" id="mobile" name="mobile" title="Mobile Del Nuevo Admin" placeholder="Mobile" class="validate[optinal, custom[phone]]" />
+					  			</td>
+					  		</tr>
+					  		<tr>
+					  			<td>
+					  				Fax
+					  			</td>
+					  			<td>
+					  				<input type="tel" id="fax" name="fax" title="Fax Del Nuevo Admin" placeholder="Fax" class="validate[optinal, custom[phone]]" />
 					  			</td>
 					  		</tr>
 					  		<tr>
@@ -357,6 +381,21 @@ function RegistrarAdmin(){
 
 	if(isset($_POST['usuario']) && isset($_POST['nombre']) && isset($_POST['apellidos']) && isset($_POST['email']) && isset($_POST['telefono']) && isset($_POST['contrasena']) ){
 
+		$titulo = '';
+		if(isset($_POST['titulo'])){
+			$titulo = $_POST['titulo'];
+		}
+
+		$mobile = '';
+		if(isset($_POST['mobile'])){
+			$mobile = $_POST['mobile'];
+		}
+
+		$fax = '';
+		if(isset($_POST['fax'])){
+			$fax = $_POST['fax'];
+		}
+
 		$skype = '';
 		if(isset($_POST['skype'])){
 			$skype = $_POST['skype'];
@@ -367,7 +406,7 @@ function RegistrarAdmin(){
 			$imagen = $admin->UploadImagen($_FILES['imagen']);
 		}
 
-		if( !$admin->NewAdmin($_POST['usuario'], $_POST['nombre'], $_POST['apellidos'], $_POST['email'], $_POST['telefono'], $skype, $imagen, $_POST['contrasena'] )){
+		if( !$admin->NewAdmin($_POST['usuario'], $_POST['nombre'], $_POST['apellidos'], $titulo, $_POST['email'], $_POST['telefono'], $mobile, $fax, $skype, $imagen, $_POST['contrasena'] )){
 			echo '<br/>Error: No se pudo crear un nuevo Admin.<br/>ajaxAdmin.php RegistrarAdmin()';
 		}		
 	}else{

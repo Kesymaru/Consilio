@@ -345,20 +345,23 @@ class Admin{
 	* @return true si se actualiza
 	* @return false si falla
 	*/
-	public function UpdateAdmin($id, $usuario, $nombre, $apellidos, $email, $telefono, $skype, $imagen, $password){
+	public function UpdateAdmin($id, $usuario, $nombre, $apellidos, $titulo, $email, $telefono, $mobile, $fax, $skype, $imagen, $password){
 		$base = new Database();
 
 		$nombre =  mysql_real_escape_string($nombre);
 		$apellidos = mysql_real_escape_string($apellidos);
+		$titulo = mysql_real_escape_string($titulo);
 		$email = mysql_real_escape_string($email);
 		$telefono = mysql_real_escape_string($telefono);
+		$mobile = mysql_real_escape_string($mobile);
+		$fax = mysql_real_escape_string($fax);
 		$skype = mysql_real_escape_string($skype);
 		$usuario = mysql_real_escape_string($usuario);
 		$imagen = mysql_real_escape_string($imagen);
 		$password = mysql_real_escape_string($password);
 
 		if($imagen != '' && $imagen != null && !empty($imagen)){
-			$query = "UPDATE admin SET nombre = '".$nombre."', apellidos = '".$apellidos."', email = '".$email."', telefono = '".$telefono."', skype = '".$skype."', usuario = '".$usuario."', imagen = '".$imagen."', fecha_actualizacion = NOW() ";
+			$query = "UPDATE admin SET nombre = '".$nombre."', apellidos = '".$apellidos."', titulo = '".$titulo."', email = '".$email."', telefono = '".$telefono."', mobile = '".$mobile."', fax = '".$fax."' skype = '".$skype."', usuario = '".$usuario."', imagen = '".$imagen."', fecha_actualizacion = NOW() ";
 			
 			//elimina la imagen vieja
 			$query2 = "SELECT * FROM admin WHERE id = '".$id."'";
@@ -370,7 +373,7 @@ class Admin{
 			}
 
 		}else{
-			$query = "UPDATE admin SET nombre = '".$nombre."', apellidos = '".$apellidos."', email = '".$email."', telefono = '".$telefono."', skype = '".$skype."', usuario = '".$usuario."', fecha_actualizacion = NOW()  ";
+			$query = "UPDATE admin SET nombre = '".$nombre."', apellidos = '".$apellidos."', titulo = '".$titulo."', email = '".$email."', telefono = '".$telefono."', mobile = '".$mobile."', fax = '".$fax."', skype = '".$skype."', usuario = '".$usuario."', fecha_actualizacion = NOW()  ";
 		}
 
 		if($password != ''){
@@ -393,21 +396,27 @@ class Admin{
 	* @param $usuario -> usuario
 	* @param $nombre -> nombre
 	* @param $apellidos -> apellidos del admin
+	* @param $titulo -> titulo del admin no requerido
 	* @param $email -> email
 	* @param $telefono -> telefono
+	* @param $mobil -> numero de cell no requerido
+	* @param $fax -> nomero de fax no requerido
 	* @param $skype
 	* @param $imagen -> link de la imagen subida
 	* @param $password -> contrasena sin ecncriptar
 	* @return true si se actualiza
 	* @return false si falla
 	*/
-	public function NewAdmin($usuario, $nombre, $apellidos, $email, $telefono, $skype, $imagen, $password){
+	public function NewAdmin($usuario, $nombre, $apellidos, $titulo, $email, $telefono, $mobile, $fax, $skype, $imagen, $password){
 		$base = new Database();
 
 		$nombre =  mysql_real_escape_string($nombre);
 		$apellidos = mysql_real_escape_string($apellidos);
+		$titulo = mysql_real_escape_string($titulo);
 		$email = mysql_real_escape_string($email);
 		$telefono = mysql_real_escape_string($telefono);
+		$mobile = mysql_real_escape_string($mobile);
+		$fax = mysql_real_escape_string($fax);
 		$skype = mysql_real_escape_string($skype);
 		$usuario = mysql_real_escape_string($usuario);
 		$imagen = mysql_real_escape_string($imagen);
@@ -415,8 +424,8 @@ class Admin{
 		$password = mysql_real_escape_string($password);
 		$password = $base->Encriptar($password);
 
-		$query = "INSERT INTO admin (usuario, nombre, apellidos, email, telefono, skype, imagen, password, fecha_creacion ) VALUES ";
-		$query .= " ( '".$usuario."', '".$nombre."', '".$apellidos."', '".$email."', '".$telefono."', '".$skype."', '".$imagen."', '".$password."', NOW() ) ";
+		$query = "INSERT INTO admin (usuario, nombre, apellidos, titulo, email, telefono, mobile, fax, skype, imagen, password, fecha_creacion ) VALUES ";
+		$query .= " ( '".$usuario."', '".$nombre."', '".$apellidos."', '".$titulo."', '".$email."', '".$telefono."', '".$mobile."', '".$fax."', '".$skype."', '".$imagen."', '".$password."', NOW() ) ";
 		
 		if($base->Insert($query)){
 			return true;
