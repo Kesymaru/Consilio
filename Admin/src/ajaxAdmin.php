@@ -183,6 +183,14 @@ function EditarAdmin($id){
 					  		</tr>
 					  		<tr>
 					  			<td>
+					  				Titulo
+					  			</td>
+					  			<td>
+					  				<input type="text" name="titulo" title="Titulo Del Admin" placeholder="Titulo" value="'.$datos[0]['titulo'].'" class="validate[optional]" />
+					  			</td>
+					  		</tr>
+					  		<tr>
+					  			<td>
 					  				Email
 					  			</td>
 					  			<td>
@@ -195,6 +203,22 @@ function EditarAdmin($id){
 					  			</td>
 					  			<td>
 					  				<input type="tel" id="telefono" name="telefono" title="Telefono Del Admin" placeholder="Telefono" value="'.$datos[0]['telefono'].'" class="validate[required, custom[phone]]" />
+					  			</td>
+					  		</tr>
+					  		<tr>
+					  			<td>
+					  				Mobile
+					  			</td>
+					  			<td>
+					  				<input type="tel" id="mobile" name="mobile" title="Mobile Del Admin" placeholder="Mobile" value="'.$datos[0]['mobile'].'" class="validate[optional, custom[phone]]" />
+					  			</td>
+					  		</tr>
+					  		<tr>
+					  			<td>
+					  				Fax
+					  			</td>
+					  			<td>
+					  				<input type="tel" id="fax" name="fax" title="Fax Del Admin" placeholder="Fax" value="'.$datos[0]['fax'].'" class="validate[optional, custom[phone]]" />
 					  			</td>
 					  		</tr>
 					  		<tr>
