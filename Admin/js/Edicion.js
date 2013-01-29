@@ -1914,6 +1914,7 @@ function FormularioEditarArticulo(){
 					$("#articulo"+id).fadeOut(700, function(){
 						$("#articulo"+id).html(nombre);
 						$("#articulo"+id).fadeIn();
+						$("#articulo"+id).attr("title", nombre);
 					});
 				}
 				LimpiarContent();
