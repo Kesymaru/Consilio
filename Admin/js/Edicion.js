@@ -1156,9 +1156,26 @@ function FormularioNorma(){
 	    			var norma = $("#norma").val();
 	    			var nombre = $("#nombre").val();
 	    			var numero = $("#numero").val();
+	    			var tipo = $("#tipo").val();
 
-	    			//ACTUALIZA LA NORMA EN LA LISTA
-	    			$("#"+norma).html(nombre+" "+numero);
+	    			//ACTUALIZA LOS DATOS DE LA NORMA EN LA LISTA
+	    			if(nombre != $("#"+norma).html() ){
+	    				$("#"+norma).html(nombre);
+	    			}
+
+	    			//obtiene el tipo de norma
+	    			var queryParams = {"func" : "getTipo", "id" : tipo};
+	    			$.ajax({
+	    				data: queryParams,
+	    				type: "post",
+	    				url: "src/ajaxNormas.php",
+	    				success: function(response){
+	    					$("#"+norma).attr("title", response + " Nº "+numero);
+	    				},
+	    				fail: function(response){
+	    					notificaError("Error: AJAX fail Edicion.js FormularioNorma() -> sucess() ajax.<br/>"+response);
+	    				}
+	    			});
 
 	    			//si cambia el estado de la norma
 	    			var estado = $("#radio-estado :radio:checked").val();

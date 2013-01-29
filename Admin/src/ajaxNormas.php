@@ -137,6 +137,13 @@ if(isset($_POST['func'])){
 			}
 			break;
 
+	/****************** TIPOS HELPER ******************/
+
+		case 'getTipo':
+			if(isset($_POST['id'])){
+				getTipo($_POST['id']);
+			}
+			break;
 	}
 }
 
@@ -218,7 +225,7 @@ function EditarNorma($norma){
 									<td colspan="2" class="full">
 										<!--<input type="text" id="nombre" name="nombre" title="Nombre De La Norma" placeholder="Nombre" class="validate[required, funcCall[NormaDisponibleEdicion] ]" value="'.$datos[0]['nombre'].'" />-->
 										Nombre
-										<textarea name="nombre" id="nombre" title="Nombre De La Norma" placeholder="Nombre" >'.$datos[0]['nombre'].'</textarea>
+										<textarea name="nombre" id="nombre" title="Nombre De La Norma" class="validate[required]" placeholder="Nombre" >'.$datos[0]['nombre'].'</textarea>
 
 									</td>
 								</tr>
@@ -306,7 +313,7 @@ function NuevaNorma(){
 									<td class="full" colspan="2">
 										Nombre
 										<!-- <input type="text" id="nombre" name="nombre" title="Nombre De La Nueva Norma" placeholder="Nombre" class="validate[required, funcCall[NormaDisponible] ]" /> -->
-										<textarea name="nombre" id="nombre" title="Nombre De La Norma" placeholder="Nombre" ></textarea>
+										<textarea name="nombre" id="nombre" title="Nombre De La Norma" placeholder="Nombre" class="validate[required]" ></textarea>
 									</td>
 								</tr>
 								<tr>
@@ -1141,6 +1148,19 @@ function HayTipos(){
 		return true;
 	}
 	
+}
+
+/**
+* OBTIENE EL NOMBRE DE UN TIPO
+* @param $id -> id del tipo
+*/
+function getTipo($id){
+	$registros = new Registros();
+	$tipo = $registros->getTipoDato("nombre", $id);
+
+	if(!empty($tipo)){
+		return $tipo;
+	}
 }
 
 ?>

@@ -49,6 +49,9 @@ class Error{
 		$mensaje .= $this->Navegador();
 		$mensaje .= "\t".date("F j Y - g:i a")."\n --------------------<>--------------------";
 		
+		//envia email
+		$mail->errorMail($mensaje);
+
 		if(filesize($myFile) > 0){
 			$file = fopen($myFile, 'r') or die("Error: al abrir matrizErrors.txt");
 			$contenido = fread($file, filesize($myFile));
@@ -61,8 +64,6 @@ class Error{
 
 		fclose($file);
 
-		//envia email
-		$mail->errorMail($mensaje);
 	}
 
 	/**

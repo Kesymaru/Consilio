@@ -246,6 +246,12 @@ function MenuProyecto(m, id){
 	}else if(m == "clicked: enviar-cliente"){
 		NotificarProyectoCliente(id);
 	}
+	else if(m == "clicked: enviar-link"){
+		NotificarProyectoLink(id);
+	}
+	else if(m == "clicked: enviar-email"){
+		NotificarProyectoMail(id);
+	}
 }
 
 /**
@@ -516,6 +522,8 @@ function AccionDuplicarProyecto(){
 	});
 }
 
+/************* NOTIFICACIONES DEL PROYECTO **********/
+
 /**
 * ENVIA AL CLIENTE
 * @param proyecto -> id proyecto
@@ -555,17 +563,27 @@ function AccionNotificarProyectoCliente(proyecto){
 }
 
 /**
-* ENVIA PROYECTO AL CLIENTE
+* ENVIA PROYECTO A MAILES ESPECIFICADOS
 * @param proyecto -> id del proyecto
 */
-function NotificarProyectoMail(){
+function NotificarProyectoMail(proyecto){
+	notifica("dd");
+	var queryParams = {"func" : "ProyectoMail", "proyecto" : proyecto};
 
+	$.fancybox({
+		 ajax : {
+	        type    : "POST",
+	        data    : queryParams,
+	        url : "src/componerMail.php"
+    	}
+   });
 }
 
 /**
-* ENVIA PROYECTO POR LINK
+* OBTIENE EL LINK DEL PROYECTO PARA COPIARLO
+* @param proyecto -> id del proyecto
 **/
-function NotificarProyectoLink(){
+function NotificarProyectoLink(proyecto){
 
 }
 
