@@ -1356,3 +1356,159 @@ Su proyecto ya se encuentra disponible en la matriz, puede acceder desde este mo
 	JAVASCRIPT: 1
 	January 28 2013 - 4:51 pm
  --------------------<>--------------------
+
+ 
+
+
+<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Access denied for user 'root'@'localhost' (using password: YES) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>54</b>
+
+
+
+<b>Warning</b>:  mysql_close(): supplied argument is not a valid MySQL-Link resource in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>54</b>
+
+
+
+<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Access denied for user 'root'@'localhost' (using password: YES) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>54</b>
+
+
+
+<b>Warning</b>:  mysql_close(): supplied argument is not a valid MySQL-Link resource in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>54</b>
+
+
+
+<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Access denied for user 'root'@'localhost' (using password: YES) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>54</b>
+
+
+
+<b>Warning</b>:  mysql_close(): supplied argument is not a valid MySQL-Link resource in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>54</b>
+
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 29 2013 - 9:54 am
+ --------------------<>--------------------
+
+ 
+
+
+<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Access denied for user 'root'@'localhost' (using password: YES) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>54</b>
+
+
+
+<b>Warning</b>:  mysql_close(): supplied argument is not a valid MySQL-Link resource in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>54</b>
+
+
+
+<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Access denied for user 'root'@'localhost' (using password: YES) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>54</b>
+
+
+
+<b>Warning</b>:  mysql_close(): supplied argument is not a valid MySQL-Link resource in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>54</b>
+
+
+
+<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Access denied for user 'root'@'localhost' (using password: YES) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>54</b>
+
+
+
+<b>Warning</b>:  mysql_close(): supplied argument is not a valid MySQL-Link resource in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>54</b>
+
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 29 2013 - 9:54 am
+ --------------------<>--------------------
+
+ 
+
+
+<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Access denied for user 'root'@'localhost' (using password: YES) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>54</b>
+
+
+
+<b>Warning</b>:  mysql_close(): supplied argument is not a valid MySQL-Link resource in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>54</b>
+
+
+
+<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Access denied for user 'root'@'localhost' (using password: YES) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>54</b>
+
+
+
+<b>Warning</b>:  mysql_close(): supplied argument is not a valid MySQL-Link resource in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>54</b>
+
+
+
+<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Access denied for user 'root'@'localhost' (using password: YES) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>54</b>
+
+
+
+<b>Warning</b>:  mysql_close(): supplied argument is not a valid MySQL-Link resource in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>54</b>
+
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 29 2013 - 9:55 am
+ --------------------<>--------------------
+
+ 
+
+
+<b>Warning</b>:  Missing argument 10 for Admin::UpdateAdmin(), called in C:\wamp\www\matrizescala\Admin\src\ajaxAdmin.php on line 278 and defined in <b>C:\wamp\www\matrizescala\Admin\src\class\usuarios.php</b> on line <b>348</b>
+
+
+
+<b>Warning</b>:  Missing argument 11 for Admin::UpdateAdmin(), called in C:\wamp\www\matrizescala\Admin\src\ajaxAdmin.php on line 278 and defined in <b>C:\wamp\www\matrizescala\Admin\src\class\usuarios.php</b> on line <b>348</b>
+
+
+
+<b>Warning</b>:  Missing argument 12 for Admin::UpdateAdmin(), called in C:\wamp\www\matrizescala\Admin\src\ajaxAdmin.php on line 278 and defined in <b>C:\wamp\www\matrizescala\Admin\src\class\usuarios.php</b> on line <b>348</b>
+
+
+
+<b>Notice</b>:  Undefined variable: skype in <b>C:\wamp\www\matrizescala\Admin\src\class\usuarios.php</b> on line <b>358</b>
+
+
+
+<b>Notice</b>:  Undefined variable: imagen in <b>C:\wamp\www\matrizescala\Admin\src\class\usuarios.php</b> on line <b>360</b>
+
+
+
+<b>Notice</b>:  Undefined variable: password in <b>C:\wamp\www\matrizescala\Admin\src\class\usuarios.php</b> on line <b>361</b>
+
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 29 2013 - 10:31 am
+ --------------------<>--------------------

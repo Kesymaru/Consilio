@@ -157,7 +157,8 @@ function EditarAdmin(){
 * INCIALIZA EL FORMULARIO DE EDICION DE UN ADMIN
 */
 function FormularioEditarAdmin(id){
-	$("#FormularioEditarAdmin").validationEngine();	
+	$("#FormularioEditarAdmin").validationEngine();
+
 	var options = {  
 		beforeSend: function(){
 			DeshabilitarContent();
@@ -199,6 +200,23 @@ function FormularioEditarAdmin(id){
 		"max-width" : width
 	});
 	$(".td-user-image img").fadeIn();
+}
+
+/**
+* VALIDA UN TELEFONO Y ESTE SEA OPCIONAL
+*/
+function phoneOptional(field, rules, i, options){
+	var phonePattern = /^([\+][0-9]{1,3}[ \.\-])?([\(]{1}[0-9]{2,6}[\)])?([0-9 \.\-\/]{3,20})((x|ext|extension)[ ]?[0-9]{1,4})?$/;  
+    
+    if(field.val() == ''){
+    	return true;
+    }
+
+    if(phonePattern.test( field.val() )){
+    	return true;
+    }else{
+    	return "* Número de teléfono inválido";
+    }
 }
 
 /**

@@ -202,7 +202,7 @@ function EditarAdmin($id){
 					  				Telefono
 					  			</td>
 					  			<td>
-					  				<input type="tel" id="telefono" name="telefono" title="Telefono Del Admin" placeholder="Telefono" value="'.$datos[0]['telefono'].'" class="validate[optional, custom[phone]]" />
+					  				<input type="tel" id="telefono" name="telefono" title="Telefono Del Admin" placeholder="Telefono" value="'.$datos[0]['telefono'].'" class="validate[required, custom[phone]]" />
 					  			</td>
 					  		</tr>
 					  		<tr>
@@ -210,7 +210,7 @@ function EditarAdmin($id){
 					  				Mobile
 					  			</td>
 					  			<td>
-					  				<input type="tel" id="mobile" name="mobile" title="Mobile Del Admin" placeholder="Mobile" value="'.$datos[0]['mobile'].'" class="validate[ optional, custom[phone]]" />
+					  				<input type="tel" id="mobile" name="mobile" title="Mobile Del Admin" placeholder="Mobile" value="'.$datos[0]['mobile'].'" class="validate[funcCall[phoneOptional]]" />
 					  			</td>
 					  		</tr>
 					  		<tr>
@@ -218,7 +218,7 @@ function EditarAdmin($id){
 					  				Fax
 					  			</td>
 					  			<td>
-					  				<input type="tel" id="fax" name="fax" title="Fax Del Admin" placeholder="Fax" value="'.$datos[0]['fax'].'" class="validate[custom[phone]]" />
+					  				<input type="tel" id="fax" name="fax" title="Fax Del Admin" placeholder="Fax" value="'.$datos[0]['fax'].'" class="validate[funcCall[phoneOptional]]" />
 					  			</td>
 					  		</tr>
 					  		<tr>
@@ -258,6 +258,21 @@ function ActualizarAdmin($id){
 
 	if(isset($_POST['usuario']) && isset($_POST['nombre']) && isset($_POST['apellidos']) && isset($_POST['email']) && isset($_POST['telefono']) ){
 
+		$titulo = '';
+		if(isset($_POST['titulo'])){
+			$titulo = $_POST['titulo'];
+		}
+
+		$mobile = '';
+		if(isset($_POST['mobile'])){
+			$mobile = $_POST['mobile'];
+		}
+
+		$fax = '';
+		if(isset($_POST['fax'])){
+			$fax = $_POST['fax'];
+		}
+
 		$skype = '';
 		if(isset($_POST['skype'])){
 			$skype = $_POST['skype'];
@@ -275,7 +290,7 @@ function ActualizarAdmin($id){
 			}
 		}
 
-		if( !$admin->UpdateAdmin($id, $_POST['usuario'], $_POST['nombre'], $_POST['apellidos'], $_POST['email'], $_POST['telefono'], $skype, $imagen, $password )){
+		if( !$admin->UpdateAdmin($id, $_POST['usuario'], $_POST['nombre'], $_POST['apellidos'], $titulo, $_POST['email'], $_POST['telefono'], $mobile, $fax, $skype, $imagen, $password )){
 			echo '<br/>Error: No se pudo actualizar el Admin.<br/>ajaxAdmin.php ActualzarAdmin()';
 		}		
 	}else{
@@ -361,7 +376,7 @@ function NuevoAdmin(){
 					  				Mobile
 					  			</td>
 					  			<td>
-					  				<input type="tel" id="mobile" name="mobile" title="Mobile Del Nuevo Admin" placeholder="Mobile" class="validate[optinal, custom[phone]]" />
+					  				<input type="tel" id="mobile" name="mobile" title="Mobile Del Nuevo Admin" placeholder="Mobile" class="validate[funcCall[phoneOptional]]" />
 					  			</td>
 					  		</tr>
 					  		<tr>
@@ -369,7 +384,7 @@ function NuevoAdmin(){
 					  				Fax
 					  			</td>
 					  			<td>
-					  				<input type="tel" id="fax" name="fax" title="Fax Del Nuevo Admin" placeholder="Fax" class="validate[optinal, custom[phone]]" />
+					  				<input type="tel" id="fax" name="fax" title="Fax Del Nuevo Admin" placeholder="Fax" class="validate[funcCall[phoneOptional]]" />
 					  			</td>
 					  		</tr>
 					  		<tr>
