@@ -588,16 +588,14 @@ function NotificarProyectoCliente($proyecto){
 
 	$mail = new Mail();
 	$correo = $cliente->getCorreo($clienteId);
-	
+
 	$correo['asunto'] = "Proyecto: $proyectoNombre";
 	$correo['mensaje'] = "Su proyecto ya se encuentra disponible en la matriz, puede acceder desde este momento en el siguiente enlace:";
 	$correo['link'] = "/index.php?proyecto=$proyecto";
 
-	/*if(!$mail->correo($correo)){
-		//echo "Error: AnviarProyectoCliente() fallo envio de mail.<br/>";
-	}*/
-
-	echo $mail->getCorreo($correo);
+	if(!$mail->correo($correo)){
+		echo "Error: ajaxProyectos.php NotificarProyectoCliente() fallo envio de mail.<br/>";
+	}
 }
 
 
