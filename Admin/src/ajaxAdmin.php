@@ -210,7 +210,7 @@ function EditarAdmin($id){
 					  				Mobile
 					  			</td>
 					  			<td>
-					  				<input type="tel" id="mobile" name="mobile" title="Mobile Del Admin" placeholder="Mobile" value="'.$datos[0]['mobile'].'" class="validate[optional, custom[phone]]" />
+					  				<input type="tel" id="mobile" name="mobile" title="Mobile Del Admin" placeholder="Mobile" value="'.$datos[0]['mobile'].'" class="validate[custom[phone]]" />
 					  			</td>
 					  		</tr>
 					  		<tr>
@@ -218,7 +218,7 @@ function EditarAdmin($id){
 					  				Fax
 					  			</td>
 					  			<td>
-					  				<input type="tel" id="fax" name="fax" title="Fax Del Admin" placeholder="Fax" value="'.$datos[0]['fax'].'" class="validate[optional, custom[phone]]" />
+					  				<input type="tel" id="fax" name="fax" title="Fax Del Admin" placeholder="Fax" value="'.$datos[0]['fax'].'" class="validate[custom[phone]]" />
 					  			</td>
 					  		</tr>
 					  		<tr>

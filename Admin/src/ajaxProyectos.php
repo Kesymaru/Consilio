@@ -612,7 +612,7 @@ function NotificarProyectoCliente($proyecto){
 		if(isset($_SESSION['titulo'])){
 			$correo['tituloRemitente'] = $_SESSION['titulo'];
 		}
-		
+
 		$correo['userId'] = $clienteId;
 
 		if(isset($_SESSION['mobile'])){
@@ -620,6 +620,9 @@ function NotificarProyectoCliente($proyecto){
 		}
 		if(isset($_SESSION['fax'])){
 			$correo['fax'] = $_SESSION['fax'];
+		}
+		if(isset($_SESSION['skype'])){
+			$correo['skype'] = $_SESSION['skype'];
 		}
 
 		$correo['telefono'] = $_SESSION['telefono'];
