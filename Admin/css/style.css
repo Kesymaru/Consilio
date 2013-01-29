@@ -671,6 +671,7 @@ select{
 	min-width: 100px;
 	margin-top: 15px;
 	box-shadow: 0 15px 30px #dedede;
+	display: none;
 }
 
 
