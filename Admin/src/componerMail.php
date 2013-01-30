@@ -136,37 +136,12 @@ function ProyectoMail($id){
 							<td colspan="2" id="table-botonera" class="table-botonera">
 								<button type="button" onClick="parent.$.fancybox.close();">Cancelar</button>
 								<input type="reset" value="Limpiar" >
-								<input type="submit" value="Enviar" >
+								<input type="submit" value="Enviar" onClick="EditorUpdateContent();" >
 							</td>
 						</tr>
 					</table>
 				  </form>
 			<script>
-				/*var alto = $("html").height() * 0.7;
-				
-				$("#FormularioProyectoMail").css(\'height\', alto+"px");
-								
-				$("#destinatario").tagsInput({
-					 "height":"auto",
-   					 "width":"100%",
-   					 "defaultText":"agregar destinatario",
-				});
-
-				 $("#cc, #bcc").tagsInput({
-					 "height":"auto",
-   					 "width":"100%",
-   					 "defaultText":"agregar",
-				});
-				
-				var menos = 0;
-				$(".destinatario").each(function(){
-					menos += $(this).height();
-				});
-				console.log(menos);
-
-				alto = alto - ( menos + $(".table-botonera").height() + 20 );
-				notifica(alto);
-				EditorAlto(\'mail\', alto);*/
 
 				FormularioProyectoMail();
 
