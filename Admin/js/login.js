@@ -68,7 +68,8 @@ function logIn(){
 			success:  function (response) { 
 				
 				if(response.length <= 3){
-					top.location.href = 'index.php';
+					//top.location.href = 'index.php';
+					notifica('loquedap');
 				}else{
 				    notificaError(response);
 				}
