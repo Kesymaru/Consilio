@@ -14,7 +14,7 @@ if(isset($_POST['func'])){
 	
 	switch ($_POST['func']){
 
-		//categorias seleccionables para el proyecto
+		//CATEGORIAS INCLUIDAS DEL PROYECTO
 		case "Categorias":
 			if(isset($_POST['proyecto'])){
 				Categorias($_POST['proyecto']);
@@ -152,6 +152,7 @@ function CategoriasHijas($padre){
 function ComponerProyecto($id){
 	$registros = new Registros();
 	$proyectos = new Proyectos();
+	$cliente = new Cliente();
 
 	$registro = $registros->getRegistros($id);
 	$proyecto = $proyectos->getProyectoDatos($id);
@@ -160,15 +161,21 @@ function ComponerProyecto($id){
 
 		$datos = unserialize( $registro[0]['registro'] );
 
-		//$datos = unserialize( $registro[0]['registro'] );	
-
-		$cliente = ProyectoCliente($proyecto[0]['cliente']);
+		$nombreCliente = $cliente->getClienteDato( "nombre", $proyecto[0]['cliente'] );
 
 		$lista = '<div id="proyectos" class="tipos">
-				<div class="titulo" title="Proyecto: '.$proyecto[0]['nombre'].$cliente.'">
-					Proyecto: '.$proyecto[0]['nombre'].'
-					<img class="boton-buscar icon" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-categorias\', \'buscar-categorias\', \'categorias-incluidas\', true)" src="images/search2.png">
+				<div class="titulo" title="'.$proyecto[0]['nombre'].' De '.$nombreCliente.'">
+					<img class="icon izquierda" title="Excluir Selecciones" src="images/previous.png">
+
+					<img class="boton-buscar icon" title="Buscar Proyectos" onClick="BusquedaFocus(\'busqueda-categorias\', \'buscar-categorias\', \'categoriasIncluidas\', false)" src="images/search2.png">
+
+					'.$proyecto[0]['nombre'].' De '.$nombreCliente.'
+					
 			  	</div>
+
+			  	<div class="subtitulo">
+				  	Categorias Incluidas
+				</div>
 
 			  	<div class="busqueda" id="busqueda-categorias">
 					<div class="buscador">
@@ -176,16 +183,13 @@ function ComponerProyecto($id){
 					</div>
 				</div>';
 
-		$lista .= '<table class="table-list" id="categorias-incluidas">
-				   <tr>
-				      <td>
-				      	Categorias Incluidas
-				      </td>
-				   </tr>';
-
 		$lista .= DatosRegistrados($datos);
 				   
-		$lista .= '</table>';
+		$lista .= '<div class="datos-botones">
+					<button type="button" >Cancelar</button>
+					<button type="button" >Limpiar</button>
+					<input type="submit" value="Terminar" >
+				  </div>';
 
 	}else{
 		$lista = '<div id="proyectos" class="tipos">
@@ -205,20 +209,6 @@ function ComponerProyecto($id){
 }
 
 /**
-* OBTIENE EL NOMBRE DEL CLIENTE
-* @param $id -> id del cliente
-*/
-function ProyectoCliente($id){
-	$registros = new Cliente();
-	//$nombre = $registros->getClienteDato("nombre", $id);
-	if( $nombre = $registros->getClienteDato("nombre", $id) ){
-		return " De: ".$nombre;
-	}else{
-		return '';
-	}
-}
-
-/**
 * COMPONE LAS CATEGORIAS INCLUIDAS REGISTRADAS
 * @param $datos -> array[] con los id de las categorias
 */
@@ -226,19 +216,21 @@ function DatosRegistrados($datos){
 	$lista = "";
 
 	if(is_array($datos) && !empty($datos)){
+		$lista .= '<ul id="categoriasIncluidas" class="listIzquierda">';
+
 		foreach ($datos as $key => $categoria) {
 			if(TieneHijos($categoria)){
 				continue;
 			}else{
 				$nombre = CategoriaNombre($categoria);
 				$camino = Camino($categoria);
-				$lista .= '<tr>
-						<td id="in'.$categoria.'" onClick="SelectCategoriaIncluida('.$categoria.')" title="'.$nombre.' Categoria Incluida">
+				$lista .= '
+						<li id="in'.$categoria.'" onClick="SelectCategoriaIncluida('.$categoria.')" title="'.$nombre.' Categoria Incluida">
 							'.$camino.'
-						</td>
-					</tr>';
+						</li>';
 			}
 		}
+		$lista .= '</ul>';
 
 		return $lista;
 	}else{
@@ -277,12 +269,12 @@ function Camino($categoria){
 	//invierte el array
 	$path = array_reverse($camino);
 
-	$compuesto = '<ul class="camino">';
+	$compuesto = '<span class="path">';
 
 	foreach ($path as $f => $c) {
-		$compuesto .= '<li class="path" >'.$c.' /</li>';
+		$compuesto .= $c.'/ ';
 	}
-	$compuesto .= '<li class="item">'.CategoriaNombre($categoria).'</ul>';
+	$compuesto .= '</span><b>'.CategoriaNombre($categoria).'</b>';
 
 	return $compuesto; //camino
 }

@@ -56,7 +56,8 @@ function ComponerProyecto(id){
 /******************************* CATEGORIAS ****************************/
 
 /**
- * CATEGORIAS DE COMPOSICION, MUESTRA LAS CATEGORIAS SELECCIONABLES
+ * CATEGORIAS INCLUIDAS DEL PROYECTO
+ * @param id -> id del proyecto
  */
 function ComponerCategorias(id){
 
@@ -82,8 +83,6 @@ function ComponerCategorias(id){
 * INCIALIZA EL FORMULARIO DE LAS CATEGORIAS
 */
 function FormularioComponerCategorias(){
-	//validacion
-	//$("#FormularioComponerCategorias").validationEngine();
 	
 	var options = {
 		beforeSubmit: FormularioComponerCategoriasValidar,
@@ -111,10 +110,17 @@ function FormularioComponerCategorias(){
 		}
 	}; 
 	$('#FormularioComponerCategorias').ajaxForm(options);
+	
+	//sortable
+	$( "#categoriasIncluidas" ).sortable({
+	    placeholder: "placeholder-sortable",
+	    tolerance: 'pointer',
+    	revert: true,
+	});
 }
 
 /**
-* VIDA FormularioComponerCategorias\
+* VAIDA EL  FORMULARIOCOMPONERCATEGORIAS
 * @return true si es valido
 * @return false sino, ademas muestra notificacion
 */
@@ -170,6 +176,7 @@ function HijosComponer(padre){
 			$("#categorias-componer").css('width', totalWidth); //aumenta el tamano del contenedor de categorias
 				
 			SeleccionaCategoriaComponer(padre);
+			$("#menu").scrollTo( $("#Padre"+padre) , 700);
 		},
 		fail: function(){
 			notificaError("Error: Componer.js HijosComponer() AJAX fail.");
@@ -210,10 +217,7 @@ function MenuComponerCategoria(id){
             MenuComponer(m, id);
         },
         items: {
-        	//"excluir": {name: "Excluir", icon: "delete"},
         	"incluir": {name: "Incluir Selecciones", icon: "add", accesskey: "i"}
-            //"editar": {name: "Editar", icon: "edit"},
-            //"eliminar": {name: "Eliminar", icon: "delete"},
         }
     });
 }
@@ -242,16 +246,14 @@ function MenuComponer(m, id){
 }
 
 /**
-* MUSTRA PATH DE UNA CATEGORIA SELECCIONADA
+* MUSTRA / OCULTA CAMINO 
 * @param id -> id de la categoria incluida
 */
 function CategoriaPath(id){
-	notifica(id);
+
 	if($("#in"+id+" .path").is(":visible")){
-		//efecto progresivo
 		$("#in"+id+" .path").fadeOut();
 	}else{
-		//efecto progresivo
 		$("#in"+id+" .path").fadeIn();
 	}
 }
@@ -393,7 +395,6 @@ function ExcluirCategorias(){
 	var excluidas = [];
 	
 	$("#categorias-incluidas .seleccionada").each(function(){
-		//notifica(this.id.substring(2) );
 		excluidas.push( this.id.substring(2) );
 	});
 	
@@ -435,7 +436,7 @@ function ExcluirCategorias(){
 * @param id -> id de la categorias
 */
 function PreviewCategoriaNormas(id){
-	var proyecto = $("#proyecto").val();
+	/*var proyecto = $("#proyecto").val();
 	$.fancybox({
 		'href'         : 'src/previewNormas.php?categoria='+id+'&proyecto='+proyecto,
 		'width'        : '50%',
@@ -445,7 +446,177 @@ function PreviewCategoriaNormas(id){
 		'transitionOut': 'elastic',
 		'type'         : 'iframe',
 		'title'        : 'Normas'
-   });
+   });*/
+	var proyecto = $("#proyecto").val();
+	var queryParams = {"func" : "NormasIncluidas", "proyecto" : proyecto, "categoria" : id};
+	
+	$.fancybox({
+	 	'width'         : '70%',
+        padding         : 10,
+        autoSize        : false,
+        fitToView       : false,
+        arrows          : false,
+        href            : "src/preview.php",
+        type            : 'ajax',
+        ajax            : {
+                type    : "POST",
+                cache   : false,
+                data    : queryParams,
+        },
+        scrolling       : 'no',
+		autoScale       : false,
+		transitionIn    : 'fade',
+		transitionOut   : 'elastic',
+		title           : 'Link Proyecto'
+    });
+
+    notificaAtencion("Seleccione las Normas y sus articulos que desea incluir en la categoria.");
+}
+
+function InitNormasIncluidas(){
+	
+	$("#panelNormas ul").sortable({
+		placeholder: "placeholder-sortable",
+	    tolerance: 'pointer',
+    	revert: true,
+	});
+
+}
+
+/**
+* MUESTRA EL PANEL DE NORMAS
+*/
+function VerNormasIncluidas(){
+	if ( !$("#panelNormas").is(":visible") ){
+		$("#panelNormas").css({"display":"inline-block"});
+		$("#panelArticulos").css({"width":"99%"});
+
+	    $("#panelArticulos").animate({
+			width: "0%",
+			float: "left"
+		}, { 
+			duration: 1400, 
+			queue: false,
+			complete: function(){
+				$("#panelArticulos").css({"display":"none"});
+			}
+		});
+
+		$("#panelNormas").animate({
+			width: "100%"
+		}, { 
+			duration: 1500, 
+			queue: false,
+			complete: function(){
+				$("#panelNormas").css({
+					"display":"inline-block",
+					"width" : "100%"
+				});
+			}
+		});
+	}
+}
+
+/**
+* MUESTRA PANEL DE ARTICULOS
+*/
+function VerArticulosIncluidos(){
+	
+	if ( $("#panelNormas").is(":visible") ){
+	    $("#panelArticulos").css({"display":"inline-block"});
+	    $("#panelNormas").css({"width":"99%"});
+
+	    $("#panelNormas").animate({
+			width: "0%",
+			float: "left"
+		}, { 
+			duration: 1400, 
+			queue: false,
+			complete: function(){
+				$("#panelNormas").css({"display":"none"});
+			}
+		});
+
+	    
+		$("#panelArticulos").animate({
+			width: "100%",
+		}, { 
+			duration: 1500, 
+			queue: false,
+			complete: function(){
+				$("#panelArticulos").css({
+					"display":"inline-block",
+					"width" : "100%"
+				});
+			}
+		});
+
+	}else{
+		notifica("ocultando");
+		$("#panelNormas").css({"display":"inline-block"});
+		$("#panelArticulos").css({"width":"99%"});
+
+	    $("#panelArticulos").animate({
+			width: "0%",
+			float: "left"
+		}, { 
+			duration: 1400, 
+			queue: false,
+			complete: function(){
+				$("#panelArticulos").css({"display":"none"});
+			}
+		});
+
+		$("#panelNormas").animate({
+			width: "100%"
+		}, { 
+			duration: 1500, 
+			queue: false,
+			complete: function(){
+				$("#panelNormas").css({
+					"display":"inline-block",
+					"width" : "100%"
+				});
+			}
+		});
+	}
+}
+
+/**
+* MUESTRA PANEL DE DATOS DE UN ARTICULO
+*/
+function VerArticulosDatos(){
+	
+	if ( !$("#panelArticuloDatos").is(":visible") ){
+	    $("#panelArticuloDatos").css({"display":"inline-block"});
+	    $("#panelArticulos").css({"width":"99%","float":"left"});
+
+	    $("#panelArticulos").animate({
+			width: "0%",
+			float: "left"
+		}, { 
+			duration: 1400, 
+			queue: false,
+			complete: function(){
+				$("#panelArticulos").css({"display":"none"});
+			}
+		});
+
+	    
+		$("#panelArticuloDatos").animate({
+			width: "100%",
+		}, { 
+			duration: 1500, 
+			queue: false,
+			complete: function(){
+				$("#panelArticuloDatos").css({
+					"display":"inline-block",
+					"width" : "100%"
+				});
+			}
+		});
+
+	}
 }
 
 /**

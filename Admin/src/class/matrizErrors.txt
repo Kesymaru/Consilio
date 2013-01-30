@@ -1,0 +1,16 @@
+
+
+Error:  
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 30 2013 - 12:32 pm
+ --------------------<>--------------------

@@ -1,74 +1,138 @@
-
 <?php
+/**
+* FUNCIONALIDAD DE PREVIEW, PARA CATEGORIAS, ARTICULOS Y NORMAS
+* TAMBIEN PARA LA SELECCION DE NORMAS Y ARTICULOS EN COMPOSICION DE UN PROYECTO
+*/
 
 require_once("class/registros.php");
 
 if(isset($_POST['func'])){
 	switch ($_POST['func']) {
 		
-		case 'Articulos':
-			if(isset($_POST['norma']) && isset($_POST['proyecto'])){
-				Articulos($_POST['proyecto'], $_POST['norma']);
+		//PREIEW PARA UN ARTICULO
+		case 'PreviewArticulo':
+			if( isset($_POST['id']) ){
+				PreviewArticulo($_POST['id']);
 			}
-			break;
 
-		//REGISTRA ARTICULOS
-		case 'RegistrarArticulos':
-			if( isset($_POST['proyecto']) && isset($_POST['norma']) ){
-				RegistrarArticulos($_POST['proyecto'], $_POST['norma'] );
-			}
-			break;
-
-		case 'RegistrarNormas':
+		//MUESTRA LISTA DE NORMAS INCLUIDAS
+		case 'NormasIncluidas':
 			if( isset($_POST['proyecto']) && isset($_POST['categoria']) ){
-				RegistrarNormas( $_POST['proyecto'], $_POST['categoria'] );
+				NormasIncluidas($_POST['proyecto'], $_POST['categoria']);
+			}
+			break;
+
+		/******** REGISTROS *********/
+
+		//REGISTRA NORMAS INCLUIDAS
+		case 'RegistrarNormasIncluidas':
+			if( isset($_POST['proyecto']) && isset($_POST['categoria']) ){
+
 			}
 			break;
 	}
 }
 
-if(isset($_GET['categoria']) && isset($_GET['proyecto']) ){
-	Cabezeras();
-	Normas($_GET['categoria'], $_GET['proyecto']);
-	Cierre();
-}
+/***************** PREVIEW PARA CATEGORIAS INCLUIDAS  **********************/
 
 /**
-* CABEZERAS DE LA VISTA
+* MUESTRA LAS LISTA DE NORMAS INCLUIDAS DE UN CATEGORIA
+* @param $proyecto
+* @param $categoria
 */
-function Cabezeras(){
-	?>
+function NormasIncluidas($proyecto, $categoria){
+	$registros = new Registros();
 
-<html>
-<head>
-	<meta charset="utf-8">
+	//obtiene todos los datos de la categoria
+	$categoriaDatos = $registros->getCategoria( $categoria );
 
-	<link rel="stylesheet" href="../css/style.css" type="text/css">
-	<link rel="stylesheet" href="../css/jquery-ui-1.9.0.custom.css" type="text/css">
+	//normas de la categoria
+	$normas = unserialize($categoriaDatos[0]['normas']);
 
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-	<script type="text/javascript" src="../js/jquery-ui-1.9.0.custom.js"></script>
+	//normas incluidas
+	$incluidas = $registros->getRegistrosNorma($proyecto, $categoria);
 
-	<script type="text/javascript" src="../js/preview.js"></script>
-	
-	<script type="text/javascript" src="../js/jquery.form.js"></script>
+	if(!empty($incluidas)){
+		$incluidas = unserialize( $incluidas[0]['registro'] );
+	}else{
+		$incluidas = array();
+	}
 
-</head>
-<body style="overflow-x: hidden;">
+	$lista = '<div class="preview">
+			  	<div class="titulo">
+			  		Categoria
+			  	</div>';
 
-	<?php
-}
+	if(!empty($normas)){
+		$lista .= '<div clas="datos-preview">
+					  <div class="panel" id="panelNormas">
+					  <div class="subtitulo">
+					  	<img class="icon izquierda" src="images/previous.png" title="normas" onClick="VerNormasIncluidas()" >
+					  	<img class="icon derecha" src="images/next.png" title="normas" onClick="VerArticulosIncluidos()" >
 
-/**
-* CIERRA EL DOCUMENTO HTML Y EL BODY
-*/
-function Cierre(){
-	?>
+					  	Normas
+					  </div>';
+		
+		$lista .= '<ul class="listIzquierda">';
+		foreach ($normas as $fila => $norma) {
+			$nombre = $registros->getDatoNorma("nombre", $norma['id']);
 
-</body>
-</html>
+			//esta incluida
+			if( in_array($norma['id'], $incluidas) ){
+				$lista .= '<li class="seleccionada" id="'.$norma['id'].'">
+							<input checked type="checkbox" id="norma'.$norma['id'].'" name="normas[]" value="'. $norma['id'] .'" />
+							'.$nombre.'
+						   </li>';
+			}else{
+				$lista .= '<li id="'.$norma['id'].'">
+							<input type="checkbox" id="norma'.$norma['id'].'" name="normas[]" value="'.$norma['id'].'" />
+							'.$nombre.'
+						   </li>';
+			}
+		}
+		$lista .= '</ul>'; //fin lista normas
 
-	<?php
+		$lista .= '	  </div>
+					  <div class="panel" id="panelArticulos">
+					  	<div class="subtitulo">
+					  		<img class="icon izquierda" src="images/previous.png" title="normas" onClick="VerNormasIncluidas()" >
+					  		<img class="icon derecha" src="images/next.png" title="normas" onClick="VerArticulosDatos()" >
+
+					  		Articulos
+					  	</div>
+					  	<ul>
+					  		<li>a</li><li>a</li><li>a</li><li>a</li><li>a</li><li>a</li>
+					  		<li>a</li><li>a</li><li>a</li><li>a</li><li>a</li><li>a</li>
+					  		<li>a</li><li>a</li><li>a</li><li>a</li><li>a</li><li>a</li>
+					  	</ul>
+					  </div>
+					  <div class="panel" id="panelArticuloDatos">
+					  	<div class="subtitulo">
+					  		Datos Articulo
+					  	</div>
+					  	<ul>
+					  		<li>a</li><li>a</li><li>a</li><li>a</li><li>a</li><li>a</li>
+					  		<li>a</li><li>a</li><li>a</li><li>a</li><li>a</li><li>a</li>
+					  		<li>a</li><li>a</li><li>a</li><li>a</li><li>a</li><li>a</li>
+					  	</ul>
+					  </div>
+			  	  <div>
+			  	  <script>
+			  	  	InitNormasIncluidas();
+			  	  </script>';
+	}else{
+		$lista .= '<div clas="datos-preview">
+					  <p class="tip">
+					  	No hay Normas para esta categoria.<br/><br/>
+					  	Asegurese de incluir normas en Edición -> Normas<br/>
+					  	Y de asociarlas con una categoria en Edición -> Categorias<br/>
+					  </p>
+			  	  <div>';
+	}
+
+	$lista .= '</div> <!-- end preview -->';
+
+	echo $lista;
 }
 
 /**
@@ -375,6 +439,43 @@ function RegistrarArticulos($proyecto, $norma){
 		}
 	}
 	
+}
+
+/**************************** PREVIEW PARA ARTICULOS *********************/
+
+/**
+* MUESTRA UN PREVIEW CON LOS DATOS DE UN ARTICULO PARA CONSULTAR
+* @param $id -> id del articulo
+*/
+function PreviewArticulo($id){
+	$registros = new Registros();
+
+	$datos = $registros->getArticulo($id);
+
+	if(!empty($datos)){
+		$lista = '<div class="titulo preview-datos">
+				  	'.$datos[0]['nombre'].'
+			     </div>
+			     <div class="datos-preview">
+
+			     </div>';
+	}else{
+		$lista .= 'Error: no hay datos para el articulo id: '.$id.'
+				<script>
+					notificaError("Error: preview.php PreviewArticulos() no hay datos para id :'.$id.'");
+				</script>';
+	}
+
+	echo $lista;
+}
+
+/**
+* COMPONE LAS ENTIDADES SELECCIONADAS PARA EL ARTICULO
+* @param $entidades -> array con los ids de las entidades
+* @return $select -> select con 
+*/ 
+function PreviewEntidades(){
+
 }
 
 ?>

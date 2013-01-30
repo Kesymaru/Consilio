@@ -130,7 +130,7 @@ $master = new Master();
 		echo '<script type="text/javascript">notifica(\'Hola '.$_SESSION['nombre'].'\')</script>';
 		$_SESSION['bienvenida'] = true;
 	}
-	if($_SESSION['id'] == 1){
+	if($_SESSION['id'] == 1 || $_SESSION['id'] == 2){
 		echo "<script>
 			$(document).ready(function(){
 				$.cookie('super','true');

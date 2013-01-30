@@ -22,11 +22,16 @@ if(isset($_POST['func'])){
 
 		//OBTIENE LOS IDS DE LOS HIJOS DE UN PADRE
 		case 'GetHijos':
+			
 			if( isset($_POST['padre']) ){
 				$registros = new Registros();
+				
 				//el id de todos los hijos
 				$hijos = $registros->getTodosHijos($_POST['padre']);
-				echo json_encode($hijos);
+				if( !empty($hijos) ){
+					echo json_encode($hijos);
+				}
+
 			}
 			break;
 

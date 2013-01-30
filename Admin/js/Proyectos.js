@@ -148,8 +148,8 @@ function ContextMenuProyecto(id){
             "sep1": "---------",
             "componer": {name: "Componer Proyecto", icon: "edit", accesskey: "c"},
             "duplicar": {name: "Duplicar Proyecto", icon: "edit", accesskey: "d"},
-            /*"sep2": "---------",
-            "fold1a": {
+            "sep2": "---------",
+            /*"fold1a": {
                 "name": "Exportar", 
                 "icon": "exportar",
                 accesskey: "x",
@@ -157,7 +157,7 @@ function ContextMenuProyecto(id){
 	                    "exportar-excel": {"name": "Excell" , "icon": "excel"},
 	                    "exportar-pdf": {"name": "PDF", "icon": "pdf"},
 	                }
-            	},
+            	},*/
             "fold2a": {
                 "name": "Enviar", 
                 "icon": "compartir",
@@ -165,9 +165,9 @@ function ContextMenuProyecto(id){
 	                "items": {
 	                    "enviar-cliente": {"name": "A cliente" , "icon": "informe"},
 	                    "enviar-link": {"name": "Por link" , "icon": "email"},
-	                    "enviar-email": {"name": "Por email" , "icon": "email"},
+	                    //"enviar-email": {"name": "Por email" , "icon": "email"},
 	                }
-            	}*/
+            	}
         }
     });
 	
@@ -552,8 +552,7 @@ function AccionNotificarProyectoCliente(proyecto){
 			if(response.length <= 3){
 				notifica("Proyecto Enviado Al cliente");
 			}else{
-				$("html").html(response);
-				//notificaError("Error: Proyectos.js AccionAnviarProyectoCliente.<br/>"+response);
+				notificaError("Error: Proyectos.js AccionAnviarProyectoCliente.<br/>"+response);
 			}
 		},
 		fail: function(response){
@@ -572,8 +571,8 @@ function NotificarProyectoMail(proyecto){
 	var alto = $("html").height() * 0.8;
 	
 	 $.fancybox({
-	 	'width'           : '80%',
-		'height'          : alto,
+	 	'width'         : '80%',
+		'height'        : alto,
         padding         : 10,
         autoSize        : false,
         fitToView       : false,
@@ -585,11 +584,12 @@ function NotificarProyectoMail(proyecto){
                 cache   : false,
                 data    : queryParams,
         },
-        scrolling       : 'no',
+        scrolling       : 'yes',
+        scrollOutside   : true,
 		autoScale       : false,
 		transitionIn    : 'fade',
 		transitionOut   : 'elastic',
-		title           : 'Componer Mail Proyecto'
+
     });
 
 	notificaAtencion("Puede editar libremente el mail para la notificacion del proyecto.");
@@ -623,7 +623,8 @@ function FormularioProyectoMail(){
 
 	alto = alto - ( menos + $(".table-botonera").height() + 20 );
 	notifica(alto);
-	EditorAlto('mail', alto);
+	//EditorAlto('mail', alto);
+	Editor('mail');
 
 	//validacion formulario
 	$("#FormularioProyectoMail").validationEngine();
@@ -656,9 +657,9 @@ function FormularioProyectoMail(){
 function NotificarProyectoLink(proyecto){
 	var queryParams = {"func" : "ProyectoLink", "proyecto" : proyecto};
 
-	 $.fancybox({
-	 	'width'           : '70%',
-	 	'height' : '100',
+	$.fancybox({
+	 	'width'         : '70%',
+	 	'height'        : '100',
         padding         : 10,
         autoSize        : false,
         fitToView       : false,
@@ -681,6 +682,7 @@ function NotificarProyectoLink(proyecto){
 }
 
 /******************** HELPERS ******************/
+
 /**
  * LIMPIA EL CONTENIDO DE UNA VISTA QUE SEA AVANZADA
  */

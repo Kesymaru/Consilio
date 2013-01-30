@@ -172,6 +172,8 @@ function NormasCategoria(id){
 			
 			$( "#seleccionadas, #disponibles" ).sortable({
 		        placeholder: "placeholder-sortable",
+	    		tolerance: 'pointer',
+    			revert: true,
 		        connectWith: ".connectedSortable"
 		    }).disableSelection();
 		},
@@ -324,13 +326,15 @@ function OrdenarCategorias(id){
 		success: function(response){
 			$("#content").html(response);
 			$( "#listaCategorias" ).sortable({
-		      placeholder: "placeholder-sortable"
+		     	placeholder: "placeholder-sortable",
+	    		tolerance: 'pointer',
+    			revert: true,
 		    });
     		//$( "#listaCategorias" ).disableSelection();
     		
 		},
 		fail: function(response){
-			notificaError("Error: AJAX fail,<br/>"+response);
+			notificaError("Error: AJAX fail Edicion.js OrdenarCategorias<br/>"+response);
 		}
 	});
 
@@ -411,21 +415,18 @@ function LimpiarCamino(padre){
 			type: "post",
 			url: "src/ajaxEdicion.php",
 			beforeSend: function(){
-				//$("#menu").html('<img id="image-loader" src="images/ajax-loader.gif" />');
 			},
 			success: function(response){
 				if(response.length > 0){
 					var hijos = $.parseJSON(response); 
-					//alert(response);
+					
 					$.each(hijos, function(f,c){
 						LimpiarCamino(c);
 					});
-				}else{
-					//no hay hijos que borrar
 				}
 			},
-			fail: function(){
-				notificaError("Error: ocurrio un error.<br/>Codigo: ajaxEdicion 001.");
+			fail: function(response){
+				notificaError("Error: AJAX fail Edicion.js LimpiarCamino()<br/>"+response);
 			}
 		});
 	}
@@ -2174,7 +2175,7 @@ function DeleteTipo(tipo){
 			}
 		},
 		fail: function(response){
-			notificaError("Error: AJAX fail.<br/>"+response);
+			notificaError("Error: AJAX fail Edicion.js DeleteTipo()<br/>"+response);
 		}
 	})
 }
