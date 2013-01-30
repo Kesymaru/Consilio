@@ -123,8 +123,9 @@ class Session{
 			}
 			$_SESSION['tipo'] = 'admin';
 			$_SESSION['bienvenida'] = false;
+			$_SESSION['admin'] = true;
 
-			$this->RegistrarVisita($_SESSION['id']);
+			//$this->RegistrarVisita($_SESSION['id']);
 
 			return true;
 		}else{
