@@ -57,7 +57,7 @@ class Session{
 		if(!empty($datos)){
 			foreach ($datos as $fila => $c) {
 				foreach ($datos[$fila] as $campo => $valor) {
-					if($campo != 'password'){
+					if($campo != 'password' && $campo != ''){
 						//carga los datos en sessiones
 						$_SESSION[$campo] = $valor;
 					}
