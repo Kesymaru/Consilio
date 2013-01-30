@@ -17,6 +17,8 @@ if(isset($_SESSION['id'])){
 	echo 'no ha iniciado';
 }
 
+echo $_SESSION['invitado'];
+
 ?>
 <!doctype html public>
 <!--[if lt IE 7]> <html lang="en-us" class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
