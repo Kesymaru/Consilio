@@ -13,7 +13,9 @@ if( isset($_SESSION['logueado']) ){
 
 if(isset($_SESSION['id'])){
 	echo 'inicio';
-}	
+}else{
+	echo 'no ha iniciado';
+}
 
 ?>
 <!doctype html public>

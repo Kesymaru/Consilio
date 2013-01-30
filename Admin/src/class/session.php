@@ -107,13 +107,18 @@ class Session{
 		$datos = $base->Select("SELECT * FROM admin WHERE usuario = '".$usuario."' AND password = '".$password."'");
 
 		if(!empty($datos)){
-			foreach ($datos as $fila => $c) {
+			/*foreach ($datos as $fila => $c) {
 				foreach ($datos[$fila] as $campo => $valor) {
-					if($campo != 'password'){
+					if($campo != 'password' ){
 						if(!empty($valor)){
 							$_SESSION[$campo] = $valor;
 						}
 					}
+				}
+			}*/
+			foreach ($datos[0] as $campo => $dato) {
+				if($dato != '' && $campo != 'password'){
+					$_SESSION[$campo] = $dato;
 				}
 			}
 			$_SESSION['tipo'] = 'admin';
