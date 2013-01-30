@@ -84,7 +84,7 @@ class Session{
 			
 			if($this->AdminIniciarSession($usuario, $password)){
 				$_SESSION['admin'] = true;
-				$this->Logueado();
+				//$this->Logueado();
 			}
 
 		}else{
