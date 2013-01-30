@@ -84,7 +84,8 @@ class Session{
 			
 			if($this->AdminIniciarSession($usuario, $password)){
 				$_SESSION['admin'] = true;
-				//$this->Logueado();
+				echo 'estas logueado';
+				$this->Logueado();
 			}
 
 		}else{
@@ -125,7 +126,7 @@ class Session{
 			$_SESSION['bienvenida'] = false;
 			$_SESSION['admin'] = true;
 
-			//$this->RegistrarVisita($_SESSION['id']);
+			$this->RegistrarVisita($_SESSION['id']);
 
 			return true;
 		}else{
