@@ -58,7 +58,7 @@ function NormasIncluidas($proyecto, $categoria){
 		$incluidas = array();
 	}
 
-	$lista = '<div class="preview">
+	$lista = '<div class="preview" id="NormasIncluidas">
 			  	<div class="titulo">
 			  		Categoria
 			  	</div>';
@@ -66,7 +66,7 @@ function NormasIncluidas($proyecto, $categoria){
 	if(!empty($normas)){
 		$lista .= '<div clas="datos-preview">
 					  <div class="panel" id="panelNormas">
-					  <div class="subtitulo">
+					  <div class="subtitulo" id="panelNormasTitulo">
 					  	<img class="icon izquierda" src="images/previous.png" title="normas" onClick="VerNormasIncluidas()" >
 					  	<img class="icon derecha" src="images/next.png" title="normas" onClick="VerArticulosIncluidos()" >
 
@@ -94,7 +94,7 @@ function NormasIncluidas($proyecto, $categoria){
 
 		$lista .= '	  </div>
 					  <div class="panel" id="panelArticulos">
-					  	<div class="subtitulo">
+					  	<div class="subtitulo" id="panelArticuloTitulo">
 					  		<img class="icon izquierda" src="images/previous.png" title="normas" onClick="VerNormasIncluidas()" >
 					  		<img class="icon derecha" src="images/next.png" title="normas" onClick="VerArticulosDatos()" >
 
@@ -108,6 +108,8 @@ function NormasIncluidas($proyecto, $categoria){
 					  </div>
 					  <div class="panel" id="panelArticuloDatos">
 					  	<div class="subtitulo">
+					  		<img class="icon izquierda" src="images/previous.png" title="normas" onClick="VerArticulosIncluidos()" >
+
 					  		Datos Articulo
 					  	</div>
 					  	<ul>
@@ -130,7 +132,11 @@ function NormasIncluidas($proyecto, $categoria){
 			  	  <div>';
 	}
 
-	$lista .= '</div> <!-- end preview -->';
+	$lista .= '</div> <!-- end preview -->
+			<div class="preview-botones">
+				<button type="button">Limpiar</button>
+				<button>Terminar</button>
+			</div>';
 
 	echo $lista;
 }

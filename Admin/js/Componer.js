@@ -449,9 +449,12 @@ function PreviewCategoriaNormas(id){
    });*/
 	var proyecto = $("#proyecto").val();
 	var queryParams = {"func" : "NormasIncluidas", "proyecto" : proyecto, "categoria" : id};
-	
+	var alto = $("html").height() * 0.6;
+	notifica(alto);
+
 	$.fancybox({
 	 	'width'         : '70%',
+	 	'height'        : alto,
         padding         : 10,
         autoSize        : false,
         fitToView       : false,
@@ -474,11 +477,18 @@ function PreviewCategoriaNormas(id){
 }
 
 function InitNormasIncluidas(){
-	
+	var alto = ( $("html").height() * 0.6) - ( $("#NormasIncluidas .titulo").innerHeight() + $("#NormasIncluidas .preview-botones").innerHeight() + $("#panelNormasTitulo").innerHeight() );
+	console.log(alto);
+
 	$("#panelNormas ul").sortable({
 		placeholder: "placeholder-sortable",
 	    tolerance: 'pointer',
     	revert: true,
+	});
+
+	$("#NormasIncluidas .panel").each(function(){
+		var id = $(this).attr('id');
+		$( "#"+id+" ul").css({"height":alto});
 	});
 
 }
@@ -522,8 +532,8 @@ function VerNormasIncluidas(){
 */
 function VerArticulosIncluidos(){
 	
-	if ( $("#panelNormas").is(":visible") ){
-	    $("#panelArticulos").css({"display":"inline-block"});
+	if ( !$("#panelArticulos").is(":visible") && $("#panelNormas").is(":visible") ){
+	    $("#panelArticulos").css({"display":"inline-block", "float":"right"});
 	    $("#panelNormas").css({"width":"99%"});
 
 	    $("#panelNormas").animate({
@@ -551,34 +561,37 @@ function VerArticulosIncluidos(){
 			}
 		});
 
-	}else{
-		notifica("ocultando");
-		$("#panelNormas").css({"display":"inline-block"});
-		$("#panelArticulos").css({"width":"99%"});
+	}
 
-	    $("#panelArticulos").animate({
+	if ( !$("#panelArticulos").is(":visible") && $("#panelArticuloDatos").is(":visible") ){
+	    $("#panelArticulos").css({"display":"inline-block", "float":"left"});
+	    $("#panelArticuloDatos").css({"width":"99%"});
+
+	    $("#panelArticuloDatos").animate({
 			width: "0%",
 			float: "left"
 		}, { 
 			duration: 1400, 
 			queue: false,
 			complete: function(){
-				$("#panelArticulos").css({"display":"none"});
+				$("#panelArticuloDatos").css({"display":"none"});
 			}
 		});
 
-		$("#panelNormas").animate({
-			width: "100%"
+	    
+		$("#panelArticulos").animate({
+			width: "100%",
 		}, { 
 			duration: 1500, 
 			queue: false,
 			complete: function(){
-				$("#panelNormas").css({
+				$("#panelArticulos").css({
 					"display":"inline-block",
 					"width" : "100%"
 				});
 			}
 		});
+
 	}
 }
 

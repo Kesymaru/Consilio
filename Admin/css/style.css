@@ -1253,8 +1253,21 @@ select{
 	overflow: hidden;
 }
 
+.preview-botones{
+	display: inline-block;
+	width: 100%;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	text-align: center;
+}
+
 .panel{
 	display: inline-block;
+}
+
+.panel ul{
+	min-height: 70px;
+	overflow: auto;
 }
 
 #panelNormas{
