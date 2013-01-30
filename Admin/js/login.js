@@ -68,8 +68,7 @@ function logIn(){
 			success:  function (response) { 
 				
 				if(response.length <= 3){
-					console.log("logueado");
-					//top.location.href = 'index.php';
+					top.location.href = 'index.php';
 				}else{
 				    notificaError(response);
 				}

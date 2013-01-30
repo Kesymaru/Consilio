@@ -16,7 +16,7 @@ class Master{
 	public function __construct(){
 		$session = new Session();
 		//seguridad de que el usuario este logueado
-		$session->Logueado();
+		//$session->Logueado();
 	}
 
 /*** METODOS DE BUSQUEDA ***/
