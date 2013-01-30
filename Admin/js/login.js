@@ -53,7 +53,6 @@ function formRecuperacion(){
 
 //loguear
 function logIn(){
-	console.log('llamada LogIn');
 
 	//si son validos los datos
 	if ( $('#formID').validationEngine('validate') ){
@@ -61,14 +60,16 @@ function logIn(){
 		var password = $('#password').val();
 
 		var queryParams = { "func" : 'LogIn', "usuario" : usuario, "password" : password};
-			$.ajax({
+		
+		$.ajax({
 			data:  queryParams,
 			url:   'src/ajaxUsuarios.php',
 			type:  'post',
 			success:  function (response) { 
 				
 				if(response.length <= 3){
-					top.location.href = 'index.php';
+					console.log("logueado");
+					//top.location.href = 'index.php';
 				}else{
 				    notificaError(response);
 				}

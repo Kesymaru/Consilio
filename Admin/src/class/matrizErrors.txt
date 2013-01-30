@@ -14,3 +14,22 @@ Error:
 	JAVASCRIPT: 1
 	January 30 2013 - 12:32 pm
  --------------------<>--------------------
+
+ 
+
+
+<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Access denied for user 'matrizroot'@'localhost' (using password: YES) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>39</b>
+
+1. No funciona por Access denied for user 'matrizroot'@'localhost' (using password: YES)
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 30 2013 - 5:24 pm
+ --------------------<>--------------------

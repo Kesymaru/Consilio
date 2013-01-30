@@ -40,13 +40,6 @@ switch ($_POST['func']){
 		}
 		break;
 
-	//registr usuario
-	case 'registro':
-		if( isset($_POST['usuario']) && isset($_POST['email']) && isset($_POST['password'])){
-			registro($_POST['usuario'], $_POST['email'], $_POST['password']);
-		}
-		break;
-
 	//ACTUALIZA UN DATO DEL ADMIN
 	case 'ActualizarAdminDato':
 		if(isset($_POST['nuevo']) && isset($_POST['dato'])){

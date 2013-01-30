@@ -71,6 +71,8 @@ class Session{
 
 	/**
 	* SE ENCARGA DE LOGUEAR USUARIO
+	* @param $usuario
+	* @param $password -> sin encriptar
 	*/
 	public function LogIn($usuario, $password){
 		$base = new Database();
