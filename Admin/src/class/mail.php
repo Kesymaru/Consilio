@@ -21,6 +21,7 @@ class Mail {
 			<meta charset="utf-8">
 			<title>Matriz Escala</title>
 		<body class="mail">
+		<div class="mail">
 		<br/>
 		<br/>
 		<br/>';
@@ -32,6 +33,7 @@ class Mail {
 					<br/>
 					Este correo electrónico y/o el material adjunto es para el usu exclusivo de la persona o entidad a la que expresamente se le ha enviado y puede contener información confidencial o material privilegiado. Si usted no es el destinatario legítimo del mismo por favor reportélo inmediatamente al remitente del correo y borrelo. Cualquier revisión queda expresamente prohibido. Este correo electrónico no pretende ni debe ser considerado como constitutivo de ninguna relación legal contractual o de otra índole similar.
 				</div>
+			</div>
 				</body>
 				</html>';
 	}
@@ -43,22 +45,75 @@ class Mail {
 	*/
 	private function header($correo){
 		$header = '';
-		if( array_key_exists('remitente', $correo) ){
-			$header .= "From: " . $correo['remitente'] . "\r\n";
 
-			if( array_key_exists('responder', $correo) ){
-				$header .= "Reply-To: " . $correo['responder'] . "\r\n";
+		//remitente
+		if( array_key_exists('remitente', $correo) ){
+			if( is_array($correo['remitente']) ){
+				
+				$header .= "From: " . $correo['remitente']['nombre'] . "<" .$correo['remitente']['email'].">" . "\r\n";
+				
 			}else{
-				$header .= "Reply-To: " . $correo['remitente'] . "\r\n";
+				$header .= "From: " . $correo['remitente'] . "\r\n";
+			}
+						
+		}else{
+			$header .= "From: " . $this->webmaster . "\r\n";
+		}
+
+		//destinatarios
+		if( array_key_exists('destinatario', $correo)){
+			
+			if( is_array($correo['destinatario'])){
+				
+				$header .= "To: ";
+				foreach ($correo['destinatario'] as $nombre => $email) {
+					$header .= "" . $nombre . "<$email> , ";
+				}
+				$header .= "\r\n";
+
+			}else{
+				$header .= "To: " . $correo['destinatario'] . "\r\n";
 			}
 
 		}else{
-			$header .= "From: " . $this->webmaster . "\r\n";
+			return false;
+		}
+
+		//responder a
+		if( array_key_exists('responder', $correo) ){
+			
+			if(is_array($correo['responder'])){
+				$header .= "Reply-To: " . $correo['responder']['nombre'] . "<" .$correo['responder']['email'].">" . "\r\n";
+			}else{
+				$header .= "Reply-To: " . $correo['responder'] . "\r\n";
+			}
+
+		}else{
 			$header .= "Reply-To: " . $this->webmaster . "\r\n";
 		}
 		
+		//confirmacion
 		if(array_key_exists('confirmacion', $correo)){
 			$header .= "X-Confirm-Reading-To:" . $correo['confirmacion'] . "\r\n";
+		}
+
+		//COPIA
+		if( array_key_exists('cc', $correo)){
+			
+			if(is_array($correo['cc'])){
+
+				foreach ($correo['cc'] as $nombre => $email) {
+					$header .= "Cc: " . $nombre ."<". $email .">". "\r\n";
+				}
+
+			}else{
+				$header .= "Cc: " . $correo['cc'] . "\r\n";
+			}
+		}
+
+		//copia
+		if( array_key_exists('bcc', $correo)){
+			
 		}
 
 		$header .= "X-Mailer: Matricez" . "\r\n";
@@ -89,7 +144,7 @@ class Mail {
 		$footer .= '
 						Consultores Escala<br/>
 						Oficentro Ejecutivo la sabana Torre 7, Piso 2<br/>
-						Sabana Sur, San Jose, Costa Rica
+						Sabana Sur, San José, Costa Rica
 						</td>
 					</tr>';
 					
@@ -97,7 +152,7 @@ class Mail {
 		if(array_key_exists("mobile", $correo)){
 			$footer .= '<tr>
 						<td>
-							Mobile:
+							Mobile
 						</td>
 						<td>
 							'.$correo['mobile'].'
@@ -256,11 +311,16 @@ class Mail {
 			//mensaje armado
 			$mensajeFinal = $this->plantilla . $mensajeFinal . $this->footer($correo);
 
-			if( array_key_exists('email', $correo) ){
+			if( array_key_exists('destinatario', $correo) ){
+
+				$to = '';
+				foreach ($correo['destinatario'] as $nombre => $email) {
+					$to .= $nombre." <".$email.">, ";
+				}
 
 				$mensajeFinal = $this->mailStyle($mensajeFinal);
 
-				if( mail($correo['email'], $correo['asunto'], $mensajeFinal, $this->header($correo)) ){
+				if( mail($to, $correo['asunto'], $mensajeFinal, $this->header($correo)) ){
 					return true;				
 				}else{
 					echo "Error: no se pudo enviar el mail.<br/>A la direccion: ".$correo['email'];
@@ -369,11 +429,16 @@ class Mail {
 			//mensaje armado
 			$mensajeFinal = $this->plantilla . $mensajeFinal . $this->footer($correo);
 
-			if( array_key_exists('email', $correo) ){
+			if( array_key_exists('destinatario', $correo) ){
+
+				$to = '';
+				foreach ($correo['destinatario'] as $nombre => $email) {
+					$to .= $nombre." <".$email.">, ";
+				}
 
 				$mensajeFinal = $this->mailStyle($mensajeFinal);
 
-				return $mensajeFinal;
+				return $mensajeFinal.$this->header($correo);
 
 			}else{
 				echo 'Error: no se especifica un destinatario o este no es valido.<br/>';
@@ -422,7 +487,7 @@ class Mail {
 
 			'class="direccion"' => 'style="padding-right: 20px;"',
 
-			'class="disclaim"' => 'style="width: 90%; display: block; border-top: 1px solid #dedede; text-align: left !important; font-size: 14px; margin-bottom: 10px; padding-left: 10px; padding-right: 10px; background-color: #f4f4f4; padding-top: 5px; margin-left: auto; margin-right: auto;',
+			'class="disclaim"' => 'style="width: 90%; display: block; border-top: 1px solid #dedede; text-align: left !important; font-size: 14px; margin-bottom: 10px; padding-left: 10px; padding-right: 10px; background-color: #f4f4f4; padding-top: 5px; margin-left: auto; margin-right: auto;"',
 
 			'class="bold"' => 'style="font-weight: bold !important;"',
 

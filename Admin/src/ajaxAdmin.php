@@ -292,7 +292,9 @@ function ActualizarAdmin($id){
 
 		if( !$admin->UpdateAdmin($id, $_POST['usuario'], $_POST['nombre'], $_POST['apellidos'], $titulo, $_POST['email'], $_POST['telefono'], $mobile, $fax, $skype, $imagen, $password )){
 			echo '<br/>Error: No se pudo actualizar el Admin.<br/>ajaxAdmin.php ActualzarAdmin()';
-		}		
+		}
+		//actualiza datos de session
+		$admin->updateSession();
 	}else{
 		echo '<br/>Error: datos requeridos no encontrados.<br/>ajaxAdmin.php ActualizarAdmin().';
 	}

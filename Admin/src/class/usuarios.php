@@ -296,7 +296,7 @@ class Cliente{
 			$correp = array();
 
 			$correo['nombre'] = $datos[0]['nombre'];
-			
+
 			//imagen del proyecto, fallback imagen del cliente
 			$imagenSize = getimagesize($_SESSION['home'].'/'.$datos[0]['imagen']);
 			if( is_array($imagenSize) && $datos[0]['imagen'] != "images/es.png" ){
@@ -304,12 +304,12 @@ class Cliente{
 				$correo['imagen'] = $imagen;
 			}
 
-			$correo['email'] = $datos[0]['email'];
+			$correo['destinatario'] = array( $datos[0]['nombre'] => $datos[0]['email'], 'test' => 'test@mail.com' );
 
 			$correo['userId'] = $datos[0]['id'];
 
-			//datos del remitente
-			$correo['remitente'] = $_SESSION['email'];
+			//DATOS DEL REMITENTE
+			$correo['remitente'] = array("nombre" => $_SESSION['nombre'], "email" => $_SESSION['email']);
 			$correo['nombreRemitente'] = $_SESSION['nombre'].' '.$_SESSION['apellidos'];
 
 			if(isset($_SESSION['titulo'])){
@@ -572,7 +572,27 @@ class Admin{
 		}
 	}
 
-	
+	/**
+	* ACTUALIA DATOS DE SESSION
+	*/
+	public function updateSession(){
+		$base = new Database();
+		$id = mysql_real_escape_string($_SESSION['id']);
+
+		$query = "SELECT * FROM admin WHERE id = '".$id."'";
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			foreach ($datos[0] as $key => $value) {
+				if( $value != '' && $key != 'password' ){
+					$_SESSION[$key] = $value;
+				}else if( isset($_SESSION[$key])){
+					unset($_SESSION[$key]);
+				}
+			}
+		}
+	}
 }
 
 ?>

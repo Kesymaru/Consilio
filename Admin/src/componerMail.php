@@ -56,19 +56,43 @@ function ProyectoMail($id){
 	
 	$mailComponer = $mail->getCorreo($correo);
 
-	$componer .= '<form id="FormularioProyectoMail" >
+	$componer .= '<div id="FormularioProyectoMail" >
+					<div class="titulo">
+						Componer Notificacion '.$proyectoNombre.'
+					</div>
 					<table class="tabla-mail">
 						<tr>
-							<td colspan="2" class=titulo"">
-								Notificacion '.$proyectoNombre.'
+							<td class="para">
+								Para
+							</td>
+							<td class="destinatario">
+								<input id="destinatario" name="destinatario" value="';
+
+	if( is_array( $correo['destinatario'] )){
+		foreach ($correo['destinatario'] as $nombre => $email) {
+			$componer .= $nombre." <$email>, ";
+		}
+	}else{
+		$componer .= $correo['destinatario'];
+	}
+		
+	$componer .='" > <!-- end input -->
 							</td>
 						</tr>
 						<tr>
-							<td>
-								Para
+							<td class="para">
+								Cc
 							</td>
-							<td>
-								'.$correo['nombre'].' "' .$correo['email'].'"
+							<td class="destinatario">
+								<input type="text" name="cc" id="cc" >
+							</td>
+						</tr>
+						<tr>
+							<td class="para">
+								Bcc
+							</td>
+							<td class="destinatario">
+								<input type="text" name="bcc" id="bcc" >
 							</td>
 						</tr>
 						<tr>
@@ -77,22 +101,41 @@ function ProyectoMail($id){
 							</td>
 						</tr>
 						<tr>
-							<td colspan="2">
+							<td colspan="2" id="table-botonera" class="table-botonera">
 								<button type="button" onClick="parent.$.fancybox.close();">Cancelar</button>
 								<input type="reset" value="Limpiar" >
 								<input type="submit" value="Enviar" >
 							</td>
 						</tr>
 					</table>
-				  </form>
+				  </div>
 			<script>
-				var alto = $("html").height() * 0.7
-				notifica(alto);
+				var alto = $("html").height() * 0.7;
 				
 				$("#FormularioProyectoMail").css(\'height\', alto+"px");
-				alto = alto * 0.5;
+								
+				$("#destinatario").tagsInput({
+					 "height":"auto",
+   					 "width":"100%",
+   					 "defaultText":"agregar destinatario",
+				});
+
+				 $("#cc, #bcc").tagsInput({
+					 "height":"auto",
+   					 "width":"100%",
+   					 "defaultText":"agregar",
+				});
+				
+				var menos = 0;
+				$(".destinatario").each(function(){
+					menos += $(this).height();
+				});
+				console.log(menos);
+
+				alto = alto - ( menos + $(".table-botonera").height() + 20 );
 				notifica(alto);
 				EditorAlto(\'mail\', alto);
+
 			</script>';
 
 	echo $componer;

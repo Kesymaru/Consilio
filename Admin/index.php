@@ -40,6 +40,7 @@ $master = new Master();
 	<link rel="stylesheet" type="text/css" href="fancybox/jquery.fancybox.css">
 
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800italic,800,600,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="css/jquery.tagsinput.css">
 
 
 	<!-- jquery local para desarrollo -->
@@ -80,7 +81,8 @@ $master = new Master();
 	<script type="text/javascript" src="js/jquery.contextMenu.js"></script>
 	<script type="text/javascript" src="fancybox/jquery.fancybox.js"></script>
 	<script type="text/javascript" src="js/jquery.scrollTo-min.js"></script>
-
+	<script type="text/javascript" src="js/jquery.tagsinput.min.js"></script>
+	 
 	<!-- plugin para selector -->
 	<script type="text/javascript" src="js/selector/jquery.multiselect.js"></script>
 	<script type="text/javascript" src="js/selector/jquery.multiselect.filter.js"></script>

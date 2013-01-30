@@ -1284,12 +1284,31 @@ select{
 	width: 100%;
 	border: 0;
 	border-collapse: collapse;
+	font-size: 16px;
 }
 
 .tabla-mail .para{
-
+	width: 5%;
+	font-weight: bold;
+	text-align: right;
 }
 
+.tabla-mail .destinatario{
+	width: 95%;
+	vertical-align: middle;
+}
+
+.tabla-mail .destinatario input{
+	width: 100%;
+	background-color: transparent;
+	border: 0;
+	font-size: 16px;
+}
+
+.table-botonera{
+	text-align: center;
+	margin-bottom: 10px;
+}
 
 .link-copiar{
 	font-size: 18px;

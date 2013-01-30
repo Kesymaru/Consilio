@@ -552,7 +552,8 @@ function AccionNotificarProyectoCliente(proyecto){
 			if(response.length <= 3){
 				notifica("Proyecto Enviado Al cliente");
 			}else{
-				notificaError("Error: Proyectos.js AccionAnviarProyectoCliente.<br/>"+response);
+				$("html").html(response);
+				//notificaError("Error: Proyectos.js AccionAnviarProyectoCliente.<br/>"+response);
 			}
 		},
 		fail: function(response){
@@ -568,11 +569,10 @@ function AccionNotificarProyectoCliente(proyecto){
 function NotificarProyectoMail(proyecto){
 	
 	var queryParams = {"func" : "ProyectoMail", "proyecto" : proyecto};
-	var alto = $("html").height() * 0.7;
-	notifica(alto);
-
+	var alto = $("html").height() * 0.8;
+	
 	 $.fancybox({
-	 	'width'           : '70%',
+	 	'width'           : '80%',
 		'height'          : alto,
         padding         : 10,
         autoSize        : false,
@@ -591,6 +591,8 @@ function NotificarProyectoMail(proyecto){
 		transitionOut   : 'elastic',
 		title           : 'Componer Mail Proyecto'
     });
+
+	notificaAtencion("Puede editar libremente el mail para la notificacion del proyecto.");
 }
 
 /**

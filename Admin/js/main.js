@@ -530,13 +530,13 @@ function EditorAlto(id, alto){
     }
 
     CKEDITOR.replace(id, {
-        height: alto
+        height: alto,
+        uiColor: '#f4f4f4'
 	});
     CKEDITOR.on("instanceReady", function(event){
 		$(".cke_path").remove();
 	});
 
-	//editor.resize( '100%', alto );
 }
 
 /*
