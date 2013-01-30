@@ -1291,6 +1291,8 @@ select{
 	width: 5%;
 	font-weight: bold;
 	text-align: right;
+	vertical-align: middle;
+	padding-right: 5px;
 }
 
 .tabla-mail .destinatario{

@@ -111,12 +111,20 @@ class Mail {
 			}
 		}
 
-		//copia
+		//BCC
 		if( array_key_exists('bcc', $correo)){
-			
+			if(is_array($correo['bcc'])){
+				
+				foreach ($correo['bcc'] as $nombre => $email) {
+					$header .= "Bcc: " . $nombre ."<". $email .">". "\r\n";
+				}
+
+			}else{
+				$header .= "Bcc: " . $correo['cc'] . "\r\n";
+			}
 		}
 
-		$header .= "X-Mailer: Matricez" . "\r\n";
+		$header .= "X-Mailer: Escal Matriz" . "\r\n";
 		$header .= "Content-Type: text/html; charset=utf-8\r\n";
 
 		return $header;
@@ -438,7 +446,7 @@ class Mail {
 
 				$mensajeFinal = $this->mailStyle($mensajeFinal);
 
-				return $mensajeFinal.$this->header($correo);
+				return $mensajeFinal;
 
 			}else{
 				echo 'Error: no se especifica un destinatario o este no es valido.<br/>';
@@ -498,6 +506,39 @@ class Mail {
 		}
 
 		return $mensaje;
+	}
+
+	/**
+	* ENVIA UN MAIL PERSONALIZADO
+	* @param $destinatario
+	* @param $cc
+	* @param $bcc
+	* @param $mail -> mensaje
+	*/
+	function enviar($remitente, $destinatario, $cc, $bcc, $asunto, $mail){
+		$correo = array();
+		$correo['remitente'] = $remitente;
+		$correo['destinatario'] = $destinatario;
+
+		if($cc != ''){
+			$correo['cc'] = $cc;
+		}
+		if( $bcc != ''){
+			$correo['bcc'] = $bcc;
+		}
+		if( $asunto == ''){
+			$asunto == "Notificacion Escala Consultores";
+		}
+
+		$header = $this->header($correo);
+
+		if( !mail($destinatario, $asunto, $mail, $header) ){
+			echo "Erro: no se pudo enviar el mail.<br/>Detalles:<br/>Para: ".$destinatario;
+			echo "<br/>De: ".$remitente."<br/>Asunto: ".$asunto;
+			return false;
+		}else{
+			return true;
+		}
 	}
 
 

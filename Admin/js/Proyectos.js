@@ -596,6 +596,60 @@ function NotificarProyectoMail(proyecto){
 }
 
 /**
+* INICIALIZA EL FORMULARIO PARA NOTIFICAR PROYECTO MAIL EDITADO
+*/
+function FormularioProyectoMail(){
+	var alto = $("html").height() * 0.7;
+				
+	$("#FormularioProyectoMail").css('height', alto+"px");
+								
+	$("#destinatario").tagsInput({
+		"height":"auto",
+   		"width":"100%",
+   		"defaultText":"agregar destinatario",
+	});
+
+	$("#cc, #bcc").tagsInput({
+		"height":"auto",
+   		"width":"100%",
+   		"defaultText":"agregar",
+	});
+				
+	var menos = 0;
+	$(".destinatario").each(function(){
+		menos += $(this).height();
+	});
+	console.log(menos);
+
+	alto = alto - ( menos + $(".table-botonera").height() + 20 );
+	notifica(alto);
+	EditorAlto('mail', alto);
+
+	//validacion formulario
+	$("#FormularioProyectoMail").validationEngine();
+		
+	var options = {  
+		beforeSend: function(){
+			EditorUpdateContent();
+		},
+	    success: function(response) { 
+
+	    	if(response.length <= 3){
+	    		notifica("Notificacion Enviada");
+	    		$.fancybox.close();
+			}else{
+				notificaError("Error Proyectos.js FormularioProyectoMail()<br/> "+response);
+			}
+		},
+		fail: function(response){
+			notificaError("Error: AJAX fail Proyectos.js FormularioProyectoMail() <br/>"+response);
+		}
+	}; 
+	$('#FormularioProyectoMail').ajaxForm(options);
+
+}
+
+/**
 * OBTIENE EL LINK DEL PROYECTO PARA COPIARLO
 * @param proyecto -> id del proyecto
 **/

@@ -68,6 +68,12 @@ if(isset($_POST['func'])){
 				NotificarProyectoCliente($_POST['proyecto']);
 			}
 			break;
+
+		//NOTIFICACION PROYECTO MAIL PERSONALIZABLE
+		case 'EnviarProyectoMail':
+			if( isset($_POST['proyecto']) && isset($_POST['mail']) && isset($_POST['destinatario'])){
+				EnviarProyectoMail($_['proyecto'], $_POST['destinatario'], $_POST['mail']);
+			}
 	}
 }
 
@@ -598,6 +604,5 @@ function NotificarProyectoCliente($proyecto){
 	}*/
 	echo $mail->getCorreo($correo);
 }
-
 
 ?>

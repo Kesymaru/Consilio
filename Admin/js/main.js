@@ -523,11 +523,11 @@ function EditorAlto(id, alto){
 	//config.height = alto; 
 	
 	var id = document.getElementById(id);
-	var editor = CKEDITOR.instances[id];
+	/*var editor = CKEDITOR.instances[id];
     if (editor) {
     	CKEDITOR.remove(editor);
     	editor.destroy(true);
-    }
+    }*/
 
     CKEDITOR.replace(id, {
         height: alto,

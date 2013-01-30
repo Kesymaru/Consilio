@@ -26,6 +26,27 @@ if( isset($_POST['func']) ){
 			if( isset($_POST['proyecto']) ){
 				ProyectoLink($_POST['proyecto']);
 			}
+
+		// ENVIOS
+		case 'EnviarMail':
+			if( isset($_POST['remitente']) && isset($_POST['destinatario']) &&isset($_POST['asunto']) && isset($_POST['mail']) ){
+				
+				$cc = '';
+				if(isset($_POST['cc'])){
+					$cc = $_POST['cc'];
+				}
+
+				$bcc = "";
+				if(isset($_POST['bcc'])){
+					$bcc = $_POST['bcc'];
+				}
+
+				$mail = new Mail();
+				$mail->enviar($_POST['remitente'], $_POST['destinatario'], $cc, $bcc, $_POST['asunto'], $_POST['mail']);
+
+			}else{
+				echo "Error: componerMail.php EnviarMail no se especifican remitente, destinatario, asunto o mensaje para enviar.<br/>";
+			}
 	}
 	
 }else{
@@ -56,7 +77,10 @@ function ProyectoMail($id){
 	
 	$mailComponer = $mail->getCorreo($correo);
 
-	$componer .= '<div id="FormularioProyectoMail" >
+	$componer .= '<form id="FormularioProyectoMail" enctype="multipart/form-data" method="post" action="src/componerMail.php" >
+					<input type="hidden" name="func" value="EnviarMail" >
+					<input type="hidden" name="proyecto" value="'.$id.'" >
+					<input type="hidden" name="remitente" value="'.$_SESSION['email'].'" >
 					<div class="titulo">
 						Componer Notificacion '.$proyectoNombre.'
 					</div>
@@ -96,6 +120,14 @@ function ProyectoMail($id){
 							</td>
 						</tr>
 						<tr>
+							<td class="para">
+								Asunto
+							</td>
+							<td class="destinatario">
+								<input type="text" name="asunto" id="asunto" value="Proyecto: '.$proyectoNombre.'" >
+							</td>
+						</tr>
+						<tr>
 							<td colspan="2" >
 								<textarea name="mail" id="mail">'.$mailComponer.'</textarea>
 							</td>
@@ -108,9 +140,9 @@ function ProyectoMail($id){
 							</td>
 						</tr>
 					</table>
-				  </div>
+				  </form>
 			<script>
-				var alto = $("html").height() * 0.7;
+				/*var alto = $("html").height() * 0.7;
 				
 				$("#FormularioProyectoMail").css(\'height\', alto+"px");
 								
@@ -134,7 +166,9 @@ function ProyectoMail($id){
 
 				alto = alto - ( menos + $(".table-botonera").height() + 20 );
 				notifica(alto);
-				EditorAlto(\'mail\', alto);
+				EditorAlto(\'mail\', alto);*/
+
+				FormularioProyectoMail();
 
 			</script>';
 
@@ -160,5 +194,6 @@ function ProyectoLink($id){
 
 	echo $link;
 }
+
 
 ?>
