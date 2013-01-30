@@ -17,7 +17,7 @@ if(isset($_SESSION['id'])){
 	echo 'no ha iniciado';
 }
 
-echo $_SESSION['invitado'];
+echo $_SESSION['admin'];
 
 ?>
 <!doctype html public>

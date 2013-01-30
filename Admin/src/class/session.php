@@ -129,6 +129,7 @@ class Session{
 
 			return true;
 		}else{
+			$_SESSION['admin'] = false;
 			return false;
 		}
 
@@ -197,13 +198,14 @@ class SessionInvitado{
 	*/
 	public function __construct(){
 		session_start();
-		$_SESSION['invitado'] = true;
 
 		//si el usuario no ha iniciado session
 		if( isset($_SESSION['admin']) ){
 			//$index = $_SERVER['HTTP_HOST'].'/matrizescala/index.php';
 			header('Location: '.'index.php');
 			exit;
+		}else{
+			$_SESSION['admin'] = false;
 		}
 
 	}
