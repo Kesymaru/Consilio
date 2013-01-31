@@ -66,10 +66,11 @@ function logIn(){
 			url:   'src/ajaxUsuarios.php',
 			type:  'post',
 			success:  function (response) { 
+				notifica(response.length);
 				
 				if(response.length <= 3){
-					//top.location.href = 'index.php';
-					notifica('loquedap');
+					notifica('logueado');
+					top.location.href = 'index.php';
 				}else{
 				    notificaError(response);
 				}

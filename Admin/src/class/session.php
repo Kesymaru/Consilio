@@ -30,15 +30,14 @@ class Session{
 	* return true si lo esta sino redirecciona al login.php
 	*/
 	public function Logueado(){
-		//print_r($_SESSION);
 
 		if( !isset($_SESSION['admin']) ){
 			$login = $_SESSION['home']."/login.php";
 
 			//redirecciona
-			/*echo '<script type="text/javascript">
+			echo '<script type="text/javascript">
 			window.location = "'.$login.'"
-			</script>';*/
+			</script>';
 						
 			//header('Location: '.$login);
 			exit;
@@ -85,7 +84,6 @@ class Session{
 			
 			if($this->AdminIniciarSession($usuario, $password)){
 				$_SESSION['admin'] = true;
-				echo 'estas logueado';
 				$this->Logueado();
 			}
 
@@ -109,7 +107,7 @@ class Session{
 		$datos = $base->Select("SELECT * FROM admin WHERE usuario = '".$usuario."' AND password = '".$password."'");
 
 		if(!empty($datos)){
-			/*foreach ($datos as $fila => $c) {
+			foreach ($datos as $fila => $c) {
 				foreach ($datos[$fila] as $campo => $valor) {
 					if($campo != 'password' ){
 						if(!empty($valor)){
@@ -117,12 +115,12 @@ class Session{
 						}
 					}
 				}
-			}*/
-			foreach ($datos[0] as $campo => $dato) {
+			}
+			/*foreach ($datos[0] as $campo => $dato) {
 				if($dato != '' && $campo != 'password'){
 					$_SESSION[$campo] = $dato;
 				}
-			}
+			}*/
 			$_SESSION['tipo'] = 'admin';
 			$_SESSION['bienvenida'] = false;
 			$_SESSION['admin'] = true;
@@ -202,12 +200,12 @@ class SessionInvitado{
 		session_start();
 
 		//si el usuario no ha iniciado session
-		if( isset($_SESSION['admin']) ){
+		if( isset($_SESSION['invitado']) ){
 			//$index = $_SERVER['HTTP_HOST'].'/matrizescala/index.php';
 			header('Location: '.'index.php');
 			exit;
 		}else{
-			$_SESSION['admin'] = false;
+			$_SESSION['invitado'] = false;
 		}
 
 	}
