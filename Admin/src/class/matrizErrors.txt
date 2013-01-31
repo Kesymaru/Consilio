@@ -52,3 +52,98 @@ Error:
 	JAVASCRIPT: 1
 	January 30 2013 - 5:42 pm
  --------------------<>--------------------
+
+ 
+
+
+<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Can't connect to MySQL server on 'development.77digital.com' (10061) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>39</b>
+
+1. No funciona por Can't connect to MySQL server on 'development.77digital.com' (10061)
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 24.0
+	CSS: 24.0
+	JAVASCRIPT: 1
+	January 30 2013 - 6:17 pm
+ --------------------<>--------------------
+
+ 
+
+
+<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Can't connect to MySQL server on 'development.77digital.com' (10061) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>39</b>
+
+1. No funciona por Can't connect to MySQL server on 'development.77digital.com' (10061)
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 24.0
+	CSS: 24.0
+	JAVASCRIPT: 1
+	January 30 2013 - 6:17 pm
+ --------------------<>--------------------
+
+ 
+
+
+<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Unknown MySQL server host 'http' (11004) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>39</b>
+
+1. No funciona por Unknown MySQL server host 'http' (11004)
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 24.0
+	CSS: 24.0
+	JAVASCRIPT: 1
+	January 30 2013 - 6:18 pm
+ --------------------<>--------------------
+
+ 
+
+
+<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Unknown MySQL server host 'http' (11004) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>39</b>
+
+1. No funciona por Unknown MySQL server host 'http' (11004)
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 24.0
+	CSS: 24.0
+	JAVASCRIPT: 1
+	January 30 2013 - 6:18 pm
+ --------------------<>--------------------
+
+ 
+
+
+<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Unknown MySQL server host 'development.77digital.com/matrizescala/' (11004) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>39</b>
+
+1. No funciona por Unknown MySQL server host 'development.77digital.com/matrizescala/' (11004)
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 24.0
+	CSS: 24.0
+	JAVASCRIPT: 1
+	January 30 2013 - 6:19 pm
+ --------------------<>--------------------

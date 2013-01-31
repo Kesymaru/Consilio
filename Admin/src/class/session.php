@@ -84,7 +84,7 @@ class Session{
 			
 			if($this->AdminIniciarSession($usuario, $password)){
 				$_SESSION['admin'] = true;
-				$this->Logueado();
+				//$this->Logueado();
 			}
 
 		}else{
@@ -122,6 +122,10 @@ class Session{
 					$_SESSION[$campo] = $dato;
 				}
 			}*/
+			$_SESSION['nombre'] = $datos[0]['nombre'];
+			$_SESSION['telefono'] = $datos[0]['telefono'];
+			$_SESSION['id'] = $datos[0]['id'];
+
 			$_SESSION['tipo'] = 'admin';
 			$_SESSION['bienvenida'] = false;
 			$_SESSION['admin'] = true;
@@ -203,7 +207,7 @@ class SessionInvitado{
 		session_start();
 
 		//si el usuario no ha iniciado session
-		if( isset($_SESSION['invitado']) ){
+		if( isset($_SESSION['admin']) ){
 			//$index = $_SERVER['HTTP_HOST'].'/matrizescala/index.php';
 			header('Location: '.'index.php');
 			exit;
