@@ -66,6 +66,8 @@ function logIn(){
 			url:   'src/ajaxUsuarios.php',
 			type:  'post',
 			success:  function (response) { 
+				
+				console.log(response);
 
 				if(response.length <= 3){
 					top.location.href = 'index.php';

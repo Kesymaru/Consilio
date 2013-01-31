@@ -127,7 +127,7 @@ class Session{
 			$_SESSION['bienvenida'] = false;
 			$_SESSION['admin'] = true;
 			
-			unset($_SESSION['invitado']);
+			//session_unset($_SESSION['invitado']);
 
 			$this->RegistrarVisita($_SESSION['id']);
 
@@ -189,7 +189,9 @@ class Session{
 	private function SalidaAdmin($id){
 		$base = new Database();
 		$id = mysql_real_escape_string($id);
-
+rray
+(
+)
 		$query = "UPDATE admin SET activo = 0 WHERE id = '".$id."'";
 		$base->Update($query);
 	}
