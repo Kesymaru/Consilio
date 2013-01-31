@@ -203,7 +203,8 @@ class SessionInvitado{
 	* CONSTRUCTOR HACE TODO EL TRABAJO
 	*/
 	public function __construct(){
-		//ini_set( 'session.save_path' , 'localhost/matrizescala/Admin/sessions');
+		//ini_set( 'session.save_path' , 'C:/wamp/www/matrizescala/Admin/sessions');
+		echo session_save_path();
 		session_start();
 
 		//si el usuario no ha iniciado session
