@@ -41,7 +41,7 @@ class Session{
 			</script>';*/
 						
 			//header('Location: '.$login);
-			exit;
+			//exit;
 		}else{
 			return true;
 		}
