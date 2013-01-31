@@ -34,7 +34,7 @@ switch ($_POST['func']){
 					$_SESSION['bloquedo'] = true;
 				}else{
 					echo '<script>
-							notificaError("El usuario o la contraseña es incorrecta.<br/>Intento: '.$_SESSION['intentos'].'");
+							notificaAtencion("El usuario o la contraseña es incorrecta.<br/>Intento: '.$_SESSION['intentos'].'");
 						   </script>';
 				}
 			}
