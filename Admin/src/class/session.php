@@ -209,7 +209,10 @@ class SessionInvitado{
 		//ini_set( 'session.save_path' , 'C:/wamp/www/matrizescala/Admin/sessions');
 
 		ini_set( 'session.save_path' , '/var/www/matrizescala/Admin/sessions');
-		
+			
+		sesssion_unset();
+		sesssion_destroy();
+
 		$path = session_save_path();
 
 		echo $path;
