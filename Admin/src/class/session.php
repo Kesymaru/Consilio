@@ -221,7 +221,7 @@ class SessionInvitado{
 			header('Location: '.'index.php');
 			exit;
 		}else{
-			$_SESSION['invitado'] = false;
+			//$_SESSION['invitado'] = false;
 		}
 
 	}
