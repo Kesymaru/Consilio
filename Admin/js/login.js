@@ -66,14 +66,12 @@ function logIn(){
 			url:   'src/ajaxUsuarios.php',
 			type:  'post',
 			success:  function (response) { 
-				notifica(response.length);
 
 				if(response.length <= 3){
-					notifica('logueado');
-					//top.location.href = 'index.php';
+					top.location.href = 'index.php';
 				}else{
 				    notificaError(response);
-				    $('html').html(response);
+				    //$('html').html(response);
 				}
 			}
 		});

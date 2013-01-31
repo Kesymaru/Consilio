@@ -147,3 +147,147 @@ Error:
 	JAVASCRIPT: 1
 	January 30 2013 - 6:19 pm
  --------------------<>--------------------
+
+ 
+<pre>Array
+(
+    [home] => http://localhost/matrizescala/Admin
+    [matriz] => http://localhost/matrizescala
+    [bienvenida] => 
+    [invitado] => 
+    [nombre] => Andrey
+    [apellidos] => Alfaro Alvarado
+    [titulo] => Administrador
+    [email] => aalfaro@77digital.com
+    [telefono] => (506) 123-321 ext 23
+    [imagen] => images/admin/133525722277-Digital.png
+    [usuario] => andrey
+    [id] => 1
+    [tipo] => admin
+    [admin] => 1
+)
+</pre>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 31 2013 - 9:27 am
+ --------------------<>--------------------
+
+ 
+<pre>Array
+(
+    [home] => http://localhost/matrizescala/Admin
+    [matriz] => http://localhost/matrizescala
+    [bienvenida] => 
+    [invitado] => 
+    [nombre] => Andrey
+    [apellidos] => Alfaro Alvarado
+    [titulo] => Administrador
+    [email] => aalfaro@77digital.com
+    [telefono] => (506) 123-321 ext 23
+    [imagen] => images/admin/133525722277-Digital.png
+    [usuario] => andrey
+    [id] => 1
+    [tipo] => admin
+    [admin] => 1
+)
+</pre>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 31 2013 - 9:37 am
+ --------------------<>--------------------
+
+ 
+<pre>Array
+(
+    [home] => http://localhost/matrizescala/Admin
+    [matriz] => http://localhost/matrizescala
+    [invitado] => 
+    [nombre] => Andrey
+    [apellidos] => Alfaro Alvarado
+    [titulo] => Administrador
+    [email] => aalfaro@77digital.com
+    [telefono] => (506) 123-321 ext 23
+    [imagen] => images/admin/133525722277-Digital.png
+    [usuario] => andrey
+    [id] => 1
+    [tipo] => admin
+    [bienvenida] => 
+    [admin] => 1
+)
+</pre>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 31 2013 - 9:44 am
+ --------------------<>--------------------
+
+ 
+<pre>Array
+(
+    [invitado] => 
+    [home] => http://localhost/matrizescala/Admin
+    [matriz] => http://localhost/matrizescala
+    [nombre] => Andrey
+    [apellidos] => Alfaro Alvarado
+    [titulo] => Administrador
+    [email] => aalfaro@77digital.com
+    [telefono] => (506) 123-321 ext 23
+    [imagen] => images/admin/133525722277-Digital.png
+    [usuario] => andrey
+    [id] => 1
+    [tipo] => admin
+    [bienvenida] => 
+    [admin] => 1
+)
+</pre>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 31 2013 - 9:53 am
+ --------------------<>--------------------
+
+Error: AJAX error.
+func=LogOut
+src/ajaxUsuarios.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 31 2013 - 9:55 am
+ --------------------<>--------------------

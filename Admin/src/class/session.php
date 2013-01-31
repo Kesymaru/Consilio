@@ -9,6 +9,9 @@ class Session{
 	*/
 	public function __construct(){
 
+		session_set_cookie_params(1200);
+		date_default_timezone_set('America/Costa_Rica');
+
 		//sino se ha iniciado session
 		if( !isset($_SESSION['admin']) ){
 			session_start();
@@ -20,8 +23,6 @@ class Session{
 			$_SESSION['home'] = $protocolo.$dominio.'/matrizescala/Admin';
 			$_SESSION['matriz'] = $protocolo.$dominio.'/matrizescala';
 		}
-
-		date_default_timezone_set('America/Costa_Rica');
 
 	}
 	
@@ -35,13 +36,12 @@ class Session{
 			$login = $_SESSION['home']."/login.php";
 
 			//redirecciona
-			/*echo '<script type="text/javascript">
+			echo '<script type="text/javascript">
 			window.location = "'.$login.'"
-			</script>';*/
+			</script>';
 						
 			//header('Location: '.$login);
-			//exit;
-			echo 'NO esta logueado';
+			exit;
 		}else{
 			return true;
 		}
@@ -106,7 +106,7 @@ class Session{
 		$where = " usuario = '".$usuario."' AND contrasena = '".$password."'";
 		
 		$datos = $base->Select("SELECT * FROM admin WHERE usuario = '".$usuario."' AND password = '".$password."'");
-		
+
 		if(!empty($datos)){
 			/*foreach ($datos as $fila => $c) {
 				foreach ($datos[$fila] as $campo => $valor) {
@@ -129,9 +129,9 @@ class Session{
 
 			$this->RegistrarVisita($_SESSION['id']);
 
-			echo '<pre>';
+			/*echo '<pre>';
 			print_r($_SESSION);
-			echo '</pre>';
+			echo '</pre>';*/
 
 			return true;
 		}else{
@@ -203,6 +203,7 @@ class SessionInvitado{
 	* CONSTRUCTOR HACE TODO EL TRABAJO
 	*/
 	public function __construct(){
+		//ini_set( 'session.save_path' , 'localhost/matrizescala/Admin/sessions');
 		session_start();
 
 		//si el usuario no ha iniciado session
