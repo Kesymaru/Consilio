@@ -106,8 +106,7 @@ class Session{
 		$where = " usuario = '".$usuario."' AND contrasena = '".$password."'";
 		
 		$datos = $base->Select("SELECT * FROM admin WHERE usuario = '".$usuario."' AND password = '".$password."'");
-
-		print_r($datos);
+		
 		if(!empty($datos)){
 			/*foreach ($datos as $fila => $c) {
 				foreach ($datos[$fila] as $campo => $valor) {
@@ -133,7 +132,7 @@ class Session{
 			echo '<pre>';
 			print_r($_SESSION);
 			echo '</pre>';
-			
+
 			return true;
 		}else{
 			$_SESSION['admin'] = false;
