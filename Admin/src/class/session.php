@@ -210,7 +210,7 @@ class SessionInvitado{
 
 		ini_set( 'session.save_path' , '/var/www/matrizescala/Admin/sessions');
 			
-		sesssion_unset();
+		session_unset($_SESSION);
 		sesssion_destroy();
 
 		$path = session_save_path();
