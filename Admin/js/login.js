@@ -73,6 +73,7 @@ function logIn(){
 					//top.location.href = 'index.php';
 				}else{
 				    notificaError(response);
+				    $('html').html(response);
 				}
 			}
 		});

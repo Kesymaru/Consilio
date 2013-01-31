@@ -41,7 +41,7 @@ class Session{
 						
 			//header('Location: '.$login);
 			//exit;
-			echo 'NO';
+			echo 'NO esta logueado';
 		}else{
 			return true;
 		}
