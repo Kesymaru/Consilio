@@ -69,12 +69,12 @@ function logIn(){
 				
 				$('html').append(response);
 
-				if(response.length <= 3){
+				/*if(response.length <= 3){
 					top.location.href = 'index.php';
 				}else{
 				    notificaError(response);
 				    //$('html').html(response);
-				}
+				}*/
 			}
 		});
 	}else{
