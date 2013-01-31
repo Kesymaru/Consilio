@@ -131,9 +131,9 @@ class Session{
 
 			$this->RegistrarVisita($_SESSION['id']);
 
-			echo '<pre>';
+			/*echo '<pre>';
 			print_r($_SESSION);
-			echo '</pre>';
+			echo '</pre>';*/
 
 			return true;
 		}else{
