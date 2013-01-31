@@ -16,6 +16,7 @@ switch ($_POST['func']){
 	case 'LogIn':
 		if(isset($_POST['usuario']) && isset($_POST['password'])){
 			$session = new Session();
+			
 			if( !$session->LogIn($_POST['usuario'], $_POST['password']) ){
 				echo 'El usuario o la contraseña es incorrecta.<br/>';
 			}

@@ -469,3 +469,19 @@ src/ajaxUsuarios.php
 	JAVASCRIPT: 1
 	January 31 2013 - 10:30 am
  --------------------<>--------------------
+
+ 
+El usuario o la contraseña es incorrecta.
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 31 2013 - 11:06 am
+ --------------------<>--------------------
