@@ -7,8 +7,8 @@ class Database{
 	private $dbPassword = "root";
 	private $dbDatabase = "matriz";*/
 	
-	private $dbHost 	= "admin.77digital.com";
-	//private $dbHost 	= "localhost";
+	//private $dbHost 	= "admin.77digital.com";
+	private $dbHost 	= "localhost";
 	private $dbUser 	= "matrizroot";
 	private $dbPassword = "Matriz159!!";
 	private $dbDatabase = "matriz";
