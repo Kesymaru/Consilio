@@ -291,3 +291,181 @@ src/ajaxUsuarios.php
 	JAVASCRIPT: 1
 	January 31 2013 - 9:55 am
  --------------------<>--------------------
+
+ 
+
+
+<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Access denied for user 'matrizroot'@'localhost' (using password: YES) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>40</b>
+
+1. No funciona por Access denied for user 'matrizroot'@'localhost' (using password: YES)
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 31 2013 - 10:24 am
+ --------------------<>--------------------
+
+ 
+<pre>Array
+(
+    [home] => http://localhost/matrizescala/Admin
+    [matriz] => http://localhost/matrizescala
+    [invitado] => 
+    [nombre] => Andrey
+    [apellidos] => Alfaro Alvarado
+    [titulo] => Administrador
+    [email] => aalfaro@77digital.com
+    [telefono] => (506) 123-321 ext 23
+    [imagen] => images/admin/133525722277-Digital.png
+    [usuario] => andrey
+    [id] => 1
+    [tipo] => admin
+    [bienvenida] => 
+    [admin] => 1
+)
+</pre>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 31 2013 - 10:27 am
+ --------------------<>--------------------
+
+ 
+<pre>Array
+(
+    [home] => http://localhost/matrizescala/Admin
+    [matriz] => http://localhost/matrizescala
+    [invitado] => 
+    [nombre] => Andrey
+    [apellidos] => Alfaro Alvarado
+    [titulo] => Administrador
+    [email] => aalfaro@77digital.com
+    [telefono] => (506) 123-321 ext 23
+    [imagen] => images/admin/133525722277-Digital.png
+    [usuario] => andrey
+    [id] => 1
+    [tipo] => admin
+    [bienvenida] => 
+    [admin] => 1
+)
+</pre>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 31 2013 - 10:28 am
+ --------------------<>--------------------
+
+ 
+<pre>Array
+(
+    [home] => http://localhost/matrizescala/Admin
+    [matriz] => http://localhost/matrizescala
+    [invitado] => 
+    [nombre] => Andrey
+    [apellidos] => Alfaro Alvarado
+    [titulo] => Administrador
+    [email] => aalfaro@77digital.com
+    [telefono] => (506) 123-321 ext 23
+    [imagen] => images/admin/133525722277-Digital.png
+    [usuario] => andrey
+    [id] => 1
+    [tipo] => admin
+    [bienvenida] => 
+    [admin] => 1
+)
+</pre>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 31 2013 - 10:28 am
+ --------------------<>--------------------
+
+ 
+<pre>Array
+(
+    [invitado] => 
+    [home] => http://localhost/matrizescala/Admin
+    [matriz] => http://localhost/matrizescala
+    [nombre] => Andrey
+    [apellidos] => Alfaro Alvarado
+    [titulo] => Administrador
+    [email] => aalfaro@77digital.com
+    [telefono] => (506) 123-321 ext 23
+    [imagen] => images/admin/133525722277-Digital.png
+    [usuario] => andrey
+    [id] => 1
+    [tipo] => admin
+    [bienvenida] => 
+    [admin] => 1
+)
+</pre>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 31 2013 - 10:29 am
+ --------------------<>--------------------
+
+ 
+<pre>Array
+(
+    [home] => http://localhost/matrizescala/Admin
+    [matriz] => http://localhost/matrizescala
+    [nombre] => Andrey
+    [apellidos] => Alfaro Alvarado
+    [titulo] => Administrador
+    [email] => aalfaro@77digital.com
+    [telefono] => (506) 123-321 ext 23
+    [imagen] => images/admin/133525722277-Digital.png
+    [usuario] => andrey
+    [id] => 1
+    [tipo] => admin
+    [bienvenida] => 
+    [admin] => 1
+)
+</pre>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 31 2013 - 10:30 am
+ --------------------<>--------------------

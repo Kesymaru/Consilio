@@ -77,6 +77,7 @@ class Session{
 	*/
 	public function LogIn($usuario, $password){
 		$base = new Database();
+		$usuario = mysql_real_escape_string($usuario);
 
 		$password = $base->Encriptar($password);
 
@@ -85,7 +86,7 @@ class Session{
 			
 			if($this->AdminIniciarSession($usuario, $password)){
 				$_SESSION['admin'] = true;
-				//$this->Logueado();
+				$this->Logueado();
 			}
 
 		}else{
@@ -100,11 +101,9 @@ class Session{
 	* @param #password -> password encriptado
 	*/
 	private function AdminIniciarSession($usuario, $password){
-
 		$base = new Database();
 		
-		$where = " usuario = '".$usuario."' AND contrasena = '".$password."'";
-		
+		$usuario = mysql_real_escape_string($usuario);
 		$datos = $base->Select("SELECT * FROM admin WHERE usuario = '".$usuario."' AND password = '".$password."'");
 
 		if(!empty($datos)){
@@ -126,12 +125,14 @@ class Session{
 			$_SESSION['tipo'] = 'admin';
 			$_SESSION['bienvenida'] = false;
 			$_SESSION['admin'] = true;
+			
+			unset($_SESSION['invitado']);
 
 			$this->RegistrarVisita($_SESSION['id']);
 
-			/*echo '<pre>';
+			echo '<pre>';
 			print_r($_SESSION);
-			echo '</pre>';*/
+			echo '</pre>';
 
 			return true;
 		}else{
@@ -203,6 +204,7 @@ class SessionInvitado{
 	* CONSTRUCTOR HACE TODO EL TRABAJO
 	*/
 	public function __construct(){
+		error_reporting(E_ALL);
 		//ini_set( 'session.save_path' , 'C:/wamp/www/matrizescala/Admin/sessions');
 		$path = session_save_path();
 		echo $path;
