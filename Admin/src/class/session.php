@@ -207,7 +207,11 @@ class SessionInvitado{
 	public function __construct(){
 		error_reporting(E_ALL);
 		//ini_set( 'session.save_path' , 'C:/wamp/www/matrizescala/Admin/sessions');
+
+		ini_set( 'session.save_path' , '/var/www/matrizescala/Admin/sessions');
+		
 		$path = session_save_path();
+
 		echo $path;
 		session_start();
 
