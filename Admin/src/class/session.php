@@ -108,7 +108,7 @@ class Session{
 
 		print_r($datos);
 		if(!empty($datos)){
-			/*foreach ($datos as $fila => $c) {
+			foreach ($datos as $fila => $c) {
 				foreach ($datos[$fila] as $campo => $valor) {
 					if($campo != 'password' ){
 						if(!empty($valor)){
@@ -116,12 +116,12 @@ class Session{
 						}
 					}
 				}
-			}*/
-			foreach ($datos[0] as $campo => $dato) {
+			}
+			/*foreach ($datos[0] as $campo => $dato) {
 				if($dato != '' && $campo != 'password'){
 					$_SESSION[$campo] = $dato;
 				}
-			}
+			}*/
 			$_SESSION['tipo'] = 'admin';
 			$_SESSION['bienvenida'] = false;
 			$_SESSION['admin'] = true;
@@ -129,7 +129,7 @@ class Session{
 			$this->RegistrarVisita($_SESSION['id']);
 
 			print_r($_SESSION);
-			
+
 			return true;
 		}else{
 			$_SESSION['admin'] = false;
