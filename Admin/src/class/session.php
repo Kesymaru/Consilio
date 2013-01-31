@@ -109,7 +109,7 @@ class Session{
 
 		print_r($datos);
 		if(!empty($datos)){
-			foreach ($datos as $fila => $c) {
+			/*foreach ($datos as $fila => $c) {
 				foreach ($datos[$fila] as $campo => $valor) {
 					if($campo != 'password' ){
 						if(!empty($valor)){
@@ -117,12 +117,12 @@ class Session{
 						}
 					}
 				}
-			}
-			/*foreach ($datos[0] as $campo => $dato) {
-				if($dato != '' && $campo != 'password'){
+			}*/
+			foreach ($datos[0] as $campo => $dato) {
+				if($dato != '' && $campo != 'password' && $campo != 'log'){
 					$_SESSION[$campo] = $dato;
 				}
-			}*/
+			}
 			$_SESSION['nombre'] = $datos[0]['nombre'];
 			$_SESSION['telefono'] = $datos[0]['telefono'];
 			$_SESSION['id'] = $datos[0]['id'];
