@@ -119,7 +119,7 @@ class Session{
 				}
 			}*/
 			foreach ($datos[0] as $campo => $dato) {
-				if($dato != '' && $campo != 'password' && $campo != 'log'){
+				if($dato != '' && $campo != 'password' && $campo != 'log' && $campo != 'fecha_creacion' && $campo != 'fecha_actualizacion' && $campo != 'activo'){
 					$_SESSION[$campo] = $dato;
 				}
 			}
