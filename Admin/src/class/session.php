@@ -130,8 +130,10 @@ class Session{
 
 			$this->RegistrarVisita($_SESSION['id']);
 
+			echo '<pre>';
 			print_r($_SESSION);
-
+			echo '</pre>';
+			
 			return true;
 		}else{
 			$_SESSION['admin'] = false;
