@@ -3,10 +3,6 @@ require_once("src/class/session.php");
 
 $session = new SessionInvitado();
 
-echo '<pre>';
-print_r($_SESSION);
-echo '</pre>';
-
 /*
 //logueo
 if( isset($_SESSION['logueado']) ){

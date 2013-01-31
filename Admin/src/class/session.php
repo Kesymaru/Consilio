@@ -95,7 +95,7 @@ class Session{
 			}
 
 		}else{
-			echo 'El usuario o la contraseña es incorrecta.<br/>'+$query;
+			return false;
 		}
 
 	}
@@ -213,7 +213,7 @@ class SessionInvitado{
 		//ini_set( 'session.save_path' , 'C:/wamp/www/matrizescala/Admin/sessions');
 
 		ini_set( 'session.save_path' , '/var/data/development.77digital.com/matrizescala/Admin/sessions/');
-		
+
 
 		//echo = session_save_path();
 		

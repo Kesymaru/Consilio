@@ -17,8 +17,26 @@ switch ($_POST['func']){
 		if(isset($_POST['usuario']) && isset($_POST['password'])){
 			$session = new Session();
 			
-			if( !$session->LogIn($_POST['usuario'], $_POST['password']) ){
-				echo 'El usuario o la contraseña es incorrecta.<br/>';
+			if( $session->LogIn($_POST['usuario'], $_POST['password']) ){
+				echo '<script>
+						top.location.href = "index.php";
+					   </script>';
+			}else{
+				if(isset($_SESSION['intentos'])){
+					$_SESSION['intentos']++;
+				}else{
+					$_SESSION['intentos'] = 1;
+				}
+				if( $_SESSION['intentos'] <= 3 ){
+					echo '<script>
+							notificaError("Ha excedido el numero de intentos.");
+						   </script>';
+					$_SESSION['bloquedo'] = true;
+				}else{
+					echo '<script>
+							notificaError("El usuario o la contraseña es incorrecta.<br/>Intento: '.$_SESSION['intentos'].'");
+						   </script>';
+				}
 			}
 		}
 		break;

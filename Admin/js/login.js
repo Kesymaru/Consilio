@@ -67,7 +67,7 @@ function logIn(){
 			type:  'post',
 			success:  function (response) { 
 				
-				console.log(response);
+				$('html').append(response);
 
 				if(response.length <= 3){
 					top.location.href = 'index.php';
