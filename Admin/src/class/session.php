@@ -30,7 +30,7 @@ class Session{
 	* return true si lo esta sino redirecciona al login.php
 	*/
 	public function Logueado(){
-		print_r($_SESSION);
+		//print_r($_SESSION);
 
 		if( !isset($_SESSION['admin']) ){
 			$login = $_SESSION['home']."/login.php";
