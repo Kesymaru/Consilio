@@ -174,5 +174,20 @@ if( isset($_SESSION['logueado']) ){
 	</div>
 </div>
 
+<?php
+
+if( isset($_SESSION['bloqueado'])){
+	$ip= $_SERVER['REMOTE_ADDR']; 
+
+	$_SESSION['bloquedo'] = true;
+
+	echo '<script>
+			Bloqueado("'.$ip.'");
+		  </script>';
+}
+
+?>
+
 </body>
 </html>
+

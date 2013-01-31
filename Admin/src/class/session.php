@@ -8,7 +8,7 @@ class Session{
 	* CONSTRUCTOR
 	*/
 	public function __construct(){
-		ini_set( 'session.save_path' , '/var/data/development.77digital.com/matrizescala/Admin/sessions/');
+		//ini_set( 'session.save_path' , '/var/data/development.77digital.com/matrizescala/Admin/sessions/');
 
 		error_reporting(E_ALL);
 		session_set_cookie_params(1200);
@@ -212,7 +212,7 @@ class SessionInvitado{
 		error_reporting(E_ALL);
 		//ini_set( 'session.save_path' , 'C:/wamp/www/matrizescala/Admin/sessions');
 
-		ini_set( 'session.save_path' , '/var/data/development.77digital.com/matrizescala/Admin/sessions/');
+		//ini_set( 'session.save_path' , '/var/data/development.77digital.com/matrizescala/Admin/sessions/');
 
 
 		//echo = session_save_path();
@@ -232,6 +232,16 @@ class SessionInvitado{
 			exit;
 		}else{
 			//$_SESSION['invitado'] = false;
+		}
+
+		if( isset($_SESSION['bloqueado'])){
+			$ip= $_SERVER['REMOTE_ADDR']; 
+
+			$_SESSION['bloquedo'] = true;
+
+			echo '<script>
+					Bloqueado("'.$ip.'");
+				  </script>';
 		}
 
 	}

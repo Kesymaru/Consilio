@@ -485,3 +485,171 @@ El usuario o la contraseña es incorrecta.
 	JAVASCRIPT: 1
 	January 31 2013 - 11:06 am
  --------------------<>--------------------
+
+Ha excedido el numero de intentos.
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 31 2013 - 2:18 pm
+ --------------------<>--------------------
+
+Ha excedido el numero de intentos.
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 31 2013 - 2:20 pm
+ --------------------<>--------------------
+
+Ha excedido el numero de intentos.
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 31 2013 - 2:21 pm
+ --------------------<>--------------------
+
+Ha excedido el numero de intentos.
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 31 2013 - 2:23 pm
+ --------------------<>--------------------
+
+Has excedido el numero de intentos.
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 31 2013 - 2:33 pm
+ --------------------<>--------------------
+
+Has excedido el numero de intentos.
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 31 2013 - 2:33 pm
+ --------------------<>--------------------
+
+Has excedido el numero de intentos.
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 31 2013 - 2:34 pm
+ --------------------<>--------------------
+
+Has excedido el numero de intentos.
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 31 2013 - 2:34 pm
+ --------------------<>--------------------
+
+Has excedido el numero de intentos.
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 31 2013 - 2:37 pm
+ --------------------<>--------------------
+
+Has excedido el numero de intentos.
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 31 2013 - 2:40 pm
+ --------------------<>--------------------
+
+Has excedido el numero de intentos.
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 31 2013 - 2:41 pm
+ --------------------<>--------------------
+
+Has excedido el numero de intentos.
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 31 2013 - 2:41 pm
+ --------------------<>--------------------

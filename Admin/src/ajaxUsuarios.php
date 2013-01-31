@@ -28,10 +28,15 @@ switch ($_POST['func']){
 					$_SESSION['intentos'] = 1;
 				}
 				if( 3 <= $_SESSION['intentos'] ){
-					echo '<script>
-							notificaError("Ha excedido el numero de intentos.");
-						   </script>';
+
+					$ip= $_SERVER['REMOTE_ADDR']; 
+
 					$_SESSION['bloquedo'] = true;
+
+					echo '<script>
+							notificaError("Has excedido el numero de intentos.");
+							Bloqueado("'.$ip.'");
+						   </script>';
 				}else{
 					echo '<script>
 							notificaAtencion("El usuario o la contraseña es incorrecta.<br/>Intento: '.$_SESSION['intentos'].'");

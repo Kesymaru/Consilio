@@ -138,42 +138,38 @@ function resetar(){
 
 }
 
-/*
-	REGISTRO
+/**
+* BLOQUEA USUARIO
 */
-function registro(){
-	//si los datos son validos
-	if( $('#formID').validationEngine('validate') ){
+function Bloqueado(ip){
+	
+	$("#articulos").animate({
+		opacity: .5,
+	}, { 
+		duration: 500, 
+		queue: false,
+		complete: function(){
 
-		//ya estan validadas
-		var usuario = $('#registroUsuario').val();
-		var email = $('#registroEmail').val();
-		var password = $('#registroPassword1').val();
-		
-		//AJAX
-		var queryParams = { "func" : 'registro', "usuario" : usuario, "email" : email, "password" : password};
-		$.ajax({
-			data:  queryParams,
-			url:   'src/ajax.php',
-			type:  'post',
-			success:  function (response) { 
+			$("#articulos").animate({
+				opacity: 1,
+			}, { 
+				duration: 500, 
+				queue: false
+			});
 
-				if(response.length == 0){
+		}
+	});
+	var bloquedo =  'Has excedido el numero de intentos.<br/>'+
+					'Tu ip : '+ip+' ha sido bloqueda.<br/>'+
+					'Para poder entrar deberas esperar almenos 1 hora.<br/>'+
+					'<br/><hr><br/>'+
+					'Si crees que esto es un error puedes contartar a:<br/>'+
+					'aalfaro@77digital.com'+
+					'<br/><br/>';
 
-				    setTimeout(function() {
-  						window.location.href = "login.php?usuario="+usuario+"&reset=2";
-					}, 4000);
-
-					notificaAtencion('Se ha registrado exitosamente.<br/>Ya pudes entrar a Matricez.');
-				}else{
-				    notificaError(response);
-				}
-				        
-			}
-		});
-	}else{
-		notificaError('Error datos invalidos.')
-	}
+	$('#usuarios .titulo').html("Bloqueado");
+	$("#usuarios .controls").fadeOut(700, function(){$("#usuarios .controls").remove();});
+	$("#login").html(bloquedo);
 }
 
 /*
