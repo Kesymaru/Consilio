@@ -8,7 +8,7 @@ class Session{
 	* CONSTRUCTOR
 	*/
 	public function __construct(){
-		//ini_set( 'session.save_path' , '/var/data/development.77digital.com/matrizescala/Admin/sessions/');
+		ini_set( 'session.save_path' , '/var/data/development.77digital.com/matrizescala/Admin/sessions/');
 
 		error_reporting(E_ALL);
 		session_set_cookie_params(1200);
@@ -212,7 +212,7 @@ class SessionInvitado{
 		error_reporting(E_ALL);
 		//ini_set( 'session.save_path' , 'C:/wamp/www/matrizescala/Admin/sessions');
 
-		//ini_set( 'session.save_path' , '/var/data/development.77digital.com/matrizescala/Admin/sessions/');
+		ini_set( 'session.save_path' , '/var/data/development.77digital.com/matrizescala/Admin/sessions/');
 			
 		//session_unset();
 		//session_destroy();
