@@ -106,6 +106,7 @@ class Session{
 		
 		$datos = $base->Select("SELECT * FROM admin WHERE usuario = '".$usuario."' AND password = '".$password."'");
 
+		print_r($datos);
 		if(!empty($datos)){
 			foreach ($datos as $fila => $c) {
 				foreach ($datos[$fila] as $campo => $valor) {

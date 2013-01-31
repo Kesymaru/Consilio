@@ -67,10 +67,10 @@ function logIn(){
 			type:  'post',
 			success:  function (response) { 
 				notifica(response.length);
-				
+
 				if(response.length <= 3){
 					notifica('logueado');
-					top.location.href = 'index.php';
+					//top.location.href = 'index.php';
 				}else{
 				    notificaError(response);
 				}
