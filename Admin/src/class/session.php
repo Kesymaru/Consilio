@@ -204,7 +204,8 @@ class SessionInvitado{
 	*/
 	public function __construct(){
 		//ini_set( 'session.save_path' , 'C:/wamp/www/matrizescala/Admin/sessions');
-		echo session_save_path();
+		$path = session_save_path();
+		echo $path;
 		session_start();
 
 		//si el usuario no ha iniciado session
