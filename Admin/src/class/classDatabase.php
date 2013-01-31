@@ -157,7 +157,7 @@ class Database{
 
 		$resultado = mysql_query($query) or die ("Error: 05 en Existe. " . mysql_error());
 		
-		if($resultado = mysql_fetch_array($resultado)){
+		if( $resultado = mysql_fetch_array($resultado) ){
 			return true;
 		}else{
 			return false;

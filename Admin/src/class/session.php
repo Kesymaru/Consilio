@@ -80,9 +80,10 @@ class Session{
 		$usuario = mysql_real_escape_string($usuario);
 
 		$password = $base->Encriptar($password);
+		$query = "SELECT * FROM admin WHERE usuario = '".$usuario."' AND password = '".$password."'";
 
 		//existe el usuario
-		if( $base->Existe("SELECT * FROM admin WHERE usuario = '".$usuario."' AND password = '".$password."'") ){
+		if( $base->Existe($query) ){
 			
 			if($this->AdminIniciarSession($usuario, $password)){
 				$_SESSION['admin'] = true;
@@ -90,7 +91,7 @@ class Session{
 			}
 
 		}else{
-			echo 'El usuario o la contraseña es incorrecta';
+			echo 'El usuario o la contraseña es incorrecta.<br/>'+$query;
 		}
 
 	}
