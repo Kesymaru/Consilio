@@ -27,7 +27,7 @@ switch ($_POST['func']){
 				}else{
 					$_SESSION['intentos'] = 1;
 				}
-				if( $_SESSION['intentos'] <= 3 ){
+				if( 3 <= $_SESSION['intentos'] ){
 					echo '<script>
 							notificaError("Ha excedido el numero de intentos.");
 						   </script>';
