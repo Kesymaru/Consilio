@@ -8,6 +8,7 @@ class Session{
 	* CONSTRUCTOR
 	*/
 	public function __construct(){
+		ini_set( 'session.save_path' , '/var/data/development.77digital.com/matrizescala/Admin/sessions/');
 		error_reporting(E_ALL);
 		session_set_cookie_params(1200);
 		date_default_timezone_set('America/Costa_Rica');
