@@ -548,7 +548,7 @@ class Mail {
 	 */
 	function errorMail($error){
 
-		if( !mail($this->webmasterError,  "ERROR", $error, $this->headers) ){
+		if( !mail($this->webmasterError,"ERROR", $error) ){
 			$_SESSION['error'] = "El envio del email de registro ha fallado!<br/>Por favor comuniquese con ".$this->webmasterError;
 		}
 	}

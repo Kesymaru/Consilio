@@ -131,8 +131,6 @@ function SelectProyecto(id){
 */
 function ContextMenuProyecto(id){
 
-	if($.cookie('super') == 'false'){
-
 	$.contextMenu({
         selector: '#'+id, 
         //trigger: 'left',
@@ -165,53 +163,11 @@ function ContextMenuProyecto(id){
 	                "items": {
 	                    "enviar-cliente": {"name": "A cliente" , "icon": "informe"},
 	                    "enviar-link": {"name": "Por link" , "icon": "email"},
-	                    //"enviar-email": {"name": "Por email" , "icon": "email"},
-	                }
-            	}
-        }
-    });
-	
-	}else{
-	
-	$.contextMenu({
-        selector: '#'+id, 
-        //trigger: 'left',
-        callback: function(key, options) {
-            var m = "clicked: " + key;
-            //window.console && console.log(m) || alert(m); 
-            MenuProyecto(m, id);
-        },
-        items: {
-			"nuevo": {name: "Nuevo Proyecto", icon: "add", accesskey: "n"},
-            "editar": {name: "Editar", icon: "edit", accesskey: "e"},
-            "eliminar": {name: "Eliminar", icon: "delete", accesskey: "l"},
-            "sep1": "---------",
-            "componer": {name: "Componer Proyecto", icon: "edit", accesskey: "c"},
-            "duplicar": {name: "Duplicar Proyecto", icon: "edit", accesskey: "d"},
-            "sep2": "---------",
-            "fold1a": {
-                "name": "Exportar", 
-                "icon": "exportar",
-                accesskey: "x",
-	                "items": {
-	                    "exportar-excel": {"name": "Excell" , "icon": "excel"},
-	                    "exportar-pdf": {"name": "PDF", "icon": "pdf"},
-	                }
-            	},
-            "fold2a": {
-                "name": "Enviar", 
-                "icon": "compartir",
-                accesskey: "v",
-	                "items": {
-	                    "enviar-cliente": {"name": "A cliente" , "icon": "informe"},
-	                    "enviar-link": {"name": "Por link" , "icon": "email"},
 	                    "enviar-email": {"name": "Por email" , "icon": "email"},
 	                }
             	}
         }
     });
-    	
-	}
 
 	//doble click para editar el cliente
 	$("#"+id).dblclick(function(){
@@ -589,7 +545,6 @@ function NotificarProyectoMail(proyecto){
 		autoScale       : false,
 		transitionIn    : 'fade',
 		transitionOut   : 'elastic',
-
     });
 
 	notificaAtencion("Puede editar libremente el mail para la notificacion del proyecto.");
@@ -614,18 +569,25 @@ function FormularioProyectoMail(){
    		"width":"100%",
    		"defaultText":"agregar",
 	});
-				
-	var menos = 0;
-	$(".destinatario").each(function(){
-		menos += $(this).height();
-	});
-	console.log(menos);
 
-	alto = alto - ( menos + $(".table-botonera").height() + 20 );
-	notifica(alto);
-	//EditorAlto('mail', alto);
-	Editor('mail');
+	alto = alto - ( $("#FormularioProyectoMail .tabla-mail").innerHeight() 
+					+ $(".table-botonera").innerHeight() 
+					+ $("#FormularioProyectoMail .titulo").innerHeight() 
+					+ 15 );
+	
+	if( alto > 200 ){
+		EditorCustom('mail', alto, false);
+		
+		CKEDITOR.on("instanceReady", function(event){
+		     $("#FormularioProyectoMail").parent().css({"overflow":"hidden"});
+		});
 
+	}else{
+		EditorCustom('mail',0,false);
+	}
+
+	console.log(alto);
+	
 	//validacion formulario
 	$("#FormularioProyectoMail").validationEngine();
 		
@@ -647,7 +609,6 @@ function FormularioProyectoMail(){
 		}
 	}; 
 	$('#FormularioProyectoMail').ajaxForm(options);
-
 }
 
 /**

@@ -515,20 +515,27 @@ function Editor(id){
 	});
 }
 
-function EditorAlto(id, alto){
+/**
+* PERSONALIZAR EL EDITOR
+* @param id -> id 
+* @param alto -> tamano, 0 para default
+* @param resize -> true/false
+*/
+function EditorCustom(id, alto, resize){
 	//config.height = alto; 
 	
 	var id = document.getElementById(id);
-	/*var editor = CKEDITOR.instances[id];
-    if (editor) {
-    	CKEDITOR.remove(editor);
-    	editor.destroy(true);
-    }*/
+
+	if(alto == 0){
+		alto == 200;
+	}
 
     CKEDITOR.replace(id, {
         height: alto,
-        uiColor: '#f4f4f4'
+        uiColor: '#f4f4f4',
+        resize_enabled: resize
 	});
+
     CKEDITOR.on("instanceReady", function(event){
 		$(".cke_path").remove();
 	});

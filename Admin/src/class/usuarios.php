@@ -304,7 +304,7 @@ class Cliente{
 				$correo['imagen'] = $imagen;
 			}
 
-			$correo['destinatario'] = array( $datos[0]['nombre'] => $datos[0]['email'], 'test' => 'test@mail.com' );
+			$correo['destinatario'] = array( $datos[0]['nombre'] => $datos[0]['email'] );
 
 			$correo['userId'] = $datos[0]['id'];
 

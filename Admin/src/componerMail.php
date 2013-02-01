@@ -84,6 +84,7 @@ function ProyectoMail($id){
 					<div class="titulo">
 						Componer Notificacion '.$proyectoNombre.'
 					</div>
+					
 					<table class="tabla-mail">
 						<tr>
 							<td class="para">
@@ -127,19 +128,15 @@ function ProyectoMail($id){
 								<input type="text" name="asunto" id="asunto" value="Proyecto: '.$proyectoNombre.'" >
 							</td>
 						</tr>
-						<tr>
-							<td colspan="2" >
-								<textarea name="mail" id="mail">'.$mailComponer.'</textarea>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2" id="table-botonera" class="table-botonera">
-								<button type="button" onClick="parent.$.fancybox.close();">Cancelar</button>
-								<input type="reset" value="Limpiar" >
-								<input type="submit" value="Enviar" onClick="EditorUpdateContent();" >
-							</td>
-						</tr>
 					</table>
+					<div id="mail">
+							'.$mailComponer.'
+					</div>
+					<div class="table-botonera">
+						<button type="button" onClick="parent.$.fancybox.close();">Cancelar</button>
+						<input type="reset" value="Limpiar" >
+						<input type="submit" value="Enviar" onClick="EditorUpdateContent();" >
+					</div>
 				  </form>
 			<script>
 
