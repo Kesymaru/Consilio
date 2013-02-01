@@ -650,3 +650,16 @@ function BusquedaLive(input, target){
 	});
 
 }
+
+
+/**
+* ROTACION CREOSSBROWSER
+*/
+function Rotar(id, angulo){
+	setInterval(
+	    function () {
+	        $('#'+id).animate({rotate: '+='+angulo+'deg'}, 0);
+	    },
+	    200
+	);
+}

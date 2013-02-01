@@ -274,7 +274,7 @@ function DatosArticulo($proyecto, $categoria, $id){
 				<div class="titulo">
 					<!--<button class="izquierda" type="button"  onClick="Menu2()" >Panel</button>-->
 
-					<img class="icon izquierda" onClick="Menu2()" src="images/next.png" />
+					<img id="solapa" class="icon izquierda" onClick="Menu2()" src="images/next.png" />
 					'.$datos[0]['nombre'].'
 			  	</div>
 			  	<div class="datos">';
@@ -294,7 +294,7 @@ function DatosArticulo($proyecto, $categoria, $id){
 			
 			foreach ($articulo as $dato => $valor) {
 				
-				if($dato == 'id' || $dato == "fecha" || $dato == "borrado" || $dato == "norma" || $dato == "nombre"){
+				if($dato == 'id' || $dato == "fecha_creacion" || $dato == "fecha_actualizacion"  || $dato == "borrado" || $dato == "norma" || $dato == "nombre"){
 					continue;
 				}
 

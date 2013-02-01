@@ -671,79 +671,82 @@ select{
 	width: 100%;
 }
 
-/* search */
+/**
+* GLOBAL SEARCH CLIENTE
+*/
+
 #search {
-	width: 250px;
-	margin-left: 10px;
+	width: auto;
+	max-width: 200px;
+	
 	background-color: #a1ca4a;
 	border: 0;
 	display: inline-block;
 	text-align: left;
-	padding: 10px;
 	border-radius: 5px;
 	vertical-align: middle;
-	font-size: 20px;
+	font-size: 18px;
+	padding: 8px;
+}
+
+#searchbar{
+	width: 300px !important;
 	
-	-moz-user-select: auto !important;  
-	-webkit-user-select: auto !important;  
-	-ms-user-select: auto !important;  
-	-o-user-select: auto !important;  
-	user-select: auto !important;
-}
-
-#search input{
+	background-color: #a1ca4a;
+	border: 0;
 	display: inline-block;
-	-moz-user-select: auto !important;  
-	-webkit-user-select: auto !important;  
-	-ms-user-select: auto !important;  
-	-o-user-select: auto !important;  
-	user-select: auto !important;
+	text-align: left;
+	vertical-align: middle;
+	padding: 10px;
+	z-index: 999;
+	border-radius: 5px;
+	margin-right: -10px;
+	margin-left: -300px;
 }
 
-#search input[type="text"]{
-	width: 200px;
-	border: 0 solid transparent !important;
-	padding: 0 !important;
-	margin-right: 0 !important;
-	color: #fff !important;
-	background-color: #a0ca49 !important;
-	font-size: 20px;
-
-		-o-box-shadow: none; /* Opera */
-		-ms-box-shadow: none; /* IE 9 */
-		-moz-box-shadow: none; /* Firefox */
-		-webkit-box-shadow: none; /* Safari and Chrome */
-	box-shadow: none;
-	text-align: left !important;
-}
-
-.search input{
-	margin:  0 !important;
-}
-
-#search ::-webkit-input-placeholder{
-   	color: #fff !important;  
-   	border: 0 !important;
-		-webkit-box-shadow: none; 
-	box-shadow: none;
-}
-
-#search input:-moz-placeholder,{  
-   	color: #fff !important;  
-   	border: 0 !important;
-		-moz-box-shadow: none;
-	box-shadow: none;
-}
-
-#search input[type="submit"],
-#search input[type="submit"]:active{
-	width: 40px;
-	height: 20px;
-	border: 0 solid transparent !important;
-	border-left: 1px solid #fff !important;
-	color: transparent !important; 
-	background: url(../images/search.png) 10px 0 no-repeat;;
+#searchbar input{
+	margin: 0;
 	padding: 0;
+	padding-right: 10px;
+	background-color: #a1ca4a;
+	width: 100%;
+	font-size: 20px;
+	color: #fff;
+	border: 0;
+
+		-o-appearance: none;
+		-ms-appearance: none;
+		-moz-appearance: none;
+		-webkit-appearance: none;
+	appearance: none;
+}
+
+#searchbar input:focus,
+#searchbar input:active,
+#searchbar input:hover{
+	background-color: #a1ca4a;
+	color: #fff;
+	border: 0;
+	outline: none;
+
+		-o-appearance: none;
+		-ms-appearance: none;
+		-moz-appearance: none;
+		-webkit-appearance: none;
+	appearance: none;
+}
+
+#search #buscar{
+	display: none;
+	max-width: 150px;
+}
+
+#search .icon{
+	display: inline-block;
+	float: right;
+	padding: 0;
+	margin: 0 !important;
+	height: 28px;
 }
 
 /* 

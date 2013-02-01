@@ -35,8 +35,6 @@ $master = new Master();
 	<link rel="stylesheet" type="text/css" href="css/jquery.contextMenu.css">
 	<link rel="stylesheet" type="text/css" href="css/jquery.ui.timepicker.css">
 	<link rel="stylesheet" type="text/css" href="css/chosen.css">
-	<link rel="stylesheet" type="text/css" href="css/selector/jquery.multiselect.css">
-	<link rel="stylesheet" type="text/css" href="css/selector/jquery.multiselect.filter.css">
 	<link rel="stylesheet" type="text/css" href="fancybox/jquery.fancybox.css">
 
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800italic,800,600,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
@@ -130,13 +128,6 @@ $master = new Master();
 		echo '<script type="text/javascript">notifica(\'Hola '.$_SESSION['nombre'].'\')</script>';
 		$_SESSION['bienvenida'] = true;
 	}
-	if($_SESSION['id'] == 1 || $_SESSION['id'] == 2){
-		echo "<script>
-			$(document).ready(function(){
-				$.cookie('super','true');
-			});
-			</script>";
-	}
 ?>
 
 	<!-- header -->
@@ -195,6 +186,7 @@ $master = new Master();
 				<img class="icon" src="images/search2.png" onClick="BuscarGlobal()" />
 			</div>
 			<!-- end para search -->
+			
 		</div>
 
 	</div> <!-- end header -->

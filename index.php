@@ -33,10 +33,7 @@ $master = new Master();
 	<link rel="stylesheet" type="text/css" href="css/jquery.contextMenu.css">
 	<link rel="stylesheet" type="text/css" href="css/jquery.ui.timepicker.css">
 	<link rel="stylesheet" type="text/css" href="css/chosen.css">
-	<link rel="stylesheet" type="text/css" href="css/selector/jquery.multiselect.css">
-	<link rel="stylesheet" type="text/css" href="css/selector/jquery.multiselect.filter.css">
 	<link rel="stylesheet" type="text/css" href="fancybox/jquery.fancybox.css">
-	<link rel="stylesheet" type="text/css" href="css/jquery.gridster.css">
 
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800italic,800,600,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
 
@@ -74,12 +71,6 @@ $master = new Master();
 	<script type="text/javascript" src="js/jquery.cookie.js"></script>
 	<script type="text/javascript" src="js/jquery.contextMenu.js"></script>
 	<script type="text/javascript" src="fancybox/jquery.fancybox.js"></script>
-	<script type="text/javascript" src="js/jquery.masonry.min.js"></script>
-	<script type="text/javascript" src="js/jquery.gridster.js"></script>
-
-	<!-- plugin para selector -->
-	<script type="text/javascript" src="js/selector/jquery.multiselect.js"></script>
-	<script type="text/javascript" src="js/selector/jquery.multiselect.filter.js"></script>
 
 <!--	<script type="text/javascript" src="js/jquery.ui.timepicker.js"></script> -->
 	
@@ -162,14 +153,15 @@ $master = new Master();
 				</div>
 			</div>
 
+			<div id="searchbar">
+				<input type="search" placeholder="Buscar..." id="buscar" />
+			</div>
 			<!-- end opciones de menu -->
-			<div id="search">
-				<form id="searchForm" method="get" action="index.php">
-					<input type="text" class="validate[required]" data-prompt-position="bottomRight" placeholder="hacer busqueda" name="buscar">
-					<input type="submit">
-				</form>
+			<div id="search" title="Buscar">
+				<img class="icon" src="images/search2.png" onClick="BuscarGlobal()" />
 			</div>
 			<!-- end para search -->
+
 		</div>
 		
 	</div> <!-- end header -->
@@ -222,36 +214,23 @@ $master = new Master();
 		</div>
 		<!-- end menu 2 -->
 
+		<!-- contenido -->
 		<div id="content">
 			
-				<?php
-				if(isset($_GET['buscar'])){
-				?>
-					<!-- BUSQUEDA -->
-					<div id="resultadoBusqueda">
-						<script language=javascript>
-							$.cookie('vista','buscar');
-						</script>
-
-						<?php
-							$master->Buscar($_GET['buscar']);
-						?>
-
-						<button onClick="Home()" id="LimpiarBusqueda">Limpiar</button>
-						
-						<script type="text/javascript">
-							Boton('LimpiarBusqueda');
-						</script>
-					</div>
-				<?php
-				}else if(!isset($_GET['proyecto'])){
+			<?php
+			if(!isset($_GET['proyecto'])){
 					//MUESTRA LOS PROYECTOS DEL CLIENTE
 					$master->Proyectos();
-				?>
-				<?php 
-				}
-
-				?>
+			?>
+			<?php 
+			}else{
+			?>
+				<script>
+					Proyecto(<?php echo $_GET['proyecto'];?>);
+				</script>
+				<?php
+			}
+			?>
 
 		</div><!-- end content -->
 	</div><!-- end main -->
