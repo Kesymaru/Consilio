@@ -1,6 +1,17 @@
 <?php
 
-ini_set( 'session.save_path' , '/var/data/development.77digital.com/matrizescala/Admin/sessions/');
-phpinfo();
+/**
+* REDIRECCIONA A INDEX.PHP O A LOGIN SI NO ESTA LOGUEADO
+*/
+
+require_once("../src/class/session.php");
+
+$session = new Session();
+
+if($session->Logueado()){
+	header('Location: ../index.php');
+}else{
+	header('Location: ../login.php');
+}
 
 ?>

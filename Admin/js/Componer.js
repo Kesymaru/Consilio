@@ -552,6 +552,7 @@ function RegistrarNormasIncluidas(){
 		if( $(this).hasClass("seleccionada") ){
 			normas.push( $(this).attr('id') );
 		}
+		cuenta++;
 	});
 	if(cuenta == 0){
 		normas = '';
@@ -625,6 +626,15 @@ function ArticulosIncluidos(norma){
 						}
 					}
 
+					$(this).dblclick(function(){
+			
+						if( $.cookie("cargando") == 'false'){
+							$.cookie("cargando", true);
+							PreviewArticuloDatos( $(this).attr('id') );
+						}
+
+					});
+
 					//registra selecciones
 					RegistrarArticulosIncluidos();
 
@@ -643,11 +653,16 @@ function ArticulosIncluidos(norma){
 function RegistrarArticulosIncluidos(){
 	//articulos incluidos, con orden
 	var articulos = [];
+	var cuenta = 0;
 	$("#panelArticulos ul li").each(function(){
 		if( $(this).hasClass("seleccionada") ){
 			articulos.push( $(this).attr('id') );			
 		}
+		cuenta++;
 	});
+	if(cuenta == 0){
+		articulos = '';
+	}
 
 	notifica(articulos);
 
@@ -671,6 +686,33 @@ function RegistrarArticulosIncluidos(){
 			notificaError("Error: AJAX fail Componer.js RegistrarArticulosIncluidos().<br/>"+response);
 		}
 	});
+}
+
+/**
+* PREVIEW PARA DATOS DE UN ARTICULOS
+* @param articulo -> id articulo
+*/
+function PreviewArticuloDatos(articulo){
+	VerArticulosDatos();
+
+	notifica('preview articulo '+articulo );
+
+	var queryParams = {"func" : "PreviewArticulo", "id" : articulo};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/preview.php",
+		success: function(response){
+			$("#panelArticuloDatos ul").html(response);
+		},
+		fail: function(response){
+			notificaError("Error: Componer.js PreviewArticuloDatos().<br/>"+response);
+		}
+	}).done(function(){
+		$.cookie("cargando", false);
+	});
+
 }
 
 /**
