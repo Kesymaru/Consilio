@@ -203,14 +203,27 @@ class Mail {
 		}
 
 		if(array_key_exists("remitente", $correo)){
-			$footer .= '<tr>
-							<td>
-								Email
-							</td>
-							<td>
-								'.$correo['remitente'].'
-							</td>
-						</tr>';
+			if( is_array($correo['remitente']) ){
+
+				$footer .= '<tr>
+								<td>
+									Email
+								</td>
+								<td>
+									'.$correo['remitente']['email'].'
+								</td>
+							</tr>';
+			}else{
+
+				$footer .= '<tr>
+								<td>
+									Email
+								</td>
+								<td>
+									'.$correo['remitente'].'
+								</td>
+							</tr>';
+			}
 		}
 							
 		$footer .=   '<tr>
