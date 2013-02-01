@@ -263,7 +263,144 @@ function RegistrarArticulosIncluidos($proyecto, $norma, $articulos){
 function PreviewArticulo($id){
 	$registros = new Registros();
 
-	echo 'preview datos del articulo '.$id;
+	$datos = $registros->getArticulo($id);
+	
+	$preview = '';
+
+	if(!empty($datos)){
+		$entidades = unserialize( $datos[0]['entidad'] );
+
+		$articulo = base64_decode( $datos[0]['articulo'] );
+		$resumen = base64_decode( $datos[0]['resumen'] );
+		$permisos = base64_decode( $datos[0]['permisos'] );
+		$sanciones = base64_decode( $datos[0]['sanciones'] );
+
+		$archivos = $registros->getArchivosArticulo($datos[0]['id']);
+
+		$preview .= '<table>
+						<tr>
+							<td>
+								Nombre
+							</td>
+							<td>
+								'.$datos[0]['nombre'].'
+							</td>
+						</tr>
+						<tr>
+							<td>
+								Entidades
+							</td>
+							<td>';
+
+		$preview .= Entidades( $entidades );
+
+		$preview .= '		</td>
+						</tr>
+					</table>
+					
+					<!-- tabs para los datos -->
+					<div id="tabs">
+						<ul>
+							<li>
+								<a href="#tabs-1" title="Articulos Del Articulo">
+								Articulos
+								</a>
+							</li>
+							<li>
+								<a href="#tabs-2" title="Resumen Del Articulo">
+								Resumen
+								</a>
+							</li>
+							<li>
+								<a href="#tabs-3" title="Sanciones Del Articulo">
+								Sanciones
+								</a>
+							</li>
+							<li>
+								<a href="#tabs-4" title="Permiso o Documentación Asociada Del Articulo">
+								Permiso o Documentación
+								</a>
+							</li>
+						</ul>
+
+						<div id="tabs-1">
+							<div class="texto">
+							'.$articulo.'
+							</div>
+						</div>
+						<div id="tabs-2">
+							<div class="texto">
+							'.$resumen.'
+							</div>
+						</div>
+						<div id="tabs-3">
+							<div class="texto">
+							'.$sanciones.'
+							</div>
+						</div>
+						 <div id="tabs-4">
+							<div class="texto">
+							'.$permisos.'
+							</div>
+						</div>
+
+					</div>
+					<!-- end tabs -->';
+		
+		if(!empty($archivos)){
+			
+			$preview .= '<div class="adjuntos">
+							<ul>';
+			foreach ($archivos as $fi => $archivo) {
+				
+				$preview .= '<li id="adjuntado'.$archivo['id'].'">
+								<a href="src/download.php?link='.$archivo['link'].'">
+									'.$archivo['nombre'].'
+									<img src="images/folder.png">
+								</a>
+								</li>';
+			}
+			
+			$preview .= '</ul>
+					</div><!-- end archivos -->';
+		}
+
+	}else{
+		$preview .= 'No hay datos
+			<script>
+			notificaError("Error: preview.php PreviewArticulo() id: '.$id.'<br/>No se encontraron datos del articulo seleccionado.<br/>Intente de nuevo.")
+			</script>';
+	}
+
+	echo $preview;
+}
+
+/**
+* COMPONE LAS ENTIDADES DE UN ARTICULO
+* @param $entidades -> array[]
+* @return $lista -> lista compuesta
+*/
+function Entidades($entidades){
+	$registros = new Registros();
+
+	$datos = $registros->getEntidades();
+
+	$lista = '<input type="text" id="entidades" value="';
+	if( !empty($datos) ){
+		
+		foreach ($datos as $f => $entidad) {
+			
+			if( in_array($entidad['id'], $entidades)){
+				$lista .= $entidad['nombre'].', ';
+			}else{
+				continue;
+			}
+		}
+	}
+	
+	$lista .= '" >';
+
+	return $lista;
 }
 
 ?>

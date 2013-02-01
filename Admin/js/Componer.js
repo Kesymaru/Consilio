@@ -507,6 +507,7 @@ function InitNormasIncluidas(){
 		RegistrarNormasIncluidas();
 
 		$(this).dblclick(function(){
+
 			$.cookie("id", $(this).attr('id') );
 			
 			if( $.cookie("cargando") == 'false'){
@@ -710,6 +711,13 @@ function PreviewArticuloDatos(articulo){
 			notificaError("Error: Componer.js PreviewArticuloDatos().<br/>"+response);
 		}
 	}).done(function(){
+		
+		$( "#tabs" ).tabs();
+		$("#entidades").tagsInput({
+			"height":"auto",
+	   		"width":"100%",
+	   		"defaultText":"",
+		});
 		$.cookie("cargando", false);
 	});
 
