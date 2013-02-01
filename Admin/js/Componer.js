@@ -476,9 +476,11 @@ function PreviewCategoriaNormas(id){
     notificaAtencion("Seleccione las Normas y sus articulos que desea incluir en la categoria.");
 }
 
+/**
+* INICIALIZA LAS NORMAS INCLUIDAS
+*/
 function InitNormasIncluidas(){
-	var alto = ( $("html").height() * 0.6) - ( $("#NormasIncluidas .titulo").innerHeight() + $("#NormasIncluidas .preview-botones").innerHeight() + $("#panelNormasTitulo").innerHeight() );
-	console.log(alto);
+	var alto = ( $("html").height() * 0.6) - ( $("#NormasIncluidas .titulo").innerHeight() + $("#NormasIncluidas .preview-botones").innerHeight() + $("#panelNormasTitulo").innerHeight() +30 );
 
 	$("#panelNormas ul").sortable({
 		placeholder: "placeholder-sortable",
@@ -486,10 +488,203 @@ function InitNormasIncluidas(){
     	revert: true,
 	});
 
+	$("#panelNormas ul li").click(function(){
+				
+		if($(this).hasClass('seleccionada')){
+			$(this).removeClass('seleccionada');
+			$(this).find(':checkbox').attr('checked', false);
+		}else{
+			$(this).addClass('seleccionada');
+			$(this).find(':checkbox').attr('checked', true);
+
+			if( !$("#VerArticulosIncluidos").is(":visible") ){
+				$("#VerArticulosIncluidos").fadeIn();
+			}
+
+			$.cookie("id", $(this).attr('id') );
+		}
+
+		RegistrarNormasIncluidas();
+
+		$(this).dblclick(function(){
+			$.cookie("id", $(this).attr('id') );
+			
+			if( $.cookie("cargando") == 'false'){
+				$.cookie("cargando", true);
+				ArticulosIncluidos( $(this).attr('id') );
+			}
+			
+		});
+	})
+
 	$("#NormasIncluidas .panel").each(function(){
 		var id = $(this).attr('id');
 		$( "#"+id+" ul").css({"height":alto});
 	});
+
+	//navegacion
+	$("#VerArticulosIncluidos").click(function(){
+		VerArticulosIncluidos();
+	});
+
+	$("#VerNormasIncluidas").click(function(){
+		VerNormasIncluidas()
+	});
+
+	$("#VerArticulosDatos").click(function(){
+		VerArticulosDatos();
+	});
+
+	$("#VerArticulosIncluidosA").click(function(){
+		VerArticulosIncluidos();
+	});
+
+}
+
+/**
+* REGISTRA LAS NORMAS INCLUIDAS
+*/
+function RegistrarNormasIncluidas(){
+	
+	var normas = [];
+	var cuenta = 0;
+	$("#panelNormas ul li").each(function(){
+		if( $(this).hasClass("seleccionada") ){
+			normas.push( $(this).attr('id') );
+		}
+	});
+	if(cuenta == 0){
+		normas = '';
+	}
+	
+	notifica(normas);
+
+	var proyecto = $("#proyecto").val();
+	var categoria = $("#categoria").val();
+	var queryParams = {"func" : "RegistrarNormasIncluidas", "proyecto" : proyecto, "categoria" : categoria, "normas" : normas};
+	notifica(proyecto+" "+categoria);
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/preview.php",
+		success: function(response){
+			if(response.length <= 3){
+				notifica("guardado");
+			}else{
+				notificaError("Error: Componer.js RegistrarNormasIncluidas().<br/>"+response);
+			}
+		},
+		fail: function(response){
+			notificaError("Error: AJAX fail Componer.js RegistrarNormasIncluidas()><br/>"+response)
+		}
+	});
+}
+
+/**
+* CARGA LOS ARTICULOS INCLUIDOS
+* @param norma -> id norma
+*/
+function ArticulosIncluidos(norma){
+	notifica(norma);
+	VerArticulosIncluidos();
+	
+	var proyecto = $('#proyecto').val();
+	var queryParams = {"func" : "ArticulosIncluidos", "proyecto" : proyecto, "norma" : norma};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/preview.php",
+		success: function(response){
+			
+			$("#panelArticulos ul").html(response);
+			$.cookie("cargando", false);
+
+			if( $("#panelArticulos ul").length ){
+
+				//ordenable
+				$("#panelArticulos ul").sortable({
+					placeholder: "placeholder-sortable",
+				    tolerance: 'pointer',
+			    	revert: true,
+				});
+
+				//evento de click para los articulos
+				$("#panelArticulos ul li").click(function(){
+					
+					if($(this).hasClass('seleccionada')){
+						$(this).removeClass('seleccionada');
+						$(this).find(':checkbox').attr('checked', false);
+					}else{
+						$(this).addClass('seleccionada');
+						$(this).find(':checkbox').attr('checked', true);
+
+						if( !$("#VerArticulosDatos").is(":visible") ){
+							$("#VerArticulosDatos").fadeIn();
+						}
+					}
+
+					//registra selecciones
+					RegistrarArticulosIncluidos();
+
+				});
+			}
+		},
+		fail: function(response){
+			notificaError("Error: AJAX fail, Componer.js ArticulosIncluidos().<br/>"+response);
+		}
+	});
+}
+
+/**
+* GUARDA LOS ARTICULOS SELECCIONADOS
+*/
+function RegistrarArticulosIncluidos(){
+	//articulos incluidos, con orden
+	var articulos = [];
+	$("#panelArticulos ul li").each(function(){
+		if( $(this).hasClass("seleccionada") ){
+			articulos.push( $(this).attr('id') );			
+		}
+	});
+
+	notifica(articulos);
+
+	var proyecto = $("#proyecto").val();
+	var norma = $("#norma").val();
+	notifica(norma);
+	var queryParams = {"func" : "RegistrarArticulosIncluidos", "proyecto" : proyecto, "norma" : norma, "articulos" : articulos};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/preview.php",
+		success: function(response){
+			if(response.length <= 3){
+				notifica("Guardado");
+			}else{
+				notificaError("Error: Componer.js RegistrarArticulosIncluidos().<br/>"+response);
+			}
+		},
+		fail: function(response){
+			notificaError("Error: AJAX fail Componer.js RegistrarArticulosIncluidos().<br/>"+response);
+		}
+	});
+}
+
+/**
+* SELECT REGISTRAR, REGISTRA CUANDO SE SELECCIONAN TODOS
+*/
+function RegistrarPreview(){
+
+	if ( $("#panelNormas").is(":visible") ){
+		RegistrarNormasIncluidas();
+	}
+	
+	if ( $("#panelArticulos").is(":visible") ){
+		RegistrarArticulosIncluidos();
+	}
 
 }
 
@@ -630,6 +825,25 @@ function VerArticulosDatos(){
 		});
 
 	}
+}
+
+/**
+* LIMPIAR PARA PREVIEW NORMAS
+*/
+function LimpiarNormasIncluidas(){
+	if ( $("#panelNormas").is(":visible") ){
+		UnSelectAll('panelNormas ul', false, true);
+	}
+	
+	if ( $("#panelArticulos").is(":visible") ){
+		UnSelectAll('panelArticulos ul', false, true);
+	}
+
+	if ( $("#panelArticuloDatos").is(":visible") ){
+		UnSelectAll('panelArticuloDatos ul', false, true);
+	}
+
+	RegistrarPreview();
 }
 
 /**

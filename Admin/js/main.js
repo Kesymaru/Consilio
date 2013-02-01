@@ -460,18 +460,14 @@ function SetBotones(id){
 * INICIALIZA LAS COOKIES
 */
 function Cookies(){
-	if($.cookie('vista') == null){
-		$.cookie('proyecto', 0, { expires: 7 });
+	if($.cookie('cargando') == null){
 		$.cookie('autosave', false, { expires: 7 });
 		$.cookie('cargando', false);
-		$.cookie('vista', 0, { expires: 7 });
-		$.cookie('categoria', 0, { expires: 7 });
-		$.cookie('accion', 'home',{ expires: 7 });
-		$.cookie('restaurado', 0, { expires: 7 });
+		$.cookie('id', false, { expires: 7 });
 
 		$.cookie("super", 'false');
 	}
-	Inicializa();
+	//Inicializa();
 }
 
 /**
@@ -989,4 +985,79 @@ function BuscarGlobalHide(){
 function BuscarGlobalShow(){
 	$("#searchbar").show();
 	$("#toolbarMenu, #toolbarMenu div").css("background-color", "#F4F4F4");
+}
+
+
+/**
+* SELECT ALL GENERICO
+* @param id -> id donde actuar
+* @param table -> true es tabla -> select td's, false -> select li's
+* @param checkox -> true hay que chekear checbox dentro de target
+*/
+function SelectAll(id, table, checkbox){
+	
+	if(table){
+		target = '#'+id+' td';
+	}else{
+		target = '#'+id+' li';
+	}
+	console.log(target);
+
+	$(target).each(function(){
+		$(this).addClass('seleccionada');
+
+		if(checkbox){
+			$(this).find(':checkbox').attr('checked', true);
+		}
+	});
+}
+
+/**
+* SELECT ALL GENERICO
+* @param id -> id donde actuar
+* @param table -> true es tabla -> select td's, false -> select li's
+* @param checkox -> true hay que chekear checbox dentro de target
+*/
+function SelectAllPreview(id, table, checkbox){
+	
+	if(table){
+		target = '#'+id+' td';
+	}else{
+		target = '#'+id+' li';
+	}
+	console.log(target);
+
+	$(target).each(function(){
+		$(this).addClass('seleccionada');
+
+		if(checkbox){
+			$(this).find(':checkbox').attr('checked', true);
+		}
+	});
+	
+	RegistrarPreview();
+}
+
+/**
+* DESSELECT ALL GENERICO
+* @param id -> id donde actuar
+* @param table -> true es tabla -> select td's, false -> select li's
+* @param checkox -> true hay que chekear checbox dentro de target
+*/
+function UnSelectAll(id, table, checkbox){
+	
+	if(table){
+		target = '#'+id+' td';
+	}else{
+		target = '#'+id+' li';
+	}
+	console.log(target);
+
+	$(target).each(function(){
+		$(this).removeClass('seleccionada');
+
+		if(checkbox){
+			$(this).find(':checkbox').attr('checked', false);
+		}
+	});
 }

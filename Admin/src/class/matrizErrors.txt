@@ -653,3 +653,204 @@ Has excedido el numero de intentos.
 	JAVASCRIPT: 1
 	January 31 2013 - 2:41 pm
  --------------------<>--------------------
+
+Error:  
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 31 2013 - 2:50 pm
+ --------------------<>--------------------
+
+Error: AJAX error.
+func=RegistrarNormasIncluidas&normas%5B%5D=4
+scr/preview.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 24.0
+	CSS: 24.0
+	JAVASCRIPT: 1
+	January 31 2013 - 6:08 pm
+ --------------------<>--------------------
+
+Error: AJAX error.
+func=RegistrarNormasIncluidas&normas%5B%5D=4&normas%5B%5D=1
+scr/preview.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 24.0
+	CSS: 24.0
+	JAVASCRIPT: 1
+	January 31 2013 - 6:08 pm
+ --------------------<>--------------------
+
+Error: AJAX error.
+func=RegistrarNormasIncluidas&normas%5B%5D=1
+scr/preview.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 24.0
+	CSS: 24.0
+	JAVASCRIPT: 1
+	January 31 2013 - 6:08 pm
+ --------------------<>--------------------
+
+Error: AJAX error.
+func=RegistrarNormasIncluidas&normas%5B%5D=4&normas%5B%5D=1
+scr/preview.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 24.0
+	CSS: 24.0
+	JAVASCRIPT: 1
+	January 31 2013 - 6:08 pm
+ --------------------<>--------------------
+
+Error: AJAX error.
+func=RegistrarNormasIncluidas&normas%5B%5D=4
+scr/preview.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 24.0
+	CSS: 24.0
+	JAVASCRIPT: 1
+	January 31 2013 - 6:08 pm
+ --------------------<>--------------------
+
+Error: AJAX error.
+func=RegistrarNormasIncluidas&proyecto=1&categoria=199&normas%5B%5D=4
+scr/preview.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 24.0
+	CSS: 24.0
+	JAVASCRIPT: 1
+	January 31 2013 - 6:09 pm
+ --------------------<>--------------------
+
+Error: AJAX error.
+func=RegistrarNormasIncluidas&proyecto=1&categoria=199&normas%5B%5D=4
+scr/preview.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 24.0
+	CSS: 24.0
+	JAVASCRIPT: 1
+	January 31 2013 - 6:09 pm
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarNormasIncluidas().
+ 
+
+
+<b>Notice</b>:  Undefined variable: norma in <b>C:\wamp\www\matrizescala\Admin\src\preview.php</b> on line <b>222</b>
+
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 24.0
+	CSS: 24.0
+	JAVASCRIPT: 1
+	January 31 2013 - 6:10 pm
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarNormasIncluidas().
+ 
+
+
+<b>Notice</b>:  Undefined variable: norma in <b>C:\wamp\www\matrizescala\Admin\src\preview.php</b> on line <b>222</b>
+
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 24.0
+	CSS: 24.0
+	JAVASCRIPT: 1
+	January 31 2013 - 6:10 pm
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarNormasIncluidas().
+ 
+<script type="text/javascript">
+			window.location = "http://localhost/matrizescala/Admin/login.php"
+			</script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 24.0
+	CSS: 24.0
+	JAVASCRIPT: 1
+	January 31 2013 - 6:12 pm
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarNormasIncluidas().
+ 
+vacio
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	January 31 2013 - 6:19 pm
+ --------------------<>--------------------

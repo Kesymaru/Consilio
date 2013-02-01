@@ -1254,10 +1254,10 @@ select{
 }
 
 .preview-botones{
-	display: inline-block;
+	display: block;
 	width: 100%;
-	margin-top: 20px;
-	margin-bottom: 20px;
+	position: absolute;
+	bottom: 0;
 	text-align: center;
 }
 

@@ -174,7 +174,7 @@ class Registros{
 		$query = "SELECT * FROM registros_normas WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."'";
 
 		if($base->Existe($query)){
-			$query = "UPDATE registros_normas SET registro = '".$registro."' WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."'";
+			$query = "UPDATE registros_normas SET registro = '".$registro."', fecha_actualizacion = NOW() WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."'";
 
 			if($base->Update($query)){
 				return true;
@@ -182,8 +182,8 @@ class Registros{
 				return false;
 			}
 		}else{
-			$query = "INSERT INTO registros_normas ( proyecto, categoria, registro ) VALUES ";
-			$query .= "( '".$proyecto."', '".$categoria."', '".$registro."' )";
+			$query = "INSERT INTO registros_normas ( proyecto, categoria, registro, fecha_creacion, fecha_actualizacion ) VALUES ";
+			$query .= "( '".$proyecto."', '".$categoria."', '".$registro."', NOW(), NOW() )";
 
 			if($base->Insert($query)){
 				return true;
