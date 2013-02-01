@@ -130,9 +130,9 @@ function ProyectoMail($id){
 						</tr>
 					</table>
 
-					<textare id="mail" name="mail">
+					<textarea id="mail" name="mail">
 							'.$mailComponer.'
-					</textare>
+					</textarea>
 
 					<div class="table-botonera">
 						<button type="button" onClick="parent.$.fancybox.close();">Cancelar</button>
