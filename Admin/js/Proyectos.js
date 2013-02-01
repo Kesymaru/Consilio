@@ -573,7 +573,7 @@ function FormularioProyectoMail(){
 	alto = alto - ( $("#FormularioProyectoMail .tabla-mail").innerHeight() 
 					+ $(".table-botonera").innerHeight() 
 					+ $("#FormularioProyectoMail .titulo").innerHeight() 
-					+ 15 );
+					+ 20 );
 	
 	if( alto > 200 ){
 		EditorCustom('mail', alto, false);
@@ -585,8 +585,6 @@ function FormularioProyectoMail(){
 	}else{
 		EditorCustom('mail',0,false);
 	}
-
-	console.log(alto);
 	
 	//validacion formulario
 	$("#FormularioProyectoMail").validationEngine();

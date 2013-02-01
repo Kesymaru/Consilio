@@ -29,7 +29,7 @@ if( isset($_POST['func']) ){
 
 		// ENVIOS
 		case 'EnviarMail':
-			if( isset($_POST['remitente']) && isset($_POST['destinatario']) &&isset($_POST['asunto']) && isset($_POST['mail']) ){
+			if( isset($_POST['remitente']) && isset($_POST['destinatario']) && isset($_POST['asunto']) && isset($_POST['mail']) ){
 				
 				$cc = '';
 				if(isset($_POST['cc'])){
@@ -129,14 +129,17 @@ function ProyectoMail($id){
 							</td>
 						</tr>
 					</table>
-					<div id="mail">
+
+					<textare id="mail" name="mail">
 							'.$mailComponer.'
-					</div>
+					</textare>
+
 					<div class="table-botonera">
 						<button type="button" onClick="parent.$.fancybox.close();">Cancelar</button>
 						<input type="reset" value="Limpiar" >
 						<input type="submit" value="Enviar" onClick="EditorUpdateContent();" >
 					</div>
+
 				  </form>
 			<script>
 
