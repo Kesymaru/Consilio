@@ -2,10 +2,10 @@
 
 class Database{
 	//LOCAL
-	private $dbHost 	= "localhost";
+	/*private $dbHost 	= "localhost";
 	private $dbUser 	= "root";
 	private $dbPassword = "root";
-	private $dbDatabase = "matriz";
+	private $dbDatabase = "matriz";*/
 	
 	//private $dbHost 	= "admin.77digital.com";
 	private $dbHost 	= "localhost";
