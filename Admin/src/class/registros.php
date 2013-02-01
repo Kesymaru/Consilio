@@ -1182,7 +1182,7 @@ class Registros{
 		$datos = $base->Select($query);
 
 		if(!empty($datos)){
-			return $datos[0][$datos];
+			return $datos[0][$dato];
 		}else{
 			return false;
 		}

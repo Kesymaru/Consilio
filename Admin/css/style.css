@@ -1246,6 +1246,15 @@ select{
  	border-collapse: collapse;
 }
 
+.preview .datos{
+	margin-top: 0 !important;
+	margin-bottom: 0 !important;
+	padding: 0 !important;
+	width: 98% !important;
+	border: 0;
+	overflow: auto !important;
+}
+
 .datos-preview{
 	width: 100%;
 	display: block;
@@ -1266,7 +1275,6 @@ select{
 }
 
 .panel ul{
-	min-height: 70px;
 	overflow: auto;
 }
 
@@ -1291,6 +1299,28 @@ select{
 	width: 0;
 	float: right;
 	display: none;
+}
+
+.tabla-entidades{
+	width: 98%;
+	border: 0;
+}
+
+.tabla-entidades th{
+	text-align: center;
+}
+
+.tabla-entidades td{
+	width: 100%;
+}
+
+.tabla-entidades .tagsinput{
+	margin: 0 auto;
+}
+
+.texto{
+	display: block;
+	padding: 10px;
 }
 
 /**

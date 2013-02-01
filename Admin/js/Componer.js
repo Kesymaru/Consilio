@@ -500,15 +500,11 @@ function InitNormasIncluidas(){
 			if( !$("#VerArticulosIncluidos").is(":visible") ){
 				$("#VerArticulosIncluidos").fadeIn();
 			}
-
-			$.cookie("id", $(this).attr('id') );
 		}
 
 		RegistrarNormasIncluidas();
 
 		$(this).dblclick(function(){
-
-			$.cookie("id", $(this).attr('id') );
 			
 			if( $.cookie("cargando") == 'false'){
 				$.cookie("cargando", true);
@@ -522,6 +518,7 @@ function InitNormasIncluidas(){
 		var id = $(this).attr('id');
 		$( "#"+id+" ul").css({"height":alto});
 	});
+	$("#DatosArticulo").css({"height":alto});
 
 	//navegacion
 	$("#VerArticulosIncluidos").click(function(){
@@ -558,22 +555,17 @@ function RegistrarNormasIncluidas(){
 	if(cuenta == 0){
 		normas = '';
 	}
-	
-	notifica(normas);
 
 	var proyecto = $("#proyecto").val();
 	var categoria = $("#categoria").val();
 	var queryParams = {"func" : "RegistrarNormasIncluidas", "proyecto" : proyecto, "categoria" : categoria, "normas" : normas};
-	notifica(proyecto+" "+categoria);
 
 	$.ajax({
 		data: queryParams,
 		type: "post",
 		url: "src/preview.php",
 		success: function(response){
-			if(response.length <= 3){
-				notifica("guardado");
-			}else{
+			if(response.length > 3){
 				notificaError("Error: Componer.js RegistrarNormasIncluidas().<br/>"+response);
 			}
 		},
@@ -588,7 +580,6 @@ function RegistrarNormasIncluidas(){
 * @param norma -> id norma
 */
 function ArticulosIncluidos(norma){
-	notifica(norma);
 	VerArticulosIncluidos();
 	
 	var proyecto = $('#proyecto').val();
@@ -661,15 +652,13 @@ function RegistrarArticulosIncluidos(){
 		}
 		cuenta++;
 	});
+
 	if(cuenta == 0){
 		articulos = '';
 	}
 
-	notifica(articulos);
-
 	var proyecto = $("#proyecto").val();
 	var norma = $("#norma").val();
-	notifica(norma);
 	var queryParams = {"func" : "RegistrarArticulosIncluidos", "proyecto" : proyecto, "norma" : norma, "articulos" : articulos};
 
 	$.ajax({
@@ -677,9 +666,7 @@ function RegistrarArticulosIncluidos(){
 		type: "post",
 		url: "src/preview.php",
 		success: function(response){
-			if(response.length <= 3){
-				notifica("Guardado");
-			}else{
+			if( response.length > 3 ){
 				notificaError("Error: Componer.js RegistrarArticulosIncluidos().<br/>"+response);
 			}
 		},
@@ -696,8 +683,6 @@ function RegistrarArticulosIncluidos(){
 function PreviewArticuloDatos(articulo){
 	VerArticulosDatos();
 
-	notifica('preview articulo '+articulo );
-
 	var queryParams = {"func" : "PreviewArticulo", "id" : articulo};
 
 	$.ajax({
@@ -705,22 +690,42 @@ function PreviewArticuloDatos(articulo){
 		type: "post",
 		url: "src/preview.php",
 		success: function(response){
-			$("#panelArticuloDatos ul").html(response);
+			$("#DatosArticulo").html(response);
 		},
 		fail: function(response){
 			notificaError("Error: Componer.js PreviewArticuloDatos().<br/>"+response);
 		}
 	}).done(function(){
-		
+
 		$( "#tabs" ).tabs();
 		$("#entidades").tagsInput({
 			"height":"auto",
 	   		"width":"100%",
 	   		"defaultText":"",
 		});
+		$('.tag').find('a').remove();
+		$('.tagsinput').find('div').remove();
+
 		$.cookie("cargando", false);
 	});
 
+
+	var query = {"func" : "NombreArticulo", "id" : articulo};
+
+	$.ajax({
+		data: query,
+		type: "post",
+		url: 'src/preview.php',
+		success: function(response){
+			$("#panelArticuloDatos .subtitulo span").fadeOut(500, function(){
+				$(this).html(response);
+				$(this).fadeIn();
+			});
+		},
+		fail: function(response){
+			notificaError("Error: Componer.js PreviewArticuloDatos() al obtener nombre del articulo.<br/>"+response);
+		}
+	});
 }
 
 /**

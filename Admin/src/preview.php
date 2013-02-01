@@ -29,6 +29,15 @@ if(isset($_POST['func'])){
 			}
 			break;
 
+		//OBTIENE EL NOMBRE DEL ARTICULO
+		case 'NombreArticulo':
+			if( isset($_POST['id']) ){
+				NombreArticulo( $_POST['id'] );
+			}else{
+				echo 'Datos Articulo'; //default
+			}
+			break;
+
 		/******** REGISTROS *********/
 
 		//REGISTRA NORMAS INCLUIDAS
@@ -130,13 +139,11 @@ function NormasIncluidas($proyecto, $categoria){
 					  	<div class="subtitulo">
 					  		<img class="icon izquierda" src="images/previous.png" title="normas" id="VerArticulosIncluidosA" >
 
-					  		Datos Articulo
+					  		<span>Datos Articulo</spam>
 					  	</div>
-					  	<ul>
-					  		<li>a</li><li>a</li><li>a</li><li>a</li><li>a</li><li>a</li>
-					  		<li>a</li><li>a</li><li>a</li><li>a</li><li>a</li><li>a</li>
-					  		<li>a</li><li>a</li><li>a</li><li>a</li><li>a</li><li>a</li>
-					  	</ul>
+					  	<div id="DatosArticulo" class="datos">
+
+					  	</div>
 					  </div>
 			  	  </div>
 			  	  <script>
@@ -173,14 +180,6 @@ function ArticulosIncluidos($proyecto, $norma){
 	$articulos = unserialize($datos[0]['registro']);
 
 	$disponibles = $registros->getArticulos($norma);
-
-	/*echo $proyecto." ".$norma."<br/>";
-
-	echo '<pre>';
-	print_r($disponibles);
-	echo '</pre><hr><pre>';
-	print_r($articulos);
-	echo '</pre>';*/
 
 	$lista = '';
 
@@ -277,19 +276,13 @@ function PreviewArticulo($id){
 
 		$archivos = $registros->getArchivosArticulo($datos[0]['id']);
 
-		$preview .= '<table>
+		$preview .= '<table class="tabla-entidades">
 						<tr>
-							<td>
-								Nombre
-							</td>
-							<td>
-								'.$datos[0]['nombre'].'
-							</td>
+							<th>
+								Entidades
+							</th>
 						</tr>
 						<tr>
-							<td>
-								Entidades
-							</td>
 							<td>';
 
 		$preview .= Entidades( $entidades );
@@ -297,7 +290,8 @@ function PreviewArticulo($id){
 		$preview .= '		</td>
 						</tr>
 					</table>
-					
+					<br/>
+
 					<!-- tabs para los datos -->
 					<div id="tabs">
 						<ul>
@@ -385,7 +379,7 @@ function Entidades($entidades){
 
 	$datos = $registros->getEntidades();
 
-	$lista = '<input type="text" id="entidades" value="';
+	$lista = '<input type="text" id="entidades" disabled="disabled" value="';
 	if( !empty($datos) ){
 		
 		foreach ($datos as $f => $entidad) {
@@ -397,10 +391,22 @@ function Entidades($entidades){
 			}
 		}
 	}
-	
+
 	$lista .= '" >';
 
 	return $lista;
+}
+
+/**
+* OBTIENE EL NOMBRE DEL ARTICULO
+* @param $id -> id del articulo
+*/
+function NombreArticulo($id){
+	$registros =  new Registros();
+
+	$nombre = $registros->getDatoArticulo('nombre', $id);
+
+	echo $nombre;
 }
 
 ?>
