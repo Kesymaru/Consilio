@@ -133,7 +133,7 @@ if( isset($_SESSION['logueado']) ){
 		<!-- end usuarios -->
 <?php
 	//si no biene de reset
-	if(!isset($_GET['reset'])){
+	/*if(!isset($_GET['reset'])){
 ?>
 		<!-- <div id="registroUsuarios" >
 
@@ -169,7 +169,7 @@ if( isset($_SESSION['logueado']) ){
 		</div>
 		<!-- end registroUsuario -->
 <?php
-	} //fin if reset
+	} *///fin if reset
 ?>
 	</form>
 
