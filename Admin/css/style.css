@@ -139,7 +139,11 @@ select{
 .seleccionada{
 	border: solid 1px #A1CA4A;
 	background-color: #A1CA4A;
+<<<<<<< HEAD
+	color: #fff !important;
+=======
 	color: #fff;
+>>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
 }
 
 .grupo{
@@ -444,7 +448,12 @@ select{
 
 .table-list tr{
 	cursor: pointer;
+<<<<<<< HEAD
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+=======
 	border-width: 1px;
+>>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
 	border-style: solid;
 	border-color: #F1F1F1; /*ie 8*/
 	border-color: rgba(117, 114, 115, .1);
@@ -459,6 +468,21 @@ select{
 	padding: 5px;
 }
 
+<<<<<<< HEAD
+.td-new{
+	border-bottom: 1px solid red !important;
+	color: #a1ca4a;
+}
+
+.new{
+	font-size: 15px;
+	color: red;
+	float: left;
+	font-weight: bold;
+}
+
+=======
+>>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
 /**
 * LISTA
 */

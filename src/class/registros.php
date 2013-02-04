@@ -611,6 +611,37 @@ class Registros{
 		}
 	}
 
+<<<<<<< HEAD
+	/**
+	 * OBTIENE LOS DATOS DEL ARTICULO VALIDADOS POR EL PROYECTO
+	 * @param $proyecto -> id del proyecto
+	 * @param $articulo -> id del articulo
+	 */
+	function getValidArticulo($proyecto, $articulo){
+		$base = new Database();
+
+		$proyecto = mysql_real_escape_string($proyecto);
+		$query = "SELECT * FROM proyectos WHERE id = '".$proyecto."'";
+
+		$status = $base->Select($query);
+
+		if( $status[0]['status'] == 0){ //desactivo
+			$query = "SELECT * FROM snapshots_articulos WHERE id = '".$articulo."' ";
+			$query .= " AND fecha_snapshot <= '".$status[0]['fecha_desactivacion']."' ORDER BY fecha_snapshot DESC  LIMIT 0,1";
+		}else{
+			$query = "SELECT * FROM articulos WHERE id = '".$articulo."' AND borrado = 0";
+		}
+
+		$datos = $base->Select($query);
+
+		if( !empty($datos) ){
+			return $datos;
+		}else{
+			return false;
+		}
+	}
+=======
+>>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
 }
 
 ?>

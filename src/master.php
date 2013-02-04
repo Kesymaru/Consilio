@@ -122,7 +122,14 @@ class Master{
 
 		if(!empty($datos)){
 			foreach ($datos as $key => $proyecto) {
+<<<<<<< HEAD
+				echo '<li id="menuProyecto'.$proyecto['id'].'" onClick="Proyecto('.$proyecto['id'].')">';
+				//echo substr($proyecto['nombre'],0,50);
+				echo $proyecto['nombre'];
+				echo '</li>';
+=======
 				echo '<li id="menuProyecto'.$proyecto['id'].'" onClick="Proyecto('.$proyecto['id'].')">'.$proyecto['nombre'].'</li>';
+>>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
 			}
 		}else{
 			echo '<li>No hay proyectos</li>';

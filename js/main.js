@@ -56,7 +56,12 @@ $(document).ready(function(){
 			$(".dropMenu").slideUp();
 			$(".dropMenu").closest("div").css({
 				'background-color' : '#fff',
+<<<<<<< HEAD
+				'color' : '#000',
+				'border-color' : '#fff'
+=======
 				'color' : '#000'
+>>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
 			});
 		}
 
@@ -64,18 +69,32 @@ $(document).ready(function(){
 			$('#'+this.id+" .dropMenu").slideUp();
 			$('#'+this.id).css({
 				'background-color' : '#fff',
+<<<<<<< HEAD
+				'color' : '#000',
+				'border-color' : '#fff'
+=======
 				'color' : '#000'
+>>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
 			});
 		}else{
 			$('#'+this.id).css({
 				'background-color' : '#a1ca4a',
+<<<<<<< HEAD
+				'color' : '#fff',
+				'border-color' : '#a1ca4a'
+=======
 				'color' : '#fff'
+>>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
 			});
 			$('#'+this.id+" .dropMenu").slideDown();
 		}
 	});
 
+<<<<<<< HEAD
+	$("#searchbar").hide();
+=======
 	$("#searchForm").validationEngine();
+>>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
     $('input[placeholder]').placeholder();
 
     //set cookies
@@ -662,4 +681,71 @@ function Rotar(id, angulo){
 	    },
 	    200
 	);
+<<<<<<< HEAD
+}
+
+/**
+* MUESTRA EL BUSCADOR GLOBAL
+*/
+function BuscarGlobal(){
+
+	if($("#searchbar").is(":visible")){
+		BuscarGlobalHide();
+	}else{
+		BuscarGlobalShow();
+	}
+
+}
+
+/**
+ * MUESTRA EL BUSCADOR GLOBAL CON ANIMACION
+ */
+function BuscarGlobalHide(){
+
+	$("#searchbar").animate({
+		width : 0,
+		//'margin-right': '0px',
+		'margin-left': '0px'
+	},{
+		duration: 700,
+		queue: false,
+		complete: function(){
+			$("#toolbarMenu").css({"margin-right":'10px'});
+			$("#searchbar").hide();
+		}
+	});	
+	
+	$("#searchbar input").val('');
+	
+	//$("#toolbarMenu, #toolbarMenu div").css("background-color", "#fff");
+}
+
+/**
+ * ESCONDE EL BUSCADOR GLOBAL CON ANIMACION
+ */
+function BuscarGlobalShow(){
+	$("#toolbarMenu").css({"margin-right":'-10px'});
+
+	var alto = $('#toolbarMenu').outerWidth();
+
+	//$("#searchbar").css({'margin-left': '0'+'px', 'display' : 'inline-block'});
+	$("#searchbar").css({'display' : 'inline-block'});
+
+	$("#searchbar").animate({
+		width : alto,
+		'margin-left': '0px',
+		'display' : 'inline-block',
+		'margin-left': '-'+alto+'px'
+	},{
+		duration: 700,
+		queue: false,
+		complete: function(){
+			$("#searchbar").show();
+		}
+	});
+
+	//$("#searchbar").show();
+	//$("#toolbarMenu, #toolbarMenu div").css("background-color", "#F4F4F4");
+=======
+>>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
 }

@@ -1211,8 +1211,13 @@ class Registros{
 
 		$entidades = serialize($entidades); //serializa el array para guardarlo en la base de datos
 
+<<<<<<< HEAD
+		$query = "INSERT INTO articulos (norma, nombre, entidad, resumen, permisos, sanciones, articulo, fecha_creacion, fecha_actualizacion) ";
+		$query .= "VALUES ( '".$norma."', '".$nombre."', '".$entidades."', '".$resumen."', '".$permisos."', '".$sanciones."', '".$articulo."', NOW(), NOW() )";
+=======
 		$query = "INSERT INTO articulos (norma, nombre, entidad, resumen, permisos, sanciones, articulo) ";
 		$query .= "VALUES ( '".$norma."', '".$nombre."', '".$entidades."', '".$resumen."', '".$permisos."', '".$sanciones."', '".$articulo."' )";
+>>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
 		
 		if($base->Insert($query)){
 			return $base->getUltimoId();
@@ -1249,7 +1254,11 @@ class Registros{
 
 			$entidades = serialize($entidades); //serializa el array para guardarlo en la base de datos
 
+<<<<<<< HEAD
+			$query = "UPDATE articulos set norma = '".$norma."', nombre = '".$nombre."', entidad = '".$entidades."', resumen = '".$resumen."', permisos = '".$permisos."', sanciones = '".$sanciones."', articulo = '".$articulo."', fecha_actualizacion = NOW() WHERE id = '".$id."'";
+=======
 			$query = "UPDATE articulos set norma = '".$norma."', nombre = '".$nombre."', entidad = '".$entidades."', resumen = '".$resumen."', permisos = '".$permisos."', sanciones = '".$sanciones."', articulo = '".$articulo."' WHERE id = '".$id."'";
+>>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
 			
 			//GUARDA NUEVOS DATOS
 			if($base->Update($query)){
@@ -1314,8 +1323,13 @@ class Registros{
 
 		if(!empty($datos)){
 			//copia datos a la tabla de snapshots de articulos
+<<<<<<< HEAD
+			$query = "INSERT INTO snapshots_articulos (norma, nombre, entidad, resumen, permisos, sanciones, articulo, id, fecha_creacion, fecha_snapshot ) ";
+			$query .= "VALUES ( '".$datos[0]['norma']."', '".$datos[0]['nombre']."', '".$datos[0]['entidad']."', '".$datos[0]['resumen']."', '".$datos[0]['permisos']."', '".$datos[0]['sanciones']."', '".$datos[0]['articulo']."', '".$datos[0]['id']."', '".$datos[0]['fecha_creacion']."', NOW() )";
+=======
 			$query = "INSERT INTO snapshots_articulos (norma, nombre, entidad, resumen, permisos, sanciones, articulo, id) ";
 			$query .= "VALUES ( '".$datos[0]['norma']."', '".$datos[0]['nombre']."', '".$datos[0]['entidad']."', '".$datos[0]['resumen']."', '".$datos[0]['permisos']."', '".$datos[0]['sanciones']."', '".$datos[0]['articulo']."', '".$datos[0]['id']."' )";
+>>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
 			//guarda snapshot
 			if( $base->Insert($query) ){
 				return true;
