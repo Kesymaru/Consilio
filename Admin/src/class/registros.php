@@ -258,6 +258,71 @@ class Registros{
 	}
 
 /************** OBSERVACIONES DE UNA CATEGORIA EN UN PROYECTO **************/
+	
+	/**
+	* OBTIENE TODOS LOS TIPOS DE OBSERVACIONES CREADOS
+	* @return $datos -> array[][] con los datos
+	*/
+	public function getTiposObservaciones(){	
+		$base = new Database();
+		$query = "SELECT * FROM tipos_observaciones";
+
+		$datos = $base->Select($query);
+		return $datos;
+	}
+
+	/**
+	*
+	*/
+	public function getTipoObservacionDatos($id){
+		$base = new Database();
+
+		$id = mysql_real_escape_string($id);
+
+		$query = "SELECT * FROM tipos_observaciones WHERE id = '".$id."'";
+
+		$datos = $base->Select($query);
+
+		return $datos;
+	}
+
+	/**
+	* REGISTRA UN NUEVO TIPO DE OBSERVACION
+	* @param $nombre -> nombre del tipo
+	*/
+	public function NewTipoObservacion($nombre){
+		$base = new Database();
+
+		$nombre = mysql_real_escape_string($nombre);
+
+		$query = "INSERT INTO tipos_observaciones (nombre, fecha_creacion, fecha_actualizacion) VALUES ('".$nombre."', NOW(), NOW() )";
+
+		if( $base->Insert($query) ){
+			return true;
+		}else{
+			return false; //fallo
+		}
+	}
+
+	/**
+	* ACTUALIZA UN TIPO DE OBSERVACION
+	* @param $nombre -> nombre del tipo
+	* @param $id -> id del tipo
+	*/
+	public function UpdateTipoObservacion($nombre, $id){
+		$base = new Database();
+
+		$nombre = mysql_real_escape_string($nombre);
+		$id = mysql_real_escape_string($id);
+
+		$query = "UPDATE tipos_observaciones SET nombre = '".$nombre."', fecha_actualizacion = NOW() WHERE id = '".$id."'";
+
+		if( $base->Update($query) ){
+			return true;
+		}else{
+			return false; //fallo
+		}
+	}
 
 	/**
 	* OBTIENE LOS DATOS DE LA OBSERVACION
@@ -1317,7 +1382,7 @@ class Registros{
 			//
 			$query = "INSERT INTO snapshots_articulos (norma, nombre, entidad, resumen, permisos, sanciones, articulo, id, fecha_creacion, fecha_snapshot ) ";
 			$query .= "VALUES ( '".$datos[0]['norma']."', '".$datos[0]['nombre']."', '".$datos[0]['entidad']."', '".$datos[0]['resumen']."', '".$datos[0]['permisos']."', '".$datos[0]['sanciones']."', '".$datos[0]['articulo']."', '".$datos[0]['id']."', '".$datos[0]['fecha_creacion']."', NOW() )";
-			
+
 			//guarda snapshot
 			if( $base->Insert($query) ){
 				return true;

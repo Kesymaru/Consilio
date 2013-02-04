@@ -2584,3 +2584,202 @@ function MenuEntidades(m){
 		EliminarEntidad();
 	}
 }
+
+
+/*************** OBSERVACIONES ***************/
+
+/**
+* ADMINISTRADOR DE LOS TIPOS DE OBSERVACIONES
+*/
+function TiposObservaciones(){
+	if( !$("#menu").is(":visible") ){
+		ActivaMenu();
+	}
+
+	if( $("#menu2").is(":visible") ){
+		Menu2();
+	}
+
+	if( $("#content").length ){
+		LimpiarContent();
+	}
+
+	var queryParams = {"func" : "TiposObservaciones"};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxObservaciones.php",
+		beforeSend: function(response){
+			Loading();
+		},
+		success: function(response){
+
+			if(response.length > 0){
+				$("#menu").html(response);
+				TiposObservacionInit();
+			}else{
+				notificaError("Error: Edicion.js TiposObservaciones().<br/>"+response);
+			}
+
+			LoadingClose();
+		},	
+		fail: function(response){
+			LoadingClose();
+			notificaError("ERROR: AJAX fail Edicion.js TiposObservaciones().<br/>"+response);
+		}
+	});
+}
+
+/**
+* INICIALIZA LA LISTA DE TIPOS DE OBSERVACIONES
+*/
+function TiposObservacionInit(){
+	
+	$("#tipos-observacion li").each(function(){
+		$(this).click(function(){
+			$(this).removeClass("seleccionada");
+			$(this).addClass('seleccionada');
+
+			if( !$("#EliminarTipoObservacion, #EditarTipoObservacion").is(":visible") ){
+				$("#EliminarTipoObservacion, #EditarTipoObservacion").fadeIn();
+			}
+
+		});
+
+		$(this).dblclick(function(){
+			if( $.cookie("cargando") == "false" ){
+				$.cookie("cargando", true);
+				EditarTipoObservacion();
+			}
+		});
+	});
+
+}
+
+/**
+* CARGA FORMULARIO PARA NUEVO TIPO DE OBSERVACION
+*/
+function NuevoTipoObservacion(){
+	var queryParams = {"func" : "NuevoTipo"};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxObservaciones.php",
+		success: function(response){
+			if( response.length > 0 ){
+				$("#content").html(response);
+				FormularioNuevoTipoObservacion();
+			}else{
+				notificaError("ERROR: Edicion.js NuevoTipoObservacion().<br/>"+response);
+			}
+		},
+		fail: function(response){
+			notificaError("ERROR: AJAX fail Edicion.js NuevoTipoObservacion().<br/>"+response);
+		}
+	});
+}
+
+/**
+* INICIALIZA EL FORMULARIO
+*/
+function FormularioNuevoTipoObservacion(){
+	//validacion
+	$("#FormularioNuevoTipoObservacion").validationEngine();
+		
+	var options = {  
+		beforeSend: function(){
+			DeshabilitarContent();
+		},
+	    success: function(response) { 
+	    	if(response.length <= 3 ){
+	    		notifica("Nuevo Tipo de Observcion Creado");
+	    	}else{
+	    		notificaError("ERROR: Edicion.js FormularioNuevoTipoObservacion().<br/>"+response);
+	    	}
+	    	LimpiarContent();
+		},
+		fail: function(){
+			notificaError("ERROR: FORM FAIL Edicion.js FormularioNuevoTipoObservacion().<br/>"+response);
+		}
+	}; 
+	$('#FormularioNuevoTipoObservacion').ajaxForm(options);
+}
+
+/**
+* EDICION DE UN TIPO DE OBSERVACION
+*/
+function EditarTipoObservacion(){
+	var id = $("#tipos-observacion .seleccionada").attr('id');
+	notifica(id);
+
+	var queryParams = {"func" : "EditarTipo", "id" : id};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxObservaciones.php",
+		success: function(response){
+			if(response.length > 0){
+				$("#content").html(response);
+				FormularioEditarTipoObservacion(id);
+			}else{
+				notificaError("ERROR: Edicion.js EditarTipoObservacion().<br/>"+response);
+			}
+		},
+		fail: function(response){
+			notificaError("ERROR: AJAX FAIL Edicion.js EditarTipoObservacion().<br/>"+response);
+		}
+	});
+	$.cookie("cargando", false);
+}
+
+/**
+* INICIALIZA EL FORMULARIO DE EDICION DE TIPO
+*/
+function FormularioEditarTipoObservacion(id){
+	//validacion
+	$("#FormularioEditarTipoObservacion").validationEngine();
+		
+	var options = {  
+		beforeSend: function(){
+			DeshabilitarContent();
+		},
+	    success: function(response) { 
+	    	if(response.length <= 3 ){
+	    		notifica("Nuevo Tipo de Observcion Creado");
+	    		
+	    		var nombre = $("#nombre").val();
+	    		if( nombre != $("#"+id).html() ){
+	    			$("#"+id).fadeOut(500, function(){
+	    				$("#"+id).html(nombre);
+	    				$("#"+id).fadeIn();
+	    			});
+	    		}
+
+	    	}else{
+	    		notificaError("ERROR: Edicion.js FormularioEditarTipoObservacion().<br/>"+response);
+	    	}
+	    	LimpiarContent();
+		},
+		fail: function(){
+			notificaError("ERROR: FORM FAIL Edicion.js FormularioEditarTipoObservacion().<br/>"+response);
+		}
+	}; 
+	$('#FormularioEditarTipoObservacion').ajaxForm(options);
+}
+
+/**
+* ELIMINAR UN TIPO DE OBSERVACION
+*/
+function EliminarTipoObservacion(){
+
+}
+
+/**
+* REALIZA LA ACCION DE ELIMINAR EL TIPO
+*/
+function AccionEliminarTipoObservacion(id){
+
+}

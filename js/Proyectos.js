@@ -246,12 +246,13 @@ function SeleccionaHijo(hijo){
 
 /**
 * CARGA LAS NORMAS DE LA CATEGORIA
+* @param proyecto -> id del proyecto
 * @param $id -> id categoria
 */
 function Normas(id, proyecto){
 	$.cookie('categoria', id);
-
-	var queryParams = {"func" : "Normas", "id" : id};
+	notifica(proyecto);
+	var queryParams = {"func" : "Normas", "id" : id, "proyecto" : proyecto};
 
 	$.ajax({
 		data: queryParams,
@@ -298,20 +299,21 @@ function Normas(id, proyecto){
 /**
  * SELECCIONA UNA NORMA
  */
-function SelectNorma(id){
+function SelectNorma(proyecto, id){
 	$("#td-normas li").removeClass("seleccionada");
 	$("#td-normas #"+id).addClass("seleccionada");
 
-	Articulos(id);
+	Articulos(proyecto, id);
 }
 
 /**
  * MUESTRA ARTICULOS DE UNA NORMA
- * @param $id -> id norma
+ * @param proyecto -> id del proyecto
+ * @param id -> id norma
  */
-function Articulos(id){
+function Articulos(proyecto, id){
 
-	var queryParams = {"func" : "Articulos", "id" : id};
+	var queryParams = {"func" : "Articulos", "id" : id, "proyecto" : proyecto};
 
 	$.ajax({
 		data: queryParams,

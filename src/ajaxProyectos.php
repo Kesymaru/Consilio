@@ -46,15 +46,15 @@ if(isset($_POST['func'])){
 
 		//DATOS DE UNA CATEGORIA
 		case 'Normas':
-			if(isset($_POST['id'])){
-				Normas($_POST['id']);
+			if(isset($_POST['proyecto']) && isset($_POST['id']) ){
+				Normas($_POST['proyecto'], $_POST['id']);
 			}
 			break;
 
 		//CARGA NORMA
 		case 'Articulos':
-			if(isset($_POST['id'])){
-				Articulos($_POST['id']);
+			if( isset($_POST['proyecto']) && isset($_POST['id']) ){
+				Articulos($_POST['proyecto'], $_POST['id']);
 			}
 			break;
 
@@ -194,37 +194,45 @@ function Hijos($padre, $proyecto){
 }
 
 /**
- * LISTA DE NORMAS DE UNA CATEGORIA
+ * LISTA DE NORMAS INCLUIDAS Y VISIBLE DE UNA CATEGORIA
+ * @param $proyecto -> id del proyecto
  * @param $id -> id de la categoria
  */
-function Normas($id){
+function Normas($proyecto, $id){
 	$registros = new Registros();
-	$datos = $registros->getCategoriaDatos($id);
+	//$datos = $registros->getCategoriaDatos($id);
+	$normas = $registros->getValidNormas($proyecto, $id);
 
-	if(!empty($datos)){
-		$normas = unserialize($datos[0]['normas']);
-		
-		$lista = '
-				<div class="datos">
+	$lista = '<div class="datos">
 				<uL class="lista">';
 
-		if(!empty($normas)){
-			foreach ($normas as $key => $norma) {
-				$datosNormas = $registros->getDatosNorma($norma);
+	if(!empty($normas)){
+		//$normas = unserialize($datos[0]['normas']);
 
-				if($datosNormas[0]['status'] == 1){
+		$conteo = 0;
 
-					$lista .= '<li id="'.$datosNormas[0]['id'].'"  title="'.$datosNormas[0]['nombre'].' #'.$datosNormas[0]['numero'].'" onClick="SelectNorma('.$datosNormas[0]['id'].')">'.$datosNormas[0]['nombre'].'</li>';
-				}
+		foreach ($normas as $key => $norma) {
+			$datosNormas = $registros->getDatosNorma($norma);
+
+			//si la norma es visible
+			if($datosNormas[0]['status'] == 1){
+
+				$lista .= '<li id="'.$datosNormas[0]['id'].'"  title="'.$datosNormas[0]['nombre'].' #'.$datosNormas[0]['numero'].'" onClick="SelectNorma('.$proyecto.','.$datosNormas[0]['id'].')">'.$datosNormas[0]['nombre'].'</li>';
+				$conteo++;
 			}
-		}else{
-			$lista .= '<li>No hay datos</li>';
 		}
 		
+		if($conteo == 0){
+			$lista .= '<li>No hay normas</li>';
+		}
 
-		$lista .= '</ul>
-					</div>';
+	}else{
+		$lista .= '<li>No hay normas</li>';
 	}
+
+	$lista .= '  </ul>
+			  </div>';
+
 	echo $lista;
 }
 
@@ -232,25 +240,34 @@ function Normas($id){
  * MUESTRA LISTA DE ARTICULOS de una norma
  * @param $id -> id de la norma
  */
-function Articulos($id){
+function Articulos($proyecto, $id){
 	$registros = new Registros();
-	$datos = $registros->getArticulos($id);
+	//$datos = $registros->getArticulos($id);
+	$datos = $registros->getValidArticulos($proyecto, $id);
 	$norma = $registros->getDatoNorma("nombre", $id);
-	$lista = '';
-
-	if(!empty($datos)){
-		$lista .= '
-				<div class="datos">
+	
+	$lista = '<div class="datos">
 				<ul class="lista">';
 
-		foreach ($datos as $fila => $norma) {
-				$lista .= '<li id="'.$norma['id'].'" title="'.$norma['nombre'].'" onClick="SelectArticulo('.$norma['id'].')">'.$norma['nombre'].'</li>';
-		}
-		$lista .= '</ul>
-					</div>';
+	if(!empty($datos)){
+		$conteo = 0;
 
-		echo $lista;
+		foreach ($datos as $fila => $norma) {
+			$lista .= '<li id="'.$norma['id'].'" title="'.$norma['nombre'].'" onClick="SelectArticulo('.$norma['id'].')">'.$norma['nombre'].'</li>';
+			$conteo++;
+		}
+		
+		if($conteo == 0){
+			$lista .= '<li>No hay articulos</li>';
+		}
+	}else{
+		$lista .= '<li>No hay articulos</li>';
 	}
+
+	$lista .= '</ul>
+			</div>';
+
+	echo $lista;
 }
 
 /**
@@ -268,7 +285,7 @@ function DatosArticulo($proyecto, $categoria, $id){
 	//$datos = $registros->getArticulo($id);
 	
 	//OBTIENE LA DATA DEL ARTICULO VALIDANDO SI EL PROYECTO ESTA ACTIVO
-	$datos = $registros->getValidArticulo($proyecto, $id);
+	$datos = $registros->getValidArticuloDatos($proyecto, $id);
 
 	$observacion = $registros->getObservacion($proyecto, $categoria);
 	$lista = '';

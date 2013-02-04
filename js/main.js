@@ -89,8 +89,8 @@ $(document).ready(function(){
     Cookies();
 
     // no seleccionable
-    $('html, body, table').disableSelection();
-    
+    $('#main, #menu, #menu2, #content, table, .disclaim, #menuUsuario, #menuProyectos').disableSelection();
+
 });
 /*
 $(window).load(function(){

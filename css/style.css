@@ -30,10 +30,10 @@ html, body{
 	/*overflow: hidden;*/
 	font-family: 'Open Sans', sans-serif;
 	
-	-moz-user-select: none;  
-	-webkit-user-select: none;  
-	-ms-user-select: none;  
-	-o-user-select: none;  
+		-moz-user-select: none;  
+		-webkit-user-select: none;  
+		-ms-user-select: none;  
+		-o-user-select: none;  
 	user-select: none;
 }
 
@@ -41,10 +41,11 @@ html, body{
 * CONTRA SELECCION DE TEXTO
 */
 html, body, input, div, ul, li, a, p{
-	-moz-user-select: none;  
-	-webkit-user-select: none;  
-	-ms-user-select: none;  
-	-o-user-select: none;  
+	
+		-moz-user-select: none;  
+		-webkit-user-select: none;  
+		-ms-user-select: none;  
+		-o-user-select: none;  
 	user-select: none;
 }
 
@@ -397,17 +398,23 @@ select{
 }
 
 .panel #camino{
-	width: 100%;
-	font-size: 18px;
+	font-size: 16px;
+	max-width: 150px;
+	display: inline-block;
+	float: left;
 }
 
 #camino li{
 	width: auto !important;
 	list-style: none;
 	float: left;
-	margin-right: 10px;
+	margin-right: 5px;
 	cursor: pointer;
 	border-bottom: 2px solid #fff;
+
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
 #camino li:hover{
@@ -594,14 +601,7 @@ select{
 	vertical-align: middle;
 	border-radius: 5px;
 	cursor: pointer;
-<<<<<<< HEAD
 	margin-right: 10px;
-}
-
-#toolbarMenu div{
-=======
-	paddtoolbarMenuing-right: 2px;
-	padding-left: 2px;
 }
 
 #toolbarMenu div{
@@ -609,7 +609,7 @@ select{
 	display: inline-block;
 	text-align: center;
 	float: left;
-	min-width: 120px;
+	min-width: 100px;
 	color: #757373;
 	
 	border-width: 13px;
@@ -617,7 +617,7 @@ select{
 	border-color: #fff;
 
 	height: 20px;
-    max-width: 200px;
+    max-width: 150px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -725,6 +725,12 @@ select{
 	border-radius: 5px;
 	margin-right: -10px;
 	margin-left: -300px;
+
+		-moz-user-select: all !important;  
+		-webkit-user-select: all !important;  
+		-ms-user-select: all !important;  
+		-o-user-select: all !important;  
+	user-select: all !important;
 }
 
 #searchbar input{
@@ -742,6 +748,12 @@ select{
 		-moz-appearance: none;
 		-webkit-appearance: none;
 	appearance: none;
+
+		-moz-user-select: all !important;  
+		-webkit-user-select: all !important;  
+		-ms-user-select: all !important;  
+		-o-user-select: all !important;  
+	user-select: all !important;
 }
 
 #searchbar input:focus,

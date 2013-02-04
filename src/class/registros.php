@@ -119,6 +119,41 @@ class Registros{
 	}
 
 	/**
+	* OBTIENE LOS DATOS DE LA NORMAS INCLUIDAS DE UNA CATEGORIA
+	* @param $proyecto -> id del proyecto
+	* @param $categoria -> id de la categoria
+	* @return $normas -> array[] con los ids de las normas incluidas
+	* @return false si falla
+	*/
+	public function getValidNormas($proyecto, $categoria){
+		$base = new Database();
+
+		$proyecto = mysql_real_escape_string($proyecto);
+		$categoria = mysql_real_escape_string($categoria);
+
+		$query = "SELECT * FROM registros_normas WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."'";
+
+		$datosIncluidas = $base->Select($query);
+		$normas = unserialize( $datosIncluidas[0]['registro'] );
+
+		if( !is_array($normas)){
+			
+			//USA TODAS LAS NORMAS DE LA CATEGORIA
+			$normas = array();
+			
+			$query = "SELECT * FROM categorias WHERE id = '".$categoria."'";
+			$datos = $base->Select($query);
+
+			if( !empty($datos)){
+				$normas = unserialize( $datos[0]['normas'] );
+			}
+
+		}
+		return $normas;
+
+	}
+
+	/**
 	* OBTIENE DATOS DE UN HIJO
 	* @param $padre -> id del padre
 	* @return $hijos[][]
@@ -395,7 +430,7 @@ class Registros{
 /************************** ARTICULOS *********************/
 	
 	/**
-	* OBTIENE TODOS LOS ARTICULOS DE UNA NORMA
+	* OBTIENE TODOS LOS ARTICULOS
 	* @param $norma -> id de la norma
 	* @return $datos -> array[][]
 	*/
@@ -407,6 +442,47 @@ class Registros{
 
 		if(!empty($datos)){
 			return $datos;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* OBTIENE LOS ARTICULOS INCLUIDOS DE UN PROYECTO
+	* @param $proyecto -> id del proyecto
+	* @param $norma -> id de la norma
+	* @return $articulos -> array[][] con los datos
+	* @return false -> si falla 
+	*/
+	public function getValidArticulos($proyecto, $norma){
+		$base = new Database();
+
+		$proyecto = mysql_real_escape_string($proyecto);
+		$norma = mysql_real_escape_string($norma);
+
+		$query = "SELECT * FROM registros_articulos WHERE proyecto = ".$proyecto." AND norma = '".$norma."'";
+
+		$datosRegistrados = $base->Select($query);
+		$registrados = unserialize($datosRegistrados[0]['registro']);
+
+		if( !is_array($registrados)){
+			$registrados = array();
+		}
+
+		$articulos = array();
+
+		//selecciona todos
+		$query = "SELECT * FROM articulos WHERE norma = '".$norma."' AND borrado = 0";
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			foreach ($datos as $fila => $articulo) {
+				if( in_array($articulo['id'], $registrados)){
+					$articulos[] = $datos[$fila];
+				}
+			}
+			return $articulos; //articulos incluidos solamente
 		}else{
 			return false;
 		}
@@ -616,7 +692,7 @@ class Registros{
 	 * @param $proyecto -> id del proyecto
 	 * @param $articulo -> id del articulo
 	 */
-	function getValidArticulo($proyecto, $articulo){
+	function getValidArticuloDatos($proyecto, $articulo){
 		$base = new Database();
 
 		$proyecto = mysql_real_escape_string($proyecto);

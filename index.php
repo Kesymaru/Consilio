@@ -186,10 +186,8 @@ $master = new Master();
 						<li class="ocultos" id="camino-articulos" onClick="ShowArticulos()">		
 							Articulos
 						</li>
-
-						<img class="icon derecha" title="Buscar" onClick="Busqueda('busqueda', 'buscar', 'panel', false)" src="images/search2.png" />
-
 					</ul> 
+					<img class="icon derecha" title="Buscar" onClick="Busqueda('busqueda', 'buscar', 'panel', false)" src="images/search2.png" />
 				</td>
 			</tr> 
 			<tr>
