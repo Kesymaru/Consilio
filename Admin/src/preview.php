@@ -85,10 +85,6 @@ function NormasIncluidas($proyecto, $categoria){
 		$incluidas = array();
 	}
 
-	echo '<pre>';
-	print_r($normas);
-	echo '</pre>';
-
 	$lista = '<div class="preview" id="NormasIncluidas">
 				<input type="hidden" name="proyecto" id="proyecto" value="'.$proyecto.'" >
 			  	<input type="hidden" name="categoria" id="categoria" value="'.$categoria.'" >
@@ -112,19 +108,17 @@ function NormasIncluidas($proyecto, $categoria){
 		$lista .= '<ul class="listIzquierda">';
 		foreach ($normas as $fila => $norma) {
 			
-			echo $norma['id'];
-			
-			$nombre = $registros->getDatoNorma("nombre", $norma['id']);
+			$nombre = $registros->getDatoNorma("nombre", $norma );
 
 			//esta incluida
 			if( in_array($norma['id'], $incluidas) ){
-				$lista .= '<li class="seleccionada" id="'.$norma['id'].'">
-							<input checked type="checkbox" id="norma'.$norma['id'].'" name="normas[]" value="'. $norma['id'] .'" />
+				$lista .= '<li class="seleccionada" id="'.$norma.'">
+							<input checked type="checkbox" id="norma'.$norma.'" name="normas[]" value="'. $norma .'" />
 							'.$nombre.'
 						   </li>';
 			}else{
-				$lista .= '<li id="'.$norma['id'].'">
-							<input type="checkbox" id="norma'.$norma['id'].'" name="normas[]" value="'.$norma['id'].'" />
+				$lista .= '<li id="'.$norma.'">
+							<input type="checkbox" id="norma'.$norma.'" name="normas[]" value="'.$norma.'" />
 							'.$nombre.'
 						   </li>';
 			}
