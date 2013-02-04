@@ -334,6 +334,10 @@ function IncluirCategorias($proyecto, $categorias){
 
 	$registradas = unserialize($datos[0]['registro']);
 
+	if( !is_array($registradas)){
+		$registradas = array();
+	}
+	
 	if(is_array($categorias) && is_array($registradas)){
 		//$nuevas = array_diff($categorias, $registradas);
 		
