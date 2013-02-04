@@ -206,6 +206,7 @@ class Master{
 		echo '<li onClick="Normas()">Normas</li>';
 		echo '<li onClick="Entidades()">Entidades</li>';
 		echo '<li onClick="Tipos()">Tipos normas</li>';
+		echo '<li onClick="TiposObservaciones()">Tipos observaciones</li>';
 	}
 
 	/**

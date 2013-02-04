@@ -125,7 +125,9 @@ if( isset($_SESSION['logueado']) ){
 			?>
 			</div>
 
+			<!-- MUESTRA EL FORMULARIO DE REGISTRO
 			<span id="registrarse" onClick="loginbox(1)">Registrarse</span>
+			-->
 			<br/><br/>
 		</div>
 		<!-- end usuarios -->
@@ -133,7 +135,7 @@ if( isset($_SESSION['logueado']) ){
 	//si no biene de reset
 	if(!isset($_GET['reset'])){
 ?>
-		<div id="registroUsuarios" >
+		<!-- <div id="registroUsuarios" >
 
 			<div class="titulo">
 				Registro
@@ -164,7 +166,8 @@ if( isset($_SESSION['logueado']) ){
 
 			<span onClick="loginbox(2)">Usuarios</span>
 			<br/><br/>
-		</div><!-- end registroUsuario -->
+		</div>
+		<!-- end registroUsuario -->
 <?php
 	} //fin if reset
 ?>
