@@ -85,9 +85,9 @@ function NormasIncluidas($proyecto, $categoria){
 		$incluidas = array();
 	}
 
-	echo '<pre>';
+	/*echo '<pre>';
 	print_r($normas);
-	echo '</pre>';
+	echo '</pre>';*/
 
 	$lista = '<div class="preview" id="NormasIncluidas">
 				<input type="hidden" name="proyecto" id="proyecto" value="'.$proyecto.'" >
