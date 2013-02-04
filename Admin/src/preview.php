@@ -85,6 +85,10 @@ function NormasIncluidas($proyecto, $categoria){
 		$incluidas = array();
 	}
 
+	echo '<pre>';
+	print_r($normas);
+	echo '</pre>';
+
 	$lista = '<div class="preview" id="NormasIncluidas">
 				<input type="hidden" name="proyecto" id="proyecto" value="'.$proyecto.'" >
 			  	<input type="hidden" name="categoria" id="categoria" value="'.$categoria.'" >
@@ -107,6 +111,7 @@ function NormasIncluidas($proyecto, $categoria){
 		
 		$lista .= '<ul class="listIzquierda">';
 		foreach ($normas as $fila => $norma) {
+			
 			$nombre = $registros->getDatoNorma("nombre", $norma['id']);
 
 			//esta incluida
