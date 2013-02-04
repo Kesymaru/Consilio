@@ -2637,9 +2637,13 @@ function TiposObservaciones(){
 function TiposObservacionInit(){
 	
 	$("#tipos-observacion li").each(function(){
+		
 		$(this).click(function(){
-			$(this).removeClass("seleccionada");
+			$("#tipos-observacion li").removeClass("seleccionada");
+
 			$(this).addClass('seleccionada');
+
+			TiposObservacionesContextMenu( $(this).attr("id") );
 
 			if( !$("#EliminarTipoObservacion, #EditarTipoObservacion").is(":visible") ){
 				$("#EliminarTipoObservacion, #EditarTipoObservacion").fadeIn();
@@ -2695,6 +2699,7 @@ function FormularioNuevoTipoObservacion(){
 	    success: function(response) { 
 	    	if(response.length <= 3 ){
 	    		notifica("Nuevo Tipo de Observcion Creado");
+	    		TiposObservaciones();
 	    	}else{
 	    		notificaError("ERROR: Edicion.js FormularioNuevoTipoObservacion().<br/>"+response);
 	    	}
@@ -2774,6 +2779,17 @@ function FormularioEditarTipoObservacion(id){
 * ELIMINAR UN TIPO DE OBSERVACION
 */
 function EliminarTipoObservacion(){
+	var id = $("#tipos-observacion .seleccionada").attr('id');
+
+	var si = function (){
+		AccionEliminarTipoObservacion(id);
+	}
+
+	var no = function (){
+		notificaAtencion("Operacion cancelada");
+	}
+	
+	Confirmacion("Desea Eliminar el Tipo de Observacion", si, no);
 
 }
 
@@ -2781,5 +2797,69 @@ function EliminarTipoObservacion(){
 * REALIZA LA ACCION DE ELIMINAR EL TIPO
 */
 function AccionEliminarTipoObservacion(id){
+	var queryParams = {"func" : "DeleteTipo", "id" : id};
 
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxObservaciones.php",
+		success: function(response){
+			if(response.length <= 3){
+				notifica("Tipo de Observacion Eliminada");
+				
+				$("#tipos-observacion  #"+id).fadeOut(700, function(){
+					$(this).remove();
+				});
+
+			}else{
+				notificaError("ERROR: Edicion.js AccionEliminarTipoObservacion().<br/>"+response);
+			}
+		},
+		fail: function(response){
+			notificaError("ERROR: AJAX FAIL Edicion.js AccionEliminarTipoObservacion().<br/>"+response);
+		}
+	});
+}
+
+/**
+* CREA EL CONTEXT MENU PARA TIPOS DE OBSERVACIONES
+*/
+function TiposObservacionesContextMenu(id){
+	$.contextMenu({
+        selector: '#'+id, 
+        callback: function(key, options) {
+            var m = "clicked: " + key;
+            //window.console && console.log(m) || alert(m); 
+            TiposObservacionesMenu(m);
+        },
+        items: {
+        	"nuevo": {name: "Nuevo", icon: "add", accesskey: "n"},
+            "editar": {name: "Editar", icon: "edit", accesskey: "e"},
+            "eliminar": {name: "Eliminar", icon: "delete", accesskey: "l"},
+        }
+    });
+
+    //doble click para editar la entidad
+	$("#"+id).dblclick(function(){
+		EditarEntidad();
+		return;
+	});
+}
+
+/**
+* PROCESA OPCION SELECCIONADA DEL MENU PARA TIPOS DE OBSERVACIONES
+*/
+function TiposObservacionesMenu(m){
+	if(m == 'clicked: nuevo'){
+		NuevoTipoObservacion();
+	}
+
+	if(m == 'clicked: editar'){
+		EditarTipoObservacion();
+	}
+
+	//opcion de eliminar tipo
+	if(m == 'clicked: eliminar'){
+		EliminarTipoObservacion();
+	}
 }

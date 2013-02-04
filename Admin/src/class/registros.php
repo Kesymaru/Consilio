@@ -325,6 +325,23 @@ class Registros{
 	}
 
 	/**
+	* ELIMINA UN TIPO DE OBSERVACION
+	*/
+	public function DeleteTipoObservacion($id){
+		$base = new Database();
+	
+		$id = mysql_real_escape_string($id);
+
+		$query = "DELETE FROM tipos_observaciones WHERE id = '".$id."'";
+
+		if( $base->Delete($query) ){
+			return true;
+		}else{
+			return false;
+		}
+	}	
+
+	/**
 	* OBTIENE LOS DATOS DE LA OBSERVACION
 	* @param $proyecto -> id del proyecto
 	* @param $categoria -> id de la categoria

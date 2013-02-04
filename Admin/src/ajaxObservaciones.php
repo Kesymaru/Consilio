@@ -38,6 +38,12 @@ if( isset($_POST['func']) ){
 			}
 			break;
 
+		case 'DeleteTipo':
+			if(isset($_POST['id'])){
+				DeleteTipo( $_POST['id'] );
+			}
+			break;
+
 		/**************** OBSERVACIONES **************/
 
 	}
@@ -181,6 +187,18 @@ function ActualizarTipoObservacion($nombre, $id){
 
 	if( !$registros->UpdateTipoObservacion($nombre, $id) ){
 		echo "Error: no se pudo actualizar el tipo de observacion.";
+	}
+}
+
+/**
+* ELIMINA UN TIPO
+* @param $id -> id del tipo
+*/
+function DeleteTipo( $id ){
+	$registros = new Registros();
+
+	if( !$registros->DeleteTipoObservacion($id) ){
+		echo "Error: ajaxObservaciones.php DeleteTipo().<br/>No se pudo eliminar el tipo id = $id";
 	}
 }
 
