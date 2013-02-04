@@ -112,6 +112,8 @@ function NormasIncluidas($proyecto, $categoria){
 		$lista .= '<ul class="listIzquierda">';
 		foreach ($normas as $fila => $norma) {
 			
+			echo $norma['id'];
+			
 			$nombre = $registros->getDatoNorma("nombre", $norma['id']);
 
 			//esta incluida
