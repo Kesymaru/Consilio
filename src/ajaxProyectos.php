@@ -264,12 +264,11 @@ function DatosArticulo($proyecto, $categoria, $id){
 	date_default_timezone_set('America/Costa_Rica');
 
 	$registros = new Registros();
-<<<<<<< HEAD
+
 	//$datos = $registros->getArticulo($id);
+	
+	//OBTIENE LA DATA DEL ARTICULO VALIDANDO SI EL PROYECTO ESTA ACTIVO
 	$datos = $registros->getValidArticulo($proyecto, $id);
-=======
-	$datos = $registros->getArticulo($id);
->>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
 
 	$observacion = $registros->getObservacion($proyecto, $categoria);
 	$lista = '';
@@ -299,11 +298,7 @@ function DatosArticulo($proyecto, $categoria, $id){
 			
 			foreach ($articulo as $dato => $valor) {
 				
-<<<<<<< HEAD
 				if($dato == 'id' || $dato == "fecha_creacion" || $dato == "fecha_actualizacion" || $dato == 'id_version' || $dato == 'fecha_snapshot' || $dato == "borrado" || $dato == "norma" || $dato == "nombre"){
-=======
-				if($dato == 'id' || $dato == "fecha_creacion" || $dato == "fecha_actualizacion"  || $dato == "borrado" || $dato == "norma" || $dato == "nombre"){
->>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
 					continue;
 				}
 

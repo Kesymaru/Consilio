@@ -44,6 +44,8 @@ if(isset($_POST['func'])){
 		case 'RegistrarNormasIncluidas':
 			if( isset($_POST['proyecto']) && isset($_POST['categoria']) && isset($_POST['normas']) ){
 				RegistrarNormasIncluidas( $_POST['proyecto'], $_POST['categoria'], $_POST['normas'] );
+			}else{
+				echo 'Error: preview.php RegistrarNormasIncluidas()<br/>no se especifica le proyecto, categotria y normas';
 			}
 			break;
 
@@ -51,6 +53,8 @@ if(isset($_POST['func'])){
 		case 'RegistrarArticulosIncluidos':
 			if( isset($_POST['proyecto']) && isset($_POST['norma']) && isset($_POST['articulos']) ){
 				RegistrarArticulosIncluidos($_POST['proyecto'], $_POST['norma'], $_POST['articulos'] );
+			}else{
+				echo 'ERROR: preview.php RegistrarArticulosIncluidos()<br/>No se especifica proyecto, norma o articulos';
 			}
 			break;
 	}

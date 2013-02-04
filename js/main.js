@@ -56,12 +56,9 @@ $(document).ready(function(){
 			$(".dropMenu").slideUp();
 			$(".dropMenu").closest("div").css({
 				'background-color' : '#fff',
-<<<<<<< HEAD
 				'color' : '#000',
-				'border-color' : '#fff'
-=======
+				'border-color' : '#fff',
 				'color' : '#000'
->>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
 			});
 		}
 
@@ -69,32 +66,23 @@ $(document).ready(function(){
 			$('#'+this.id+" .dropMenu").slideUp();
 			$('#'+this.id).css({
 				'background-color' : '#fff',
-<<<<<<< HEAD
 				'color' : '#000',
-				'border-color' : '#fff'
-=======
+				'border-color' : '#fff',
 				'color' : '#000'
->>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
 			});
 		}else{
 			$('#'+this.id).css({
 				'background-color' : '#a1ca4a',
-<<<<<<< HEAD
 				'color' : '#fff',
-				'border-color' : '#a1ca4a'
-=======
+				'border-color' : '#a1ca4a',
 				'color' : '#fff'
->>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
 			});
 			$('#'+this.id+" .dropMenu").slideDown();
 		}
 	});
 
-<<<<<<< HEAD
 	$("#searchbar").hide();
-=======
 	$("#searchForm").validationEngine();
->>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
     $('input[placeholder]').placeholder();
 
     //set cookies
@@ -681,7 +669,6 @@ function Rotar(id, angulo){
 	    },
 	    200
 	);
-<<<<<<< HEAD
 }
 
 /**
@@ -746,6 +733,4 @@ function BuscarGlobalShow(){
 
 	//$("#searchbar").show();
 	//$("#toolbarMenu, #toolbarMenu div").css("background-color", "#F4F4F4");
-=======
->>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
 }

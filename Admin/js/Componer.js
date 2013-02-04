@@ -549,8 +549,8 @@ function RegistrarNormasIncluidas(){
 	$("#panelNormas ul li").each(function(){
 		if( $(this).hasClass("seleccionada") ){
 			normas.push( $(this).attr('id') );
+			cuenta++;
 		}
-		cuenta++;
 	});
 	if(cuenta == 0){
 		normas = '';
@@ -648,12 +648,13 @@ function RegistrarArticulosIncluidos(){
 	var cuenta = 0;
 	$("#panelArticulos ul li").each(function(){
 		if( $(this).hasClass("seleccionada") ){
-			articulos.push( $(this).attr('id') );			
+			articulos.push( $(this).attr('id') );	
+			cuenta++;	
 		}
-		cuenta++;
 	});
 
 	if(cuenta == 0){
+		notifica('no hay');
 		articulos = '';
 	}
 

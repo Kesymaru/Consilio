@@ -605,15 +605,12 @@ select{
 }
 
 #toolbarMenu div{
-	padding: 13px;
->>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
 	vertical-align: middle;	
 	display: inline-block;
 	text-align: center;
 	float: left;
 	min-width: 120px;
 	color: #757373;
-<<<<<<< HEAD
 	
 	border-width: 13px;
 	border-style: solid;
@@ -624,8 +621,6 @@ select{
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-=======
->>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
 }
 
 #toolbarMenu .icon{
@@ -680,13 +675,10 @@ select{
 	background-color: #fff;
 	border: 1px solid #dedede;
 	color: #747273;
-<<<<<<< HEAD
 
 	overflow: none !important;
     text-overflow: none !important;
     white-space: normal !important;
-=======
->>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
 }
 
 .dropMenu li:hover{
@@ -717,25 +709,18 @@ select{
 }
 
 #searchbar{
-<<<<<<< HEAD
 	width: 300px;
-=======
-	width: 300px !important;
-	
->>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
 	background-color: #a1ca4a;
 	border: 0;
 	display: inline-block;
 	text-align: left;
 	vertical-align: middle;
-<<<<<<< HEAD
+
 	padding-left: 12px;
 	padding-right: 12px;
 	padding-top: 10px;
 	padding-bottom: 10px;
-=======
 	padding: 10px;
->>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
 	z-index: 999;
 	border-radius: 5px;
 	margin-right: -10px;

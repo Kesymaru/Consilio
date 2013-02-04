@@ -171,11 +171,9 @@ function ContextMenuProyecto(id){
 
 	//doble click para editar el cliente
 	$("#"+id).dblclick(function(){
-<<<<<<< HEAD
+
+		//console.log($.cookie('cargando'));
 		
-=======
-		console.log($.cookie('cargando'));
->>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
 		if( $.cookie('cargando') == "false"){
 			$.cookie('cargando', true);
 			EditarProyecto();
@@ -664,7 +662,6 @@ function CancelarProyecto(){
 	}
 
 	Proyectos();
-<<<<<<< HEAD
 }
 
 /************************** COMENTARIOS DE LOS CLIENTES EN LOS PROYECTOS ************/
@@ -801,6 +798,4 @@ function ComentariosArticulo( proyecto, articulo ){
 		}
 	})
 }
-=======
-}
->>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
+

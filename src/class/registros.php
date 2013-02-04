@@ -611,7 +611,6 @@ class Registros{
 		}
 	}
 
-<<<<<<< HEAD
 	/**
 	 * OBTIENE LOS DATOS DEL ARTICULO VALIDADOS POR EL PROYECTO
 	 * @param $proyecto -> id del proyecto
@@ -640,8 +639,6 @@ class Registros{
 			return false;
 		}
 	}
-=======
->>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
 }
 
 ?>

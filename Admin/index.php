@@ -88,7 +88,7 @@ $master = new Master();
 <!--	<script type="text/javascript" src="js/jquery.ui.timepicker.js"></script> -->
 	
 	<!-- plugin para editor -->
-	<script src="editor/ckeditor.js"></script>
+	<script src="editor/ckeditor.js"></script> 
 
 </head>
 

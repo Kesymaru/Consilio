@@ -220,10 +220,7 @@ class Master{
 	 */
 	public function MenuProyectos(){
 		echo '<li onClick="Proyectos()">Proyectos</li>';
-<<<<<<< HEAD
-		//echo '<li onClick="Comentarios()">Comentarios</li>';
-=======
->>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
+		echo '<li onClick="Comentarios()">Comentarios</li>';
 	}
 
 }

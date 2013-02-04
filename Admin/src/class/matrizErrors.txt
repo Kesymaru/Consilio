@@ -881,3 +881,452 @@ scr/ajaxComentarios.php
 =======
 >>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
  --------------------<>--------------------
+
+Error: Proyectos.js ComentariosArticulo().
+ 
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 4 2013 - 9:42 am
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarNormasIncluidas().
+ 
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 4 2013 - 9:47 am
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarNormasIncluidas().
+ 
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 4 2013 - 9:47 am
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarNormasIncluidas().
+ 
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 4 2013 - 9:48 am
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarNormasIncluidas().
+ 
+Error: preview.php RegistrarNormasIncluidas()
+no se especifica le proyecto, categotria y norma
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 4 2013 - 9:48 am
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarNormasIncluidas().
+ 
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 4 2013 - 9:49 am
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarNormasIncluidas().
+ 
+Error: preview.php RegistrarNormasIncluidas()
+no se especifica le proyecto, categotria y normas
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 4 2013 - 9:49 am
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarNormasIncluidas().
+ 
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 4 2013 - 9:49 am
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarNormasIncluidas().
+ 
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 4 2013 - 9:49 am
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarNormasIncluidas().
+ 
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 4 2013 - 9:51 am
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarNormasIncluidas().
+ 
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 4 2013 - 9:51 am
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarNormasIncluidas().
+ 
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 4 2013 - 9:51 am
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarNormasIncluidas().
+ 
+Error: preview.php RegistrarNormasIncluidas()
+no se especifica le proyecto, categotria y normas
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 4 2013 - 9:51 am
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarArticulosIncluidos().
+ 
+ERROR: preview.php RegistrarArticulosIncluidos()
+No se especifica proyecto, norma o articulos
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 4 2013 - 9:53 am
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarArticulosIncluidos().
+ 
+ERROR: preview.php RegistrarArticulosIncluidos()
+No se especifica proyecto, norma o articulos
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 4 2013 - 9:53 am
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarArticulosIncluidos().
+ 
+ERROR: preview.php RegistrarArticulosIncluidos()
+No se especifica proyecto, norma o articulos
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 4 2013 - 9:53 am
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarArticulosIncluidos().
+ 
+ERROR: preview.php RegistrarArticulosIncluidos()
+No se especifica proyecto, norma o articulos
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 4 2013 - 9:54 am
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarArticulosIncluidos().
+ 
+ERROR: preview.php RegistrarArticulosIncluidos()
+No se especifica proyecto, norma o articulos
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 4 2013 - 9:55 am
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarArticulosIncluidos().
+ 
+ERROR: preview.php RegistrarArticulosIncluidos()
+No se especifica proyecto, norma o articulos
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 4 2013 - 9:55 am
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarArticulosIncluidos().
+ 
+ERROR: preview.php RegistrarArticulosIncluidos()
+No se especifica proyecto, norma o articulos
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 4 2013 - 9:55 am
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarArticulosIncluidos().
+ 
+ERROR: preview.php RegistrarArticulosIncluidos()
+No se especifica proyecto, norma o articulos
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 4 2013 - 9:55 am
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarArticulosIncluidos().
+ 
+ERROR: preview.php RegistrarArticulosIncluidos()
+No se especifica proyecto, norma o articulos
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 4 2013 - 9:58 am
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarArticulosIncluidos().
+ 
+ERROR: preview.php RegistrarArticulosIncluidos()
+No se especifica proyecto, norma o articulos
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 4 2013 - 10:00 am
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarArticulosIncluidos().
+ 
+ERROR: preview.php RegistrarArticulosIncluidos()
+No se especifica proyecto, norma o articulos
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 4 2013 - 10:01 am
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarNormasIncluidas().
+ 
+Error: preview.php RegistrarNormasIncluidas()
+no se especifica le proyecto, categotria y normas
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 4 2013 - 10:02 am
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarNormasIncluidas().
+ 
+Error: preview.php RegistrarNormasIncluidas()
+no se especifica le proyecto, categotria y normas
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 4 2013 - 10:02 am
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarArticulosIncluidos().
+ 
+ERROR: preview.php RegistrarArticulosIncluidos()
+No se especifica proyecto, norma o articulos
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 4 2013 - 10:03 am
+ --------------------<>--------------------
