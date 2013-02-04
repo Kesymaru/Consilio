@@ -41,7 +41,7 @@ html, body{
 * CONTRA SELECCION DE TEXTO
 */
 html, body, input, div, ul, li, a, p{
-	
+
 		-moz-user-select: none;  
 		-webkit-user-select: none;  
 		-ms-user-select: none;  
@@ -402,6 +402,7 @@ select{
 	max-width: 150px;
 	display: inline-block;
 	float: left;
+	min-width: 70%;
 }
 
 #camino li{
