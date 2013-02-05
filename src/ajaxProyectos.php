@@ -514,7 +514,7 @@ function PanelComentarios($proyecto, $categoria, $articulo){
 		}
 
 		$panel .= '<tr><td colspan="2">
-					
+					<br/>
 					<button id="NewComentario" type="button" onClick="NewComentario()">Comentar</button>
 
 				  </td></tr>';
