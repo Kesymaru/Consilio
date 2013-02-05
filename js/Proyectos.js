@@ -251,7 +251,7 @@ function SeleccionaHijo(hijo){
 */
 function Normas(id, proyecto){
 	$.cookie('categoria', id);
-	notifica(proyecto);
+	
 	var queryParams = {"func" : "Normas", "id" : id, "proyecto" : proyecto};
 
 	$.ajax({
