@@ -440,7 +440,6 @@ function PreviewCategoriaNormas(id){
 	var proyecto = $("#proyecto").val();
 	var queryParams = {"func" : "NormasIncluidas", "proyecto" : proyecto, "categoria" : id};
 	var alto = $("html").height() * 0.6;
-	notifica(alto);
 
 	$.fancybox({
 	 	'width'         : '70%',
@@ -460,12 +459,7 @@ function PreviewCategoriaNormas(id){
 		autoScale       : false,
 		transitionIn    : 'fade',
 		transitionOut   : 'elastic',
-		title           : 'Link Proyecto',
-		onComplete : function () {
-            setTimeout(function() {
-                CKEDITOR.replace( 'observacion-nueva');
-            }, 500);
-        },
+		title           : 'Composición Normas'
     });
 
     notificaAtencion("Seleccione las Normas y sus articulos que desea incluir en la categoria.");
@@ -484,11 +478,13 @@ function InitNormasIncluidas(){
 	});
 
 	$("#panelNormas ul li").click(function(){
-				
+		$("#panelNormas ul li").removeClass('last');
+
 		if($(this).hasClass('seleccionada')){
 			$(this).removeClass('seleccionada');
 			$(this).find(':checkbox').attr('checked', false);
 		}else{
+			$(this).addClass('last');
 			$(this).addClass('seleccionada');
 			$(this).find(':checkbox').attr('checked', true);
 
@@ -517,7 +513,8 @@ function InitNormasIncluidas(){
 
 	//navegacion
 	$("#VerArticulosIncluidos").click(function(){
-		VerArticulosIncluidos();
+		//VerArticulosIncluidos();
+		lastNorma();
 	});
 
 	$("#VerNormasIncluidas").click(function(){
@@ -525,7 +522,8 @@ function InitNormasIncluidas(){
 	});
 
 	$("#VerArticulosDatos").click(function(){
-		VerArticulosDatos();
+		//VerArticulosDatos();
+		lastArticulo();
 	});
 
 	$("#VerArticulosIncluidosA").click(function(){
@@ -571,6 +569,19 @@ function RegistrarNormasIncluidas(){
 }
 
 /**
+ * 
+ */
+function lastNorma(){
+	var norma = $("#panelNormas ul .last").attr("id");
+	ArticulosIncluidos(norma)
+}
+
+function lastArticulo(){
+	var articulo = $("#panelArticulos ul .last").attr("id");
+	PreviewArticuloDatos(articulo)
+}
+
+/**
 * CARGA LOS ARTICULOS INCLUIDOS
 * @param norma -> id norma
 */
@@ -601,10 +612,13 @@ function ArticulosIncluidos(norma){
 				//evento de click para los articulos
 				$("#panelArticulos ul li").click(function(){
 					
+					$("#panelArticulos ul li").removeClass('last');
+
 					if($(this).hasClass('seleccionada')){
 						$(this).removeClass('seleccionada');
 						$(this).find(':checkbox').attr('checked', false);
 					}else{
+						$(this).addClass('last');
 						$(this).addClass('seleccionada');
 						$(this).find(':checkbox').attr('checked', true);
 
@@ -649,7 +663,6 @@ function RegistrarArticulosIncluidos(){
 	});
 
 	if(cuenta == 0){
-		notifica('no hay');
 		articulos = '';
 	}
 
