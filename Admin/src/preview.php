@@ -168,6 +168,10 @@ function NormasIncluidas($proyecto, $categoria){
 			<div class="preview-botones">
 				<button type="button" onClick="LimpiarNormasIncluidas();">Limpiar</button>
 				<button type="button" onClick="$.fancybox.close();">Terminar</button>
+				<button type="button" onClick="GuardarObservacion()">Guardar</button>
+				<img id="NuevaObservacion" class="icon derecha ocultos" src="images/coment.png" title="Agregar Observacion" onClick="Observacion()">
+			</div>
+			<div id="observacion">
 			</div>';
 
 	echo $lista;
@@ -269,7 +273,7 @@ function PreviewArticulo($id){
 
 	$datos = $registros->getArticulo($id);
 	
-	$preview = '';
+	$preview = '<input type="hidden" id="articulo" name="articulo" value="'.$id.'">';
 
 	if(!empty($datos)){
 		$entidades = unserialize( $datos[0]['entidad'] );

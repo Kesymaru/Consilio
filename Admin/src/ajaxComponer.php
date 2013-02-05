@@ -65,8 +65,9 @@ function Categorias($proyecto){
 			<div id="categorias-componer">
 				<div class="titulo">
 					Categorias
-					<button id="incluir-categorias" title="Incluir Categorias Seleccionadas" type="button" onClick="GuardarCategorias()">Incluir</button>
+					<!-- <button id="incluir-categorias" title="Incluir Categorias Seleccionadas" type="button" onClick="GuardarCategorias()">Incluir</button> -->
 
+					<img class="icon derecha" src="images/next.png" title="Incluir Categorias Seleccionadas" onClick="GuardarCategorias()" >
 				  </div>';
 
 	echo '<div class="root" id="Padre0">';

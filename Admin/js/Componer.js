@@ -436,17 +436,7 @@ function ExcluirCategorias(){
 * @param id -> id de la categorias
 */
 function PreviewCategoriaNormas(id){
-	/*var proyecto = $("#proyecto").val();
-	$.fancybox({
-		'href'         : 'src/previewNormas.php?categoria='+id+'&proyecto='+proyecto,
-		'width'        : '50%',
-		'height'       : '500',
-		'autoScale'    : false,
-		'transitionIn' : 'fade',
-		'transitionOut': 'elastic',
-		'type'         : 'iframe',
-		'title'        : 'Normas'
-   });*/
+
 	var proyecto = $("#proyecto").val();
 	var queryParams = {"func" : "NormasIncluidas", "proyecto" : proyecto, "categoria" : id};
 	var alto = $("html").height() * 0.6;
@@ -470,7 +460,12 @@ function PreviewCategoriaNormas(id){
 		autoScale       : false,
 		transitionIn    : 'fade',
 		transitionOut   : 'elastic',
-		title           : 'Link Proyecto'
+		title           : 'Link Proyecto',
+		onComplete : function () {
+            setTimeout(function() {
+                CKEDITOR.replace( 'observacion-nueva');
+            }, 500);
+        },
     });
 
     notificaAtencion("Seleccione las Normas y sus articulos que desea incluir en la categoria.");
@@ -843,6 +838,7 @@ function VerArticulosIncluidos(){
 			}
 		});
 
+		$("#NuevaObservacion").fadeOut();
 	}
 }
 
@@ -880,6 +876,7 @@ function VerArticulosDatos(){
 			}
 		});
 
+		$("#NuevaObservacion").fadeIn();
 	}
 }
 
@@ -902,21 +899,104 @@ function LimpiarNormasIncluidas(){
 	RegistrarPreview();
 }
 
-/**
-* MUSTRA LAS OBSERVACIONES DE LA CATEGORIA INCLUIDA
-* @param id -> id de la categorias
-*/
-function Observacion(id){
-	var proyecto = $("#proyecto").val();
+/******************** OBSERVACIONES *****************************/
 
-	$.fancybox({
-		'href'         : 'src/observaciones.php?categoria='+id+'&proyecto='+proyecto,
-		'width'        : '70%',
-		'height'       : '500',
-		'autoScale'    : false,
-		'transitionIn' : 'fade',
-		'transitionOut': 'elastic',
-		'type'         : 'iframe',
-		'title'        : 'Observaciones'
-   });
+/**
+* MUESTRA EL PANEL PARA UNA NUEVA OBSERVACION
+*/
+function Observacion(){
+			
+	var alto = $(".fancybox-inner").height();
+
+	$("#observacion").css({'display':"block"});
+
+	$("#observacion").animate({
+		height: alto,
+	}, { 
+		duration: 1500, 
+		queue: false,
+		complete: function(){
+			$("#NormasIncluidas, .preview-botones").hide();
+
+			/*var queryParams = {"func" : "NuevaObservacion"};
+			$.ajax({
+				data: queryParams,
+				type: "post",
+				url: "src/ajaxObservaciones.php",
+				success: function(response){
+					if( response.length > 0 ){
+						$("#observacion").html(response);
+						FormularioNuevaObservacion();
+					}else{	
+						notificaError("Error: Componer.js Observacion().<br/>"+response);
+					}
+				},
+				fail: function(response){
+								notificaError("Error: AJAX fail Componer.js Observacion().<br/>"+response);
+				}
+			});*/
+		}
+	});
+	var proyecto = $("#proyecto").val();
+	var norma = $("#norma").val();
+	var articulo = $("#articulo").val();
+
+	var queryParams = {"func" : "NuevaObservacion", "proyecto" : proyecto, "norma" : norma, "articulo" : articulo};
+	
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxObservaciones.php",
+		success: function(response){
+			if( response.length > 0 ){
+				$("#observacion").html(response);
+				FormularioNuevaObservacion();
+			}else{	
+				notificaError("Error: Componer.js Observacion().<br/>"+response);
+			}
+		},
+		fail: function(response){
+			notificaError("Error: AJAX fail Componer.js Observacion().<br/>"+response);
+		}
+	});
+}
+
+function ObservacionCancelar(){
+	notifica("Operacion Cancelada");
+
+	$("#observacion").animate({
+		height: 0,
+	}, { 
+		duration: 1500, 
+		queue: false,
+		complete: function(){
+			$("#NormasIncluidas, .preview-botones").fadeIn();
+			$("#observacion").html("");
+		}
+	});
+}
+
+/**
+* INICIALIZA EL FormularioNuevaObservacion
+*/
+function FormularioNuevaObservacion(){
+	$("#tipo").chosen();
+
+	Editor('observacion-nueva');
+
+	$("#FormularioNuevaObservacion").validationEngine();
+		
+	var options = {  
+	    success: function(response) { 
+	    	if(response.length <= 3 ){
+	    		notifica("Nueva Observacion Creada.");
+	    	}else{
+	    		notificaError("ERROR: Componer.js FormularioNuevaObservacion().<br/>"+response);
+	    	}
+		},
+		fail: function(){
+			notificaError("ERROR: FORM FAIL Componer.js FormularioNuevaObservacion().<br/>"+response);
+		}
+	}; 
+	$('#FormularioNuevaObservacion').ajaxForm(options);
 }

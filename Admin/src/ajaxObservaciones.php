@@ -46,6 +46,17 @@ if( isset($_POST['func']) ){
 
 		/**************** OBSERVACIONES **************/
 
+		case 'NuevaObservacion':
+			if( isset($_POST['proyecto']) && isset($_POST['norma']) && isset($_POST['articulo']) ){
+				NuevaObservacion( $_POST['proyecto'], $_POST['norma'], $_POST['articulo'] );
+			}
+			break;
+
+		case 'RegistrarObservacion':
+			if( isset($_POST['proyecto']) && isset($_POST['norma']) && isset($_POST['articulo']) && isset($_POST['observacion-nueva']) ){
+				RegistrarObservacion( $_POST['proyecto'], $_POST['norma'], $_POST['articulo'], $_POST['observacion-nueva'] );
+			}
+			break;
 	}
 }
 
@@ -200,6 +211,82 @@ function DeleteTipo( $id ){
 	if( !$registros->DeleteTipoObservacion($id) ){
 		echo "Error: ajaxObservaciones.php DeleteTipo().<br/>No se pudo eliminar el tipo id = $id";
 	}
+}
+
+/************************ OBSERVACIONES ****************/
+
+/**
+* FORMULARIO PARA UNA NUEVA OBSERVACION
+*/
+function NuevaObservacion($proyecto, $norma, $articulo){
+	$formulario = '<form id="FormularioNuevaObservacion" enctype="multipart/form-data" method="post" action="src/ajaxObservaciones.php" >
+					<div class="titulo">Nueva Observacion</div>
+					<input type="hidden" name="func" value="RegistrarObservacion" >
+					<input type="hidden" name="proyecto" value="'.$proyecto.'" >
+					<input type="hidden" name="norma" value="'.$norma.'" >
+					<input type="hidden" name="articulo" value="'.$articulo.'" > ';
+
+	if( $tipos = TiposDisponibles() ){
+		$formulario .= '<table>
+						<tr>
+							<td>
+								Tipo
+							</td>
+							<td>
+								'.$tipos.'
+							</td>
+						</tr>
+						</table>
+						<textarea id="observacion-nueva" name="observacion-nueva"></textarea>';
+
+	}else{
+		$formulario .= 'No hay tipos para observaciones diponibles.<br/>
+						Debe crear almenos un tipo de observacion para poder crear una observacion.<br/>
+						<p>Edicion -> Tipos Observacion</p>';
+	}
+	
+	$formulario .= '<div class="observacion-botonera">
+						<button type="button" onClick="ObservacionCancelar()" >Cancelar</button>
+						<input type="submit" value="Guardar">
+					</div>';
+
+	$formulario .= '</form>';
+
+	echo $formulario;
+}
+
+/**
+* OBTIEN LOS TIPOS DE OBSERVACIONES DISPONIBLES
+*/
+function TiposDisponibles(){
+	$registros = new Registros();
+
+	$tipos = $registros->getTiposObservaciones();
+
+	$select = '';
+
+	if(!empty($tipos)){
+		$select .= '<select name="tipo" id="tipo">';
+		
+		foreach ($tipos as $fila => $tipo) {
+			$select .= '<option value="'.$tipo['id'].'">
+						'.$tipo['nombre'].'
+						</option>';
+		}
+
+		$select .= '</select>';
+
+		return $select;
+	}else{
+		return false;
+	}
+}
+
+/**
+* REGISTRA UNA OBSERVACION NUEVA
+*/
+function RegistrarObservacion( $proyecto, $norma, $articulo, $observacion){
+
 }
 
 ?>

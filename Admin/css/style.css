@@ -1347,6 +1347,24 @@ select{
 	padding: 10px;
 }
 
+#observacion{
+	position: absolute;
+	bottom: 0;
+	height: 0;
+	width: 100%;
+	background-color: #f4f4f4;
+	overflow: auto;
+}
+
+#observacion table{
+	margin: 0 auto;
+}
+
+.observacion-botonera{
+	text-align: center;
+	margin-bottom: 10px;
+}
+
 /**
 * COMPONER MAIL
 */
