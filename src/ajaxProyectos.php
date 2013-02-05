@@ -287,7 +287,7 @@ function DatosArticulo($proyecto, $categoria, $id){
 	//OBTIENE LA DATA DEL ARTICULO VALIDANDO SI EL PROYECTO ESTA ACTIVO
 	$datos = $registros->getValidArticuloDatos($proyecto, $id);
 
-	$observacion = $registros->getObservacion($proyecto, $categoria);
+	//$observacion = $registros->getObservacion($proyecto, $categoria);
 	$lista = '';
 
 	if(!empty($datos)){
@@ -295,7 +295,7 @@ function DatosArticulo($proyecto, $categoria, $id){
 				<div class="titulo">
 					<!--<button class="izquierda" type="button"  onClick="Menu2()" >Panel</button>-->
 
-					<img id="solapa" class="icon izquierda" onClick="Menu2()" src="images/next.png" />
+					<img id="solapa" class="icon izquierda rotacion" onClick="ShowMenu2()" src="images/next.png" />
 					'.$datos[0]['nombre'].'
 			  	</div>
 			  	<div class="datos">';
@@ -538,9 +538,9 @@ function PanelComentarios($proyecto, $categoria, $articulo){
 					<div>';
 
 	if($oculto == ''){
-		$panel .= '<button type="button" onClick="Comentar()">Cancelar</button>';
+		$panel .= '<button class="button-cancelar" type="button" onClick="Comentar()">Cancelar</button>';
 	}else{
-		$panel .= '<button type="button" onClick="NewComentario()">Cancelar</button>';
+		$panel .= '<button class="button-cancelar" type="button" onClick="NewComentario()">Cancelar</button>';
 	}
 					
 	$panel .='	<button type="button" onClick="AgregarComentario('.$articulo.')">Guardar</button>

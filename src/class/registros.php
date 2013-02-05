@@ -134,7 +134,12 @@ class Registros{
 		$query = "SELECT * FROM registros_normas WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."'";
 
 		$datosIncluidas = $base->Select($query);
-		$normas = unserialize( $datosIncluidas[0]['registro'] );
+		if( !empty($datosIncluidas) ){
+			$normas = unserialize( $datosIncluidas[0]['registro'] );
+		}else{
+			$normas = array();
+		}
+		
 
 		if( !is_array($normas)){
 			
@@ -463,9 +468,14 @@ class Registros{
 		$query = "SELECT * FROM registros_articulos WHERE proyecto = ".$proyecto." AND norma = '".$norma."'";
 
 		$datosRegistrados = $base->Select($query);
-		$registrados = unserialize($datosRegistrados[0]['registro']);
+		if( !empty($datosRegistrados) ){
+			$registrados = unserialize( $datosRegistrados[0]['registro'] );
+			
+			if( !is_array($registrados)){
+				$registrados = array();
+			}
 
-		if( !is_array($registrados)){
+		}else{
 			$registrados = array();
 		}
 

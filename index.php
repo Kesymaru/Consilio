@@ -233,12 +233,12 @@ $master = new Master();
 		</div><!-- end content -->
 	</div><!-- end main -->
 
+
+
+</body>
 <div class="disclaim" >
 	<div>
 		<p>2013 Escala Consultores. Todos los derechos reservados</p>
 	</div>
 </div>	
-
-</body>
-
 </html>

@@ -734,3 +734,18 @@ function BuscarGlobalShow(){
 	//$("#searchbar").show();
 	//$("#toolbarMenu, #toolbarMenu div").css("background-color", "#F4F4F4");
 }
+
+/**
+ * MUESTRA EL MENU 2 CON ANIMACION
+ */
+function ShowMenu2(){
+	 if( !$("#menu2").is(":visible") ){
+	 	Menu2();
+	 	$("#solapa").removeClass('rotacionInversa');
+	 	$("#solapa").addClass('rotacion');
+	 }else{
+	 	Menu2();
+	 	$("#solapa").removeClass('rotacion');
+	 	$("#solapa").addClass('rotacionInversa');
+	 }
+}
