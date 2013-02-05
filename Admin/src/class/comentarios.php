@@ -19,8 +19,8 @@ class Comentarios{
 	public function getComentarios(){
 		$base = new Database();
 		//$query = "SELECT * FROM comentarios ORDER BY fecha_creacion DESC";
-		$query = "SELECT id, leido, fecha_creacion, proyecto, COUNT(*) FROM comentarios ";
-		$query .= " GROUP BY proyecto ORDER BY fecha_creacion";
+		$query = "SELECT id, leido, usuario, fecha_creacion, proyecto, COUNT(*) FROM comentarios ";
+		$query .= " GROUP BY proyecto ORDER BY fecha_creacion DESC";
 
 		$datos = $base->Select($query);
 		return $datos;
@@ -56,6 +56,24 @@ class Comentarios{
 		$datos = $base->Select($query);
 
 		return $datos;
+	}
+
+	/**
+	*MARCA UN COMENTARIO COMO LEIDO
+	* @param $id -> id comentario
+	*/
+	function ComentarioLeido($id){
+		$base = new Database();
+		
+		$id = mysql_real_escape_string($id);
+
+		$query = "UPDATE comentarios SET leido = 1 WHERE id = '".$id."'";
+
+		if( $base->Update($query) ){
+			return true;
+		}else{
+			return false;
+		}
 	}
 }
 ?>

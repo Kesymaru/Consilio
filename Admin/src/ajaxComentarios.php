@@ -5,6 +5,7 @@
 require_once('class/proyectos.php');
 require_once('class/comentarios.php');
 require_once('class/registros.php');
+require_once('class/usuarios.php');
 
 if(isset($_POST['func'])){
 	switch ($_POST['func']) {
@@ -31,11 +32,20 @@ if(isset($_POST['func'])){
  */
 function Comentarios(){
 	$comentarios = new Comentarios();
-	$datos = $comentarios->getCOmentarios();
+	$cliente = new Cliente();
+
+	$datos = $comentarios->getComentarios();
 
 	$lista = '<div class="titulo">
 				Comentarios
-			  </div>';
+
+				<img class="boton-buscar icon" title="Buscar Proyectos" onClick="Busqueda(\'busqueda-comentarios\', \'buscar-comentarios\', \'comentarios\', true)" src="images/search2.png" >
+			  </div>
+			  <div class="busqueda" id="busqueda-comentarios">
+					<div class="buscador">
+						<input type="search" title="Escriba Para Buscar Proyectos" id="buscar-comentarios" placeholder="Buscar Proyectos"/>
+					</div>
+				</div>';
 
 	if(!empty($datos)){
 		$proyectos = new Proyectos();
@@ -46,13 +56,17 @@ function Comentarios(){
 							Proyecto
 						</th>
 						<th>
+							Cliente
+						</th>
+						<th>
 							Comentarios
 						</th>
 					</tr>';
 
 		foreach ($datos as $fila => $comentario) {
 			$proyecto = $proyectos->getProyectoDato('nombre', $comentario['proyecto']);
-			
+			$clienteNombre = $cliente->getClienteDato("nombre", $comentario['usuario']);
+
 			$new = '';
 			if( $comentario['leido'] == 0 ){
 				$new = 'td-new';
@@ -65,10 +79,15 @@ function Comentarios(){
 				$lista .= '<span class="new">
 							New
 						   </span>
-						   '.$proyecto;;
+						   '.$proyecto;
+			}else{
+				$lista .= $proyecto;
 			}
 
 			$lista .= '	</td>
+						<td>
+							'.$clienteNombre.'
+						</td>
 						<td>
 							'.$comentario['COUNT(*)'].'
 						</td>
@@ -158,6 +177,9 @@ function ComentariosArticulo($proyecto, $articulo){
 									<span>Fecha: '.$comentario['fecha_creacion'].'</span>
 								</td>
 							</tr>';
+
+			//marca comentario como leido
+			$comentarios->ComentarioLeido( $comentario['id'] );
 		}
 
 		$formulario .= '</table>';
@@ -168,6 +190,13 @@ function ComentariosArticulo($proyecto, $articulo){
 	$formulario .= '</form>';
 
 	echo $formulario;
+}
+
+/**
+* MARCA UN COMENTARIO COMO LEIDO
+*/
+function ComentarioLeido($id){
+
 }
 
 ?>
