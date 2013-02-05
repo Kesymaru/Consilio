@@ -336,6 +336,12 @@ button:hover{
 	font-size: 18px;
 	font-weight: bold;
 	text-align: center;
+
+		-moz-user-select: all !important;  
+		-webkit-user-select: all !important;  
+		-ms-user-select: all !important;  
+		-o-user-select: all !important;  
+	user-select: all !important;
 }
 
 .datos #buscar-disponibles input,
@@ -387,6 +393,12 @@ button:hover{
 	-webkit-appearance: none;
   	-webkit-box-sizing: content-box;
   	outline:none;
+
+  		-moz-user-select: all !important;  
+		-webkit-user-select: all !important;  
+		-ms-user-select: all !important;  
+		-o-user-select: all !important;  
+	user-select: all !important;
 }
 
 .buscador input[type="search"]:active,
@@ -396,11 +408,12 @@ button:hover{
 .buscador input[type="text"]:focus,
 .buscador input[type="text"]:hover{
 	color: #FFFFFF;
-	-moz-user-select: auto !important;  
-	-webkit-user-select: auto !important;  
-	-ms-user-select: auto !important;  
-	-o-user-select: auto !important;  
-	user-select: auto !important;
+		
+		-moz-user-select: all !important;  
+		-webkit-user-select: all !important;  
+		-ms-user-select: all !important;  
+		-o-user-select: all !important;  
+	user-select: all !important;
 }
 
 .datos #buscar-disponibles input:hover,
@@ -1381,7 +1394,6 @@ button:hover{
 	width: 80%;
 	float: left;
 }
-
 
 /** 
 	IMAGEN 

@@ -623,3 +623,83 @@ ERROR: Componer.js FormularioNuevaObservacion().
 	JAVASCRIPT: 1
 	February 4 2013 - 6:46 pm
  --------------------<>--------------------
+
+Error: Proyectos.js ComentariosArticulo().
+ 
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 5 2013 - 11:23 am
+ --------------------<>--------------------
+
+Error: Proyectos.js ComentariosArticulo().
+ 
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 5 2013 - 11:25 am
+ --------------------<>--------------------
+
+Error: Proyectos.js ComentariosArticulo().
+ 
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 5 2013 - 11:26 am
+ --------------------<>--------------------
+
+Error: Proyectos.js ComentariosArticulo().
+ 
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 5 2013 - 11:29 am
+ --------------------<>--------------------
+
+Error: Proyectos.js ComentariosArticulo().
+ 
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 5 2013 - 11:29 am
+ --------------------<>--------------------

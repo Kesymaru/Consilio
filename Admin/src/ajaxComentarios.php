@@ -58,7 +58,7 @@ function Comentarios(){
 				$new = 'td-new';
 			}
 
-			$lista .= '<tr class="'.$new.'" id="'.$comentario['id'].'" >
+			$lista .= '<tr class="'.$new.'" id="'.$comentario['proyecto'].'" >
 						<td>';
 
 			if( $comentario['leido'] == 0 ){
@@ -133,34 +133,41 @@ function ComentariosArticulo($proyecto, $articulo){
 
 	$articuloNombre = $registros->getDatoArticulo("nombre", $articulo);
 
-	$formulario .= '<div class="titulo" >
-					 	'.$articuloNombre.'
+	$formulario = '<div class="titulo" >
+					 	Comentarios '.$articuloNombre.'
 					</div>';
 
 	if( !empty($datos) ){
-		$formulario .= '<table>';
+		$formulario .= '<table class="tabla-comentario">';
 
-		$clienteDatos = $cliente->getCliente( $comentario[0]['usuario'] );
+		$clienteDatos = $cliente->getDatosCliente( $datos[0]['usuario'] );
 
 		foreach ($datos as $f => $comentario) {
 			
 			$formulario .= '<tr>
-								<td>
-									'.$clienteDatos[0]['nombre'].'
-									<img src="'.$clienteDatos[0]['imagen'].'" />
+								<td class="datos-usuario">
+									<div class="imagen">
+										<div class="img-wrapper">
+										<img src="'.$clienteDatos[0]['imagen'].'" />
+										</div>
+									</div>
+									<span>'.$clienteDatos[0]['nombre'].'</span>
 								</td>
-								<td>
+								<td class="comentario-usuario">
 									'.base64_decode($comentario['comentario']).'
+									<span>Fecha: '.$comentario['fecha_creacion'].'</span>
 								</td>
 							</tr>';
 		}
 
-		$formualario .= '</table>';
+		$formulario .= '</table>';
 	}else{
 		$formulario .= 'no hay comentarios';
 	}
 
 	$formulario .= '</form>';
+
+	echo $formulario;
 }
 
 ?>

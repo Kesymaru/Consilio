@@ -221,7 +221,7 @@ class Master{
 	 */
 	public function MenuProyectos(){
 		echo '<li onClick="Proyectos()">Proyectos</li>';
-		//echo '<li onClick="Comentarios()">Comentarios</li>';
+		echo '<li onClick="Comentarios()">Comentarios</li>';
 	}
 
 }

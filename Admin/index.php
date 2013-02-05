@@ -69,6 +69,7 @@ $master = new Master();
 	<script type="text/javascript" src="js/Clientes.js"></script>
 	<script type="text/javascript" src="js/Componer.js"></script>
 	<script type="text/javascript" src="js/Proyectos.js"></script>
+	<script type="text/javascript" src="js/Comentarios.js"></script>
 	<script type="text/javascript" src="js/Admin.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 
