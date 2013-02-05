@@ -1144,15 +1144,15 @@ select{
 } 
 
 .tabla-comentario .datos-usuario{
-	width: 60px;
+	max-width: 120px;
 	text-align: center;
 	padding-left: 10px;
 }
 
 .datos-usuario .imagen{
-	float: right;
-	display: inline-block;
+	display: block;
 	width: 60px;
+	margin: 0 auto;
 }
 
 .datos-usuario .imagen img{
