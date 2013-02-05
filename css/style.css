@@ -489,6 +489,12 @@ button:hover{
 	border-bottom: 2px solid #A0CA49;
 }
 
+#td-categorias{
+	display: block;
+	overflow: auto;
+	width: 100%;
+}
+
 /**
 * LISTA
 */

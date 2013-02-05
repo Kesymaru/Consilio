@@ -119,17 +119,16 @@ function Hijos(padre, proyecto){
 				
 				var totalWidth = 0;
 
-				$("#td-categorias li").each(function(index){
+				$("#td-categorias ul").each(function(index){
 					totalWidth += parseInt($(this).width(), 10);
 				});
-				totalWidth += $("#Padre"+padre).width();
+				//totalWidth += $("#Padre"+padre).width();
+				
+				$.cookie('ancho', totalWidth);
 
-				$("#td-categorias").animate({
-					"width" : totalWidth
-				},700, function(){
-					$("#td-categorias").css('width', totalWidth);
-				});
+				$("#td-categorias").css('width', totalWidth);
 
+				//$("#menu2").scrollTo( $("#Padre"+padre) , 700);
 			}else{
 				notificaError("Error: "+response);
 			}
@@ -568,10 +567,15 @@ function ShowCategorias(){
 
 	$("#camino-normas, #camino-articulos").fadeOut();
 
+	var ancho = $.cookie("ancho");
+	if( ancho == 0 ){
+		ancho = '100%';
+	}
+
 	$("#td-categorias").animate({
-		"width" : "100%"
+		"width" : ancho
 	},700, function(){
-		$("#td-categorias").css('width', "100%");
+		$("#td-categorias").css('width', ancho);
 	});
 	$("#td-categorias div").fadeIn(700);
 

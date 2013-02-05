@@ -429,6 +429,7 @@ function Cookies(){
 		$.cookie('proyecto', '', { expires: 7 });
 		$.cookie('categoria', 'home', { expires: 7 });
 		$.cookie('norma', 'home', { expires: 7 });
+		$.cookie('ancho', '100%');
 	}
 	Inicializa();
 }

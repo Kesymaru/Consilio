@@ -66,11 +66,10 @@ $master = new Master();
 	<script type="text/javascript" src="js/main.js"></script>
 
 	<!-- jquery plugins -->
-	<script type="text/javascript" src="js/chosen.jquery.min.js"></script>
-	<script type="text/javascript" src="js/jquery.form.js"></script>
+
 	<script type="text/javascript" src="js/jquery.cookie.js"></script>
-	<script type="text/javascript" src="js/jquery.contextMenu.js"></script>
-	<script type="text/javascript" src="fancybox/jquery.fancybox.js"></script>
+
+	<script type="text/javascript" src="js/jquery.scrollTo-min.js"></script>
 
 <!--	<script type="text/javascript" src="js/jquery.ui.timepicker.js"></script> -->
 	
@@ -174,6 +173,7 @@ $master = new Master();
 		<!-- end menu -->
 
 		<div id="menu2">
+
 			<!-- tabla para el panel donde se muestran las lista -->
 			<table class="panel" >
 			<tr>
@@ -201,6 +201,9 @@ $master = new Master();
 			</tr>
 			<tr id="panel">
 				<td id="td-categorias" >
+					<div id="categoriasPanel">
+
+					</div>
 				</td> 
 				<td id="td-normas" >
 				</td> 
@@ -209,6 +212,7 @@ $master = new Master();
 			</tr>
 			</table>
 			<!-- end table -->
+		
 		</div>
 		<!-- end menu 2 -->
 
