@@ -122,8 +122,6 @@ function Comentario(id){
 function ComentariosArticulo( proyecto, articulo ){
 	var queryParams = {"func" : "ComentariosArticulo", "proyecto" : proyecto, "articulo" : articulo};
 
-	notifica(proyecto + ' ' + articulo );
-
 	$.ajax({
 		data: queryParams,
 		type: "post",
