@@ -272,7 +272,8 @@ class Registros{
 	}
 
 	/**
-	*
+	* OBIENE TODOS LOS DATOS DE UN TIPO DE OBSERVACION
+	* $id -> id del tipo
 	*/
 	public function getTipoObservacionDatos($id){
 		$base = new Database();
@@ -284,6 +285,29 @@ class Registros{
 		$datos = $base->Select($query);
 
 		return $datos;
+	}
+
+	/**
+	 * OBTIENE UN DATO DE UN TIPO DE OBSERVACION
+	 * @param $dato -> dato solicitado
+	 * @param $id -> id del tipo
+	 * @return $datos -> dato solicitado
+	 * @return false -> si falla
+	 */
+	public function getTipoObservacionDato($dato, $id){
+		$base = new Database();
+
+		$id = mysql_real_escape_string($id);
+
+		$query = "SELECT * FROM tipos_observaciones WHERE id = '".$id."'";
+
+		$datos = $base->Select($query);
+
+		if(!empty($datos)){
+			return $datos[0][$dato];
+		}else{
+			return false;
+		}
 	}
 
 	/**
@@ -342,23 +366,37 @@ class Registros{
 	}	
 
 	/**
-	* OBTIENE LOS DATOS DE LA OBSERVACION
-	* @param $proyecto -> id del proyecto
-	* @param $categoria -> id de la categoria
-	* @return $datos[][] -> datos de la observacion
+	* OBTIENE TODAS LAS OBSERVACIONES
 	* @return false si falla o no tiene datos
 	*/
-	public function getObservacion($proyecto, $categoria){
+	public function getObservaciones($proyecto, $norma, $articulo){
 		$base = new Database();
-		$query = "SELECT * FROM observaciones WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."'";
+		
+		$proyecto = mysql_real_escape_string($proyecto);
+		$norma = mysql_real_escape_string($norma);
+		$articulo = mysql_real_escape_string($articulo);
+
+		$query = "SELECT * FROM observaciones WHERE proyecto = '".$proyecto."' AND norma = '".$norma."' AND articulo = '".$articulo."'";
 		
 		$datos = $base->Select($query);
 		
-		if(!empty($datos)){
-			return $datos;
-		}else{
-			return false;
-		}
+		return $datos;
+	}
+
+	/**
+	* OBTIEN LOS DATOS DE UNA OBSERVACION
+	* @return false si falla o no tiene datos
+	*/
+	public function getObservacion($id){
+		$base = new Database();
+		
+		$id = mysql_real_escape_string($id);
+
+		$query = "SELECT * FROM observaciones WHERE id = '".$id."'";
+		
+		$datos = $base->Select($query);
+		
+		return $datos;
 	}
 
 	/**
@@ -369,48 +407,39 @@ class Registros{
 	* @return true si se actualiza o registra
 	* @return false si falla
 	*/
-	public function RegistrarObservacion($proyecto, $categoria, $observacion){
+	public function RegistrarObservacion($proyecto, $norma, $articulo, $observacion){
 		$base = new Database();
+
 		$proyecto = mysql_real_escape_string($proyecto);
-		$categoria = mysql_real_escape_string($categoria);
-		$observacion =base64_encode($observacion);
-
-		$query = "SELECT * FROM observaciones WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."'";
-
-		if($base->Existe($query)){
-			$query = "UPDATE observaciones SET observacion = '".$observacion."', fecha_actualizacion = NOW() WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."'";
+		$norma = mysql_real_escape_string($norma);
+		$articulo = mysql_real_escape_string($articulo);
+		$observacion = base64_encode($observacion);
+		$admin = mysql_real_escape_string( $_SESSION['id'] );
+		
+		$query = "INSERT INTO observaciones ( observacion, proyecto, norma, articulo, admin, fecha_creacion, fecha_actualizacion ) VALUES ('".$observacion."', '".$proyecto."', '".$norma."', '".$articulo."', '".$admin."', NOW(), NOW() )";
 			
-			if($base->Update($query)){
-				return true;
-			}else{
-				return false;
-			}
+		if($base->Insert($query)){
+			return true;
 		}else{
-			$query = "INSERT INTO observaciones ( observacion, categoria, proyecto, fecha_creacion ) VALUES ('".$observacion."', '".$categoria."', '".$proyecto."', NOW() )";
-			
-			if($base->Insert($query)){
-				return true;
-			}else{
-				return false;
-			}
+			return false;
 		}
 	}
 
 	/**
-	* OBTIEN UN DATO DE UNA OBSERVACION
-	* @param $dato -> dato solicitado
-	* @param $proyecto -> id del prooyecto
-	* @param $categoria -> id de la categoria
-	* @return $dato 
-	*/
-	public function getObservacionDato($dato, $proyecto, $categoria){
+	 * ACTUALIZA UNA OBSERVACION
+	 * @param $id 
+	 */
+	public function UpdateObservacion($observacion, $tipo, $id){
 		$base = new Database();
-		$query = "SELECT * FROM observaciones WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."'";
 
-		$datos = $base->Select($query);
-		
-		if(!empty($datos)){
-			return $datos[0][$dato];
+		$id = mysql_real_escape_string($id);
+		$observacion = base64_encode($observacion);
+		$admin = mysql_real_escape_string( $_SESSION['id'] );
+
+		$query = "UPDATE observaciones SET observacion = '".$observacion."', tipo = '".$tipo."', admin = '".$admin."', fecha_actualizacion = NOW() WHERE id = '".$id."'";
+
+		if( $base->Update($query) ){
+			return true;
 		}else{
 			return false;
 		}

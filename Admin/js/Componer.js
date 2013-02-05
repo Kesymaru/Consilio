@@ -679,7 +679,9 @@ function RegistrarArticulosIncluidos(){
 function PreviewArticuloDatos(articulo){
 	VerArticulosDatos();
 
-	var queryParams = {"func" : "PreviewArticulo", "id" : articulo};
+	var proyecto = $("#proyecto").val();
+	var norma = $("#norma").val();
+	var queryParams = {"func" : "PreviewArticulo", "proyecto" : proyecto, "norma" : norma, "id" : articulo};
 
 	$.ajax({
 		data: queryParams,
@@ -694,6 +696,7 @@ function PreviewArticuloDatos(articulo){
 	}).done(function(){
 
 		$( "#tabs" ).tabs();
+		$( "#tabs2" ).tabs();
 		$("#entidades").tagsInput({
 			"height":"auto",
 	   		"width":"100%",
@@ -917,26 +920,9 @@ function Observacion(){
 		queue: false,
 		complete: function(){
 			$("#NormasIncluidas, .preview-botones").hide();
-
-			/*var queryParams = {"func" : "NuevaObservacion"};
-			$.ajax({
-				data: queryParams,
-				type: "post",
-				url: "src/ajaxObservaciones.php",
-				success: function(response){
-					if( response.length > 0 ){
-						$("#observacion").html(response);
-						FormularioNuevaObservacion();
-					}else{	
-						notificaError("Error: Componer.js Observacion().<br/>"+response);
-					}
-				},
-				fail: function(response){
-								notificaError("Error: AJAX fail Componer.js Observacion().<br/>"+response);
-				}
-			});*/
 		}
 	});
+
 	var proyecto = $("#proyecto").val();
 	var norma = $("#norma").val();
 	var articulo = $("#articulo").val();
@@ -961,8 +947,10 @@ function Observacion(){
 	});
 }
 
+/**
+ * CANCELA UNA NUEVA OBSERBACION
+ */
 function ObservacionCancelar(){
-	notifica("Operacion Cancelada");
 
 	$("#observacion").animate({
 		height: 0,
@@ -990,6 +978,7 @@ function FormularioNuevaObservacion(){
 	    success: function(response) { 
 	    	if(response.length <= 3 ){
 	    		notifica("Nueva Observacion Creada.");
+	    		ObservacionCancelar();
 	    	}else{
 	    		notificaError("ERROR: Componer.js FormularioNuevaObservacion().<br/>"+response);
 	    	}
@@ -999,4 +988,72 @@ function FormularioNuevaObservacion(){
 		}
 	}; 
 	$('#FormularioNuevaObservacion').ajaxForm(options);
+}
+
+/**
+ * EDITA UNA OBSERVACION
+ */
+function EditarObservacion(id){
+	var alto = $(".fancybox-inner").height();
+
+	$("#observacion").css({'display':"block"});
+
+	$("#observacion").animate({
+		height: alto,
+	}, { 
+		duration: 1500, 
+		queue: false,
+		complete: function(){
+			$("#NormasIncluidas, .preview-botones").hide();
+		}
+	});
+	
+	var proyecto = $("#proyecto").val();
+	var norma = $("#norma").val();
+	var articulo = $("#articulo").val();
+
+	var queryParams = {"func" : "EditarObservacion", "id" : id};
+	
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxObservaciones.php",
+		success: function(response){
+			if( response.length > 0 ){
+				$("#observacion").html(response);
+				FormularioEditarObservacion();
+			}else{	
+				notificaError("Error: Componer.js Observacion().<br/>"+response);
+			}
+		},
+		fail: function(response){
+			notificaError("Error: AJAX fail Componer.js Observacion().<br/>"+response);
+		}
+	});
+}
+
+/**
+ * INICIALIZA EL FORMULARIO DE EDICION DE OBSERVACION
+ */
+function FormularioEditarObservacion(){
+	$("#tipo").chosen();
+
+	Editor('observacion-nueva');
+
+	$("#FormularioEditarObservacion").validationEngine();
+		
+	var options = {  
+	    success: function(response) { 
+	    	if(response.length <= 3 ){
+	    		notifica("Observacion Actualizada.");
+	    		ObservacionCancelar();
+	    	}else{
+	    		notificaError("ERROR: Componer.js FormularioEditarObservacion().<br/>"+response);
+	    	}
+		},
+		fail: function(){
+			notificaError("ERROR: FORM FAIL Componer.js FormularioEditarObservacion().<br/>"+response);
+		}
+	}; 
+	$('#FormularioEditarObservacion').ajaxForm(options);
 }

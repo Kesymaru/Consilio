@@ -46,15 +46,31 @@ if( isset($_POST['func']) ){
 
 		/**************** OBSERVACIONES **************/
 
+		//formulario para nueva observacion
 		case 'NuevaObservacion':
 			if( isset($_POST['proyecto']) && isset($_POST['norma']) && isset($_POST['articulo']) ){
 				NuevaObservacion( $_POST['proyecto'], $_POST['norma'], $_POST['articulo'] );
 			}
 			break;
 
+		//registra una nueva observacion
 		case 'RegistrarObservacion':
 			if( isset($_POST['proyecto']) && isset($_POST['norma']) && isset($_POST['articulo']) && isset($_POST['observacion-nueva']) ){
 				RegistrarObservacion( $_POST['proyecto'], $_POST['norma'], $_POST['articulo'], $_POST['observacion-nueva'] );
+			}
+			break;
+
+		//EDICION DE UNA OBSERVACION
+		case 'EditarObservacion':
+			if( isset($_POST['id']) ){
+				EditarObservacion( $_POST['id'] );
+			}
+			break;
+
+		//actualiza una observacion
+		case 'ActualizarObservacion':
+			if( isset($_POST['observacion-nueva']) && isset($_POST['tipo']) && isset($_POST['id']) ){
+				ActualizarObservacion($_POST['observacion-nueva'], $_POST['tipo'], $_POST['id'] );
 			}
 			break;
 	}
@@ -220,7 +236,9 @@ function DeleteTipo( $id ){
 */
 function NuevaObservacion($proyecto, $norma, $articulo){
 	$formulario = '<form id="FormularioNuevaObservacion" enctype="multipart/form-data" method="post" action="src/ajaxObservaciones.php" >
-					<div class="titulo">Nueva Observacion</div>
+					<div class="titulo">
+						Nueva Observacion
+					</div>
 					<input type="hidden" name="func" value="RegistrarObservacion" >
 					<input type="hidden" name="proyecto" value="'.$proyecto.'" >
 					<input type="hidden" name="norma" value="'.$norma.'" >
@@ -247,7 +265,7 @@ function NuevaObservacion($proyecto, $norma, $articulo){
 	
 	$formulario .= '<div class="observacion-botonera">
 						<button type="button" onClick="ObservacionCancelar()" >Cancelar</button>
-						<input type="submit" value="Guardar">
+						<input type="submit" value="Guardar" onClick="EditorUpdateContent()" >
 					</div>';
 
 	$formulario .= '</form>';
@@ -286,7 +304,106 @@ function TiposDisponibles(){
 * REGISTRA UNA OBSERVACION NUEVA
 */
 function RegistrarObservacion( $proyecto, $norma, $articulo, $observacion){
+	$registro = new Registros();
 
+	if( !$registro->RegistrarObservacion($proyecto, $norma, $articulo, $observacion ) ){
+		echo 'Error: ajaxObservaciones.php RegistrarObservacion().<br/>No se pudo crear la nueva observacion.';
+	}
+}
+
+/**
+ * FORMULARIO DE EDICION DE UNA OBASERVACION
+ * @param $id -> id de la obaservacion
+ */
+function EditarObservacion( $id ){
+	$registros = new Registros();
+
+	$datos = $registros->getObservacion( $id );
+
+	if( !empty($datos) ){
+		$formulario = '<form id="FormularioEditarObservacion" enctype="multipart/form-data" method="post" action="src/ajaxObservaciones.php" >
+						<div class="titulo">
+							Edición  Observacion
+						</div>
+						<input type="hidden" name="func" value="ActualizarObservacion" >
+						<input type="hidden" name="id" value="'.$id.'" >';
+
+		if( $tipos = SelectedTipos( $datos[0]['tipo']) ){
+			$formulario .= '<table>
+							<tr>
+								<td>
+									Tipo
+								</td>
+								<td>
+									'.$tipos.'
+								</td>
+							</tr>
+							</table>
+							<textarea id="observacion-nueva" name="observacion-nueva">'.base64_decode($datos[0]['observacion']).'</textarea>';
+
+		}else{
+			$formulario .= 'No hay tipos para observaciones diponibles.<br/>
+							Debe crear almenos un tipo de observacion para poder crear una observacion.<br/>
+							<p>Edicion -> Tipos Observacion</p>';
+		}
+		
+
+	}else{
+		$formulario .= "No hay datos de la observacion.";
+	}
+		
+	$formulario .= '<div class="observacion-botonera">
+						<button type="button" onClick="ObservacionCancelar()" >Cancelar</button>
+						<input type="submit" value="Guardar" onClick="EditorUpdateContent()">
+					</div>';
+
+	$formulario .= '</form>';
+
+	echo $formulario;
+}
+
+/**
+ * 
+ */
+function SelectedTipos($id){
+	$registros = new Registros();
+
+	$tipos = $registros->getTiposObservaciones();
+
+	$select = '';
+
+	if(!empty($tipos)){
+		$select .= '<select name="tipo" id="tipo">';
+		
+		foreach ($tipos as $fila => $tipo) {
+			if($tipo['id'] == $id ){
+				$select .= '<option value="'.$tipo['id'].'" selected>
+						'.$tipo['nombre'].'
+						</option>';
+			}else{
+				$select .= '<option value="'.$tipo['id'].'">
+						'.$tipo['nombre'].'
+						</option>';
+			}
+		}
+
+		$select .= '</select>';
+
+		return $select;
+	}else{
+		return false;
+	}
+}
+
+/**
+ * ACTUALIZA UNA OBSERVACION
+ */
+function ActualizarObservacion($observacion, $tipo, $id){
+	$registros = new Registros();
+
+	if( !$registros->UpdateObservacion($observacion, $tipo, $id) ){
+		echo "Error: ajaxObservaciones.php ActualizarObservacion().<br/>NO se pudo actualizar la observacion id = $id";
+	}
 }
 
 ?>

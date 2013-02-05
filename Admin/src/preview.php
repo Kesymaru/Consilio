@@ -24,8 +24,8 @@ if(isset($_POST['func'])){
 
 		//PREVIEW DE LOS DATOS DE UN ARTICULO 
 		case 'PreviewArticulo':
-			if( isset($_POST['id']) ){
-				PreviewArticulo( $_POST['id'] );
+			if( isset($_POST['proyecto']) && isset($_POST['norma']) && isset($_POST['id']) ){
+				PreviewArticulo( $_POST['proyecto'], $_POST['norma'], $_POST['id'] );
 			}
 			break;
 
@@ -168,7 +168,6 @@ function NormasIncluidas($proyecto, $categoria){
 			<div class="preview-botones">
 				<button type="button" onClick="LimpiarNormasIncluidas();">Limpiar</button>
 				<button type="button" onClick="$.fancybox.close();">Terminar</button>
-				<button type="button" onClick="GuardarObservacion()">Guardar</button>
 				<img id="NuevaObservacion" class="icon derecha ocultos" src="images/coment.png" title="Agregar Observacion" onClick="Observacion()">
 			</div>
 			<div id="observacion">
@@ -268,12 +267,14 @@ function RegistrarArticulosIncluidos($proyecto, $norma, $articulos){
 * COMPONE EL PRVIEW CON LOS DATOS DE UN ARTICULO, LA EDICION ESTA DESHABILITADA
 * @param $id -> id del articulo
 */
-function PreviewArticulo($id){
+function PreviewArticulo($proyecto, $norma, $id){
 	$registros = new Registros();
 
 	$datos = $registros->getArticulo($id);
 	
 	$preview = '<input type="hidden" id="articulo" name="articulo" value="'.$id.'">';
+
+	$observaciones = $registros->getObservaciones($proyecto, $norma, $id);
 
 	if(!empty($datos)){
 		$entidades = unserialize( $datos[0]['entidad'] );
@@ -350,6 +351,7 @@ function PreviewArticulo($id){
 					</div>
 					<!-- end tabs -->';
 		
+		//tiene archivos adjuntos
 		if(!empty($archivos)){
 			
 			$preview .= '<div class="adjuntos">
@@ -366,6 +368,37 @@ function PreviewArticulo($id){
 			
 			$preview .= '</ul>
 					</div><!-- end archivos -->';
+		}
+
+		//tiene observaciones
+		if(!empty($observaciones)){
+			$preview .= '<div id="tabs2">
+						<ul>';
+
+			$contador = 1;
+			foreach ($observaciones as $fila => $observacion) {
+				$titulo = $registros->getTipoObservacionDato("nombre", $observacion['tipo']);
+				$preview .= '<li>
+								<a href="#tabs2-'.$contador.'" title="Observacion '.$titulo.'">
+								'.$titulo.'
+								</a>
+							</li>';
+				$contador++;
+			}
+
+			$preview .= '</ul>
+						</div>';
+
+			//OBSERVACIONES
+			$contador = 1;
+			foreach ($observaciones as $fila => $observacion) {
+				$preview .= '<div id="tabs2-'.$contador.'">
+								<div class="texto">
+								<button type="button" onClick="EditarObservacion('.$observacion['id'].')" >Editar</button>
+								'.base64_decode($observacion['observacion']).'
+								</div>
+							</div>';
+			}
 		}
 
 	}else{
