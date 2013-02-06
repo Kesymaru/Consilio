@@ -13,7 +13,7 @@ if( isset($_POST['username']) && $_POST['password'] ){
 	if( $session->RemoteLogIn($_POST['username'], $_POST['password']) ){
 		echo $_SESSION['home'];
 	}else{
-		echo 'Error: credenciales invalidas.';
+		echo $_SERVER['HTTP_REFERER'] ;
 	}
 }else{
 	echo 'error: credenciales invalidas';
