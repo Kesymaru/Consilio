@@ -48,6 +48,72 @@ select{
 	display: block;
 }
 
+input[type="submit"],
+input[type="reset"],
+button{
+	
+	padding: 2px;
+	
+	border-radius: 5px;
+	border: 1px solid #F7991C;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+
+	font-weight: bold;
+	text-align: center;
+	font-size: 15px;
+	color: #fff;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+
+	background-color: #A1CA4A;
+		background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #A1CA4A), color-stop(100%, #D8A817));
+		background-image: -webkit-linear-gradient(top, #A1CA4A, #D8A817);
+		background-image: -moz-linear-gradient(top, #A1CA4A, #D8A817);
+		background-image: -ms-linear-gradient(top, #A1CA4A, #D8A817);
+		background-image: -o-linear-gradient(top, #A1CA4A, #D8A817);
+		background-image: linear-gradient(top, #A1CA4A, #D8A817);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#A1CA4A, endColorstr=#D8A817);
+}
+
+input[type="submit"]:hover,
+input[type="reset"]:hover,
+button:hover{
+	border:1px solid #F7991C;
+	background-color: #F7991C;
+	 	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#F7991C), color-stop(100%, #F68400));
+	 	background-image: -webkit-linear-gradient(top, #F7991C, #F68400);
+	 	background-image: -moz-linear-gradient(top, #F7991C, #F68400);
+	 	background-image: -ms-linear-gradient(top, #F7991C, #F68400);
+	 	background-image: -o-linear-gradient(top, #F7991C, #F68400);
+	 	background-image: linear-gradient(top, #F7991C, #F68400);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#F7991C, endColorstr=#F68400);
+}
+
+.button-cancelar{
+	border-radius: 5px;
+	padding: 2px;
+	font-size: 15px;
+	color: #fff;
+	border: 1px solid #b30808 !important;
+
+	background-color: #f62b2b;
+		background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f62b2b), color-stop(100%, #d20202));
+		background-image: -webkit-linear-gradient(top, #f62b2b, #d20202);
+		background-image: -moz-linear-gradient(top, #f62b2b, #d20202);
+		background-image: -ms-linear-gradient(top, #f62b2b, #d20202);
+		background-image: -o-linear-gradient(top, #f62b2b, #d20202);
+		background-image: linear-gradient(top, #f62b2b, #d20202);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=f62b2b, endColorstr=#d20202);
+}
+
+.button-cancelar:hover{
+	border:1px solid #b30808;
+	background-color: #e40a0a;
+	 	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e40a0a), color-stop(100%, #9f0202));
+	 	background-image: -webkit-linear-gradient(top, #e40a0a, #9f0202);
+	 	background-image: -moz-linear-gradient(top, #e40a0a, #9f0202);
+	 	background-image: -ms-linear-gradient(top, #e40a0a, #9f0202);
+	 	background-image: -o-linear-gradient(top, #e40a0a, #9f0202);
+	 	background-image: linear-gradient(top, #e40a0a, #9f0202);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#e40a0a, endColorstr=#9f0202);
+}
+
+
 /*
 *	MENU
 */
@@ -173,6 +239,29 @@ select{
 .listIzquierda li:focus,
 .listIzquierda li:active{
 	background-color: #D5D4D5;
+}
+
+.contador{
+	float: right;
+	display: inline-block;
+	background-color: #F68400;
+	color: #fff;
+	margin-top: 0;
+	padding: 5px 7px;
+	border-radius: 12px;
+	font-size: 10px;
+	font-weight: bold;
+}
+
+.contador-center{
+	margin: 0 auto;
+	display: inline-block;
+	color: #F68400;
+	margin-top: 0;
+	padding: 5px 7px;
+	border-radius: 12px;
+	font-size: 15px;
+	font-weight: bold;
 }
 
 .focus{
@@ -444,12 +533,9 @@ select{
 
 .table-list tr{
 	cursor: pointer;
-<<<<<<< HEAD
+
 	border-top-width: 1px;
 	border-bottom-width: 1px;
-=======
-	border-width: 1px;
->>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
 	border-style: solid;
 	border-color: #F1F1F1; /*ie 8*/
 	border-color: rgba(117, 114, 115, .1);
@@ -460,11 +546,26 @@ select{
 	background-color: rgba(117, 114, 115, .3);
 }
 
+.table-list tr:hover .contador-center{
+	background-color: #F68400;
+	color: #fff;
+
+		-o-transition: all 1s ease-out;
+		-ms-transition: all 1s ease-out;
+		-moz-transition: all 1s ease-out;
+		-webkit-transition: all 1s ease-out;
+	transition: all 1s ease-out;
+}
+
+.seleccionada .contador-center{
+	background-color: #F68400;
+	color: #fff;
+}
+
 .table-list td{
 	padding: 5px;
 }
 
-<<<<<<< HEAD
 .td-new{
 	border-bottom: 1px solid red !important;
 	color: #a1ca4a;
@@ -477,8 +578,6 @@ select{
 	font-weight: bold;
 }
 
-=======
->>>>>>> 8a86dd0de1f1b929444f0717a95f9060ec61a197
 /**
 * LISTA
 */

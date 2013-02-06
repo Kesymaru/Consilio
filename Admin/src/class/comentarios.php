@@ -59,6 +59,26 @@ class Comentarios{
 	}
 
 	/**
+	* CUENTA COMENTARIOS POR ARTICULO
+	*/
+	public function ContaraArticuloComentarios($proyecto, $articulo){
+		$base = new Database();
+		
+		$articulo = mysql_real_escape_string($articulo);
+		$proyecto = mysql_real_escape_string($proyecto);
+
+		$query = "SELECT articulo, COUNT(*) FROM comentarios WHERE proyecto = '".$proyecto."' AND articulo = '".$articulo."' GROUP BY proyecto ORDER BY fecha_creacion";
+
+		$datos = $base->Select($query);
+		
+		if( !empty($datos) ){
+			return $datos[0]['COUNT(*)'];
+		}else{
+			return false;
+		}
+	}
+
+	/**
 	*MARCA UN COMENTARIO COMO LEIDO
 	* @param $id -> id comentario
 	*/

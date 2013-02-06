@@ -89,7 +89,7 @@ function Comentarios(){
 							'.$clienteNombre.'
 						</td>
 						<td>
-							'.$comentario['COUNT(*)'].'
+							<span class="contador-center">'.$comentario['COUNT(*)'].'</span>
 						</td>
 					   </tr>';
 		}
@@ -113,12 +113,20 @@ function Comentarios(){
 function Comentario( $proyecto ){
 	$comentarios = new Comentarios();
 	$registros = new Registros();
+	$proyectos = new Proyectos();
 
+	$proyectoNombre = $proyectos->getProyectoDato("nombre" , $proyecto );
 	$datos = $comentarios->getComentario($proyecto);
 
-	$lista = '<div class="titulo">
-				Comentarios
-			   </div>';
+	$lista = '<div class="titulo" title="Comentarios De '.$proyectoNombre.'">
+				<img class="boton-buscar icon" type="button" title="Buscar Comentarios En Articulos" onClick="Busqueda(\'busqueda-comentarios-menu\', \'buscar-comentarios-menu\', \'comentarios-articulos\', false)" src="images/search2.png" >
+				'.$proyectoNombre.'
+			   </div>
+			   <div class="busqueda" id="busqueda-comentarios-menu">
+					<div class="buscador">
+						<input type="search" title="Escriba Para Buscar Normas" id="buscar-comentarios-menu" placeholder="Buscar Normas"/>
+					</div>
+				</div>';
 
 	if( !empty($datos) ){
 		$lista .= '<ul class="list" id="comentarios-articulos">';
@@ -126,9 +134,13 @@ function Comentario( $proyecto ){
 		foreach ($datos as $f => $comentario) {
 			$articulo = $registros->getDatoArticulo("nombre", $comentario['articulo']);
 
-			$lista .= '<li id="'.$comentario['articulo'].'" title="Comentario: '.$articulo.'" >'
-						.$articulo.
-						'</li>';
+			$lista .= '<li id="'.$comentario['articulo'].'" title="Comentario: '.$articulo.'" >';
+						
+			if( $c = $comentarios->ContaraArticuloComentarios($proyecto, $comentario['articulo']) ){
+				$lista .= '<span class="contador" title="'.$c.' Comentarios">'.$c.'</span>';
+			}
+			
+			$lista .= $articulo.'</li>';
 		}
 
 		$lista .= '</ul>';
@@ -154,7 +166,8 @@ function ComentariosArticulo($proyecto, $articulo){
 
 	$formulario = '<div class="titulo" >
 					 	Comentarios '.$articuloNombre.'
-					</div>';
+					</div>
+					';
 
 	if( !empty($datos) ){
 		$formulario .= '<table class="tabla-comentario">';

@@ -16,7 +16,9 @@ switch ($_POST['func']){
 	case 'LogIn':
 		if(isset($_POST['usuario']) && isset($_POST['password'])){
 			$session = new Session();
-			$session->LogIn($_POST['usuario'], $_POST['password']);
+			if( $session->Logueado() ){
+				$session->LogIn($_POST['usuario'], $_POST['password']);				
+			}
 		}
 		break;
 

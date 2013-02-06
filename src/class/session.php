@@ -13,8 +13,15 @@ class Session{
 		if( !isset($_SESSION['cliente']) ){
 			session_start();
 			//$_SESSION['home'] = 'http://'.$_SERVER['HTTP_HOST'].'/Consilio';
-			$_SESSION['home'] = '/matrizescala';
-			$_SESSION['datos'] = 'Admin/';
+			//$_SESSION['home'] = '/matrizescala';
+			//$_SESSION['datos'] = 'Admin/';
+
+			$protocolo = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        	$dominio = $_SERVER['HTTP_HOST'];
+
+			//$_SESSION['home'] = 'http://'.$_SERVER['HTTP_HOST'].'/Consilio';
+			$_SESSION['home'] = $protocolo.$dominio.'/matrizescala/Admin';
+			$_SESSION['datos'] = $protocolo.$dominio.'/matrizescala/Admin';
 		}
 
 		date_default_timezone_set('America/Costa_Rica');
@@ -90,6 +97,30 @@ class Session{
 			echo 'El usuario o la contraseña es incorrecta';
 		}
 
+	}
+
+	/**
+	* LOGUEO REMOTO
+	*/
+	public function RemoteLogIn($usuario, $password){
+		$base = new Database();
+
+		$usuario = mysql_real_escape_string($usuario);
+		$password = mysql_real_escape_string($password);
+
+		$password = $base->Encriptar($password);
+
+		//existe el usuario
+		if( $base->Existe("SELECT * FROM clientes WHERE usuario = '".$usuario."' AND contrasena = '".$password."'") ){
+			
+			if($this->UserIniciarSession($usuario, $password)){
+				$_SESSION['cliente'] = true;
+				return true;
+			}
+
+		}else{
+			return false;
+		}
 	}
 
 	/**
