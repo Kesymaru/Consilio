@@ -12,10 +12,10 @@ if( isset($_POST['username']) && $_POST['password'] ){
 	if( $session->RemoteLogIn($_POST['username'], $_POST['password']) ){
 		header('Location: '.$_SESSION['home']);
 	}else{
-		header('Location: '.$_SERVER['HTTP_REFERER');
+		header('Location: '.$_SERVER['HTTP_REFERER']);
 	}
 }else{
-	header('Location: '.$_SERVER['HTTP_REFERER');
+	header('Location: '.$_SERVER['HTTP_REFERER']);
 }
 
 ?>
