@@ -145,8 +145,6 @@ function FormularioComponerCategoriasValidar(){
  * @param id -> id de la hija
  */
 function HijosComponer(padre){
-	notifica('HijosComponer');
-
 	ComponerLimpiarHermanos(padre);
 
 	var queryParams = {'func' : "CategoriasHijas", "padre" : padre};
