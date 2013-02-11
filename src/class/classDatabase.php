@@ -34,9 +34,9 @@ class Database{
 	
 	//Conexion
 	public function conect(){
-		$this->dbLink = mysql_connect($this->dbHost, $this->dbUser) or die ("1. No funciona por " . mysql_error()); 
+		//$this->dbLink = mysql_connect($this->dbHost, $this->dbUser) or die ("1. No funciona por " . mysql_error()); 
 		
-		//$this->dbLink= mysql_connect($this->dbHost, $this->dbUser, $this->dbPassword) or die ("1. No funciona por " . mysql_error()); 
+		$this->dbLink= mysql_connect($this->dbHost, $this->dbUser, $this->dbPassword) or die ("1. No funciona por " . mysql_error()); 
 	}
 	//Seleccionar base	
 	public function setBase(){
@@ -50,9 +50,9 @@ class Database{
 	//Desconexion
 	private function disconnect(){
 		if($this->dbLink){
-			mysql_close( mysql_connect($this->dbHost, $this->dbUser) );
+			//mysql_close( mysql_connect($this->dbHost, $this->dbUser) );
 			
-			//mysql_close( mysql_connect($this->dbHost, $this->dbUser, $this->dbPassword) );
+			mysql_close( mysql_connect($this->dbHost, $this->dbUser, $this->dbPassword) );
 			//mysql_close($this->dbLink);
 		}
 	}
