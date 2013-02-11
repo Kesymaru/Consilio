@@ -41,15 +41,15 @@ $master = new Master();
 	<link rel="stylesheet" type="text/css" href="css/jquery.tagsinput.css">
 
 
-	<!-- jquery local para desarrollo -->
+	<!-- jquery local para desarrollo 
 	<script type="text/javascript" src="js/jquery-1.8.2.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-1.9.0.custom.js"></script>
-	
+	-->
 
-	<!-- jquery google 
+	<!-- jquery google -->
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-1.9.0.custom.js"></script>
-	-->
+	
 
 	<!-- validacion de form -->
 	<script type="text/javascript" src="js/languages/jquery.validationEngine-es.js" charset="utf-8"></script>
