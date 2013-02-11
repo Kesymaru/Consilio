@@ -50,8 +50,8 @@ class Registros{
 		$registro = serialize($registro);
 		$fecha = mysql_real_escape_string($fecha);
 
-		$query = "INSERT INTO registros (proyecto, registro, fecha_creacion) VALUES";
-		$query .= " ('".$proyecto."', '".$registro."', '".$fecha."' )";
+		$query = "INSERT INTO registros (proyecto, registro, fecha_creacion, fecha_actualizacion) VALUES";
+		$query .= " ('".$proyecto."', '".$registro."', '".$fecha."', NOW() )";
 
 		if($base->Insert($query)){
 			return true;
@@ -122,9 +122,18 @@ class Registros{
 		$base = new Database();
 
 		$proyecto = mysql_real_escape_string($proyecto);
+		
 		$query = "DELETE FROM registros WHERE proyecto = ".$proyecto;
+		$query2 = "DELETE FROM registros_norma WHERE proyecto = '".$proyecto."'";
+		$query3 = "DELETE FROM registros_articulos WHERE proyecto = '".$proyecto."'";
+		$query4 = "DELETE FROM comentarios WHERE proyecto = '".$proyecto."'";
 
-		if($base->Delete($query)){
+		if( $base->Delete($query) ){
+			
+			$base->Delete($query2);
+			$base->Delete($query3);
+			$base->Delete($query4);
+
 			return true;
 		}else{
 			return false;
@@ -197,16 +206,19 @@ class Registros{
 	/**
 	* OBTIENE LOS REGISTROS DE LOS ARTICULOS INCLUIDOS DE UNA NORMA
 	* @param $proyecto -> id del proyecto
+	* @param $categoria -> id de la categor
 	* @param $norma -> id de la norma
 	* @return $datos -> array[][] con los datos
 	* @return false si  falla
 	*/
-	public function getRegistrosArticulos($proyecto, $norma){
+	public function getRegistrosArticulos($proyecto, $categoria, $norma){
 		$base = new Database();
 
 		$proyecto = mysql_real_escape_string($proyecto);
 		$norma = mysql_real_escape_string($norma);
-		$query = "SELECT * FROM registros_articulos WHERE proyecto = '".$proyecto."' AND norma = '".$norma."'";
+		$categoria = mysql_real_escape_string($categoria);
+
+		$query = "SELECT * FROM registros_articulos WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."' AND norma = '".$norma."'";
 
 		$datos = $base->Select($query);
 
@@ -221,23 +233,25 @@ class Registros{
 	/**
 	* REGISTRA SINO EXISTE O ACTUALIZA SI EXISTE
 	* @param $proyecto -> id del proyecto
+	* @param $categoria -> id de la categoria
 	* @param $norma -> id de la norma
 	* @param $registro -> array sin serializar
 	* @return true si se registra o actualiza
 	* @return false si fala
 	*/
-	public function RegistrarRegirstroArticulo($proyecto, $norma, $registro){
+	public function RegistrarRegirstroArticulo($proyecto, $categoria, $norma, $registro){
 		$base = new Database();
 		
 		$proyecto = mysql_real_escape_string($proyecto);
+		$categori = mysql_real_escape_string($categoria);
 		$norma = mysql_real_escape_string($norma);
 
 		$registro = serialize($registro);
 
-		$query = "SELECT * FROM registros_articulos WHERE proyecto = '".$proyecto."' AND norma = '".$norma."'";
+		$query = "SELECT * FROM registros_articulos WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."' AND norma = '".$norma."'";
 
 		if($base->Existe($query)){
-			$query = "UPDATE registros_articulos SET registro = '".$registro."' WHERE proyecto = '".$proyecto."' AND norma = '".$norma."'";
+			$query = "UPDATE registros_articulos SET registro = '".$registro."', fecha_actualizacion = NOW() WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."' AND norma = '".$norma."'";
 
 			if($base->Update($query)){
 				return true;
@@ -245,8 +259,8 @@ class Registros{
 				return false;
 			}
 		}else{
-			$query = "INSERT INTO registros_articulos ( proyecto, norma, registro ) VALUES ";
-			$query .= "( '".$proyecto."', '".$norma."', '".$registro."' )";
+			$query = "INSERT INTO registros_articulos ( proyecto, categoria, norma, registro, fecha_creacion, fecha_actualizacion ) VALUES ";
+			$query .= "( '".$proyecto."', '".$categoria."', '".$norma."', '".$registro."', NOW(), NOW() )";
 
 			if($base->Insert($query)){
 				return true;

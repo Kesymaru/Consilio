@@ -703,3 +703,124 @@ Error: Proyectos.js ComentariosArticulo().
 	JAVASCRIPT: 1
 	February 5 2013 - 11:29 am
  --------------------<>--------------------
+
+ 
+
+
+<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Can't connect to MySQL server on 'localhost' (10061) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>37</b>
+
+1. No funciona por Can't connect to MySQL server on 'localhost' (10061)
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 7 2013 - 2:31 pm
+ --------------------<>--------------------
+
+ 
+
+
+<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Can't connect to MySQL server on 'localhost' (10061) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>37</b>
+
+1. No funciona por Can't connect to MySQL server on 'localhost' (10061)
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 7 2013 - 2:31 pm
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 7 2013 - 2:32 pm
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarArticulosIncluidos().
+ 
+3. Error en consulta UPDATE registros_articulos SET registro = 'a:1:{i:0;s:1:"1";}' WHERE proyecto = '5' AND norma = '1', fecha_actualizacion = NOW()You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ' fecha_actualizacion = NOW()' at line 1
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 7 2013 - 3:32 pm
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 11 2013 - 12:28 pm
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarArticulosIncluidos().
+ 
+ERROR: preview.php RegistrarArticulosIncluidos()
+No se especifica proyecto, norma o articulos
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 11 2013 - 12:32 pm
+ --------------------<>--------------------
+
+Error: Componer.js RegistrarArticulosIncluidos().
+ 
+Error: 05 en Existe. Unknown column 'categoria' in 'where clause'
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 11 2013 - 12:33 pm
+ --------------------<>--------------------

@@ -589,7 +589,8 @@ function ArticulosIncluidos(norma){
 	VerArticulosIncluidos();
 	
 	var proyecto = $('#proyecto').val();
-	var queryParams = {"func" : "ArticulosIncluidos", "proyecto" : proyecto, "norma" : norma};
+	var categoria = $("#categoria").val();
+	var queryParams = {"func" : "ArticulosIncluidos", "proyecto" : proyecto, "categoria" : categoria, "norma" : norma};
 
 	$.ajax({
 		data: queryParams,
@@ -667,8 +668,9 @@ function RegistrarArticulosIncluidos(){
 	}
 
 	var proyecto = $("#proyecto").val();
+	var categoria = $("#categoria").val();
 	var norma = $("#norma").val();
-	var queryParams = {"func" : "RegistrarArticulosIncluidos", "proyecto" : proyecto, "norma" : norma, "articulos" : articulos};
+	var queryParams = {"func" : "RegistrarArticulosIncluidos", "proyecto" : proyecto, "categoria" : categoria, "norma" : norma, "articulos" : articulos};
 
 	$.ajax({
 		data: queryParams,

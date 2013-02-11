@@ -17,8 +17,8 @@ if(isset($_POST['func'])){
 			break;
 
 		case 'ArticulosIncluidos':
-			if( isset($_POST['proyecto']) && isset($_POST['norma']) ){
-				ArticulosIncluidos( $_POST['proyecto'], $_POST['norma'] );
+			if( isset($_POST['proyecto']) && isset($_POST['categoria']) && isset($_POST['norma']) ){
+				ArticulosIncluidos( $_POST['proyecto'], $_POST['categoria'], $_POST['norma'] );
 			}
 			break;
 
@@ -51,8 +51,8 @@ if(isset($_POST['func'])){
 
 		//REGISTRA ARTICULOS INCLUIDODS
 		case 'RegistrarArticulosIncluidos':
-			if( isset($_POST['proyecto']) && isset($_POST['norma']) && isset($_POST['articulos']) ){
-				RegistrarArticulosIncluidos($_POST['proyecto'], $_POST['norma'], $_POST['articulos'] );
+			if( isset($_POST['proyecto']) && isset($_POST['categoria']) &&  isset($_POST['norma']) && isset($_POST['articulos']) ){
+				RegistrarArticulosIncluidos($_POST['proyecto'], $_POST['categoria'], $_POST['norma'], $_POST['articulos'] );
 			}else{
 				echo 'ERROR: preview.php RegistrarArticulosIncluidos()<br/>No se especifica proyecto, norma o articulos';
 			}
@@ -181,10 +181,10 @@ function NormasIncluidas($proyecto, $categoria){
 * @param $proyecto -> id del proyecto
 * @param $norma -> id de la norma
 */
-function ArticulosIncluidos($proyecto, $norma){
+function ArticulosIncluidos($proyecto, $categoria, $norma){
 	$registros = new Registros();
 
-	$datos = $registros->getRegistrosArticulos($proyecto, $norma);
+	$datos = $registros->getRegistrosArticulos($proyecto, $categoria, $norma);
 	$articulos = unserialize($datos[0]['registro']);
 
 	$disponibles = $registros->getArticulos($norma);
@@ -248,14 +248,14 @@ function RegistrarNormasIncluidas($proyecto, $categoria, $normas){
 * @param $norma -> id del al norma
 * @param $articulos -> array[] con los sarticulos, en orden
 */
-function RegistrarArticulosIncluidos($proyecto, $norma, $articulos){
+function RegistrarArticulosIncluidos($proyecto, $categoria, $norma, $articulos){
 	$registros = new Registros();
 
 	if($articulos == ''){
 		$articulos = array();
 	}
 
-	if( !$registros->RegistrarRegirstroArticulo($proyecto, $norma, $articulos) ){
+	if( !$registros->RegistrarRegirstroArticulo($proyecto, $categoria, $norma, $articulos) ){
 		echo 'Error: preview.php RegistrarNormasIncluidas()<br/>No se pudo guardar los resgistros de las normas incluidas.<br/>Proyecto: '.$proyecto;
 	}
 }
