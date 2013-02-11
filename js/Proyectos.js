@@ -311,8 +311,8 @@ function SelectNorma(proyecto, id){
  * @param id -> id norma
  */
 function Articulos(proyecto, id){
-
-	var queryParams = {"func" : "Articulos", "id" : id, "proyecto" : proyecto};
+	var categoria = $.cookie('categoria');
+	var queryParams = {"func" : "Articulos", "id" : id, "categoria" : categoria, "proyecto" : proyecto};
 
 	$.ajax({
 		data: queryParams,

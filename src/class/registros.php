@@ -459,13 +459,14 @@ class Registros{
 	* @return $articulos -> array[][] con los datos
 	* @return false -> si falla 
 	*/
-	public function getValidArticulos($proyecto, $norma){
+	public function getValidArticulos($proyecto, $categoria, $norma){
 		$base = new Database();
 
 		$proyecto = mysql_real_escape_string($proyecto);
+		$categoria = mysql_real_escape_string($categoria);
 		$norma = mysql_real_escape_string($norma);
 
-		$query = "SELECT * FROM registros_articulos WHERE proyecto = ".$proyecto." AND norma = '".$norma."'";
+		$query = "SELECT * FROM registros_articulos WHERE proyecto = ".$proyecto." AND categoria = '".$categoria."' AND norma = '".$norma."'";
 
 		$datosRegistrados = $base->Select($query);
 		if( !empty($datosRegistrados) ){

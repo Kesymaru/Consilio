@@ -53,8 +53,8 @@ if(isset($_POST['func'])){
 
 		//CARGA NORMA
 		case 'Articulos':
-			if( isset($_POST['proyecto']) && isset($_POST['id']) ){
-				Articulos($_POST['proyecto'], $_POST['id']);
+			if( isset($_POST['proyecto']) && $_POST['categoria'] &&  isset($_POST['id']) ){
+				Articulos($_POST['proyecto'], $_POST['categoria'], $_POST['id']);
 			}
 			break;
 
@@ -240,10 +240,10 @@ function Normas($proyecto, $id){
  * MUESTRA LISTA DE ARTICULOS de una norma
  * @param $id -> id de la norma
  */
-function Articulos($proyecto, $id){
+function Articulos($proyecto, $categoria, $id){
 	$registros = new Registros();
 	//$datos = $registros->getArticulos($id);
-	$datos = $registros->getValidArticulos($proyecto, $id);
+	$datos = $registros->getValidArticulos($proyecto, $categoria, $id);
 	$norma = $registros->getDatoNorma("nombre", $id);
 	
 	$lista = '<div class="datos">
