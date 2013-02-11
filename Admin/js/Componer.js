@@ -404,8 +404,6 @@ function ExcluirCategorias(){
 		excluidas = '';
 	}
 	
-	alert(excluidas);
-
 	var proyecto = $("#proyecto").val();
 
 	var queryParams = {"func" : "ExcluirCategorias", "proyecto" : proyecto, "categorias[]" : excluidas};
