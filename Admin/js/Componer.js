@@ -145,6 +145,8 @@ function FormularioComponerCategoriasValidar(){
  * @param id -> id de la hija
  */
 function HijosComponer(padre){
+	//notifica('HijosComponer');
+
 	ComponerLimpiarHermanos(padre);
 
 	var queryParams = {'func' : "CategoriasHijas", "padre" : padre};
@@ -401,7 +403,7 @@ function ExcluirCategorias(){
 	if(cuenta == 0){
 		excluidas = '';
 	}
-	
+
 	var proyecto = $("#proyecto").val();
 
 	var queryParams = {"func" : "ExcluirCategorias", "proyecto" : proyecto, "categorias[]" : excluidas};
