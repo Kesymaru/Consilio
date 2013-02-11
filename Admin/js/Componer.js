@@ -145,7 +145,7 @@ function FormularioComponerCategoriasValidar(){
  * @param id -> id de la hija
  */
 function HijosComponer(padre){
-	//notifica('HijosComponer');
+	notifica('HijosComponer');
 
 	ComponerLimpiarHermanos(padre);
 
@@ -176,7 +176,9 @@ function HijosComponer(padre){
 			$("#categorias-componer").css('width', totalWidth); //aumenta el tamano del contenedor de categorias
 				
 			SeleccionaCategoriaComponer(padre);
-			$("#menu").scrollTo( $("#Padre"+padre) , 700);
+			if( $("#Padre"+padre).length ){
+				$("#menu").scrollTo( $("#Padre"+padre) , 700);				
+			}
 		},
 		fail: function(){
 			notificaError("Error: Componer.js HijosComponer() AJAX fail.");

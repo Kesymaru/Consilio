@@ -860,3 +860,84 @@ Error: 05 en Existe. Unknown column 'categoria' in 'where clause'
 	JAVASCRIPT: 1
 	February 11 2013 - 5:19 pm
  --------------------<>--------------------
+
+Error: AJAX error.
+func=Categorias&proyecto=11
+src/ajaxComponer.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 11 2013 - 5:35 pm
+ --------------------<>--------------------
+
+Error: AJAX error.
+func=ComponerProyecto&id=11
+src/ajaxComponer.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 11 2013 - 5:35 pm
+ --------------------<>--------------------
+
+Error: AJAX error.
+func=Categorias&proyecto=11
+src/ajaxComponer.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 11 2013 - 5:37 pm
+ --------------------<>--------------------
+
+Error: AJAX error.
+func=ComponerProyecto&id=11
+src/ajaxComponer.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 11 2013 - 5:37 pm
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Firefox
+	Plataforma: Win7
+	Version: 18.0
+	CSS: 18.0
+	JAVASCRIPT: 1
+	February 11 2013 - 5:37 pm
+ --------------------<>--------------------
