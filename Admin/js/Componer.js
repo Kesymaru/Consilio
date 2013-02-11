@@ -394,10 +394,18 @@ function MenuCategoriaIncluida(id){
 function ExcluirCategorias(){
 	var excluidas = [];
 	
-	$("#categorias-incluidas .seleccionada").each(function(){
+	var cuenta = 0;
+	$("#categoriasIncluidas .seleccionada").each(function(){
 		excluidas.push( this.id.substring(2) );
+		cuenta++;
 	});
+
+	if(cuenta == 0){
+		excluidas = '';
+	}
 	
+	alert(excluidas);
+
 	var proyecto = $("#proyecto").val();
 
 	var queryParams = {"func" : "ExcluirCategorias", "proyecto" : proyecto, "categorias[]" : excluidas};
