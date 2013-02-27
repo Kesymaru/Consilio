@@ -28,13 +28,10 @@ class Master{
 
 		$logo = $cliente->getClienteDato("imagen", $_SESSION['cliente_id']);
 		$logo = $_SESSION['datos'].$logo;
-		
-		//SI EL CLIENTE TIENE IMAGEN
-		if(file_exists($logo)){
-			echo '<div class="logoCliente">
+
+		echo '<div class="logoCliente">
 				<img id="logoCliente" src="'.$logo.'" />
-				</div>';
-		}
+			</div>';
 	}
 
 	/**

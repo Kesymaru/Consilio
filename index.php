@@ -120,9 +120,6 @@ $master = new Master();
 		<a href="index.php">
 			<img src="images/logo.png" class="logo">	
 		</a>
-		<?php
-			//$master->Logo();
-		?>
 
 		<div class="toolbar">
 			<?php

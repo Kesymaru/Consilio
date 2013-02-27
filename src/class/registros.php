@@ -165,7 +165,7 @@ class Registros{
 	*/
 	public function getHijos($padre){
 		$base = new Database();
-		$query = "SELECT * FROM categorias WHERE padre = ".$padre;
+		$query = "SELECT * FROM categorias WHERE padre = ".$padre." ORDER BY posicion";
 
 		$datos = $base->Select($query);
 

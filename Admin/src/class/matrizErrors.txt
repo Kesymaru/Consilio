@@ -941,3 +941,170 @@ src/ajaxComponer.php
 	JAVASCRIPT: 1
 	February 11 2013 - 5:37 pm
  --------------------<>--------------------
+
+ 
+
+
+<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Access denied for user 'matrizroot'@'localhost' (using password: YES) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>39</b>
+
+1. No funciona por Access denied for user 'matrizroot'@'localhost' (using password: YES)
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	February 22 2013 - 10:06 am
+ --------------------<>--------------------
+
+ 
+
+
+<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Access denied for user 'matrizroot'@'localhost' (using password: YES) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>39</b>
+
+1. No funciona por Access denied for user 'matrizroot'@'localhost' (using password: YES)
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	February 22 2013 - 10:07 am
+ --------------------<>--------------------
+
+ 
+
+
+<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Access denied for user 'root'@'localhost' (using password: YES) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>39</b>
+
+1. No funciona por Access denied for user 'root'@'localhost' (using password: YES)
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	February 22 2013 - 10:08 am
+ --------------------<>--------------------
+
+ 
+
+
+<b>Warning</b>:  mysql_close(): 17 is not a valid MySQL-Link resource in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>56</b>
+
+
+
+<b>Warning</b>:  mysql_close(): 17 is not a valid MySQL-Link resource in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>56</b>
+
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	February 22 2013 - 10:09 am
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	February 22 2013 - 11:13 am
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	February 25 2013 - 5:40 pm
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	February 26 2013 - 9:08 am
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	February 26 2013 - 5:54 pm
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	February 26 2013 - 6:01 pm
+ --------------------<>--------------------

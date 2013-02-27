@@ -856,7 +856,7 @@ class Registros{
 	}
 
 	/**
-	* OBTIENE LOS ID DE TODOS LOS HIJOS DE UN PADRE
+	* OBTIENE LOS ID DE TODOS LOS HERMANOS DE UN PADRE
 	* @param $padre -> id del padre
 	* @return $hijos[]
 	*/
@@ -940,24 +940,23 @@ class Registros{
 	}
 
 	/**
-	* DETERMINA SI UNA CATEGORIA ES UNA HOJA
-	* @param id -> id de la categoria
-	* @return true si es una hoja
-	* @return false si no es hoja o falla
+	* OBTIENE TODOS LOS DATOS DE UNA CATEGORIA
+	* @param $id -> id de la categoria
+	* @return $datos -> array[][] con los datos
+	* @return false -> si falla
 	*/
-	public function EsHoja($id){
+	public function getCategoriaPadreDatos($id){
 		$base = new Database();
-		$query = "SELECT * FROM categorias WHERE id = ".$id;
+		
+		$id = mysql_real_escape_string($id);
+
+		$query = "SELECT * FROM categorias WHERE id = '".$id."' AND padre = 0";
 
 		$datos = $base->Select($query);
 
 		if(!empty($datos)){
-			if( $datos[0]['hoja'] == 1 && $datos[0]['padre'] != 0 ){
-				return true;
-			}else{
-				return false;
-			}
-		}else{
+			return $datos;
+		}else{	
 			return false;
 		}
 	}
@@ -1283,7 +1282,11 @@ class Registros{
 	*/
 	function getArticulo($articulo){
 		$base = new Database();
-		$query = "SELECT * FROM articulos WHERE id = ".$articulo." AND borrado = 0";
+		//$query = "SELECT * FROM articulos WHERE id = ".$articulo." AND borrado = 0";
+		
+		$articulo = mysql_real_escape_string($articulo);
+		
+		$query = "SELECT * FROM articulos WHERE id = '".$articulo."' ORDER BY CAST(SUBSTRING(nombre,LOCATE(' ',nombre)+1) AS SIGNED)";
 
 		$datos = $base->Select($query);
 
@@ -1302,7 +1305,8 @@ class Registros{
 	*/
 	public function getDatoArticulo($dato, $id){
 		$base = new Database();
-		$query = "SELECT * FROM articulos WHERE id = ".$id;
+		//$query = "SELECT * FROM articulos WHERE id = ".$id;
+		$query = "SELECT * FROM articulos WHERE id = '".$id."' ORDER BY CAST(SUBSTRING(nombre,LOCATE(' ',nombre)+1) AS SIGNED)";
 
 		$datos = $base->Select($query);
 
