@@ -205,7 +205,7 @@ function ActivaMenu(){
 
 /*
 * MUESTRA EL SEGUNDO MENU
-*/
+*//*
 function Menu2(){
 	//OPTIENE EL TAMANO EN PORCENTAJE
 	var w = ( 100 * parseFloat($('#content').css('width')) / parseFloat($('#content').parent().css('width')) ).toFixed() + '%';
@@ -255,6 +255,75 @@ function Menu2(){
 				});
 	    	}
 	    });
+	}
+}*/
+
+/*
+* MUESTRA EL PANBEL DE MENUS CON ANIMACIONES
+*/
+function PanelMenus(){
+			
+	if( $('#content').is(":visible") ){
+
+		$("#content").css({
+			'margin' : '0',
+			'display' : 'inline-block'
+		}).html('');
+
+		$("#menu").css({
+			'display' : 'block',
+			width : '0px',
+		});
+
+		$("#menu2").css({
+			'display' : 'inline-block',
+			width : '0px',
+			'margin': '0px'
+		});
+
+		$("#menu").animate({
+			opacity: 1,
+			//width: 'toggle'
+			width: "10%"
+		}, { 
+			duration: 1500, 
+			queue: false,
+			complete: function(){
+				$("#menu").css({
+					'display' : 'block',
+					'float' : 'left',
+					'min-width' : '50px',
+				});
+			}
+		});
+
+		$("#menu2").animate({
+	       width: '80%'
+	    }, { 
+	    	duration: 1500, 
+	    	queue: false,
+	    	complete: function(){
+	    		$("#menu2").css({
+					"display" : "inline-block",
+					"opacity" : "1"
+				});
+	    	}
+	    });
+
+	    $("#content").animate({
+	       width: '0%'
+	    }, { 
+	    	duration: 1400, 
+	    	queue: false,
+	    	complete: function(){
+	    		$("#content").css({
+					"display" : "none",
+				}).html('');
+	    	}
+	    });
+
+	}else{
+
 	}
 }
 

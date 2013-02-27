@@ -4,6 +4,17 @@
  * MANEJO DE DATOS REGISTROS Y CATEGORIAS
  */
 
+?>
+
+<html>
+	<head>
+		<title>Exportar</title>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
+	</head>
+<body>
+
+<?php
+
 //require_once("classDatabase.php");
 require_once("session.php");
 require_once("proyectos.php");
@@ -24,7 +35,6 @@ if(isset($_GET['id']) && isset($_GET['tipo'])){
 
 	}else if($tipo == 'html'){
 		$exportar->Informe($_GET['id']);
-
 	}
 
 }
@@ -45,6 +55,8 @@ if( isset($_GET['tipo'])){
 class Exportar{ 
 	private $proyecto = ''; //id proyecto
 	private $cliente = '';
+	private $clienteId = '';
+	private $formato = '';
 	private $informe = ""; //informe compuesto
 	private $nombreProyecto = '';
 	private $registros = array();
@@ -111,6 +123,7 @@ class Exportar{
 	*/
 	public function ExportarExcel($proyecto){
 		$this->proyecto = $proyecto;
+		$this->formato = 'excel';
 
 		$this->CrearInforme(); //compone el informe
 
@@ -132,8 +145,8 @@ class Exportar{
 	* @param $proyecto -> id del proyecto
 	*/
 	public function ExportarPdf($proyecto){
-		
 		$this->proyecto = $proyecto;
+		$this->formato = 'pdf';
 
 		$this->CrearInforme();
 
@@ -147,7 +160,8 @@ class Exportar{
 	    
 	    try{
 
-	        $html2pdf = new HTML2PDF('P', 'A2', 'es');
+	        $html2pdf = new HTML2PDF('P', 'A1', 'es');
+	        $html2pdf->pdf->SetDisplayMode('fullpage');
 
 	        $html2pdf->pdf->SetAuthor('Matrices Consilio');
 			$html2pdf->pdf->SetTitle('Informe Proyecto');
@@ -177,23 +191,11 @@ class Exportar{
 	*/
 	public function Informe($proyecto){
 		$this->proyecto = $proyecto;
+		$this->formato = 'html';
 
 		$this->CrearInforme();
 		
-		?>
-
-			<html>
-			<head>
-				<title>Ipurdy</title>
-				<meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
-			</head>
-			<body>
-		<?php
 		echo $this->informe;
-		?>
-			</body>
-			</html?
-		<?php
 	}
 
 	/**
@@ -220,7 +222,8 @@ class Exportar{
 
 		$datosProyecto = $proyectos->getProyectoDatos($this->proyecto);
 		
-		$this->cliente = $clientes->getClienteDato( "nombre", $datosProyecto[0]['cliente'] );
+		$this->clienteId = $datosProyecto[0]['cliente'];
+		$this->cliente = $clientes->getClienteDato( "nombre", $this->clienteId );
 		$this->nombreProyecto = $datosProyecto[0]['nombre'];
 
 		//echo '<pre>'; print_r($datosProyecto);echo '</pre>';
@@ -268,7 +271,7 @@ class Exportar{
 
 		$categorias = unserialize( $this->registros[0]['registro'] );
 
-		//echo '<pre>';print_r($categorias);echo '</pre>';
+		//echo '<pre>	CATE';print_r($categorias);echo '</pre>';
 
 		$registros = new Registros();
 
@@ -279,6 +282,24 @@ class Exportar{
 				$this->supercategorias[] = $categoria;
 				
 				$this->subcategorias = array_diff($categorias, $this->supercategorias);
+				$hijos = $registros->getTodosHijos($categoria);
+
+				//asegura que solo se muestren las subcategorias que tiene datos
+				$tieneDatos = false;
+
+				if( is_array($hijos) ){
+
+					foreach ($hijos as $key => $id) {
+						if( in_array($id, $categorias)){
+							$tieneDatos = true;
+						}
+					}
+				}
+				
+				//la categoria no tiene datos incluidos
+				if( !$tieneDatos ){
+					continue;
+				}
 
 				//super categoria
 				$this->informe .= '<tr>
@@ -357,10 +378,10 @@ class Exportar{
 		
 		$nombreCategoria = $registros->getCategoriaDato('nombre',$categoria);
 
-		$datosCategoria = $registros->getCategoria($categoria);
+		//$datosCategoria = $registros->getCategoria($categoria);
 		
 		$datosNormasTemp = $registros->getRegistrosNorma($this->proyecto, $categoria);
-
+		
 		$normas = unserialize( $datosNormasTemp[0]['registro'] );
 
 		if( !is_array($normas) ){
@@ -384,15 +405,86 @@ class Exportar{
 			//echo $datosArticulo[0]['registro'];
 			//echo '<pre>articulo ';print_r($articulos);echo'</pre>';
 
-			/*$this->informe .= '<tr>
-				 	<td rowspan="'.sizeof($articulos).'" class="TdNormaNumero">
-				 		'.$datosNorma[0]['numero'].'
-				 	</td>
-				 	<td rowspan="'.sizeof($articulos).'" class="TdNormaNorma">
-				 		'.$datosNorma[0]['nombre'].'
-				 	</td>';*/
+			if( $this->formato == 'html' || $this->formato == 'excel' ){
+				//echo 'html';
+				
+				//formato excel o html soportan el rowspan
+				$this->informe .= '<tr>
+					 	<td rowspan="'.sizeof($articulos).'" class="TdNormaNumero">
+					 		'.$datosNorma[0]['numero'].'
+					 	</td>
+					 	<td rowspan="'.sizeof($articulos).'" class="TdNormaNorma">
+					 		'.$datosNorma[0]['nombre'].'
+					 	</td>';
 
-			foreach ($articulos as $f => $articulo) {
+				if( is_array($articulos) ){
+
+					foreach ($articulos as $f => $articulo) {
+						//echo $articulo.',';
+
+						$datosArticulo = $registros->getArticulo($articulo);
+						$entidades = unserialize( $datosArticulo[0]['entidad'] );
+
+						//echo '<pre>datos articulo '.$articulo.'<hr> ';print_r($datosArticulo);echo'</pre>';
+
+						$this->informe .= '<td class="TdDato">
+												<p class="NombreArticulo">'.$datosArticulo[0]['nombre'].'</p>
+												'.base64_decode($datosArticulo[0]['articulo']).'
+											 </td>
+											 <td class="TdDato">
+											 	'.base64_decode($datosArticulo[0]['resumen']).'
+											 </td>
+											 <td class="TdDato">
+											 	'.base64_decode($datosArticulo[0]['permisos']).'
+											 </td>
+											 <td class="TdDato">
+											 	'.$this->entidades($entidades).'
+											 </td>
+										   </tr>';
+					}
+				}else{
+					$this->informe .= '<td class="TdDatoVacio" colspan="4"> ------------------------- </td>';
+				}
+			}else{
+				//echo '<pre><hr> ';print_r($articulos);echo'</pre>';
+				//echo 'pdf';
+				
+				if( is_array($articulos)){
+
+					//formato pdf no soporta el rowspan
+					foreach ($articulos as $key => $articulo) {
+
+						$datosArticulo = $registros->getArticulo($articulo);
+						$entidades = unserialize( $datosArticulo[0]['entidad'] );
+
+						$this->informe .= '<tr>
+										 	<td class="TdNormaNumero">
+										 		nnn '.$datosNorma[0]['numero'].'
+										 	</td>
+										 	<td class="TdNormaNorma">
+										 		nom '.$datosNorma[0]['nombre'].'
+										 	</td>';
+
+						$this->informe .= '<td class="TdDato">
+												<p class="NombreArticulo">'.$datosArticulo[0]['nombre'].'</p>
+												'.base64_decode($datosArticulo[0]['articulo']).'
+											 </td>
+											 <td class="TdDato">
+											 	'.base64_decode($datosArticulo[0]['resumen']).'
+											 </td>
+											 <td class="TdDato">
+											 	'.base64_decode($datosArticulo[0]['permisos']).'
+											 </td>
+											 <td class="TdDato">
+											 	'.$this->entidades($entidades).'
+											 </td>
+										   </tr>';
+					}
+				}
+
+			}
+
+			/*foreach ($articulos as $f => $articulo) {
 				//echo $articulo.',';
 
 				$datosArticulo = $registros->getArticulo($articulo);
@@ -413,10 +505,28 @@ class Exportar{
 									 	entidad
 									 </td>
 								   </tr>';
-			}
+			}*/
 
 		}
 
+	}
+
+	/**
+	* COMPONE LAS ENTIDADES
+	*/
+	private function Entidades($entidades){
+		$registros = new Registros();
+		$text = '';
+
+		if( is_array($entidades) ){
+			foreach ($entidades as $key => $entidad) {
+				$datosEntidad = $registros->getEntidadDatos($entidad);
+				$text .= '<p>'.$datosEntidad[0]['nombre'].'</p>';
+			}
+			return $text;
+		}else{
+			return '---';
+		}
 	}
 
 	/**
@@ -425,24 +535,19 @@ class Exportar{
 	*/
 	private function Footer(){
 		$cliente = new Cliente();
-		$proyectos = new Proyectos();
-
 
 		//$imagen = $cliente->get 
 
 		$this->informe .= '<tr>
-						   		<td colspan="'.$this->colspanC.'" class="TdFooterLeft">
+						   		<td id="fo" colspan="'.$this->colspanC.'" class="TdFooterLeft">
+						   			<br/>
 						   			<img class="LogoEscala" src="'.$_SESSION['home'].'/images/escala.png">
+						   			<br/>
 						   		</td>
 						   		<td colspan="'.$this->colspanC.'" class="TdFooter">
 						   			
 						   			<br/>
 						   			<table class="FooterTable">
-						   				<tr>
-						   					<td colspan="2">
-						   						Informe generado automaticamente
-						   					</td>
-						   				</tr>
 						   				<tr>
 						   					<td class="SubTitulo">
 						   						Fecha:
@@ -459,11 +564,35 @@ class Exportar{
 						   						'.$_SESSION['nombre'].'
 						   					</td>
 						   				</tr>
+						   				<tr>
+						   					<td class="SubTitulo">
+						   						Cliente:
+						   					</td>
+						   					<td>
+						   						'.$this->cliente.'
+						   					</td>
+						   				</tr>
+						   				<tr>
+						   					<td class="SubTitulo">
+						   						Proyecto:
+						   					</td>
+						   					<td>
+						   						'.$this->nombreProyecto.'
+						   					</td>
+						   				</tr>
+						   				<tr>
+						   					<td colspan="2" class="Center">
+						   						Informe generado automaticamente.<br/>
+						   						2013 Escala Consultores. Todos los derechos reservados
+						   					</td>
+						   				</tr>
 						   			</table>
 						   			<br/>
 						   		</td>
 						   		<td colspan="'.$this->colspanC.'" class="TdFooterRight">
-						   			<img class="LogoCliente" src="'.$_SESSION['home'].'/images/escala.png">
+						   			<br/>
+						   			<img class="LogoCliente" src="'.$_SESSION['home'].'/'.$cliente->getClienteDato("imagen",$this->clienteId).'" >
+						   			<br/>
 						   		</td>
 						   </tr>
 						   </table>';
@@ -484,7 +613,7 @@ class Exportar{
 			'class="DatosHead"' => 'style="background-color: #757273; color: #ffffff; font-size 14pt; text-align: center;"',
 
 			//categorias
-			'class="SuperCategoria"' => 'style="background-color: #F68400; text-align: center; font-weight: bold; font-size: 14pt;"',
+			'class="SuperCategoria"' => 'style="background-color: #F68400; color: #ffffff; text-align: center; font-weight: bold; font-size: 14pt;"',
 			'class="Titulo"' => 'style="text-align: center; font-size: 12pt; font-weight: bold;"',
 			'class="TituloCategoria"' => 'style="background-color: #A1CA4A; text-align: center; color: #ffffff; font-weight: bold; font-size: 13pt;"',
 			'class="CategoriaCampo"' => 'style="background-color: #F68400; color: #ffffff; text-align: center; font-weight: bold;"',
@@ -494,6 +623,7 @@ class Exportar{
 			'class="TdNormaNorma"' => 'style="background-color: #F4F4F4; border: solid 1px #757273;"',
 			'class="NombreArticulo"' => 'style="background-color: #F4F4F4; font-weight: bold; margin: 0; padding: 0;"',
 			'class="TdDato"' => 'style="background-color: #F4F4F4; border: 1px solid #757273; vertical-aling: top; padding: 0;"',
+			'class="TdDatoVacio"' => 'style="background-color: #F4F4F4; text-align: center; border: 1px solid #757273; vertical-aling: middle;"',
 
 			//footer
 			'class="TdFooter"' => 'style="background-color: #BAB8B9; color: #000000; text-align: text; "',
@@ -502,7 +632,9 @@ class Exportar{
 			'class="FooterTable"' => 'style="background-color: #BAB8B9; color: #000000; text-align: left; margin: 0 auto;"',
 
 			'class="LogoEscala"' => 'style="display:block; float: left; height: 80px; max-width: 250px;"',
-			'class="LogoCliente"' => 'style="display:block; float: right; height: 80px; max-width: 250px;"',
+			'class="LogoCliente"' => 'style="display:block; height: 80px; width: 250px;"',
+
+			'class="Center"' => 'style="text-align: center;"',
 			);
 
 		foreach ($tema as $class => $style) {
@@ -514,3 +646,6 @@ class Exportar{
 
 
 ?>
+
+</body>
+</html>

@@ -125,7 +125,7 @@ button:hover{
 }
 
 .disclaim{
-	
+	position: absolute;
 	height: 10%;
 	display: table;
 	vertical-align: middle;
@@ -505,7 +505,7 @@ button:hover{
 #td-categorias{
 	display: block;
 	overflow: auto;
-	width: 100%;
+	width: 100% !important;
 }
 
 /**

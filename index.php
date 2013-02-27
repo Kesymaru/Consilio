@@ -196,6 +196,7 @@ $master = new Master();
 					</div>
 				</td>
 			</tr>
+			
 			<tr id="panel">
 				<td id="td-categorias" >
 					<div id="categoriasPanel">

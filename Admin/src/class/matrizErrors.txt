@@ -1108,3 +1108,52 @@ src/ajaxComponer.php
 	JAVASCRIPT: 
 	February 26 2013 - 6:01 pm
  --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	February 27 2013 - 9:43 am
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	February 27 2013 - 11:42 am
+ --------------------<>--------------------
+
+ 
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	February 27 2013 - 12:18 pm
+ --------------------<>--------------------

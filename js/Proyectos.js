@@ -8,18 +8,18 @@
 */
 function Proyecto(id){
 		
-	if(!$("#menu").is(":visible")){
-		ActivaMenu()
+	if( !$("#menu").is(":visible") ){
+		//ActivaMenu()
 	}
 
 	//esconde el menu 2
-	if($("#menu2").is(":visible")){
-		Menu2()
+	if( !$("#menu").is(":visible") && !$("#menu2").is(":visible") ){
+		PanelMenus()
 	}
 
-	if($("#content").html() !== ""){
+	/*if($("#content").html() !== ""){
 		LimpiarContent();
-	}
+	}*/
 
 	//selecciona el proyecto en el toolbar
 	$("#menuProyectos ul li").removeClass("seleccionado");
@@ -93,7 +93,6 @@ function PadreHijos(padre, proyecto){
 	Hijos(padre, proyecto);
 
 }	
-
 
 /**
 * CARGA LOS HIJOS DE UN PADRE SELECCIONADO
