@@ -1157,3 +1157,129 @@ src/ajaxComponer.php
 	JAVASCRIPT: 
 	February 27 2013 - 12:18 pm
  --------------------<>--------------------
+
+Se necesita un proyecto, lista.js Categorias.proyecto
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	February 27 2013 - 5:42 pm
+ --------------------<>--------------------
+
+Error: id de categoria es invalido
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	February 27 2013 - 5:43 pm
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	February 28 2013 - 9:47 am
+ --------------------<>--------------------
+
+Se necesita un proyecto, lista.js Categorias.proyecto
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	February 28 2013 - 10:14 am
+ --------------------<>--------------------
+
+Se necesita un proyecto, lista.js Categorias.proyecto
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	February 28 2013 - 10:14 am
+ --------------------<>--------------------
+
+Se necesita un proyecto, lista.js Categorias.proyecto
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	February 28 2013 - 10:26 am
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	February 28 2013 - 11:54 am
+ --------------------<>--------------------
+
+Error: Edicion.js FormularioEditarCategoria()
+ 
+
+
+<b>Warning</b>:  unlink(../) [<a href='function.unlink'>function.unlink</a>]: Permission denied in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>199</b>
+
+
+Error: class Registros UpdateDatosCategoria() imagen no se pudo borrar.
+imagen: ../
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	February 28 2013 - 2:53 pm
+ --------------------<>--------------------

@@ -63,6 +63,7 @@ $master = new Master();
 
 	<!-- matriz -->
 		<script type="text/javascript" src="js/Proyectos.js"></script>
+		<script type="text/javascript" src="js/lista.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 
 	<!-- jquery plugins -->
@@ -174,34 +175,29 @@ $master = new Master();
 			<!-- tabla para el panel donde se muestran las lista -->
 			<table class="panel" >
 			<tr>
-				<td colspan="3" class="panel-camino"> 
-					<ul id="camino">
-						<li id="camino-categorias" onClick="ShowCategorias()">			Categorias /
-						</li>
-						<li class="ocultos" id="camino-normas" onClick="ShowNormas()">		Normas /
-						</li>
-						<li class="ocultos" id="camino-articulos" onClick="ShowArticulos()">		
-							Articulos
-						</li>
-					</ul> 
+				<th id="panel-categorias">
+					
+				</th>
+				<th id="panel-normas">
+					
+				</th>
+				<th id="panel-articulos">
 					<img class="icon derecha" title="Buscar" onClick="Busqueda('busqueda', 'buscar', 'panel', false)" src="images/search2.png" />
-				</td>
-			</tr> 
+					<span></span>
+				</th>
+			</tr>
 			<tr>
 				<td colspan="3">
 					<div class="busqueda" id="busqueda">
 						<div class="buscador">
-						<input type="search" title="Escriba Para Buscar Administradores" id="buscar" placeholder="Buscar"/>
+						<input type="search" title="Escriba par buscar" id="buscar" placeholder="Buscar"/>
 						</div>
 					</div>
 				</td>
 			</tr>
-			
+
 			<tr id="panel">
 				<td id="td-categorias" >
-					<div id="categoriasPanel">
-
-					</div>
 				</td> 
 				<td id="td-normas" >
 				</td> 

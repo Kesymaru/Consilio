@@ -24,6 +24,12 @@ if(isset($_POST['func'])){
 			}
 			break;
 
+		case 'TieneHijos':
+			if( isset($_POST['categoria'])){
+				TieneHijos( $_POST['categoria'] );
+			}
+			break;
+
 		//OBTIENE LOS IDS DE LOS HIJOS DE UN PADRE
 		case 'GetHijos':
 			if( isset($_POST['padre']) ){
@@ -116,7 +122,7 @@ function CategoriasRoot($proyecto){
 
 				if($datosCategoria[0]['padre'] == 0){
 					
-					$lista .= '<li class="" id="'.$categoria.'" onClick="PadreHijos('.$categoria.','.$proyecto.')">';
+					$lista .= '<li class="" id="'.$categoria.'" >';
 
 					$imagen = $_SESSION['datos'].$datosCategoria[0]['imagen'];
 					
@@ -160,15 +166,21 @@ function Hijos($padre, $proyecto){
 		$datos = $registros->getRegistros($proyecto);
 		$disponibles = unserialize($datos[0]['registro']);
 
-		$lista .= '<div class="categoria" id="Padre'.$padre.'">';
+		//$lista .= '<div class="categoria" id="Padre'.$padre.'">';
 
-		$lista .= '<ul>';
+		//$lista .= '<ul id="Padre'.$padre.'">';
 		
 		foreach ($hijos as $f => $hijo) {
 
 			foreach ($disponibles as $s => $incluida) {
 				if($incluida == $hijo['id']){
-					$lista .= '<li id="'.$hijo['id'].'" onClick="Hijos('.$hijo['id'].', '.$proyecto.')">'.$hijo['nombre'].'</li>';
+					$lista .= '<li>
+								<span id="'.$hijo['id'].'">
+									'.$hijo['nombre'].'
+								</span>
+								<ul id="sub'.$hijo['id'].'" class="subcategoria">
+								</ul>
+							   </li>';
 				}else{
 					continue;
 				}
@@ -177,8 +189,8 @@ function Hijos($padre, $proyecto){
 			//$lista .= '<li id="'.$hijo['id'].'" onClick="Hijos('.$hijo['id'].', '.$proyecto.')">'.$hijo['nombre'].'</li>';
 		}
 
-		$lista .= '</ul>';
-		$lista .= '</div>';
+		//$lista .= '</ul>';
+		//$lista .= '</div>';
 
 		//tiene hijos por lo tanto no es hoja
 		//echo '<script>NormasCategoria('.$padre.');</script>';
@@ -186,11 +198,26 @@ function Hijos($padre, $proyecto){
 	}else{
 		//no tiene hijos es una hoja
 		if( !$registros->EsRoot($padre) ){
-			$lista .= '<script>Normas('.$padre.','.$proyecto.');</script>';
+			//$lista .= '<script>$listaCategorias.Normas('.$padre.');</script>';
 		}
 	}
 
 	echo $lista;
+}
+
+/**
+* VALIDA QUE UNA CATEGORIA PADRE TENGA HIJOS
+* @param int $categoria -> id del padre
+*/
+function TieneHijos($categoria){
+	$registros = new Registros();
+	$hijos = $registros->getHijos($categoria);
+
+	if( !empty($hijos) ){
+		echo json_encode('true');
+	}else{
+		echo json_encode('false');
+	}
 }
 
 /**
@@ -200,11 +227,10 @@ function Hijos($padre, $proyecto){
  */
 function Normas($proyecto, $id){
 	$registros = new Registros();
-	//$datos = $registros->getCategoriaDatos($id);
 	$normas = $registros->getValidNormas($proyecto, $id);
 
-	$lista = '<div class="datos">
-				<uL class="lista">';
+	//$lista = '<uL class="lista">';
+	$lista = '';
 
 	if(!empty($normas)){
 		//$normas = unserialize($datos[0]['normas']);
@@ -217,7 +243,9 @@ function Normas($proyecto, $id){
 			//si la norma es visible
 			if($datosNormas[0]['status'] == 1){
 
-				$lista .= '<li id="'.$datosNormas[0]['id'].'"  title="'.$datosNormas[0]['nombre'].' #'.$datosNormas[0]['numero'].'" onClick="SelectNorma('.$proyecto.','.$datosNormas[0]['id'].')">'.$datosNormas[0]['nombre'].'</li>';
+				$lista .= '<li id="'.$datosNormas[0]['id'].'"  title="'.$datosNormas[0]['nombre'].' #'.$datosNormas[0]['numero'].'">
+				              '.$datosNormas[0]['nombre'].'
+						   </li>';
 				$conteo++;
 			}
 		}
@@ -230,30 +258,33 @@ function Normas($proyecto, $id){
 		$lista .= '<li>No hay normas</li>';
 	}
 
-	$lista .= '  </ul>
-			  </div>';
+	//$lista .= '  </ul>';
 
 	echo $lista;
 }
 
 /**
  * MUESTRA LISTA DE ARTICULOS de una norma
- * @param $id -> id de la norma
+ * @param int $proyecto -> id del proyecto
+ * @param int $categoria -> id de la categoria
+ * @param int $id -> id de la norma
+ * @return text/html $lista -> lista de articulos de la norma
  */
 function Articulos($proyecto, $categoria, $id){
 	$registros = new Registros();
-	//$datos = $registros->getArticulos($id);
 	$datos = $registros->getValidArticulos($proyecto, $categoria, $id);
 	$norma = $registros->getDatoNorma("nombre", $id);
 	
-	$lista = '<div class="datos">
-				<ul class="lista">';
+
+	$lista = '<ul id="Articulos'.$id.'">';
 
 	if(!empty($datos)){
 		$conteo = 0;
 
 		foreach ($datos as $fila => $norma) {
-			$lista .= '<li id="'.$norma['id'].'" title="'.$norma['nombre'].'" onClick="SelectArticulo('.$norma['id'].')">'.$norma['nombre'].'</li>';
+			$lista .= '<li id="'.$norma['id'].'" title="'.$norma['nombre'].'">
+						'.$norma['nombre'].'
+					   </li>';
 			$conteo++;
 		}
 		
@@ -264,8 +295,7 @@ function Articulos($proyecto, $categoria, $id){
 		$lista .= '<li>No hay articulos</li>';
 	}
 
-	$lista .= '</ul>
-			</div>';
+	$lista .= '<ul>';
 
 	echo $lista;
 }

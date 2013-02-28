@@ -7,7 +7,8 @@
 * @param id -> id del proyecto
 */
 function Proyecto(id){
-		
+	//$listaCategorias.Proyecto(id);
+	
 	if( !$("#menu").is(":visible") ){
 		//ActivaMenu()
 	}
@@ -36,273 +37,12 @@ function Proyecto(id){
 
 	$.cookie('proyecto', id);
 
-	CategoriasRoot(id);
-}
-
-/**
-* CATEGORIAS ROOT
-* @param proyecto -> id del proyecto
-*/
-function CategoriasRoot(proyecto){
-	var queryParams = {"func" : "CategoriasRoot", "proyecto" : proyecto};
+	//CategoriasRoot(id);
 	
-	$.ajax({
-		data: queryParams,
-		type: "post",
-		url: "src/ajaxProyectos.php",
-		beforesend: function(){
-		},
-		success: function(response){
-			
-			if(response.length > 0){
-				$("#menu").html(response);
-			}else{
-				notificaError("Error: "+response);
-			}
-
-		},
-		fail: function(response){
-			notificaError("Error: "+response);
-		}
-	});
+	//inicializa el panel del proyecto
+	$listaCategorias.SuperCategorias(id);
 }
 
-
-/**
-* SELECCIONA UNA CATEGORIA PADRE Y CARGA SUS HIJOS
-*/
-function PadreHijos(padre, proyecto){
-	if(!$("#menu2").is(":visible")){
-		Menu2();
-	}
-
-	if($("#content").html() != ""){
-		LimpiarContent();
-	}
-
-	$("#td-categorias, #td-normas, #td-articulos").html("");
-
-	ShowCategorias();
-
-	$("#supercategorias li").removeClass("root-selected");
-
-	$("#supercategorias #"+padre).addClass("root-selected");
-
-	//$("#menu2").html('<table class="panel"><tr><td colspan="3"> <ul id="camino"><li id="camino-categorias" onClick="ShowCategorias()">Categorias</li></ul> </td></tr>  <tr><td id="td-categorias" ></td> <td id="td-normas" ></td> <td id="td-articulos" ></td></tr></table>');
-
-	Hijos(padre, proyecto);
-
-}	
-
-/**
-* CARGA LOS HIJOS DE UN PADRE SELECCIONADO
-*/
-function Hijos(padre, proyecto){
-
-	LimpiarHermanos(padre, proyecto);		
-
-	var queryParams = {'func' : "Hijos", "padre" : padre, "proyecto" : proyecto};
-
-	//carga hijos
-	$.ajax({
-		data: queryParams,
-		type: "post",
-		async: false,
-		url: "src/ajaxProyectos.php",
-		beforeSend: function(){
-		},
-		success: function(response){
-			if(response.length > 0){
-
-				$("#td-categorias").append(response);
-				
-				var totalWidth = 0;
-
-				$("#td-categorias ul").each(function(index){
-					totalWidth += parseInt($(this).width(), 10);
-				});
-				//totalWidth += $("#Padre"+padre).width();
-				
-				$.cookie('ancho', totalWidth);
-
-				$("#td-categorias").css('width', totalWidth);
-
-				//$("#menu2").scrollTo( $("#Padre"+padre) , 700);
-			}else{
-				notificaError("Error: "+response);
-			}
-		},
-		fail: function(){
-			notificaError("Error: ocurrio un error :(<br/>Codigo: ajaxEdicion 001.");
-		}
-	});
-}
-
-/**
-* LIMPIA EL CAMINO DEL ARBOL DE CATEGORIAS
-* @param padre -> id del padre
-*/
-function LimpiarCamino(padre, proyecto){
-
-	//BORRA HIJOS
-	if( $("#Padre"+padre).length ){
-		
-		$("#Padre"+padre).fadeOut(500, function(){
-			$("#Padre"+padre).remove();
-		});
-		
-		//obtiene los hijos del padre seleccionado
-		var queryParams = {'func' : 'GetHijos', 'padre' : padre};
-		$.ajax({
-			data: queryParams,
-			type: "post",
-			url: "src/ajaxProyectos.php",
-			beforeSend: function(){
-			},
-			success: function(response){
-				if(response.length > 0){
-					var hijos = $.parseJSON(response); 
-					
-					//alert(response);
-					$.each(hijos, function(f,c, proyecto){
-						LimpiarCamino(c, proyecto);
-					});
-
-				}else{
-					//no hay hijos que borrar
-				}
-			},
-			fail: function(){
-				notificaError("Error: ocurrio un error.<br/>Codigo: ajaxEdicion 001.");
-			}
-		});
-	}
-
-}
-
-/**
-* BORRAR LOS HERMANOS DE UN NODO
-* @param padre
-*/
-function LimpiarHermanos(padre, proyecto){
-	
-	if($(".datos").is(":visible")){
-		$(".datos").fadeOut();
-	}
-
-	//BORRA HERMANOS ASINCRONAMENTE
-	var queryParams = {'func' : 'GetHermanos', 'padre' : padre, 'proyecto' : proyecto};
-	
-	$.ajax({
-		data: queryParams,
-		type: "post",
-		async: false,
-		url: "src/ajaxProyectos.php",
-		beforeSend: function(){
-		},
-		success: function(response){
-			if(response.length > 0){
-				
-				var hermanos = $.parseJSON(response); 
-				
-				$.each(hermanos, function(f,c){
-					if($("#Padre"+c).length ){
-						LimpiarCamino(c);						
-					}
-				});
-			}
-		},
-		fail: function(){
-			notificaError("Error: AJAX fail.<br/>"+response);
-		}
-	}).done(function ( data ) {
-		  LimpiarCamino(padre);
-	});
-
-}
-
-/**
-* PONE ESTILO PARA CARGAR HIJO COMO SELECCIONADO
-* @param hijo -> id hijo seleccionado
-*/
-function SeleccionaHijo(hijo){
-
-	var padre = $("#"+hijo).closest("div").attr('id');
-
-	$("#"+padre+' li').removeClass('seleccionada');
-	$("#"+hijo).addClass('seleccionada');
-
-	var padre = $('#'+hijo).closest('div').attr('id');
-	
-	if( padre == '0'){
-		//si es supercategoria el menu varia
-		//ContextMenuSuperCategoria(hijo);
-	}else{
-		//ContextMenuCategoria(hijo);
-	}
-}
-
-/**
-* CARGA LAS NORMAS DE LA CATEGORIA
-* @param proyecto -> id del proyecto
-* @param $id -> id categoria
-*/
-function Normas(id, proyecto){
-	$.cookie('categoria', id);
-	
-	var queryParams = {"func" : "Normas", "id" : id, "proyecto" : proyecto};
-
-	$.ajax({
-		data: queryParams,
-		type: "post",
-		url: "src/ajaxProyectos.php",
-		beforesend: function(){
-		},
-		success: function(response){
-			if(response.length > 0){
-				$("#td-normas").html(response);
-				ShowNormas();
-			}else{
-				notificaError("Error: "+response);
-			}
-		},
-		fail: function(response){
-			notificaError("Error: AJAX fail Proyectos.js Normas()<br/>"+response);
-		}
-	});
-
-	/** NOMBRE DE LA CATEGORIA 
-	var queryParams = {"func" : "CategoriaNombre", "id" : id};
-
-	$.ajax({
-		data: queryParams,
-		type: "post",
-		url: "src/ajaxProyectos.php",
-		beforesend: function(){
-		},
-		success: function(response){
-			if(response.length > 0){
-				$("#camino-categorias").html(response);
-			}else{ 
-				//fallback
-				$("#camino-categorias").html("Categorias");
-			}
-		},
-		fail: function(response){
-			notificaError("Error: AJAX fail Proyectos.js Normas()<br/>"+response);
-		}
-	});**/
-}
-
-/**
- * SELECCIONA UNA NORMA
- */
-function SelectNorma(proyecto, id){
-	$("#td-normas li").removeClass("seleccionada");
-	$("#td-normas #"+id).addClass("seleccionada");
-
-	Articulos(proyecto, id);
-}
 
 /**
  * MUESTRA ARTICULOS DE UNA NORMA
@@ -357,54 +97,13 @@ function Articulos(proyecto, id){
 
 
 /**
-* SELECCIONA UN ARTICULO
-*/
-function SelectArticulo(id){
-	$("#td-articulos li").removeClass("seleccionada");
-	$("#td-articulos #"+id).addClass("seleccionada");
-
-	//TODO DOBLE CLICK
-	/*$("#"+id).dblclick(function(){
-		DatosArticulo(id);
-		return;
-	});*/
-
-	DatosArticulo(id);
-}
-
-/**
 * CARGA LOS DATOS DE UN ARTICULO
 */
 function DatosArticulo(id){
 	var proyecto = $.cookie('proyecto');
 	var categoria = $.cookie("categoria");
 
-	var queryParams = {"func" : "DatosArticulo", "proyecto" : proyecto, "categoria" : categoria, "id" : id };
-
-	$.ajax({
-		cache: false,
-		type: "post",
-		data: queryParams,
-		url: "src/ajaxProyectos.php",
-		success: function(response){
-
-			if(response.length > 0){
-				
-				$("#content").html(response);
-				$("#datos-articulo").hide()
-				$("#datos-articulo").fadeIn();
-				
-				Menu2();
-				
-				Editor('comentario');
-			}else{
-				notificaError("Error: "+response);
-			}
-		},
-		fail: function(response){
-			notificaError("Error: AJAX fail Proyectos.js DatosArticulo()<br/>"+response);
-		}
-	});
+	
 }
 
 /**
