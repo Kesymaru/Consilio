@@ -199,6 +199,7 @@ function Hijos($padre, $proyecto){
 		//no tiene hijos es una hoja
 		if( !$registros->EsRoot($padre) ){
 			//$lista .= '<script>$listaCategorias.Normas('.$padre.');</script>';
+			$lista .= 'no tiene hijos';
 		}
 	}
 
@@ -215,6 +216,7 @@ function TieneHijos($categoria){
 
 	if( !empty($hijos) ){
 		echo json_encode('true');
+		//echo json_encode( $hijos );
 	}else{
 		echo json_encode('false');
 	}
@@ -325,7 +327,7 @@ function DatosArticulo($proyecto, $categoria, $id){
 				<div class="titulo">
 					<!--<button class="izquierda" type="button"  onClick="Menu2()" >Panel</button>-->
 
-					<img id="solapa" class="icon izquierda rotacion" onClick="ShowMenu2()" src="images/next.png" />
+					<img id="solapa" class="icon izquierda rotacion" onClick="PanelMenus()" src="images/next.png" />
 					'.$datos[0]['nombre'].'
 			  	</div>
 			  	<div class="datos">';

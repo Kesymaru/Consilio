@@ -34,8 +34,14 @@ $.extend(Categorias.prototype, {
 					$("#menu").html(response);
 					
 					$("#menu li").click(function(){
+						
 						$("#menu li").removeClass('root-selected');
 						$(this).addClass('root-selected');
+
+						if( !$("#menu2").is(":visible") ){
+							PanelMenus();
+						}
+
 						$listaCategorias.Categorias( $(this).attr('id') );
 					});
 
@@ -125,6 +131,7 @@ $.extend(Categorias.prototype, {
 			success: function(response) {
 				
 				var esRoot = JSON.parse(response)
+				console.log(esRoot);
 				
 				//no tiene hijos
 				if( esRoot == 'false'){
@@ -302,6 +309,8 @@ $.extend(Categorias.prototype, {
 					//Menu2();
 					
 					Editor('comentario');
+
+					PanelMenus();
 				}else{
 					notificaError("Error: "+response);
 				}

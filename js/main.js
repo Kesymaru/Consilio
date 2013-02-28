@@ -268,33 +268,37 @@ function PanelMenus(){
 		$("#content").css({
 			'margin' : '0',
 			'display' : 'inline-block'
-		}).html('');
-
-		$("#menu").css({
-			'display' : 'block',
-			width : '0px',
 		});
+
+		$("#datos-articulo, #datos-footer, .mis-proyectos, .titulo").fadeOut();
+
+		if( !$("#menu").is(":visible") ){
+			$("#menu").css({
+				'display' : 'block',
+				width : '0px',
+			});
+
+			$("#menu").animate({
+				opacity: 1,
+				//width: 'toggle'
+				width: "10%"
+			}, { 
+				duration: 1500, 
+				queue: false,
+				complete: function(){
+					$("#menu").css({
+						'display' : 'block',
+						'float' : 'left',
+						'min-width' : '50px',
+					});
+				}
+			});
+		}
 
 		$("#menu2").css({
 			'display' : 'inline-block',
 			width : '0px',
 			'margin': '0px'
-		});
-
-		$("#menu").animate({
-			opacity: 1,
-			//width: 'toggle'
-			width: "10%"
-		}, { 
-			duration: 1500, 
-			queue: false,
-			complete: function(){
-				$("#menu").css({
-					'display' : 'block',
-					'float' : 'left',
-					'min-width' : '50px',
-				});
-			}
 		});
 
 		$("#menu2").animate({
@@ -318,11 +322,42 @@ function PanelMenus(){
 	    	complete: function(){
 	    		$("#content").css({
 					"display" : "none",
-				}).html('');
+				});
 	    	}
 	    });
 
 	}else{
+
+		$("#content").css({
+			'margin' : '0',
+			'display' : 'inline-block'
+		});
+		
+		$("#menu2").animate({
+	       width: '0%'
+	    }, { 
+	    	duration: 1400, 
+	    	queue: false,
+	    	complete: function(){
+	    		$("#menu2").css({
+					"display" : "none",
+				});
+	    	}
+	    });
+
+	    $("#content").animate({
+	       width: '80%'
+	    }, { 
+	    	duration: 1500, 
+	    	queue: false,
+	    	complete: function(){
+	    		$("#content").css({
+					"display" : "inline-block",
+					'height' : 'auto',
+				});
+				$("#datos-articulo, #datos-footer").fadeIn();
+	    	}
+	    });
 
 	}
 }
