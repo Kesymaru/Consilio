@@ -125,8 +125,7 @@ button:hover{
 }
 
 .disclaim{
-	position: absolute;
-	height: 10%;
+	position: fixed;
 	display: table;
 	vertical-align: middle;
 	width: 100%;
