@@ -22,6 +22,7 @@ class Session{
 			//$_SESSION['home'] = 'http://'.$_SERVER['HTTP_HOST'].'/Consilio';
 			$_SESSION['home'] = $protocolo.$dominio.'/matrizescala';
 			$_SESSION['datos'] = $protocolo.$dominio.'/matrizescala/Admin/';
+			$_SESSION['origen'] = 'Admin/';
 		}
 
 		date_default_timezone_set('America/Costa_Rica');

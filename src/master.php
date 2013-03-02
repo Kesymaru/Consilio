@@ -172,12 +172,14 @@ class Master{
 				$imagen = $_SESSION['datos'].$proyecto['imagen'];
 
 				//fallback de la imagenes
-				if(!file_exists($imagen) || $imagen == $_SESSION['datos']."images/es.png" ){
+				if( !file_exists( $_SESSION['origen'].$proyecto['imagen'] ) || $proyecto['imagen'] == "images/es.png" ){
+					
 					$cliente = new Cliente();
 					//primer fallback usa la del usuario
 					$imagen = $_SESSION['datos'].$cliente->getClienteDato("imagen", $_SESSION['cliente_id']);
 
 					if(!file_exists($imagen)){
+						
 						//segundo fallback usa la default
 						$imagen = "images/es.png";
 					}
@@ -186,10 +188,8 @@ class Master{
 
 				$lista .= '<div class="proyecto-detalles">';
 
-				$lista .= '<div class="div-imagen proyecto-img">
-								<div title="'.$proyecto['nombre'].'" class="img-wrapper" >
+				$lista .= '<div class="div-imagen proyecto-img" title="'.$proyecto['nombre'].'">
 									<img src="'.$imagen.'" >
-								</div>
 							</div>';
 
 				$lista .= '<div class="proyecto-titulo">

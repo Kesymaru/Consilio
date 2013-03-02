@@ -11,6 +11,8 @@ $.extend(Categorias.prototype, {
 	articulo: '',
 
 	margin: 0,
+	focus: '',
+	subpanel: '',
 
 	/* 
 	*  carga las supercategorias de un proyecto
@@ -19,6 +21,9 @@ $.extend(Categorias.prototype, {
 	SuperCategorias: function(proyecto){
 		this.margin = 0;
 		this.proyecto = proyecto;
+		this.subpanel = 'categorias';
+
+		$shortcuts.focus = 'panel';
 
 		var queryParams = {"func" : "CategoriasRoot", "proyecto" : proyecto};
 
@@ -101,6 +106,8 @@ $.extend(Categorias.prototype, {
 					});
 					
 					$("#Padre"+padre+' li').addClass('hijo');
+
+					$listaCategorias.Mover();
 
 				}else{
 					notificaError("Error: "+response);
@@ -186,6 +193,7 @@ $.extend(Categorias.prototype, {
 	* CARGA LA UNA NORMA
 	*/
 	Normas: function(categoria){
+		this.subpanel = 'normas';
 
 		$("#panel-normas")
 		.addClass("panel-activo")
@@ -238,6 +246,7 @@ $.extend(Categorias.prototype, {
 	* CARGA LOS ARTICULOS DE UNA CATEGORIA
 	*/
 	Articulo: function(norma){
+		this.subpanel = 'articulos';
 		this.norma = norma;
 
 		$("#panel-articulos")
@@ -292,7 +301,7 @@ $.extend(Categorias.prototype, {
 
 		this.articulo = articulo;
 
-		var queryParams = {"func" : "DatosArticulo", "proyecto" : this.proyecto, "categoria" : this.categoria, "id" : this.articulo };
+		var queryParams = {"func" : "DatosArticulo", "proyecto" : this.proyecto, "categoria" : this.categoria, "norma" : this.norma, "id" : this.articulo };
 		$.ajax({
 			cache: false,
 			type: "post",
@@ -310,6 +319,8 @@ $.extend(Categorias.prototype, {
 					
 					Editor('comentario');
 
+					$shortcuts.focus = 'datos';
+
 					PanelMenus();
 				}else{
 					notificaError("Error: "+response);
@@ -319,8 +330,68 @@ $.extend(Categorias.prototype, {
 				notificaError("Error: AJAX fail Proyectos.js DatosArticulo()<br/>"+response);
 			}
 		});
+	},
+
+	/***************** HELPERS *************/
+
+	MostrarDatos: function(){
+		if( this.articulo != undefined && this.articulo != '' ){
+			$shortcuts.focus = 'datos';
+			PanelMenus();
+		}
+	},
+
+	OcultarDatos: function(){
+		if( this.articulo != undefined && this.articulo != '' ){
+			$shortcuts.focus = 'panel';
+			PanelMenus();
+		}
 	}
 
 });
 
 $listaCategorias = new Categorias();
+
+/************************************** CLASE PARA SHORT CUTS ******************/
+
+ShortCuts = function(){};
+$.extend(ShortCuts.prototype, {
+	focus: '', //sona en la que aplicar eventos
+	lock: 'false',
+
+	init: function(){
+		$(document).bind('keydown',this.Manejador);
+	},
+
+	Manejador: function(evento){
+		console.log( evento.ctrlKey );
+		
+		console.log( evento.keyCode );
+		if( $shortcuts.lock == 'false' ){
+
+			switch ( $shortcuts.focus ){
+				case ('panel'):
+						
+					switch (evento.keyCode){
+
+						case (39):
+							console.log('derecha');
+							$listaCategorias.MostrarDatos();
+							break;
+					}
+					break;
+
+				case ('datos'):
+					switch (evento.keyCode){
+						case (37):
+							console.log('izquierda');
+							$listaCategorias.OcultarDatos();
+							break;
+					}
+					break;
+			}
+		}
+	}
+});
+
+$shortcuts = new ShortCuts();

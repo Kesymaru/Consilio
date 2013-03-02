@@ -67,8 +67,8 @@ if(isset($_POST['func'])){
 		//DATOS DE UN ARTICULO
 		case 'DatosArticulo':
 
-			if( isset($_POST['proyecto']) && isset($_POST['categoria']) && isset($_POST['id'])){
-				DatosArticulo($_POST['proyecto'], $_POST['categoria'], $_POST['id']);
+			if( isset($_POST['proyecto']) && isset($_POST['categoria']) && isset($_POST['norma']) && isset($_POST['id'])){
+				DatosArticulo($_POST['proyecto'], $_POST['categoria'], $_POST['norma'], $_POST['id']);
 			}
 			break;
 
@@ -199,7 +199,7 @@ function Hijos($padre, $proyecto){
 		//no tiene hijos es una hoja
 		if( !$registros->EsRoot($padre) ){
 			//$lista .= '<script>$listaCategorias.Normas('.$padre.');</script>';
-			$lista .= 'no tiene hijos';
+			//$lista .= 'no tiene hijos';
 		}
 	}
 
@@ -304,11 +304,12 @@ function Articulos($proyecto, $categoria, $id){
 
 /**
 * CARGA DATOS DE UN ARTICULO
-* @param $proyecto -> id del proyecto
-* @param $categoria -> id de la categoria
-* @param $id -> id del articulo
+* @param int $proyecto -> id del proyecto
+* @param int $categoria -> id de la categoria
+* @param int $norma -> id de la norma
+* @param int $id -> id del articulo
 */
-function DatosArticulo($proyecto, $categoria, $id){
+function DatosArticulo($proyecto, $categoria, $norma, $id){
 	
 	date_default_timezone_set('America/Costa_Rica');
 
@@ -325,9 +326,7 @@ function DatosArticulo($proyecto, $categoria, $id){
 	if(!empty($datos)){
 		$lista = '<div id="datos-articulo">
 				<div class="titulo">
-					<!--<button class="izquierda" type="button"  onClick="Menu2()" >Panel</button>-->
-
-					<img id="solapa" class="icon izquierda rotacion" onClick="PanelMenus()" src="images/next.png" />
+					<img id="solapa" class="icon izquierda rotacion" onClick="$listaCategorias.OcultarDatos()" src="images/next.png" />
 					'.$datos[0]['nombre'].'
 			  	</div>
 			  	<div class="datos">';

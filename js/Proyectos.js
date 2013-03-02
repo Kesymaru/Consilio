@@ -146,8 +146,10 @@ function NewComentario(){
 * @param articulo
 */
 function AgregarComentario(articulo){
-	var proyecto = $.cookie('proyecto');
-	var categoria = $.cookie('categoria');
+	console.log( $listaCategorias.proyecto );
+	console.log( $listaCategorias.categoria );
+	console.log( $listaCategorias.articulo );
+
 	EditorUpdateContent();
 
 	var comentario = $("#comentario").val();
@@ -157,7 +159,7 @@ function AgregarComentario(articulo){
 		return;
 	}
 
-	var queryParams = { "func" : "NuevoComentario", "proyecto" : proyecto, "categoria" : categoria, "articulo" : articulo, "comentario": comentario };
+	var queryParams = { "func" : "NuevoComentario", "proyecto" : $listaCategorias.proyecto, "categoria" : $listaCategorias.categoria, "norma" : $listaCategorias.norma, "articulo" : $listaCategorias.articulo, "comentario": comentario };
 
 	$.ajax({
 		data: queryParams,

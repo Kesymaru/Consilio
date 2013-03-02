@@ -3,6 +3,10 @@ Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
+html{
+	height: 100%;
+}
+
 body
 {
 	/* Font */
@@ -28,6 +32,74 @@ body
 	line-height: 1.6em;
 	text-align:justify;
 	text-justify:inter-word;
+
+	margin: 0;
+	border-top: 1px solid #dedede;
+	border-bottom: 3px solid #dedede;
+	min-height: 95%;
+	padding: 0px 10px;
+
+	animation: selected-border 7s infinite;
+		-moz-animation: selected-border 7s infinite;
+		-webkit-animation: selected-border 7s infinite;
+		-o-animation: selected-border 7s infinite;
+}
+
+/* #F68400 */
+@keyframes selected-border {
+	0% {border-bottom: 3px solid rgba(63%, 79%, 29%, .5);}
+	25% {border-bottom: 3px solid rgba(63%, 79%, 29%, 1);}
+	
+	30% {border-bottom: 3px solid rgba(96%, 52%, 0%, .3);}
+	40% {border-bottom: 3px solid rgba(96%, 52%, 0%, .5);}
+	50% {border-bottom: 3px solid rgba(96%, 52%, 0%, 1);}
+	60% {border-bottom: 3px solid rgba(96%, 52%, 0%, .5);}
+	70% {border-bottom: 3px solid rgba(96%, 52%, 0%, .3);}
+	
+	85% {border-bottom: 3px solid rgba(63%, 79%, 29%, 1);}
+	100% {border-bottom: 3px solid rgba(63%, 79%, 29%, .5);}
+}
+
+@-moz-keyframes selected-border {
+	0% {border-bottom: 3px solid rgba(63%, 79%, 29%, .5);}
+	25% {border-bottom: 3px solid rgba(63%, 79%, 29%, 1);}
+	
+	30% {border-bottom: 3px solid rgba(96%, 52%, 0%, .3);}
+	40% {border-bottom: 3px solid rgba(96%, 52%, 0%, .5);}
+	50% {border-bottom: 3px solid rgba(96%, 52%, 0%, 1);}
+	60% {border-bottom: 3px solid rgba(96%, 52%, 0%, .5);}
+	70% {border-bottom: 3px solid rgba(96%, 52%, 0%, .3);}
+	
+	85% {border-bottom: 3px solid rgba(63%, 79%, 29%, 1);}
+	100% {border-bottom: 3px solid rgba(63%, 79%, 29%, .5);}
+}
+
+@-webkit-keyframes selected-border {
+	0% {border-bottom: 3px solid rgba(63%, 79%, 29%, .5);}
+	25% {border-bottom: 3px solid rgba(63%, 79%, 29%, 1);}
+	
+	30% {border-bottom: 3px solid rgba(96%, 52%, 0%, .3);}
+	40% {border-bottom: 3px solid rgba(96%, 52%, 0%, .5);}
+	50% {border-bottom: 3px solid rgba(96%, 52%, 0%, 1);}
+	60% {border-bottom: 3px solid rgba(96%, 52%, 0%, .5);}
+	70% {border-bottom: 3px solid rgba(96%, 52%, 0%, .3);}
+	
+	85% {border-bottom: 3px solid rgba(63%, 79%, 29%, 1);}
+	100% {border-bottom: 3px solid rgba(63%, 79%, 29%, .5);}
+}
+
+@-o-keyframes selected-border {
+	0% {border-bottom: 3px solid rgba(63%, 79%, 29%, .5);}
+	25% {border-bottom: 3px solid rgba(63%, 79%, 29%, 1);}
+	
+	30% {border-bottom: 3px solid rgba(96%, 52%, 0%, .3);}
+	40% {border-bottom: 3px solid rgba(96%, 52%, 0%, .5);}
+	50% {border-bottom: 3px solid rgba(96%, 52%, 0%, 1);}
+	60% {border-bottom: 3px solid rgba(96%, 52%, 0%, .5);}
+	70% {border-bottom: 3px solid rgba(96%, 52%, 0%, .3);}
+	
+	85% {border-bottom: 3px solid rgba(63%, 79%, 29%, 1);}
+	100% {border-bottom: 3px solid rgba(63%, 79%, 29%, .5);}
 }
 
 blockquote

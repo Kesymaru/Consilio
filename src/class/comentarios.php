@@ -36,22 +36,26 @@ class Comentarios{
 
 	/**
 	* CREA UN COMENTARIO NUEVO
-	* @param $proyecto
-	* @param $categoria
-	* @param $articulo
-	* @param $comentario
-	* @param $usuario
-	* @return tru si se crea
+	* @param int $proyecto -> id del proyecto
+	* @param int $categoria -> id de la categoria
+	* @param int $articulo -> id del articulo
+	* @param string $comentario -> text/html del comentario
+	* @param int $usuario -> id del usuario
+	* @return boolean true -> si se crea
+	* @return boolean false -> caso de error o fallo
 	*/
-	public function newComentario($proyecto, $categoria, $articulo, $comentario, $usuario){
+	public function newComentario($proyecto, $categoria, $norma, $articulo, $comentario, $usuario){
 		$base = new Database();
 		$comentario = base64_encode($comentario);
 
 		$proyecto = mysql_real_escape_string($proyecto);
+		$categoria = mysql_real_escape_string($categoria);
+		$norma = mysql_real_escape_string($norma);
 		$articulo = mysql_real_escape_string($articulo);
+		$usuario = mysql_real_escape_string($usuario);
 
-		$query = "INSERT INTO comentarios ( comentario, proyecto, categoria, articulo, usuario, tipo, fecha_creacion ) ";
-		$query .= " VALUES ( '".$comentario."', '".$proyecto."', '".$categoria."', '".$articulo."', '".$usuario."', 0, NOW() )";
+		$query = "INSERT INTO comentarios ( comentario, proyecto, categoria, norma, articulo, usuario, tipo, fecha_creacion ) ";
+		$query .= " VALUES ( '".$comentario."', '".$proyecto."', '".$categoria."', '".$norma."', '".$articulo."', '".$usuario."', 0, NOW() )";
 
 		if($base->Insert($query)){
 			return true;

@@ -91,6 +91,7 @@ $(document).ready(function(){
     // no seleccionable
     $('#main, #menu, #content, table, .disclaim, #menuUsuario, #menuProyectos').disableSelection();
 
+    $shortcuts.init();
 });
 /*
 $(window).load(function(){
@@ -264,6 +265,7 @@ function Menu2(){
 function PanelMenus(){
 			
 	if( $('#content').is(":visible") ){
+		$shortcuts.lock = 'true';
 
 		$("#content").css({
 			'margin' : '0',
@@ -311,6 +313,7 @@ function PanelMenus(){
 					"display" : "inline-block",
 					"opacity" : "1"
 				});
+				$shortcuts.lock = 'false';
 	    	}
 	    });
 
@@ -327,6 +330,7 @@ function PanelMenus(){
 	    });
 
 	}else{
+		$shortcuts.lock = 'true';
 
 		$("#content").css({
 			'margin' : '0',
@@ -356,6 +360,7 @@ function PanelMenus(){
 					'height' : 'auto',
 				});
 				$("#datos-articulo, #datos-footer").fadeIn();
+				$shortcuts.lock = 'false';
 	    	}
 	    });
 
