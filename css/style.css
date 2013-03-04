@@ -261,7 +261,6 @@ button:hover{
 }
 
 .seleccionada{
-	border: solid 1px #A1CA4A;
 	background-color: #A1CA4A;
 	color: #fff;
 }
@@ -572,17 +571,14 @@ button:hover{
 	border-bottom: 2px solid #a1ca4a;
 }
 
-/*
-* CATEGORIAS
-*/
-
 .hijo{
 	border-bottom: 1px solid rgba(87%, 87%, 87%,.5);
-	padding: 5px 0;
+	/*padding: 5px 0;*/
 }
 
 .hijo li{
 	margin-top: 5px;
+	padding-left: 5px;
 }
 
 #td-categorias li,
@@ -602,13 +598,29 @@ button:hover{
 	padding-left: 10px;
 }
 
-#td-categorias:hover .seleccionada{
-	background-color: #A1CA4A;
+#td-categorias span{
+	width: 100%;
+	display: block;
+	padding: 5px 0;
 }
 
-#td-categorias .seleccionada{
-	background-color: #dedede;
-	border-color: #dedede;
+.panel .seleccionada{
+		-o-transition: all 6s ease-out;
+		-ms-transition: all 6s ease-out;
+		-moz-transition: all 6s ease-out;
+		-webkit-transition: all 6s ease-out;
+	transition: all 6s ease-out;
+}
+
+#td-categorias:hover .seleccionada,
+#td-normas:hover .seleccionada,
+#td-articulos:hover .seleccionada{
+	background-color: #A1CA4A;
+		-o-transition: all .5s ease-out;
+		-ms-transition: all .5s ease-out;
+		-moz-transition: all .5s ease-out;
+		-webkit-transition: all .5s ease-out;
+	transition: all .5s ease-out;
 }
 
 /**
@@ -1415,7 +1427,7 @@ button:hover{
 }
 
 .comentarios td{
-	padding-bottom: 10px;
+	padding: 10px 10px;
 }
 
 .comentarios tr{
@@ -1436,17 +1448,6 @@ button:hover{
 	transition: all 0.5s ease-out;
 	border-bottom: 2px solid #A1CA4A;;
 }
-
-.comentarios tr:hover .img-wrapper2{
-		-o-transition: all 0.5s ease-out;
-		-ms-transition: all 0.5s ease-out;
-		-moz-transition: all 0.5s ease-out;
-		-webkit-transition: all 0.5s ease-out;
-	transition: all 0.5s ease-out;
-
-	border:4px solid #A1CA4A; 
-}
-
 .comentario-imagen{
 	width: 110px;
 	text-align: center;
@@ -1459,8 +1460,10 @@ button:hover{
 .comentario-imagen span{
 	font-size: 14px;
 	color: #757374;
-	margin-top: 5px;
 	text-transform: capitalize;
+	text-align: center;
+	padding: 2px 5px;
+	font-weight: bold;
 }
 
 .comentario{
@@ -1468,6 +1471,7 @@ button:hover{
 	vertical-align: middle;
 	color: #757374;
 	font-size: 16px;
+	padding-left: 10px;
 }
 
 #panel-editor{
@@ -1489,48 +1493,6 @@ button:hover{
 .div-imagen img{
 	height: 80px;
 	max-width: 220px;
-}
-
-.img-wrapper {
-	height:80px; 
-	width:80px; 
-	border-radius:80px; 
-	border:4px solid white; 
-	overflow:hidden;
-	margin: 0 auto;
-
-		-o-transition: all 6s ease-out;
-		-ms-transition: all 6s ease-out;
-		-moz-transition: all 6s ease-out;
-		-webkit-transition: all 6s ease-out;
-	transition: all 6s ease-out;
-}
-
-.img-wrapper2 {
-	height:80px; 
-	width:80px; 
-	/*border-radius:80px; 
-	/*border:4px solid white; */
-	overflow:hidden;
-	margin: 0 auto;
-
-		-o-transition: all 3s ease-out;
-		-ms-transition: all 3s ease-out;
-		-moz-transition: all 3s ease-out;
-		-webkit-transition: all 3s ease-out;
-	transition: all 3s ease-out;
-}
-
-.img-wrapper:hover,
-.img-wrapper2:hover{
-
-		-o-transition: all 0.5s ease-out;
-		-ms-transition: all 0.5s ease-out;
-		-moz-transition: all 0.5s ease-out;
-		-webkit-transition: all 0.5s ease-out;
-	transition: all 0.5s ease-out;
-
-	/*border:4px solid #A1CA4A; */
 }
 
 .box p{

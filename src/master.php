@@ -177,13 +177,9 @@ class Master{
 					$cliente = new Cliente();
 					//primer fallback usa la del usuario
 					$imagen = $_SESSION['datos'].$cliente->getClienteDato("imagen", $_SESSION['cliente_id']);
-
-					if(!file_exists($imagen)){
-						
-						//segundo fallback usa la default
-						$imagen = "images/es.png";
-					}
 					
+				}else{
+					$imagen = "images/es.png";
 				}
 
 				$lista .= '<div class="proyecto-detalles">';

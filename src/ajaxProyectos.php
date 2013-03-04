@@ -123,19 +123,14 @@ function CategoriasRoot($proyecto){
 				if($datosCategoria[0]['padre'] == 0){
 					
 					$lista .= '<li class="" id="'.$categoria.'" >';
-
+										
 					$imagen = $_SESSION['datos'].$datosCategoria[0]['imagen'];
-					
-					//fallback de las imagen
-					if( file_exists($imagen) ){
-						//$imagen = "images/es.png";
-						//echo 'existe '.$imagen.'<hr>';
-					}else{
-						//echo 'no existe '.$imagen.'<hr>';
-						//$imagen = "images/es.png";
+
+					if( file_exists('matrizescala/Admin/images/categorias/12974Tulips.jpg') ){
+						echo 'eureka';
 					}
 
-					$lista .= '<img title="'.$datosCategoria[0]['nombre'].'" src="'.$imagen.'" /><p>'.$datosCategoria[0]['nombre'].'</p>';
+					$lista .= '<img title="'.$datosCategoria[0]['nombre'].'" src="'.$imagen.'" onerror="this.src=\'images/es.png\'" /><p>'.$datosCategoria[0]['nombre'].'</p>';
 
 					$lista .= '</li>';
 				}
@@ -178,6 +173,7 @@ function Hijos($padre, $proyecto){
 								<span id="'.$hijo['id'].'">
 									'.$hijo['nombre'].'
 								</span>
+								
 								<ul id="sub'.$hijo['id'].'" class="subcategoria">
 								</ul>
 							   </li>';

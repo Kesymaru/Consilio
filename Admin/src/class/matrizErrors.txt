@@ -1351,3 +1351,20 @@ imagen: ../
 	JAVASCRIPT: 
 	March 1 2013 - 5:14 pm
  --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 4 2013 - 2:58 pm
+ --------------------<>--------------------
