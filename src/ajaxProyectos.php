@@ -173,7 +173,7 @@ function Hijos($padre, $proyecto){
 								<span id="'.$hijo['id'].'">
 									'.$hijo['nombre'].'
 								</span>
-								
+
 								<ul id="sub'.$hijo['id'].'" class="subcategoria">
 								</ul>
 							   </li>';
@@ -422,6 +422,7 @@ function DatosArticulo($proyecto, $categoria, $norma, $id){
 		$lista .= '</div><!-- end datos cargados -->
 					</div><!-- end datos -->';
 
+		//compone el panel de los comentarios
 		$lista .= PanelComentarios($proyecto, $categoria, $id);
 
 		$lista .= '
@@ -496,9 +497,10 @@ function CategoriaNombre($id){
 
 /**
 * COMPONE EL PANEL PARA LOS COMENTARIOS
-* @param $proyecto -> id del proyecto
-* @param $categoria -> id categoria
-* @param $articulo -> id del articulo
+* @param int $proyecto -> id del proyecto
+* @param int $categoria -> id categoria
+* @param int $articulo -> id del articulo
+* @return string $panel -> html/text
 */
 function PanelComentarios($proyecto, $categoria, $articulo){
 	$comentarios = new Comentarios();
@@ -546,9 +548,17 @@ function PanelComentarios($proyecto, $categoria, $articulo){
 
 				  </td></tr>';
 
-		$panel .= '</table></div>';
+		$panel .= '</table>
+				  </div><!-- comentarios -->';
 		
 
+	}else{
+		//no hay comentarios
+		$panel .= '<div id="comentarios" class="ocultos"> 
+					<table class="comentarios" >
+
+					</table>
+				   </div><!-- comentarios -->';
 	}
 
 	$panel .= '<div id="new-comentario" class="'.$oculto.'">

@@ -112,7 +112,6 @@ function DatosArticulo(id){
 function Comentar(){
 	var tamano = 3 + ( $("#content").outerHeight() - $("#datos-articulo .titulo").outerHeight() ) - $("#datos-footer").outerHeight() ;
 	
-
 	if( $("#panel-comentario").is(":visible") ){
 		
 		$("#panel-comentario").slideUp(1000, function(){
@@ -169,13 +168,15 @@ function AgregarComentario(articulo){
 		},
 		success: function(response){
 
-			if(response.length <= 3){
-				notifica("Comentario Agregado");
-				Comentar();
-			}else{
-				notificaError("Error: "+response);
-			}
-			
+			notifica("Comentario Agregado");
+
+			$("#panel-comentario").removeClass('ocultos');
+			$("#comentarios").append(response);
+
+			$("#NewComentario").hide();
+			$("#new-comentario").slideDown();
+			$("#comentarios").slideUp();
+
 		},
 		fail: function(response){
 			notificaError("Error: AJAX fail Proyectos.js AgregarComentario.<br/>"+response);

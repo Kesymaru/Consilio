@@ -627,7 +627,7 @@ button:hover{
 * BOTONERAS
 */
 .ocultos{
-	display: none;
+	display: none !important;
 }
 
 .datos-botones{

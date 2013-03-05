@@ -35,13 +35,34 @@ class Comentarios{
 	}
 
 	/**
+	* OBTIENE EL COPMENTARIO
+	* @param int $id -> id del comentario
+	* @return array $datos -> datos del comentario
+	* @return boolean false si falla
+	*/
+	public function getComentario($id){
+		$base = new Database();
+
+		$id = mysql_real_escape_string($id);
+
+		$query = "SELECT * FROM comentarios WHERE id = '".$id."'";
+
+		$datos = $base->Select($query);
+		if( !empty($datos) ){
+			return $datos;
+		}else{
+			return false;
+		}
+	}
+
+	/**
 	* CREA UN COMENTARIO NUEVO
 	* @param int $proyecto -> id del proyecto
 	* @param int $categoria -> id de la categoria
 	* @param int $articulo -> id del articulo
 	* @param string $comentario -> text/html del comentario
 	* @param int $usuario -> id del usuario
-	* @return boolean true -> si se crea
+	* @return int id -> id del nuevo comentario creado
 	* @return boolean false -> caso de error o fallo
 	*/
 	public function newComentario($proyecto, $categoria, $norma, $articulo, $comentario, $usuario){
@@ -58,7 +79,13 @@ class Comentarios{
 		$query .= " VALUES ( '".$comentario."', '".$proyecto."', '".$categoria."', '".$norma."', '".$articulo."', '".$usuario."', 0, NOW() )";
 
 		if($base->Insert($query)){
-			return true;
+			$id = $base->getUltimoId();
+			
+			if( isset($id) ){
+				return $id;
+			}else{
+				return false;
+			}
 		}else{
 			return false;
 		}
