@@ -50,7 +50,7 @@ class Error{
 		$mensaje .= "\t".date("F j Y - g:i a")."\n --------------------<>--------------------";
 		
 		//envia email
-		//$mail->errorMail($mensaje);
+		$mail->errorMail($mensaje);
 
 		if(filesize($myFile) > 0){
 			$file = fopen($myFile, 'r') or die("Error: al abrir matrizErrors.txt");

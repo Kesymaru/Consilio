@@ -441,7 +441,7 @@ function notificaError(text) {
 		}
 	});
 
-  	var n = noty({
+  	/*var n = noty({
   		text: text,
   		type: 'error',
     	dismissQueue: true,
@@ -453,7 +453,7 @@ function notificaError(text) {
   	//tiempo para desaparecerlo solo 
   	setTimeout(function (){
 		n.close();
-	},7000);
+	},7000);*/
 }
 
 /**

@@ -523,10 +523,10 @@ class Mail {
 
 	/**
 	* ENVIA UN MAIL PERSONALIZADO
-	* @param $destinatario
-	* @param $cc
-	* @param $bcc
-	* @param $mail -> mensaje
+	* @param string $destinatario
+	* @param array $cc
+	* @param array $bcc
+	* @param string $mail -> mensaje
 	*/
 	function enviar($remitente, $destinatario, $cc, $bcc, $asunto, $mail){
 		$correo = array();
@@ -553,7 +553,6 @@ class Mail {
 			return true;
 		}
 	}
-
 
 	/**
 	 * ENVIA UN MAIL, NOTIFICA UN ERROR
