@@ -138,9 +138,9 @@ class Master{
 		$proyectos = new Proyectos();
 		$datos = $proyectos->getProyectos($_SESSION['cliente_id']);
 
-		$lista = '<div class="titulo" >
+		$lista = '<div class="titulo">
 					Mis Proyectos
-				</div>';
+				  </div>';
 		
 
 		if(!empty($datos)){
@@ -169,34 +169,29 @@ class Master{
 					$lista .= '<td onClick="Proyecto('.$proyecto['id'].')" class="columna'.$columna.' cl'.$cuenta.'">';
 				}
 
+				$cliente = new Cliente();
+					//primer fallback usa la del usuario
+				$imagen = $_SESSION['datos'].$cliente->getClienteDato("imagen", $_SESSION['cliente_id']);
 				$imagen = $_SESSION['datos'].$proyecto['imagen'];
 
-				//fallback de la imagenes
-				if( !file_exists( $_SESSION['origen'].$proyecto['imagen'] ) || $proyecto['imagen'] == "images/es.png" ){
-					
-					$cliente = new Cliente();
-					//primer fallback usa la del usuario
-					$imagen = $_SESSION['datos'].$cliente->getClienteDato("imagen", $_SESSION['cliente_id']);
-					
-				}else{
-					$imagen = "images/es.png";
-				}
+				$lista .= '<table class="proyecto-detalles">
+							<tr>
+								<td class="proyecto-img" title="'.$proyecto['nombre'].'">';
 
-				$lista .= '<div class="proyecto-detalles">';
+				$lista .= '<img src="'.$imagen.'" onerror="this.src=\'images/es.png\'" >';
 
-				$lista .= '<div class="div-imagen proyecto-img" title="'.$proyecto['nombre'].'">
-									<img src="'.$imagen.'" >
-							</div>';
-
-				$lista .= '<div class="proyecto-titulo">
-						   	 	'.$proyecto['nombre'].'
-						   </div>';
+				$lista .= '</td><td>
+								<div class="proyecto-titulo">
+						   	 		'.$proyecto['nombre'].'
+						   		</div>';
 				
-				$lista .= '<div class="proyecto-decripcion">
-						   	 '.base64_decode($proyecto['descripcion']).'
-						   </div>';
+				$lista .= '		<div class="proyecto-decripcion">
+						   	 		'.base64_decode($proyecto['descripcion']).'
+						   		</div>';
 
-				$lista .= '</div>';
+				$lista .= '		</td>
+						   </tr>
+						   </table><!-- end detalles proyecto -->';
 
 				if($cuenta <= $columna){
 					$lista .= '</td>';
@@ -209,7 +204,7 @@ class Master{
 				$cuenta++;
 			}
 
-			$lista .= '</div><!-- end mis proyectos -->';
+			$lista .= '</div><!-- end proyecto detalles -->';
 		}else{
 			$lista .= "<tr>
 						<td>
@@ -218,7 +213,7 @@ class Master{
 					   <tr>";
 		}
 
-		$lista .= '</table';
+		$lista .= '</table>';
 
 		echo $lista;
 	}
