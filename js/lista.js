@@ -143,11 +143,14 @@ $.extend(Categorias.prototype, {
 				
 				//no tiene hijos
 				if( esRoot == 'false'){
-					console.log('normas');
+					$("#td-articulos ul").fadeOut(function(){
+						$(this).remove();
+					});
 					$listaCategorias.Normas(padre);
 					return;
 				}else{
-					$("#td-normas ul").fadeOut(function(){
+					console.log('limpia');
+					$("#td-normas ul, #td-articulos ul").fadeOut(function(){
 						$(this).remove();
 					});
 				}

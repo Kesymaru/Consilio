@@ -182,8 +182,8 @@ $master = new Master();
 					
 				</th>
 				<th id="panel-articulos">
-					<img class="icon derecha" title="Buscar" onClick="Busqueda('busqueda', 'buscar', 'panel', false)" src="images/search2.png" />
 					<span></span>
+					<img class="icon derecha" title="Buscar" onClick="Busqueda('busqueda', 'buscar', 'panel', false)" src="images/search2.png" />
 				</th>
 			</tr>
 			<tr>
@@ -236,7 +236,9 @@ $master = new Master();
 </body>
 <div class="disclaim" >
 	<div>
-		<p>2013 Escala Consultores. Todos los derechos reservados</p>
+		<p>
+			Estimado (a) Usuario (a): Consultores Escala es el titular exclusivo del contenido de la Interfaz de Cumplimiento. Por ende, cualquier adaptación, modificación, extracto o uso en cualquiera de sus modalidades de su contenido, requerirá la autorización expresa del titular del derecho. La presente base de datos está protegida como una compilación de acuerdo con la Ley de Derechos de Autor y Derechos Conexos.
+		</p>
 	</div>
 </div>	
 </html>

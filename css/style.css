@@ -481,9 +481,8 @@ button:hover{
 
 .panel th{
 	width: 33%;
-	height: 20px;
-	padding-top: 2px;
-	padding-bottom: 2px;
+	padding-top: 5px;
+	padding-bottom: 5px;
 	border-bottom: 2px solid #fff;
 	text-align: center;
 	text-transform: uppercase;
@@ -495,6 +494,10 @@ button:hover{
 	border-left: 1px solid #fff;
 	vertical-align: top;
 	text-align: left;
+}
+
+.panel .icon{
+	height: 22px !important;
 }
 
 .panel-border-right{
