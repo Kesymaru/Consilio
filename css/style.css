@@ -1822,6 +1822,7 @@ button:hover{
 	marging: 0;
 	padding: 0;
 	border-bottom: 2px solid #fff;
+	padding-top: 10px;
 	padding-bottom: 10px;
 	cursor: pointer;
 	vertical-align: middle;
