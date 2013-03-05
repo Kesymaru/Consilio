@@ -226,6 +226,12 @@ button:hover{
 	border-top: 1px solid #dedede;
 	border-left: 1px solid #dedede;
 	border-bottom: 1px solid #dedede;
+
+		-o-transition: all 1s ease-out;
+		-ms-transition: all 1s ease-out;
+		-moz-transition: all 1s ease-out;
+		-webkit-transition: all 1s ease-out;
+	transition: all 1s ease-out;
 }
 
 #menu .categorias-componer ul{
@@ -1418,6 +1424,13 @@ button:hover{
 	width: 100%;
 	border: none;
 	border-collapse: collapse;
+	margin-bottom: 5px;
+}
+
+.botonera-comentarios{
+	width: 100%;
+	text-align: center;
+	margin-bottom: 5px;
 }
 
 #NewComentario{

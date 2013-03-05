@@ -593,6 +593,15 @@ function EditorUpdateContent() {
     }
 }
 
+/**
+* RESETEA EL EDITOR
+*/
+function EditorReset(){
+	for (instance in CKEDITOR.instances) {
+        CKEDITOR.instances[instance].setData("");
+    }
+}
+
 
 /**
 * FUNCION PARA MOSTRAR EL LOADER DE JQUERY

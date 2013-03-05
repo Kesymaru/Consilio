@@ -102,6 +102,7 @@ $.extend(Categorias.prototype, {
 					
 					//al dar clik
 					$("#Padre"+padre+" li span").click(function(){
+						$(".hijo ul").slideUp();
 						$listaCategorias.Dropdown( $(this).attr('id') );
 					});
 					
@@ -125,7 +126,7 @@ $.extend(Categorias.prototype, {
 	* @param string padre -> id del padre ha desplejar hijos
 	*/
 	Dropdown: function(padre){
-		console.log('drop '+padre);
+		//console.log('drop '+padre);
 
 		this.categoria = padre;
 
@@ -138,13 +139,17 @@ $.extend(Categorias.prototype, {
 			success: function(response) {
 				
 				var esRoot = JSON.parse(response)
-				console.log(esRoot);
+				//console.log(esRoot);
 				
 				//no tiene hijos
 				if( esRoot == 'false'){
 					console.log('normas');
 					$listaCategorias.Normas(padre);
 					return;
+				}else{
+					$("#td-normas ul").fadeOut(function(){
+						$(this).remove();
+					});
 				}
 			},
 			fail: function(response){
@@ -152,8 +157,7 @@ $.extend(Categorias.prototype, {
 			}
 		});
 		//console.log('procesando drop');
-		
-		
+
 		var queryParams = {"func" : "Hijos", "proyecto" : this.proyecto, "padre" : padre};
 		$.ajax({
 			data: queryParams,
@@ -162,24 +166,27 @@ $.extend(Categorias.prototype, {
 			success: function(response){
 					
 				if(response.length > 0){
-										
-					$("#sub"+padre).html(response)
-						.hide()
-						.slideDown()
-						.attr('id','Padre'+padre);
+					
+					if( $("#Padre"+padre).length > 0 ){
+						$("#Padre"+padre).slideDown();
+					}else{
 
-					this.margin = this.margin + 10;
+						$("#sub"+padre).html(response)
+							.hide()
+							.slideDown()
+							.attr('id','Padre'+padre);
+
+						//al dar clik
+						$("#Padre"+padre+" li span").click(function(){
+							$listaCategorias.Dropdown( $(this).attr('id') );
+						});
 						
-					//al dar clik
-					$("#Padre"+padre+" li span").click(function(){
-						$listaCategorias.Dropdown( $(this).attr('id') );
-					})
+					}
 
 					$("#td-categorias li").removeClass('seleccionada');
 					$("#"+padre).closest('li').addClass('seleccionada');
-
 				}else{
-						notificaError("Error: "+response);
+					notificaError("Error: "+response);
 				}
 
 			},

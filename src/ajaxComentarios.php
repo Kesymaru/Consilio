@@ -60,7 +60,7 @@ function getNuevoComentario($id){
 		$usuarioImg = $_SESSION['datos'].$cliente->getClienteDato("imagen", $datos[0]['usuario']);
 
 		$nuevo = '<tr>
-					<td>
+					<td class="comentario-imagen">
 						<div class="div-imagen">
 							<div title="'.$usuario.'" class="img-wrapper2" >
 								<img src="'.$usuarioImg.'" />

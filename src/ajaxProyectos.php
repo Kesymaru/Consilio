@@ -542,26 +542,25 @@ function PanelComentarios($proyecto, $categoria, $articulo){
 					   </tr>';
 		}
 
-		$panel .= '<tr><td colspan="2">
-					<br/>
-					<button id="NewComentario" type="button" onClick="NewComentario()">Comentar</button>
-
-				  </td></tr>';
-
 		$panel .= '</table>
+				  <div class="botonera-comentarios">
+				  	<button id="NewComentario" type="button" onClick="NewComentario()">Comentar</button>
+				  </div>
 				  </div><!-- comentarios -->';
 		
 
 	}else{
 		//no hay comentarios
-		$panel .= '<div id="comentarios" class="ocultos"> 
+		$panel .= '<div id="comentarios" > 
 					<table class="comentarios" >
-
 					</table>
+					<div class="botonera-comentarios">
+				  		<button id="NewComentario" type="button" onClick="NewComentario()">Comentar</button>
+				  	</div>
 				   </div><!-- comentarios -->';
 	}
 
-	$panel .= '<div id="new-comentario" class="'.$oculto.'">
+	$panel .= '<div id="new-comentario" >
 						
 					<div id="panel-editor">
 							<textarea id="comentario" placeholder="Comentar ..." name="comentario"></textarea>

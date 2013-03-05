@@ -114,14 +114,36 @@ function Comentar(){
 	
 	if( $("#panel-comentario").is(":visible") ){
 		
-		$("#panel-comentario").slideUp(1000, function(){
-			$("#datos-footer").css("background-color", "#fff");
-		});
+		if( $("#comentarios table td").length > 0 ){
+
+			if( $("#new-comentario").is(":visible") ){
+				$("#comentarios").slideDown();
+				$("#new-comentario").slideUp();
+			}else{
+				$("#panel-comentario").slideUp(1000, function(){
+					$("#datos-footer").css("background-color", "#fff");
+				});
+			}
+			
+		}else{
+			$("#panel-comentario").slideUp(1000, function(){
+				$("#datos-footer").css("background-color", "#fff");
+			});
+		}
 		
 	}else{
 		$("#panel-comentario, #comentarios").css("max-height", tamano);
 
 		$("#datos-footer").css("background-color", "#f3efe6");
+
+		//si hay comentarios
+		if( $("#comentarios table td").length > 0 ){
+		    $("#comentarios").show();
+		    $("#new-comentario").hide();
+		}else{
+			$("#comentarios").hide();
+			$("#new-comentario").show();
+		}
 
 		$("#panel-comentario").slideDown(1000);
 	}
@@ -129,7 +151,7 @@ function Comentar(){
 
 function NewComentario(){
 
-	if( !$("#comentarios").is(":visible") ){
+	/*if( !$("#comentarios").is(":visible") ){
 		$("#comentarios").slideDown();
 		$("#new-comentario").slideUp();
 		$("#NewComentario").show();
@@ -137,7 +159,10 @@ function NewComentario(){
 		$("#NewComentario").hide();
 		$("#new-comentario").slideDown();
 		$("#comentarios").slideUp();
-	}
+	}*/
+
+	$("#new-comentario").slideToggle();
+	$("#comentarios").slideToggle();
 }
 
 /**
@@ -170,13 +195,12 @@ function AgregarComentario(articulo){
 
 			notifica("Comentario Agregado");
 
-			$("#panel-comentario").removeClass('ocultos');
-			$("#comentarios").append(response);
+			$("#comentarios table").append(response);
 
-			$("#NewComentario").hide();
-			$("#new-comentario").slideDown();
-			$("#comentarios").slideUp();
+			$("#new-comentario").slideUp();
+			$("#comentarios").slideDown();
 
+			EditorReset();
 		},
 		fail: function(response){
 			notificaError("Error: AJAX fail Proyectos.js AgregarComentario.<br/>"+response);
