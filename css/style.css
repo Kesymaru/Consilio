@@ -571,7 +571,19 @@ button:hover{
 	
 	85% {border-bottom: 2px solid rgba(63%, 79%, 29%, 1);}
 	100% {border-bottom: 2px solid rgba(63%, 79%, 29%, .5);}
-} 
+}
+
+.panel li:before {
+    content: "• ";
+    font-size: 17px;
+    font-weight: bold;
+    color: #A1CA4A; 
+}
+
+.panel .seleccionada:before,
+.panel .seleccionada li:before{
+	color: #fff;
+}
 
 .panel-activo:hover{
 	border-bottom: 2px solid #a1ca4a;
@@ -596,7 +608,7 @@ button:hover{
 
 #td-normas li,
 #td-articulos li{
-	padding: 5px 0;
+	padding: 5px;
 	border-bottom: 1px solid rgba(87%, 87%, 87%,.5);
 }
 
@@ -605,8 +617,8 @@ button:hover{
 }
 
 #td-categorias span{
-	width: 100%;
-	display: block;
+	/*width: 100%;*/
+	display: inline-block;
 	padding: 5px 0;
 }
 
