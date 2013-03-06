@@ -486,20 +486,22 @@ class Registros{
 	* @param int $categoria -> categoria
 	* @param int $norma -> id de la norma
 	* @param int $articulo -> id del articulo
+	* @param int $tipo -> id del tipo de observacion
 	* @param string $observacin -> html/text de la observacion
 	* @return boolean true si se actualiza o registra
 	* @return boolean false si falla
 	*/
-	public function RegistrarObservacion($proyecto, $categoria, $norma, $articulo, $observacion){
+	public function RegistrarObservacion($proyecto, $categoria, $norma, $articulo, $tipo, $observacion){
 		$base = new Database();
 
 		$proyecto = mysql_real_escape_string($proyecto);
 		$norma = mysql_real_escape_string($norma);
 		$articulo = mysql_real_escape_string($articulo);
+		$tipo = mysql_real_escape_string($tipo);
 		$observacion = base64_encode($observacion);
 		$admin = mysql_real_escape_string( $_SESSION['id'] );
 		
-		$query = "INSERT INTO observaciones ( observacion, proyecto, categoria, norma, articulo, admin, fecha_creacion, fecha_actualizacion ) VALUES ('".$observacion."', '".$proyecto."', '".$categoria."', '".$norma."', '".$articulo."', '".$admin."', NOW(), NOW() )";
+		$query = "INSERT INTO observaciones ( observacion, tipo, proyecto, categoria, norma, articulo, admin, fecha_creacion, fecha_actualizacion ) VALUES ('".$observacion."', '".$tipo."', '".$proyecto."', '".$categoria."', '".$norma."', '".$articulo."', '".$admin."', NOW(), NOW() )";
 			
 		if($base->Insert($query)){
 			return true;
@@ -522,6 +524,26 @@ class Registros{
 		$query = "UPDATE observaciones SET observacion = '".$observacion."', tipo = '".$tipo."', admin = '".$admin."', fecha_actualizacion = NOW() WHERE id = '".$id."'";
 
 		if( $base->Update($query) ){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* ELIMINA UNA OBSERVACION
+	* @param int $id -> id de la observacion
+	* @return boolean true si se elimina
+	* @return boolean false si falla
+	*/
+	public function DeleteObservacion($id){
+		$base = new Database();
+
+		$id = mysql_real_escape_string($id);
+
+		$query = "DELETE FROM observaciones WHERE id = '".$id."'";
+
+		if( $base->Delete( $query ) ){
 			return true;
 		}else{
 			return false;

@@ -324,7 +324,7 @@ function PreviewArticulo($proyecto, $categoria, $norma, $id){
 								</a>
 							</li>
 							<li>
-								<a href="#tabs-4" title="Permiso o Documentación Asociada Del Articulo">
+								<a href="#tabs-4" id="link-tabs4" title="Permiso o Documentación Asociada Del Articulo">
 								Permiso o Documentación
 								</a>
 							</li>';
@@ -333,8 +333,7 @@ function PreviewArticulo($proyecto, $categoria, $norma, $id){
 			
 			$cuenta = 5;
 			foreach ($observaciones as $fila => $observacion) {
-				echo $observacion['tipo'];
-
+				
 				if( !$observacionTitulo = $registros->getTipoObservacionDato("nombre", $observacion['tipo']) ){
 					$observacionTitulo = 'Observacion';
 				}

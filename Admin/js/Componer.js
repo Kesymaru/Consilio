@@ -983,7 +983,7 @@ function ObservacionCancelar(){
 		duration: 1500, 
 		queue: false,
 		complete: function(){
-			$("#NormasIncluidas, .preview-botones").fadeIn();
+			//$("#NormasIncluidas, .preview-botones").fadeIn();
 			$("#observacion").html("");
 		}
 	});
@@ -1029,7 +1029,7 @@ function EditarObservacion(id){
 		duration: 1500, 
 		queue: false,
 		complete: function(){
-			$("#NormasIncluidas, .preview-botones").hide();
+			//$("#NormasIncluidas, .preview-botones").hide();
 		}
 	});
 	
@@ -1046,6 +1046,7 @@ function EditarObservacion(id){
 		success: function(response){
 			if( response.length > 0 ){
 				$("#observacion").html(response);
+				
 				FormularioEditarObservacion();
 			}else{	
 				notificaError("Error: Componer.js Observacion().<br/>"+response);
@@ -1071,6 +1072,40 @@ function FormularioEditarObservacion(){
 	    success: function(response) { 
 	    	if(response.length <= 3 ){
 	    		notifica("Observacion Actualizada.");
+	    		
+	    		var id = $("#observacionId").val();
+
+	    		var tipo = $("#tipo").val();
+	    		EditorUpdateContent();
+	    		var observacion = $("#observacion-nueva").val();
+
+	    		$("#observacionTitulo"+id).fadeOut(function(){
+	    			var elemento = $(this);
+	    			
+	    			//obtiene el nombre del tipo
+	    			var queryParams = {"func" : "getNombreTipo", "id" : tipo};
+
+	    			$.ajax({
+	    				data: queryParams,
+	    				type: "post",
+	    				url: "src/ajaxObservaciones.php",
+	    				success: function(response){
+	    					elemento.html(response).fadeIn();
+	    				},
+	    				fail: function(response){
+	    					notificaError("Error: AJAX FAIL, componer.js FormularioEditarObservacion.<br/>"+response);
+	    				}
+	    			});
+
+	    		});
+
+	    		$("#observacion"+id).fadeOut(function(){
+	    			$(this)
+	    				.html(observacion)
+	    				.fadeIn();
+	    		});
+
+	    		//esconde el editor
 	    		ObservacionCancelar();
 	    	}else{
 	    		notificaError("ERROR: Componer.js FormularioEditarObservacion().<br/>"+response);
@@ -1081,4 +1116,55 @@ function FormularioEditarObservacion(){
 		}
 	}; 
 	$('#FormularioEditarObservacion').ajaxForm(options);
+}
+
+/**
+* COMFIRMACION DE LA ELIMINACION DE UNA OBSERVACION
+* @param int id -> id de la observacion
+*/
+function EliminarObservacion(id){
+	var si = function (){
+		AccionEliminarObservacion(id);
+	}
+
+	var no = function (){
+		notificaAtencion("Operacion cancelada");
+	}
+
+	Confirmacion("Desea Eliminar la Observacion", si, no);
+}
+
+/**
+* REALIZA LA ACCION DE ELIMINAR UNA OBSERVACION
+* @param int id -> id de la observacion
+*/
+function AccionEliminarObservacion(id){
+	var queryParams = {"func" : "DeleteObservacion", "id" : id};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxObservaciones.php",
+		success: function(response){
+			console.log(response.length);
+
+			if( response.length <= 3){
+
+				$("#link-tabs4").trigger('click');
+
+				$("#observacionTitulo"+id+", #observacion"+id).fadeOut(function(){
+					$(this).remove();
+				});
+
+				notifica("Observacion Eliminada");
+
+			}else{
+				notificaError("Error: Componer.js AccionEliminarObservacion.<br/>"+response);
+			}
+
+		},
+		fail: function(response){
+			notificaError("Error: AJAX fail, Componer.js AccionEliminarObservacion.<br/>"+response);
+		}
+	});
 }

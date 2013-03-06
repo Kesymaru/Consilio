@@ -55,8 +55,8 @@ if( isset($_POST['func']) ){
 
 		//registra una nueva observacion
 		case 'RegistrarObservacion':
-			if( isset($_POST['proyecto']) && isset($_POST['categoria']) && isset($_POST['norma']) && isset($_POST['articulo']) && isset($_POST['observacion-nueva']) ){
-				RegistrarObservacion( $_POST['proyecto'], $_POST['categoria'], $_POST['norma'], $_POST['articulo'], $_POST['observacion-nueva'] );
+			if( isset($_POST['proyecto']) && isset($_POST['categoria']) && isset($_POST['norma']) && isset($_POST['articulo']) && isset($_POST['tipo']) && isset($_POST['observacion-nueva']) ){
+				RegistrarObservacion( $_POST['proyecto'], $_POST['categoria'], $_POST['norma'], $_POST['articulo'], $_POST['tipo'], $_POST['observacion-nueva'] );
 			}
 			break;
 
@@ -71,6 +71,21 @@ if( isset($_POST['func']) ){
 		case 'ActualizarObservacion':
 			if( isset($_POST['observacion-nueva']) && isset($_POST['tipo']) && isset($_POST['id']) ){
 				ActualizarObservacion($_POST['observacion-nueva'], $_POST['tipo'], $_POST['id'] );
+			}
+			break;
+
+		//elimina observacion
+		case 'DeleteObservacion':
+			if( isset($_POST['id']) ){
+				DeleteObservacion( $_POST['id'] );
+			}
+			break;
+
+		/**************** HELPERS ******************/
+
+		case 'getNombreTipo':
+			if( isset($_POST['id']) ){
+				echo getNombreTipo( $_POST['id'] );
 			}
 			break;
 	}
@@ -304,11 +319,17 @@ function TiposDisponibles(){
 
 /**
 * REGISTRA UNA OBSERVACION NUEVA
+* @param int $proyecto -> id del proyecto
+* @param int #categoria -> id de la categoria
+* @param int $norma -> id de la norma
+* @param int $articulo -> id del articulo
+* @param int $tipo -> id del tipo
+* @param string $observacion -> html/text de la observacion
 */
-function RegistrarObservacion( $proyecto, $categoria, $norma, $articulo, $observacion){
+function RegistrarObservacion( $proyecto, $categoria, $norma, $articulo, $tipo, $observacion){
 	$registro = new Registros();
 
-	if( !$registro->RegistrarObservacion($proyecto, $categoria, $norma, $articulo, $observacion ) ){
+	if( !$registro->RegistrarObservacion($proyecto, $categoria, $norma, $articulo, $tipo, $observacion ) ){
 		echo 'Error: ajaxObservaciones.php RegistrarObservacion().<br/>No se pudo crear la nueva observacion.';
 	}
 }
@@ -328,7 +349,7 @@ function EditarObservacion( $id ){
 							Edición  Observacion
 						</div>
 						<input type="hidden" name="func" value="ActualizarObservacion" >
-						<input type="hidden" name="id" value="'.$id.'" >';
+						<input type="hidden" id="observacionId" name="id" value="'.$id.'" >';
 
 		if( $tipos = SelectedTipos( $datos[0]['tipo']) ){
 			$formulario .= '<table>
@@ -405,6 +426,36 @@ function ActualizarObservacion($observacion, $tipo, $id){
 
 	if( !$registros->UpdateObservacion($observacion, $tipo, $id) ){
 		echo "Error: ajaxObservaciones.php ActualizarObservacion().<br/>NO se pudo actualizar la observacion id = $id";
+	}
+}
+
+/**
+* ELIMINA UNA OBSERVACION
+* @param int $id => id de la observacion
+*/
+function DeleteObservacion( $id ){
+	$registros = new Registros();
+
+	if( !$registros->DeleteObservacion( $id )){
+		echo 'Error: no se pudo eliminar la observacion '.$id.'<br/>';
+	}
+}
+
+/************************* HELPRES ***************/
+
+/**
+* OBTIENE L NOMBRE DEL TIPO DE OBSERVACION
+* @param int $uid -> id del tipo
+*/
+function getNombreTipo($id){
+	$registros = new Registros();
+
+	$nombre = $registros->getTipoObservacionDato("nombre", $id);
+
+	if( empty($nombre) ){
+		return 'Observacion'; //nombre por defecto
+	}else{
+		return $nombre;
 	}
 }
 

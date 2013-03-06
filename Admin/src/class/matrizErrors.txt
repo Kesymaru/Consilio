@@ -18,3 +18,158 @@ Error:
 	JAVASCRIPT: 
 	March 6 2013 - 1:52 pm
  --------------------<>--------------------
+
+ERROR: Componer.js FormularioNuevaObservacion().
+
+
+<b>Parse error</b>:  parse error in <b>C:\wamp\www\matrizescala\Admin\src\ajaxObservaciones.php</b> on line <b>58</b>
+
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 6 2013 - 3:39 pm
+ --------------------<>--------------------
+
+Error: AJAX error.
+func=DeleteObservacion&id=2
+scr/ajaxObservaciones.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 6 2013 - 4:03 pm
+ --------------------<>--------------------
+
+Error: AJAX error.
+func=DeleteObservacion&id=2
+scr/ajaxObservaciones.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 6 2013 - 4:05 pm
+ --------------------<>--------------------
+
+Error: Componer.js AccionEliminarObservacion.
+ 
+
+
+<b>Notice</b>:  Undefined variable: registro in <b>C:\wamp\www\matrizescala\Admin\src\ajaxObservaciones.php</b> on line <b>431</b>
+
+
+
+<b>Fatal error</b>:  Call to a member function DeleteObservacion() on a non-object in <b>C:\wamp\www\matrizescala\Admin\src\ajaxObservaciones.php</b> on line <b>431</b>
+
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 6 2013 - 4:06 pm
+ --------------------<>--------------------
+
+Error: Componer.js AccionEliminarObservacion.
+ 
+
+
+<b>Notice</b>:  Undefined variable: registros in <b>C:\wamp\www\matrizescala\Admin\src\ajaxObservaciones.php</b> on line <b>431</b>
+
+
+
+<b>Fatal error</b>:  Call to a member function DeleteObservacion() on a non-object in <b>C:\wamp\www\matrizescala\Admin\src\ajaxObservaciones.php</b> on line <b>431</b>
+
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 6 2013 - 4:07 pm
+ --------------------<>--------------------
+
+Error: Componer.js AccionEliminarObservacion.
+ 
+
+
+<b>Notice</b>:  Undefined variable: registros in <b>C:\wamp\www\matrizescala\Admin\src\ajaxObservaciones.php</b> on line <b>431</b>
+
+
+
+<b>Fatal error</b>:  Call to a member function DeleteObservacion() on a non-object in <b>C:\wamp\www\matrizescala\Admin\src\ajaxObservaciones.php</b> on line <b>431</b>
+
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 6 2013 - 4:07 pm
+ --------------------<>--------------------
+
+Error: Componer.js AccionEliminarObservacion.
+ 
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 6 2013 - 4:08 pm
+ --------------------<>--------------------
+
+Error: Componer.js AccionEliminarObservacion.
+ 
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 6 2013 - 4:09 pm
+ --------------------<>--------------------
