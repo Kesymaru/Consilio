@@ -91,6 +91,12 @@ $(document).ready(function(){
     // no seleccionable
     $('#main, #menu, #content, table, .disclaim, #menuUsuario, #menuProyectos').disableSelection();
 
+    //disclaim
+    $("#disclaim")
+    	.addClass("disclaim-focus")
+    	.delay(1000)
+    	.fadeIn(1500);
+
     $shortcuts.init();
 });
 /*

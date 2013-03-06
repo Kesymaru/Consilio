@@ -182,27 +182,37 @@ class Proyectos{
 	}
 
 	/**
-	* ELIMINA UN PROYECTO
-	* @param $id -> id del proyecto ha ser eliminado
+	* ELIMINA TODOS LOS DATOS DE UN PROYECTO
+	* @param int $id -> id del proyecto ha ser eliminado
+	* @param boolean true -> la eliminacion fue exitosa
+	* @param boolean false -> fallo
 	*/
 	public function DeleteProyecto($id){
 		$registros = new Registros();
-		
 		$base = new Database();
 
-		$imagen = $base->Select("SELECT * FROM proyectos WHERE id = ".$id);
-		$imagen = "../".$imagen[0]['imagen'];
-			
-		//BORRA LA IMAGEN DEL DIRECTORIO Y ELIMINA TODOS LOS REGISTROS DEL PROYECTO
-		if( $base->DeleteImagen($imagen) && $registros->DeleteRegistros($id) ){
-			$base2 = new Database();
-			$query = "DELETE FROM proyectos WHERE id = ".$id;
+		$id = mysql_real_escape_string($id);
 
-			if($base2->Delete($query)){
-				return true;
-			}else{
-				return false;
-			}
+		$datosImagen = $base->Select("SELECT * FROM proyectos WHERE id = ".$id);
+		$imagen = "../".$datosImagen[0]['imagen'];
+		
+		$error = '';
+
+		//borra los registros del proyecto, comentarios, observaciones, normas incluidas, articulos incluidos, categorias incluidas
+		if( !$registros->DeleteRegistros($id) ){
+			$error .= 'Error: no se pudo eliminar los registros del proyecto id '.$id.'<br/>proyectos.php DeleteProyecto <br/>';
+		}
+
+		//elimina la imagen del proyecto
+		if( !$base->DeleteImagen($imagen) ){
+			$error .= 'Error: no se pudo eliminar la imagen del proyecto id '.$id.'<br/>imagen: '.$imagen.'<br/>';
+		}
+
+		if( $error != ''){
+			echo $error;
+			return false;
+		}else{
+			return true;
 		}
 	}
 
@@ -244,36 +254,44 @@ class Proyectos{
 	}
 
 	/**
-	 * DUPLICA UN PROYECTO
+	 * DUPLICA UN PROYECTO Y TODOS SUS REGISTROS
 	 * @param $id -> id del proyecto a duplicar
-	 * @return id del nuevo proyecto
-	 * @return false si falla
+	 * @return int $nuevo -> id del nuevo proyecto duplicado
+	 * @return boolean false -> si falla
 	 */
 	public function DuplicarProyecto($id){
 		$base = new Database();
 
-		$query = "SELECT * FROM proyectos WHERE id = ".$id;
+		$id = mysql_real_escape_string($id);
+
+		$query = "SELECT * FROM proyectos WHERE id = '".$id."'";
 
 		$datos = $base->Select($query);
 
-		if(!empty($datos)){
+		if( !empty($datos) ){
 			//duplica la imagen
-			$imagen = $this->DuplicarImagen($datos[0]['imagen']);
+			$imagen = $this->DuplicarImagen( $datos[0]['imagen'] );
 
 			$query = "INSERT INTO proyectos (nombre, descripcion, cliente, imagen, status) VALUES ";
-			$query .= "('".$datos[0]['nombre']."', '".$datos[0]['descripcion']."', '".$datos[0]['cliente']."', '".$imagen."', '".$datos[0]['status']."' )";
+			$query .= "('".$datos[0]['nombre'].' COPIA'."', '".$datos[0]['descripcion']."', '".$datos[0]['cliente']."', '".$imagen."', '".$datos[0]['status']."' )";
 			
-			if($nuevo = $base->Insert($query)){
+			//obtiene el id del nuevo proyecto
+			if( $base->Insert($query) ){
 				$nuevo = $base->getUltimoId();
 
 				$registros = new Registros();
-				$registros->DuplicarRegistros($id, $nuevo);
 				
-				return $nuevo;
+				if( $registros->DuplicarRegistros($id, $nuevo) ){
+					return $nuevo;
+				}else{
+					return false;
+				}
+
 			}else{
 				return false;
 			}
 		}else{
+			//no existe el proyecto
 			return false;
 		}
 	}
@@ -289,11 +307,6 @@ class Proyectos{
 		
 		$destino = basename($link);
 		$destino = "images/proyectos/".rand().$destino;
-
-		//si la imagen no existe por alguna razon
-		if(file_exists($link)){
-			return "images/es.png";
-		}
 
 		if(copy($link, "../".$destino)){
 			return $destino;

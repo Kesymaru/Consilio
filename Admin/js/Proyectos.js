@@ -457,7 +457,7 @@ function AccionDuplicarProyecto(){
 		},
 		success: function(response){
 			//devuelve el id del nuevo proyecto duplicado
-			if($.isNumeric(response)){
+			if( $.isNumeric(response) ){
 				notifica("Proyecto Duplicado.");
 
 				nuevo = response;

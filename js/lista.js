@@ -169,11 +169,12 @@ $.extend(Categorias.prototype, {
 			success: function(response){
 					
 				if(response.length > 0){
-					
-					if( $("#Padre"+padre).length > 0 ){
-						$("#Padre"+padre).slideDown();
-					}else{
 
+					if( $("#Padre"+padre).is(":visible") ){ //esconde
+						$("#Padre"+padre).slideUp();
+
+					}else if( $("#Padre"+padre).length <= 0 ){ //no se habia cargado, entonces carga
+ 
 						$("#sub"+padre).html(response)
 							.hide()
 							.slideDown()
@@ -184,6 +185,8 @@ $.extend(Categorias.prototype, {
 							$listaCategorias.Dropdown( $(this).attr('id') );
 						});
 						
+					}else{ //ya estaba cargado, muestra
+						$("#Padre"+padre).slideDown();
 					}
 
 					$("#td-categorias li").removeClass('seleccionada');

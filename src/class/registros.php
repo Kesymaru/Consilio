@@ -504,8 +504,8 @@ class Registros{
 
 		$articulos = array();
 
-		//selecciona todos
-		$query = "SELECT * FROM articulos WHERE norma = '".$norma."' AND borrado = 0";
+		//selecciona todos, ordena por el nombre, orden alfabetico numerico
+		$query = "SELECT * FROM articulos WHERE norma = '".$norma."' AND borrado = 0 ORDER BY CAST(SUBSTRING(nombre,LOCATE(' ',nombre)+1) AS SIGNED)";
 
 		$datos = $base->Select($query);
 
@@ -729,14 +729,16 @@ class Registros{
 		$base = new Database();
 
 		$proyecto = mysql_real_escape_string($proyecto);
+		$articulo = mysql_real_escape_string($articulo);
+
 		$query = "SELECT * FROM proyectos WHERE id = '".$proyecto."'";
 
 		$status = $base->Select($query);
 
 		if( $status[0]['status'] == 0){ //desactivo
 			$query = "SELECT * FROM snapshots_articulos WHERE id = '".$articulo."' ";
-			$query .= " AND fecha_snapshot <= '".$status[0]['fecha_desactivacion']."' ORDER BY fecha_snapshot DESC  LIMIT 0,1";
-		}else{
+			$query .= " AND fecha_snapshot <= '".$status[0]['fecha_desactivacion']."' ORDER BY fecha_snapshot DESC LIMIT 0,1";
+		}else{ //proyecto activo
 			$query = "SELECT * FROM articulos WHERE id = '".$articulo."' AND borrado = 0";
 		}
 

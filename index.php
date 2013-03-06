@@ -231,7 +231,7 @@ $master = new Master();
 		</div><!-- end content -->
 	</div><!-- end main -->
 
-<div class="disclaim">
+<div class="disclaim" id="disclaim">
 	<div>
 		<p>
 			Estimado (a) Usuario (a): Consultores Escala es el titular exclusivo del contenido de la Interfaz de Cumplimiento. Por ende, cualquier adaptación, modificación, extracto o uso en cualquiera de sus modalidades de su contenido, requerirá la autorización expresa del titular del derecho. La presente base de datos está protegida como una compilación de acuerdo con la Ley de Derechos de Autor y Derechos Conexos.

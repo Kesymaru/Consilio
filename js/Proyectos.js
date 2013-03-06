@@ -9,6 +9,10 @@
 function Proyecto(id){
 	//$listaCategorias.Proyecto(id);
 	
+	if( $("#disclaim").is(":visible") ){
+		$("#disclaim").fadeOut();
+	}
+	
 	if( !$("#menu").is(":visible") ){
 		//ActivaMenu()
 	}

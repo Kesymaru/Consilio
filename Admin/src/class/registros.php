@@ -39,9 +39,11 @@ class Registros{
 
 	/**
 	 * CREA NUEVO REGISTRO
-	 * @param $proyecto -> id del proyecto
-	 * @param $registro -> array[] con los ids de los registros sin serializar
-	 * @param $fecha -> fecha de creacion del proyecto
+	 * @param int $proyecto -> id del proyecto
+	 * @param array $registro -> datos de los registros
+	 * @param string $fecha -> fecha de creacion del proyecto
+	 * @return boolean true -> si se crea el nuevo registro
+	 * @return boolean false -> si falla
 	 */
 	public function NewRegistro($proyecto, $registro, $fecha){
 		$base = new Database();
@@ -82,58 +84,118 @@ class Registros{
 
 	/**
 	* DUPLICA UN REGISTRO
-	* @param $id -> id del registro a duplicar
-	* @param $nuevo -> id del nuevo registro
+	* @param int $id -> id del proyecto original a duplicar
+	* @param int $nuevo -> id del nuevo proyecto
+	* @return boolean true -> si se duplican los registros
+	* @return boolean false -> si falla
 	*/
 	function DuplicarRegistros($id, $nuevo){
 		$base = new Database();
 
 		$id = mysql_real_escape_string($id);
 		$nuevo = mysql_real_escape_string($nuevo);
-		$query = "SELECT * FROM registros WHERE id = ".$id;
+		
+		$query = "SELECT * FROM registros WHERE proyecto = '".$id."'";
+		$registros = $base->Select($query);
 
-		$datos = $base->Select($query);
-		if(!empty($datos)){
-			if($this->NewRegistro($nuevo, $datos[0]['registro'], $datos[0]['fecha_creacion'])){
-				return true;
-			}else{
-				return false;
+		$query = "SELECT * FROM registros_normas WHERE proyecto = '".$id."'";
+		$normas = $base->Select($query);
+
+		$query = "SELECT * FROM registros_articulos WHERE proyecto = '".$id."'";
+		$articulos = $base->Select($query);
+
+		$query = "SELECT * FROM observaciones WHERE proyecto = '".$id."'";
+		$observaciones = $base->Select($query);
+
+		$error = '';
+
+		//copia reguistro de categorias incluidas
+		if( !empty($registros) ){
+			$query = "INSERT INTO registros (proyecto, registro, fecha_creacion, fecha_actualizacion) VALUES ( '".$nuevo."', '".$registros[0]['registro']."', NOW(), NOW() )";
+
+			if( !$base->Insert( $query ) ){
+				$error .= 'Error: al duplicar registros proyecto original '.$id.' en copia '.$nuevo.'<br/>';
 			}
 		}else{
-			$query = "SELECT proyectos WHERE id = ".$nuevo;
-			$datos = $base->Select($query);
+			$registros = array();
+			$registros = serialize($registros);
 
-			$registro = array();
+			$query = "INSERT INTO registros (proyecto, registro, fecha_creacion, fecha_actualizacion) VALUES ( '".$nuevo."', '".$registros."', NOW(), NOW() )";
 
-			//crea registro vacio
-			if($this->NewRegistro($nuevo, $registro, $datos[0]['fecha_creacion'])){
-				return true;
-			}else{
-				return false;
+			if( !$base->Insert( $query ) ){
+				$error .= 'Error: al duplicar registros proyecto original '.$id.' en copia '.$nuevo.'<br/>';
 			}
+		}
+
+		//copia registros de normas incluidas
+		if( !empty($normas) ){
+			foreach ($normas as $f => $registroNorma) {
+				$query = "INSERT INTO registros_normas (proyecto, categoria, registro, fecha_creacion, fecha_actualizacion) VALUES ('".$nuevo."', '".$registroNorma['categoria']."', '".$registroNorma['registro']."', NOW(), NOW() )";
+
+				if( !$base->Insert( $query ) ){
+					$error .= 'Error: al duplicar datos de registros de normas, proyecto original '.$id.' copia '.$nuevo.'<br/>Query: '.$query.'<br/>';
+				}
+			}
+		}
+
+		//copia registros de articulos incluidos
+		if( !empty($articulos) ){
+			foreach ($articulos as $f => $registroArticulo) {
+				$query = "INSERT INTO registros_articulos (proyecto, categoria, norma, registro, fecha_creacion, fecha_actualizacion) VALUES ( '".$nuevo."', '".$registroArticulo['categoria']."', '".$registroArticulo['norma']."', '".$registroArticulo['registro']."', NOW(), NOW() ) ";
+
+				if( !$base->Insert( $query ) ){
+					$error .= 'Error: al duplicar datos de registros de articulos, proyecto original '.$id.' copia '.$nuevo.'<br/>Query: '.$query.'<br/>';
+				}
+			}
+		}
+
+		//copia los comentarios del proyecto
+		if( !empty($observaciones) ){
+			foreach ($observaciones as $f => $registroObservacion) {
+				$query = "INSERT INTO observaciones (observacion, proyecto, categoria, norma, articulo, tipo, fecha_creacion, fecha_actualizacion ) VALUES ( '".$registroObservacion['observacion']."', '".$nuevo."', '".$registroObservacion['categoria']."', '".$registroObservacion['norma']."', '".$registroObservacion['articulo']."', '".$registroObservacion['tipo']."', NOW(), NOW() ) ";
+
+				if( !$base->Insert( $query ) ){
+					$error .= 'Error: al duplicar una observacion, proyecto original '.$id.' copia '.$nuevo.'<br/>Query: '.$query.'<br/>';
+				}
+			}
+		}
+
+		if( $error != '' ){
+			echo $error;
+			return false;
+		}else{
+			return true;
 		}
 	}
 
 	/**
 	* ELIMINA LOS REGISTROS DE UN PROYECTO
-	* @param $proyecto -> id del proyecto
+	* @param int $proyecto -> id del proyecto
+	* @param boolean true -> se eliminan todos los registros del proyecto
+	* @param boolean false -> falla
 	*/
 	public function DeleteRegistros($proyecto){
 		$base = new Database();
 
 		$proyecto = mysql_real_escape_string($proyecto);
 		
-		$query = "DELETE FROM registros WHERE proyecto = ".$proyecto;
-		$query2 = "DELETE FROM registros_norma WHERE proyecto = '".$proyecto."'";
-		$query3 = "DELETE FROM registros_articulos WHERE proyecto = '".$proyecto."'";
-		$query4 = "DELETE FROM comentarios WHERE proyecto = '".$proyecto."'";
+		$query = array();
+		$query[0] = "DELETE FROM registros WHERE proyecto = ".$proyecto;
+		$query[1] = "DELETE FROM registros_normas WHERE proyecto = '".$proyecto."'";
+		$query[2] = "DELETE FROM registros_articulos WHERE proyecto = '".$proyecto."'";
+		$query[3] = "DELETE FROM observaciones WHERE proyecto = '".$proyecto."'";
+		$query[4] = "DELETE FROM comentarios WHERE proyecto = '".$proyecto."'";
+		$query[5] = "DELETE FROM proyectos WHERE id = ".$proyecto;
 
-		if( $base->Delete($query) ){
-			
-			$base->Delete($query2);
-			$base->Delete($query3);
-			$base->Delete($query4);
+		$error = false;
 
+		foreach ($query as $f => $q) {
+			if( !$base->Delete($q) ){
+				$error = true;
+			}
+		}
+
+		if( !$error ){
 			return true;
 		}else{
 			return false;
