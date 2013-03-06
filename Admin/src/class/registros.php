@@ -991,6 +991,26 @@ class Registros{
 	}
 
 	/**
+	* DETERMINA SI UNA CATEGORIA EXISTE, PARA CATEGORIAS FANTASMA
+	* @param int $id -> id de la categoria
+	* @return boolean true si existe
+	* @return boolean false si no existe
+	*/
+	public function CategoriaExiste($id){
+		$base = new Database();
+
+		$id = mysql_real_escape_string($id);
+
+		$query = "SELECT * FROM categorias WHERE id = '".$id."'";
+
+		if( $base->Existe($query) ){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	/**
 	* OBTIENE UN DATO DE UNA CATEGORIA
 	* @param $dato -> el dato solicitado
 	* @param $categoria -> id de la categoria

@@ -214,6 +214,7 @@ function ComponerProyecto($id){
 * @param $datos -> array[] con los id de las categorias
 */
 function DatosRegistrados($datos){
+	$registros = new Registros();
 	$lista = "";
 
 	if(is_array($datos) && !empty($datos)){
@@ -223,12 +224,17 @@ function DatosRegistrados($datos){
 			if(TieneHijos($categoria)){
 				continue;
 			}else{
-				$nombre = CategoriaNombre($categoria);
-				$camino = Camino($categoria);
-				$lista .= '
-						<li id="in'.$categoria.'" onClick="SelectCategoriaIncluida('.$categoria.')" title="'.$nombre.' Categoria Incluida">
-							'.$camino.'
-						</li>';
+
+				//elimina las categorias fantasmas
+				if( $registros->CategoriaExiste( $categoria ) ){
+				
+					$nombre = CategoriaNombre($categoria);
+					$camino = Camino($categoria);
+					$lista .= '
+							<li id="in'.$categoria.'" onClick="SelectCategoriaIncluida('.$categoria.')" title="'.$nombre.' Categoria Incluida">
+								'.$camino.'
+							</li>';
+				}
 			}
 		}
 		$lista .= '</ul>';
