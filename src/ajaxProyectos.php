@@ -352,8 +352,15 @@ function DatosArticulo($proyecto, $categoria, $norma, $id){
 					}
 
 					$lista .= '<div class="box" >
-									<div class="dato-titulo">
-										'.$dato.'
+									<div class="dato-titulo">';
+					
+					if( $dato == 'permisos'){
+						$lista .= 'Permisos o Documentación';
+					}else{
+						$lista .= $dato;
+					}
+
+					$lista .= '
 									</div>
 									<div class="dato">
 										'.base64_decode($valor).'

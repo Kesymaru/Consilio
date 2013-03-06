@@ -1462,6 +1462,13 @@ button:hover{
 	text-align: center;
 }
 
+.tab-toolbar {
+	background-color: #757273;
+    height: 30px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
 .panel{
 	display: inline-block;
 }

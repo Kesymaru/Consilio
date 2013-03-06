@@ -259,6 +259,7 @@ function NuevaObservacion($proyecto, $categoria, $norma, $articulo){
 						<textarea id="observacion-nueva" name="observacion-nueva"></textarea>';
 
 	}else{
+		//no hay datos
 		$formulario .= 'No hay tipos para observaciones diponibles.<br/>
 						Debe crear almenos un tipo de observacion para poder crear una observacion.<br/>
 						<p>Edicion -> Tipos Observacion</p>';

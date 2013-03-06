@@ -333,7 +333,11 @@ function PreviewArticulo($proyecto, $categoria, $norma, $id){
 			
 			$cuenta = 5;
 			foreach ($observaciones as $fila => $observacion) {
-				$observacionTitulo = $registros->getTipoObservacionDato("nombre", $observacion['tipo']);
+				echo $observacion['tipo'];
+
+				if( !$observacionTitulo = $registros->getTipoObservacionDato("nombre", $observacion['tipo']) ){
+					$observacionTitulo = 'Observacion';
+				}
 
 				$preview .= '<li>
 								<a id="observacionTitulo'.$observacion['id'].'" href="#tabs-'.$cuenta.'" title="Observación tipo '.$observacionTitulo.'">
@@ -367,23 +371,22 @@ function PreviewArticulo($proyecto, $categoria, $norma, $id){
 							</div>
 						</div>';
 
+		//observaciones
 		if( !empty($observaciones) ){
 			
 			$cuenta = 5;
 			foreach ($observaciones as $fila => $observacion) {
-				$observacionTitulo = $registros->getTipoObservacionDato("nombre", $observacion['tipo']);
 
 				$preview .= '<div id="tabs-'.$cuenta.'">
-								<div class="texto">
-									<div class="tab-toolbar">
-										<button type="button" onClick="EditarObservacion('.$observacion['id'].')" >Editar</button>
-										<button type="button" onClick="EliminarObservacion('.$observacion['id'].')" >Eliminar</button>
-									</div>
-								<div id="observacion'.$observacion['id'].'">
+								<div class="tab-toolbar">
+									<button class="izquierda" type="button" onClick="EliminarObservacion('.$observacion['id'].')" >Eliminar</button>
+									<button class="derecha" type="button" onClick="EditarObservacion('.$observacion['id'].')" >Editar</button>
+								</div>
+								<div class="texto" id="observacion'.$observacion['id'].'">
 									'.base64_decode($observacion['observacion']).'
 								</div>
-								</div>
 							 </div>';
+				$cuenta++;
 			}
 
 		}
