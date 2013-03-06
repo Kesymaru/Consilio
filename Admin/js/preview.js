@@ -2,10 +2,6 @@
  * JAVASCRIPT PARA PREVIEWS
  */
 
-/**
-* 
-*/
-
 
 /**
 * INCIALIZA EL FORMULARIO PARA LOS ARTICULOS
@@ -63,7 +59,6 @@ function NormaDobleClick(){
 
 	});
 }
-
 
 
 function Cambio(){

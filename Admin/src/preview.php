@@ -265,16 +265,19 @@ function RegistrarArticulosIncluidos($proyecto, $categoria, $norma, $articulos){
 
 /**
 * COMPONE EL PRVIEW CON LOS DATOS DE UN ARTICULO, LA EDICION ESTA DESHABILITADA
-* @param $id -> id del articulo
+* @param int $proyecto -> id del proyecto
+* @param int $categoria -> id de la categoruia
+* @param int $norma -> id de la norma
+* @param int $id -> id del articulo
 */
-function PreviewArticulo($proyecto, $norma, $id){
+function PreviewArticulo($proyecto, $categoria, $norma, $id){
 	$registros = new Registros();
 
 	$datos = $registros->getArticulo($id);
 	
 	$preview = '<input type="hidden" id="articulo" name="articulo" value="'.$id.'">';
 
-	$observaciones = $registros->getObservaciones($proyecto, $norma, $id);
+	$observaciones = $registros->getObservaciones($proyecto, $categoria, $norma, $id);
 
 	if(!empty($datos)){
 		$entidades = unserialize( $datos[0]['entidad'] );
@@ -342,14 +345,29 @@ function PreviewArticulo($proyecto, $norma, $id){
 							'.$sanciones.'
 							</div>
 						</div>
-						 <div id="tabs-4">
+						<div id="tabs-4">
 							<div class="texto">
 							'.$permisos.'
 							</div>
-						</div>
+						</div>';
 
-					</div>
-					<!-- end tabs -->';
+		if( !empty($observaciones) ){
+			
+			$cuenta = 5;
+			foreach ($observaciones as $fila => $observacion) {
+				$observacionTitulo = $registros->getTipoObservacionDato("nombre", $observacion['tipo']);
+
+				$preview .= '<div id="tabs-'.$cuenta.'">
+								<div class="texto">
+								'.$observacionTitulo.'
+								</div>
+							 </div>';
+			}
+
+		}
+
+		$preview .= '</div>
+					<!-- end tabs -->';			
 		
 		//tiene archivos adjuntos
 		if(!empty($archivos)){
@@ -366,9 +384,10 @@ function PreviewArticulo($proyecto, $norma, $id){
 								</li>';
 			}
 			
-			$preview .= '</ul>
-					</div><!-- end archivos -->';
 		}
+
+		$preview .= '</ul>
+					</div><!-- end archivos -->';
 
 		//tiene observaciones
 		if(!empty($observaciones)){

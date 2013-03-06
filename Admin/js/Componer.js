@@ -947,10 +947,11 @@ function Observacion(){
 	});
 
 	var proyecto = $("#proyecto").val();
+	var categoria = $("#categoria").val();
 	var norma = $("#norma").val();
 	var articulo = $("#articulo").val();
 
-	var queryParams = {"func" : "NuevaObservacion", "proyecto" : proyecto, "norma" : norma, "articulo" : articulo};
+	var queryParams = {"func" : "NuevaObservacion", "proyecto" : proyecto, "categoria" : categoria, "norma" : norma, "articulo" : articulo};
 	
 	$.ajax({
 		data: queryParams,

@@ -48,15 +48,15 @@ if( isset($_POST['func']) ){
 
 		//formulario para nueva observacion
 		case 'NuevaObservacion':
-			if( isset($_POST['proyecto']) && isset($_POST['norma']) && isset($_POST['articulo']) ){
-				NuevaObservacion( $_POST['proyecto'], $_POST['norma'], $_POST['articulo'] );
+			if( isset($_POST['proyecto']) && isset($_POST['categoria']) && isset($_POST['norma']) && isset($_POST['articulo']) ){
+				NuevaObservacion( $_POST['proyecto'], $_POST['categoria'], $_POST['norma'], $_POST['articulo'] );
 			}
 			break;
 
 		//registra una nueva observacion
 		case 'RegistrarObservacion':
-			if( isset($_POST['proyecto']) && isset($_POST['norma']) && isset($_POST['articulo']) && isset($_POST['observacion-nueva']) ){
-				RegistrarObservacion( $_POST['proyecto'], $_POST['norma'], $_POST['articulo'], $_POST['observacion-nueva'] );
+			if( isset($_POST['proyecto']) && isset($_POST['categoria']) && isset($_POST['norma']) && isset($_POST['articulo']) && isset($_POST['observacion-nueva']) ){
+				RegistrarObservacion( $_POST['proyecto'], $_POST['categoria'], $_POST['norma'], $_POST['articulo'], $_POST['observacion-nueva'] );
 			}
 			break;
 
@@ -234,13 +234,14 @@ function DeleteTipo( $id ){
 /**
 * FORMULARIO PARA UNA NUEVA OBSERVACION
 */
-function NuevaObservacion($proyecto, $norma, $articulo){
+function NuevaObservacion($proyecto, $categoria, $norma, $articulo){
 	$formulario = '<form id="FormularioNuevaObservacion" enctype="multipart/form-data" method="post" action="src/ajaxObservaciones.php" >
 					<div class="titulo">
 						Nueva Observacion
 					</div>
 					<input type="hidden" name="func" value="RegistrarObservacion" >
 					<input type="hidden" name="proyecto" value="'.$proyecto.'" >
+					<input type="hidden" name="categoria" value="'.$categoria.'" >
 					<input type="hidden" name="norma" value="'.$norma.'" >
 					<input type="hidden" name="articulo" value="'.$articulo.'" > ';
 
@@ -303,17 +304,17 @@ function TiposDisponibles(){
 /**
 * REGISTRA UNA OBSERVACION NUEVA
 */
-function RegistrarObservacion( $proyecto, $norma, $articulo, $observacion){
+function RegistrarObservacion( $proyecto, $categoria, $norma, $articulo, $observacion){
 	$registro = new Registros();
 
-	if( !$registro->RegistrarObservacion($proyecto, $norma, $articulo, $observacion ) ){
+	if( !$registro->RegistrarObservacion($proyecto, $categoria, $norma, $articulo, $observacion ) ){
 		echo 'Error: ajaxObservaciones.php RegistrarObservacion().<br/>No se pudo crear la nueva observacion.';
 	}
 }
 
 /**
  * FORMULARIO DE EDICION DE UNA OBASERVACION
- * @param $id -> id de la obaservacion
+ * @param int $id -> id de la obaservacion
  */
 function EditarObservacion( $id ){
 	$registros = new Registros();

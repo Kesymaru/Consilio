@@ -306,7 +306,6 @@ function Articulos($proyecto, $categoria, $id){
 * @param int $id -> id del articulo
 */
 function DatosArticulo($proyecto, $categoria, $norma, $id){
-	
 	date_default_timezone_set('America/Costa_Rica');
 
 	$registros = new Registros();
@@ -316,10 +315,10 @@ function DatosArticulo($proyecto, $categoria, $norma, $id){
 	//OBTIENE LA DATA DEL ARTICULO VALIDANDO SI EL PROYECTO ESTA ACTIVO
 	$datos = $registros->getValidArticuloDatos($proyecto, $id);
 
-	//$observacion = $registros->getObservacion($proyecto, $categoria);
+	$observacion = $registros->getObservacion($proyecto, $categoria, $norma, $id);
 	$lista = '';
 
-	if(!empty($datos)){
+	if( !empty($datos) ){
 		$lista = '<div id="datos-articulo">
 				<div class="titulo">
 					<img id="solapa" class="icon izquierda rotacion" onClick="$listaCategorias.OcultarDatos()" src="images/next.png" />
@@ -327,10 +326,12 @@ function DatosArticulo($proyecto, $categoria, $norma, $id){
 			  	</div>
 			  	<div class="datos">';
 
-		if(!empty($observacion)){
+		//agrega la observacion
+		if( !empty($observacion) ){
+			$observacionTitulo = $registros->getTipoObservacion($observacion[0]['tipo']);
 			$lista .= '<div class="box" >
 							<div class="dato-titulo">
-								Observaciones
+								'.$observacionTitulo.'
 							</div>
 							<div class="dato">
 								'.base64_decode($observacion[0]['observacion']).'

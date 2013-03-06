@@ -381,16 +381,21 @@ class Registros{
 
 	/**
 	* OBTIENE TODAS LAS OBSERVACIONES
-	* @return false si falla o no tiene datos
+	* @param int $proyecto -> id del proyecto
+	* @param int $categoria -> id de la categoria
+	* @param int $norma -> id de la norma
+	* @param int $articulo -> id del articulo
+	* @param array $datos -> datos
 	*/
-	public function getObservaciones($proyecto, $norma, $articulo){
+	public function getObservaciones($proyecto, $categoria, $norma, $articulo){
 		$base = new Database();
 		
 		$proyecto = mysql_real_escape_string($proyecto);
+		$categoria = mysql_real_escape_string($categoria);
 		$norma = mysql_real_escape_string($norma);
 		$articulo = mysql_real_escape_string($articulo);
 
-		$query = "SELECT * FROM observaciones WHERE proyecto = '".$proyecto."' AND norma = '".$norma."' AND articulo = '".$articulo."'";
+		$query = "SELECT * FROM observaciones WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."' AND norma = '".$norma."' AND articulo = '".$articulo."'";
 		
 		$datos = $base->Select($query);
 		
@@ -415,13 +420,15 @@ class Registros{
 
 	/**
 	* REGISTRA O ACTUALIZA UNA OBSERVACION SI EXISTE O NO
-	* @param $proyecto -> id proyecto
-	* @param $categoria -> categoria
-	* @param $observacin -> texto de la observacion sin base 64
-	* @return true si se actualiza o registra
-	* @return false si falla
+	* @param int $proyecto -> id proyecto
+	* @param int $categoria -> categoria
+	* @param int $norma -> id de la norma
+	* @param int $articulo -> id del articulo
+	* @param string $observacin -> html/text de la observacion
+	* @return boolean true si se actualiza o registra
+	* @return boolean false si falla
 	*/
-	public function RegistrarObservacion($proyecto, $norma, $articulo, $observacion){
+	public function RegistrarObservacion($proyecto, $categoria, $norma, $articulo, $observacion){
 		$base = new Database();
 
 		$proyecto = mysql_real_escape_string($proyecto);
@@ -430,7 +437,7 @@ class Registros{
 		$observacion = base64_encode($observacion);
 		$admin = mysql_real_escape_string( $_SESSION['id'] );
 		
-		$query = "INSERT INTO observaciones ( observacion, proyecto, norma, articulo, admin, fecha_creacion, fecha_actualizacion ) VALUES ('".$observacion."', '".$proyecto."', '".$norma."', '".$articulo."', '".$admin."', NOW(), NOW() )";
+		$query = "INSERT INTO observaciones ( observacion, proyecto, categoria, norma, articulo, admin, fecha_creacion, fecha_actualizacion ) VALUES ('".$observacion."', '".$proyecto."', '".$categoria."', '".$norma."', '".$articulo."', '".$admin."', NOW(), NOW() )";
 			
 		if($base->Insert($query)){
 			return true;

@@ -45,21 +45,43 @@ class Registros{
 
 	/**
 	* OBTIENE LOS DATOS DE LA OBSERVACION
-	* @param $proyecto -> id del proyecto
-	* @param $categoria -> id de la categoria
-	* @return $datos[][] -> datos de la observacion
-	* @return false si falla o no tiene datos
+	* @param int $proyecto -> id del proyecto
+	* @param int $categoria -> id de la categoria
+	* @param int $norma -> id de la norma
+	* @param int $articulo -> id del articulo
+	* @return array $datos -> array con los datos de la observacion
 	*/
-	public function getObservacion($proyecto, $categoria){
+	public function getObservacion($proyecto, $categoria, $norma, $articulo){
 		$base = new Database();
-		$query = "SELECT * FROM observaciones WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."'";
+
+		$proyecto = mysql_real_escape_string($proyecto);
+		$categoria = mysql_real_escape_string($categoria);
+		$norma = mysql_real_escape_string($norma);
+		$articulo = mysql_real_escape_string($articulo);
+
+		$query = "SELECT * FROM observaciones WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."' AND norma = '".$norma."' AND articulo = '".$articulo."' ";
 		
 		$datos = $base->Select($query);
 		
-		if(!empty($datos)){
-			return $datos;
+		return $datos;
+	}
+
+	/**
+	* OBTIENE EL TIPO DE OBSERVACION
+	* @param int $tipo -> id de la observacion
+	* @return string tipo observacion	
+	*/
+	public function getTipoObservacion($tipo){
+		$base = new Database();
+		$tipo = mysql_real_escape_string($tipo);
+
+		$query = "SELECT * FROM tipos_observaciones WHERE id = '".$tipo."'";
+		$datos = $base->Select($query);
+
+		if( !empty($datos) ){
+			return $datos[0]['nombre'];
 		}else{
-			return false;
+			return 'Observacion'; //default
 		}
 	}
 
