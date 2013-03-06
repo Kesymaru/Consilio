@@ -111,24 +111,24 @@ function CategoriasRoot($proyecto){
 	$lista = '';
 
 	if(!empty($datos)){
-		$categorias = unserialize($datos[0]['registro']);
-
+		
+		$categoriasRegistradas = unserialize($datos[0]['registro']);
+		$categoriasTodas = $registros->getHijos( 0 );
+		
 		$lista .= '<ul id="supercategorias" class="categorias">';
 
-		if(!empty($categorias)){
-			foreach ($categorias as $key => $categoria) {
-				
-				if( !$datosCategoria = $registros->getCategoriaDatos($categoria) ){
-					continue;
-				}
+		if( !empty($categoriasRegistradas) ){
 
-				if($datosCategoria[0]['padre'] == 0){
-					
-					$lista .= '<li class="" id="'.$categoria.'" >';
-										
-					$imagen = $_SESSION['datos'].$datosCategoria[0]['imagen'];
+			//mustra las super categorias ordenadas
+			foreach ($categoriasTodas as $key => $categoria) {
 
-					$lista .= '<img title="'.$datosCategoria[0]['nombre'].'" src="'.$imagen.'" onerror="this.src=\'images/es.png\'" /><p>'.$datosCategoria[0]['nombre'].'</p>';
+				if( in_array( $categoria['id'], $categoriasRegistradas) ){
+						
+					$lista .= '<li class="" id="'.$categoria['id'].'" >';
+											
+					$imagen = $_SESSION['datos'].$categoria['imagen'];
+
+					$lista .= '<img title="'.$categoria['nombre'].'" src="'.$imagen.'" onerror="this.src=\'images/es.png\'" /><p>'.$categoria['nombre'].'</p>';
 
 					$lista .= '</li>';
 				}

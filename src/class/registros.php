@@ -133,11 +133,7 @@ class Registros{
 
 		$datos = $base->Select($query);
 		
-		if(!empty($datos)){
-			return $datos;
-		}else{
-			return false;
-		}
+		return $datos;
 	}
 
 	/**
