@@ -703,8 +703,9 @@ function PreviewArticuloDatos(articulo){
 	VerArticulosDatos();
 
 	var proyecto = $("#proyecto").val();
+	var categoria = $("#categoria").val();
 	var norma = $("#norma").val();
-	var queryParams = {"func" : "PreviewArticulo", "proyecto" : proyecto, "norma" : norma, "id" : articulo};
+	var queryParams = {"func" : "PreviewArticulo", "proyecto" : proyecto, "categoria" : categoria, "norma" : norma, "id" : articulo};
 
 	$.ajax({
 		data: queryParams,

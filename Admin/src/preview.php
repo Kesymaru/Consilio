@@ -24,8 +24,8 @@ if(isset($_POST['func'])){
 
 		//PREVIEW DE LOS DATOS DE UN ARTICULO 
 		case 'PreviewArticulo':
-			if( isset($_POST['proyecto']) && isset($_POST['norma']) && isset($_POST['id']) ){
-				PreviewArticulo( $_POST['proyecto'], $_POST['norma'], $_POST['id'] );
+			if( isset($_POST['proyecto']) && isset($_POST['categoria']) && isset($_POST['norma']) && isset($_POST['id']) ){
+				PreviewArticulo( $_POST['proyecto'], $_POST['categoria'], $_POST['norma'], $_POST['id'] );
 			}
 			break;
 

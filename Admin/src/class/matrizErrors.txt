@@ -39,3 +39,19 @@ Intente de nuevo.
 	JAVASCRIPT: 
 	March 5 2013 - 6:00 pm
  --------------------<>--------------------
+
+Error: preview.php PreviewArticulo() id: 
+No se encontraron datos del articulo seleccionado.
+Intente de nuevo.
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 5 2013 - 6:03 pm
+ --------------------<>--------------------
