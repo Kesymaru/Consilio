@@ -61,23 +61,35 @@ $.extend(Categorias.prototype, {
 		});
 	},
 
+	/**
+	* REINICIA EL PANEL
+	*/
+	ResetPanel: function(){
+		if( $("#menu2").length > 0 ){
+			//resete el panel
+			$("#panel-categorias, #panel-normas, #td-categorias, #td-normas, #td-articulos")
+				.removeClass("panel-activo")
+				.html('');
+			
+			$("#panel-articulos")
+				.removeClass("panel-activo")
+			$("#panel-articulos span").html('');
+
+			$("#td-categorias, #td-normas").removeClass('panel-border-right');
+			$("#td-articulos").removeClass('panel-border-top');
+		}
+		if( $("#content").is(":visible") ){
+			PanelMenus();
+		}
+	},
+
 	/*
 	* Carga las categorias de una super categoria
 	* @param string padre -> id del padre
 	*/
 	Categorias: function(padre){
 
-		//resete el panel
-		$("#panel-categorias, #panel-normas, #td-categorias, #td-normas, #td-articulos")
-			.removeClass("panel-activo")
-			.html('');
-		
-		$("#panel-articulos")
-			.removeClass("panel-activo")
-		$("#panel-articulos span").html('');
-
-		$("#td-categorias, #td-normas").removeClass('panel-border-right');
-		$("#td-articulos").removeClass('panel-border-top');
+		this.ResetPanel();
 
 		//resetea datos
 		this.supercategoria = padre;
