@@ -118,17 +118,15 @@ function CategoriasRoot($proyecto){
 		if(!empty($categorias)){
 			foreach ($categorias as $key => $categoria) {
 				
-				$datosCategoria = $registros->getCategoriaDatos($categoria);
+				if( !$datosCategoria = $registros->getCategoriaDatos($categoria) ){
+					continue;
+				}
 
 				if($datosCategoria[0]['padre'] == 0){
 					
 					$lista .= '<li class="" id="'.$categoria.'" >';
 										
 					$imagen = $_SESSION['datos'].$datosCategoria[0]['imagen'];
-
-					if( file_exists('matrizescala/Admin/images/categorias/12974Tulips.jpg') ){
-						echo 'eureka';
-					}
 
 					$lista .= '<img title="'.$datosCategoria[0]['nombre'].'" src="'.$imagen.'" onerror="this.src=\'images/es.png\'" /><p>'.$datosCategoria[0]['nombre'].'</p>';
 

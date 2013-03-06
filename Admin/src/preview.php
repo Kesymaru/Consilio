@@ -327,8 +327,24 @@ function PreviewArticulo($proyecto, $categoria, $norma, $id){
 								<a href="#tabs-4" title="Permiso o Documentación Asociada Del Articulo">
 								Permiso o Documentación
 								</a>
-							</li>
-						</ul>
+							</li>';
+
+		if( !empty($observaciones) ){
+			
+			$cuenta = 5;
+			foreach ($observaciones as $fila => $observacion) {
+				$observacionTitulo = $registros->getTipoObservacionDato("nombre", $observacion['tipo']);
+
+				$preview .= '<li>
+								<a id="observacionTitulo'.$observacion['id'].'" href="#tabs-'.$cuenta.'" title="Observación tipo '.$observacionTitulo.'">
+								'.$observacionTitulo.'
+								</a>
+							</li>';
+				$cuenta++;
+			}
+		}
+
+		$preview .=	'</ul>
 
 						<div id="tabs-1">
 							<div class="texto">
@@ -359,7 +375,13 @@ function PreviewArticulo($proyecto, $categoria, $norma, $id){
 
 				$preview .= '<div id="tabs-'.$cuenta.'">
 								<div class="texto">
-								'.$observacionTitulo.'
+									<div class="tab-toolbar">
+										<button type="button" onClick="EditarObservacion('.$observacion['id'].')" >Editar</button>
+										<button type="button" onClick="EliminarObservacion('.$observacion['id'].')" >Eliminar</button>
+									</div>
+								<div id="observacion'.$observacion['id'].'">
+									'.base64_decode($observacion['observacion']).'
+								</div>
 								</div>
 							 </div>';
 			}
@@ -388,37 +410,6 @@ function PreviewArticulo($proyecto, $categoria, $norma, $id){
 
 		$preview .= '</ul>
 					</div><!-- end archivos -->';
-
-		//tiene observaciones
-		if(!empty($observaciones)){
-			$preview .= '<div id="tabs2">
-						<ul>';
-
-			$contador = 1;
-			foreach ($observaciones as $fila => $observacion) {
-				$titulo = $registros->getTipoObservacionDato("nombre", $observacion['tipo']);
-				$preview .= '<li>
-								<a href="#tabs2-'.$contador.'" title="Observacion '.$titulo.'">
-								'.$titulo.'
-								</a>
-							</li>';
-				$contador++;
-			}
-
-			$preview .= '</ul>
-						</div>';
-
-			//OBSERVACIONES
-			$contador = 1;
-			foreach ($observaciones as $fila => $observacion) {
-				$preview .= '<div id="tabs2-'.$contador.'">
-								<div class="texto">
-								<button type="button" onClick="EditarObservacion('.$observacion['id'].')" >Editar</button>
-								'.base64_decode($observacion['observacion']).'
-								</div>
-							</div>';
-			}
-		}
 
 	}else{
 		$preview .= 'No hay datos
