@@ -37,8 +37,8 @@ if(isset($_POST['func'])){
 
 		//INCLUYE CATEGORIAS SELECCIONADAS
 		case 'IncluirCategorias':
-			if(isset($_POST['categoria']) && isset($_POST['proyecto'])){
-				IncluirCategorias($_POST['proyecto'], $_POST['categoria']);
+			if(isset($_POST['proyecto']) && isset($_POST['categorias'])){
+				IncluirCategorias($_POST['proyecto'], $_POST['categorias']);
 			}
 			break;
 
@@ -162,6 +162,10 @@ function ComponerProyecto($id){
 
 		$datos = unserialize( $registro[0]['registro'] );
 
+		if( !is_array($datos) ){
+			$datos = array();
+		}
+
 		$nombreCliente = $cliente->getClienteDato( "nombre", $proyecto[0]['cliente'] );
 
 		$lista = '<div id="proyectos" class="tipos">
@@ -211,8 +215,8 @@ function ComponerProyecto($id){
 
 /**
 * COMPONE LAS CATEGORIAS INCLUIDAS REGISTRADAS
-* @param $datos -> array[] con los id de las categorias
-*/
+* @param array $datos -> array[][] con los id de las categorias
+*//*
 function DatosRegistrados($datos){
 	$registros = new Registros();
 	$lista = "";
@@ -249,13 +253,58 @@ function DatosRegistrados($datos){
 
 		return $lista;
 	}
+}*/
+function DatosRegistrados($datos){
+	$registros = new Registros();
+	$lista = "";
+
+	if( is_array($datos) && !empty($datos) && $datos != ''){
+		$lista .= '<ul id="categoriasIncluidas" class="listIzquierda">';
+
+		foreach ($datos as $f => $str) {
+			//echo $path.'<br/>';
+			
+			$path = explode(',', $str);
+
+			if( is_array($path) ){
+				$nombre = CategoriaNombre( $path[sizeof($path)-1] );
+				$id = $path[sizeof($path)-1];
+
+				$lista .= '<li id="in'. $id .'" onClick="SelectCategoriaIncluida('. $id .')" title="'. $nombre .' Categoria Incluida">';
+				
+				foreach ($path as $f => $categoria) {
+					
+					$nombre = CategoriaNombre($categoria);
+					
+					if( $f != sizeof($path)-1 ){
+						$lista .= '<span id="'.$categoria.'">'.$nombre.' / </span>';			
+					}else{
+						$lista .= '<b>'.$nombre.'</b>';
+					}
+				}
+				$lista .= '</li>';
+			}
+		}
+
+		$lista .= '</ul>';
+
+		return $lista;
+	}else{
+		$lista .= '<tr id="nodata">
+						<td>
+							No hay datos
+						</td>
+				   </tr>';
+
+		return $lista;
+	}
 }
 
 /**
 * COMPONE EL CAMINO DE UNA CATEGORIA
 * @param $categoria -> id de la categoria
 * @return $camino
-*/
+*//*
 function Camino($categoria){
 	$camino = array();
 
@@ -282,6 +331,37 @@ function Camino($categoria){
 		$compuesto .= $c.'/ ';
 	}
 	$compuesto .= '</span><b>'.CategoriaNombre($categoria).'</b>';
+
+	return $compuesto; //camino
+}*/
+function Camino($categoria){
+	if( empty($categoria) && $categoria != '' ){
+		return;
+	}
+	$camino = array();
+
+	$padre = $categoria;
+
+	$tiene = true;
+	$nombre = "";
+	do{
+		if(!$padre = getPadre($padre)){
+			$tiene = false;
+		}else{
+			$nombre = CategoriaNombre($padre);
+			$camino[] = array('id' => $padre, 'nombre' => $nombre);
+		}
+	}while($tiene);
+
+	//invierte el array
+	$path = array_reverse($camino);
+
+	$compuesto = '';
+
+	foreach ($path as $f => $c) {
+		$compuesto .= '<span id="'.$c['id'].'"> '.$c['nombre'].'/ </span>';
+	}
+	$compuesto .= '<b>'.CategoriaNombre($categoria).'</b>';
 
 	return $compuesto; //camino
 }
@@ -319,6 +399,21 @@ function getPadre($hijo){
 }
 
 /**
+* OBTIENE LOS HIJOS
+* @param int $padre -> id del padre
+*/
+function getHijos($padre){
+	$registros = new Registros();
+	$hijos = $registros->getHijos($padre);
+
+	if( !empty($hijos)){
+		return $hijos;
+	}else{
+		return false; //no tiene hijos
+	}
+}
+
+/**
 * OBTIENE EL NOMBRE DE UNA CATEGORIA
 * @param $id -> id del 
 * @RETURN $nombre -> string con el nombre
@@ -335,7 +430,7 @@ function CategoriaNombre($id){
 * @param $categorias -> array[] con los id de las categorias seleccionadas
 */
 function IncluirCategorias($proyecto, $categorias){
-	$registros = new Registros();
+	/*$registros = new Registros();
 
 	$datos = $registros->getRegistros($proyecto);
 
@@ -363,33 +458,40 @@ function IncluirCategorias($proyecto, $categorias){
 
 	}else{
 		echo "<br/>Error: ajaxComponer.php IncluirCategorias() categorias o registros invalidos.";
+	}*/
+
+	$registros = new Registros();
+	$lista = '';
+
+	if( is_array($categorias) ){
+		foreach ($categorias as $f => $categoria) {
+
+			$datos = $registros->getCategoria($categoria);
+			$lista .= '<li id="in'.$datos[0]['id'].'" onClick="SelectCategoriaIncluida('. $datos[0]['id'] .')" >
+						'.Camino($datos[0]['id']).'
+					  </li>';
+		}
 	}
 
+	echo $lista;
 }
 
 /**
 * EXCLUYE CATEGORIAS
-* @param $proyecto -> id del proyecto
-* @param $categorias -> array[] con los id a excluir
+* @param int $proyecto -> id del proyecto
+* @param int $categorias -> array[] con los id a excluir
+* @return string detalles de error si ocurre
 */
 function ExcluirCategorias($proyecto, $categorias){
 	$registros = new Registros();
 
-	$registro = $registros->getRegistros($proyecto);
+	if( !is_array($categorias) || empty($categorias)){
+		$categorias = array('');
+	}
 
-	$registradas = unserialize($registro[0]['registro']);
-
-	if(!empty($registradas) && is_array($categorias)){
-		//botiene categorias que no se eliminan
-		$seleccionadas = array_diff($registradas, $categorias);
-
-		//actualiza el registro
-		if(!$registros->UpdateRegistro($proyecto, $seleccionadas)){
-			echo "Error: ajaxComponer.php ExcluirCategorias() no se actualizo el registro en registros->UpdateRegistro() ";
-		}
-
-	}else{
-		echo 'Error: ajaxComponer.php ExcluirCategorias(), no hay registros para el proyecto '.$proyecto;
+	//actualiza el registro
+	if(!$registros->UpdateRegistro($proyecto, $categorias)){
+		echo "Error: ajaxComponer.php ExcluirCategorias() no se actualizo el registro en registros->UpdateRegistro() ";
 	}
 }
 

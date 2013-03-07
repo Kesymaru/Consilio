@@ -64,7 +64,7 @@ class Registros{
 
 	/**
 	 * ACTUALIZA UN REGISTRO
-	 * @param $id _> id del registro
+	 * @param int $id -> id del proyecto
 	 * @param $registro -> array[] con los registros sin serializar
 	 */
 	function UpdateRegistro($id, $registro){
@@ -73,7 +73,7 @@ class Registros{
 		$id = mysql_real_escape_string($id);
 		$registro = serialize($registro);
 
-		$query = "UPDATE registros SET registro = '".$registro."', fecha_actualizacion = NOW() WHERE id = '".$id."'";
+		$query = "UPDATE registros SET registro = '".$registro."', fecha_actualizacion = NOW() WHERE proyecto = '".$id."'";
 
 		if($base->Update($query)){
 			return true;
@@ -1001,6 +1001,8 @@ class Registros{
 	*/
 	public function getCategoria($categoria){
 		$base = new Database();
+		$categoria = mysql_real_escape_string($categoria);
+		
 		$query = "SELECT * FROM categorias WHERE id = ".$categoria;
 
 		$datos = $base->Select($query);

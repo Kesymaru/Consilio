@@ -7,7 +7,7 @@
  * @param id -> id del articulo ha componer
  */
 function Componer(id){
-	$.contextMenu( 'destroy' );
+	/*$.contextMenu( 'destroy' );
 	
 	if( id == "" || id == undefined){
 		notificaError("Error: el proyecto para componer no es valido,<br/>Error: Componer.js Componer() id no valido.");
@@ -22,10 +22,12 @@ function Componer(id){
 	//limpia content si este tiene algo
 	if($("#content").html() != ""){
 		$("#content").html("");
-	}
+	}*/
+
+	$componer.init(id);
 
 	//carga datos
-	ComponerProyecto(id);
+	//ComponerProyecto(id);
 	ComponerCategorias(id);
 
 }
@@ -84,7 +86,7 @@ function ComponerCategorias(id){
 */
 function FormularioComponerCategorias(){
 	
-	var options = {
+	/*var options = {
 		beforeSubmit: FormularioComponerCategoriasValidar,
 		beforeSend: function(){
 		},
@@ -112,11 +114,11 @@ function FormularioComponerCategorias(){
 	$('#FormularioComponerCategorias').ajaxForm(options);
 	
 	//sortable
-	$( "#categoriasIncluidas" ).sortable({
+	/*$( "#categoriasIncluidas" ).sortable({
 	    placeholder: "placeholder-sortable",
 	    tolerance: 'pointer',
     	revert: true,
-	});
+	});*/
 }
 
 /**
@@ -239,32 +241,14 @@ function MenuComponer(m, id){
 		//vista de normas
 		PreviewCategoriaNormas(id);
 	}
-	else if(m == 'clicked: observacion'){
-		Observacion(id);
-	}
-	else if(m == 'clicked: camino'){
-		CategoriaPath(id);
-	}
-}
-
-/**
-* MUSTRA / OCULTA CAMINO 
-* @param id -> id de la categoria incluida
-*/
-function CategoriaPath(id){
-
-	if($("#in"+id+" .path").is(":visible")){
-		$("#in"+id+" .path").fadeOut();
-	}else{
-		$("#in"+id+" .path").fadeIn();
-	}
 }
 
 /**
 * ENVIA FORMULARIO DE COMPONER CATEGORIAS PARA GUARDARLAS
 */
 function GuardarCategorias(){
-	$('#FormularioComponerCategorias').submit();
+	//$('#FormularioComponerCategorias').submit();
+	console.log('incluyendo categorias');
 }
 
 /**
@@ -384,8 +368,6 @@ function MenuCategoriaIncluida(id){
         	//"excluir": {name: "Excluir", icon: "delete"},
         	"excluir": {name: "Excluir Selecciones", icon: "delete", accesskey: "x"},
             "normas": {name: "Seleccionar Normas", icon: "edit", accesskey: "s"},
-            "observacion": {name: "Observacion", icon: "edit", accesskey: "o"},
-            "camino": {name: "Ver camino", icon: "edit", accesskey: "c"},
         }
     });
 }
@@ -394,45 +376,43 @@ function MenuCategoriaIncluida(id){
 * EXCLUYE LAS CATEGORIAS SELECCIONADAS DE LAS INCLUIDAS
 */
 function ExcluirCategorias(){
-	var excluidas = [];
-	
-	var cuenta = 0;
-	$("#categoriasIncluidas .seleccionada").each(function(){
-		excluidas.push( this.id.substring(2) );
-		cuenta++;
+	var incluidas = [];
+
+	$("#categoriasIncluidas li").not('.seleccionada').each(function(){
+		var path = [];
+			
+		var excluida = $(this).attr('id');
+
+		$( "#"+excluida+' span').each(function(){
+			//console.log( $(this).attr('id') );
+			path.push( $(this).attr('id') );
+		});
+
+		path.push( excluida.substring(2) );
+		incluidas.push( path );
+
 	});
 
-	if(cuenta == 0){
-		excluidas = '';
-	}
-
+	//GUARDA LAS CATEGORIAS
 	var proyecto = $("#proyecto").val();
-
-	var queryParams = {"func" : "ExcluirCategorias", "proyecto" : proyecto, "categorias[]" : excluidas};
-
 	$.ajax({
-		data: queryParams,
+		data: {"func" : "ExcluirCategorias", "proyecto" : proyecto, "categorias[]" : incluidas},
 		async: false,
 		type: "post",
 		url: "src/ajaxComponer.php",
-		beforeSend: function(){
-		},
 		success: function(response){
+		console.log( response );
 
-			if(response.length <= 3){
-
-				//actualiza la vista del proyecto
-				ComponerProyecto(proyecto);
-				$("#content").hide();
-				$("#content").fadeIn();
-
-			}else{
-				notificaError(response);
+			if( response.length <= 3 ){
+				//elimina las categorias de la lista
+				$("#categoriasIncluidas .seleccionada").fadeOut(function(){
+					$(this).remove();
+				});
 			}
 
 		},
 		fail: function(response){
-			notificaError("Error: Componer.js ExcluirCategorias() AJAX fail.<hr>"+response);
+				notificaError("Error: ComponerClass.js Excluir() AJAX fail.<hr>"+response);
 		}
 	});
 }

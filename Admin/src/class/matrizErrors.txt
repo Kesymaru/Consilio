@@ -1,86 +1,7 @@
 
 
-Error:  
-
-
-<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Access denied for user 'matrizroot'@'localhost' (using password: YES) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>39</b>
-
-1. No funciona por Access denied for user 'matrizroot'@'localhost' (using password: YES)
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Default Browser
-	Plataforma: unknown
-	Version: 0.0
-	CSS: 0.0
-	JAVASCRIPT: 
-	March 6 2013 - 1:52 pm
- --------------------<>--------------------
-
-ERROR: Componer.js FormularioNuevaObservacion().
-
-
-<b>Parse error</b>:  parse error in <b>C:\wamp\www\matrizescala\Admin\src\ajaxObservaciones.php</b> on line <b>58</b>
-
-
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Default Browser
-	Plataforma: unknown
-	Version: 0.0
-	CSS: 0.0
-	JAVASCRIPT: 
-	March 6 2013 - 3:39 pm
- --------------------<>--------------------
-
-Error: AJAX error.
-func=DeleteObservacion&id=2
-scr/ajaxObservaciones.php
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Default Browser
-	Plataforma: unknown
-	Version: 0.0
-	CSS: 0.0
-	JAVASCRIPT: 
-	March 6 2013 - 4:03 pm
- --------------------<>--------------------
-
-Error: AJAX error.
-func=DeleteObservacion&id=2
-scr/ajaxObservaciones.php
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Default Browser
-	Plataforma: unknown
-	Version: 0.0
-	CSS: 0.0
-	JAVASCRIPT: 
-	March 6 2013 - 4:05 pm
- --------------------<>--------------------
-
-Error: Componer.js AccionEliminarObservacion.
  
-
-
-<b>Notice</b>:  Undefined variable: registro in <b>C:\wamp\www\matrizescala\Admin\src\ajaxObservaciones.php</b> on line <b>431</b>
-
-
-
-<b>Fatal error</b>:  Call to a member function DeleteObservacion() on a non-object in <b>C:\wamp\www\matrizescala\Admin\src\ajaxObservaciones.php</b> on line <b>431</b>
-
-
+3. Error en consulta UPDATE registros SET registro = 'Array', fecha_actualizacion = NOW() WHERE proyecto = '14'No database selected
 
 
 	Sitio: Admin
@@ -91,20 +12,11 @@ Error: Componer.js AccionEliminarObservacion.
 	Version: 0.0
 	CSS: 0.0
 	JAVASCRIPT: 
-	March 6 2013 - 4:06 pm
+	March 7 2013 - 12:01 pm
  --------------------<>--------------------
 
-Error: Componer.js AccionEliminarObservacion.
  
-
-
-<b>Notice</b>:  Undefined variable: registros in <b>C:\wamp\www\matrizescala\Admin\src\ajaxObservaciones.php</b> on line <b>431</b>
-
-
-
-<b>Fatal error</b>:  Call to a member function DeleteObservacion() on a non-object in <b>C:\wamp\www\matrizescala\Admin\src\ajaxObservaciones.php</b> on line <b>431</b>
-
-
+3. Error en consulta UPDATE registros SET registro = 'a:28:{i:0;s:3:"166";i:1;s:3:"199";i:5;s:3:"200";i:6;s:3:"192";i:7;s:3:"187";i:8;s:3:"191";i:9;s:3:"201";i:10;s:3:"202";i:11;s:3:"194";i:12;s:3:"184";i:13;s:3:"188";i:14;s:3:"203";i:15;s:3:"193";i:16;s:3:"173";i:17;s:3:"189";i:18;s:3:"186";i:27;s:3:"174";i:28;s:3:"175";i:29;s:3:"172";i:30;s:3:"195";i:31;s:3:"204";i:32;s:3:"205";i:33;s:3:"206";i:34;s:3:"207";i:40;s:3:"180";i:41;s:3:"196";i:42;s:3:"176";i:43;s:3:"181";}', fecha_actualizacion = NOW() WHERE proyecto = '14'No database selected
 
 
 	Sitio: Admin
@@ -115,71 +27,15 @@ Error: Componer.js AccionEliminarObservacion.
 	Version: 0.0
 	CSS: 0.0
 	JAVASCRIPT: 
-	March 6 2013 - 4:07 pm
- --------------------<>--------------------
-
-Error: Componer.js AccionEliminarObservacion.
- 
-
-
-<b>Notice</b>:  Undefined variable: registros in <b>C:\wamp\www\matrizescala\Admin\src\ajaxObservaciones.php</b> on line <b>431</b>
-
-
-
-<b>Fatal error</b>:  Call to a member function DeleteObservacion() on a non-object in <b>C:\wamp\www\matrizescala\Admin\src\ajaxObservaciones.php</b> on line <b>431</b>
-
-
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Default Browser
-	Plataforma: unknown
-	Version: 0.0
-	CSS: 0.0
-	JAVASCRIPT: 
-	March 6 2013 - 4:07 pm
- --------------------<>--------------------
-
-Error: Componer.js AccionEliminarObservacion.
- 
-
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Default Browser
-	Plataforma: unknown
-	Version: 0.0
-	CSS: 0.0
-	JAVASCRIPT: 
-	March 6 2013 - 4:08 pm
- --------------------<>--------------------
-
-Error: Componer.js AccionEliminarObservacion.
- 
-
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Default Browser
-	Plataforma: unknown
-	Version: 0.0
-	CSS: 0.0
-	JAVASCRIPT: 
-	March 6 2013 - 4:09 pm
+	March 7 2013 - 12:02 pm
  --------------------<>--------------------
 
  
 
 
-<b>Warning</b>:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Access denied for user 'matrizroot'@'localhost' (using password: YES) in <b>C:\wamp\www\matrizescala\Admin\src\class\classDatabase.php</b> on line <b>39</b>
+<b>Parse error</b>:  parse error, expecting `T_STRING' or `T_VARIABLE' or `'{'' or `'$'' in <b>C:\wamp\www\matrizescala\Admin\src\class\registros.php</b> on line <b>87</b>
 
-1. No funciona por Access denied for user 'matrizroot'@'localhost' (using password: YES)
+
 
 
 	Sitio: Admin
@@ -190,7 +46,7 @@ Error: Componer.js AccionEliminarObservacion.
 	Version: 0.0
 	CSS: 0.0
 	JAVASCRIPT: 
-	March 7 2013 - 9:36 am
+	March 7 2013 - 12:06 pm
  --------------------<>--------------------
 
  
@@ -207,5 +63,70 @@ Error: Componer.js AccionEliminarObservacion.
 	Version: 0.0
 	CSS: 0.0
 	JAVASCRIPT: 
-	March 7 2013 - 9:36 am
+	March 7 2013 - 3:08 pm
+ --------------------<>--------------------
+
+Error: AJAX error.
+func=EditarCliente&id=13
+src/ajaxClientes.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 7 2013 - 3:24 pm
+ --------------------<>--------------------
+
+Error: AJAX error.
+func=EditarCliente&id=13
+src/ajaxClientes.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 7 2013 - 3:24 pm
+ --------------------<>--------------------
+
+Error: AJAX error.
+func=EditarCliente&id=13
+src/ajaxClientes.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 7 2013 - 3:24 pm
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 7 2013 - 3:24 pm
  --------------------<>--------------------

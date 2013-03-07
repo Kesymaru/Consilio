@@ -92,6 +92,7 @@ $master = new Master();
 	<!-- plugin para editor -->
 	<script src="editor/ckeditor.js"></script> 
 
+	<script src="js/ComponerClass.js"></script> 
 </head>
 
 <body>

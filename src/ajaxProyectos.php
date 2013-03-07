@@ -112,10 +112,29 @@ function CategoriasRoot($proyecto){
 
 	if(!empty($datos)){
 		
-		$categoriasRegistradas = unserialize($datos[0]['registro']);
+		$registradas = unserialize($datos[0]['registro']);
 		$categoriasTodas = $registros->getHijos( 0 );
 		
 		$lista .= '<ul id="supercategorias" class="categorias">';
+
+		if( is_array($registradas) ){
+			//echo '<pre>'; print_r($registradas); echo '</pre>';
+
+			foreach ($registradas as $f => $c) {
+				$path = explode(',', $c);
+				if( is_array($path) ){
+					foreach ($path as $fila => $categoria) {
+						$categoriasRegistradas[] = $categoria;
+					}
+				}
+			}
+			$categoriasRegistradas = array_unique( $categoriasRegistradas );
+
+		}else{
+			$categoriasRegistradas = array();
+		}
+
+		//echo '<pre>'; print_r($categoriasRegistradas); echo '</pre>';
 
 		if( !empty($categoriasRegistradas) ){
 
@@ -157,12 +176,25 @@ function Hijos($padre, $proyecto){
 
 	if(!empty($hijos)){ //tiene hijos
 		$datos = $registros->getRegistros($proyecto);
-		$disponibles = unserialize($datos[0]['registro']);
-
-		//$lista .= '<div class="categoria" id="Padre'.$padre.'">';
-
-		//$lista .= '<ul id="Padre'.$padre.'">';
+		$registradas = unserialize($datos[0]['registro']);
 		
+		if( is_array($registradas) ){
+			//echo '<pre>'; print_r($registradas); echo '</pre>';
+
+			foreach ($registradas as $f => $c) {
+				$path = explode(',', $c);
+				if( is_array($path) ){
+					foreach ($path as $fila => $categoria) {
+						$disponibles[] = $categoria;
+					}
+				}
+			}
+			$disponibles = array_unique( $disponibles );
+
+		}else{
+			$disponibles = array();
+		}
+
 		foreach ($hijos as $f => $hijo) {
 
 			foreach ($disponibles as $s => $incluida) {
@@ -179,15 +211,7 @@ function Hijos($padre, $proyecto){
 					continue;
 				}
 			}
-			//carga hijos de la categoria
-			//$lista .= '<li id="'.$hijo['id'].'" onClick="Hijos('.$hijo['id'].', '.$proyecto.')">'.$hijo['nombre'].'</li>';
 		}
-
-		//$lista .= '</ul>';
-		//$lista .= '</div>';
-
-		//tiene hijos por lo tanto no es hoja
-		//echo '<script>NormasCategoria('.$padre.');</script>';
 
 	}else{
 		//no tiene hijos es una hoja
