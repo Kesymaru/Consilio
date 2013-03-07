@@ -1760,18 +1760,60 @@ button:hover{
 	text-align:justify !important;
 }
 
-.box b, .box strong{
+.box b,
+.box strong,
+.comentario b,
+.comentario strong{
 	font-weight: bold;
 	color: #a1ca4a;
 }
 
-.box em{
+.box em,
+.comentario em{
 	font-style: oblique;
 }
 
-.box u{
+.box u,
+.comentario u{
 	text-decoration: underline;;
 }
+
+.box blockquote,
+.comentario blockquote {
+	border-left: 1px solid #dede;
+	padding-left: 20px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+    font-style: italic;
+}
+
+.box blockquote p,
+.comentario blockquote p{
+	border-left: 2px solid #dedede;
+	padding-left: 10px;
+}
+
+.box hr,
+.comentario hr{
+	border: 1px solid #dedede;
+}
+
+.comentario a:before{
+	color: rgb(117, 115, 116);
+	font-weight: bold;
+	content: "link: ";
+}
+
+.comentario a:hover,
+.comentario a:hover:before{
+	color: rgb(96%, 52%, 0%);
+		-o-transition: all 0.5s ease-out;
+		-ms-transition: all 0.5s ease-out;
+		-moz-transition: all 0.5s ease-out;
+		-webkit-transition: all 0.5s ease-out;
+	transition: all 0.5s ease-out;
+}
+
 
 /**
 * ADJUNTOS 
