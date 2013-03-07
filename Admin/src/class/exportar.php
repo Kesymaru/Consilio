@@ -4,17 +4,6 @@
  * MANEJO DE DATOS REGISTROS Y CATEGORIAS
  */
 
-?>
-
-<html>
-	<head>
-		<title>Exportar</title>
-		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
-	</head>
-<body>
-
-<?php
-
 //require_once("classDatabase.php");
 require_once("session.php");
 require_once("proyectos.php");
@@ -45,7 +34,6 @@ if( isset($_GET['tipo'])){
 
 	if($tipo == 'clientes'){
 		$exportar->ExportarClientes();
-
 	}
 }
 
@@ -77,44 +65,83 @@ class Exportar{
 	}
 
 	/**
-	* EXPORTAR CLIENTES EN CSV
+	* PONE LOS HEADER DE HTML
+	*/
+	public function htmlHead(){
+		?>
+
+		<html>
+			<head>
+				<title>Exportar</title>
+				<meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
+			</head>
+		<body>
+
+		<?php
+	}
+
+	/**
+	* CIERRA LOS HEADER DE HTML
+	*/
+	public function htmlHeadClose(){
+		?>
+
+		</body>
+		</html>
+
+		<?php
+	}
+
+	/**
+	* EXPORTAR CLIENTES EN VCART COMPATIBLE CON GOOGLE CONTACTS
 	*/
 	public function ExportarClientes(){
 		$base = new Database();
-		$query = "SELECT nombre, email, telefono, skype FROM clientes";
+		$query = "SELECT * FROM clientes";
 
 		$clientes = $base->Select($query);
 
-		$lista = "First Name,E-mail Address,Primary Phone,Notes,\n";
+		$lista = "";
 
 		if(!empty($clientes)){
 			
 			foreach ($clientes as $fila => $cliente) {
-				$lista .= $cliente['nombre'].",".$cliente['email'].",".$cliente['telefono'].",";
+				$lista .= "BEGIN:VCARD\r\n";
+				$lista .= "VERSION:3.0\r\n";
 
-				if($cliente['skype'] != ""){
-					$lista .= "IM: SKYPE: ".$cliente['skype'].",\n";
-				}else{
-					$lista .= ",\n";
-				}
+				//elimina comas de los datos
+				$nombre = str_replace(',', '\,', $cliente['nombre']);
+				$email = str_replace(',', '\,', $cliente['email']);
+				$telefono = str_replace(',', '\,', $cliente['telefono']);
+				$skype = str_replace(',', '\,', $cliente['skype']);
+				$registro = str_replace(',', '\,', $cliente['registro']);
+				$imagen = $_SESSION['home'].'/'.$cliente['imagen'];
+				$imagenDatos = pathinfo($imagen);
+
+				$lista .= "N:$nombre;;;\r\n";
+				$lista .= "FN:$nombre\r\n";
+				$lista .= "EMAIL;type=INTERNET;type=WORK;type=pref:$email\r\n";
+				$lista .= "TEL;type=WORK;type=pref:$telefono\r\n";
+				$lista .= "X-SKYPE:$skype\r\n";
+				$lista .= "PHOTO;VALUE=URL;TYPE=".$imagenDatos['extension'].":$imagen\r\n";
+
+				$lista .= "CATEGORIES:Work,Escala Matriz\r\n";
+				$lista .= "NOTE:Registro\: $registro\r\n";
+
+				$lista .= "END:VCARD\r\n";
 			}
-
-			$lista .="\r";
-
-		}else{
-			$lista = "No hay clientes.";
 		}
 
 		echo $lista;
 
-		header("Content-type: text/csv");
+		header("Content-type: text/x-vcard; charset=utf-8");
 		header("Pragma: no-cache");
 		header("Expires: 0");
 
 		//nombre lleva la fecha de la generacion
 		$nombre = "ClientesMatriz".date('d_m_Y-H_m_s');
-		header("Content-disposition: attachment; filename=".$nombre.".csv");
-
+		header("Content-disposition: attachment; filename=".$nombre.".vcf");
+		
 	}
 
 	/**
@@ -644,8 +671,4 @@ class Exportar{
 
 }
 
-
 ?>
-
-</body>
-</html>
