@@ -188,7 +188,7 @@ function ComponerProyecto($id){
 		$lista .= DatosRegistrados($datos);
 				   
 		$lista .= '<div class="datos-botones">
-					<button type="button" onClick="$componer.Guardar();" >Migrar</button>
+					<!-- <button type="button" onClick="$componer.Guardar();" >Migrar</button> -->
 				  </div>';
 
 	}else{
