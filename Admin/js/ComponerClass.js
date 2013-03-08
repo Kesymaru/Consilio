@@ -66,8 +66,7 @@ $.extend(ComponerClass.prototype, {
 					}
 					
 					//crea el menu contextual
-					//xxxxxxxxxxxxxxxxxxx
-					//clase.Menu( $(this).attr("id") );
+					clase.Menu( $(this).attr("id") );
 				});
 
 			},

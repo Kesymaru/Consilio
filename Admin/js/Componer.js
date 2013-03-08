@@ -109,10 +109,9 @@ function SeleccionaCategoriaComponer(hijo){
 /**
  * CARGA EL CONTEXT MENU DE LA CATEGORIA SELECCIONADA
  * @param id -> id de la categoria seleccionada
- * xxxxxxxxxxxxxxxxx
  */
 function MenuComponerCategoria(id){
-	/*$.contextMenu({
+	$.contextMenu({
         selector: '#'+id, 
         callback: function(key, options) {
             var m = key;
@@ -121,7 +120,7 @@ function MenuComponerCategoria(id){
         items: {
         	"incluir": {name: "Incluir Selecciones", icon: "add", accesskey: "i"}
         }
-    });*/
+    });
 }
 
 /**
