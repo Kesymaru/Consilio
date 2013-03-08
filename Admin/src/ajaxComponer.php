@@ -187,9 +187,9 @@ function ComponerProyecto($id){
 
 		$lista .= DatosRegistrados($datos);
 				   
-		$lista .= '<div class="datos-botones">
+		/*$lista .= '<div class="datos-botones">
 					<button type="button" onClick="$componer.Guardar();" >Migrar</button>
-				  </div>';
+				  </div>';*/
 
 	}else{
 		$lista = '<div id="proyectos" class="tipos">
@@ -211,7 +211,7 @@ function ComponerProyecto($id){
 /**
 * COMPONE LAS CATEGORIAS INCLUIDAS REGISTRADAS
 * @param array $datos -> array[][] con los id de las categorias
-*/
+*//*
 function DatosRegistrados($datos){
 	$registros = new Registros();
 	$lista = "";
@@ -248,7 +248,7 @@ function DatosRegistrados($datos){
 
 		return $lista;
 	}
-}/*
+}*/
 //arreglo
 function DatosRegistrados($datos){
 	$registros = new Registros();
@@ -294,7 +294,7 @@ function DatosRegistrados($datos){
 
 		return $lista;
 	}
-}*/
+}
 
 /**
 * COMPONE EL CAMINO DE UNA CATEGORIA
