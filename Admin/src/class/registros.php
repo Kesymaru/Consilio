@@ -40,20 +40,18 @@ class Registros{
 	/**
 	 * CREA NUEVO REGISTRO
 	 * @param int $proyecto -> id del proyecto
-	 * @param array $registro -> datos de los registros
 	 * @param string $fecha -> fecha de creacion del proyecto
 	 * @return boolean true -> si se crea el nuevo registro
 	 * @return boolean false -> si falla
 	 */
-	public function NewRegistro($proyecto, $registro, $fecha){
+	public function NewRegistro($proyecto, $fecha){
 		$base = new Database();
 
 		$proyecto = mysql_real_escape_string($proyecto);
-		$registro = serialize($registro);
 		$fecha = mysql_real_escape_string($fecha);
 
 		$query = "INSERT INTO registros (proyecto, registro, fecha_creacion, fecha_actualizacion) VALUES";
-		$query .= " ('".$proyecto."', '".$registro."', '".$fecha."', NOW() )";
+		$query .= " ('".$proyecto."', '', '".$fecha."', NOW() )";
 
 		if($base->Insert($query)){
 			return true;
@@ -71,7 +69,14 @@ class Registros{
 		$base = new Database();
 
 		$id = mysql_real_escape_string($id);
-		$registro = serialize($registro);
+
+		if( $registro != '' && is_array($registro) && !empty($registro)){
+			//$registro = array_unique($registro);
+			$registro = serialize($registro);
+		}else{
+			$registro = '';
+		}
+		
 
 		$query = "UPDATE registros SET registro = '".$registro."', fecha_actualizacion = NOW() WHERE proyecto = '".$id."'";
 

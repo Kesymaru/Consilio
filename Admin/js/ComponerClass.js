@@ -42,6 +42,7 @@ $.extend(ComponerClass.prototype, {
 	*/
 	ComponerProyecto: function(){
 		var queryParams = {"func" : "ComponerProyecto", "id" : this.proyecto};
+		var clase = this;
 
 		$.ajax({
 			data: queryParams,
@@ -51,6 +52,24 @@ $.extend(ComponerClass.prototype, {
 			},
 			success: function(response){
 				$("#content").html(response);
+				
+				console.log( $("#categoriasIncluidas li") );
+				//eventos
+				$("#categoriasIncluidas li").live("click", function(){
+					var id = $(this).attr('id');
+					console.log(id);
+
+					if( $("#"+id).hasClass('seleccionada') ){
+						$("#"+id).removeClass('seleccionada');
+					}else{
+						$("#"+id).addClass('seleccionada');						
+					}
+					
+					//crea el menu contextual
+					//xxxxxxxxxxxxxxxxxxx
+					//clase.Menu( $(this).attr("id") );
+				});
+
 			},
 			fail: function(){
 				notificaError("Error: Componer.js ComponerProyecto(), AJAX fail");
@@ -65,62 +84,102 @@ $.extend(ComponerClass.prototype, {
 	Incluir: function(){
 		var incluidas = [];
 		var clase = this;
+		var tiene = false;
 
-		$("#menu input:checkbox:checked").each(function(){
-		    incluidas.push( $(this).val() );
+		$("#menu .seleccionada").not('.padre').find('input:checkbox:checked').each(function(){
+		    tiene = true;
+		    var incluida = $(this).val();
+
+		    //si no esta incluida
+		    if( $("#in"+incluida ).length <= 0 ){
+		    	incluidas.push( incluida );
+		    }
 		});
 
 		console.log(incluidas);
 
-		var send = $.ajax({
-			data: {"func" : "IncluirCategorias", "proyecto": this.proyecto, "categorias[]" : incluidas},
-			async: false,
-			type: "post",
-			url: this.url,
-			success: function(response){
-				$("#categoriasIncluidas").append(response);
-				clase.Guardar();
-			}
-		});
+		//si hay
+		if( !jQuery.isEmptyObject(incluidas) ){
+			$.ajax({
+				data: {"func" : "IncluirCategorias", "proyecto": this.proyecto, "categorias[]" : incluidas},
+				type: "post",
+				url: this.url,
+				success: function(response){
+					
+					if( $(".nodata").length > 0 ){
+						
+						$(".nodata").fadeOut(function(){
+							$(this).remove();
+						});
+					}
 
-		console.log( send );
+					$("#categoriasIncluidas").append(response);
+					
+					//console.log('incluidas listas');
+					notifica("Categorias agregadas.");
+				}
+			}).done(function(){
+				
+				clase.Guardar();
+			});
+		}else{
+			if( tiene ){
+				notificaAtencion("Categoria(s) ya se encuentran incluidas.");
+			}else{
+				notificaAtencion("Por favor seleccione una categoria.");
+			}
+		}
 	},
 
 	/**
 	* GUARDA LA LISTA DE CATEGORIAS INCLUIDAS
 	*/
 	Guardar: function(){
+		//console.log('guardando');
+
 		var incluidasTemp = [];
 
-		$("#categoriasIncluidas li").each(function(){
+		$("#categoriasIncluidas li").not('.nodata').each(function(){
 			var path = [];
 			
-			var excluida = $(this).attr('id');
-			//console.log( excluida );
+			var incluida = $(this).attr('id');
 
-			$( "#"+excluida+' span').each(function(){
-				//console.log( $(this).attr('id') );
-				path.push( $(this).attr('id') );
+			$( "#"+incluida+' span').each(function(){
+				var sub = $(this).attr('id');
+				sub = sub.substring(4);
+
+				//console.log( sub );
+
+				path.push( sub );
 			});
 
-			path.push( excluida.substring(2) );
+			//console.log( incluida );
+			path.push( incluida.substring(2) );
 			incluidasTemp.push( path );
 
 		});
 
 		console.log(incluidasTemp);
+		this.incluidas = incluidasTemp;
 		
 		if( jQuery.isEmptyObject(incluidasTemp) ){
-			incluidasTemp = [''];
+			//vacio
+			var queryParams = {"func" : "ExcluirCategorias", "proyecto" : this.proyecto, "categorias" : ""};
+			
+			if( $(".nodata") ){
+				$("#categoriasIncluidas").append('<li class="nodata">No hay categorias incluidas</li>');
+			}
+
+		}else{
+			var queryParams = {"func" : "ExcluirCategorias", "proyecto" : this.proyecto, "categorias[]" : this.incluidas};
 		}
 
-		this.incluidas = incluidasTemp;
+		
 
 		//GUARDA LAS CATEGORIAS
 		var proyecto = $("#proyecto").val();
 		$.ajax({
-			data: {"func" : "ExcluirCategorias", "proyecto" : proyecto, "categorias[]" : this.incluidas},
-			async: false,
+			data: queryParams,
 			type: "post",
 			url: this.url,
 			success: function(response){
@@ -138,9 +197,50 @@ $.extend(ComponerClass.prototype, {
 	* ELIMINA LAS CATEGORIAS SELECCIONADAS
 	*/ 
 	Excluir: function(){
+		var clase = this;
 		$("#categoriasIncluidas .seleccionada").fadeOut(function(){
 			$(this).remove();
+			clase.Guardar();
 		});
+	},
+
+	/**
+	* COMPONE EL MENU DE UNA CATEGORIA INCLUIDA
+	* @param string id -> id de la categoria seleccionada
+	*/
+	Menu: function(id){
+		var clase = this;
+		$.contextMenu({
+	        selector: '#'+id, 
+	        callback: function(key, options) {
+	            var m = key;
+	            clase.EventosMenu(m, id);
+	        },
+	        items: {
+	        	//"excluir": {name: "Excluir", icon: "delete"},
+	        	"excluir": {name: "Excluir Selecciones", icon: "delete", accesskey: "x"},
+	            "normas": {name: "Seleccionar Normas", icon: "edit", accesskey: "s"},
+	        }
+	    });
+	},
+
+	/**
+	* MANAJA LOS EVENTOS DEL MENU CONTEXTUAL 
+	* @param string m -> evento seleccionado
+	* @param string id => id de la categoria
+	*/
+	EventosMenu: function(m, id){
+		console.log('evento menu'+m);
+
+		if(m == 'excluir'){
+			this.Excluir();
+		}else if(m == 'incluir'){
+			this.Incluir();
+		}else if(m == 'normas'){
+			id = id.substring(2);
+			//vista de normas
+			PreviewCategoriaNormas(id);
+		}
 	}
 
 });

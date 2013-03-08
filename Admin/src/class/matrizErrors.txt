@@ -130,3 +130,395 @@ src/ajaxClientes.php
 	JAVASCRIPT: 
 	March 7 2013 - 3:24 pm
  --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 8 2013 - 9:21 am
+ --------------------<>--------------------
+
+Error: ComponerClass.js Guardar().
+ 
+guardado
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 8 2013 - 9:44 am
+ --------------------<>--------------------
+
+Error: ComponerClass.js Guardar().
+ 
+guardado
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 8 2013 - 9:46 am
+ --------------------<>--------------------
+
+Error: ComponerClass.js Guardar().
+ 
+guardado
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 8 2013 - 9:47 am
+ --------------------<>--------------------
+
+Error: ComponerClass.js Guardar().
+ 
+guardado
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 8 2013 - 9:49 am
+ --------------------<>--------------------
+
+Error: ComponerClass.js Guardar().
+ 
+guardado
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 8 2013 - 9:49 am
+ --------------------<>--------------------
+
+Error: ComponerClass.js Guardar().
+ 
+guardado
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 8 2013 - 9:54 am
+ --------------------<>--------------------
+
+Error: ComponerClass.js Guardar().
+ 
+guardado
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 8 2013 - 9:54 am
+ --------------------<>--------------------
+
+Error: ComponerClass.js Guardar().
+ 
+guardado
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 8 2013 - 9:54 am
+ --------------------<>--------------------
+
+Error: ComponerClass.js Guardar().
+ 
+guardado
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 8 2013 - 9:54 am
+ --------------------<>--------------------
+
+Error: ComponerClass.js Guardar().
+ 
+guardado
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 8 2013 - 9:54 am
+ --------------------<>--------------------
+
+Error: ComponerClass.js Guardar().
+ 
+guardado
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 8 2013 - 9:54 am
+ --------------------<>--------------------
+
+Error: ComponerClass.js Guardar().
+ 
+guardado
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 8 2013 - 9:54 am
+ --------------------<>--------------------
+
+Error: ComponerClass.js Guardar().
+ 
+guardado
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 8 2013 - 9:55 am
+ --------------------<>--------------------
+
+Error: ComponerClass.js Guardar().
+ 
+
+
+<b>Notice</b>:  Undefined variable: registros in <b>C:\wamp\www\matrizescala\Admin\src\class\registros.php</b> on line <b>76</b>
+
+
+
+<b>Warning</b>:  array_unique() [<a href='function.array-unique'>function.array-unique</a>]: The argument should be an array in <b>C:\wamp\www\matrizescala\Admin\src\class\registros.php</b> on line <b>76</b>
+
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 8 2013 - 9:56 am
+ --------------------<>--------------------
+
+Error: ComponerClass.js Guardar().
+ 
+
+
+<b>Notice</b>:  Undefined variable: registros in <b>C:\wamp\www\matrizescala\Admin\src\class\registros.php</b> on line <b>76</b>
+
+
+
+<b>Warning</b>:  array_unique() [<a href='function.array-unique'>function.array-unique</a>]: The argument should be an array in <b>C:\wamp\www\matrizescala\Admin\src\class\registros.php</b> on line <b>76</b>
+
+
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 8 2013 - 9:56 am
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 8 2013 - 10:57 am
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 8 2013 - 11:33 am
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 8 2013 - 11:59 am
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 8 2013 - 12:29 pm
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 8 2013 - 2:16 pm
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 8 2013 - 3:09 pm
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 8 2013 - 3:12 pm
+ --------------------<>--------------------

@@ -4,55 +4,14 @@
 
 /**
  * COMPONER UN PROYECTO
- * @param id -> id del articulo ha componer
+ * @param int id -> id del articulo ha componer
  */
 function Componer(id){
-	/*$.contextMenu( 'destroy' );
-	
-	if( id == "" || id == undefined){
-		notificaError("Error: el proyecto para componer no es valido,<br/>Error: Componer.js Componer() id no valido.");
-		return;
-	}
-
-	//muestra el menu si no esta visible
-	if(!$("#menu").is(":visible")){
-		ActivaMenu();
-	}
-
-	//limpia content si este tiene algo
-	if($("#content").html() != ""){
-		$("#content").html("");
-	}*/
 
 	$componer.init(id);
 
-	//carga datos
-	//ComponerProyecto(id);
 	ComponerCategorias(id);
 
-}
-
-/**
- * CARGA LOS DATOS REGISTRADOS DEL PROYECTO
- * @param id -> id del proyecto
- */
-function ComponerProyecto(id){
-
-	var queryParams = {"func" : "ComponerProyecto", "id" : id};
-
-	$.ajax({
-		data: queryParams,
-		type: "post",
-		url: "src/ajaxComponer.php",
-		beforeSend: function(){
-		},
-		success: function(response){
-			$("#content").html(response);
-		},
-		fail: function(){
-			notificaError("Error: Componer.js ComponerProyecto(), AJAX fail");
-		}
-	});
 }
 
 /******************************* CATEGORIAS ****************************/
@@ -73,73 +32,11 @@ function ComponerCategorias(id){
 		},
 		success: function(response){
 			$("#menu").html(response);
-			FormularioComponerCategorias();
 		},
 		fail: function(){
 			notificaError("Error: Componer.js ComponerCategorias(), AJAX fail.");
 		}
 	});
-}
-
-/**
-* INCIALIZA EL FORMULARIO DE LAS CATEGORIAS
-*/
-function FormularioComponerCategorias(){
-	
-	/*var options = {
-		beforeSubmit: FormularioComponerCategoriasValidar,
-		beforeSend: function(){
-		},
-	    success: function(response) { 
-	    	$("#content").html(response);
-			if(response.length > 3){
-				notifica("Categorias Incluidas.");
-
-				//obtiene el id del proyecto en composicion
-				var id = $("#proyecto").val();
-				
-				//actualiza la vista del proyecto
-				ComponerProyecto(id);
-				$("#content").hide();
-				$("#content").fadeIn();
-
-			}else{
-				notificaError("Error: "+response);
-			}
-		},
-		fail: function(){
-			notificaError("Error: Componer.js FormularioComponerCategorias() AJAX fail");
-		}
-	}; 
-	$('#FormularioComponerCategorias').ajaxForm(options);
-	
-	//sortable
-	/*$( "#categoriasIncluidas" ).sortable({
-	    placeholder: "placeholder-sortable",
-	    tolerance: 'pointer',
-    	revert: true,
-	});*/
-}
-
-/**
-* VAIDA EL  FORMULARIOCOMPONERCATEGORIAS
-* @return true si es valido
-* @return false sino, ademas muestra notificacion
-*/
-function FormularioComponerCategoriasValidar(){
-	var total = 0;
-
-	//cuentas las categorias seleccionadas
-	$(".seleccionada").each(function(){
-		total++;
-	});
-
-	if(total == 0){
-		notificaAtencion("Seleccione alguna categoria");
-		return false;
-	}else{
-		return true;
-	}
 }
 
 /**
@@ -178,6 +75,7 @@ function HijosComponer(padre){
 			$("#categorias-componer").css('width', totalWidth); //aumenta el tamano del contenedor de categorias
 				
 			SeleccionaCategoriaComponer(padre);
+
 			if( $("#Padre"+padre).length ){
 				$("#menu").scrollTo( $("#Padre"+padre) , 700);				
 			}
@@ -211,44 +109,19 @@ function SeleccionaCategoriaComponer(hijo){
 /**
  * CARGA EL CONTEXT MENU DE LA CATEGORIA SELECCIONADA
  * @param id -> id de la categoria seleccionada
+ * xxxxxxxxxxxxxxxxx
  */
 function MenuComponerCategoria(id){
-	$.contextMenu({
+	/*$.contextMenu({
         selector: '#'+id, 
         callback: function(key, options) {
-            var m = "clicked: " + key;
-            //window.console && console.log(m) || alert(m); 
-            MenuComponer(m, id);
+            var m = key;
+            $componer.EventosMenu(m, id);
         },
         items: {
         	"incluir": {name: "Incluir Selecciones", icon: "add", accesskey: "i"}
         }
-    });
-}
-
-/**
- * MENEJA FUNCIONES DEL MENU DE COMPOSICION
- * @param m -> evento del click a seleccionar opcion
- * @param id -> id de la categoria
- */
-function MenuComponer(m, id){
-	//esxcluir selecciones
-	if(m == 'clicked: excluir'){
-		ExcluirCategorias();
-	}else if(m == 'clicked: incluir'){
-		GuardarCategorias();
-	}else if(m == 'clicked: normas'){
-		//vista de normas
-		PreviewCategoriaNormas(id);
-	}
-}
-
-/**
-* ENVIA FORMULARIO DE COMPONER CATEGORIAS PARA GUARDARLAS
-*/
-function GuardarCategorias(){
-	//$('#FormularioComponerCategorias').submit();
-	console.log('incluyendo categorias');
+    });*/
 }
 
 /**
@@ -335,88 +208,6 @@ function ComponerLimpiarCamino(padre){
 
 }
 
-/**************** CATEGORIAS INCLUIDAS *********************/
-
-/**
- * SELECCIONA UNA CATEGORIA 
- * @param $id -> id de la seleccion
- */
-function SelectCategoriaIncluida(id){
-
-	if($("#in"+id).hasClass('seleccionada')){
-		$("#in"+id).removeClass("seleccionada");
-	}else{
-		$("#in"+id).addClass("seleccionada");
-	}
-
-	MenuCategoriaIncluida(id);
-}
-
-/**
-* PONE CONTEXT MENU DE UNA CATEGORIA SELECCIONADA
-*/
-function MenuCategoriaIncluida(id){
-
-	$.contextMenu({
-        selector: '#in'+id, 
-        callback: function(key, options) {
-            var m = "clicked: " + key;
-            //window.console && console.log(m) || alert(m); 
-            MenuComponer(m, id);
-        },
-        items: {
-        	//"excluir": {name: "Excluir", icon: "delete"},
-        	"excluir": {name: "Excluir Selecciones", icon: "delete", accesskey: "x"},
-            "normas": {name: "Seleccionar Normas", icon: "edit", accesskey: "s"},
-        }
-    });
-}
-
-/**
-* EXCLUYE LAS CATEGORIAS SELECCIONADAS DE LAS INCLUIDAS
-*/
-function ExcluirCategorias(){
-	var incluidas = [];
-
-	$("#categoriasIncluidas li").not('.seleccionada').each(function(){
-		var path = [];
-			
-		var excluida = $(this).attr('id');
-
-		$( "#"+excluida+' span').each(function(){
-			//console.log( $(this).attr('id') );
-			path.push( $(this).attr('id') );
-		});
-
-		path.push( excluida.substring(2) );
-		incluidas.push( path );
-
-	});
-
-	//GUARDA LAS CATEGORIAS
-	var proyecto = $("#proyecto").val();
-	$.ajax({
-		data: {"func" : "ExcluirCategorias", "proyecto" : proyecto, "categorias[]" : incluidas},
-		async: false,
-		type: "post",
-		url: "src/ajaxComponer.php",
-		success: function(response){
-		console.log( response );
-
-			if( response.length <= 3 ){
-				//elimina las categorias de la lista
-				$("#categoriasIncluidas .seleccionada").fadeOut(function(){
-					$(this).remove();
-				});
-			}
-
-		},
-		fail: function(response){
-				notificaError("Error: ComponerClass.js Excluir() AJAX fail.<hr>"+response);
-		}
-	});
-}
-
 /*************************** PREVISUALIZACIONES  ********************/
 
 /**
@@ -425,7 +216,7 @@ function ExcluirCategorias(){
 */
 function PreviewCategoriaNormas(id){
 
-	var proyecto = $("#proyecto").val();
+	var proyecto = $componer.proyecto;
 	var queryParams = {"func" : "NormasIncluidas", "proyecto" : proyecto, "categoria" : id};
 	var alto = $("html").height() * 0.6;
 
