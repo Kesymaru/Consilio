@@ -64,8 +64,8 @@ if(isset($_POST['func'])){
 
 /**
 * MUESTRA LAS LISTA DE NORMAS INCLUIDAS DE UN CATEGORIA
-* @param $proyecto
-* @param $categoria
+* @param int $proyecto -> id del proyecto
+* @param int $categoria -> id de la categoria
 */
 function NormasIncluidas($proyecto, $categoria){
 	$registros = new Registros();
@@ -109,9 +109,9 @@ function NormasIncluidas($proyecto, $categoria){
 		foreach ($normas as $fila => $norma) {
 			
 			$nombre = $registros->getDatoNorma("nombre", $norma );
-
+			
 			//esta incluida
-			if( in_array($norma['id'], $incluidas) ){
+			if( in_array($norma, $incluidas) ){
 				$lista .= '<li class="seleccionada" id="'.$norma.'">
 							<input checked type="checkbox" id="norma'.$norma.'" name="normas[]" value="'. $norma .'" />
 							'.$nombre.'

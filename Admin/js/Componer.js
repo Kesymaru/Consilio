@@ -348,13 +348,16 @@ function RegistrarNormasIncluidas(){
 }
 
 /**
- * 
+ * ULTIMA NORMA SELECCIONADA
  */
 function lastNorma(){
 	var norma = $("#panelNormas ul .last").attr("id");
 	ArticulosIncluidos(norma)
 }
 
+/**
+* ULTIMO ARTICULO SELECCIONADO
+*/
 function lastArticulo(){
 	var articulo = $("#panelArticulos ul .last").attr("id");
 	PreviewArticuloDatos(articulo)
@@ -714,7 +717,7 @@ function Observacion(){
 		duration: 1500, 
 		queue: false,
 		complete: function(){
-			$("#NormasIncluidas, .preview-botones").hide();
+			//$("#NormasIncluidas, .preview-botones").hide();
 		}
 	});
 

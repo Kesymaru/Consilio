@@ -54,7 +54,6 @@ select{
 }
 
 button{
-	
 	padding: 2px;
 	
 	
@@ -134,6 +133,23 @@ button:hover{
 	    margin-left: 5%;
 	    margin-top: 18px;
 	}
+}
+
+.fullscreen{
+		-o-transition: all 3s ease-out;
+		-ms-transition: all 3s ease-out;
+		-moz-transition: all 3s ease-out;
+		-webkit-transition: all s ease-out;
+	transition: all 3s ease-out;
+
+	width: 100% !important;
+	height: 100% !important;
+	position: absolute !important;
+	top: 0 !important;
+}
+
+.fullscreen #solapa{
+	display: none !important;
 }
 
 .disclaim{
