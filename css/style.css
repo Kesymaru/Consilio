@@ -136,12 +136,11 @@ button:hover{
 }
 
 .fullscreen{
-		-o-transition: all 3s ease-out;
-		-ms-transition: all 3s ease-out;
-		-moz-transition: all 3s ease-out;
-		-webkit-transition: all s ease-out;
-	transition: all 3s ease-out;
 
+	overflow-x: hidden;
+}
+
+.fullscreen #content{
 	width: 100% !important;
 	height: 100% !important;
 	position: absolute !important;
@@ -1656,6 +1655,12 @@ button:hover{
 	bottom: 0;
 	color: #757374;
 	font-size: 14px;
+
+		-o-transition: all 0.7s ease-out;
+		-ms-transition: all 0.7s ease-out;
+		-moz-transition: all 0.7s ease-out;
+		-webkit-transition: all 0.7s ease-out;
+	transition: all 0.7s ease-out;
 }
 
 /**

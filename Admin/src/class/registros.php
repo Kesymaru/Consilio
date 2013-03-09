@@ -1381,7 +1381,7 @@ class Registros{
 	*/
 	public function getArticulos($norma){
 		$base = new Database();
-		$query = "SELECT * FROM articulos WHERE norma = ".$norma." AND borrado = 0 ORDER BY nombre";
+		$query = "SELECT * FROM articulos WHERE norma = ".$norma." AND borrado = 0 ORDER BY CAST(SUBSTRING(nombre,LOCATE(' ',nombre)+1) AS SIGNED) ";
 
 		$datos = $base->Select($query);
 
