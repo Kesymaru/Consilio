@@ -441,6 +441,10 @@ button:hover{
 	width: 100%;
 }
 
+#menu .mCSB_container{
+	margin-right: 0 !important;
+}
+
 #menu .categorias li{
 	list-style: none;
 	border: 0;
@@ -1616,7 +1620,7 @@ button:hover{
 }
 
 .box div{
-	width: 100%;
+	/*width: 100%;*/
 	text-align: left;
 	word-wrap: break-word;
 }
@@ -1624,10 +1628,20 @@ button:hover{
 .box .dato{
 	width: auto;
 	max-width: 100%;
-	margin: 10px 10px;
 	color: #757374 !important;
 	font-size: 15px !important;
 	text-align:justify !important;
+	overflow: hidden;
+
+	margin-bottom: 10px;
+	margin-left: 10px;
+	margin-right: 10px;
+
+	max-height: 200px;
+}
+
+.box .dato.mCustomScrollbar{
+	margin-right: 0px;
 }
 
 .dato ol{
@@ -1643,6 +1657,7 @@ button:hover{
 	padding-bottom: 5px;
 	border-bottom: 1px solid #dedede;
 	text-transform: uppercase;
+	width: 100%;
 }
 
 #datos-footer{

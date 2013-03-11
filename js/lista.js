@@ -24,6 +24,7 @@ $.extend(Categorias.prototype, {
 		this.subpanel = 'categorias';
 
 		$shortcuts.focus = 'panel';
+		var clase = this;
 
 		var queryParams = {"func" : "CategoriasRoot", "proyecto" : proyecto};
 
@@ -36,7 +37,21 @@ $.extend(Categorias.prototype, {
 			success: function(response){
 				
 				if(response.length > 0){
-					$("#menu").html(response);
+					$("#menu")
+						.html(response)
+						.mCustomScrollbar({
+							scrollButtons:{
+								enable:true
+							},
+							theme: "dark-thick"
+						});
+
+					$("#menu2").mCustomScrollbar({
+						scrollButtons:{
+							enable:true
+						},
+						theme: "dark-thick"
+					});
 					
 					$("#menu li").click(function(){
 						
@@ -44,10 +59,10 @@ $.extend(Categorias.prototype, {
 						$(this).addClass('root-selected');
 
 						if( !$("#menu2").is(":visible") ){
-							PanelMenus();
+							$animations.PanelMenus();
 						}
 
-						$listaCategorias.Categorias( $(this).attr('id') );
+						clase.Categorias( $(this).attr('id') );
 					});
 
 				}else{
@@ -79,7 +94,7 @@ $.extend(Categorias.prototype, {
 			$("#td-articulos").removeClass('panel-border-top');
 		}
 		if( $("#content").is(":visible") ){
-			PanelMenus();
+			$animations.PanelMenus()
 		}
 	},
 
@@ -94,6 +109,8 @@ $.extend(Categorias.prototype, {
 		//resetea datos
 		this.supercategoria = padre;
 		this.margin = 0;
+
+		var clase = this;
 
 		var queryParams = {"func" : "Hijos", "proyecto" : this.proyecto, "padre" : padre};
 		$.ajax({
@@ -120,7 +137,9 @@ $.extend(Categorias.prototype, {
 					
 					$("#Padre"+padre+' li').addClass('hijo');
 
-					$listaCategorias.Mover();
+					//clase.Mover();
+										
+					$("#menu2").mCustomScrollbar("update");
 
 				}else{
 					notificaError("Error: "+response);
@@ -142,6 +161,8 @@ $.extend(Categorias.prototype, {
 
 		this.categoria = padre;
 
+		var clase = this;
+
 		var queryParams = {"func" : "TieneHijos", 'categoria' : padre};
 
 		$.ajax({
@@ -158,7 +179,8 @@ $.extend(Categorias.prototype, {
 					$("#td-articulos ul").fadeOut(function(){
 						$(this).remove();
 					});
-					$listaCategorias.Normas(padre);
+					clase.Normas(padre);
+					
 					return;
 				}else{
 					console.log('limpia');
@@ -185,6 +207,8 @@ $.extend(Categorias.prototype, {
 					if( $("#Padre"+padre).is(":visible") ){ //esconde
 						$("#Padre"+padre).slideUp();
 
+						$("#menu2").mCustomScrollbar("update");
+
 					}else if( $("#Padre"+padre).length <= 0 ){ //no se habia cargado, entonces carga
  
 						$("#sub"+padre).html(response)
@@ -194,7 +218,7 @@ $.extend(Categorias.prototype, {
 
 						//al dar clik
 						$("#Padre"+padre+" li span").click(function(){
-							$listaCategorias.Dropdown( $(this).attr('id') );
+							clase.Dropdown( $(this).attr('id') );
 						});
 						
 					}else{ //ya estaba cargado, muestra
@@ -203,6 +227,8 @@ $.extend(Categorias.prototype, {
 
 					$("#td-categorias li").removeClass('seleccionada');
 					$("#"+padre).closest('li').addClass('seleccionada');
+
+					$("#menu2").mCustomScrollbar("update");
 				}else{
 					notificaError("Error: "+response);
 				}
@@ -223,6 +249,8 @@ $.extend(Categorias.prototype, {
 		$("#panel-normas")
 		.addClass("panel-activo")
 		.html('Normas').hide().fadeIn();
+
+		var clase = this;
 
 		var queryParams = {"func" : "Normas", "id" : categoria, "proyecto" : this.proyecto};
 
@@ -250,13 +278,15 @@ $.extend(Categorias.prototype, {
 							$(this)
 								.addClass('seleccionada');
 
-							$listaCategorias.Articulo( $(this).attr('id') );
+							clase.Articulo( $(this).attr('id') );
 						}
 						
 					});
 
 					$("#td-categorias li").removeClass('seleccionada');
 					$("#"+categoria).closest('li').addClass('seleccionada');
+
+					$("#menu2").mCustomScrollbar("update");
 				}else{
 					notificaError("Error: "+response);
 				}
@@ -273,6 +303,8 @@ $.extend(Categorias.prototype, {
 	Articulo: function(norma){
 		this.subpanel = 'articulos';
 		this.norma = norma;
+
+		var clase = this;
 
 		$("#panel-articulos")
 			.addClass("panel-activo")
@@ -301,10 +333,12 @@ $.extend(Categorias.prototype, {
 							$(this)
 								.addClass('seleccionada');
 
-							$listaCategorias.Datos( $(this).attr('id') );
+							clase.Datos( $(this).attr('id') );
 						}
 
 					});
+
+					$("#menu2").mCustomScrollbar("update");
 
 				}else{
 					notificaError("Error: "+response);
@@ -337,16 +371,14 @@ $.extend(Categorias.prototype, {
 				if(response.length > 0){
 					
 					$("#content").html(response);
-					//$("#datos-articulo").hide()
-					//$("#datos-articulo").fadeIn();
-					
-					//Menu2();
 					
 					Editor('comentario');
 
 					$shortcuts.focus = 'datos';
 
-					PanelMenus();
+					//se encarga de animar y cargar el scroll
+					$animations.PanelMenus();
+
 				}else{
 					notificaError("Error: "+response);
 				}
@@ -362,14 +394,14 @@ $.extend(Categorias.prototype, {
 	MostrarDatos: function(){
 		if( this.articulo != undefined && this.articulo != '' ){
 			$shortcuts.focus = 'datos';
-			PanelMenus();
+			$animations.PanelMenus();
 		}
 	},
 
 	OcultarDatos: function(){
 		if( this.articulo != undefined && this.articulo != '' ){
 			$shortcuts.focus = 'panel';
-			PanelMenus();
+			$animations.PanelMenus();
 		}
 	}
 
@@ -420,3 +452,158 @@ $.extend(ShortCuts.prototype, {
 });
 
 $shortcuts = new ShortCuts();
+
+
+/******************************* CLASE PARA ANIMACIONES **********************/ 
+Animations = function(){};
+$.extend(Animations.prototype, {
+	
+	//Muestra y oculta el panel con el menu, menu2 y el contenido
+	PanelMenus: function(){
+		if( $('#content').is(":visible") ){
+			this.MostrarPanel();
+		}else{
+			this.OcultraPanel();
+		}
+	},
+
+	/**
+	* MUESTRA EL PANEL Y OCULTA EL CONETENIDO
+	*/
+	MostrarPanel: function(){
+		$shortcuts.lock = 'true';
+
+			$("#content").css({
+				'margin' : '0',
+				'display' : 'inline-block'
+			});
+
+			$("#datos-articulo, #datos-footer, .mis-proyectos, .titulo").fadeOut();
+
+			if( !$("#menu").is(":visible") ){
+				$("#menu").css({
+					'display' : 'block',
+					width : '0px',
+				});
+
+				$("#menu").animate({
+					opacity: 1,
+					//width: 'toggle'
+					width: "10%"
+				}, { 
+					duration: 1500, 
+					queue: false,
+					complete: function(){
+						$("#menu").css({
+							'display' : 'block',
+							'float' : 'left',
+							'min-width' : '50px',
+						});
+					}
+				});
+			}
+
+			$("#menu2").css({
+				'display' : 'inline-block',
+				width : '0px',
+				'margin': '0px'
+			});
+
+			$("#menu2").animate({
+		       width: '80%'
+		    }, { 
+		    	duration: 1500, 
+		    	queue: false,
+		    	complete: function(){
+		    		$("#menu2").css({
+						"display" : "inline-block",
+						"opacity" : "1"
+					});
+					$shortcuts.lock = 'false';
+		    	}
+		    });
+
+		    $("#content").animate({
+		       width: '0%'
+		    }, { 
+		    	duration: 1400, 
+		    	queue: false,
+		    	complete: function(){
+		    		$("#content").css({
+						"display" : "none",
+					});
+		    	}
+		    });
+	},
+
+	/**
+	* OCULTA EL PANEL Y MUESTRA EL CONTENIDO
+	*/
+	OcultraPanel: function(){
+		var clase = this;
+		$shortcuts.lock = 'true';
+
+			$("#content").css({
+				'margin' : '0',
+				'display' : 'inline-block'
+			});
+			
+			$("#menu2").animate({
+		       width: '0%'
+		    }, { 
+		    	duration: 1400, 
+		    	queue: false,
+		    	complete: function(){
+		    		$("#menu2").css({
+						"display" : "none",
+					});
+		    	}
+		    });
+
+		    $("#content").animate({
+		       width: '80%'
+		    }, { 
+		    	duration: 1500, 
+		    	queue: false,
+		    	complete: function(){
+		    		$("#content").css({
+						"display" : "inline-block",
+						'height' : 'auto',
+					});
+					$("#datos-articulo, #datos-footer, .titulo, .datos").fadeIn();
+					
+					clase.CargarScroll();
+
+					$shortcuts.lock = 'false';
+		    	}
+		    });
+	},
+
+	/**
+	* CARGA EL SCROLL DEL PANEL DE DATOS
+	*/
+	CargarScroll: function(){
+
+		$('.dato').each(function(){
+
+			var element = $( "#"+ $(this).attr('id') );
+
+			console.log( element.prop('scrollHeight') );
+							
+			if( 200 <= element.prop('scrollHeight') ){
+
+				element.mCustomScrollbar({
+					scrollButtons:{
+						enable:true
+					},
+					theme: "dark-thick"
+				});
+
+			}else{
+				element.css("overflow","hidden");
+			}
+		});
+	}
+});
+
+$animations = new Animations();

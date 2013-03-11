@@ -351,11 +351,11 @@ function DatosArticulo($proyecto, $categoria, $norma, $id){
 		//agrega la observacion
 		if( !empty($observacion) ){
 			$observacionTitulo = $registros->getTipoObservacion($observacion[0]['tipo']);
-			$lista .= '<div class="box" >
+			$lista .= '<div class="box" id="box-observacion" >
 							<div class="dato-titulo">
 								'.$observacionTitulo.'
 							</div>
-							<div class="dato">
+							<div class="dato" id="box-dato-observacion">
 								'.base64_decode($observacion[0]['observacion']).'
 							</div>
 						</div>';
@@ -375,7 +375,7 @@ function DatosArticulo($proyecto, $categoria, $norma, $id){
 						continue;
 					}
 
-					$lista .= '<div class="box" >
+					$lista .= '<div class="box" id="box-'.$dato.'">
 									<div class="dato-titulo">';
 					
 					if( $dato == 'permisos'){
@@ -386,7 +386,7 @@ function DatosArticulo($proyecto, $categoria, $norma, $id){
 
 					$lista .= '
 									</div>
-									<div class="dato">
+									<div class="dato" id="box-dato-'.$dato.'">
 										'.base64_decode($valor).'
 									</div>
 						   		</div>';
@@ -399,11 +399,11 @@ function DatosArticulo($proyecto, $categoria, $norma, $id){
 					$nombres = Entidades($entidades);
 					
 					if(!empty($nombres)){
-						$lista .= '<div class="box">
+						$lista .= '<div class="box" id="box-'.$dato.'">
 										<div class="dato-titulo">
 											'.$dato.'
 										</div>
-									<div class="dato">';
+									<div class="dato" id="box-dato-'.$dato.'" >';
 
 						foreach ($nombres as $key => $nombre) {
 							$lista .= $nombre."<br/>";
@@ -430,7 +430,7 @@ function DatosArticulo($proyecto, $categoria, $norma, $id){
 		$archivos = $registros->getArchivosArticulo($articulo['id']);
 
 		if(!empty($archivos)){
-			$lista .= '<div class="box" >
+			$lista .= '<div class="box" id="box-archivos-adjuntos">
 								<div class="dato-titulo">
 									Adjuntos
 								</div>

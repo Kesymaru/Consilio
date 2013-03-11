@@ -35,6 +35,8 @@ $master = new Master();
 	<link rel="stylesheet" type="text/css" href="css/chosen.css">
 	<link rel="stylesheet" type="text/css" href="fancybox/jquery.fancybox.css">
 
+	<link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.css" />
+
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800italic,800,600,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
 
 
@@ -61,18 +63,17 @@ $master = new Master();
 	<script type="text/javascript" src="js/noty/layouts/center.js"></script>
 	<script type="text/javascript" src="js/noty/themes/default.js"></script>
 
+	<!--  scrollbar -->
+	<script type="text/javascript" src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+
 	<!-- matriz -->
-		<script type="text/javascript" src="js/Proyectos.js"></script>
-		<script type="text/javascript" src="js/lista.js"></script>
+	<script type="text/javascript" src="js/Proyectos.js"></script>
+	<script type="text/javascript" src="js/lista.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 
 	<!-- jquery plugins -->
-
 	<script type="text/javascript" src="js/jquery.cookie.js"></script>
-
 	<script type="text/javascript" src="js/jquery.scrollTo-min.js"></script>
-
-<!--	<script type="text/javascript" src="js/jquery.ui.timepicker.js"></script> -->
 	
 	<!-- plugin para editor -->
 	<script src="editor/ckeditor.js"></script>
