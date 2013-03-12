@@ -293,8 +293,10 @@ button:hover{
 .datos input[type="text"],
 .datos input[type="number"],
 .datos input[type="tel"],
-.datos input[type="email"]{
-	min-width: 200px;
+.datos input[type="email"],
+.datos select{
+	min-width: 250px;
+	max-width: 250px;
 }
 
 .datos input[type="file"]{

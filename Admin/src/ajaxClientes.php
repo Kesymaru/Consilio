@@ -136,7 +136,7 @@ function EditarCliente($id){
 					  			<td>
 					  				<input type="text" id="usuario" title="Usuario Del Nuevo Cliente" name="usuario" placeholder="Usuario" class="validate[required]" value="'.$datos[0]['usuario'].'" />
 					  			</td>
-					  			<td rowspan="6" class="td-user-image">
+					  			<td rowspan="7" class="td-user-image">
 					  				<img id="imagen-usuario" src="'.$datos[0]['imagen'].'" title="Imagen Del Cliente"><br/>					  				
 					  			</td>
 					  		</tr>
@@ -164,6 +164,15 @@ function EditarCliente($id){
 					  				<input type="email" id="email" name="email" title="Email Del Cliente" placeholder="Email" value="'.$datos[0]['email'].'" class="validate[required, custom[email]]" />
 					  			</td>
 					  		</tr>
+					  		<tr>
+					  			<td>
+					  				Pais
+					  			</td>
+					  			<td>
+					  				'.PaisSelected($datos[0]['pais']).'
+					  			</td>
+					  		</tr>
+					  		
 					  		<tr>
 					  			<td>
 					  				Registro
@@ -231,7 +240,7 @@ function NuevoCliente(){
 					  			<td>
 					  				<input type="text" id="usuario" title="Usuario Del Nuevo Cliente" name="usuario" placeholder="Usuario" class="validate[required, funcCall[ClienteUsuario] ]" />
 					  			</td>
-					  			<td rowspan="6" class="td-user-image">
+					  			<td rowspan="7" class="td-user-image">
 					  				<img id="imagen-usuario" src="images/es.png" title="Imagen Del Nuevo Cliente">
 					  			</td>
 					  		</tr>
@@ -257,6 +266,14 @@ function NuevoCliente(){
 					  			</td>
 					  			<td>
 					  				<input type="email" id="email" name="email" title="Email Del Nuevo Cliente" placeholder="Email" class="validate[required, custom[email]]" />
+					  			</td>
+					  		</tr>
+					  		<tr>
+					  			<td>
+					  				Pais
+					  			</td>
+					  			<td>
+					  				'. Paises() .'
 					  			</td>
 					  		</tr>
 					  		<tr>
@@ -301,6 +318,77 @@ function NuevoCliente(){
 }
 
 /**
+* COMPONE UN SELECT CON LOS PAISES DISPONIBLES
+* @return string $lista
+*/
+function Paises(){
+	$cliente = new Cliente();
+
+	$paisesDatos = $cliente->getPaises();
+
+	$lista = '';
+
+	if( !empty($paisesDatos) ){
+		$lista .= '<select name="pais" id="pais">';
+
+		foreach ($paisesDatos as $key => $pais) {
+			
+			if( $pais['id'] == 51 ){
+				$lista .= '<option selected value="'.$pais['id'].'">
+							'.$pais['Name'].'
+						   </option>';
+			}else{
+				$lista .= '<option value="'.$pais['id'].'">
+							'.$pais['Name'].'
+						   </option>';
+			}
+		}
+
+		$lista .= '</select>';
+	}else{
+		$lista .= 'Error: no se pudo obtener la informacion del pais';
+	}
+
+	return $lista;
+}
+
+/**
+* COMPONE SELECT CON PAIS SELECCIONADO
+* @param int $selected  id del pais seleccionado
+* @return string $lista
+*/
+function PaisSelected($selected){
+	$cliente = new Cliente();
+
+	$paisesDatos = $cliente->getPaises();
+
+	$lista = '';
+
+	if( !empty($paisesDatos) ){
+		$lista .= '<select name="pais" id="pais">';
+
+		foreach ($paisesDatos as $key => $pais) {
+			
+			if( $pais['id'] == $selected ){
+				$lista .= '<option selected value="'.$pais['id'].'">
+							'.$pais['Name'].'
+						   </option>';
+			}else{
+				$lista .= '<option value="'.$pais['id'].'">
+							'.$pais['Name'].'
+						   </option>';
+			}
+		}
+
+		$lista .= '</select>';
+	}else{
+		$lista .= 'Error: no se pudo obtener la informacion del pais';
+	}
+
+	return $lista;
+}
+
+/**
 * ACTUALIZA UN CLIENTE EDITADO
 * @param $id -> id del cliente a actualizar
 */
@@ -326,7 +414,7 @@ function ActualizarCliente($id){
 		}
 
 		//update sin cambio de imagen
-		if( !$cliente->UpdateCliente($id, $_POST['nombre'], $_POST['email'], $_POST['registro'], $_POST['telefono'], $_POST['skype'], $_POST['usuario'], $contrasena )){
+		if( !$cliente->UpdateCliente($id, $_POST['nombre'], $_POST['email'], $_POST['pais'], $_POST['registro'], $_POST['telefono'], $_POST['skype'], $_POST['usuario'], $contrasena )){
 			echo "Error: No se pudo actuaizar los datos del cliente.";
 		}
 
@@ -351,7 +439,7 @@ function RegistrarCLiente(){
 		}
 
 		//update sin cambio de imagen
-		if(!$cliente->NewCliente($_POST['nombre'], $_POST['email'], $_POST['registro'], $_POST['telefono'], $_POST['skype'], $imagen, $_POST['contrasena'], $_POST['usuario'] )){
+		if(!$cliente->NewCliente($_POST['nombre'], $_POST['email'], $_POST['pais'], $_POST['registro'], $_POST['telefono'], $_POST['skype'], $imagen, $_POST['contrasena'], $_POST['usuario'] )){
 			echo "Error: ajaxClientes.php RegistrarCliente() No se pudo crear el nuevo cliente.";
 		}
 

@@ -13,9 +13,9 @@ require_once("../html2pdf.class.php");
 
 $exportar = new Exportar();
 
-if(isset($_GET['id']) && isset($_GET['tipo'])){
+if( isset($_GET['id']) && isset($_GET['tipo'])){
 	$tipo = $_GET['tipo'];
-
+	
 	if($tipo == 'excel'){
 		$exportar->ExportarExcel($_GET['id']);
 
@@ -49,7 +49,7 @@ class Exportar{
 	private $nombreProyecto = '';
 	private $registros = array();
 	private $superCategorias = array();
-	private $subcategorias = array();
+	private $categorias = array();
 
 	private $colspanA = 6;
 	private $colspanB = 3;
@@ -115,15 +115,30 @@ class Exportar{
 				$telefono = str_replace(',', '\,', $cliente['telefono']);
 				$skype = str_replace(',', '\,', $cliente['skype']);
 				$registro = str_replace(',', '\,', $cliente['registro']);
-				$imagen = $_SESSION['home'].'/'.$cliente['imagen'];
-				$imagenDatos = pathinfo($imagen);
+				$imagenDatos = pathinfo($_SESSION['home'].'/'.$cliente['imagen']);
+
+				if( $cliente['pais'] != 0 ){
+					$query = "SELECT * FROM country WHERE id = '".$cliente['pais']."'";
+					$paisDatos = $base->Select( $query );
+					$pais = str_replace(',', '\,', $paisDatos[0]['Name']);
+				}
 
 				$lista .= "N:$nombre;;;\r\n";
 				$lista .= "FN:$nombre\r\n";
 				$lista .= "EMAIL;type=INTERNET;type=WORK;type=pref:$email\r\n";
 				$lista .= "TEL;type=WORK;type=pref:$telefono\r\n";
+
+				if( $cliente['pais'] != 0 ){
+					$lista .= "ADR;TYPE=WORK:;$pais\r\n";
+				}
+				
 				$lista .= "X-SKYPE:$skype\r\n";
-				$lista .= "PHOTO;VALUE=URL;TYPE=".$imagenDatos['extension'].":$imagen\r\n";
+				
+				$imagenBinaria = $this->ImagenBinaria( $cliente['imagen'] );
+				
+				//$lista .= "PHOTO;VALUE=URL;TYPE=".$imagenDatos['extension'].":$imagen\r\n";
+				
+				$lista .= "PHOTO;ENCODING=b;TYPE=".$imagenDatos['extension'].":$imagenBinaria\r\n";
 
 				$lista .= "CATEGORIES:Work,Escala Matriz\r\n";
 				$lista .= "NOTE:Registro\: $registro\r\n";
@@ -145,13 +160,39 @@ class Exportar{
 	}
 
 	/**
+	* COMBIERTE UNA IMAGEN EN BINARIA
+	* @param string $imagen -> url de la imagen
+	* @return string $binario -> codigo binario de la imagen
+	*/
+	private function ImagenBinaria($imagen){
+		//echo $imagen;
+		$imagen = '../../'.$imagen;
+
+		if( !file_exists($imagen) ){
+			$imagen = '../../images/es.png';
+		}
+
+		//$imagen = '../../images/es.png';
+		$fd = fopen ( $imagen, 'rb' );
+
+		$size = filesize ( $imagen );
+
+		$codigo = fread ($fd, $size);
+
+		fclose ($fd);
+
+		$binario = base64_encode($codigo);
+		return $binario;
+	}
+
+	/**
 	* EXPORTA EL INFORME CREADO
 	* @param $proyecto -> id del proyecto ha ser exportado
 	*/
 	public function ExportarExcel($proyecto){
 		$this->proyecto = $proyecto;
 		$this->formato = 'excel';
-
+		$this->htmlHead();
 		$this->CrearInforme(); //compone el informe
 
 		header('Content-Description: File Transfer'); 
@@ -165,6 +206,7 @@ class Exportar{
 		header("Content-disposition: attachment; filename=".$nombreArchivo.".xls");
 
 		echo $this->informe;
+		$this->htmlHeadClose();
 	}
 
 	/**
@@ -184,19 +226,21 @@ class Exportar{
 	    ob_end_clean();
 	    $content = ob_get_clean();
 	    $content = $this->informe;
-	    
-	    try{
 
-	        $html2pdf = new HTML2PDF('P', 'A1', 'es');
-	        $html2pdf->pdf->SetDisplayMode('fullpage');
+	    try{
+	    	//($sens = 'P', $format = 'A4', $langue='en', $unicode=true, $encoding='UTF-8', $marges = array(5, 5, 5, 8))
+	        $html2pdf = new HTML2PDF('L', 'A2', 'es', true, 'UTF-8', array(1, 1, 1, 1) );
+        	$html2pdf->pdf->SetDisplayMode('fullpage');
 
 	        $html2pdf->pdf->SetAuthor('Matrices Consilio');
-			$html2pdf->pdf->SetTitle('Informe Proyecto');
-			$html2pdf->pdf->SetSubject('informe proyecto matriz');
+			$html2pdf->pdf->SetTitle('Informe '.$this->nombreProyecto);
+			$html2pdf->pdf->SetSubject('Informe proyecto matriz');
 			$html2pdf->pdf->SetKeywords('informe, proyecto, matriz');
 
-	        $html2pdf->writeHTML($content, isset($_GET['vuehtml']));
-	        $html2pdf->Output('exportar.pdf');
+			$nombreArchivo =  str_replace(' ', '_', $this->nombreProyecto);
+
+	        $html2pdf->writeHTML($content, isset($_GET['vuehtml']) );
+	        $html2pdf->Output($nombreArchivo.'.pdf', 'D');
 
 	    }catch(HTML2PDF_exception $e) {
 	        echo 'Ocurrio un error al generar el pdf.<br/>';
@@ -229,7 +273,7 @@ class Exportar{
 	* COMPONE EL INFORME
 	*/
 	private function CrearInforme(){
-		//obtiene toda la informacion del proyecto
+		//$this->htmlHead();
 		$registro = new Registros();
 		$this->registros = $registro->getRegistros( $this->proyecto );
 
@@ -238,10 +282,12 @@ class Exportar{
 		$this->Footer();
 
 		$this->Style();
+		//$this->htmlHeadClose();
 	}
 
 	/**
 	* COMPONE LA CABECERA DEL INFORME
+	* CON LOS DATOS DEL PROYECTO
 	*/ 
 	private function Cabezera(){
 		$proyectos = new Proyectos();
@@ -290,252 +336,171 @@ class Exportar{
 	*/
 	private function Cuerpo(){
 
-		/*echo '<pre>';
-		print_r($this->registros);
-		echo '</pre>';*/
+		//echo '<pre>'; print_r($this->registros); echo '</pre>';
 
-		//$this->informe .= '<tbody>';
+		if( $this->registros[0]['registro'] != '' ){
+			$categoriasRegistradas = unserialize( $this->registros[0]['registro'] );
+		}else{
+			echo 'proyecto vacio';
+			return;
+		}
 
-		$categorias = unserialize( $this->registros[0]['registro'] );
+		//echo '<pre>';print_r($categoriasRegistradas);echo '</pre>';
+		
+		$this->supercategorias = array();
+		$this->categorias = array();
 
-		//echo '<pre>	CATE';print_r($categorias);echo '</pre>';
-
-		$registros = new Registros();
-
-		foreach ($categorias as $key => $categoria) {
-
-			//obtiene los datos de las supercategorias
-			if ( $datosCategoria = $registros->getCategoriaPadreDatos($categoria) ){
-				$this->supercategorias[] = $categoria;
+		if( is_array( $categoriasRegistradas ) ){
+			foreach ($categoriasRegistradas as $key => $value) {
+				$path = explode(',', $value);
 				
-				$this->subcategorias = array_diff($categorias, $this->supercategorias);
-				$hijos = $registros->getTodosHijos($categoria);
+				//agrega las supercategorias
+				if( is_array($path) ){
+					$padre = $path[0];
+					$hijo = $path[ sizeof($path)-1 ];
 
-				//asegura que solo se muestren las subcategorias que tiene datos
-				$tieneDatos = false;
-
-				if( is_array($hijos) ){
-
-					foreach ($hijos as $key => $id) {
-						if( in_array($id, $categorias)){
-							$tieneDatos = true;
-						}
+					if( !in_array($padre, $this->supercategorias) ){
+						$this->supercategorias[] = $padre;
 					}
+					$this->categorias[ $padre ][] =  $hijo;
 				}
-				
-				//la categoria no tiene datos incluidos
-				if( !$tieneDatos ){
-					continue;
-				}
-
-				//super categoria
-				$this->informe .= '<tr>
-								   		<th colspan="'.$this->colspanA.'" class="SuperCategoria">
-								   			'.$datosCategoria[0]['nombre'].'
-								   		</th>
-								   </tr>
-								   <tr>
-								   		<td class="CategoriaCampo">
-								   			Numero
-								   		</td>
-								   		<td class="CategoriaCampo">
-								   			Norma
-								   		</td>
-								   		<td class="CategoriaCampo">
-											Requisito Legal
-								   		</td>
-								   		<td class="CategoriaCampo">
-											Resumen
-								   		</td>
-								   		<td class="CategoriaCampo">
-								   			Permiso o Documentación asocia
-								   		</td>
-								   		<td class="CategoriaCampo">
-								   			Entidad
-								   		</td>
-								   </tr>
-								   ';
-
-				//compone las categorias hijas
-				$this->Categorias($categoria);
-
-			}else{
-				continue;
 			}
-
+		}else{
+			return;
 		}
 
 		//echo '<pre>';print_r($this->supercategorias);echo '</pre>';
-		//echo '<hr>sub categorias<hr><pre>';print_r($this->subcategorias);echo '</pre>';
-
-		//cierra el body de la tabla
-		//$this->informe .= '</tbody>';
-		
-	}
-
-	/**
-	* COMPONE LOS DATOS DE LAS CATEGORIAS
-	* @param $padre -> super categoria id
-	*/
-	private function Categorias($padre){
-		$registros = new Registros();
-		$hijos = $registros->getTodosHijos($padre);
-
-		foreach ($this->subcategorias as $key => $id) {
-			
-			if( in_array($id, $hijos)){
-				//echo 'hojas -> '.$id.'<br/>';
-
-				$this->Normas($id);
-			}else{
-				continue;
-			}
-
-		}
-		
-	}
-
-	/**
-	* COMPONE LOS DATOS DE LAS NORMAS DE LA CATEGORIAS
-	* @param $categoria -> id de la categoria
-	*/
-	private function Normas($categoria){
+		//echo '<pre>';print_r($this->categorias);echo '</pre>';
 
 		$registros = new Registros();
-		
-		$nombreCategoria = $registros->getCategoriaDato('nombre',$categoria);
 
-		//$datosCategoria = $registros->getCategoria($categoria);
-		
-		$datosNormasTemp = $registros->getRegistrosNorma($this->proyecto, $categoria);
-		
-		$normas = unserialize( $datosNormasTemp[0]['registro'] );
+		foreach ($this->supercategorias as $key => $superCategoria) {
+			$datosSuperCategoria = $registros->getCategoriaPadreDatos($superCategoria);
 
-		if( !is_array($normas) ){
-			$normas = array();
-		}
+			//super categoria
+			$this->informe .= '<tr>
+								  	<th colspan="'.$this->colspanA.'" class="SuperCategoria">
+								   			'.$datosSuperCategoria[0]['nombre'].'
+								  	</th>
+							   </tr>
+								  ';
 
-		$this->informe .= '<tr>
-							 <td colspan="'.$this->colspanA.'" class="TituloCategoria">
-							 	'.$nombreCategoria.'
-							 </td>
-						   </tr>';
-
-		//echo '<table style="border: 1px solid #dedede;">';
-		foreach ($normas as $key => $id) {
-			$datosNorma = $registros->getDatosNorma($id);
-
-
-			$registrosArticulos = $registros->getRegistrosArticulos($this->proyecto, $categoria, $id);
-
-			$articulos = unserialize( $registrosArticulos[0]['registro'] );
-			//echo $datosArticulo[0]['registro'];
-			//echo '<pre>articulo ';print_r($articulos);echo'</pre>';
-
-			if( $this->formato == 'html' || $this->formato == 'excel' ){
-				//echo 'html';
+			foreach ($this->categorias[$superCategoria] as $fila => $categoria) {
 				
-				//formato excel o html soportan el rowspan
-				$this->informe .= '<tr>
-					 	<td rowspan="'.sizeof($articulos).'" class="TdNormaNumero">
-					 		'.$datosNorma[0]['numero'].'
-					 	</td>
-					 	<td rowspan="'.sizeof($articulos).'" class="TdNormaNorma">
-					 		'.$datosNorma[0]['nombre'].'
-					 	</td>';
+				if( $datosCategoria = $registros->getCategoria($categoria) ){
+					
+					$this->informe .= '<tr>
+											<td colspan="'.$this->colspanA.'" class="TituloCategoria">
+							 					'.$datosCategoria[0]['nombre'].'
+									   		</td>
+									   </tr>
+										<tr>
+										   	<td class="CategoriaCampo">
+										   		Numero
+										   	</td>
+										   	<td class="CategoriaCampo">
+										   		Norma
+										   	</td>
+										   	<td class="CategoriaCampo">
+												Requisito Legal
+										   	</td>
+										   		<td class="CategoriaCampo">
+												Resumen
+										   	</td>
+										   	<td class="CategoriaCampo">
+										   		Permiso o Documentación asocia
+										   	</td>
+										   	<td class="CategoriaCampo">
+										   		Entidad
+										   	</td>
+										</tr>';
 
-				if( is_array($articulos) ){
+					//OBTIENE LAS NORMAS
+					$datosNormasTemp = $registros->getRegistrosNorma($this->proyecto, $categoria);
+		
+					$normas = unserialize( $datosNormasTemp[0]['registro'] );
 
-					foreach ($articulos as $f => $articulo) {
-						//echo $articulo.',';
+					if( is_array($normas) ){
+						//echo '<pre>';print_r($normas);echo '</pre>';
 
-						$datosArticulo = $registros->getArticulo($articulo);
-						$entidades = unserialize( $datosArticulo[0]['entidad'] );
+						foreach ($normas as $f => $norma) {
+							$nombreNorma = $registros->getDatoNorma("nombre", $norma);
+							$numeroNorma = $registros->getDatoNorma("numero", $norma);
 
-						//echo '<pre>datos articulo '.$articulo.'<hr> ';print_r($datosArticulo);echo'</pre>';
+							$articulosRegistrados = $registros->getRegistrosArticulos($this->proyecto, $categoria, $norma);
+							$articulos = unserialize($articulosRegistrados[0]['registro']);
 
-						$this->informe .= '<td class="TdDato">
-												<p class="NombreArticulo">'.$datosArticulo[0]['nombre'].'</p>
-												'.base64_decode($datosArticulo[0]['articulo']).'
-											 </td>
-											 <td class="TdDato">
-											 	'.base64_decode($datosArticulo[0]['resumen']).'
-											 </td>
-											 <td class="TdDato">
-											 	'.base64_decode($datosArticulo[0]['permisos']).'
-											 </td>
-											 <td class="TdDato">
-											 	'.$this->entidades($entidades).'
-											 </td>
-										   </tr>';
-					}
-				}else{
-					$this->informe .= '<td class="TdDatoVacio" colspan="4"> ------------------------- </td>';
+							if( is_array($articulos) ){
+								
+
+								$this->informe .= '<tr>
+														   <td rowspan="'.sizeof($articulos).'" class="TdNorma">
+														   		'.$numeroNorma.'
+														   	</td>
+														   	<td rowspan="'.sizeof($articulos).'" class="TdNorma">
+														   		'.$nombreNorma.'
+														   	</td>';
+
+								$centinela = 0;
+								
+								//compone los datos de los articulos de la categoria
+								foreach ($articulos as $fl => $articulo) {
+									if( $datosArticulo = $registros->getArticulo($articulo) ){
+										
+										if( $centinela > 0 ){
+											$this->informe .= '<tr>';
+										}
+
+										$entidades = unserialize( $datosArticulo[0]['entidad'] );
+
+										$this->informe .= '
+														   	<td class="TdDato">
+																'.base64_decode($datosArticulo[0]['articulo']).'
+														   	</td>
+														   	<td class="TdDato" >
+																'.base64_decode($datosArticulo[0]['resumen']).'
+														   	</td>
+														   	<td class="TdDato2" >
+														   		'.base64_decode($datosArticulo[0]['permisos']).'
+														   	</td>
+														   	<td class="TdDato2" >
+														   		'.$this->entidades($entidades).'
+														   	</td>
+														</tr>';
+										/*$this->informe .= '
+														   	<td class="TdDato" >
+																1111
+														   	</td>
+														   	<td class="TdDato" >
+																222
+														   	</td>
+														   	<td class="TdDato" >
+														   		333
+														   	</td>
+														   	<td class="TdDato" >
+														   		444
+														   	</td>
+														</tr>';*/
+
+										$centinela++;
+									}
+
+								} // end foreach para articulos
+								
+								//$this->informe .= '</tr>';
+								
+							}
+							
+						} // end foreach normas
+
+					} // end if
+
 				}
-			}else{
-				//echo '<pre><hr> ';print_r($articulos);echo'</pre>';
-				//echo 'pdf';
-				
-				if( is_array($articulos)){
 
-					//formato pdf no soporta el rowspan
-					foreach ($articulos as $key => $articulo) {
-
-						$datosArticulo = $registros->getArticulo($articulo);
-						$entidades = unserialize( $datosArticulo[0]['entidad'] );
-
-						$this->informe .= '<tr>
-										 	<td class="TdNormaNumero">
-										 		nnn '.$datosNorma[0]['numero'].'
-										 	</td>
-										 	<td class="TdNormaNorma">
-										 		nom '.$datosNorma[0]['nombre'].'
-										 	</td>';
-
-						$this->informe .= '<td class="TdDato">
-												<p class="NombreArticulo">'.$datosArticulo[0]['nombre'].'</p>
-												'.base64_decode($datosArticulo[0]['articulo']).'
-											 </td>
-											 <td class="TdDato">
-											 	'.base64_decode($datosArticulo[0]['resumen']).'
-											 </td>
-											 <td class="TdDato">
-											 	'.base64_decode($datosArticulo[0]['permisos']).'
-											 </td>
-											 <td class="TdDato">
-											 	'.$this->entidades($entidades).'
-											 </td>
-										   </tr>';
-					}
-				}
-
-			}
-
-			/*foreach ($articulos as $f => $articulo) {
-				//echo $articulo.',';
-
-				$datosArticulo = $registros->getArticulo($articulo);
-
-				//echo '<pre>datos articulo '.$articulo.'<hr> ';print_r($datosArticulo);echo'</pre>';
-
-				$this->informe .= '<td class="TdDato">
-										<p class="NombreArticulo">'.$datosArticulo[0]['nombre'].'</p>
-										'.base64_decode($datosArticulo[0]['articulo']).'
-									 </td>
-									 <td class="TdDato">
-									 	'.base64_decode($datosArticulo[0]['resumen']).'
-									 </td>
-									 <td class="TdDato">
-									 	'.base64_decode($datosArticulo[0]['permisos']).'
-									 </td>
-									 <td class="TdDato">
-									 	entidad
-									 </td>
-								   </tr>';
-			}*/
+			} // end foreach para categorias de una supercategoria
 
 		}
-
+		
 	}
 
 	/**
@@ -563,8 +528,7 @@ class Exportar{
 	private function Footer(){
 		$cliente = new Cliente();
 
-		//$imagen = $cliente->get 
-
+		//$this->informe .= '</table>';
 		$this->informe .= '<tr>
 						   		<td id="fo" colspan="'.$this->colspanC.'" class="TdFooterLeft">
 						   			<br/>
@@ -623,15 +587,25 @@ class Exportar{
 						   		</td>
 						   </tr>
 						   </table>';
-		//$this->informe .= '</table>';
 	}
 
 	/**
 	* APLICA EL TEMA DE COLORES AL INFORME
 	*/
 	private function Style(){
+
+		if( $this->formato == 'pdf'){
+			$tdNorma = 'style="background-color: #F4F4F4; border: 1px solid #757273; width: 5%;"';
+			$tdDato = 'style="background-color: #F4F4F4; border: 1px solid #757273; vertical-aling: top; padding: 0; width: 32.5%"';
+			$tdDato2 = 'style="background-color: #F4F4F4; border: 1px solid #757273; vertical-aling: top; padding: 0; width: 12.5%"';
+		}else{
+			$tdNorma = 'style="background-color: #F4F4F4; border: 1px solid #757273;"';
+			$tdDato = 'style="background-color: #F4F4F4; border: 1px solid #757273; vertical-aling: top; padding: 0;"';
+			$tdDato2 = 'style="background-color: #F4F4F4; border: 1px solid #757273; vertical-aling: top; padding: 0;"';
+		}
+
 		$tema = array(
-			'class="Informe"' => 'style="width: 100%; border-collapse: collapse; text-align: left;"',
+			'class="Informe"' => 'style="width: 100%; margin: 0 auto; border-collapse: collapse; text-align: left;"',
 
 			//titulo head
 			'class="InformeHead"' => 'style="background-color: #757273; color: #ffffff; text-align: center;"',
@@ -646,11 +620,10 @@ class Exportar{
 			'class="CategoriaCampo"' => 'style="background-color: #F68400; color: #ffffff; text-align: center; font-weight: bold;"',
 
 			//normas y articulos
-			'class="TdNormaNumero"' => 'style="background-color: #F4F4F4; border: solid 1px #757273;"',
-			'class="TdNormaNorma"' => 'style="background-color: #F4F4F4; border: solid 1px #757273;"',
 			'class="NombreArticulo"' => 'style="background-color: #F4F4F4; font-weight: bold; margin: 0; padding: 0;"',
-			'class="TdDato"' => 'style="background-color: #F4F4F4; border: 1px solid #757273; vertical-aling: top; padding: 0;"',
-			'class="TdDatoVacio"' => 'style="background-color: #F4F4F4; text-align: center; border: 1px solid #757273; vertical-aling: middle;"',
+			'class="TdNorma"' => $tdNorma,
+			'class="TdDato"' => $tdDato,
+			'class="TdDato2"' => $tdDato2,
 
 			//footer
 			'class="TdFooter"' => 'style="background-color: #BAB8B9; color: #000000; text-align: text; "',

@@ -76,15 +76,21 @@ class Cliente{
 
 	/**
 	 * ACTUALIZA DATOS DE UN CLIENTE
-	 * @param $id, $nombre, $registro, $email, $telefono, $skype
-	 * @param $usuario 
-	 * @param $contrasena -> no requerido, si cambia
+	 * @param int $id
+	 * @param string $nombre
+	 * @param string $mail 
+	 * @param int $pais -> id del pais
+	 * @param string $telefono -> telefono puede tener extenciones y codigos
+	 * @param strign $skype 
+	 * @param int $usuario -> nombre usuario
+	 * @param string $contrasena -> no requerido, si cambia, texto plano
 	 */
-	public function UpdateCliente($id, $nombre, $email, $registro, $telefono, $skype, $usuario, $contrasena ){
+	public function UpdateCliente($id, $nombre, $email, $pais, $registro, $telefono, $skype, $usuario, $contrasena ){
 		$base = new Database();
 		
 		$nombre = mysql_real_escape_string($nombre);
 		$email = mysql_real_escape_string($email);
+		$pais = mysql_real_escape_string($pais);
 		$registro = mysql_real_escape_string($registro);
 		$skype = mysql_real_escape_string($skype);
 		$usuario = mysql_real_escape_string($usuario);
@@ -92,11 +98,11 @@ class Cliente{
 		if($contrasena != ''){
 			$contrasena = $base->Encriptar($contrasena);
 
-			$query = "UPDATE clientes SET nombre = '".$nombre."', email = '".$email."', registro = '".$registro."', ";
+			$query = "UPDATE clientes SET nombre = '".$nombre."', email = '".$email."', pais = '".$pais."', registro = '".$registro."', ";
 			$query .= "telefono = '".$telefono."', skype = '".$skype."', usuario = '".$usuario."', contrasena = '".$contrasena."', fecha_actualizacion = NOW() WHERE id = ".$id;
 
 		}else{
-			$query = "UPDATE clientes SET nombre = '".$nombre."', email = '".$email."', registro = '".$registro."', ";
+			$query = "UPDATE clientes SET nombre = '".$nombre."', email = '".$email."', pais = '".$pais."', registro = '".$registro."', ";
 			$query .= "telefono = '".$telefono."', skype = '".$skype."', usuario = '".$usuario."', fecha_actualizacion = NOW() WHERE id = ".$id;
 		}
 
@@ -109,19 +115,21 @@ class Cliente{
 
 	/**
 	 * CREA UN NUEVO CLIENTE
-	 * @param $nombre
-	 * @param $email
-	 * @param $registro
-	 * @param $telefono
-	 * @param $skype
-	 * @param $imagen -> link de la imagen ya subida
-	 * @param $contrasena -> sin encriptar
+	 * @param string $nombre
+	 * @param string $email
+	 * @param int $pais
+	 * @param string $registro
+	 * @param string $telefono
+	 * @param string $skype
+	 * @param file $imagen -> link de la imagen ya subida
+	 * @param string $contrasena -> sin encriptar
 	 */
-	public function NewCliente($nombre, $email, $registro, $telefono, $skype, $imagen, $contrasena, $usuario){
+	public function NewCliente($nombre, $email, $pais, $registro, $telefono, $skype, $imagen, $contrasena, $usuario){
 		$base = new Database();
 		
 		$nombre = mysql_real_escape_string($nombre);
 		$email = mysql_real_escape_string($email);
+		$pais = mysql_real_escape_string($pais);
 		$registro = mysql_real_escape_string($registro);
 		$skype = mysql_real_escape_string($skype);
 		$contrasena = mysql_real_escape_string($contrasena);
@@ -129,8 +137,8 @@ class Cliente{
 
 		$contrasena = $base->Encriptar($contrasena);
 
-		$query = "INSERT INTO clientes (nombre, email, registro, telefono, skype, imagen, contrasena, usuario, fecha_creacion )";
-		$query .= " VALUES ('".$nombre."', '".$email."', '".$registro."', '".$telefono."', '".$skype."', '".$imagen."', '".$contrasena."', '".$usuario."', NOW() ) ";
+		$query = "INSERT INTO clientes (nombre, email, pais, registro, telefono, skype, imagen, contrasena, usuario, fecha_creacion )";
+		$query .= " VALUES ('".$nombre."', '".$email."', '".$pais."', '".$registro."', '".$telefono."', '".$skype."', '".$imagen."', '".$contrasena."', '".$usuario."', NOW() ) ";
 
 		if($base->Insert($query)){
 			return true;
@@ -332,6 +340,19 @@ class Cliente{
 		}else{
 			return false; //error no hay datos para el id del cliente
 		}
+	}
+
+	/**
+	* OBTIENE LOS PAISES
+	*/
+	public function getPaises(){
+		$base = new Database();
+
+		$query = "SELECT * FROM country";
+
+		$datos = $base->Select($query);
+
+		return $datos;
 	}
 
 }

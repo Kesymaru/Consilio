@@ -147,7 +147,7 @@ function ContextMenuProyecto(id){
             "componer": {name: "Componer Proyecto", icon: "edit", accesskey: "c"},
             "duplicar": {name: "Duplicar Proyecto", icon: "edit", accesskey: "d"},
             "sep2": "---------",
-            /*"fold1a": {
+            "fold1a": {
                 "name": "Exportar", 
                 "icon": "exportar",
                 accesskey: "x",
@@ -155,7 +155,7 @@ function ContextMenuProyecto(id){
 	                    "exportar-excel": {"name": "Excell" , "icon": "excel"},
 	                    "exportar-pdf": {"name": "PDF", "icon": "pdf"},
 	                }
-            	},*/
+            	},
             "fold2a": {
                 "name": "Enviar", 
                 "icon": "compartir",
@@ -186,7 +186,7 @@ function ContextMenuProyecto(id){
 /**
 * MANEJADOR DE LAS ACCIONES DEl PROYECTO
 * @param m -> evento seleccionado
-* @param id -> id del proyecto
+* @param int id -> id del proyecto
 */
 function MenuProyecto(m, id){
 
@@ -209,6 +209,14 @@ function MenuProyecto(m, id){
 	}
 	else if(m == "clicked: enviar-email"){
 		NotificarProyectoMail(id);
+	}
+	else if( m == "clicked: exportar-excel"){
+		top.location.href = 'src/class/exportar.php?id='+id+'&tipo=excel';
+		notificaAtencion("Asegurese de guardar el archivo en el disco duro.");
+	}
+	else if( m == "clicked: exportar-pdf"){
+		top.location.href = 'src/class/exportar.php?id='+id+'&tipo=pdf';
+		notificaAtencion("Asegurese de guardar el archivo en el disco duro.");
 	}
 }
 
