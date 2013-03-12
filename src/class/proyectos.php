@@ -22,6 +22,9 @@ class Proyectos{
 	*/
 	public function getProyectos($usuario){
 		$base = new Database();
+
+		$usuario = mysql_real_escape_string($usuario);
+
 		$query = "SELECT * FROM proyectos WHERE cliente = '".$usuario."' AND visible = '1' ORDER BY nombre";
 
 		$datos = $base->Select($query);
@@ -47,6 +50,28 @@ class Proyectos{
 
 		if(!empty($datos)){
 			 return $datos;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* OBTIENE UN PROYECTO DE UN USUARIO
+	* @param int $proyecto -> id del proyecto
+	* @param int #usuario -> id del usuario
+	* @return boolean true si existe el proyecto
+	* @return boolean false si no existe
+	*/
+	public function getProyectoUsuario($proyecto, $usuario){
+		$base = new Database();
+
+		$proyecto = mysql_real_escape_string($proyecto);
+		$usuario = mysql_real_escape_string($usuario);
+
+		echo $query = "SELECT * FROM proyectos WHERE id = '".$proyecto."' AND cliente = '".$usuario."'";
+
+		if ( $datos = $base->Select($query) ){
+			return true;
 		}else{
 			return false;
 		}

@@ -267,7 +267,7 @@ function Menu2(){
 
 /*
 * MUESTRA EL PANBEL DE MENUS CON ANIMACIONES
-*/
+*//*
 function PanelMenus(){
 			
 	if( $('#content').is(":visible") ){
@@ -371,7 +371,7 @@ function PanelMenus(){
 	    });
 
 	}
-}
+}*/
 
 /**
 * BUSQUEDA 

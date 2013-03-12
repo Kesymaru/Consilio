@@ -271,11 +271,11 @@ function Normas($proyecto, $id){
 		}
 		
 		if($conteo == 0){
-			$lista .= '<li>No hay normas</li>';
+			$lista .= '<div class="nodata">No hay normas</div>';
 		}
 
 	}else{
-		$lista .= '<li>No hay normas</li>';
+		$lista .= '<div class="nodata">No hay normas</div>';
 	}
 
 	//$lista .= '  </ul>';
@@ -309,10 +309,10 @@ function Articulos($proyecto, $categoria, $id){
 		}
 		
 		if($conteo == 0){
-			$lista .= '<li>No hay articulos</li>';
+			$lista .= '<div class="nodata">No hay articulos</div>';
 		}
 	}else{
-		$lista .= '<li>No hay articulos</li>';
+		$lista .= '<div class="nodata">No hay articulos</div>';
 	}
 
 	$lista .= '<ul>';

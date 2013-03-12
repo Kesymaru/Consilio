@@ -125,7 +125,7 @@ $master = new Master();
 
 		<div class="toolbar">
 			<?php
-			$master->Logo();
+				$master->Logo();
 			?>
 			<div id="toolbarMenu">
 				<div id="menuUsuario">
@@ -220,12 +220,20 @@ $master = new Master();
 					$master->Proyectos();
 			?>
 			<?php 
-			}else{
+			}else if( $master->proyectoValido($_GET['proyecto']) ){
 			?>
 				<script>
 					Proyecto(<?php echo $_GET['proyecto'];?>);
 				</script>
 				<?php
+			}else{
+			?>
+				<script>
+					notificaAtencion('Al parecer el proyecto no existe o no se encuentra disponible.');
+				</script>
+			<?php
+				//MUESTRA LOS PROYECTOS DEL CLIENTE
+				$master->Proyectos();
 			}
 			?>
 

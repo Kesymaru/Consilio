@@ -118,8 +118,9 @@ $.extend(Categorias.prototype, {
 			type: "post",
 			url: "src/ajaxProyectos.php",
 			success: function(response){
-				
-				if(response.length > 0){
+				console.log( response.length );
+
+				if( 3 < response.length ){
 					$("#panel-categorias")
 						.addClass("panel-activo")
 						.html('Categorias')
@@ -136,12 +137,23 @@ $.extend(Categorias.prototype, {
 					});
 					
 					$("#Padre"+padre+' li').addClass('hijo');
-
-					//clase.Mover();
-										
+															
 					$("#menu2").mCustomScrollbar("update");
 
-				}else{
+				}else if( response.length == 3 ){
+					var nodata = '<div class="nodata">No hay categorias</div>';
+
+					$("#panel-categorias")
+						.addClass("panel-activo")
+						.html('Categorias')
+						.hide()
+						.fadeIn();
+
+					$("#td-categorias")
+						.html(nodata)
+						
+
+				}else if( response.length < 3 ){
 					notificaError("Error: "+response);
 				}
 

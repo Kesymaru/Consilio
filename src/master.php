@@ -26,11 +26,12 @@ class Master{
 	public function Logo(){
 		$cliente = new Cliente();
 
-		$logo = $cliente->getClienteDato("imagen", $_SESSION['cliente_id']);
-		$logo = $_SESSION['datos'].$logo;
+		$datos = $cliente->getDatosCliente( $_SESSION['cliente_id'] );
+		$logo = $_SESSION['datos'].$datos[0]['imagen'];
 
 		echo '<div class="logoCliente">
-				<img id="logoCliente" src="'.$logo.'" />
+				<img title="'.$datos[0]['nombre'].'" id="logoCliente" src="'.$logo.'" />
+				<p>#'.$datos[0]['registro'].'</p>
 			</div>';
 	}
 
@@ -216,6 +217,22 @@ class Master{
 		$lista .= '</table>';
 
 		echo $lista;
+	}
+
+	/**
+	* VALIDA UN PROYECTO DE UN CLIENTE
+	* @param int $proyecto -> id del proyecto
+	* @return boolean true es valido
+	* @return boolean false no lo es
+	*/
+	public function proyectoValido($proyecto){
+		$proyectos = new Proyectos();
+
+		if( $proyectos->getProyectoUsuario($proyecto, $_SESSION['cliente_id']) ){
+			return true;
+		}else{
+			return false;
+		}
 	}
 }
 

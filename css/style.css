@@ -1021,14 +1021,15 @@ button:hover{
 .logoCliente{
 	margin-right: 25px;
 	display: inline-block;
-	vertical-align: middle;
-	height: 50px;
+	height: 80px;
+	margin-top: -50px;
+	text-align: center;
+	margin-bottom: -30px;
 }
 
 .logoCliente img{
-	max-height: 100%;
-	max-width: 260px;
-
+	height: 80px;
+	
 }
 
 .toolbar{
@@ -1036,6 +1037,12 @@ button:hover{
 	display: block;
 	margin-right: 6%;
 	margin-top: 30px;
+}
+
+.nodata{
+	text-align: center;
+	width: 100%;
+	padding: 5px;
 }
 
 /* clientes */
@@ -1074,6 +1081,7 @@ button:hover{
 	float: left;
 	margin: 0;
 	height: 20px;
+	margin-right: 10px;
 }
 
 .icon{
