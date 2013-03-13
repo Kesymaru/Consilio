@@ -180,7 +180,7 @@ function ComentariosArticulo($proyecto, $articulo){
 								<td class="datos-usuario">
 									<div class="imagen">
 										<div class="img-wrapper">
-										<img src="'.$clienteDatos[0]['imagen'].'" />
+											<img src="'.$clienteDatos[0]['imagen'].'" onerror="this.src=\'images/es.png\'" />
 										</div>
 									</div>
 									<span>'.$clienteDatos[0]['nombre'].'</span>

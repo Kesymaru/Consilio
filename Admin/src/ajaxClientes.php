@@ -137,7 +137,7 @@ function EditarCliente($id){
 					  				<input type="text" id="usuario" title="Usuario Del Nuevo Cliente" name="usuario" placeholder="Usuario" class="validate[required]" value="'.$datos[0]['usuario'].'" />
 					  			</td>
 					  			<td rowspan="7" class="td-user-image">
-					  				<img id="imagen-usuario" src="'.$datos[0]['imagen'].'" title="Imagen Del Cliente"><br/>					  				
+					  				<img id="imagen-usuario" src="'.$datos[0]['imagen'].'" title="Imagen Del Cliente" onerror="this.src=\'images/es.png\'"><br/>					  				
 					  			</td>
 					  		</tr>
 					  		<tr>
@@ -241,7 +241,7 @@ function NuevoCliente(){
 					  				<input type="text" id="usuario" title="Usuario Del Nuevo Cliente" name="usuario" placeholder="Usuario" class="validate[required, funcCall[ClienteUsuario] ]" />
 					  			</td>
 					  			<td rowspan="7" class="td-user-image">
-					  				<img id="imagen-usuario" src="images/es.png" title="Imagen Del Nuevo Cliente">
+					  				<img id="imagen-usuario" src="images/es.png" title="Imagen Del Nuevo Cliente" >
 					  			</td>
 					  		</tr>
 					  		<tr>
