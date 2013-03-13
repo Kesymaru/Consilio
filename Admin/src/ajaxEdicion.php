@@ -428,7 +428,7 @@ function EditarCategoria($id){
 		
 		if($datos[0]['padre'] == 0){
 			$formulario .= '<td rowspan="2" class="td-category-image">
-								<img id="imagen-categoria" src="'.$datos[0]['imagen'].'" />
+								<img id="imagen-categoria" src="'.$datos[0]['imagen'].'" onerror="this.src=\'images/es.png\'"  />
 							</td>';
 		}
 
@@ -542,7 +542,7 @@ function NuevaCategoria($padre){
 					  			</td>';
 	if($padre == 0){
 		$formulario .=   '<td rowspan="2" class="td-category-image">
-							<img id="imagen-categoria" title="Imagen Para Supercategoria" src="images/es.png" />
+							<img id="imagen-categoria" title="Imagen Para Supercategoria" src="images/es.png" onerror="this.src=\'images/es.png\'"  />
 						  </td>';
 	}
 	

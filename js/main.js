@@ -93,11 +93,12 @@ $(document).ready(function(){
     $('#main, #menu, #content, table, .disclaim, #menuUsuario, #menuProyectos').disableSelection();
 
     //disclaim
-    $("#disclaim")
+    /*$("#disclaim")
     	.addClass("disclaim-focus")
     	.delay(1000)
     	.show()
-    	.slideUp(1500);
+    	.css('height','0px')
+    	.slideDown(1500);*/
 
     $shortcuts.init();
 

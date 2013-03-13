@@ -710,13 +710,6 @@ function PreviewImage(input, imagen) {
 			$("#"+imagen).fadeOut(500, function(){
 				$('#'+imagen).attr('src', e.target.result);
 
-				var height = $("#"+imagen).closest("td").height();
-				var width = $("#"+imagen).closest("td").width();
-				$('#'+imagen).css({
-					"max-height" : height,
-					"max-width" : width
-				});
-
 				$('#'+imagen).fadeIn();
 			});
 			
@@ -998,9 +991,9 @@ function BuscarGlobalShow(){
 
 /**
 * SELECT ALL GENERICO
-* @param id -> id donde actuar
-* @param table -> true es tabla -> select td's, false -> select li's
-* @param checkox -> true hay que chekear checbox dentro de target
+* @param string id -> id donde actuar
+* @param boolean table -> true es tabla -> select td's, false -> select li's
+* @param boolean checkox -> true hay que chekear checbox dentro de target
 */
 function SelectAll(id, table, checkbox){
 	

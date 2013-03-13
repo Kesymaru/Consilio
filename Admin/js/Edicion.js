@@ -744,14 +744,10 @@ function FormularioEditarCategoria(id){
 					});
 				}
 
-				if( $.cookie("autosave") ){
+				notifica("Categoria Actualizada");
 
-				}else{
-					notifica("Categoria Actualizada");
-
-					HabilitarContent();
-					LimpiarContent();
-				}
+				HabilitarContent();
+				LimpiarContent();
 				
 			}else{
 				HabilitarContent();
