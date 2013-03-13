@@ -123,10 +123,10 @@ $master = new Master();
 			<img src="images/logo.png" class="logo">	
 		</a>
 
+		
+
 		<div class="toolbar">
-			<?php
-				$master->Logo();
-			?>
+			
 			<div id="toolbarMenu">
 				<div id="menuUsuario">
 					<img class="icon" src="images/user.png" />
@@ -159,9 +159,12 @@ $master = new Master();
 				<img class="icon" src="images/search2.png" onClick="BuscarGlobal()" />
 			</div>
 			<!-- end para search -->
-
+			
 		</div>
 		
+		<?php
+			$master->Logo();
+		?>
 	</div> <!-- end header -->
 
 	<div id="main">

@@ -3,7 +3,8 @@
 */
 
 $(document).ready(function(){
-	$('html, body, div, input, li').bind('cut copy paste', function(event) {
+
+	$('html, body, div, input, li, a').bind('cut copy paste', function(event) {
         event.preventDefault();
     });
 
@@ -98,17 +99,14 @@ $(document).ready(function(){
     	.fadeIn(1500);
 
     $shortcuts.init();
+
+    /*$("body").mCustomScrollbar({
+		scrollButtons:{
+			enable:true
+		},
+		theme: "dark-thick"
+	});*/
 });
-/*
-$(window).load(function(){
-
-	if( $("#logoCliente").height() < 100 ){
-    	var padding = ( 100 - $("#logoCliente").height() ) / 2;
-    	
-    	$("#logoCliente").css("padding-top", padding);
-    }
-});*/
-
 
 /**
 * ACTIVA EL MENU

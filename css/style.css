@@ -27,7 +27,6 @@ html, body{
 	background-color: #f4f4f4;
 	margin: 0;
 	height: 100%;
-	/*overflow: hidden;*/
 	font-family: 'Open Sans', sans-serif;
 	
 		-moz-user-select: none;  
@@ -119,7 +118,7 @@ button:hover{
 	border: 0;
 	margin: 0 auto;
 	width: 100%;
-	height: 80%;
+	height: 90%;
 	display: block;
 }
 
@@ -127,11 +126,32 @@ button:hover{
 	#main{
 		margin-bottom: 20px;
 	}
+	#header{
+		margin-top: 0px !important;
+	}
 	.logo {
 	    float: left;
 	    height: 70px !important;
 	    margin-left: 5%;
-	    margin-top: 18px;
+	    margin-top: 10px !important;
+
+	    	-o-transition: all 1s linear;
+			-ms-transition: all 1s linear;
+			-moz-transition: all 1s linear;
+			-webkit-transition: all 1s linear;
+		transition: all 1s linear;
+	}
+	.logoCliente{
+		margin-top: 10px !important;
+	}
+	.logoCliente img{
+		height: 70px !important;
+
+		 	-o-transition: all 1s linear;
+			-ms-transition: all 1s linear;
+			-moz-transition: all 1s linear;
+			-webkit-transition: all 1s linear;
+		transition: all 1s linear;
 	}
 }
 
@@ -1007,35 +1027,47 @@ button:hover{
 	display: inline-block;
 	vertical-align: middle;
 	border: 0;
-	text-align: right;
+	text-align: center;
 	margin-top: 10px;
-	margin-bottom: 30px;
+	margin-bottom: 20px;
 }
 
 .logo{
 	float: left;
 	margin-left: 5%;
 	height: 100px;
+	
+	 	-o-transition: all 1s linear;
+		-ms-transition: all 1s linear;
+		-moz-transition: all 1s linear;
+		-webkit-transition: all 1s linear;
+	transition: all 1s linear;
 }
 
 .logoCliente{
-	margin-right: 25px;
 	display: inline-block;
 	height: 80px;
-	margin-top: -50px;
 	text-align: center;
-	margin-bottom: -30px;
+	float: right;
+	margin: 0;
+	margin-right: 15px;
 }
 
 .logoCliente img{
 	height: 80px;
-	
+
+	 	-o-transition: all 1s linear;
+		-ms-transition: all 1s linear;
+		-moz-transition: all 1s linear;
+		-webkit-transition: all 1s linear;
+	transition: all 1s linear;
 }
 
 .toolbar{
 	border: 0;
 	display: block;
-	margin-right: 6%;
+	float: right;
+	margin-right: 5%;
 	margin-top: 30px;
 }
 

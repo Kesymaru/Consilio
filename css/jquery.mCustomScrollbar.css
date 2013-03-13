@@ -2,6 +2,7 @@
 /* vertical scrollbar */
 .mCSB_container{
 	width:auto;
+	height: auto;
 	margin-right:10px;
 	overflow:hidden;
 }
@@ -79,8 +80,10 @@
 .mCSB_horizontal>.mCSB_container{
 	height:auto;
 	margin-right:0;
-	margin-bottom:30px;
+	margin-bottom:0;
 	overflow:hidden;
+	width: 100%;
+	height: 100%;
 }
 .mCSB_horizontal>.mCSB_container.mCS_no_scrollbar{
 	margin-bottom:0;

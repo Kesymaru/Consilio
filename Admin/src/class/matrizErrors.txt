@@ -16,3 +16,20 @@
 	JAVASCRIPT: 1
 	March 12 2013 - 4:52 pm
  --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 13 2013 - 9:20 am
+ --------------------<>--------------------
