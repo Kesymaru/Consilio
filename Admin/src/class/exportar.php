@@ -409,7 +409,7 @@ class Exportar{
 												Resumen
 										   	</td>
 										   	<td class="CategoriaCampo">
-										   		Permiso o Documentación asocia
+										   		Permiso o Documentación asociada
 										   	</td>
 										   	<td class="CategoriaCampo">
 										   		Entidad
@@ -528,22 +528,25 @@ class Exportar{
 	*/
 	private function Footer(){
 		$cliente = new Cliente();
+		
 
-		//$this->informe .= '</table>';
-		$this->informe .= '<tr>
-						   		<td id="fo" colspan="'.$this->colspanC.'" class="TdFooterLeft">
-						   			<br/>
-						   			<img class="LogoEscala" src="'.$_SESSION['home'].'/images/escala.png">
-						   			<br/>
-						   		</td>
-						   		<td colspan="'.$this->colspanC.'" class="TdFooter">
-						   			
+		//obtiene los datos del cliente
+		$datosCliente = $cliente->getDatosCliente( $this->clienteId ); 
+		$imagenCliente = $_SESSION['home'].'/'.$datosCliente[0]['imagen']; 
+
+		$this->informe .= '	<tr>
+								<td colspan="2" class="TdFooterLeft">
+									   			<br/>
+									   			<img class="LogoEscala" src="'.$_SESSION['home'].'/images/escala.png">
+									   			<br/>
+								</td>
+						   		<td colspan="2" class="TdFooter">
 						   			<table class="FooterTable">
 						   				<tr>
 						   					<td class="SubTitulo">
 						   						Fecha:
 						   					</td>
-						   					<td>
+						   					<td class="TdFooter2">
 						   						'.date("m d Y - g:i a").'
 						   					</td>
 						   				</tr>
@@ -551,7 +554,7 @@ class Exportar{
 						   					<td class="SubTitulo">
 						   						Administrador:
 						   					</td>
-						   					<td>
+						   					<td class="TdFooter2" >
 						   						'.$_SESSION['nombre'].'
 						   					</td>
 						   				</tr>
@@ -559,7 +562,7 @@ class Exportar{
 						   					<td class="SubTitulo">
 						   						Cliente:
 						   					</td>
-						   					<td>
+						   					<td class="TdFooter2" >
 						   						'.$this->cliente.'
 						   					</td>
 						   				</tr>
@@ -567,17 +570,17 @@ class Exportar{
 						   					<td class="SubTitulo">
 						   						Registro:
 						   					</td>
-						   					<td>
-						   						'.$cliente->getClienteDato("registro",$this->clienteId).'
+						   					<td class="TdFooter2" >
+						   						'.$datosCliente[0]['registro'].'
 						   					</td>
 						   				</tr>
 						   				<tr>
 						   					<td class="SubTitulo">
 						   						Email:
 						   					</td>
-						   					<td>
-						   						<a href="mailto:'.$cliente->getClienteDato("email",$this->clienteId).'?Subject='.$this->nombreProyecto.'">
-						   							'.$cliente->getClienteDato("email",$this->clienteId).'
+						   					<td class="TdFooter2" >
+						   						<a href="mailto:'.$datosCliente[0]['email'].'?Subject='.$this->nombreProyecto.'">
+						   							'.$datosCliente[0]['email'].'
 						   						</a>
 						   					</td>
 						   				</tr>
@@ -585,7 +588,7 @@ class Exportar{
 						   					<td class="SubTitulo">
 						   						Proyecto:
 						   					</td>
-						   					<td>
+						   					<td class="TdFooter2" >
 						   						'.$this->nombreProyecto.'
 						   					</td>
 						   				</tr>
@@ -596,15 +599,12 @@ class Exportar{
 						   					</td>
 						   				</tr>
 						   			</table>
-						   			<br/>
 						   		</td>
-						   		<td colspan="'.$this->colspanC.'" class="TdFooterRight">
-						   			<br/>
-						   			<img class="LogoCliente" src="'.$_SESSION['home'].'/'.$cliente->getClienteDato("imagen",$this->clienteId).'" >
-						   			<br/>
+						   		<td colspan="2" class="TdFooterRight">
+						   			
 						   		</td>
-						   </tr>
-						   </table>';
+							</tr>
+						</table>';
 	}
 
 	/**
@@ -627,16 +627,16 @@ class Exportar{
 			'class="Informe"' => 'style="width: 100%; margin: 0 auto; border-collapse: collapse; text-align: left;"',
 
 			//titulo head
-			'class="InformeHead"' => 'style="background-color: #757273; color: #ffffff; text-align: center;"',
-			'class="SuperTitulo"' => 'style="background-color: #757273; color: #ffffff; font-size 16pt; text-align: center; font-weight: bold;"',
-			'class="TituloHead"' => 'style="background-color: #757273; color: #ffffff; font-size 14pt; text-align: center; font-weight: bold;"',
-			'class="DatosHead"' => 'style="background-color: #757273; color: #ffffff; font-size 14pt; text-align: center;"',
+			'class="InformeHead"' => 'style="background-color: #757273; color: #ffffff; text-align: center; font-size: 6pt;"',
+			'class="SuperTitulo"' => 'style="background-color: #757273; color: #ffffff; font-size: 18pt; text-align: center; font-weight: bold;"',
+			'class="TituloHead"' => 'style="background-color: #757273; color: #ffffff; font-size: 14pt; text-align: center; font-weight: bold;"',
+			'class="DatosHead"' => 'style="background-color: #757273; color: #ffffff; font-size: 14pt; text-align: center;"',
 
 			//categorias
-			'class="SuperCategoria"' => 'style="background-color: #757273; color: #ffffff; text-align: center; font-weight: bold; font-size: 14pt;"',
-			'class="Titulo"' => 'style="text-align: center; font-size: 12pt; font-weight: bold;"',
-			'class="TituloCategoria"' => 'style="background-color: #BAB8B9; border: 1px solid #BAB8B9; text-align: center; color: #ffffff; font-weight: bold; font-size: 13pt;"',
-			'class="CategoriaCampo"' => 'style="background-color: #BAB8B9; border: 1px solid #BAB8B9; color: #ffffff; text-align: center; font-weight: bold;"',
+			'class="SuperCategoria"' => 'style="background-color: #757273; color: #ffffff; text-align: center; font-weight: bold; font-size: 16pt;"',
+			'class="Titulo"' => 'style="text-align: center; font-size: 15pt; font-weight: bold;"',
+			'class="TituloCategoria"' => 'style="background-color: #BAB8B9; border: 1px solid #BAB8B9; text-align: center; color: #ffffff; font-weight: bold; font-size: 15pt;"',
+			'class="CategoriaCampo"' => 'style="background-color: #BAB8B9; border: 1px solid #BAB8B9; color: #ffffff; text-align: center; font-size: 12pt; font-weight: bold;"',
 
 			//normas y articulos
 			'class="NombreArticulo"' => 'style="background-color: #F3EFE6; font-weight: bold; margin: 0; padding: 0;"',
@@ -645,13 +645,16 @@ class Exportar{
 			'class="TdDato2"' => $tdDato2,
 
 			//footer
-			'class="TdFooter"' => 'style="background-color: #BAB8B9; color: #000000; text-align: text; "',
-			'class="TdFooterLeft"' => 'style="background-color: #BAB8B9; color: #000000; text-align: left; "',
-			'class="TdFooterRight"' => 'style="background-color: #BAB8B9; color: #000000; text-align: right; "',
-			'class="FooterTable"' => 'style="background-color: #BAB8B9; color: #000000; text-align: left; margin-left: auto; margin-right: auto;"',
+			'class="TdFooter"' => 'style="background-color: #BAB8B9; color: #000000; width: 100%; text-align: center; font-size: 12pt;"',
+			'class="TdFooterLeft"' => 'style="background-color: #BAB8B9; width: 250px; color: #000000; text-align: left; font-size: 12pt;"',
+			'class="TdFooterRight"' => 'style="background-color: #BAB8B9; width: 250px; color: #000000; text-align: right; font-size: 12pt;"',
+			'class="FooterTable"' => 'style="background-color: #BAB8B9; width: 100%; color: #000000; text-align: left; margin-left: auto; margin-right: auto; font-size: 12pt;"',
+			'class="SubTitulo"' => 'style="background-color: #BAB8B9; color: #000000; text-align: right; font-weight: bold; font-size: 12pt;"',
+			'class="Center"' => 'style="background-color: #BAB8B9; color: #000000; text-align: center; font-size: 12pt;"',
+			'class="TdFooter2"' => 'style="background-color: #BAB8B9; color: #000000; text-align: left; font-size: 12pt;"',
 
 			'class="LogoEscala"' => 'style="display:block; float: left; height: 80px;"',
-			'class="LogoCliente"' => 'style="display:block; height: 80px;"',
+			'class="LogoCliente"' => 'style="display:block; float: right; height: 80px;"',
 			);
 
 		foreach ($tema as $class => $style) {

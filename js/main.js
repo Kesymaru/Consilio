@@ -96,7 +96,8 @@ $(document).ready(function(){
     $("#disclaim")
     	.addClass("disclaim-focus")
     	.delay(1000)
-    	.fadeIn(1500);
+    	.show()
+    	.slideUp(1500);
 
     $shortcuts.init();
 

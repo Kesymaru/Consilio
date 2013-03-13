@@ -173,6 +173,7 @@ function FormularioEditarCliente(){
 		"max-height" : height,
 		"max-width" : width
 	});
+	$("#pais").chosen( { search_contains: true } );
 	$(".td-user-image img").fadeIn();
 }
 
@@ -222,7 +223,8 @@ function FormularioNuevoCliente(){
 		},
 		fail: function(){
 		}
-	}; 
+	};
+	$("#pais").chosen( { search_contains: true } );
 	$('#FormularioNuevoCliente').ajaxForm(options);
 }
 

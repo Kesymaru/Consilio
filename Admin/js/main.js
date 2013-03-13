@@ -1069,33 +1069,3 @@ function UnSelectAll(id, table, checkbox){
 		}
 	});
 }
-
-function Chosen(id){
-	console.log(id);
-	
-	if( id != null || id != undefined ){
-		
-		/*$("#"+id).chosen();
-
-		//permite seleccionar un grupo
-		$( '.chzn-results .group-result' ).each( function () {
-		    var self      = $( this )
-		        , options = $( '~li', self )
-		        , next    = options.filter( '.group-result' ).get( 0 )
-		    ;
-		    self.data( 'chzn-options', options.slice( 0, options.index( next ) ) );
-		} )
-		.click( function () { 
-			$( this ).data( 'chzn-options' ).mouseup()
-		} )
-		.hover( function () { 
-		    $(this).css( {'background-color': '#F68400', 'color' : '#fff'} )
-		    $( this ).data( 'chzn-options' ).addClass( 'highlighted' );
-		 }, function () { 
-		    $( this ).data( 'chzn-options' ).removeClass( 'highlighted' );
-		    $(this).css( {'background-color': 'transparent', 'color' : '#999999'} )
-		 } )
-		.css( { cursor: 'pointer' } );
-*/
-	}
-}

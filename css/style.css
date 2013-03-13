@@ -125,9 +125,21 @@ button:hover{
 @media screen and (max-width:960px) { 
 	#main{
 		margin-bottom: 20px;
+
+		 	-o-transition: all 1s linear;
+			-ms-transition: all 1s linear;
+			-moz-transition: all 1s linear;
+			-webkit-transition: all 1s linear;
+		transition: all 1s linear;
 	}
 	#header{
 		margin-top: 0px !important;
+
+		 	-o-transition: all 1s linear;
+			-ms-transition: all 1s linear;
+			-moz-transition: all 1s linear;
+			-webkit-transition: all 1s linear;
+		transition: all 1s linear;
 	}
 	.logo {
 	    float: left;
@@ -1030,13 +1042,19 @@ button:hover{
 	text-align: center;
 	margin-top: 10px;
 	margin-bottom: 20px;
+
+	 	-o-transition: all 1s linear;
+		-ms-transition: all 1s linear;
+		-moz-transition: all 1s linear;
+		-webkit-transition: all 1s linear;
+	transition: all 1s linear;
 }
 
 .logo{
 	float: left;
 	margin-left: 5%;
 	height: 100px;
-	
+
 	 	-o-transition: all 1s linear;
 		-ms-transition: all 1s linear;
 		-moz-transition: all 1s linear;
