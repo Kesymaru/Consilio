@@ -192,7 +192,7 @@ class Exportar{
 	public function ExportarExcel($proyecto){
 		$this->proyecto = $proyecto;
 		$this->formato = 'excel';
-		$this->htmlHead();
+
 		$this->CrearInforme(); //compone el informe
 
 		header('Content-Description: File Transfer'); 
@@ -252,6 +252,7 @@ class Exportar{
 		header('Content-Description: File Transfer'); 
 		header("Content-Type: application/pdf");
 		header("Content-disposition: attachment; filename=".$nombreArchivo.".pdf");
+		$this->htmlHeadClose();
 	}
 
 	/**
@@ -267,13 +268,14 @@ class Exportar{
 		$this->CrearInforme();
 		
 		echo $this->informe;
+		$this->htmlHeadClose();
 	}
 
 	/**
 	* COMPONE EL INFORME
 	*/
 	private function CrearInforme(){
-		//$this->htmlHead();
+		$this->htmlHead();
 		$registro = new Registros();
 		$this->registros = $registro->getRegistros( $this->proyecto );
 
@@ -282,7 +284,6 @@ class Exportar{
 		$this->Footer();
 
 		$this->Style();
-		//$this->htmlHeadClose();
 	}
 
 	/**
@@ -537,7 +538,6 @@ class Exportar{
 						   		</td>
 						   		<td colspan="'.$this->colspanC.'" class="TdFooter">
 						   			
-						   			<br/>
 						   			<table class="FooterTable">
 						   				<tr>
 						   					<td class="SubTitulo">
@@ -561,6 +561,24 @@ class Exportar{
 						   					</td>
 						   					<td>
 						   						'.$this->cliente.'
+						   					</td>
+						   				</tr>
+						   				<tr>
+						   					<td class="SubTitulo">
+						   						Registro:
+						   					</td>
+						   					<td>
+						   						'.$cliente->getClienteDato("registro",$this->clienteId).'
+						   					</td>
+						   				</tr>
+						   				<tr>
+						   					<td class="SubTitulo">
+						   						Email:
+						   					</td>
+						   					<td>
+						   						<a href="mailto:'.$cliente->getClienteDato("email",$this->clienteId).'?Subject='.$this->nombreProyecto.'">
+						   							'.$cliente->getClienteDato("email",$this->clienteId).'
+						   						</a>
 						   					</td>
 						   				</tr>
 						   				<tr>
@@ -590,18 +608,19 @@ class Exportar{
 	}
 
 	/**
-	* APLICA EL TEMA DE COLORES AL INFORME
+	* APLICA ESTILO AL INFORMA
 	*/
 	private function Style(){
 
+		//estilo para pdf
 		if( $this->formato == 'pdf'){
-			$tdNorma = 'style="background-color: #F4F4F4; border: 1px solid #757273; width: 5%;"';
-			$tdDato = 'style="background-color: #F4F4F4; border: 1px solid #757273; vertical-aling: top; padding: 0; width: 32.5%"';
-			$tdDato2 = 'style="background-color: #F4F4F4; border: 1px solid #757273; vertical-aling: top; padding: 0; width: 12.5%"';
+			$tdNorma = 'style="background-color: #F3EFE6; border: 1px solid #757273; width: 5%;"';
+			$tdDato = 'style="background-color: #F3EFE6; border: 1px solid #757273; vertical-aling: top; padding: 0; width: 32.5%"';
+			$tdDato2 = 'style="background-color: #F3EFE6; border: 1px solid #757273; vertical-aling: top; padding: 0; width: 12.5%"';
 		}else{
-			$tdNorma = 'style="background-color: #F4F4F4; border: 1px solid #757273;"';
-			$tdDato = 'style="background-color: #F4F4F4; border: 1px solid #757273; vertical-aling: top; padding: 0;"';
-			$tdDato2 = 'style="background-color: #F4F4F4; border: 1px solid #757273; vertical-aling: top; padding: 0;"';
+			$tdNorma = 'style="background-color: #F3EFE6; border: 1px solid #757273;"';
+			$tdDato = 'style="background-color: #F3EFE6; border: 1px solid #757273; vertical-aling: top; padding: 0;"';
+			$tdDato2 = 'style="background-color: #F3EFE6; border: 1px solid #757273; vertical-aling: top; padding: 0;"';
 		}
 
 		$tema = array(
@@ -614,13 +633,13 @@ class Exportar{
 			'class="DatosHead"' => 'style="background-color: #757273; color: #ffffff; font-size 14pt; text-align: center;"',
 
 			//categorias
-			'class="SuperCategoria"' => 'style="background-color: #F68400; color: #ffffff; text-align: center; font-weight: bold; font-size: 14pt;"',
+			'class="SuperCategoria"' => 'style="background-color: #757273; color: #ffffff; text-align: center; font-weight: bold; font-size: 14pt;"',
 			'class="Titulo"' => 'style="text-align: center; font-size: 12pt; font-weight: bold;"',
-			'class="TituloCategoria"' => 'style="background-color: #A1CA4A; text-align: center; color: #ffffff; font-weight: bold; font-size: 13pt;"',
-			'class="CategoriaCampo"' => 'style="background-color: #F68400; color: #ffffff; text-align: center; font-weight: bold;"',
+			'class="TituloCategoria"' => 'style="background-color: #BAB8B9; border: 1px solid #BAB8B9; text-align: center; color: #ffffff; font-weight: bold; font-size: 13pt;"',
+			'class="CategoriaCampo"' => 'style="background-color: #BAB8B9; border: 1px solid #BAB8B9; color: #ffffff; text-align: center; font-weight: bold;"',
 
 			//normas y articulos
-			'class="NombreArticulo"' => 'style="background-color: #F4F4F4; font-weight: bold; margin: 0; padding: 0;"',
+			'class="NombreArticulo"' => 'style="background-color: #F3EFE6; font-weight: bold; margin: 0; padding: 0;"',
 			'class="TdNorma"' => $tdNorma,
 			'class="TdDato"' => $tdDato,
 			'class="TdDato2"' => $tdDato2,
@@ -629,12 +648,10 @@ class Exportar{
 			'class="TdFooter"' => 'style="background-color: #BAB8B9; color: #000000; text-align: text; "',
 			'class="TdFooterLeft"' => 'style="background-color: #BAB8B9; color: #000000; text-align: left; "',
 			'class="TdFooterRight"' => 'style="background-color: #BAB8B9; color: #000000; text-align: right; "',
-			'class="FooterTable"' => 'style="background-color: #BAB8B9; color: #000000; text-align: left; margin: 0 auto;"',
+			'class="FooterTable"' => 'style="background-color: #BAB8B9; color: #000000; text-align: left; margin-left: auto; margin-right: auto;"',
 
-			'class="LogoEscala"' => 'style="display:block; float: left; height: 80px; max-width: 250px;"',
-			'class="LogoCliente"' => 'style="display:block; height: 80px; width: 250px;"',
-
-			'class="Center"' => 'style="text-align: center;"',
+			'class="LogoEscala"' => 'style="display:block; float: left; height: 80px;"',
+			'class="LogoCliente"' => 'style="display:block; height: 80px;"',
 			);
 
 		foreach ($tema as $class => $style) {
