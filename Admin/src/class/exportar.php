@@ -243,7 +243,7 @@ class Exportar{
 			$nombreArchivo =  str_replace(' ', '_', $this->nombreProyecto);
 
 	        $html2pdf->writeHTML($content, isset($_GET['vuehtml']) );
-	        $html2pdf->Output( $nombreArchivo.'.pdf' );
+	        $html2pdf->Output( $nombreArchivo.'.pdf', 'D' );
 
 	    }catch(HTML2PDF_exception $e) {
 	        echo 'Ocurrio un error al generar el pdf.<br/>';
