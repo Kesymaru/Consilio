@@ -62,6 +62,9 @@ class Exportar{
 		$session->Logueado();
 
 		date_default_timezone_set('America/Costa_Rica');
+
+		//maximo tiempo de ejecucion
+		ini_set('max_execution_time', 600);
 	}
 
 	/**
@@ -229,18 +232,18 @@ class Exportar{
 
 	    try{
 	    	//($sens = 'P', $format = 'A4', $langue='en', $unicode=true, $encoding='UTF-8', $marges = array(5, 5, 5, 8))
-	        $html2pdf = new HTML2PDF('L', 'A2', 'es', true, 'UTF-8', array(1, 1, 1, 1) );
+	        $html2pdf = new HTML2PDF('L', 'A0', 'es', true, 'UTF-8', array(1, 1, 300, 1) );
         	$html2pdf->pdf->SetDisplayMode('fullpage');
 
-	        $html2pdf->pdf->SetAuthor('Matrices Consilio');
-			$html2pdf->pdf->SetTitle('Informe '.$this->nombreProyecto);
+	        $html2pdf->pdf->SetAuthor($_SESSION['nombre']);
+			$html2pdf->pdf->SetTitle('Informe '.$this->nombreProyecto.' '.date("m d Y - g:i a"));
 			$html2pdf->pdf->SetSubject('Informe proyecto matriz');
 			$html2pdf->pdf->SetKeywords('informe, proyecto, matriz');
 
 			$nombreArchivo =  str_replace(' ', '_', $this->nombreProyecto);
 
 	        $html2pdf->writeHTML($content, isset($_GET['vuehtml']) );
-	        $html2pdf->Output($nombreArchivo.'.pdf', 'D');
+	        $html2pdf->Output( $nombreArchivo.'.pdf' );
 
 	    }catch(HTML2PDF_exception $e) {
 	        echo 'Ocurrio un error al generar el pdf.<br/>';
@@ -379,7 +382,8 @@ class Exportar{
 			$datosSuperCategoria = $registros->getCategoriaPadreDatos($superCategoria);
 
 			//super categoria
-			$this->informe .= '<tr>
+			$this->informe .= '
+								<tr>
 								  	<th colspan="'.$this->colspanA.'" class="SuperCategoria">
 								   			'.$datosSuperCategoria[0]['nombre'].'
 								  	</th>
@@ -396,10 +400,10 @@ class Exportar{
 									   		</td>
 									   </tr>
 										<tr>
-										   	<td class="CategoriaCampo">
+										   	<td class="CategoriaCampoNorma">
 										   		Numero
 										   	</td>
-										   	<td class="CategoriaCampo">
+										   	<td class="CategoriaCampoNorma">
 										   		Norma
 										   	</td>
 										   	<td class="CategoriaCampo">
@@ -408,10 +412,10 @@ class Exportar{
 										   		<td class="CategoriaCampo">
 												Resumen
 										   	</td>
-										   	<td class="CategoriaCampo">
+										   	<td class="CategoriaCampo2">
 										   		Permiso o Documentación asociada
 										   	</td>
-										   	<td class="CategoriaCampo">
+										   	<td class="CategoriaCampo2">
 										   		Entidad
 										   	</td>
 										</tr>';
@@ -456,51 +460,52 @@ class Exportar{
 
 										$this->informe .= '
 														   	<td class="TdDato">
-																'.base64_decode($datosArticulo[0]['articulo']).'
+																'.strip_tags(base64_decode($datosArticulo[0]['articulo']), '<ul><ol><li><strong><u>').'
 														   	</td>
 														   	<td class="TdDato" >
-																'.base64_decode($datosArticulo[0]['resumen']).'
+																'.strip_tags(base64_decode($datosArticulo[0]['resumen']), '<ul><ol><li><strong><u>').'
 														   	</td>
 														   	<td class="TdDato2" >
-														   		'.base64_decode($datosArticulo[0]['permisos']).'
+														   		'.strip_tags(base64_decode($datosArticulo[0]['permisos']), '<ul><ol><li><strong><u>').'
 														   	</td>
 														   	<td class="TdDato2" >
-														   		'.$this->entidades($entidades).'
+														   		'.strip_tags($this->entidades($entidades), '<ul><ol><li><strong><u>').'
 														   	</td>
 														</tr>';
+
 										/*$this->informe .= '
-														   	<td class="TdDato" >
-																1111
+														   	<td class="TdDato">
+																sss
 														   	</td>
 														   	<td class="TdDato" >
-																222
+																sss
 														   	</td>
-														   	<td class="TdDato" >
-														   		333
+														   	<td class="TdDato2" >
+														   		s
 														   	</td>
-														   	<td class="TdDato" >
-														   		444
+														   	<td class="TdDato2" >
+														   		s
 														   	</td>
 														</tr>';*/
 
 										$centinela++;
-									}
+									}// en if
 
 								} // end foreach para articulos
 								
-								//$this->informe .= '</tr>';
-								
-							}
+							} //enf if articulos
 							
 						} // end foreach normas
 
-					} // end if
+					} // end if normas
 
-				}
+				} // end if categorias 
 
-			} // end foreach para categorias de una supercategoria
+				//$this->info .= '</table>'; 
 
-		}
+			} // end foreach categorias
+
+		} // end foreach para categorias de una supercategoria
 		
 	}
 
@@ -533,8 +538,12 @@ class Exportar{
 		//obtiene los datos del cliente
 		$datosCliente = $cliente->getDatosCliente( $this->clienteId ); 
 		$imagenCliente = $_SESSION['home'].'/'.$datosCliente[0]['imagen']; 
-
-		$this->informe .= '	<tr>
+		
+		//$this->informe .= '</table>';
+		//return;
+		
+		$this->informe .= '
+							<tr>
 								<td colspan="2" class="TdFooterLeft">
 									   			<br/>
 									   			<img class="LogoEscala" src="'.$_SESSION['home'].'/images/escala.png">
@@ -614,17 +623,17 @@ class Exportar{
 
 		//estilo para pdf
 		if( $this->formato == 'pdf'){
-			$tdNorma = 'style="background-color: #F3EFE6; border: 1px solid #757273; width: 5%;"';
-			$tdDato = 'style="background-color: #F3EFE6; border: 1px solid #757273; vertical-aling: top; padding: 0; width: 32.5%"';
-			$tdDato2 = 'style="background-color: #F3EFE6; border: 1px solid #757273; vertical-aling: top; padding: 0; width: 12.5%"';
+			$tdNorma = 'style="background-color: #F3EFE6; border: 1px solid #757273; width: 5%; vertical-aling: middle;"';
+			$tdDato = 'style="background-color: #F3EFE6; border: 1px solid #757273; vertical-aling: middle; padding: 0; width: 32.5%"';
+			$tdDato2 = 'style="background-color: #F3EFE6; border: 1px solid #757273; vertical-aling: middle; padding: 0; width: 12.5%"';
 		}else{
-			$tdNorma = 'style="background-color: #F3EFE6; border: 1px solid #757273;"';
-			$tdDato = 'style="background-color: #F3EFE6; border: 1px solid #757273; vertical-aling: top; padding: 0;"';
-			$tdDato2 = 'style="background-color: #F3EFE6; border: 1px solid #757273; vertical-aling: top; padding: 0;"';
+			$tdNorma = 'style="background-color: #F3EFE6; border: 1px solid #757273; vertical-aling: middle;"';
+			$tdDato = 'style="background-color: #F3EFE6; border: 1px solid #757273; vertical-aling: middle; padding: 0;"';
+			$tdDato2 = 'style="background-color: #F3EFE6; border: 1px solid #757273; vertical-aling: middle; padding: 0;"';
 		}
 
 		$tema = array(
-			'class="Informe"' => 'style="width: 100%; margin: 0 auto; border-collapse: collapse; text-align: left;"',
+			'class="Informe"' => 'style="background-color: #BAB8B9; width: 100%; margin: 0 auto; border-collapse: collapse; text-align: left;"',
 
 			//titulo head
 			'class="InformeHead"' => 'style="background-color: #757273; color: #ffffff; text-align: center; font-size: 6pt;"',
@@ -636,25 +645,32 @@ class Exportar{
 			'class="SuperCategoria"' => 'style="background-color: #757273; color: #ffffff; text-align: center; font-weight: bold; font-size: 16pt;"',
 			'class="Titulo"' => 'style="text-align: center; font-size: 15pt; font-weight: bold;"',
 			'class="TituloCategoria"' => 'style="background-color: #BAB8B9; border: 1px solid #BAB8B9; text-align: center; color: #ffffff; font-weight: bold; font-size: 15pt;"',
-			'class="CategoriaCampo"' => 'style="background-color: #BAB8B9; border: 1px solid #BAB8B9; color: #ffffff; text-align: center; font-size: 12pt; font-weight: bold;"',
+			'class="CategoriaCampoNorma"' => 'style="background-color: #BAB8B9; border: 1px solid #BAB8B9; color: #ffffff; text-align: center; font-size: 12pt; font-weight: bold; vertical-aling: middle;"',
+			'class="CategoriaCampo"' => 'style="background-color: #BAB8B9; border: 1px solid #BAB8B9; color: #ffffff; text-align: center; font-size: 12pt; font-weight: bold; vertical-aling: middle;"',
+			'class="CategoriaCampo2"' => 'style="background-color: #BAB8B9; border: 1px solid #BAB8B9; color: #ffffff; text-align: center; font-size: 12pt; font-weight: bold; vertical-aling: middle;"',
 
 			//normas y articulos
 			'class="NombreArticulo"' => 'style="background-color: #F3EFE6; font-weight: bold; margin: 0; padding: 0;"',
-			'class="TdNorma"' => $tdNorma,
-			'class="TdDato"' => $tdDato,
-			'class="TdDato2"' => $tdDato2,
+			'class="TdNorma"' => 'style="background-color: #F3EFE6; border: 1px solid #757273; vertical-aling: middle; width: 5%; max-width: 5%;"',
+			'class="TdDato"' => 'style="background-color: #F3EFE6; border: 1px solid #757273; vertical-aling: middle; padding: 0; width: 32.5%; max-width: 32.5%;"',
+			'class="TdDato2"' => 'style="background-color: #F3EFE6; border: 1px solid #757273; vertical-aling: middle; padding: 0; width: 12.5%; max-width: 12.5%;"',
 
 			//footer
-			'class="TdFooter"' => 'style="background-color: #BAB8B9; color: #000000; width: 100%; text-align: center; font-size: 12pt;"',
-			'class="TdFooterLeft"' => 'style="background-color: #BAB8B9; width: 250px; color: #000000; text-align: left; font-size: 12pt;"',
-			'class="TdFooterRight"' => 'style="background-color: #BAB8B9; width: 250px; color: #000000; text-align: right; font-size: 12pt;"',
-			'class="FooterTable"' => 'style="background-color: #BAB8B9; width: 100%; color: #000000; text-align: left; margin-left: auto; margin-right: auto; font-size: 12pt;"',
-			'class="SubTitulo"' => 'style="background-color: #BAB8B9; color: #000000; text-align: right; font-weight: bold; font-size: 12pt;"',
-			'class="Center"' => 'style="background-color: #BAB8B9; color: #000000; text-align: center; font-size: 12pt;"',
-			'class="TdFooter2"' => 'style="background-color: #BAB8B9; color: #000000; text-align: left; font-size: 12pt;"',
+			'class="TdFooter"' => 'style="background-color: #BAB8B9; border: 1px solid #BAB8B9; color: #000000; width: 100%; text-align: center; font-size: 12pt;"',
+			'class="TdFooterLeft"' => 'style="background-color: #BAB8B9; border: 1px solid #BAB8B9;  color: #000000; text-align: left; font-size: 12pt;"',
+			'class="TdFooterRight"' => 'style="background-color: #BAB8B9; border: 1px solid #BAB8B9;  color: #000000; text-align: right; font-size: 12pt;"',
+			'class="FooterTable"' => 'style="background-color: #BAB8B9; border: 1px solid #BAB8B9; width: 100%; color: #000000; text-align: left; margin-left: auto; margin-right: auto; font-size: 12pt;"',
+			'class="SubTitulo"' => 'style="background-color: #BAB8B9; border: 1px solid #BAB8B9; color: #000000; text-align: right; font-weight: bold; font-size: 12pt;"',
+			'class="Center"' => 'style="background-color: #BAB8B9; border: 1px solid #BAB8B9; color: #000000; text-align: center; font-size: 12pt;"',
+			'class="TdFooter2"' => 'style="background-color: #BAB8B9; border: 1px solid #BAB8B9; color: #000000; text-align: left; font-size: 12pt;"',
 
 			'class="LogoEscala"' => 'style="display:block; float: left; height: 80px;"',
 			'class="LogoCliente"' => 'style="display:block; float: right; height: 80px;"',
+
+			'<p>' => '',
+			'<p style="margin-left:1pt;">' => '',
+			'<p style="text-align: justify; ">' => '',
+			'</p>' => '',
 			);
 
 		foreach ($tema as $class => $style) {
