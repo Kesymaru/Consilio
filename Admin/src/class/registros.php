@@ -109,9 +109,6 @@ class Registros{
 		$query = "SELECT * FROM registros_articulos WHERE proyecto = '".$id."'";
 		$articulos = $base->Select($query);
 
-		$query = "SELECT * FROM observaciones WHERE proyecto = '".$id."'";
-		$observaciones = $base->Select($query);
-
 		$error = '';
 
 		//copia reguistro de categorias incluidas
@@ -150,17 +147,6 @@ class Registros{
 
 				if( !$base->Insert( $query ) ){
 					$error .= 'Error: al duplicar datos de registros de articulos, proyecto original '.$id.' copia '.$nuevo.'<br/>Query: '.$query.'<br/>';
-				}
-			}
-		}
-
-		//copia los comentarios del proyecto
-		if( !empty($observaciones) ){
-			foreach ($observaciones as $f => $registroObservacion) {
-				$query = "INSERT INTO observaciones (observacion, proyecto, categoria, norma, articulo, tipo, fecha_creacion, fecha_actualizacion ) VALUES ( '".$registroObservacion['observacion']."', '".$nuevo."', '".$registroObservacion['categoria']."', '".$registroObservacion['norma']."', '".$registroObservacion['articulo']."', '".$registroObservacion['tipo']."', NOW(), NOW() ) ";
-
-				if( !$base->Insert( $query ) ){
-					$error .= 'Error: al duplicar una observacion, proyecto original '.$id.' copia '.$nuevo.'<br/>Query: '.$query.'<br/>';
 				}
 			}
 		}

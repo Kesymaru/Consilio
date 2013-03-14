@@ -63,7 +63,7 @@ function getNuevoComentario($id){
 					<td class="comentario-imagen">
 						<div class="div-imagen">
 							<div title="'.$usuario.'" class="img-wrapper2" >
-								<img src="'.$usuarioImg.'" />
+								<img src="'.$usuarioImg.'" onerror="this.src=\'images/es.png\'" />
 							</div>
 						</div>
 						<span>'.$usuario.'</span>

@@ -1045,7 +1045,7 @@ function SelectAllPreview(id, table, checkbox){
 * @param table -> true es tabla -> select td's, false -> select li's
 * @param checkox -> true hay que chekear checbox dentro de target
 */
-function UnSelectAll(id, table, checkbox){
+function UnSelectAllPreview(id, table, checkbox){
 	
 	if(table){
 		target = '#'+id+' td';
@@ -1061,4 +1061,6 @@ function UnSelectAll(id, table, checkbox){
 			$(this).find(':checkbox').attr('checked', false);
 		}
 	});
+
+	RegistrarPreview();
 }

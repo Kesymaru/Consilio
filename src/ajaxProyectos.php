@@ -326,7 +326,7 @@ function Articulos($proyecto, $categoria, $id){
 * @param int $categoria -> id de la categoria
 * @param int $norma -> id de la norma
 * @param int $id -> id del articulo
-*/
+*//*
 function DatosArticulo($proyecto, $categoria, $norma, $id){
 	date_default_timezone_set('America/Costa_Rica');
 
@@ -471,6 +471,150 @@ function DatosArticulo($proyecto, $categoria, $norma, $id){
 	}
 
 	echo $lista;
+}*/
+function DatosArticulo($proyecto, $categoria, $norma, $id){
+	date_default_timezone_set('America/Costa_Rica');
+
+	$registros = new Registros();
+
+	//$datos = $registros->getArticulo($id);
+	
+	//OBTIENE LA DATA DEL ARTICULO VALIDANDO SI EL PROYECTO ESTA ACTIVO
+	$datos = $registros->getValidArticuloDatos($proyecto, $id);
+
+	$observacion = $registros->getObservacion($proyecto, $categoria, $norma, $id);
+	$lista = '';
+
+	if( !empty($datos) ){
+		$lista = '<div id="datos-articulo">
+				<div class="titulo">
+					<img id="solapa" class="icon izquierda rotacion" onClick="$listaCategorias.OcultarDatos()" src="images/next.png" />
+					'.$datos[0]['nombre'].'
+			  	</div>
+			  	<div class="datos">';
+
+		//RESUMEN
+		if( !empty($datos[0]['resumen']) ){
+
+			$lista .= Box( "Resumen", "SuperBox", base64_decode($datos[0]['resumen']), "resumen");
+				
+		}
+
+		//OBSERVACION
+		if( !empty($observacion) ){
+			$observacionTitulo = $registros->getTipoObservacion($observacion[0]['tipo']);
+
+			$lista .= Box( $observacionTitulo, "", base64_decode($observacion[0]['observacion']), "observacion");
+
+		}
+
+		//ARTICULO
+		if( !empty($datos[0]['articulo']) ){
+
+			$lista .= Box( "Articulo", "", base64_decode($datos[0]['articulo']), "articulo");
+				
+		}
+
+		//PERMISOS
+		if( !empty($datos[0]['permisos']) ){
+
+			$lista .= Box( "Permisos", "", base64_decode($datos[0]['permisos']), "permisos");
+				
+		}
+
+		//ENTIDADES
+		if( !empty($datos[0]['entidad']) ){
+			$entidades = unserialize( $datos[0]['entidad'] );
+
+			$nombres = Entidades( $entidades );
+			
+			$listaEntidades = '';
+
+			if( !empty($nombres) ){
+
+				foreach ($nombres as $key => $nombre) {
+					$listaEntidades .= $nombre."<br/>";
+				}
+
+			}
+
+			$lista .= Box( "Entidades", "", $listaEntidades, "entidad");
+		}
+
+		//SANCIONES
+		if( !empty($datos[0]['sanciones']) ){
+
+			$lista .= Box( "Sanciones", "", base64_decode($datos[0]['sanciones']), "sanciones");
+				
+		}
+
+		//ADJUNTOS
+		$archivos = $registros->getArchivosArticulo( $datos[0]['id'] );
+
+		if( is_array($archivos) && !empty($archivos) ){
+			$lista .= '<div class="box" id="box-archivos-adjuntos">
+								<div class="dato-titulo">
+									Adjuntos
+								</div>
+								<div class="dato">
+								<ul>';
+
+			foreach ($archivos as $f => $archivo) {
+				$lista .= '<li>
+							<a title="Descargar Adjunto '.$archivo['nombre'].'" href="src/download.php?link='.$_SESSION['datos'].$archivo['link'].'">
+									'.$archivo['nombre'].'
+									<img src="images/folder.png" />
+							</a>
+							</li>';
+			}
+			$lista .= '</div>
+						</div>';
+		}
+
+		$lista .= '</div><!-- end datos cargados -->
+					</div><!-- end datos -->';
+
+		//compone el panel de los comentarios
+		$lista .= PanelComentarios($proyecto, $categoria, $id);
+
+		$lista .= '
+					<div id="datos-footer">
+						Última Actualización '.date("m d Y - g:i a").'
+						<img class="icon derecha" onClick="Comentar()" src="images/coment.png" />
+					</div>
+
+					</div><!-- end datos-articulo -->';
+
+	}else{
+		$lista .= '<div class="">
+					<script>notificaError("Error ajaxProyectos.php DatosArticulo articulo '.$id.' <br/>No se encontraron datos.");
+					</div>
+					</div>';
+	}
+
+	echo $lista;
+}
+
+/**
+* COMPONE UN BOX PARA LOS DATOS
+* @param string $titulo -> titulo del nuevo box
+* @param string $extraclass -> clase extra (no requerido)
+* @param string $dato -> text/html del texto
+* @param string $key -> key del campo del dato para el id
+* @return string $box -> text/html compuesto
+*/
+function Box($titulo, $extraclass = '', $dato, $key){
+	
+	$box = '<div class="box '.$extraclass.'" id="box-'.$key.'">
+					<div class="dato-titulo">
+						'.$titulo.'
+			   		</div>
+					<div class="dato" id="box-dato-'.$key.'">
+						'.$dato.'
+					</div>
+			   </div>';
+
+	return $box;
 }
 
 
@@ -559,7 +703,7 @@ function PanelComentarios($proyecto, $categoria, $articulo){
 						<td class="comentario-imagen">
 							<div class="div-imagen">
 								<div title="'.$usuario.'" class="img-wrapper2" >
-									<img src="'.$usuarioImg.'" />
+									<img src="'.$usuarioImg.'" onerror="this.src=\'images/es.png\'" />
 								</div>
 							</div>
 							<span>'.$usuario.'</span>
@@ -598,7 +742,7 @@ function PanelComentarios($proyecto, $categoria, $articulo){
 
 					<div class="div-imagen panel-imagen">
 						<div title="'.$_SESSION['cliente_nombre'].'" class="img-wrapper" >
-							<img src="'.$logo.'" />
+							<img src="'.$logo.'" onerror="this.src=\'images/es.png\'" />
 						</div>
 					</div>
 					<div>';

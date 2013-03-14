@@ -470,14 +470,16 @@ function AccionDuplicarProyecto(){
 
 				nuevo = response;
 				nuevo = parseInt(response);
-
-				if(ProyectosMenuLineal(nuevo)){ //termino
+				console.log(response);
+				
+				if( ProyectosMenuLineal(nuevo) ){ //termino
 					LoadingClose();
 					EditarProyectoDuplicado(nuevo);
 				}
 				
 			}else{
 				LoadingClose();
+				notificaError("Error: AccionDuplicarProyecto response incorrecto."+response);
 				$("content").html(response);
 			}
 		},

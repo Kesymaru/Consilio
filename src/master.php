@@ -30,7 +30,7 @@ class Master{
 		$logo = $_SESSION['datos'].$datos[0]['imagen'];
 
 		echo '<div class="logoCliente">
-				<img title="'.$datos[0]['nombre'].'" id="logoCliente" src="'.$logo.'" />
+				<img title="'.$datos[0]['nombre'].'" id="logoCliente" src="'.$logo.'" onerror="this.src=\'images/es.png\'" />
 				<p>#'.$datos[0]['registro'].'</p>
 			</div>';
 	}
