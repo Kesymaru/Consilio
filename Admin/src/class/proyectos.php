@@ -306,8 +306,13 @@ class Proyectos{
 		$destino = basename($link);
 		$destino = "images/proyectos/".rand().$destino;
 
-		if(copy($link, "../".$destino)){
-			return $destino;
+		if( file_exists( $link ) ){
+
+			if(copy($link, "../".$destino)){
+				return $destino;
+			}else{
+				return "images/es.png";
+			}
 		}else{
 			return "images/es.png";
 		}
