@@ -50,9 +50,9 @@ class Database{
 	//Desconexion
 	private function disconnect(){
 		if($this->dbLink){
-			mysql_close( mysql_connect($this->dbHost, $this->dbUser) );
+			//mysql_close( mysql_connect($this->dbHost, $this->dbUser) );
 			
-			//mysql_close( mysql_connect($this->dbHost, $this->dbUser, $this->dbPassword) );
+			mysql_close( mysql_connect($this->dbHost, $this->dbUser, $this->dbPassword) );
 		}
 	}
 	//Ejecuta consulta
