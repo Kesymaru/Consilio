@@ -41,6 +41,22 @@ function Proyecto(id){
 
 	//CategoriasRoot(id);
 	
+	
+
+	/** GREGA LOG DE PROYECTO **/
+	var queryParams = { "func" : "ProyectoLog", "id" : id };
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxProyectos.php",
+		success: function( response ){
+			notifica(response);
+		},
+		fail: function(response){
+			notificaError("Error: AJAX FAIL Proyectos.js Proyecto "+response);
+		}
+	});
+
 	//inicializa el panel del proyecto
 	$listaCategorias.SuperCategorias(id);
 }

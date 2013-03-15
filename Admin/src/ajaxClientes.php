@@ -52,6 +52,10 @@ if(isset($_POST['func'])){
 			echo json_encode($users);
 			break;
 
+		//MUESTRA LOGUEOS DE LOS USUARIOS
+		case 'Logs':
+			Logs();
+			break;
 	}
 }
 
@@ -478,6 +482,85 @@ function GetUsers(){
 	}
 
 	return $users;
+}
+
+
+/**************************** LOGS ***********************************/
+
+/**
+* MUESTRA LISTA CON LOS LOGS DE LOS CLIENTES
+*/
+function Logs(){
+	$usuarios = new Cliente();
+	$clientes = $usuarios->getClientes();
+
+	$lista = '<div class="clientes">
+					<div class="titulo" title="Ingresos Clientes">
+						Ingresos Clientes
+					</div>
+			  ';
+				
+	if(!empty($clientes)){
+
+		$lista .= '<table id="cliente-logs" class="table-list">
+					<tr>
+						<th>
+							Nombre
+						</th>
+						<th>
+							Usuario
+						</th>
+						<th>
+							Total Ingresos
+						</th>
+						<th>
+							Ultimo Ingreso
+						</th>
+					</tr>';
+
+		//compone tabla de clientes
+		foreach ($clientes as $dato => $cliente) {
+			$logueos = unserialize( $cliente['log'] );
+
+			$totalLogueos = 0;
+			$ultimoLogueo = 0;
+
+			if( is_array($logueos) ){
+				$totalLogueos = sizeof( $logueos );
+				$ultimoLogueo = $logueos[ sizeof($logueos)-1 ];
+			}
+
+			$lista .= '<tr id="'.$cliente['id'].'">
+						<td>
+							'.$cliente['nombre'].'
+						</td>
+						<td>
+							'.$cliente['usuario'].'
+						</td>
+						<td>
+							'.$totalLogueos.'
+						</td>
+						<td>
+							'.$ultimoLogueo.'
+						</td>
+					  </tr>';
+		}
+
+		$lista .= '</table>';
+
+		//controles
+		$lista .= '<div class="datos-botones">
+					<button type="button" title="Cancelar Edición" onClick="CancelarContent()">Cancelar</button>
+					<input type="reset" title="Limpiar Edición" value="Limpiar" />
+					<input type="submit" title="Guardar Edición" value="Guardar" />
+				</div>
+			</div>';
+
+	}else{
+		$lista .= 'No hay clientes';
+	}
+
+	echo $lista;
 }
 
 ?>

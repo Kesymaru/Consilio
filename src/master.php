@@ -31,7 +31,7 @@ class Master{
 
 		echo '<div class="logoCliente">
 				<img title="'.$datos[0]['nombre'].'" id="logoCliente" src="'.$logo.'" onerror="this.src=\'images/es.png\'" />
-				<p>#'.$datos[0]['registro'].'</p>
+				<p>'.$datos[0]['registro'].'</p>
 			</div>';
 	}
 

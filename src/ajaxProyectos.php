@@ -94,6 +94,12 @@ if(isset($_POST['func'])){
 				CategoriaNombre($_POST['id']);
 			}
 			break;
+
+		case 'ProyectoLog':
+			if( isset( $_POST['id'] ) ){
+				ProyectoLog( $_POST['id'] );
+			}
+			break;
 	}
 
 }else{
@@ -496,7 +502,7 @@ function DatosArticulo($proyecto, $categoria, $norma, $id){
 		//RESUMEN
 		if( !empty($datos[0]['resumen']) ){
 
-			$lista .= Box( "Resumen", "SuperBox", base64_decode($datos[0]['resumen']), "resumen");
+			$lista .= Box( "Resumen", "SuperBox BoxFocus", base64_decode($datos[0]['resumen']), "resumen");
 				
 		}
 
@@ -504,21 +510,21 @@ function DatosArticulo($proyecto, $categoria, $norma, $id){
 		if( !empty($observacion) ){
 			$observacionTitulo = $registros->getTipoObservacion($observacion[0]['tipo']);
 
-			$lista .= Box( $observacionTitulo, "", base64_decode($observacion[0]['observacion']), "observacion");
+			$lista .= Box( $observacionTitulo, "SuperBox", base64_decode($observacion[0]['observacion']), "observacion");
 
 		}
 
 		//ARTICULO
 		if( !empty($datos[0]['articulo']) ){
 
-			$lista .= Box( "Articulo", "", base64_decode($datos[0]['articulo']), "articulo");
+			$lista .= Box( "Articulo", "SuperBox", base64_decode($datos[0]['articulo']), "articulo");
 				
 		}
 
 		//PERMISOS
 		if( !empty($datos[0]['permisos']) ){
 
-			$lista .= Box( "Permisos", "", base64_decode($datos[0]['permisos']), "permisos");
+			$lista .= Box( "Permisos", "MiniBox", base64_decode($datos[0]['permisos']), "permisos");
 				
 		}
 
@@ -538,13 +544,13 @@ function DatosArticulo($proyecto, $categoria, $norma, $id){
 
 			}
 
-			$lista .= Box( "Entidades", "", $listaEntidades, "entidad");
+			$lista .= Box( "Entidades", "MiniBox", $listaEntidades, "entidad");
 		}
 
 		//SANCIONES
 		if( !empty($datos[0]['sanciones']) ){
 
-			$lista .= Box( "Sanciones", "", base64_decode($datos[0]['sanciones']), "sanciones");
+			$lista .= Box( "Sanciones", "MiniBox", base64_decode($datos[0]['sanciones']), "sanciones");
 				
 		}
 
@@ -552,18 +558,27 @@ function DatosArticulo($proyecto, $categoria, $norma, $id){
 		$archivos = $registros->getArchivosArticulo( $datos[0]['id'] );
 
 		if( is_array($archivos) && !empty($archivos) ){
-			$lista .= '<div class="box" id="box-archivos-adjuntos">
+			$lista .= '<div class="box AdjuntoBox" id="box-adjuntos">
 								<div class="dato-titulo">
 									Adjuntos
 								</div>
-								<div class="dato">
-								<ul>';
+								<div class="dato" id="box-dato-adjunto">
+								<ul class="archivos-adjuntos">';
 
 			foreach ($archivos as $f => $archivo) {
 				$lista .= '<li>
 							<a title="Descargar Adjunto '.$archivo['nombre'].'" href="src/download.php?link='.$_SESSION['datos'].$archivo['link'].'">
-									'.$archivo['nombre'].'
 									<img src="images/folder.png" />
+									<p>';
+				
+				if( empty($archivo['nombre']) ){
+					$lista .= 'Archivo';
+				}else{	
+					$lista .= $archivo['nombre'];
+				}
+
+				$lista .= '</p>
+									
 							</a>
 							</li>';
 			}
@@ -761,6 +776,22 @@ function PanelComentarios($proyecto, $categoria, $articulo){
 	$panel .= '</div><!-- end panel -->';
 
 	return $panel;
+}
+
+
+/****************************** LOGS *************************/
+
+/**
+* AGREGA LOG AL PROYECTO
+*/
+function ProyectoLog( $id ){
+	$proyectos = new Proyectos();
+
+	if ( !$proyectos->ProyectoLog( $id ) ){
+		echo "Error: al registrar log de proyecto $id del cliente ".$_SESSION['cliente_id'];
+	}else{
+		echo 'log success';
+	}
 }
 
 ?>

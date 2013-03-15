@@ -340,3 +340,33 @@ function ClienteUsuario(field, rules, i, options){
 		return 'Usuario no disponible';
 	}
 }
+
+/**
+* MUESTRA LOS REGISTROS DE INGRESOS DE LOS CLIENTES
+*/
+function ClientesLogs(){
+	if( $("#menu").is(":visible") ){
+		ActivaMenu();
+	}
+	if( $("#menu2").is(":visible") ){
+		Menu2();
+	}
+	if( $("#content").length > 0){
+		$("#content").html('');
+	}
+
+	var queryParams = {"func" : "Logs"};
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxClientes.php",
+		success: function(response){
+
+			$("#content").append(response);
+
+		},
+		fail: function(response){
+			notificaError("AJAX FAIL Clientes.js ClientesLogs.<br/>"+response);
+		}
+	});
+}

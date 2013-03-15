@@ -14,6 +14,8 @@ class Proyectos{
 		//SEGURIDAD LOGUEADO
 		$session = new Session();
 		$session->Logueado();
+
+		date_default_timezone_set('America/Costa_Rica');
 	}
 
 	/**
@@ -94,6 +96,29 @@ class Proyectos{
 			return false;
 		}
 	}
+
+	/**
+	* AGREGA O REGISTRA UNA VISITA AL PROYECTO
+	* @param int $id -> id del proyecto
+	* @return boolean true si se registra
+	*/
+	public function ProyectoLog( $id ){
+		$base = new Database();
+
+		$usuario = mysql_real_escape_string( $_SESSION['cliente_id'] );
+		$id = mysql_real_escape_string( $id );
+		$fecha = date("Y-m-d H:i:s");
+
+		$query = "INSERT INTO proyecto_logs (usuario, proyecto, fecha) VALUES ( '".$usuario."', '".$id."', '".$fecha."')";
+
+		if( $base->Insert( $query ) ){
+			return true;
+		}else{
+			return false;
+		}
+
+	}
+
 }
 
 ?>

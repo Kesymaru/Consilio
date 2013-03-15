@@ -368,6 +368,7 @@ $.extend(Categorias.prototype, {
 	* @param int articulo -> id del articulo ha mostrar
 	*/
 	Datos: function(articulo){
+		var clase = this;
 		console.log( articulo );
 
 		this.articulo = articulo;
@@ -390,7 +391,6 @@ $.extend(Categorias.prototype, {
 
 					//se encarga de animar y cargar el scroll
 					$animations.PanelMenus();
-
 				}else{
 					notificaError("Error: "+response);
 				}
@@ -415,7 +415,7 @@ $.extend(Categorias.prototype, {
 			$shortcuts.focus = 'panel';
 			$animations.PanelMenus();
 		}
-	}
+	},
 
 });
 
@@ -585,6 +585,7 @@ $.extend(Animations.prototype, {
 					$("#datos-articulo, #datos-footer, .titulo, .datos").fadeIn();
 					
 					clase.CargarScroll();
+					clase.Grid();
 
 					$shortcuts.lock = 'false';
 		    	}
@@ -600,7 +601,7 @@ $.extend(Animations.prototype, {
 
 			var element = $( "#"+ $(this).attr('id') );
 
-			console.log( element.prop('scrollHeight') );
+			//console.log( element.attr('id')+' '+element.prop('scrollHeight') );
 							
 			if( 200 <= element.prop('scrollHeight') ){
 
@@ -615,7 +616,187 @@ $.extend(Animations.prototype, {
 				element.css("overflow","hidden");
 			}
 		});
-	}
+
+		//pone screoll para adjuntos
+		if( $("#box-adjuntos .dato").is(':visible') ){
+			$("#box-adjuntos .dato").mCustomScrollbar({
+				scrollButtons:{
+					enable:true
+				},
+				theme: "dark-thick"
+			});
+		}
+	},
+
+	/**
+	* CREA GRID
+	*/
+	Grid: function(){
+
+		var sw =  $('#content .datos').width();
+
+		var estado = this.EstadoGrid();
+		var div = 0;
+		var adjunto = 0;
+		//console.log( estado );
+
+		//tiene permisos, entidades y sanciones
+		if( estado[3] == "P" && estado[4] == "E" && estado[5] == "S" ){
+			div = 3;
+		}else if( estado[3] == "P" && estado[4] == "E" || estado[3] == "P" && estado[5] == "S" || estado[4] == "E" && estado[5] == "S" ){
+			div = 2;
+		}else if( estado[3] == "P" || estado[4] == "E" || estado[5] == "S" ){
+			div = 1;
+		}
+		if( estado[6] == "D" ){
+			adjunto = 1;
+		}
+		console.log( adjunto );
+		if( div == 1 && adjunto == 1 ){
+			adjunto = 2;
+			div = 2;
+		}
+		//console.log( 'div' + div);
+
+		if( 1500 <= sw ){
+			var sb = sw-6;
+			
+			if( div == 1 || div == 0){
+				var mb = sw-6;
+			}else if( div != 3){
+				var mb = (sw-30)/div;
+			}else if( div == 3 && adjunto != 1){
+				var mb = (sw-30)/div;
+			}else if( div == 3 && adjunto == 1){
+				var mb = (sw-30)/4;
+				var ab = mb;
+			}
+
+			if( adjunto == 1 && div != 3 || adjunto == 1 && div == 0){
+				var ab = sw-6;
+			}else if( adjunto == 2){
+				var ab = (sw-30)/div;
+			}
+
+		}else if( 900 <= sw ){
+			var sb = sw-1;
+
+			if( div == 1 || div == 0){
+				var mb = sw-6;
+			}else if( div != 3){
+				var mb = (sw-30)/div;
+			}else if( div == 3 && adjunto != 1){
+				var mb = (sw-30)/div;
+			}else if( div == 3 && adjunto == 1){
+				var mb = (sw-30)/2;
+				var ab = mb;
+			}
+			
+			if( adjunto == 1 && div != 3 || adjunto == 1 && div == 0){
+				var ab = sw-6;
+			}else if( adjunto == 2){
+				var ab = (sw-30)/div;
+			}
+
+		}else if( 700 <= sw ) {
+			var sb = sw-1;
+
+			if( div == 1 || div == 0){
+				var mb = sw-6;
+			}else if( div != 3){
+				var mb = (sw-30)/div;
+			}else if( div == 3 && adjunto != 1){
+				var mb = (sw-30)/2;
+			}else if( div == 3 && adjunto == 1){
+				var mb = (sw-30)/2;
+				var ab = mb;
+			}
+			
+			if( adjunto == 1 && div != 3 || adjunto == 1 && div == 0){
+				var ab = sw-6;
+			}else if( adjunto == 2){
+				var ab = (sw-30)/div;
+			}
+
+		}else{
+			var sb = sw-6;
+			var mb = sw-6;
+			var ab = sw-6;
+		}
+
+		//console.log( sb, mb, ab );
+
+		$('.datos div').each(function() {
+			if( $(this).hasClass('SuperBox') ){
+				$(this).width(sb);
+			}
+			if( $(this).hasClass('MiniBox') ){
+				$(this).width(mb);
+			}
+			if( $(this).hasClass('AdjuntoBox') ){
+				$(this).width(ab);
+			}
+		});
+
+		$('#content .datos').freetile({
+			animate: false,
+			elementDelay: 0,
+		});
+
+	},
+
+	/**
+	* COMPONE EL ESTADO DE BOXES AGREGADOS
+	* @return array estado
+	*/
+	EstadoGrid: function(){
+		var estado = [];
+		if( $("#box-resumen").length > 0){
+			estado[0] = 'R'
+		}else{
+			estado[0] = 'X'
+		}
+		if( $("#box-observacion").length > 0){
+			estado[1] = 'O'
+		}else{
+			estado[1] = 'X'
+		}
+		if( $("#box-articulo").length > 0){
+			estado[2] = 'A'
+		}else{
+			estado[2] = 'X'
+		}
+		if( $("#box-permisos").length > 0){
+			estado[3] = 'P'
+		}else{
+			estado[3] = 'X'
+		}
+		if( $("#box-entidad").length > 0){
+			estado[4] = 'E'
+		}else{
+			estado[4] = 'X'
+		}
+		if( $("#box-sanciones").length > 0){
+			estado[5] = 'S'
+		}else{
+			estado[5] = 'X'
+		}
+		if( $("#box-adjuntos").length > 0){
+			estado[6] = 'D'
+		}else{
+			estado[6] = 'X'
+		}
+
+		return estado;
+	},
+
+	ResizeGrid: function(){
+		if( $("#content").is(':visible') ){
+			//this.CargarScroll();
+			this.Grid();
+		}
+		return;
+	},
 });
 
 $animations = new Animations();

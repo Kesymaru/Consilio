@@ -65,6 +65,7 @@ $master = new Master();
 
 	<!--  scrollbar -->
 	<script type="text/javascript" src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+	<script type="text/javascript" src="js/jquery.freetile.js"></script>
 
 	<!-- matriz -->
 	<script type="text/javascript" src="js/Proyectos.js"></script>

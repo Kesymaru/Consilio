@@ -2716,7 +2716,6 @@ function FormularioNuevoTipoObservacion(){
 */
 function EditarTipoObservacion(){
 	var id = $("#tipos-observacion .seleccionada").attr('id');
-	notifica(id);
 
 	var queryParams = {"func" : "EditarTipo", "id" : id};
 

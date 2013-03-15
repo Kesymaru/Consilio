@@ -58,6 +58,7 @@ class Exportar{
 
 	public function __construct(){
 		$session = new Session();
+		
 		//seguridad que este logueado
 		$session->Logueado();
 

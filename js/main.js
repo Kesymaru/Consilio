@@ -1,6 +1,9 @@
 /**
 * JAVASCRIPT PARA ESCALA MATRIZ
 */
+$(window).resize(function(){
+	$animations.ResizeGrid();
+});
 
 $(document).ready(function(){
 
