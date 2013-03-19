@@ -355,6 +355,31 @@ class Cliente{
 		return $datos;
 	}
 
+
+	/************************************** LOGS DE CLIENTES ************************/
+
+	/**
+	* OBTIENE LOS LOGS DE UN CLIENTE
+	* @param int $id -> id del cliente
+	* @return array $logs -> los registros del cliente
+	* @return boolean false -> si falla o si no tiene registros
+	*/
+	public function getClienteLogs( $id ){
+		$base = new Database();
+
+		$id = mysql_real_escape_string( $id );
+
+		$query = "SELECT * FROM clientes_logs WHERE cliente = '".$id."'";
+
+		$logs = $base->Select( $query );
+
+		if( !empty($logs) ){
+			return $logs;
+		}else{
+			return false;
+		}
+	}
+ 
 }
 
 /**
@@ -612,6 +637,28 @@ class Admin{
 					unset($_SESSION[$key]);
 				}
 			}
+		}
+	}
+
+	/**
+	* OBTIENE LOS REGISTROS DE UN ADMIN
+	* @param int $id -> id del admin
+	* @return array $logs -> registros
+	* @return boolean false -> si no tiene
+	*/
+	public function getAdminLogs( $id ){
+		$base = new Database();
+
+		$id = mysql_real_escape_string($id);
+
+		$query = "SELECT * FROM admin_logs WHERE admin = '".$id."'";
+
+		$logs = $base->Select( $query );
+
+		if( !empty($logs) ){
+			return $logs;
+		}else{	
+			return false;
 		}
 	}
 }

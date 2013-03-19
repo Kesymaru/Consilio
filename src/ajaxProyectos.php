@@ -789,8 +789,6 @@ function ProyectoLog( $id ){
 
 	if ( !$proyectos->ProyectoLog( $id ) ){
 		echo "Error: al registrar log de proyecto $id del cliente ".$_SESSION['cliente_id'];
-	}else{
-		echo 'log success';
 	}
 }
 

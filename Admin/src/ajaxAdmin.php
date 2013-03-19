@@ -514,8 +514,8 @@ function EliminarAdmin($id){
 /*********************** ADMIN LOGS *************/
 
 function AdminLogs(){
-	$admin =  new Admin();
-	$datos = $admin->getAdmins();
+	$administradores =  new Admin();
+	$datos = $administradores->getAdmins();
 
 	$lista = '<div class="titulo">
 				Admin Logs
@@ -528,35 +528,40 @@ function AdminLogs(){
 							Admin
 						</th>
 						<th>
-							Ultimo Acceso
+							Total Ingresos
 						</th>
 						<th>
-							Activo
+							Ultimo Ingreso
 						</th>
 					</tr>';
 		
 		foreach ($datos as $fila => $admin) {
-			$lista .= '<tr><td>'.$admin['nombre'].'</td>';
-			$logs  = unserialize($admin['log']);
+			$lista .= '<tr>
+						<td>
+							'.$admin['nombre'].
+						'</td>';
 
-			if(!empty($logs)){
-				$lista .= '<td>'.$logs[ sizeof($logs)-1 ].'</td>';
-			}else{
-				$lista .= '<td></td>';
+			$totalLogueos = "---";
+			$ultimoIngreso = "---";
+			$activo = "---";
+
+			if( $logs = $administradores->getAdminLogs( $admin['id'] ) ){
+				$totalLogueos = sizeof( $logs );
+				$ultimoIngreso = $logs[ sizeof($logs)-1 ]['fecha'];
 			}
 
-			if($admin['activo'] == 1){
-				$lista .= '<td>Activo</td>';
-			}else{
-				$lista .= '<td>No Activo</td>';
-			}
+			$lista .= '<td>
+						'.$totalLogueos.'
+					   </td>
+					   <td>
+					   	'.$ultimoIngreso.'
+					   </td>';
+
 			$lista .= '</tr>';
 		}
 
 		$lista .= '</table>';
 
-	}else{
-		return '';
 	}
 
 	echo $lista;

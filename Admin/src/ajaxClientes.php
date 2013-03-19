@@ -56,6 +56,14 @@ if(isset($_POST['func'])){
 		case 'Logs':
 			Logs();
 			break;
+
+		//MUESTRA LAS ESTADISTICAS DEL CLIENTE
+		case 'ClienteEstadisticas':
+			if( isset( $_POST['id'] ) ){
+				ClienteEstadisticas( $_POST['id'] );
+			}
+			break;
+
 	}
 }
 
@@ -520,14 +528,28 @@ function Logs(){
 
 		//compone tabla de clientes
 		foreach ($clientes as $dato => $cliente) {
-			$logueos = unserialize( $cliente['log'] );
 
-			$totalLogueos = 0;
-			$ultimoLogueo = 0;
+			if( $logs = $usuarios->getClienteLogs( $cliente['id'] ) ){
+				//echo '<prel>'; print_r($logs); echo '</pre>';
 
-			if( is_array($logueos) ){
-				$totalLogueos = sizeof( $logueos );
-				$ultimoLogueo = $logueos[ sizeof($logueos)-1 ];
+				$totalLogueos = sizeof( $logs );
+				
+				$x = sizeof($logs)-1;
+				$ultimoLogueo =  $logs[$x]['fecha'];
+
+				$dateMaximo = date("Y-m-d h:i:s", strtotime("+30 minutes"));
+				$dateMinimo = date("Y-m-d h:i:s", strtotime("-30 minutes"));
+
+				if( $dateMinimo < $ultimoLogueo && $ultimoLogueo < $dateMaximo ){
+					$activo = 'Activo';
+				}else{
+					$activo = "No";
+				}
+
+			}else{
+				$totalLogueos = "---";
+				$ultimoLogueo = "---";
+				$activo = "no";
 			}
 
 			$lista .= '<tr id="'.$cliente['id'].'">
@@ -561,6 +583,24 @@ function Logs(){
 	}
 
 	echo $lista;
+}
+
+/**
+* COMPONE LAS ESTADISTICAS DE UN CLIENTE
+* @param int $id -> id del cliente
+* @return string $estadisticas -> text/html con las estadisticas
+*/
+function ClienteEstadisticas( $id ){
+	$cliente = new Cliente();
+	$proyectos = new Proyectos();
+
+	$logs = $cliente->getClienteLogs( $id );
+	$datos = $cliente->getDatosCliente( $id );
+	$datosProyectos = $proyectos->getProyectosCliente( $id );
+
+	if( !empty($logs) ){
+		
+	}
 }
 
 ?>

@@ -169,27 +169,16 @@ class Session{
 
 	/**
 	* REGISTRA UNA VISITA DEL CLIENTE
-	* @param $id -> id del cliente
+	* @param int $id -> id del cliente
 	*/
 	public function RegistrarVisita($id){
 		$base = new Database();
-		$query = "SELECT * FROM clientes WHERE id = '".$id."'";
 
-		$datos = $base->Select($query);
-		if(empty($datos[0]['log'])){
-			$registros = array();
-			$registros[] = date("Y-m-d H:i:s");
-		}else{
-			$registros = array();
-			$registros = unserialize($datos[0]['log']);
-			if(!empty($registros)){
-				$registros[] = date("Y-m-d H:i:s");
-			}
-		}
-		$visitas = serialize($registros);
+		$id = mysql_real_escape_string($id);
 
-		$query = "UPDATE clientes SET log = '".$visitas."' WHERE id = '".$id."'";
-		$base->Update($query);
+		$query = "INSERT INTO clientes_logs (cliente, fecha) VALUES ( '".$id."', NOW() )";
+		
+		$base->Insert($query);
 	}
 
 }

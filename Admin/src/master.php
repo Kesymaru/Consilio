@@ -165,9 +165,7 @@ class Master{
 		//echo '" /></li>';
 		$menu .= '<li onClick="Admin();">Admin</li>';
 		
-		if($_SESSION['id'] == 1){
-			$menu .= '<li onClick="AdminLogs()">Logs</li>';
-		}
+		$menu .= '<li onClick="AdminLogs()">Logs</li>';
 
 		$menu .= '<li onClick="LogOut();">Salir</li>';
 
@@ -214,6 +212,7 @@ class Master{
 	 */
 	public function MenuClientes(){
 		echo '<li onClick="Clientes()">Clientes</li>';
+		echo '<li onClick="ClientesLogs()">Logs</li>';
 	}
 
 	/**

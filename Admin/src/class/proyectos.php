@@ -317,6 +317,33 @@ class Proyectos{
 			return "images/es.png";
 		}
 	}
+
+	/******************** HELPERS **************************************************/
+
+	/**
+	* OBTIENE TODOS LOS PROYECTOS DE UN CLIENTE
+	* @param int $id -> id del cliente
+	* @return array $datos -> datos de los proyectos
+	* @return boolean false -> si falla
+	*/
+	public function getProyectosCliente( $id ){
+		$base = new Database();
+
+		$id = mysql_real_escape_string( $id );
+
+		$query = "SELECT * FROM proyectos WHERE cliente = '".$id."'";
+
+		$datos = $base->Select( $query );
+
+		if( !empty($datos) ){
+			return $datos;
+		}else{
+			return false;
+		}
+		
+	}
 }
+
+
 
 ?>

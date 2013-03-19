@@ -177,6 +177,26 @@ $master = new Master();
 
 		<div id="menu2">
 
+			<!--
+			<div class="panel" >
+				<div class="panel-header">
+					<div id="oanel-categorias">
+					</div>
+					<div id="panel-normas">
+					</div>
+					<div id="panel-articulos">
+					</div>
+				</div>
+				<div class="panel-body" >
+					<div id="td-categorias" >
+					</div>
+					<div id="td-normas" >
+					</div>
+					<div id="td-articulos" >
+					</div>
+				</div>
+			</div> -->
+
 			<!-- tabla para el panel donde se muestran las lista -->
 			<table class="panel" >
 			<tr>
@@ -187,26 +207,21 @@ $master = new Master();
 					
 				</th>
 				<th id="panel-articulos">
-					<span></span>
-					<img class="icon derecha" title="Buscar" onClick="Busqueda('busqueda', 'buscar', 'panel', false)" src="images/search2.png" />
 				</th>
-			</tr>
-			<tr>
-				<td colspan="3">
-					<div class="busqueda" id="busqueda">
-						<div class="buscador">
-						<input type="search" title="Escriba par buscar" id="buscar" placeholder="Buscar"/>
-						</div>
-					</div>
-				</td>
 			</tr>
 
 			<tr id="panel">
-				<td id="td-categorias" >
+				<td >
+					<div id="td-categorias">
+					</div>
 				</td> 
-				<td id="td-normas" >
+				<td >
+					<div id="td-normas" >
+					</div>
 				</td> 
-				<td id="td-articulos" >
+				<td >
+					<div id="td-articulos" >
+					</div>
 				</td>
 			</tr>
 			</table>

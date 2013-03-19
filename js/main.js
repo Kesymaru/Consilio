@@ -2,6 +2,12 @@
 * JAVASCRIPT PARA ESCALA MATRIZ
 */
 $(window).resize(function(){
+	/*var alto = $("#menu2").innerHeight() - $(".panel th").innerHeight();
+	$(".panel #panel td div").height(alto);*/
+
+	var alto = $("#menu2").innerHeight() - $(".panel-header div").innerHeight()
+	$(".panel-body div, .panel-body div ul").height(alto);
+
 	$animations.ResizeGrid();
 });
 

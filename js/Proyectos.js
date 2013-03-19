@@ -50,7 +50,9 @@ function Proyecto(id){
 		type: "post",
 		url: "src/ajaxProyectos.php",
 		success: function( response ){
-			notifica(response);
+			if( response.length > 3 ){
+				notificaError("Error: Proyectos.js Proyecto, al registrar log de proyecto y cliente.<br/>"+response);
+			}
 		},
 		fail: function(response){
 			notificaError("Error: AJAX FAIL Proyectos.js Proyecto "+response);

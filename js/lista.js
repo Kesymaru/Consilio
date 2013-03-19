@@ -46,12 +46,14 @@ $.extend(Categorias.prototype, {
 							theme: "dark-thick"
 						});
 
-					$("#menu2").mCustomScrollbar({
+					/*$(".panel #panel td div").mCustomScrollbar({
 						scrollButtons:{
 							enable:true
 						},
 						theme: "dark-thick"
-					});
+					});*/
+					var alto = $("#menu2").innerHeight() - $(".panel-header div").innerHeight()
+					$(".panel-body div, .panel-body div ul").height(alto);
 					
 					$("#menu li").click(function(){
 						
@@ -82,13 +84,9 @@ $.extend(Categorias.prototype, {
 	ResetPanel: function(){
 		if( $("#menu2").length > 0 ){
 			//resete el panel
-			$("#panel-categorias, #panel-normas, #td-categorias, #td-normas, #td-articulos")
+			$("#panel-categorias, #panel-normas, #panel-articulos, #td-categorias, #td-normas, #td-articulos")
 				.removeClass("panel-activo")
 				.html('');
-			
-			$("#panel-articulos")
-				.removeClass("panel-activo")
-			$("#panel-articulos span").html('');
 
 			$("#td-categorias, #td-normas").removeClass('panel-border-right');
 			$("#td-articulos").removeClass('panel-border-top');
@@ -320,9 +318,9 @@ $.extend(Categorias.prototype, {
 
 		$("#panel-articulos")
 			.addClass("panel-activo")
-			.hide();
-		$("#panel-articulos span").html('Articulos');
-		$("#panel-articulos").fadeIn();
+			.hide()
+			.html('Articulos')
+			.fadeIn();
 
 		$("#td-articulos").removeClass('panel-border-top');
 
@@ -593,10 +591,28 @@ $.extend(Animations.prototype, {
 	},
 
 	/**
+	* CARGA EL SCROLL DE UN ELEMENTO
+	*/
+	Scroll: function( id ){
+		var element = $("#"+id);
+
+		if( element.prop('scrollHeight') > element.height() ){
+			element.css("overflow","hidden");
+
+			element.mCustomScrollbar({
+				scrollButtons:{
+					enable:true
+				},
+				theme: "dark-thick"
+			});
+		}
+		
+	},
+
+	/**
 	* CARGA EL SCROLL DEL PANEL DE DATOS
 	*/
 	CargarScroll: function(){
-
 		$('.dato').each(function(){
 
 			var element = $( "#"+ $(this).attr('id') );
@@ -792,7 +808,6 @@ $.extend(Animations.prototype, {
 
 	ResizeGrid: function(){
 		if( $("#content").is(':visible') ){
-			//this.CargarScroll();
 			this.Grid();
 		}
 		return;

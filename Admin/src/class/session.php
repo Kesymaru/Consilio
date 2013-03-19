@@ -113,15 +113,7 @@ class Session{
 		$datos = $base->Select("SELECT * FROM admin WHERE usuario = '".$usuario."' AND password = '".$password."'");
 
 		if(!empty($datos)){
-			/*foreach ($datos as $fila => $c) {
-				foreach ($datos[$fila] as $campo => $valor) {
-					if($campo != 'password' ){
-						if(!empty($valor)){
-							$_SESSION[$campo] = $valor;
-						}
-					}
-				}
-			}*/
+
 			foreach ($datos[0] as $campo => $dato) {
 				if($dato != '' && $campo != 'password' && $campo != 'log' && $campo != 'fecha_creacion' && $campo != 'fecha_actualizacion' && $campo != 'activo'){
 					$_SESSION[$campo] = $dato;
@@ -166,25 +158,12 @@ class Session{
 	*/
 	private function RegistrarVisita($id){
 		$base = new Database();
+		
 		$id = mysql_real_escape_string($id);
 
-		$query = "SELECT * FROM admin WHERE id = '".$id."'";
+		$query = "INSERT INTO admin_logs (admin, fecha) VALUES ('".$id."', NOW() ) ";
 
-		$datos = $base->Select($query);
-		if(empty($datos[0]['log'])){
-			$registros = array();
-			$registros[] = date("Y-m-d H:i:s");
-		}else{
-			$registros = array();
-			$registros = unserialize($datos[0]['log']);
-			if(!empty($registros)){
-				$registros[] = date("Y-m-d H:i:s");
-			}
-		}
-		$log = serialize($registros);
-
-		$query = "UPDATE admin SET log = '".$log."', activo = 1 WHERE id = '".$id."'";
-		$base->Update($query);
+		$base->Insert($query);
 	}
 
 	/**
@@ -192,11 +171,13 @@ class Session{
 	* @param $id -> id del admin
 	*/
 	private function SalidaAdmin($id){
-		$base = new Database();
+		/*$base = new Database();
+
 		$id = mysql_real_escape_string($id);
 
-		$query = "UPDATE admin SET activo = 0 WHERE id = '".$id."'";
-		$base->Update($query);
+		$query = "INSERT INTO admin_logs (admin, fecha, tipo) VALUES ('".$id."', NOW(), 'out' )";
+
+		$base->Insert( $query );*/
 	}
 
 }

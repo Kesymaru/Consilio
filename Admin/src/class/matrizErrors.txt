@@ -98,3 +98,336 @@ scr/ajaxClientes.php
 	JAVASCRIPT: 1
 	March 15 2013 - 5:02 pm
  --------------------<>--------------------
+
+ 
+<script>
+							notificaAtencion("El usuario o la contraseña es incorrecta.
+Intento: 1");
+						   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 15 2013 - 6:02 pm
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 15 2013 - 6:02 pm
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 18 2013 - 9:29 am
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 18 2013 - 10:38 am
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 18 2013 - 10:39 am
+ --------------------<>--------------------
+
+ 
+3. Error en consulta INSERT INTO admin_logs (admin, fecha) VALUES ('2', NOW() ) Duplicate entry '0' for key 'PRIMARY'
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 18 2013 - 10:52 am
+ --------------------<>--------------------
+
+ 
+3. Error en consulta INSERT INTO admin_logs (admin, fecha) VALUES ('2', NOW() ) Duplicate entry '0' for key 'PRIMARY'
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 18 2013 - 10:53 am
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 18 2013 - 10:55 am
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 18 2013 - 10:58 am
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 18 2013 - 11:03 am
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 18 2013 - 11:06 am
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 18 2013 - 11:06 am
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 18 2013 - 11:34 am
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 18 2013 - 11:36 am
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 18 2013 - 12:22 pm
+ --------------------<>--------------------
+
+ 
+<script>
+						top.location.href = "index.php";
+					   </script>
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 18 2013 - 2:15 pm
+ --------------------<>--------------------
+
+Error: AJAX error.
+func=ListaClientes
+src/ajaxCliente.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 18 2013 - 5:43 pm
+ --------------------<>--------------------
+
+Error: AJAX error.
+func=ClientesLogs
+src/ajaxCliente.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 18 2013 - 5:44 pm
+ --------------------<>--------------------
+
+Error: AJAX error.
+func=ClientesLogs
+src/ajaxCliente.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 18 2013 - 5:44 pm
+ --------------------<>--------------------
+
+Error: AJAX error.
+func=ClientesLogs
+src/ajaxCliente.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 18 2013 - 5:45 pm
+ --------------------<>--------------------

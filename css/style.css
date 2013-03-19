@@ -442,8 +442,8 @@ button:hover{
 	margin-right: 0;
 	background-color: #FFFFFF;
 	border: 1px solid #dedede;
-	overflow-x: auto !important;
-	overflow-y: auto !important;
+	/*overflow-x: auto !important;*/
+	overflow-y: hidden !important;
 	padding: 0;
 }
 
@@ -741,7 +741,14 @@ button:hover{
 	height: 100%;
 	border: none solid transparent;
 	border-collapse: collapse;
+	display: table;
+	vertical-align: top;
 }
+
+/*
+#menu2 .mCSB_container{
+	height: 100% !important;
+}*/
 
 .panel th{
 	width: 33%;
@@ -754,10 +761,25 @@ button:hover{
 
 .panel #panel td{
 	width: 33%;
-	height: 100%;
+	height: 100% !important;
+	max-height: 100%;
 	border-left: 1px solid #fff;
 	vertical-align: top;
 	text-align: left;
+}
+
+.panel #panel td div{
+	display: block;
+	width: 100%;
+	height: 100%;
+	overflow-y: auto;
+	overflow-x: hidden;
+	margin-bottom: 10px;
+}
+
+.panel #panel td div ul{
+	display: block;
+	height: 100%;
 }
 
 .panel .icon{

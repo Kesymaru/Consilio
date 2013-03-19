@@ -363,10 +363,76 @@ function ClientesLogs(){
 		success: function(response){
 
 			$("#content").append(response);
+			
+			$("#cliente-logs tr").on('click',function(){
+				var element = $(this);
 
+				$("#cliente-logs tr").removeClass('seleccionada');
+				element.addClass("seleccionada");
+
+			}).dblclick(function(){
+				ClienteEstadisticas( $(this).attr('id') );
+			});
 		},
 		fail: function(response){
 			notificaError("AJAX FAIL Clientes.js ClientesLogs.<br/>"+response);
+		}
+	});
+}
+
+/**
+* ESTADISTICAS DE UN CLIENTE
+* @param int id -> id del cliente
+*/
+function ClienteEstadisticas( id ){
+	if( !$("#menu").is(":visible") ){
+		ActivaMenu();
+	}
+
+	LimpiarContent();
+
+	var queryParams = {"func" : "Clientes"};
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxClientes.php",
+		success: function(response){
+
+			if( 3 <= response.length ){
+
+				$("#menu")
+					.hide()
+					.html( response )
+					.fadeIn();
+			}else{
+				notificaError("Error: clientes.js ClienteEstadisticas(), al obtener lista de clientes.<br/>"+response);
+			}
+
+		},
+		fail: function(response){
+			notificaError("Error: AJAX FAIL clientes.js ClienteEstadisticas().<br/>"+response);
+		}
+	});
+
+	queryParams = {"func" : "ClienteEstadisticas", "id" : id};
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxClientes.php",
+		success: function(response){
+
+			if( 3 <= response.length ){	
+				$("#conten")
+					.hide()
+					.html( response )
+					.fadeIn();
+			}else{
+				notificaError("Error: clientes.js ClienteEstadisticas(). "+response);
+			}
+
+		},
+		fail: function(response){
+			notificaError("Error: AJAX FAIL, clientes.js ClienteEstadisticas()<br/>"+response);
 		}
 	});
 }
