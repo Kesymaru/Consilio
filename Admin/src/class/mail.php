@@ -125,7 +125,21 @@ class Mail {
 		}
 
 		$header .= "X-Mailer: Escal Matriz" . "\r\n";
-		$header .= "Content-Type: text/html; charset=utf-8\r\n";
+
+		//tiene adjuntos
+		if( array_key_exists('adjunto', $correo) ){
+			$strSid = $correo['adjunto'];
+
+			$header .= "MIME-Version: 1.0\n";
+			$header .= "Content-Type: multipart/mixed; boundary=\"".$strSid."\"\n\n";
+			$header .= "This is a multi-part message in MIME format.\n";
+
+			$header .= "--".$strSid."\n";
+			$header .= "Content-type: text/html; charset=utf-8\n";
+			$header .= "Content-Transfer-Encoding: 7bit\n\n";
+		}else{
+			$header .= "Content-Type: text/html; charset=utf-8\r\n";
+		}
 
 		return $header;
 	}
@@ -410,7 +424,7 @@ class Mail {
 				$link = $_SESSION['matriz'].$correo['link'];
 			}else{
 				if(array_key_exists('userId', $correo)){
-					$usarId = $correo['userId'];
+					$userId = $correo['userId'];
 					$link = $_SESSION['matriz'].'/login.php?user='.$userId;
 				}else{
 					$link = $_SESSION['matriz'].'/login.php';
@@ -438,7 +452,7 @@ class Mail {
 
 				$mensajeFinal .= '
 						<td class="td-logoCliente">
-							<img class="logoCliente" src="'.$_SESSION['home'].$correo['imagen'].'" alt="'.$nombre.'" title="'.$nombre.'">
+							<img class="logoCliente" src="'.$_SESSION['home'].'/'.$correo['imagen'].'" alt="'.$nombre.'" title="'.$nombre.'">
 						</td>';
 			}
 
@@ -548,6 +562,56 @@ class Mail {
 		if( !mail($destinatario, $asunto, $mail, $header) ){
 			echo "Erro: no se pudo enviar el mail.<br/>Detalles:<br/>Para: ".$destinatario;
 			echo "<br/>De: ".$remitente."<br/>Asunto: ".$asunto;
+			return false;
+		}else{
+			return true;
+		}
+	}
+
+	/**
+	* ENVIA CORREO CON ADJUNTO
+	* @param string $destinatario
+	* @param array $cc
+	* @param array $bcc
+	* @param string $mail -> mensaje
+	* @param string $nombre -> nombre del archivo
+	* @param string $link -> link del archivo
+	*/
+	public function enviarAjunto($remitente, $destinatario, $cc, $bcc, $asunto, $mail, $nombre, $link){
+		$strSid = md5(uniqid(time()));
+
+		$correo = array();
+		$correo['adjunto'] = $strSid;
+		$correo['remitente'] = $remitente;
+		$correo['destinatario'] = $destinatario;
+
+		if($cc != ''){
+			$correo['cc'] = $cc;
+		}
+		if( $bcc != ''){
+			$correo['bcc'] = $bcc;
+		}
+		if( $asunto == ''){
+			$asunto == "Notificacion Escala Consultores";
+		}
+
+		$header = $this->header($correo);
+
+		//anade el archivo adjunto al header
+		$nombre = str_replace(' ', '_', $nombre);
+
+		$archivo = chunk_split(base64_encode(file_get_contents( $link ) ) ); 
+		$header .= "--".$strSid."\n";
+		$header .= "Content-Type: application/octet-stream; name=\"".$nombre."\"\n"; 
+		$header .= "Content-Transfer-Encoding: base64\n";
+		$header .= "Content-Disposition: attachment; filename=\"".$nombre."\"\n\n";
+		$header .= $archivo."\n\n";
+
+		if( !mail($destinatario, $asunto, $mail, $header) ){
+
+			echo "Erro: no se pudo enviar el mail con el archivo adjunto.<br/>Detalles:<br/>Para: ".$destinatario;
+			echo "<br/>De: ".$remitente."<br/>Asunto: ".$asunto;
+			
 			return false;
 		}else{
 			return true;

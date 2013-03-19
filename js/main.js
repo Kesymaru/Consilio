@@ -515,7 +515,7 @@ function LogOut(){
 	        	notifica('Hasta la proxima.');
 	        		setTimeout(function (){
 						$('body').fadeOut(1500, function(){
-	        				top.location.href = 'login.php';
+	        				top.location.href = 'http://www.consultoresescala.com/e-notes/?lang=es';
 	        		});
 				},2000);
 	        }

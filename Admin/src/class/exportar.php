@@ -9,11 +9,10 @@ require_once("session.php");
 require_once("proyectos.php");
 require_once("usuarios.php");
 require_once("registros.php");
-require_once("../html2pdf.class.php");
-
-$exportar = new Exportar();
+require_once("html2pdf.class.php");
 
 if( isset($_GET['id']) && isset($_GET['tipo'])){
+	$exportar = new Exportar();
 	$tipo = $_GET['tipo'];
 	
 	if($tipo == 'excel'){
@@ -24,12 +23,16 @@ if( isset($_GET['id']) && isset($_GET['tipo'])){
 
 	}else if($tipo == 'html'){
 		$exportar->Informe($_GET['id']);
+	}else if($tipo == 'pdfcliente'){
+		//exporta el informe para el cliente del proyecto
+		$exportar->ExportarPdfCliente( $_GET['id'] );
 	}
 
 }
 
 //exporta clientes
 if( isset($_GET['tipo'])){
+	$exportar = new Exportar();
 	$tipo = $_GET['tipo'];
 
 	if($tipo == 'clientes'){
@@ -652,7 +655,7 @@ class Exportar{
 
 			//normas y articulos
 			'class="NombreArticulo"' => 'style="background-color: #F3EFE6; font-weight: bold; margin: 0; padding: 0;"',
-			'class="TdNorma"' => 'style="background-color: #F3EFE6; border: 1px solid #757273; vertical-aling: middle; width: 5%; max-width: 5%;"',
+			'class="TdNorma"' => 'style="background-color: #F3EFE6; border: 1px solid #757273; vertical-aling: middle; width: 5%; max-width: 5%; text-align: center;"',
 			'class="TdDato"' => 'style="background-color: #F3EFE6; border: 1px solid #757273; vertical-aling: middle; padding: 0; width: 32.5%; max-width: 32.5%;"',
 			'class="TdDato2"' => 'style="background-color: #F3EFE6; border: 1px solid #757273; vertical-aling: middle; padding: 0; width: 12.5%; max-width: 12.5%;"',
 
@@ -661,23 +664,257 @@ class Exportar{
 			'class="TdFooterLeft"' => 'style="background-color: #BAB8B9; border: 1px solid #BAB8B9;  color: #000000; text-align: left; font-size: 12pt;"',
 			'class="TdFooterRight"' => 'style="background-color: #BAB8B9; border: 1px solid #BAB8B9;  color: #000000; text-align: right; font-size: 12pt;"',
 			'class="FooterTable"' => 'style="background-color: #BAB8B9; border: 1px solid #BAB8B9; width: 100%; color: #000000; text-align: left; margin-left: auto; margin-right: auto; font-size: 12pt;"',
+			'class="FooterTableCliente"' => 'style="background-color: #BAB8B9; border: 1px solid #BAB8B9; color: #000000; text-align: left; margin-left: auto; margin-right: auto; font-size: 12pt; border-spacing: 10px 0px"',
 			'class="SubTitulo"' => 'style="background-color: #BAB8B9; border: 1px solid #BAB8B9; color: #000000; text-align: right; font-weight: bold; font-size: 12pt;"',
+			'class="SubTituloCliente"' => 'style="background-color: #BAB8B9; border: 1px solid #BAB8B9; color: #000000; text-align: left; font-weight: bold; font-size: 12pt;"',
 			'class="Center"' => 'style="background-color: #BAB8B9; border: 1px solid #BAB8B9; color: #000000; text-align: center; font-size: 12pt;"',
 			'class="TdFooter2"' => 'style="background-color: #BAB8B9; border: 1px solid #BAB8B9; color: #000000; text-align: left; font-size: 12pt;"',
 
-			'class="LogoEscala"' => 'style="display:block; float: left; height: 80px;"',
-			'class="LogoCliente"' => 'style="display:block; float: right; height: 80px;"',
+			'class="LogoEscala"' => 'style="display:block; float: left; height: 70px; margin-left: 10px; margin-top: 10px;"',
+			'class="LogoCliente"' => 'style="display:block; float: right; height: 70px; margin-right: 10px; margin-top: 10px;"',
 
 			'<p>' => '',
 			'<p style="margin-left:1pt;">' => '',
 			'<p style="text-align: justify; ">' => '',
 			'</p>' => '',
+
+			'class="FooterCliente"' => 'style="width: 101%; background-color: #BAB8B9; text-align: center;
+				border: 1px solid #BAB8B9;
+				padding: 0;
+				margin: 0;
+				-webkit-border-bottom-right-radius: 20px;
+				-webkit-border-bottom-left-radius: 20px;
+				-moz-border-radius-bottomright: 20px;
+				-moz-border-radius-bottomleft: 20px;
+				border-bottom-right-radius: 20px;
+				border-bottom-left-radius: 20px;"',
 			);
 
 		foreach ($tema as $class => $style) {
 			$this->informe = str_replace( $class, $style, $this->informe);
 		}
 	}
+
+	/************************************************************ EXPORTACION PARA EL CLIENTE *******************************/
+
+	/**
+	* EXPORTA PDF DEL CLIENTE
+	*/
+	public function ExportarPdfCliente( $proyecto ){
+		$this->proyecto = $proyecto;
+		$this->formato = 'pdf';
+
+		$this->CrearInformeCliente();
+
+		//exporta en formato pdf
+		$nombreArchivo =  str_replace(' ', '_', $this->nombreProyecto);
+
+		//combierte el html a pdf-> utiliza html2pdf class
+	   	ob_start();
+	    ob_end_clean();
+	    $content = ob_get_clean();
+	    $content = $this->informe;
+
+	    try{
+	        $html2pdf = new HTML2PDF('P', 'A1', 'es', true, 'UTF-8', array(1, 1, 1, 1) );
+        	$html2pdf->pdf->SetDisplayMode('fullpage');
+
+	        $html2pdf->pdf->SetAuthor($_SESSION['nombre']);
+			$html2pdf->pdf->SetTitle('Informe '.$this->nombreProyecto.' '.date("m d Y - g:i a"));
+			$html2pdf->pdf->SetSubject('Informe proyecto matriz');
+			$html2pdf->pdf->SetKeywords('informe, proyecto, matriz');
+
+			$nombreArchivo =  str_replace(' ', '_', $this->nombreProyecto);
+
+	        $html2pdf->writeHTML($content, isset($_GET['vuehtml']) );
+	        $html2pdf->Output( $nombreArchivo.'.pdf', 'D' );
+
+	    }catch(HTML2PDF_exception $e) {
+	        echo 'Ocurrio un error al generar el pdf.<br/>';
+	        echo $e;
+	        return false;
+	    }
+
+	    //forza la descarga del PDF
+		header('Content-Description: File Transfer'); 
+		header("Content-Type: application/pdf");
+		header("Content-disposition: attachment; filename=".$nombreArchivo.".pdf");
+		$this->htmlHeadClose();
+		//echo $this->informe;
+	}
+
+	/**
+	* CREAR PDF CLIENTE Y LO GUARDA EN temp
+	* @param int $proyecto -> id del proyecto
+	* @return boolean false -> si falla
+	* @return string $link -> link del archivo
+	*/
+	public function ExportarPdfClienteFile( $proyecto ){
+		$link = sys_get_temp_dir();
+
+		$this->proyecto = $proyecto;
+		$this->formato = 'pdf';
+
+		$this->CrearInformeCliente();
+
+		//exporta en formato pdf
+		$nombreArchivo =  str_replace(' ', '_', $this->nombreProyecto);
+
+		//combierte el html a pdf-> utiliza html2pdf class
+	   	ob_start();
+	    ob_end_clean();
+	    $content = ob_get_clean();
+	    $content = $this->informe;
+
+	    try{
+	        $html2pdf = new HTML2PDF('P', 'A1', 'es', true, 'UTF-8', array(1, 1, 1, 1) );
+        	$html2pdf->pdf->SetDisplayMode('fullpage');
+
+	        $html2pdf->pdf->SetAuthor($_SESSION['nombre']);
+			$html2pdf->pdf->SetTitle('Informe '.$this->nombreProyecto.' '.date("m d Y - g:i a"));
+			$html2pdf->pdf->SetSubject('Informe proyecto matriz');
+			$html2pdf->pdf->SetKeywords('informe, proyecto, matriz');
+
+			$nombreArchivo =  str_replace(' ', '_', $this->nombreProyecto);
+
+	        $html2pdf->writeHTML($content, isset($_GET['vuehtml']) );
+
+	        $link = $link.'/'.$nombreArchivo.'.pdf';
+	        $html2pdf->Output( $link, 'F' );
+
+	    }catch(HTML2PDF_exception $e) {
+	        echo 'Ocurrio un error al generar el pdf.<br/>';
+	        echo $e;
+	        return false;
+	    }
+
+		$this->htmlHeadClose();
+
+		return $link;
+	}
+
+	public function getProyectoNombre(){
+		return $this->nombreProyecto;
+	}
+
+	/**
+	* COMPONE EL INFORME DEL CLIENTE
+	*/
+	private function CrearInformeCliente(){
+		$this->htmlHead();
+		$registro = new Registros();
+		$this->registros = $registro->getRegistros( $this->proyecto );
+
+		$this->CabezeraCliente();
+		$this->Cuerpo();
+		$this->FooterCliente();
+
+		$this->Style();
+	}
+
+	/**
+	* COMPONE LA CABEZERA DEL INFORME DEL CLIENTE
+	*/
+	private function CabezeraCliente(){
+		$proyectos = new Proyectos();
+		$clientes =  new Cliente();
+
+		$datosProyecto = $proyectos->getProyectoDatos($this->proyecto);
+		
+		$this->clienteId = $datosProyecto[0]['cliente'];
+		$this->cliente = $clientes->getClienteDato( "nombre", $this->clienteId );
+		$imagen = $clientes->getClienteDato("imagen", $this->clienteId );
+		$this->nombreProyecto = $datosProyecto[0]['nombre'];
+
+		$imagenCliente = $_SESSION['home'].'/images/es.png'; //imagen por defecto
+		$imagenLink = "../../".$imagen; //link de la imagen
+
+		//si la imagen existe
+		if( file_exists( $imagenLink ) ){
+			$imagenCliente = $_SESSION['home'].'/'.$imagen;
+		}
+
+		$this->informe = '<table class="Informe">
+							<tr>
+								<th colspan="2" class="SuperTitulo">
+									<img class="LogoEscala" src="../../images/escala.png">
+								</th>
+								<th colspan="2" class="SuperTitulo">
+									'.$this->nombreProyecto.'
+								</th>
+								<th colspan="2" class="SuperTitulo">
+									<img class="LogoCliente" src="'.$imagenCliente.'">
+								</th>
+							</tr>';
+	}
+
+	/**
+	* FOOTER DEL INFORME DEL CLIENTE
+	*/
+	private function FooterCliente(){
+		$cliente = new Cliente();
+		
+
+		//obtiene los datos del cliente
+		$datosCliente = $cliente->getDatosCliente( $this->clienteId ); 
+		
+		$imagenCliente = $_SESSION['home'].'/images/es.png'; 
+
+		$imagenLink = "../../".$datosCliente[0]['imagen'];
+
+		if( file_exists( $imagenLink ) ){
+			$imagenCliente = $_SESSION['home'].'/'.$datosCliente[0]['imagen'];
+		}
+		
+		$this->informe .= '</table>
+							<table class="FooterCliente">
+						   	<tr>
+						   		<td style="width: 33%">
+						   		</td>
+						   		<td style="width: 33%">
+						   			<table class="FooterTableCliente">
+						   				<tr>
+						   					<td class="SubTituloCliente">
+						   						Cliente
+						   					</td>
+						   					<td class="SubTituloCliente">
+						   						Registro
+						   					</td>
+						   					<td class="SubTituloCliente">
+						   						Proyecto
+						   					</td>
+						   					<td class="SubTituloCliente">
+						   						Fecha
+						   					</td>
+						   				</tr>
+						   				<tr>
+						   					<td class="TdFooter2" >
+						   						'.$this->cliente.'
+						   					</td>
+						   					<td class="TdFooter2" >
+						   						'.$this->proyecto.'
+						   					</td>
+						   					<td class="TdFooter2" >
+						   						'.$this->nombreProyecto.'
+						   					</td>
+						   					<td class="TdFooter2" >
+						   						'.date("m d Y - g:i a").'
+						   					</td>
+						   				</tr>
+						   				<tr>
+						   					<td colspan="4" class="Center">
+						   						2013 Escala Consultores. Todos los derechos reservados
+						   					</td>
+						   				</tr>
+						   			</table>
+						   		</td>
+						   		<td style="width: 33%">
+						   		</td>
+						   		</tr>
+							</table>
+						';
+	}
+
 
 }
 

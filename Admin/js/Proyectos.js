@@ -164,6 +164,14 @@ function ContextMenuProyecto(id){
 	                    "enviar-cliente": {"name": "A cliente" , "icon": "informe"},
 	                    "enviar-link": {"name": "Por link" , "icon": "email"},
 	                    "enviar-email": {"name": "Por email" , "icon": "email"},
+	                    
+	                    "fold3": {
+	                        "name": "PDF", 
+	                        "items": {
+	                            "exportar-pdf-cliente": {"name": "Descargar PDF", "icon": "pdf"},
+	                            "enviar-email-pdf": {"name": "Enviar PDF via email", "icon": 'email'},
+	                        }
+	                    }
 	                }
             	}
         }
@@ -171,8 +179,6 @@ function ContextMenuProyecto(id){
 
 	//doble click para editar el cliente
 	$("#"+id).dblclick(function(){
-
-		//console.log($.cookie('cargando'));
 		
 		if( $.cookie('cargando') == "false"){
 			$.cookie('cargando', true);
@@ -217,6 +223,11 @@ function MenuProyecto(m, id){
 	else if( m == "clicked: exportar-pdf"){
 		top.location.href = 'src/class/exportar.php?id='+id+'&tipo=pdf';
 		notificaAtencion("Asegurese de guardar el archivo en el disco duro.");
+	}else if( m == "clicked: exportar-pdf-cliente"){
+		top.location.href = 'src/class/exportar.php?id='+id+'&tipo=pdfcliente';
+		notificaAtencion("Asegurese de guardar el archivo en el disco duro.");
+	}else if( m == "clicked: enviar-email-pdf" ){
+		NotificarProyectoMailPdf( id );
 	}
 }
 
@@ -563,6 +574,39 @@ function NotificarProyectoMail(proyecto){
 }
 
 /**
+* ENVIA PDF DEL PROYECTO VIA EMAIL
+* @param int proyecto -> id del proyecto
+*/
+function NotificarProyectoMailPdf(proyecto){
+	
+	var queryParams = {"func" : "ProyectoMailPdf", "proyecto" : proyecto};
+	var alto = $("html").height() * 0.8;
+	
+	 $.fancybox({
+	 	'width'         : '80%',
+		'height'        : alto,
+        padding         : 10,
+        autoSize        : false,
+        fitToView       : false,
+        arrows          : false,
+        href            : "src/componerMail.php",
+        type            : 'ajax',
+        ajax            : {
+                type    : "POST",
+                cache   : false,
+                data    : queryParams,
+        },
+        scrolling       : 'yes',
+        scrollOutside   : true,
+		autoScale       : false,
+		transitionIn    : 'fade',
+		transitionOut   : 'elastic',
+    });
+
+	notificaAtencion("El PDF sera adjuntado automaticamente.");
+}
+
+/**
 * INICIALIZA EL FORMULARIO PARA NOTIFICAR PROYECTO MAIL EDITADO
 */
 function FormularioProyectoMail(){
@@ -606,7 +650,8 @@ function FormularioProyectoMail(){
 			EditorUpdateContent();
 		},
 	    success: function(response) { 
-
+	    	console.log( response );
+	    	
 	    	if(response.length <= 3){
 	    		notifica("Notificacion Enviada");
 	    		$.fancybox.close();

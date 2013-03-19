@@ -306,11 +306,14 @@ class Cliente{
 			$correo['nombre'] = $datos[0]['nombre'];
 
 			//imagen del proyecto, fallback imagen del cliente
-			$imagenSize = getimagesize($_SESSION['home'].'/'.$datos[0]['imagen']);
-			if( is_array($imagenSize) && $datos[0]['imagen'] != "images/es.png" ){
-				$imagen = '/'.$datos[0]['imagen'];
-				$correo['imagen'] = $imagen;
+			$imagen = 'images/es.png';
+			$imagenLink = '../'.$datos[0]['imagen'];
+
+			if( file_exists($imagenLink) ){
+				$imagen = $datos[0]['imagen'];
 			}
+			
+			$correo['imagen'] = $imagen;
 
 			$correo['destinatario'] = array( $datos[0]['nombre'] => $datos[0]['email'] );
 
