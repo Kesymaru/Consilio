@@ -289,9 +289,9 @@ class Bloquear{
 			}else{
 				return false;
 			}
-		}else{
-			return false; //no esta bloqueado
 		}
+		
+		return false; //no esta bloqueado
 	}
 }
 

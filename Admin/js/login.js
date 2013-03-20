@@ -25,7 +25,7 @@ $(document).ready(function(){
 	notificaAtencion(mensaje);
 
 	//revisa si la compu no esta bloqueada
-	//EstadoBloqueado();
+	EstadoBloqueado();
 });
 
 function loginbox(cambio){
