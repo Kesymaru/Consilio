@@ -424,6 +424,8 @@ class Mail {
 				
 				if( $correo['link'] != 'no'){
 					$link = $_SESSION['matriz'].$correo['link'];
+				}else{
+					$link = '';
 				}
 				
 			}else{
@@ -434,14 +436,18 @@ class Mail {
 					$link = $_SESSION['matriz'].'/login.php';
 				}
 			}
-			//link
-			$mensajeFinal .= '<br/>
-					 	<br/><a href="'.$link.'" >
+			
+			if( $link != ''){
+				$mensajeFinal .= '<br/>
+					 		<br/><a href="'.$link.'" >
 							'.$link.'
-						</a>
+						</a>';
+			}
 
+			$mensajeFinal .= '
 					</td>
-					</tr>'; //fin contenido
+					</tr>';
+			//fin contenido
 
 			//footer del mensaje 
 			$mensajeFinal .= '

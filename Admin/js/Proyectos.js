@@ -636,6 +636,7 @@ function FormularioProyectoMail(){
 		
 		CKEDITOR.on("instanceReady", function(event){
 		     $("#FormularioProyectoMail").parent().css({"overflow":"hidden"});
+		     $(".cke_bottom").remove();
 		});
 
 	}else{
@@ -649,6 +650,7 @@ function FormularioProyectoMail(){
 		beforeSend: function(){
 			notifica("Enviando email.");
 			
+			$(".cke_bottom").remove();
 			var loader = $("#loader").clone();
 			loader.attr('id', 'fancyLoader');
 
@@ -674,10 +676,10 @@ function FormularioProyectoMail(){
 				notificaError("Error Proyectos.js FormularioProyectoMail()<br/> "+response);
 			}
 
-			LoadingClose();
+			$("#fancyLoader").remove();
 		},
 		fail: function(response){
-			LoadingClose();
+			$("#fancyLoader").remove();
 			notificaError("Error: AJAX fail Proyectos.js FormularioProyectoMail() <br/>"+response);
 		}
 	}; 

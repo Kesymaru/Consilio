@@ -758,16 +758,18 @@ class Exportar{
 		$this->formato = 'pdf';
 
 		$this->informe .= '<html>
-			<head>
-				<title>Exportar</title>
-				<meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
-			</head>
-		<body>';
+							<head>
+								<title>Informe</title>
+								<meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
+							</head>
+							<body>';
 
 		$this->CrearInformeCliente( );
 
 		$this->informe .= '</body>
 						</html>';
+
+		//echo $this->informe;
 
 		//exporta en formato pdf
 		$nombreArchivo =  str_replace(' ', '_', $this->nombreProyecto);
@@ -844,7 +846,7 @@ class Exportar{
 			$imagenCliente = $_SESSION['home'].'/'.$imagen;
 		}
 
-		$this->informe = '<table class="Informe">
+		$this->informe .= '<table class="Informe">
 							<tr>
 								<th colspan="2" class="SuperTitulo">
 									<img class="LogoEscala" src="../../images/escala.png">
