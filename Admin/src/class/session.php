@@ -284,7 +284,7 @@ class Bloquear{
 			if( empty($ultimo['fecha']) ){
 				return false;
 			}
-			echo '<pre>'; print_r($datos); echo '</pre>';
+			//echo '<pre>'; print_r($datos); echo '</pre>';
 
 			$now = date('Y-m-d G:i:s');
 			$ahora = strtotime( $now );
