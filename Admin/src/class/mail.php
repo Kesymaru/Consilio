@@ -597,9 +597,6 @@ class Mail {
 
 		$header = $this->header($correo);
 
-		//anade el archivo adjunto al header
-		$nombre = str_replace(' ', '_', $nombre);
-
 		$archivo = chunk_split(base64_encode(file_get_contents( $link ) ) ); 
 		$header .= "--".$strSid."\n";
 		$header .= "Content-Type: application/octet-stream; name=\"".$nombre."\"\n"; 
