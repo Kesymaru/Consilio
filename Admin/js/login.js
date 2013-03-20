@@ -23,6 +23,9 @@ $(document).ready(function(){
 	//notificacion 
 	var mensaje = 'Sitio para el Admin.<br/>Si no eres administrador<br/>ve al siguiente link:<br/><b><a href="../login.php"> Matriz </a></b>';
 	notificaAtencion(mensaje);
+
+	//revisa si la compu no esta bloqueada
+	EstadoBloqueado();
 });
 
 function loginbox(cambio){
@@ -68,18 +71,22 @@ function logIn(){
 			success:  function (response) { 
 				
 				$('html').append(response);
+				console.log( response );
 
-				if(response.length <= 3){
+				/*if(response.length <= 3){
 					top.location.href = 'index.php';
 				}else{
-				    notificaError(response);
+				    notificaIntento(response);
 				    //$('html').html(response);
-				}
+				}*/
+			},
+			fail: function( response ){
+				notificaError("Error: AJAX FAIL login.js logIn.<br/>"+response);
 			}
 		});
 	}else{
-		console.log('Datos no validos');
-		notificaError('Datos no validos.')
+		//console.log('Datos no validos');
+		notificaIntento('Datos no validos.')
 	}
 }
 
@@ -138,40 +145,6 @@ function resetar(){
 
 }
 
-/**
-* BLOQUEA USUARIO
-*/
-function Bloqueado(ip){
-	
-	$("#articulos").animate({
-		opacity: .5,
-	}, { 
-		duration: 500, 
-		queue: false,
-		complete: function(){
-
-			$("#articulos").animate({
-				opacity: 1,
-			}, { 
-				duration: 500, 
-				queue: false
-			});
-
-		}
-	});
-	var bloquedo =  'Has excedido el numero de intentos.<br/>'+
-					'Tu ip : '+ip+' ha sido bloqueda.<br/>'+
-					'Para poder entrar deberas esperar almenos 1 hora.<br/>'+
-					'<br/><hr><br/>'+
-					'Si crees que esto es un error puedes contartar a:<br/>'+
-					'aalfaro@77digital.com'+
-					'<br/><br/>';
-
-	$('#usuarios .titulo').html("Bloqueado");
-	$("#usuarios .controls").fadeOut(700, function(){$("#usuarios .controls").remove();});
-	$("#login").html(bloquedo);
-}
-
 /*
 	NOTIFICACIONES
 */
@@ -206,6 +179,7 @@ function notificaError(text) {
 		}
 	});
 
+	/* no muestra el error
 	var n = noty({
 	  	text: text,
 	  	type: 'error',
@@ -218,7 +192,7 @@ function notificaError(text) {
 	//tiempo para desaparecerlo solo 
 	setTimeout(function (){
 		n.close();
-	},7000);
+	},7000);*/
 }
 
 //notificaciones de maxima priridad
@@ -237,3 +211,79 @@ function notificaAtencion(text) {
 	},10000);
 }
 
+//NOTIFICACION PARA INTENTO FALLIDO
+function notificaIntento(text) {
+	console.log('inten');
+
+  	var n = noty({
+  		text: text,
+  		type: 'error',
+    	dismissQueue: true,
+  		layout: 'topCenter',
+  		closeWith: ['button'], // ['click', 'button', 'hover']
+  	});
+  	
+  	//tiempo para desaparecerlo solo 
+  	setTimeout(function (){
+		n.close();
+	},7000);
+}
+
+/***************************************** BLOQUEO *******************************************/
+/**
+* BLOQUEA USUARIO
+*/
+function Bloqueado(ip){
+	
+	$("#articulos").animate({
+		opacity: .5,
+	}, { 
+		duration: 500, 
+		queue: false,
+		complete: function(){
+
+			$("#articulos").animate({
+				opacity: 1,
+			}, { 
+				duration: 500, 
+				queue: false
+			});
+
+		}
+	});
+	var bloquedo =  'Has excedido el numero de intentos.<br/>'+
+					'Tu ip : '+ip+' ha sido bloqueda.<br/>'+
+					'Para poder entrar deberas esperar almenos 1 hora.<br/>'+
+					'<br/><hr><br/>'+
+					'Si crees que esto es un error puedes contartar a:<br/>'+
+					'aalfaro@77digital.com'+
+					'<br/><br/>';
+
+	$('#usuarios .titulo').html("Bloqueado");
+	$("#usuarios .controls").fadeOut(700, function(){$("#usuarios .controls").remove();});
+	$("#login").html(bloquedo);
+}
+
+/**
+* SE ENCARGA DE REVISAR ES ESTADO DE LA COMPU
+*/
+function EstadoBloqueado(){
+	var queryParams = {"func":"EstadoBloqueado"};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxUsuarios.php",
+		success: function(response){
+			response = response.replace(/(\r\n|\n|\r)/gm,""); 
+			response = response.replace(/\s+/g,"");
+
+			//$('html').append(response);
+			console.log( response );
+
+			if( response != "false" ){
+				Bloqueado( response );
+			}
+		}
+	})
+}

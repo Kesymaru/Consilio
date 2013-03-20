@@ -179,6 +179,7 @@ class Session{
 
 		$base->Insert( $query );*/
 	}
+	
 
 }
 
@@ -227,6 +228,71 @@ class SessionInvitado{
 
 	}
 
+}
+
+/**
+* CLASE PARA BLOQUEAR 
+*/
+class Bloquear{
+
+	public function __construct(){
+		date_default_timezone_set('America/Costa_Rica');
+	}
+
+	/**
+	* BLOQUEA UNA IP, ADMIN BLOQUEA 4 HORAS, CLIENTE BLOQUEA 1 HORA
+	* @param string $usuario -> nombre del usuario con el que se intento ingresar
+	* @param string $ip -> ip de la compu/divice
+	* @param int $admin -> 0= cliente, 1= admin
+	*/
+	public function BloquearIp( $usuario, $ip, $admin ){
+		$base = new Database();
+
+		$usuario = mysql_real_escape_string($usuario);
+		$ip = mysql_real_escape_string($ip);
+		$admin = mysql_real_escape_string($admin);
+
+		$query = "INSERT INTO ip_bloqueadas (usuario, ip, admin, fecha) VALUES ( '".$usuario."', '".$ip."', '".$admin."', NOW() )";
+
+		if( !$base->Insert( $query )){
+			
+		}
+	} 
+
+	/**
+	* REVISA SI LA IP ESTA BLOQUEADA
+	*/
+	public function Estado(){
+		$ip= $_SERVER['REMOTE_ADDR']; 
+		
+		$base = new Database();
+
+		$ip = mysql_real_escape_string($ip);
+
+		$query = "SELECT ip, id, MAX(fecha) AS fecha FROM ip_bloqueadas WHERE ip = '".$ip."'";
+
+		$config = $base->Select( "SELECT * FROM config WHERE sitio = 1");
+
+		$datos = $base->Select( $query );
+
+		if( !empty($datos) ){
+			//echo '<pre>'; print_r($datos); echo '</pre>';
+			$ultimo = $datos[0];
+
+			$now = date('Y-m-d G:i:s');
+			$ahora = strtotime( $now );
+			
+			$expira = strtotime( $ultimo['fecha'].' +'.$config[0]['tiempo_bloqueo'].' minutes' );
+
+			if( $ahora < $expira ){
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			return false; //no esta bloqueado
+		}
+	}
 }
 
 

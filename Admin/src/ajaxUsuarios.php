@@ -14,6 +14,7 @@ switch ($_POST['func']){
 
 	//LOQUEA
 	case 'LogIn':
+
 		if(isset($_POST['usuario']) && isset($_POST['password'])){
 			$session = new Session();
 			
@@ -22,6 +23,8 @@ switch ($_POST['func']){
 						top.location.href = "index.php";
 					   </script>';
 			}else{
+				$bloquear = new Bloquear();
+
 				if(isset($_SESSION['intentos'])){
 					$_SESSION['intentos']++;
 				}else{
@@ -33,8 +36,10 @@ switch ($_POST['func']){
 
 					$_SESSION['bloquedo'] = true;
 
+					$bloquear->BloquearIp( $_POST['usuario'], $ip, 1); //bloquea la ip
+
 					echo '<script>
-							notificaError("Has excedido el numero de intentos.");
+							notificaIntento("Has excedido el numero de intentos.");
 							Bloqueado("'.$ip.'");
 						   </script>';
 				}else{
@@ -78,6 +83,18 @@ switch ($_POST['func']){
 		if(isset($_POST['password'])){
 			$admin = new Admin();
 			$admin->setAdminPassword($_POST['password']);
+		}
+		break;
+
+	case 'EstadoBloqueado':
+		$bloquear = new Bloquear();
+		
+		$ip= $_SERVER['REMOTE_ADDR'];
+
+		if( $bloquear->Estado() ){
+			echo $ip;
+		}else{
+			echo 'false';
 		}
 		break;
 }

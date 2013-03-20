@@ -216,9 +216,8 @@ function notificaError(text) {
   		type: 'error',
     	dismissQueue: true,
   		layout: 'topCenter',
-  		closeWith: ['button'], // ['click', 'button', 'hover']
+  		closeWith: ['button'],
   	});
-  	//console.log('html: '+n.options.id);
   	
   	//tiempo para desaparecerlo solo 
   	setTimeout(function (){
@@ -242,7 +241,7 @@ function notificaAtencion(text) {
 	},10000);
 }
 
-//nNOTIFICACION PARA INTENTO FALLIDO
+//NOTIFICACION PARA INTENTO FALLIDO
 function notificaIntento(text) {
   	var n = noty({
   		text: text,
