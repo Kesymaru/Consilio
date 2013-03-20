@@ -597,14 +597,16 @@ class Mail {
 
 		$header = $this->header($correo);
 
+		$header .= $mail."\n\n"; //agrega el mensaje
+
 		$archivo = chunk_split(base64_encode(file_get_contents( $link ) ) ); 
 		$header .= "--".$strSid."\n";
 		$header .= "Content-Type: application/octet-stream; name=\"".$nombre."\"\n"; 
 		$header .= "Content-Transfer-Encoding: base64\n";
 		$header .= "Content-Disposition: attachment; filename=\"".$nombre."\"\n\n";
-		$header .= $archivo."\n\n";
+		$header .= $archivo."\n\n"; //agrega el archivo adjunto
 
-		if( !mail($destinatario, $asunto, $mail, $header) ){
+		if( !mail($destinatario, $asunto, null, $header) ){
 
 			echo "Erro: no se pudo enviar el mail con el archivo adjunto.<br/>Detalles:<br/>Para: ".$destinatario;
 			echo "<br/>De: ".$remitente."<br/>Asunto: ".$asunto;
