@@ -252,7 +252,9 @@ class Bloquear{
 		$ip = mysql_real_escape_string($ip);
 		$admin = mysql_real_escape_string($admin);
 
-		$query = "INSERT INTO ip_bloqueadas (usuario, ip, admin, fecha) VALUES ( '".$usuario."', '".$ip."', '".$admin."', NOW() )";
+		$fecha = date('Y-m-d G:i:s');
+
+		$query = "INSERT INTO ip_bloqueadas (usuario, ip, admin, fecha) VALUES ( '".$usuario."', '".$ip."', '".$admin."', '".$fecha."' )";
 
 		if( !$base->Insert( $query )){
 			
@@ -276,7 +278,7 @@ class Bloquear{
 		$datos = $base->Select( $query );
 
 		if( !empty($datos) ){
-			//echo '<pre>'; print_r($datos); echo '</pre>';
+			echo '<pre>'; print_r($datos); echo '</pre>';
 			$ultimo = $datos[0];
 
 			$now = date('Y-m-d G:i:s');
