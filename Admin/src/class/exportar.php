@@ -704,6 +704,7 @@ class Exportar{
 		$this->proyecto = $proyecto;
 		$this->formato = 'pdf';
 
+		$this->htmlHead();
 		$this->CrearInformeCliente();
 
 		//exporta en formato pdf
@@ -739,6 +740,7 @@ class Exportar{
 		header('Content-Description: File Transfer'); 
 		header("Content-Type: application/pdf");
 		header("Content-disposition: attachment; filename=".$nombreArchivo.".pdf");
+		
 		$this->htmlHeadClose();
 		//echo $this->informe;
 	}
@@ -755,7 +757,17 @@ class Exportar{
 		$this->proyecto = $proyecto;
 		$this->formato = 'pdf';
 
-		$this->CrearInformeCliente();
+		$this->informe .= '<html>
+			<head>
+				<title>Exportar</title>
+				<meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
+			</head>
+		<body>';
+
+		$this->CrearInformeCliente( );
+
+		$this->informe .= '</body>
+						</html>';
 
 		//exporta en formato pdf
 		$nombreArchivo =  str_replace(' ', '_', $this->nombreProyecto);
@@ -788,8 +800,6 @@ class Exportar{
 	        return false;
 	    }
 
-		$this->htmlHeadClose();
-
 		return $link;
 	}
 
@@ -801,7 +811,7 @@ class Exportar{
 	* COMPONE EL INFORME DEL CLIENTE
 	*/
 	private function CrearInformeCliente(){
-		$this->htmlHead();
+		
 		$registro = new Registros();
 		$this->registros = $registro->getRegistros( $this->proyecto );
 

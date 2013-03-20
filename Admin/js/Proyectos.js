@@ -648,7 +648,20 @@ function FormularioProyectoMail(){
 	var options = {  
 		beforeSend: function(){
 			notifica("Enviando email.");
-			Loading();
+			
+			var loader = $("#loader").clone();
+			loader.attr('id', 'fancyLoader');
+
+			$(".fancybox-inner").prepend( loader );
+			$("#fancyLoader").css({
+				'display':'block',
+				'background-color':'#333',
+				'opacity':'.5',
+				'width': '100%',
+				'height': '100%',
+				"position": "absolute"
+			});
+
 			EditorUpdateContent();
 		},
 	    success: function(response) { 
