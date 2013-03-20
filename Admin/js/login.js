@@ -282,6 +282,7 @@ function EstadoBloqueado(){
 			console.log( response );
 
 			if( response != "false" ){
+				notificaIntento("Lo sentimos tu ip esta bloqueada por que excediste el numero de intentos.");
 				Bloqueado( response );
 			}
 		}
