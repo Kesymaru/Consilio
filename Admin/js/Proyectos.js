@@ -647,6 +647,8 @@ function FormularioProyectoMail(){
 		
 	var options = {  
 		beforeSend: function(){
+			notifica("Enviando email.");
+			Loading();
 			EditorUpdateContent();
 		},
 	    success: function(response) { 
@@ -658,8 +660,11 @@ function FormularioProyectoMail(){
 			}else{
 				notificaError("Error Proyectos.js FormularioProyectoMail()<br/> "+response);
 			}
+
+			LoadingClose();
 		},
 		fail: function(response){
+			LoadingClose();
 			notificaError("Error: AJAX fail Proyectos.js FormularioProyectoMail() <br/>"+response);
 		}
 	}; 
