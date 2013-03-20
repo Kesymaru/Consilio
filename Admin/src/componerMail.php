@@ -206,8 +206,9 @@ function ProyectoMailPdf($id){
 	$correo = $cliente->getCorreo($clienteId);
 
 	$correo['asunto'] = "Informe: $proyectoNombre";
-	$correo['mensaje'] = "Informe del proyecto en archivo pdf.";
-	
+	$correo['mensaje'] = "Se ha generado el informe para el proyecto $proyectoNombre, el cual se adjunta.";
+	$correo['link'] = 'no';
+
 	$mailComponer = $mail->getCorreo($correo);
 
 	$componer .= '<form id="FormularioProyectoMail" enctype="multipart/form-data" method="post" action="src/componerMail.php" >

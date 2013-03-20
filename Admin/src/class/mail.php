@@ -421,7 +421,11 @@ class Mail {
 			}
 
 			if(array_key_exists('link', $correo)){
-				$link = $_SESSION['matriz'].$correo['link'];
+				
+				if( $correo['link'] != 'no'){
+					$link = $_SESSION['matriz'].$correo['link'];
+				}
+				
 			}else{
 				if(array_key_exists('userId', $correo)){
 					$userId = $correo['userId'];
