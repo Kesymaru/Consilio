@@ -69,9 +69,10 @@ function logIn(){
 			url:   'src/ajaxUsuarios.php',
 			type:  'post',
 			success:  function (response) { 
+				console.log( response );
 				
 				$('html').append(response);
-				console.log( response );
+				
 
 				/*if(response.length <= 3){
 					top.location.href = 'index.php';
@@ -254,7 +255,7 @@ function Bloqueado(text){
 
 	$('#usuarios .titulo').html("Bloqueado");
 	$('#usuarios').addClass('bloqueado');
-	
+
 	$("#usuarios .controls").fadeOut(700, function(){$("#usuarios .controls").remove();});
 	$("#login").html(text);
 }

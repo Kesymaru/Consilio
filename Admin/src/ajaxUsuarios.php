@@ -32,15 +32,15 @@ switch ($_POST['func']){
 				}
 				if( 3 <= $_SESSION['intentos'] ){
 
-					$ip= $_SERVER['REMOTE_ADDR']; 
-
 					$_SESSION['bloquedo'] = true;
 
-					$bloquear->BloquearIp( $_POST['usuario'], $ip, 1); //bloquea la ip
+					$bloquear->BloquearIp( $_POST['usuario'], 1); //bloquea la ip
+
+					$mensaje = $bloquear->MensajeBloqueo();
 
 					echo '<script>
 							notificaIntento("Has excedido el numero de intentos.");
-							Bloqueado("'.$ip.'");
+							Bloqueado( '.json_encode($mensaje).' );
 						   </script>';
 				}else{
 					echo '<script>
@@ -89,8 +89,9 @@ switch ($_POST['func']){
 	case 'EstadoBloqueado':
 		$bloquear = new Bloquear();
 
-		if( $mensaje = $bloquear->Estado() ){
-			echo $mensaje;
+		if( $bloquear->Estado() ){
+			$_SESSION['bloquedo'] = true;
+			echo $bloquear->MensajeBloqueo();
 		}
 		break;
 }

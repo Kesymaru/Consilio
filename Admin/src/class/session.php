@@ -245,8 +245,10 @@ class Bloquear{
 	* @param string $ip -> ip de la compu/divice
 	* @param int $admin -> 0= cliente, 1= admin
 	*/
-	public function BloquearIp( $usuario, $ip, $admin ){
+	public function BloquearIp( $usuario, $admin ){
 		$base = new Database();
+
+		$ip = $_SERVER['REMOTE_ADDR'];
 
 		$usuario = mysql_real_escape_string($usuario);
 		$ip = mysql_real_escape_string($ip);
@@ -292,24 +294,46 @@ class Bloquear{
 			$expira = strtotime( $ultimo['fecha'].' +'.$config[0]['tiempo_bloqueo'].' minutes' );
 
 			if( $ahora < $expira ){
-				$mensaje = "Has excedido el numero de intentos.<br/>
-							Tu ip : $ip ha sido bloqueda en este sitio.<br/><br/>
-							Proximo intento dentro de ".$config[0]['tiempo_bloqueo']." minutos
-							<br/><br/>
-							<hr>
-							Para mas informacion y/o ayuda:
-							<br/>
-								<a href='mailto:".$config[0]['support']."?Subject=Ayuda%20ip bloqueada' >
-									".$config[0]['support']."
-								</a>
-							<hr>";
-				return $mensaje;
+				return true;
 			}else{
 				return false;
 			}
 		}
 		
 		return false; //no esta bloqueado
+	}
+
+	/**
+	* COMPONE EL MENSAJE DE BLOQUEO
+	* @return string $mensaje -> mensaje
+	*/
+	public function MensajeBloqueo(){
+		$ip= $_SERVER['REMOTE_ADDR']; 
+		$base = new Database();
+
+		$query = "SELECT * FROM config WHERE sitio = 1";
+
+		$config = $base->Select($query);
+
+		$mensaje = '';
+		if( !empty($config) ){
+			$mensaje = 'Has excedido el numero de intentos.<br/>
+						Tu ip : '.$ip.' ha sido bloqueda en este sitio.<br/><br/>
+						Proximo intento dentro de '.$config[0]['tiempo_bloqueo'].' minutos
+						<br/><br/>
+						<hr>
+						Para mas informacion y/o ayuda:
+						<br/>
+							<a href="mailto:'.$config[0]['support'].'?Subject=Ayuda ip bloqueada" >
+								'.$config[0]['support'].'
+							</a>
+						<hr>';
+
+			return $mensaje;
+		}else{
+			echo 'Error: no se pudo obtener la configuracion del sistema.<br/>session.php bloquear';
+		}
+		
 	}
 }
 
