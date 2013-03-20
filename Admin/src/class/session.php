@@ -278,9 +278,14 @@ class Bloquear{
 		$datos = $base->Select( $query );
 
 		if( !empty($datos) ){
-			echo '<pre>'; print_r($datos); echo '</pre>';
+			
 			$ultimo = $datos[0];
 
+			if( empty($ultimo) ){
+				return false;
+			}
+			echo '<pre>'; print_r($datos); echo '</pre>';
+			
 			$now = date('Y-m-d G:i:s');
 			$ahora = strtotime( $now );
 			
