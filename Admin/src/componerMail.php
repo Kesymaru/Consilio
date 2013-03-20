@@ -216,7 +216,7 @@ function ProyectoMailPdf($id){
 					<input type="hidden" name="proyecto" value="'.$id.'" >
 					<input type="hidden" name="remitente" value="'.$_SESSION['email'].'" >
 					<div class="titulo">
-						Componer Notificacion '.$proyectoNombre.'
+						Informe '.$proyectoNombre.'
 					</div>
 					
 					<table class="tabla-mail">
@@ -267,10 +267,6 @@ function ProyectoMailPdf($id){
 					<textarea id="mail" name="mail">
 							'.$mailComponer.'
 					</textarea>
-					<div>
-						Ajunto<br/>
-						PDF
-					</div>
 					<div class="table-botonera">
 						<button type="button" onClick="parent.$.fancybox.close();">Cancelar</button>
 						<input type="reset" value="Limpiar" >
