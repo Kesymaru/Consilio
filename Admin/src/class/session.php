@@ -292,7 +292,18 @@ class Bloquear{
 			$expira = strtotime( $ultimo['fecha'].' +'.$config[0]['tiempo_bloqueo'].' minutes' );
 
 			if( $ahora < $expira ){
-				return true;
+				$mensaje = "Has excedido el numero de intentos.<br/>
+							Tu ip : $ip ha sido bloqueda en este sitio.<br/><br/>
+							Proximo intento dentro de ".$config[0]['tiempo_bloqueo']." minutos
+							<br/><br/>
+							<hr>
+							Para mas informacion y/o ayuda:
+							<br/>
+								<a href='mailto:".$config[0]['support']."?Subject=Ayuda%20ip bloqueada' >
+									".$config[0]['support']."
+								</a>
+							<hr>";
+				return $mensaje;
 			}else{
 				return false;
 			}

@@ -233,7 +233,7 @@ function notificaIntento(text) {
 /**
 * BLOQUEA USUARIO
 */
-function Bloqueado(ip){
+function Bloqueado(text){
 	
 	$("#articulos").animate({
 		opacity: .5,
@@ -251,17 +251,12 @@ function Bloqueado(ip){
 
 		}
 	});
-	var bloquedo =  'Has excedido el numero de intentos.<br/>'+
-					'Tu ip : '+ip+' ha sido bloqueda.<br/>'+
-					'Para poder entrar deberas esperar almenos 1 hora.<br/>'+
-					'<br/><hr><br/>'+
-					'Si crees que esto es un error puedes contartar a:<br/>'+
-					'aalfaro@77digital.com'+
-					'<br/><br/>';
 
 	$('#usuarios .titulo').html("Bloqueado");
+	$('#usuarios').addClass('bloqueado');
+	
 	$("#usuarios .controls").fadeOut(700, function(){$("#usuarios .controls").remove();});
-	$("#login").html(bloquedo);
+	$("#login").html(text);
 }
 
 /**
@@ -275,13 +270,13 @@ function EstadoBloqueado(){
 		type: "post",
 		url: "src/ajaxUsuarios.php",
 		success: function(response){
-			response = response.replace(/(\r\n|\n|\r)/gm,""); 
-			response = response.replace(/\s+/g,"");
+			//response = response.replace(/(\r\n|\n|\r)/gm,""); 
+			//response = response.replace(/\s+/g,"");
 
 			//$('html').append(response);
 			console.log( response );
 
-			if( response != "false" ){
+			if( response.length > 3 ){
 				notificaIntento("Lo sentimos tu ip esta bloqueada por que excediste el numero de intentos.");
 				Bloqueado( response );
 			}

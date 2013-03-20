@@ -88,13 +88,9 @@ switch ($_POST['func']){
 
 	case 'EstadoBloqueado':
 		$bloquear = new Bloquear();
-		
-		$ip= $_SERVER['REMOTE_ADDR'];
 
-		if( $bloquear->Estado() ){
-			echo $ip;
-		}else{
-			echo 'false';
+		if( $mensaje = $bloquear->Estado() ){
+			echo $mensaje;
 		}
 		break;
 }

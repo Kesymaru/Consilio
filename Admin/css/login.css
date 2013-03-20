@@ -151,6 +151,12 @@ html, body{
 	line-height: 1 !important;
 }
 
+.loginbox hr{
+	border: 1px solid rgba(117, 114, 115, .2);
+	vertical-align: middle;
+	width: 50%;
+}
+
 .borderAlto{
 		-o-border-radius-topleft: 10px;
 		-o-border-radius-topright: 10px;
@@ -296,3 +302,9 @@ html, body{
 	background-repeat:no-repeat;
 	background-position: 10px center; 
 }
+
+.bloqueado .titulo{
+	background-color: #FF6666;
+	background-color: rgba(100%, 0%, 0%, .6);
+}
+
