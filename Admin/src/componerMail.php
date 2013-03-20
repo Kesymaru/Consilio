@@ -74,7 +74,7 @@ if( isset($_POST['func']) ){
 					$nombre = $exportar->getProyectoNombre();
 					$nombre = str_replace('.', '', $nombre); //elimina los puntos
 					$nombre = str_replace(' ', '_', $nombre); //elimina los espacios en blanco
-					$nombre = $nombre.'pdf';
+					$nombre = $nombre.'.PDF';
 
 					$mail = new Mail();
 					$mail->enviarAjunto($_POST['remitente'], $_POST['destinatario'], $cc, $bcc, $_POST['asunto'], $_POST['mail'], $nombre, $link);
