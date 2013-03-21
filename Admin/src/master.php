@@ -167,7 +167,7 @@ class Master{
 		
 		$menu .= '<li onClick="AdminLogs()">Logs</li>';
 
-		$menu .= '<li onClick="">Bloqueos</li>';
+		$menu .= '<li onClick="IntentosBloqueados()">Bloqueos</li>';
 
 		$menu .= '<li onClick="LogOut();">Salir</li>';
 

@@ -242,22 +242,23 @@ class Bloquear{
 
 	/**
 	* BLOQUEA UNA IP, ADMIN BLOQUEA 4 HORAS, CLIENTE BLOQUEA 1 HORA
+	* @param string $ip -> ip ha bloquear
 	* @param string $usuario -> nombre del usuario con el que se intento ingresar
 	* @param string $ip -> ip de la compu/divice
-	* @param int $admin -> 0= cliente, 1= admin
+	* @param int $sitio -> 0= cliente, 1= admin
 	*/
-	public function BloquearIp( $usuario, $admin ){
+	public function BloquearIp( $ip, $usuario, $sitio ){
 		$base = new Database();
 
-		$ip = $_SERVER['REMOTE_ADDR'];
+		//$ip = $_SERVER['REMOTE_ADDR'];
 
 		$usuario = mysql_real_escape_string($usuario);
 		$ip = mysql_real_escape_string($ip);
-		$admin = mysql_real_escape_string($admin);
+		$sitio = mysql_real_escape_string($sitio);
 
 		$fecha = date('Y-m-d G:i:s');
 
-		$query = "INSERT INTO ip_bloqueadas (usuario, ip, admin, fecha) VALUES ( '".$usuario."', '".$ip."', '".$admin."', '".$fecha."' )";
+		$query = "INSERT INTO ip_bloqueadas (usuario, ip, sitio, fecha, estado ) VALUES ( '".$usuario."', '".$ip."', '".$sitio."', '".$fecha."', '1' )";
 
 		if( !$base->Insert( $query )){
 			
@@ -266,15 +267,16 @@ class Bloquear{
 
 	/**
 	* REVISA SI LA IP ESTA BLOQUEADA
+	* @para m string $ip -> ip a verificar
 	*/
-	public function Estado(){
-		$ip= $_SERVER['REMOTE_ADDR']; 
+	public function Estado( $ip ){
+		//$ip= $_SERVER['REMOTE_ADDR']; 
 		
 		$base = new Database();
 
 		$ip = mysql_real_escape_string($ip);
 
-		$query = "SELECT ip, id, MAX(fecha) AS fecha FROM ip_bloqueadas WHERE ip = '".$ip."'";
+		$query = "SELECT ip, id, estado, MAX(fecha) AS fecha FROM ip_bloqueadas WHERE ip = '".$ip."'";
 
 		$config = $base->Select( "SELECT * FROM config WHERE sitio = 1");
 
@@ -286,6 +288,14 @@ class Bloquear{
 
 			if( empty($ultimo['fecha']) ){
 				return false;
+			}
+			//desbloqueado desde el admin
+			if( $ultimo['estado'] == 0){
+				return false;
+			}
+			//esta bloqueado permanentemente
+			if( $ultimo['estado'] == 2){
+				return true;
 			}
 			//echo '<pre>'; print_r($datos); echo '</pre>';
 
@@ -335,6 +345,53 @@ class Bloquear{
 			echo 'Error: no se pudo obtener la configuracion del sistema.<br/>session.php bloquear';
 		}
 		
+	}
+
+	/**
+	* OBTIENE TODAS LAS IPS BLOQUEADAS Y SUS DATOS
+	* @param boolean false -> si no hay ips bloqueadas
+	* @param array $datos -> datos de las ipss bloquedas
+	*/
+	public function getIps(){
+		$base = new Database();
+
+		$query = "SELECT usuario, sitio, ip, fecha, id, estado, COUNT(ip) FROM ip_bloqueadas GROUP BY ip";
+		$datos = $base->Select( $query );
+
+		if( !empty($datos) ){
+			return $datos;
+		}else{
+			return false;
+		}
+	}
+
+
+}
+
+class Confi{
+	public function __construct(){
+
+	}
+
+	/**
+	* OBTIENE ALGUN PARAMETRO DE LA CONFIGURACION
+	* @param string $sitio-> 0 = cliente, 1 = admin
+	* @param string $campo -> dato solicitado
+	* @return boolean false -> si falla
+	* @return string/int $dato -> dato solicitado
+	*/
+	public function getConfig(){
+		$base = new Database();
+
+		$query = "SELECT * FROM config";
+
+		$datos = $base->Select( $query );
+
+		if( !empty($datos) ){
+			return $datos;
+		}else{
+			return false;
+		}
 	}
 }
 

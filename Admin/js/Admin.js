@@ -446,3 +446,37 @@ function AdminLogs(){
 		}
 	});
 }
+
+/***************************************************** INTENTOS ******************************************************/
+
+/**
+* MUESTRA LA LISTA DE INTENTOS BLOQUEADOS
+*/
+function IntentosBloqueados(){
+	
+	if( $("#menu").is(":visible") )	{
+		ActivaMenu();
+	}
+
+	var queryParams = {"func" : "Intentos"};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: 'src/ajaxAdmin.php',
+		success: function(response){
+			//console.log( response );
+
+			$("#content").html( response );
+
+			$( ".intento-buttonset" ).buttonset();
+		},
+		fail: function(response){
+			notificaError("Error: AJAX FAIL, Admin.js IntentosBloqueados().<br/>"+response);
+		}
+	});
+}
+
+/**
+* DESBLOQUEA EL 
+*/

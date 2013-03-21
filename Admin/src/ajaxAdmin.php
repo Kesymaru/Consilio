@@ -3,7 +3,7 @@
 /**
 * AJAX PARA LA MANIPULACION DE LOAS ADMINISTRADORES
 */
-
+require_once("class/session.php");
 require_once("class/usuarios.php");
 
 if(isset($_POST['func'])){
@@ -63,6 +63,11 @@ if(isset($_POST['func'])){
 		//LOGS ADMINS
 		case 'AdminLogs':
 			AdminLogs();
+			break;
+
+		/***************** INTENTOS **************/
+		case 'Intentos':
+			Intentos();
 			break;
 	}
 }
@@ -533,6 +538,9 @@ function AdminLogs(){
 						<th>
 							Ultimo Ingreso
 						</th>
+						<th>
+							Ip
+						</th>
 					</tr>';
 		
 		foreach ($datos as $fila => $admin) {
@@ -544,10 +552,16 @@ function AdminLogs(){
 			$totalLogueos = "---";
 			$ultimoIngreso = "---";
 			$activo = "---";
+			$ip = "---";
 
 			if( $logs = $administradores->getAdminLogs( $admin['id'] ) ){
 				$totalLogueos = sizeof( $logs );
-				$ultimoIngreso = $logs[ sizeof($logs)-1 ]['fecha'];
+				$x = sizeof($logs)-1;
+				$ultimoIngreso = $logs[ $x ]['fecha'];
+				
+				if( $logs[$x]['ip'] != '' ){
+					$ip = $logs[$x]['ip'];
+				}
 			}
 
 			$lista .= '<td>
@@ -555,6 +569,9 @@ function AdminLogs(){
 					   </td>
 					   <td>
 					   	'.$ultimoIngreso.'
+					   </td>
+					   <td>
+					   	'.$ip.'
 					   </td>';
 
 			$lista .= '</tr>';
@@ -563,6 +580,99 @@ function AdminLogs(){
 		$lista .= '</table>';
 
 	}
+
+	echo $lista;
+}
+
+/**
+* MUESTRA LA LISTA DE IPS BLOQUEAS
+*/
+function Intentos(){
+	$bloquear = new Bloquear();
+
+	$lista = '<div class="titulo">
+				Intentos Bloqueados
+			  </div>
+			  	<table class="table-list" id="intentos-bloqueado">
+			  		<thead>
+			  			<th title="Fecha del intento">
+			  				Fecha
+			  			</th>
+			  			<th title="Intentos bloqueados">
+			  				Intentos
+			  			</th>
+			  			<th title="Identificador unico del cumputador/dispositivo">
+			  				Ip
+			  			</th>
+			  			<th title="Estado del bloquedo">
+			  				Estado
+			  			</th>
+			  		</thead>';
+
+	if( $datos = $bloquear->getIps() ){
+
+		//echo '<pre>'; print_r($datos); echo '</pre>';
+
+		foreach ($datos as $f => $intento) {
+			
+			//si esta activo o es permatente el bloqueo
+			if( $bloquear->Estado( $intento['ip']) || $intento['estado'] > 0 ){
+				$estado = true;
+			}else{
+				$estado = false;
+			}
+
+			$lista .= '<tr id="'.$intento['id'].'" > 
+						<td>
+							'.$intento['fecha'].'
+						</td>
+						<td>
+							'.$intento['COUNT(ip)'].'
+						</td>
+						<td>
+							'.$intento['ip'].'
+						</td>
+						<td>';
+
+			$des = '';
+			$blo = '';
+			$per = '';
+			if( $estado ){
+
+				if( $intento['estado'] == 2 ){
+					$per = 'checked';
+					$blo = '';
+				}else{
+					$blo = 'checked';	
+				}
+			}else{
+				$des = 'checked';
+			}
+			
+			//echo $intento['id'].'<br/>';
+			
+			$lista .= '<div class="intento-buttonset">
+							<input id="des'.$intento['id'].'" name="radio'.$intento['id'].'" type="radio" '.$des.' />
+								<label for="des'.$intento['id'].'" title="Deshabilitar el bloqueo" >Desbloqueado</label>
+							<input id="blo'.$intento['id'].'" name="radio'.$intento['id'].'" type="radio" '.$blo.' />
+								<label for="blo'.$intento['id'].'" title="Bloquear por minutos">Bloquear</label>
+							<input id="per'.$intento['id'].'" name="radio'.$intento['id'].'" type="radio" '.$per.' />
+								<label for="per'.$intento['id'].'" title="Bloquear Permanentemente" >Permanente</label>
+						</div>';
+
+			$lista .=	'</td>
+					  </tr>';
+		}
+
+	}else{	
+		$lista .= '<tr>
+						<td class="nodata" colspan+"4">
+							No hay intentos bloqueadas
+						</td>
+				   </tr>';
+	}
+
+	$lista .= '	</table>';
 
 	echo $lista;
 }

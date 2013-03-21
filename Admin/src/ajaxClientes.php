@@ -538,6 +538,10 @@ function Logs(){
 		//compone tabla de clientes
 		foreach ($clientes as $dato => $cliente) {
 
+			$totalLogueos = "---";
+			$ultimoLogueo = "---";
+			$ip = "---";
+
 			if( $logs = $usuarios->getClienteLogs( $cliente['id'] ) ){
 				//echo '<prel>'; print_r($logs); echo '</pre>';
 
@@ -545,12 +549,11 @@ function Logs(){
 				
 				$x = sizeof($logs)-1;
 				$ultimoLogueo =  $logs[$x]['fecha'];
-				$ip = $logs[$x]['ip'];
+				
+				if( $logs[$x]['ip'] != ''){
+					$ip = $logs[$x]['ip'];
+				}
 
-			}else{
-				$totalLogueos = "---";
-				$ultimoLogueo = "---";
-				$ip = "---";
 			}
 
 			$lista .= '<tr id="'.$cliente['id'].'">

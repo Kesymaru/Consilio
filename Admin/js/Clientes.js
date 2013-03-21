@@ -418,6 +418,8 @@ function ClienteRegistros( id ){
 						.hide()
 						.html( response )
 						.fadeIn();
+
+					SelectCliente(id);
 				}else{
 					notificaError("Error: clientes.js ClienteRegistros(), al obtener lista de clientes.<br/>"+response);
 				}
