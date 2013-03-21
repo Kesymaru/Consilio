@@ -64,6 +64,11 @@ if(isset($_POST['func'])){
 			}
 			break;
 
+		case 'ClienteDates':
+			if( isset($_POST['id']) ){
+				getClienteDates( $_POST['id'] );
+			}
+			break;
 	}
 }
 
@@ -524,6 +529,9 @@ function Logs(){
 						<th>
 							Ultimo Ingreso
 						</th>
+						<th>
+							Ip
+						</th>
 					</tr>';
 
 		//compone tabla de clientes
@@ -536,20 +544,12 @@ function Logs(){
 				
 				$x = sizeof($logs)-1;
 				$ultimoLogueo =  $logs[$x]['fecha'];
-
-				$dateMaximo = date("Y-m-d h:i:s", strtotime("+30 minutes"));
-				$dateMinimo = date("Y-m-d h:i:s", strtotime("-30 minutes"));
-
-				if( $dateMinimo < $ultimoLogueo && $ultimoLogueo < $dateMaximo ){
-					$activo = 'Activo';
-				}else{
-					$activo = "No";
-				}
+				$ip = $logs[$x]['ip'];
 
 			}else{
 				$totalLogueos = "---";
 				$ultimoLogueo = "---";
-				$activo = "no";
+				$ip = "---";
 			}
 
 			$lista .= '<tr id="'.$cliente['id'].'">
@@ -564,6 +564,9 @@ function Logs(){
 						</td>
 						<td>
 							'.$ultimoLogueo.'
+						</td>
+						<td>
+							'.$ip.'
 						</td>
 					  </tr>';
 		}
@@ -598,8 +601,52 @@ function ClienteEstadisticas( $id ){
 	$datos = $cliente->getDatosCliente( $id );
 	$datosProyectos = $proyectos->getProyectosCliente( $id );
 
+	$estadisticas = '<div class="titulo">Registros '.$datos[0]['nombre'].'</div>';
+
 	if( !empty($logs) ){
-		
+		//echo '<pre>'; print_r($logs); echo '</pre>';
+
+		//dias en que entro y numero de entradas por dia
+		//$logsDias = $cliente->getClienteLogsDias( $id );
+
+		$logsDias = $cliente->getClienteLogsDia( $id, '2013-03-18');
+
+		//echo '<pre>'; print_r($logsDias); echo '</pre>';
+
+		$ahora = strtotime( date('Y-m-d G:i:s') );
+
+		$estadisticas .= '<div id="date"></div>';
+	}
+
+	echo $estadisticas;
+}
+
+/**
+* COMPONE EL JSON PARA EL CALENDARIO DE INGRESOS DE UN CLIENTE
+* @param int $id -> id del cliente
+*/
+function getClienteDates( $id ){
+	$cliente = new Cliente();
+
+	$logs = $cliente->getClienteLogs( $id );
+
+	$json = array();
+	if( !empty($logs) ){
+		foreach ($logs as $dato => $log) {
+			
+			$dia = substr($log['fecha'], 0, 10);
+			$dia = explode('-', $dia);
+			if( is_array($dia) ){
+				$dia = $dia[0].'/'.$dia[1].'/'.$dia[2];
+			}
+
+			$hora = substr($log['fecha'], 11);
+
+			$json[] = array( "Title"  => "Ingreso", "Date" => $dia, "Hour" => $hora, "Ip" => $log['ip'] );
+		}
+
+		//echo '<pre>'; print_r($json); echo '</pre>';
+		echo stripslashes(json_encode($json));
 	}
 }
 

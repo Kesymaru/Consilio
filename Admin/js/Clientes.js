@@ -389,8 +389,6 @@ function ClienteEstadisticas( id ){
 		ActivaMenu();
 	}
 
-	LimpiarContent();
-
 	var queryParams = {"func" : "Clientes"};
 	$.ajax({
 		data: queryParams,
@@ -421,18 +419,98 @@ function ClienteEstadisticas( id ){
 		url: "src/ajaxClientes.php",
 		success: function(response){
 
-			if( 3 <= response.length ){	
-				$("#conten")
-					.hide()
-					.html( response )
-					.fadeIn();
-			}else{
-				notificaError("Error: clientes.js ClienteEstadisticas(). "+response);
-			}
+			console.log( response );
+			
+			$("#content").html( response );
 
+			ClienteLogsDates( id );
 		},
 		fail: function(response){
 			notificaError("Error: AJAX FAIL, clientes.js ClienteEstadisticas()<br/>"+response);
 		}
+	});
+}
+
+/*
+* CARGA EL CALENDARIO
+* @param int id -> id del cliente
+*/
+function ClienteLogsDates( id ){
+	var queryParams = {"func" : "ClienteDates", "id" : id};
+
+	$.ajax({
+		data: queryParams,
+		dataType: "json",
+		url: "src/ajaxClientes.php",
+		type: "post",
+		beforeSend: function(){
+
+		},
+		success: function(data){
+			console.log( data );
+
+			/*var dias = jQuery.parseJSON( data );
+			console.log( dias );*/
+
+			CargarDate( 'date' , data );
+		},
+		fail: function( response ){
+			notificaError("Error: AJAX FAIL Clientes.js ClienteLogsDates().<br/>"+response);
+		}
+	});
+}
+	
+/**
+* CARGA UN DATEPICKER CON TODOS DIAS SELECCIONADOS
+* @param string id -> id del DOM
+* @param object events -> objecto con los dias y informacion
+	var events = [ 
+	    { Title: "titulo del evento", Date: new Date("03/19/2013"), Hour: '12:55:02' },
+	];
+*/
+function CargarDate( id, dias ){
+	var events = dias;
+
+	$("#"+id).datepicker({
+	    beforeShowDay: function(date) {
+	        var result = [true, '', null];
+	        
+	        var matching = $.grep(events, function(event) {
+	        	event.Date = new Date( event.Date.valueOf() );
+	        	
+	            return event.Date.valueOf() === date.valueOf();
+	        });
+	        
+	        //console.log( matching );
+
+	        if (matching.length) {
+	            result = [true, 'highlight', null];
+	        }
+	        //console.log( result );
+	        return result;
+	    },
+	    onSelect: function(dateText) {
+	    	//console.log( dateText );
+
+	    	var resultados = [];
+	      	// alert( dateText);
+	    	var selectedDate = new Date(dateText);
+
+	        //console.log( selectedDate );
+
+	        for( i = 0; i < events.length; i++ ){
+	        	var tempDate = new Date( events[i].Date );
+
+	        	//console.log( events[i].Date.valueOf() );
+	        	console.log( tempDate.valueOf() );
+	        	console.log( selectedDate.valueOf() );
+
+	        	if( tempDate.valueOf() === selectedDate.valueOf() ) {
+	        		resultados.push( i );
+	        	}
+	        }
+	        console.log( resultados );
+	        //Log( resultados, dateText );
+	    }
 	});
 }

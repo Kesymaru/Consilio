@@ -160,8 +160,9 @@ class Session{
 		$base = new Database();
 		
 		$id = mysql_real_escape_string($id);
+		$ip = mysql_real_escape_string( $_SERVER['REMOTE_ADDR'] );
 
-		$query = "INSERT INTO admin_logs (admin, fecha) VALUES ('".$id."', NOW() ) ";
+		$query = "INSERT INTO admin_logs (admin, ip, fecha) VALUES ('".$id."', '".$ip."', NOW() ) ";
 
 		$base->Insert($query);
 	}

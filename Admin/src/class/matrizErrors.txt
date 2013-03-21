@@ -125,3 +125,19 @@ Has excedido el numero de intentos.
 	JAVASCRIPT: 1
 	March 20 2013 - 11:31 am
  --------------------<>--------------------
+
+Error: AJAX error.
+func=ClienteDates&id=14
+src.ajaxClientes.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 20 2013 - 6:44 pm
+ --------------------<>--------------------

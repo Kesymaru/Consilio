@@ -382,7 +382,58 @@ class Cliente{
 			return false;
 		}
 	}
- 
+ 	
+ 	/**
+	* OBTIENE LOS DIAS EN EL QUE EL USUARIO HA USADO
+	* @param int $id -> id del cliente
+	* @return array $logs -> los dias en que el usuario ha entrado
+	* @return boolean false -> si falla o si no tiene registros
+	*/
+	public function getClienteLogsDias( $id ){
+		$base = new Database();
+
+		$id = mysql_real_escape_string( $id );
+
+		$query = "SELECT fecha, COUNT(id) FROM clientes_logs WHERE cliente = '".$id."' GROUP BY DATE(fecha)";
+
+		$logs = $base->Select( $query );
+
+		if( !empty($logs) ){
+			return $logs;
+		}else{
+			return false;
+		}
+	}
+
+	//SELECT * FROM clientes_logs WHERE cliente = '6' AND '2013-03-17' < fecha AND fecha < '2013-03-19'
+	/**
+	* OBTIENE LOS INGRESOS DE UN DIA ESPECIFICO
+	* @param int $id -> id del cliente
+	* @param string $dia -> yyyy-mm-dd
+	* @return array $logs -> los dias en que el usuario ha entrado
+	* @return boolean false -> si falla o si no tiene registros
+	*/
+	public function getClienteLogsDia( $id, $dia ){
+		$base = new Database();
+
+		$id = mysql_real_escape_string( $id );
+
+		$diaInicio = strtotime( $dia.'-1440 minutes');
+		$diaFin = strtotime( $dia.'+24 hours');
+
+		$diaMenos = date('Y-m-d', $diaInicio);
+		$diaMas = date('Y-m-d', $diaFin);
+
+		$query = "SELECT * FROM clientes_logs WHERE cliente = '".$id."' AND '".$diaMenos."' < fecha AND fecha < '".$diaMas."'";
+
+		$logs = $base->Select( $query );
+
+		if( !empty($logs) ){
+			return $logs;
+		}else{
+			return false;
+		}
+	}
 }
 
 /**
