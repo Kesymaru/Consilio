@@ -318,6 +318,12 @@ button:hover{
 	text-align: center;
 }
 
+.datos-date .date-right table th{
+	padding: .4em .3em;
+	border-bottom: 1px solid rgba(117, 114, 115, 0.7);
+	font-weight: bold;
+}
+
 .datosLista{
 	width: 95%;
 	margin: 0 auto;

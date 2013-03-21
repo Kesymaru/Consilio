@@ -275,7 +275,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 	border-collapse: collapse; 
 	margin:0; 
 }
-.ui-datepicker th { padding: .7em .3em; text-align: center; font-weight: bold; border: 0;  }
+.ui-datepicker th { padding: .5em .3em; text-align: center; font-weight: bold; border-bottom: 1px solid rgba(117, 114, 115, 0.7);  }
 .ui-datepicker td { border: 0; padding: 0; }
 .ui-datepicker td span, .ui-datepicker td a { 
 	display: block; 
