@@ -141,3 +141,19 @@ src.ajaxClientes.php
 	JAVASCRIPT: 1
 	March 20 2013 - 6:44 pm
  --------------------<>--------------------
+
+Error: AJAX error.
+func=ClienteDates&id=15
+src/ajaxClientes.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 21 2013 - 9:59 am
+ --------------------<>--------------------

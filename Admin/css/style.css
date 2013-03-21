@@ -278,6 +278,46 @@ button:hover{
 	font-size: 18px;
 }
 
+/** datos con calendario a la izquierda */
+.datos-date{
+	width: 95%;
+	margin: 2%;
+	border: 1px solid #dedede;
+	padding: 0;
+	margin-top: 20px;
+	font-size: 18px;
+	position: absolute;
+}
+
+.datos-date .date-left,
+.datos-date .date-right{
+	width: 50%;
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+}
+
+.datos-date .sub-titulo{
+	text-align: center;
+	background: #A5A3A4;
+	line-height: 1.8em;
+	color: #fff;
+	font-weight: bold;
+}
+
+.datos-date .date-left{
+	float: left;
+}
+
+.datos-date .date-right{
+	float: right;
+}
+
+.datos-date .date-right table{
+	width: 100%;
+	text-align: center;
+}
+
 .datosLista{
 	width: 95%;
 	margin: 0 auto;

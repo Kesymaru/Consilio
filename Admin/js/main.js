@@ -1,3 +1,33 @@
+jQuery(function($){
+	$.datepicker.regional['es'] = {clearText: 'Effacer', clearStatus: '',
+		closeText: 'Cerrar', 
+		closeStatus: 'Cerrar',
+		prevText: 'Anterior',
+		prevStatus: 'Anterior mes',
+		nextText: 'Siguiente',
+		nextStatus: 'Siguiente mes',
+		currentText: 'Hoy',
+		currentStatus: 'Hoy',
+		monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+		'Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre'],
+		monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
+                'Jul','Ago','Sep','Oct','Nov','Dic'],
+		monthStatus: '',
+		weekHeader: 'Semana', 
+		weekStatus: '',
+		dayNames: ['Domingo','Lunes','Martes','Mi&eacute;rcoles','Jueves','Viernes','S&aacute;bado'],
+		dayNamesShort: ['Dom','Lun','Mar','Mi&eacute;','Juv','Vie','S&aacute;b'],
+		dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','S&aacute;'],
+		dayStatus: 'DD d MM',
+		dateStatus: 'DD d MM',
+		dateFormat: 'yy/mm/dd', 
+		firstDay: 1, 
+		initStatus: 'Seleccione el dia', 
+		isRTL: false
+	};
+	$.datepicker.setDefaults($.datepicker.regional['es']);
+});
+
 /**
 * PARA EL MENU COMO PANEL DESPLAZABLE CON SCROLL
 */

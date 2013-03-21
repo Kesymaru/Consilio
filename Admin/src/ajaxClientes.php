@@ -615,7 +615,33 @@ function ClienteEstadisticas( $id ){
 
 		$ahora = strtotime( date('Y-m-d G:i:s') );
 
-		$estadisticas .= '<div id="date"></div>';
+		$estadisticas .= '<div class="datos-date">
+							<div id="date" class="date-left">
+							</div>
+							<div class="date-right">
+								<div class="sub-titulo">
+									informacion
+								</div>
+								<!-- informacion del dia 
+								<ul class="list" id="date-info">
+
+								</ul> -->
+								<table id="date-info">
+									<thead>
+										<tr>
+											<th width="50%">
+												Hora
+											</th>
+											<th width="50%">
+												Ip
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+						  </div>';
 	}
 
 	echo $estadisticas;

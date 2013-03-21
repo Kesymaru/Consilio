@@ -489,14 +489,16 @@ function CargarDate( id, dias ){
 	        //console.log( result );
 	        return result;
 	    },
-	    onSelect: function(dateText) {
+	    onSelect: function(dateText, obt) {
+	    	console.log( obt );
 	    	//console.log( dateText );
 
+	    	//array para guardar el indece de los resultados
 	    	var resultados = [];
-	      	// alert( dateText);
+
 	    	var selectedDate = new Date(dateText);
 
-	        //console.log( selectedDate );
+	        console.log( 'selected day: '+ selectedDate );
 
 	        for( i = 0; i < events.length; i++ ){
 	        	var tempDate = new Date( events[i].Date );
@@ -509,8 +511,29 @@ function CargarDate( id, dias ){
 	        		resultados.push( i );
 	        	}
 	        }
-	        console.log( resultados );
-	        //Log( resultados, dateText );
-	    }
+	        console.log( 'resultados:'+ resultados );
+	        
+	        // CARGA LA INFORMACION DEL DIA SELECCIONADO
+	        var html = '';
+
+			for( i=0; i<resultados.length; i++){
+				var x = resultados[i];
+				html += '<tr><td>'+events[x].Hour+'</td>';
+				
+				var ip = '---';
+				if( !jQuery.isEmptyObject( events[x].Ip ) ){
+					ip = events[x].Ip;
+				}
+				html += '<td>'+ip+'</td></tr>';
+			}
+
+			//$("#date-info").html( "Logs "+fecha );
+
+			if( !html.length ){
+				html = '<tr><td colspan="2" class="nodata">No hay registros</td></tr>';
+			}
+				
+			$("#date-info tbody").html( html );
+		}
 	});
 }
