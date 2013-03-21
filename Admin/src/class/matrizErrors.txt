@@ -157,3 +157,147 @@ src/ajaxClientes.php
 	JAVASCRIPT: 1
 	March 21 2013 - 9:59 am
  --------------------<>--------------------
+
+Error: AJAX error.
+func=ClienteDates&id=15
+src/ajaxClientes.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	March 21 2013 - 2:26 pm
+ --------------------<>--------------------
+
+Error: AJAX error.
+func=ClienteDates&id=13
+src/ajaxClientes.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 21 2013 - 2:27 pm
+ --------------------<>--------------------
+
+Error: AJAX error.
+func=ClienteDates&id=7
+src/ajaxClientes.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 21 2013 - 2:27 pm
+ --------------------<>--------------------
+
+Error: AJAX error.
+func=ClienteDates&id=12
+src/ajaxClientes.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 21 2013 - 2:27 pm
+ --------------------<>--------------------
+
+Error: AJAX error.
+func=ClienteDates&id=10
+src/ajaxClientes.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 21 2013 - 2:27 pm
+ --------------------<>--------------------
+
+Error: AJAX error.
+func=ClienteDates&id=13
+src/ajaxClientes.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 21 2013 - 2:27 pm
+ --------------------<>--------------------
+
+Error: AJAX error.
+func=ClienteDates&id=15
+src/ajaxClientes.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 21 2013 - 2:27 pm
+ --------------------<>--------------------
+
+Error: AJAX error.
+func=ClienteDates&id=13
+src/ajaxClientes.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 21 2013 - 2:27 pm
+ --------------------<>--------------------
+
+Error: AJAX error.
+func=ClienteDates&id=9
+src/ajaxClientes.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 21 2013 - 2:27 pm
+ --------------------<>--------------------

@@ -62,7 +62,7 @@ function SelectCliente(id){
 */
 function ContextMenuCliente(id){
 	$.contextMenu({
-        selector: '#'+id, 
+        selector: '#menu #'+id, 
         callback: function(key, options) {
             var m = "clicked: " + key;
             //window.console && console.log(m) || alert(m); 
@@ -72,13 +72,14 @@ function ContextMenuCliente(id){
 			"nuevo": {name: "Nuevo Cliente", icon: "add", accesskey: "n"},
             "editar": {name: "Editar", icon: "edit", accesskey: "e"},
             "eliminar": {name: "Eliminar", icon: "delete", accesskey: "l"},
+            "registroCliente": {name: "Registro Cliente", icon: "edit", accesskey: "r"},
             "sep1": "---------",
-            "exportarClientes": {name: "Exportar Clientes", icon: "edit", accesskey: "x"}
+            "exportarClientes": {name: "Exportar Clientes", icon: "edit", accesskey: "x"},
         }
     });
 
 	//doble click para editar el cliente
-	$("#"+id).dblclick(function(){
+	$("#menu #"+id).dblclick(function(){
 		EditarCliente();
 		return;
 	});
@@ -99,6 +100,8 @@ function MenuCliente(m, id){
 		EditarCliente();
 	}else if(m == "clicked: exportarClientes"){
 		ExportarClientes();
+	}else if( m == 'clicked: registroCliente'){
+		ClienteRegistros( id );
 	}
 }
 
@@ -370,9 +373,19 @@ function ClientesLogs(){
 				$("#cliente-logs tr").removeClass('seleccionada');
 				element.addClass("seleccionada");
 
+				if( !$("#buttonRegistros").is(":visible") ){
+					$("#buttonRegistros").fadeIn();
+				}
+
 			}).dblclick(function(){
-				ClienteEstadisticas( $(this).attr('id') );
+				ClienteRegistros( $(this).attr('id') );
 			});
+
+			$("#buttonRegistros").click(function(){
+				var id = $("#cliente-logs tr.seleccionada").attr('id');
+				ClienteRegistros( id );
+			});
+			
 		},
 		fail: function(response){
 			notificaError("AJAX FAIL Clientes.js ClientesLogs.<br/>"+response);
@@ -384,35 +397,39 @@ function ClientesLogs(){
 * ESTADISTICAS DE UN CLIENTE
 * @param int id -> id del cliente
 */
-function ClienteEstadisticas( id ){
-	if( !$("#menu").is(":visible") ){
-		ActivaMenu();
+function ClienteRegistros( id ){
+	if( id == undefined || id == '' ){
+		id = $("#menu li.seleccionada").attr('id');
 	}
 
-	var queryParams = {"func" : "Clientes"};
-	$.ajax({
-		data: queryParams,
-		type: "post",
-		url: "src/ajaxClientes.php",
-		success: function(response){
+	if( !$("#menu").is(":visible") ){
+		ActivaMenu();
 
-			if( 3 <= response.length ){
+		var queryParams = {"func" : "Clientes"};
+		$.ajax({
+			data: queryParams,
+			type: "post",
+			url: "src/ajaxClientes.php",
+			success: function(response){
 
-				$("#menu")
-					.hide()
-					.html( response )
-					.fadeIn();
-			}else{
-				notificaError("Error: clientes.js ClienteEstadisticas(), al obtener lista de clientes.<br/>"+response);
+				if( 3 <= response.length ){
+
+					$("#menu")
+						.hide()
+						.html( response )
+						.fadeIn();
+				}else{
+					notificaError("Error: clientes.js ClienteRegistros(), al obtener lista de clientes.<br/>"+response);
+				}
+
+			},
+			fail: function(response){
+				notificaError("Error: AJAX FAIL clientes.js ClienteRegistros().<br/>"+response);
 			}
+		});
+	}
 
-		},
-		fail: function(response){
-			notificaError("Error: AJAX FAIL clientes.js ClienteEstadisticas().<br/>"+response);
-		}
-	});
-
-	queryParams = {"func" : "ClienteEstadisticas", "id" : id};
+	queryParams = {"func" : "ClienteRegistros", "id" : id};
 	$.ajax({
 		data: queryParams,
 		type: "post",
@@ -422,11 +439,11 @@ function ClienteEstadisticas( id ){
 			console.log( response );
 			
 			$("#content").html( response );
-
+			
 			ClienteLogsDates( id );
 		},
 		fail: function(response){
-			notificaError("Error: AJAX FAIL, clientes.js ClienteEstadisticas()<br/>"+response);
+			notificaError("Error: AJAX FAIL, clientes.js ClienteRegistros()<br/>"+response);
 		}
 	});
 }
@@ -447,10 +464,6 @@ function ClienteLogsDates( id ){
 
 		},
 		success: function(data){
-			console.log( data );
-
-			/*var dias = jQuery.parseJSON( data );
-			console.log( dias );*/
 
 			CargarDate( 'date' , data );
 		},
@@ -471,6 +484,12 @@ function ClienteLogsDates( id ){
 function CargarDate( id, dias ){
 	var events = dias;
 
+	if( jQuery.isEmptyObject(events) ){
+		$("#"+id).datepicker();
+		notificaAtencion('El cliente no tienen ningun registro de ingreso aun.');
+		return;
+	}
+
 	$("#"+id).datepicker({
 	    beforeShowDay: function(date) {
 	        var result = [true, '', null];
@@ -490,7 +509,7 @@ function CargarDate( id, dias ){
 	        return result;
 	    },
 	    onSelect: function(dateText, obt) {
-	    	console.log( obt );
+	    	//console.log( obt );
 	    	//console.log( dateText );
 
 	    	//array para guardar el indece de los resultados

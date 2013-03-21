@@ -58,9 +58,9 @@ if(isset($_POST['func'])){
 			break;
 
 		//MUESTRA LAS ESTADISTICAS DEL CLIENTE
-		case 'ClienteEstadisticas':
+		case 'ClienteRegistros':
 			if( isset( $_POST['id'] ) ){
-				ClienteEstadisticas( $_POST['id'] );
+				ClienteRegistros( $_POST['id'] );
 			}
 			break;
 
@@ -115,6 +115,7 @@ function Clientes(){
 				<button type="button" id="EliminarCliente" title="Eliminar Cliente Seleccionado" onClick="EliminarCliente()">Eliminar</button>
 				<button type="button" id="EditarCliente" title="Editar Cliente Seleccionado" onClick="EditarCliente()">Editar</button>
 			   	<button type="button" id="NuevoCliente" title="Crear Nuevo Cliente" onClick="NuevoCliente()">Nuevo Cliente</button>
+			   	<button type="button" id="RegistrosClientes" title="Ver Registros Cliente" onClick="ClienteRegistros()">Registros</button>
 			   	<button type="button" id="ExportarClientes" title="Exportar Todos Los Clientes" onClick="ExportarClientes()">Exportar Clientes</button>
 			   </div>
 			   <!-- fin botonera -->
@@ -576,8 +577,7 @@ function Logs(){
 		//controles
 		$lista .= '<div class="datos-botones">
 					<button type="button" title="Cancelar Edición" onClick="CancelarContent()">Cancelar</button>
-					<input type="reset" title="Limpiar Edición" value="Limpiar" />
-					<input type="submit" title="Guardar Edición" value="Guardar" />
+					<button class="ocultos" id="buttonRegistros" type="button" title="Ver Registros">Registros</button>
 				</div>
 			</div>';
 
@@ -589,11 +589,11 @@ function Logs(){
 }
 
 /**
-* COMPONE LAS ESTADISTICAS DE UN CLIENTE
+* COMPONE LA VISTA DE REGISTROS DEL CLIENTE
 * @param int $id -> id del cliente
 * @return string $estadisticas -> text/html con las estadisticas
 */
-function ClienteEstadisticas( $id ){
+function ClienteRegistros( $id ){
 	$cliente = new Cliente();
 	$proyectos = new Proyectos();
 
@@ -642,6 +642,39 @@ function ClienteEstadisticas( $id ){
 								</table>
 							</div>
 						  </div>';
+	}else{
+		$estadisticas .= '<div class="datos-date">
+							<div id="date" class="date-left">
+							</div>
+							<div class="date-right">
+								<div class="sub-titulo">
+									informacion
+								</div>
+								<!-- informacion del dia 
+								<ul class="list" id="date-info">
+
+								</ul> -->
+								<table id="date-info">
+									<thead>
+										<tr>
+											<th width="50%">
+												Hora
+											</th>
+											<th width="50%">
+												Ip
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="nodata" colspan="2">
+												No hay registros
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						  </div>';
 	}
 
 	echo $estadisticas;
@@ -672,8 +705,9 @@ function getClienteDates( $id ){
 		}
 
 		//echo '<pre>'; print_r($json); echo '</pre>';
-		echo stripslashes(json_encode($json));
 	}
+
+	echo stripslashes(json_encode($json));
 }
 
 ?>
