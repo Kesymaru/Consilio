@@ -385,7 +385,7 @@ function ClientesLogs(){
 				var id = $("#cliente-logs tr.seleccionada").attr('id');
 				ClienteRegistros( id );
 			});
-			
+
 		},
 		fail: function(response){
 			notificaError("AJAX FAIL Clientes.js ClientesLogs.<br/>"+response);
@@ -486,7 +486,7 @@ function CargarDate( id, dias ){
 
 	if( jQuery.isEmptyObject(events) ){
 		$("#"+id).datepicker();
-		notificaAtencion('El cliente no tienen ningun registro de ingreso aun.');
+		notificaAtencion('El cliente no tienen ningun registro aun.');
 		return;
 	}
 
