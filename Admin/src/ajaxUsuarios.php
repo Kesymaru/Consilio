@@ -34,7 +34,8 @@ switch ($_POST['func']){
 
 					$_SESSION['bloquedo'] = true;
 
-					$bloquear->BloquearIp( $_SERVER['REMOTE_ADDR'], $_POST['usuario'], 2); //bloquea la ip
+					//BloquearIp( $ip, $usuario, $sitio, $intento )
+					$bloquear->BloquearIp( $_SERVER['REMOTE_ADDR'], $_POST['usuario'], 1); //bloquea la ip
 
 					$mensaje = $bloquear->MensajeBloqueo();
 
@@ -89,7 +90,8 @@ switch ($_POST['func']){
 	case 'EstadoBloqueado':
 		$bloquear = new Bloquear();
 
-		if( $bloquear->Estado( $_SERVER['REMOTE_ADDR'] ) ){
+		//si esta bloqueado en admin
+		if( $bloquear->Estado( $_SERVER['REMOTE_ADDR'], 1 ) ){
 			$_SESSION['bloquedo'] = true;
 			echo $bloquear->MensajeBloqueo();
 		}

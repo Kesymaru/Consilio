@@ -323,6 +323,11 @@ button:hover{
 	border-bottom: 1px solid #dedede;
 }
 
+.table-list td .ui-buttonset{
+	font-size: 14px !important;
+	width: auto;
+}
+
 .datos-date .date-right table th{
 	padding: .4em .3em;
 	border-bottom: 1px solid rgba(117, 114, 115, 0.7);

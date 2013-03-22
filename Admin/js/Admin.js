@@ -470,6 +470,39 @@ function IntentosBloqueados(){
 			$("#content").html( response );
 
 			$( ".intento-buttonset" ).buttonset();
+
+			/*$('.intento-buttonset input[type=radio]').change(function() {
+			     var ip = $(this).val();
+			     var tipo = $(this).attr('id');
+			     tipo = tipo.substring(3,0);
+
+			     var sitio = null;
+			     if( $( $(this).closest('div') ).hasClass('Cliente') ){
+			     	sitio = 0;
+			     }
+			     if( $(this).closest('div').hasClass('Admin') ){
+			     	sitio = 1;
+			     }
+
+			     AccionBloqueo(ip, tipo, sitio);
+			     //alert( sitio ); 
+
+			});*/
+			$("#intentos-bloqueado tr").click( function(){
+				var id = $(this).attr('id');
+				
+				$("#intentos-bloqueado tr").removeClass('seleccionada');
+				$(this).addClass('seleccionada');
+
+				if( !$("#BotonBloquearIp").is(":visible") ){
+					$("#BotonBloquearIp").fadeIn();
+				}
+
+				if( !$("#BotonDesloquearIp").is(":visible") ){
+					$("#BotonDesloquearIp").fadeIn();
+				}
+				
+			});
 		},
 		fail: function(response){
 			notificaError("Error: AJAX FAIL, Admin.js IntentosBloqueados().<br/>"+response);
@@ -478,5 +511,64 @@ function IntentosBloqueados(){
 }
 
 /**
-* DESBLOQUEA EL 
+* BLOQUEA PERMANENTEMENTE UNA IP
 */
+function BloquearIp( ){
+
+	var id = $("#intentos-bloqueado tr.seleccionada").attr('id');
+	var ip = $("#"+id+" .ip").text();
+	ip = ip.replace(/\s+/g, '');
+
+	var queryParams = {"func" : "BloquearPermanentemente", "ip": ip};
+
+	$.ajax({
+		data: queryParams,
+		url: "src/ajaxAdmin.php",
+		type: "post",
+		success: function( response ){
+			if( response.length >= 3){
+				notifica("Ip: "+ip+"<br/>Bloqueada Permanentemente");
+
+				$("#"+id+" .estado").text("Bloqueado Permanentemente.");
+			}else{
+				notificaError("Error: Admin.js BloquearIp().<br/>"+response);
+			}
+		},
+		fail: function( response ){
+			notificaError("Error: AJAX FAIL Admin.js BloquearIp()<br/>"+response);
+		}
+	});
+}
+
+/**
+* DESBLOQUEAR UNA IP
+* @param string ip -> ip a desbloquear
+*/
+function DesbloquearIp( ){
+	
+	var id = $("#intentos-bloqueado tr.seleccionada").attr('id');
+	var ip = $("#"+id+" .ip").text();
+	ip = ip.replace(/\s+/g, '');
+
+	var queryParams = {"func" : "Desbloquear", "ip" : ip};
+
+	$.ajax({
+		data: queryParams,
+		url: "src/ajaxAdmin.php",
+		type: "post",
+		success: function( response ){
+			console.log( response );
+
+			if( response.length >= 3){
+				notifica("Ip: "+ip+"<br/>Ha sido desbloqueada.");
+
+				$("#"+id+" .estado").text("Bloqueo expiro.");
+			}else{
+				notificaError("Error: Admin.js DesbloquearIp().<br/>"+response);
+			}
+		},
+		fail: function( response ){
+			notificaError("Error: AJAX FAIL Admin.js DesbloquearIp().<br/>"+response);
+		}
+	})
+}

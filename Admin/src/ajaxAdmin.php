@@ -69,6 +69,20 @@ if(isset($_POST['func'])){
 		case 'Intentos':
 			Intentos();
 			break;
+
+		//DESBLOQUEA UNA IP
+		case 'Desbloquear':
+			if( isset($_POST['ip']) ){
+				Desbloquear( $_POST['ip'] );
+			}
+			break;
+
+		//BLOQUEA PERMANENTEMENTE UNA IP
+		case 'BloquearPermanentemente':
+			if( isset($_POST['ip']) ){
+				BloqueoPermanente( $_POST['ip'] );
+			}
+			break;
 	}
 }
 
@@ -604,7 +618,10 @@ function Intentos(){
 			  			<th title="Identificador unico del cumputador/dispositivo">
 			  				Ip
 			  			</th>
-			  			<th title="Estado del bloquedo">
+			  			<th title="Sitio donde se realizo el intento">
+			  				Sitio
+			  			</th>
+			  			<th title="Estado del bloqueo">
 			  				Estado
 			  			</th>
 			  		</thead>';
@@ -612,14 +629,20 @@ function Intentos(){
 	if( $datos = $bloquear->getIps() ){
 
 		//echo '<pre>'; print_r($datos); echo '</pre>';
-
+		
 		foreach ($datos as $f => $intento) {
 			
 			//si esta activo o es permatente el bloqueo
-			if( $bloquear->Estado( $intento['ip']) || $intento['estado'] > 0 ){
+			if( $bloquear->Estado( $intento['ip'], $intento['sitio'] ) ){
 				$estado = true;
 			}else{
 				$estado = false;
+			}
+
+			if( $intento['sitio'] == 0){
+				$sitio = 'Cliente';
+			}else{
+				$sitio = 'Admin';
 			}
 
 			$lista .= '<tr id="'.$intento['id'].'" > 
@@ -627,46 +650,41 @@ function Intentos(){
 							'.$intento['fecha'].'
 						</td>
 						<td>
-							'.$intento['COUNT(ip)'].'
+							'.$intento['total_intentos'].'
 						</td>
-						<td>
+						<td class="ip">
 							'.$intento['ip'].'
 						</td>
-						<td>';
-
-			$des = '';
-			$blo = '';
-			$per = '';
+						<td>
+							'.$sitio.'
+						</td>
+						<td class="estado">';
+			
+			$status = '---';
+			
 			if( $estado ){
-
-				if( $intento['estado'] == 2 ){
-					$per = 'checked';
-					$blo = '';
-				}else{
-					$blo = 'checked';	
-				}
+				$minutos = $bloquear->Minutos( $intento['ip'], $intento['sitio'] );
+				$minutos = floor($minutos/60);
+				$status = "<span>Bloqueado: $minutos minutos</span>";
 			}else{
-				$des = 'checked';
+				$status = 'Bloqueo expiro.';
 			}
-			
-			//echo $intento['id'].'<br/>';
-			
-			$lista .= '<div class="intento-buttonset">
-							<input id="des'.$intento['id'].'" name="radio'.$intento['id'].'" type="radio" '.$des.' />
-								<label for="des'.$intento['id'].'" title="Deshabilitar el bloqueo" >Desbloqueado</label>
-							<input id="blo'.$intento['id'].'" name="radio'.$intento['id'].'" type="radio" '.$blo.' />
-								<label for="blo'.$intento['id'].'" title="Bloquear por minutos">Bloquear</label>
-							<input id="per'.$intento['id'].'" name="radio'.$intento['id'].'" type="radio" '.$per.' />
-								<label for="per'.$intento['id'].'" title="Bloquear Permanentemente" >Permanente</label>
-						</div>';
 
-			$lista .=	'</td>
+			if( $bloquear->EsPermanente( $intento['ip'] )){
+				$status = 'Bloqueado Permanentemente.';
+			}
+
+			$lista .= '
+						<div class="status-circle">
+							<span>'.$status.'</span>
+					   	</div>
+					   </td>
 					  </tr>';
 		}
 
 	}else{	
 		$lista .= '<tr>
-						<td class="nodata" colspan+"4">
+						<td class="nodata" colspan="5">
 							No hay intentos bloqueadas
 						</td>
 				   </tr>';
@@ -674,7 +692,40 @@ function Intentos(){
 
 	$lista .= '	</table>';
 
+	$lista .= '<div class="datos-botones">
+					<button type="button" title="Cancelar Edición" onClick="CancelarContent()">Cancelar</button>
+					<button class="ocultos" id="BotonBloquearIp" type="button" title="Bloquear Permanentemente" onClick="BloquearIp()">Bloquear</button>
+					<button class="ocultos" id="BotonDesloquearIp" type="button" title="Elimina el bloqueo" onClick="DesbloquearIp()">Desbloquear</button>
+				</div>';
+
 	echo $lista;
 }
+
+
+/**
+* DESBLOQUEAR
+* @param string $ip -> ip ha bloquears
+*/
+function Desbloquear( $ip ){
+	$bloquear = new Bloquear();
+
+	if( !$bloquear->DesbloquearIp( $ip ) ){
+		echo 'Error: No se pudo desbloquear la ip '.$ip;
+	}
+}
+
+/**
+* BLOQUEO PERMANTENTE DE UN IP
+* @param string $ip -> ip d bloquear
+*/
+function BloqueoPermanente( $ip ){
+	$bloquear = new Bloquear();
+
+	echo $ip.' '.$sitio;
+	if( $bloquear->BloqueoPermanenteIp($ip) ){
+		echo 'Error: no se pudo bloquear permantentemente la ip '.$ip;
+	}
+}
+
 
 ?>

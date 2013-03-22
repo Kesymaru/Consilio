@@ -248,6 +248,14 @@ class Bloquear{
 	* @param int $sitio -> 0= cliente, 1= admin
 	*/
 	public function BloquearIp( $ip, $usuario, $sitio ){
+		
+		//si esta bloqueada permanentemente
+		if( $this->EsPermanente( $ip )){
+			
+			$this->DesbloquearPermantente( $ip );
+
+		}
+
 		$base = new Database();
 
 		//$ip = $_SERVER['REMOTE_ADDR'];
@@ -258,25 +266,107 @@ class Bloquear{
 
 		$fecha = date('Y-m-d G:i:s');
 
-		$query = "INSERT INTO ip_bloqueadas (usuario, ip, sitio, fecha, estado ) VALUES ( '".$usuario."', '".$ip."', '".$sitio."', '".$fecha."', '1' )";
+		$query = "INSERT INTO ip_bloqueadas (usuario, ip, sitio, fecha, ignorar ) VALUES ( '".$usuario."', '".$ip."', '".$sitio."', '".$fecha."', '0' )";
 
-		if( !$base->Insert( $query )){
-			
+		if( $base->Insert( $query )){
+			return true;
+		}else{
+			return false;
 		}
-	} 
+	}
+
+	/**
+	* DESBLOQUEA UNA IP
+	* @param string $ip -> ip h desbloquear
+	* @param boolean false -> si falla
+	* @return boolean true -> si se realiza
+	*/
+	public function DesbloquearIp( $ip ){
+		$ip = mysql_real_escape_string( $ip );
+
+		//si esta bloqueada permanentemente
+		if( $this->EsPermanente( $ip )){
+			
+			$this->DesbloquearPermantente( $ip );
+
+		}
+		
+		$base = new Database();	
+		
+		$query = "UPDATE ip_bloqueadas SET ignorar = 1 WHERE ip = '".$ip."'";
+
+		if( $base->Update( $query )){
+			return true;
+		}else{
+			return false;
+		}
+
+	}	
+
+	/**
+	* BLOQUEA UNA IP PERMANENTEMENTE
+	* @param string $ip -> ip h desbloquear
+	* @param string $sitio -> sitio al que aplica
+	* @param boolean false -> si falla
+	* @return boolean true -> si se realiza
+	*/
+	public function BloqueoPermanenteIp( $ip ){
+		
+		if( !$this->EsPermanente( $ip )){
+
+			$base = new Database();
+
+			$ip = mysql_real_escape_string( $ip );
+
+			$fecha = date('Y-m-d G:i:s');
+			$query = "INSERT INTO ip_bloqueos_permanentes (ip, fecha) VALUES ('".$ip."', '".$fecha."') ";
+
+			if( $base->Insert( $query )){
+				return true;
+			}else{
+				return false;
+			}
+
+		}else{
+			return true; //ya estaba bloqueada
+		}
+
+	}
+
+	/**
+	* ELIMINA UN BLOQUEO PERMANENTE
+	* @param string $ip -> ip ha desbloquear
+	*/
+	private function DesbloquearPermantente($ip){
+		$base = new Database();
+
+		$ip = mysql_real_escape_string( $ip );
+
+		$query = "DELETE FROM ip_bloqueos_permanentes WHERE ip = '".$ip."'";
+
+		if ( !$base->Delete( $query ) ){
+			echo 'Error: al borrar bloqueo permancente de la ip '.$ip.'<br/>session.php class Bloquear->DesactivarBloqueoIp';
+		}
+	}
 
 	/**
 	* REVISA SI LA IP ESTA BLOQUEADA
-	* @para m string $ip -> ip a verificar
+	* @param string $ip -> ip a verificar
+	* @return boolean true -> si esta bloqueado
+	* @return boolean false -> si no esta bloqueado
 	*/
 	public function Estado( $ip ){
-		//$ip= $_SERVER['REMOTE_ADDR']; 
-		
+
+		//si la ip esta bloqueada permanentemente
+		if( $this->EsPermanente($ip) ){
+			return true;
+		}
+
 		$base = new Database();
 
 		$ip = mysql_real_escape_string($ip);
 
-		$query = "SELECT ip, id, estado, MAX(fecha) AS fecha FROM ip_bloqueadas WHERE ip = '".$ip."'";
+		$query = "SELECT ip, id, ignorar, MAX(fecha) AS fecha FROM ip_bloqueadas WHERE ip = '".$ip."'";
 
 		$config = $base->Select( "SELECT * FROM config WHERE sitio = 1");
 
@@ -289,16 +379,14 @@ class Bloquear{
 			if( empty($ultimo['fecha']) ){
 				return false;
 			}
-			//desbloqueado desde el admin
-			if( $ultimo['estado'] == 0){
+
+			//fue desbloqueada por el admin
+			if( $ultimo['ignorar'] == 1){
 				return false;
 			}
-			//esta bloqueado permanentemente
-			if( $ultimo['estado'] == 2){
-				return true;
-			}
-			//echo '<pre>'; print_r($datos); echo '</pre>';
 
+			//echo '<pre>'; print_r($datos); echo '</pre>';
+			
 			$now = date('Y-m-d G:i:s');
 			$ahora = strtotime( $now );
 			
@@ -309,9 +397,52 @@ class Bloquear{
 			}else{
 				return false;
 			}
+
+			/*$minutos = $this->Minutos( $ip );
+
+			if( $minutos >= 0 ){
+				return true;
+			}else{
+				return false;
+			}*/
 		}
 		
 		return false; //no esta bloqueado
+	}
+
+	/**
+	* OBTIENE LOS MINUTOS DE BLOQUEO DE UNA IP
+	* @param string $ip -> ip
+	* @return int $minutos -> timespan de la diferencia entre tiempo
+	*/
+	public function Minutos( $ip, $sitio ){
+		$base = new Database();
+
+		$ip = mysql_real_escape_string($ip);
+		$sitio = mysql_real_escape_string($sitio);
+
+		$query = "SELECT ip, MAX(fecha) AS fecha FROM ip_bloqueadas WHERE ip = '".$ip."' AND sitio = '".$sitio."'";
+
+		$config = $base->Select( "SELECT * FROM config WHERE sitio = 1");
+		$datos = $base->Select( $query );
+
+		if( !empty($datos) ){
+
+			$now = date('Y-m-d G:i:s');
+			$ahora = strtotime( $now );
+				
+			$expira = strtotime( $datos[0]['fecha'].' +'.$config[0]['tiempo_bloqueo'].' minutes' );
+			$expira2 = date('Y-m-d G:i:s', $expira);
+			
+
+			$minutos = $expira - $ahora;
+
+			//echo $expira2.' - '.$now.' = '.($minutos/60).'<hr>';
+
+			return $minutos;
+		}else{
+			return 0;
+		}
 	}
 
 	/**
@@ -355,7 +486,8 @@ class Bloquear{
 	public function getIps(){
 		$base = new Database();
 
-		$query = "SELECT usuario, sitio, ip, fecha, id, estado, COUNT(ip) FROM ip_bloqueadas GROUP BY ip";
+		//$query = "SELECT usuario, sitio, ip, id, estado, COUNT(ip), MAX(fecha) FROM ip_bloqueadas GROUP BY ip";
+		$query = "SELECT sitio, ip, MAX(id) AS id, COUNT(ip) AS total_intentos, MAX(fecha) AS fecha FROM ip_bloqueadas GROUP BY ip, sitio";
 		$datos = $base->Select( $query );
 
 		if( !empty($datos) ){
@@ -365,6 +497,28 @@ class Bloquear{
 		}
 	}
 
+	/**
+	* SI LA IP ESTA BLOQUEADA PERMANENTEMENTE, ESTO APLICA PARA AMBOS SITIOS (admin y cliente);
+	* @param string $ip -> ip del cliente
+	* @return boolean true -> si es permanente
+	* @return booelan false -> si no es permanente
+	*/
+	public function EsPermanente( $ip ){
+		$base = new Database();
+
+		$ip = mysql_real_escape_string($ip);
+
+		$query = "SELECT * FROM ip_bloqueos_permanentes WHERE ip = '".$ip."' ";
+
+		$datos = $base->Select( $query );
+
+		if( !empty($datos) ){
+			//ya existe
+			return true;
+		}else{
+			return false;
+		}
+	}
 
 }
 

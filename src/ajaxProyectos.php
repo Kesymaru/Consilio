@@ -601,9 +601,8 @@ function DatosArticulo($proyecto, $categoria, $norma, $id){
 					</div><!-- end datos-articulo -->';
 
 	}else{
-		$lista .= '<div class="">
-					<script>notificaError("Error ajaxProyectos.php DatosArticulo articulo '.$id.' <br/>No se encontraron datos.");
-					</div>
+		$lista .= '<div class="nodata">
+					
 					</div>';
 	}
 
