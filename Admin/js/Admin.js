@@ -501,7 +501,7 @@ function IntentosBloqueados(){
 				if( !$("#BotonDesloquearIp").is(":visible") ){
 					$("#BotonDesloquearIp").fadeIn();
 				}
-				
+
 			});
 		},
 		fail: function(response){
@@ -557,7 +557,7 @@ function DesbloquearIp( ){
 		url: "src/ajaxAdmin.php",
 		type: "post",
 		success: function( response ){
-			console.log( response );
+			console.log( response.length );
 
 			if( response.length >= 3){
 				notifica("Ip: "+ip+"<br/>Ha sido desbloqueada.");
