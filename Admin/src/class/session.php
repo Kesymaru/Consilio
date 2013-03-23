@@ -293,7 +293,7 @@ class Bloquear{
 		
 		$base = new Database();	
 		
-		$query = "UPDATE ip_bloqueadas SET ignorar = 1 WHERE ip = '".$ip."'";
+		echo $query = "UPDATE ip_bloqueadas SET ignorar = 1 WHERE ip = '".$ip."'";
 
 		if( $base->Update( $query )){
 			return true;

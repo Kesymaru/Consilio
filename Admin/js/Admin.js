@@ -559,7 +559,7 @@ function DesbloquearIp( ){
 		success: function( response ){
 			console.log( response.length );
 
-			if( response.length >= 3){
+			if( response.length >= 2){
 				notifica("Ip: "+ip+"<br/>Ha sido desbloqueada.");
 
 				$("#"+id+" .estado").text("Bloqueo expiro.");
