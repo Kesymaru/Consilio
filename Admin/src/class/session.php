@@ -283,7 +283,7 @@ class Bloquear{
 	*/
 	public function DesbloquearIp( $ip ){
 		$ip = mysql_real_escape_string( $ip );
-
+		echo $ip;
 		//si esta bloqueada permanentemente
 		if( $this->EsPermanente( $ip )){
 			
