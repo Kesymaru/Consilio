@@ -549,7 +549,8 @@ function DesbloquearIp( ){
 	var id = $("#intentos-bloqueado tr.seleccionada").attr('id');
 	var ip = $("#"+id+" .ip").text();
 	ip = ip.replace(/\s+/g, '');
-
+	console.log( ip );
+	
 	var queryParams = {"func" : "Desbloquear", "ip" : ip};
 
 	$.ajax({
