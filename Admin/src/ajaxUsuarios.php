@@ -36,8 +36,7 @@ switch ($_POST['func']){
 
 					$_SESSION['bloquedo'] = true;
 
-					$ip = $REMOTE_ADDR;
-					$ip = GetHostByName( $ip );
+					$ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
 
 					//BloquearIp( $ip, $usuario, $sitio, $intento ) $_SERVER['REMOTE_ADDR']
 					$bloquear->BloquearIp( $ip, $_POST['usuario'], 1); //bloquea la ip
@@ -95,8 +94,7 @@ switch ($_POST['func']){
 	case 'EstadoBloqueado':
 		$bloquear = new Bloquear();
 
-		$ip = $REMOTE_ADDR;
-		$ip = GetHostByName( $ip );
+		$ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
 
 		//si esta bloqueado en admin
 		if( $bloquear->Estado( $ip ) ){
