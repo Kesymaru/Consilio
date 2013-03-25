@@ -83,6 +83,13 @@ if(isset($_POST['func'])){
 				BloqueoPermanente( $_POST['ip'] );
 			}
 			break;
+
+		//elimina una ip del registro
+		case 'EliminarIp':
+			if( isset($_POST['ip']) ){
+				EliminarIp( $_POST['ip'] );
+			}
+			break;
 	}
 }
 
@@ -694,6 +701,7 @@ function Intentos(){
 
 	$lista .= '<div class="datos-botones">
 					<button type="button" title="Cancelar Edición" onClick="CancelarContent()">Cancelar</button>
+					<button class="ocultos" id="BotonBorrarIp" type="button" title="Eliminar IP" onClick="EliminarIp()">Eliminar</button>
 					<button class="ocultos" id="BotonBloquearIp" type="button" title="Bloquear Permanentemente" onClick="BloquearIp()">Bloquear</button>
 					<button class="ocultos" id="BotonDesloquearIp" type="button" title="Elimina el bloqueo" onClick="DesbloquearIp()">Desbloquear</button>
 				</div>';
@@ -708,7 +716,7 @@ function Intentos(){
 */
 function Desbloquear( $ip ){
 	$bloquear = new Bloquear();
-	echo $ip;
+
 	if( !$bloquear->DesbloquearIp( $ip ) ){
 		echo 'Error: No se pudo desbloquear la ip '.$ip;
 	}
@@ -721,9 +729,20 @@ function Desbloquear( $ip ){
 function BloqueoPermanente( $ip ){
 	$bloquear = new Bloquear();
 
-	echo $ip.' '.$sitio;
 	if( $bloquear->BloqueoPermanenteIp($ip) ){
-		echo 'Error: no se pudo bloquear permantentemente la ip '.$ip;
+		echo 'Error: no se pudo bloquear permantentemente la ip '.$ip.'<br/>ajaxAdmin.php BloquearPermanentemente';
+	}
+}
+
+/**
+* ELIMINA UNA IP DEL REGISTROS, TAMBIEN DEL DE PERMANENTES SI ESTA HAY
+* @param string $ip -> ip ha eliminar
+*/
+function EliminarIp( $ip ){
+	$bloquear = new Bloquear();
+
+	if( !$bloquear->EliminarIp( $ip ) ){
+		echo "Error: no se pudo eliminar la ip ".$ip.'<br/> ajaxAdmin.php EliminarIp';
 	}
 }
 

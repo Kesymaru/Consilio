@@ -81,7 +81,12 @@ function Menu2Scroll(){
 	});
 }
 
+function getip(json){
+    alert(json.ip); // alerts the ip address
+}
+
 $(document).ready(function(){
+
 	//tooltips
 	$(document).tooltip({
 		tooltipClass: "arrow",

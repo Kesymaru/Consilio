@@ -502,6 +502,10 @@ function IntentosBloqueados(){
 					$("#BotonDesloquearIp").fadeIn();
 				}
 
+				if( !$("#BotonBorrarIp").is(":visible") ){
+					$("#BotonBorrarIp").fadeIn();
+				}
+				
 			});
 		},
 		fail: function(response){
@@ -550,7 +554,7 @@ function DesbloquearIp( ){
 	var ip = $("#"+id+" .ip").text();
 	ip = ip.replace(/\s+/g, '');
 	console.log( ip );
-	
+
 	var queryParams = {"func" : "Desbloquear", "ip" : ip};
 
 	$.ajax({
@@ -558,7 +562,7 @@ function DesbloquearIp( ){
 		url: "src/ajaxAdmin.php",
 		type: "post",
 		success: function( response ){
-			console.log( response );
+			//console.log( response );
 
 			if( response.length >= 2){
 				notifica("Ip: "+ip+"<br/>Ha sido desbloqueada.");
@@ -572,4 +576,55 @@ function DesbloquearIp( ){
 			notificaError("Error: AJAX FAIL Admin.js DesbloquearIp().<br/>"+response);
 		}
 	})
+}
+
+/**
+* CONFIRMACION DE LA ELIMINACION DEL REGISTRO DE UNA IP BLOQUEADA
+*/
+function EliminarIp(){
+	var id = $("#intentos-bloqueado tr.seleccionada").attr('id');
+	var ip = $("#"+id+" .ip").text();
+	ip = ip.replace(/\s+/g, '');
+	console.log( ip );
+
+	var si = function (){
+		AccionEliminarIp( ip );
+	}
+
+	var no = function (){
+		notificaAtencion("Operacion cancelada");
+	}
+
+	Confirmacion("Desea Eliminar la Ip:"+ip, si, no);
+}
+
+/**
+* ELIMINA UNA IP
+* @param string ip
+*/
+function AccionEliminarIp( ip ){
+	var queryParams = {"func" : "EliminarIp", "ip" : ip};
+
+	$.ajax({
+		data: queryParams,
+		url: 'src/ajaxAdmin.php',
+		type: "post",
+		success: function(response){
+
+			if( response.length ){
+				
+				$("#intentos-bloqueado tr.seleccionada").fadeOut(function(){
+					$(this).remove();
+				});
+
+				notifica("Ip: "+ip+"<br/>Ha sido eliminada");
+			}else{
+				notificaError("Error: Admin.js AccionEliminarIp <br/>"+response)
+			}
+
+		},
+		fail: function(response){
+			notificaError( "Error: AJAX FAIL Admin.js AccionEliminarIp().<br/>"+response);
+		}
+	});
 }

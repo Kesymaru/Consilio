@@ -11,7 +11,8 @@ class Session{
 	public function __construct(){
 		//ini_set( 'session.save_path' , '/var/data/development.77digital.com/matrizescala/Admin/sessions/');
 
-		error_reporting(E_ALL);
+		//error_reporting(E_ALL);
+		error_reporting(0);
 		//session_set_cookie_params(1200);
 		date_default_timezone_set('America/Costa_Rica');
 
@@ -284,10 +285,8 @@ class Bloquear{
 	public function DesbloquearIp( $ip ){
 
 		$ip = mysql_real_escape_string( $ip );
-		$ip2 = $ip;
-		echo $ip;
 		
-		echo $query = "UPDATE ip_bloqueadas SET ignorar = 1 WHERE ip = '".$ip2."'";
+		$query = "UPDATE ip_bloqueadas SET ignorar = 1 WHERE ip = '".$ip."'";
 
 		//si esta bloqueada permanentemente
 		if( $this->EsPermanente( $ip )){
@@ -296,10 +295,8 @@ class Bloquear{
 
 		}
 		
-		$base = new Database();	
-		
-		echo ' || '.$ip2;
-		
+		$base = new Database();
+
 		if( $base->Update( $query )){
 			return true;
 		}else{
@@ -525,8 +522,37 @@ class Bloquear{
 		}
 	}
 
+	/**
+	* ELIMINA UN IP DEL REGISTRO
+	* @param string $ip -> ip ha eliminar
+	* @return boolean true -> si se elimina
+	* @return boolean false -> si fallas
+	*/
+	public function EliminarIp( $ip ){
+		
+		// si la ip es permanente se elimina	
+		if( $this->EsPermanente( $ip ) ){
+			$this->DesbloquearPermantente( $ip );
+		}
+ 
+		$base = new Database();
+
+		$ip = mysql_real_escape_string($ip);
+
+		$query = "DELETE FROM ip_bloqueadas WHERE ip = '".$ip."'";
+
+		if( $base->Delete( $query) ){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 }
 
+/**
+* CLASE PARA EL MANEJO DE LA CONFIGURACION DEL SITIO
+*/
 class Confi{
 	public function __construct(){
 

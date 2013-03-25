@@ -6,6 +6,8 @@
 require_once("class/session.php");
 require_once("class/usuarios.php");
 
+error_reporting(0);
+
 switch ($_POST['func']){
 
 	/*
@@ -34,8 +36,11 @@ switch ($_POST['func']){
 
 					$_SESSION['bloquedo'] = true;
 
-					//BloquearIp( $ip, $usuario, $sitio, $intento )
-					$bloquear->BloquearIp( $_SERVER['REMOTE_ADDR'], $_POST['usuario'], 1); //bloquea la ip
+					$ip = $REMOTE_ADDR;
+					$ip = GetHostByName( $ip );
+
+					//BloquearIp( $ip, $usuario, $sitio, $intento ) $_SERVER['REMOTE_ADDR']
+					$bloquear->BloquearIp( $ip, $_POST['usuario'], 1); //bloquea la ip
 
 					$mensaje = $bloquear->MensajeBloqueo();
 
@@ -90,8 +95,11 @@ switch ($_POST['func']){
 	case 'EstadoBloqueado':
 		$bloquear = new Bloquear();
 
+		$ip = $REMOTE_ADDR;
+		$ip = GetHostByName( $ip );
+
 		//si esta bloqueado en admin
-		if( $bloquear->Estado( $_SERVER['REMOTE_ADDR'], 1 ) ){
+		if( $bloquear->Estado( $ip ) ){
 			$_SESSION['bloquedo'] = true;
 			echo $bloquear->MensajeBloqueo();
 		}

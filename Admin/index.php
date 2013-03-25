@@ -9,6 +9,15 @@ require_once("src/master.php");
 
 $master = new Master();
 
+//$joe = apache_request_headers();
+//echo '<hr/><pre>'; print_r($joe); echo '</pre>';
+
+
+/*
+$ip = $REMOTE_ADDR;
+$ip = GetHostByName( $ip );
+echo $ip;*/
+
 ?>
 
 <!DOCTYPE html>
