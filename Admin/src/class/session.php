@@ -452,7 +452,7 @@ class Bloquear{
 	* @return string $mensaje -> mensaje
 	*/
 	public function MensajeBloqueo(){
-		$ip= $_SERVER['REMOTE_ADDR']; 
+		$ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
 		$base = new Database();
 
 		$query = "SELECT * FROM config WHERE sitio = 1";
