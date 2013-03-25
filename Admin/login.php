@@ -5,7 +5,7 @@ $session = new SessionInvitado();
 
 $ip = $REMOTE_ADDR;
 $ip = GetHostByName( $ip );
-echo $ip;
+echo 'La ip es: '+$ip;
 
 /*
 //logueo
