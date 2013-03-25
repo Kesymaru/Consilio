@@ -175,9 +175,11 @@ class Session{
 		$base = new Database();
 
 		$id = mysql_real_escape_string($id);
-		$ip = mysql_real_escape_string( $_SERVER['REMOTE_ADDR'] );
+		//$ip = mysql_real_escape_string( $_SERVER['REMOTE_ADDR'] );
+		$ip = mysql_real_escape_string( $_SERVER["HTTP_X_FORWARDED_FOR"] );
+		$fecha = date('Y-m-d G:i:s');
 
-		$query = "INSERT INTO clientes_logs (cliente, ip, fecha) VALUES ( '".$id."', '".$ip."', NOW() )";
+		$query = "INSERT INTO clientes_logs (cliente, ip, fecha) VALUES ( '".$id."', '".$ip."', '".$fecha."' )";
 		
 		$base->Insert($query);
 	}
