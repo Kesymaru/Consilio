@@ -12,6 +12,15 @@ echo '<br/>Desde gloobal: '.$_SERVER['REMOTE_ADDR'];
 $ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
 echo 'Tu ip es: '.$ip;
 
+//phpinfo();
+//exit();
+
+$headers = apache_request_headers();
+
+echo '<pre>'; print_r($headers); echo '</pre>';
+
+exit();
+
 /*
 //logueo
 if( isset($_SESSION['logueado']) ){
