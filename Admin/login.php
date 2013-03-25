@@ -4,7 +4,7 @@ require_once("src/class/session.php");
 $session = new SessionInvitado();
 
 $ip = $REMOTE_ADDR; 
-$ip = GetHostByName( $_SERVER['REMOTE_ADDR'] );
+$ip = GetHostByName( $REMOTE_ADDR );
 echo 'La ip es: '+$ip;
 echo '<br/>Desde gloobal: '.$_SERVER['REMOTE_ADDR'];
 
@@ -15,6 +15,25 @@ if( isset($_SESSION['logueado']) ){
 	header('Location: '.$home);
 	exit;
 }*/
+
+function getIp() {
+
+	$ip = $_SERVER['REMOTE_ADDR'];
+
+	if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+
+	$ip = $_SERVER['HTTP_CLIENT_IP'];
+
+	} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+
+	$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+
+	}
+	return $ip;
+}
+$ip = getIp();
+
+echo $ip;
 
 ?>
 <!doctype html public>
