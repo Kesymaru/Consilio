@@ -9,8 +9,8 @@ echo 'La ip es: '+$ip;
 echo '<br/>Desde gloobal: '.$_SERVER['REMOTE_ADDR'];
 */
 
-phpinfo();
-exit();
+$ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
+echo 'Tu ip es: '.$ip;
 
 /*
 //logueo
