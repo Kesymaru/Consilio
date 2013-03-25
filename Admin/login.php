@@ -3,6 +3,10 @@ require_once("src/class/session.php");
 
 $session = new SessionInvitado();
 
+$ip = $REMOTE_ADDR;
+$ip = GetHostByName( $ip );
+echo $ip;
+
 /*
 //logueo
 if( isset($_SESSION['logueado']) ){
