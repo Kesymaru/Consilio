@@ -2,11 +2,15 @@
 require_once("src/class/session.php");
 
 $session = new SessionInvitado();
-
+/*
 $ip = $REMOTE_ADDR; 
 $ip = GetHostByName( $REMOTE_ADDR );
 echo 'La ip es: '+$ip;
 echo '<br/>Desde gloobal: '.$_SERVER['REMOTE_ADDR'];
+*/
+
+phpinfo();
+exit();
 
 /*
 //logueo
