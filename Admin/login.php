@@ -19,7 +19,7 @@ if( isset($_SESSION['logueado']) ){
 	header('Location: '.$home);
 	exit;
 }*/
-
+/*
 function getIp() {
 
 	$ip = $_SERVER['REMOTE_ADDR'];
@@ -37,7 +37,7 @@ function getIp() {
 }
 $ip = getIp();
 
-echo $ip;
+echo $ip;*/
 
 ?>
 <!doctype html public>
