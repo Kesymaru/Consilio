@@ -72,7 +72,7 @@ if(isset($_POST['func'])){
 
 		//DESBLOQUEA UNA IP
 		case 'Desbloquear':
-			if( isset($_POST['ip']) ){
+			if( isset( $_POST['ip'] ) ){
 				Desbloquear( $_POST['ip'] );
 			}
 			break;
@@ -717,7 +717,7 @@ function Intentos(){
 function Desbloquear( $ip ){
 	$bloquear = new Bloquear();
 
-	echo $ip;
+	echo 'la ip es: '. $ip;
 	if( !$bloquear->DesbloquearIp( $ip ) ){
 		echo 'Error: No se pudo desbloquear la ip '.$ip;
 	}
@@ -730,7 +730,7 @@ function Desbloquear( $ip ){
 function BloqueoPermanente( $ip ){
 	$bloquear = new Bloquear();
 
-	if( $bloquear->BloqueoPermanenteIp($ip) ){
+	if( !$bloquear->BloqueoPermanenteIp($ip) ){
 		echo 'Error: no se pudo bloquear permantentemente la ip '.$ip.'<br/>ajaxAdmin.php BloquearPermanentemente';
 	}
 }
