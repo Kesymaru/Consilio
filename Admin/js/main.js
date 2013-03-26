@@ -1080,7 +1080,7 @@ function SelectAllPreview(id, table, checkbox){
 * @param table -> true es tabla -> select td's, false -> select li's
 * @param checkox -> true hay que chekear checbox dentro de target
 */
-function UnSelectAllPreview(id, table, checkbox){
+function UnSelectAll(id, table, checkbox){
 	
 	if(table){
 		target = '#'+id+' td';

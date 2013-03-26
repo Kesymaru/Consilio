@@ -206,15 +206,12 @@ class Master{
 			}
 
 			$lista .= '</div><!-- end proyecto detalles -->';
+			$lista .= '</table>';
 		}else{
-			$lista .= "<tr>
-						<td>
-						No tienes proyectos.
-					   </td>
-					   <tr>";
+			$lista .= "<div class='nodata'>
+							Estamos trabajando en tus proyectos.
+					   	</div>";
 		}
-
-		$lista .= '</table>';
 
 		echo $lista;
 	}

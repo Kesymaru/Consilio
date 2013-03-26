@@ -41,6 +41,14 @@ function Comentarios(){
 						$("#comentarios tr").removeClass('seleccionada');
 						$(this).addClass('seleccionada');
 
+						if( !$("#ComentariosEliminar").is(":visible") ){
+							$("#ComentariosEliminar").fadeIn();
+						}
+
+						if( !$("#ComentariosVer").is(":visible") ){
+							$("#ComentariosVer").fadeIn();
+						}
+
 					});
 
 					$(this).dblclick(function(){
@@ -133,7 +141,9 @@ function ComentariosArticulo( proyecto, articulo ){
 		url: "src/ajaxComentarios.php",
 		success: function(response){
 			if(response.length > 3){
-				$('#content').html(response);
+				$('#content')
+					.addClass('content-no')
+					.html(response);
 			}else{
 				notificaError("Error: Comentarios.js ComentariosArticulo().<br/>"+response);
 			}

@@ -8,17 +8,14 @@ $(document).ready(function(){
     $('.etiquetas').hide();
 
     $("#formID").validationEngine();
-    $('input[placeholder]').placeholder();
-
-    //compatibilidad opera -> es el unico browser que no permite color en placeholder
-    if($.browser.opera){
-    	$('.etiquetas').show();
-    }
 
     //logIn
     $('#formID').submit(function() {
 		return false;
 	});
+
+	//revisa si la compu no esta bloqueada
+	EstadoBloqueado();
 });
 
 function loginbox(cambio){
@@ -40,16 +37,20 @@ function formRecuperacion(){
 			$('#resetear').fadeOut(500, function(){ $('#entrar').fadeIn(500); });
 	}else{
 			$('#formRecuperacion').slideDown(500);
-			$('#login').slideUp(500,function(){ $('#login').hide();});
+			$('#login').slideUp(500,function(){ $('#login').hide(); });
 
-			$('#entrar').fadeOut(500, function(){ $('#resetear').fadeIn(500); });
+			if( $('#entrar').length ){
+				$('#entrar').fadeOut(500, function(){ $('#resetear').fadeIn(500); });
+			}else{
+				$('#resetear').fadeIn(500);
+			}
+			
 	}
 
 }
 
 //loguear
 function logIn(){
-	console.log('llamada LogIn');
 
 	//si son validos los datos
 	if ( $('#formID').validationEngine('validate') ){
@@ -62,12 +63,15 @@ function logIn(){
 			url:   'src/ajaxUsuarios.php',
 			type:  'post',
 			success:  function (response) { 
-				
-				if(response.length <= 3){
+				console.log( response );
+
+				$('#notifica').append(response);
+
+				/*if(response.length <= 3){
 					top.location.href = 'index.php';
 				}else{
 				    notificaIntento(response);
-				}
+				}*/
 			},
 			fail: function(response){
 				notificaError("Error: AJAX fail login.js logIN().<br/>"+response);
@@ -257,3 +261,68 @@ function notificaIntento(text) {
 	},7000);
 }
 
+/***************************************** BLOQUEO *******************************************/
+/**
+* BLOQUEA USUARIO
+*/
+function Bloqueado(text){
+	
+	$("#articulos").animate({
+		opacity: .5,
+	}, { 
+		duration: 500, 
+		queue: false,
+		complete: function(){
+
+			$("#articulos").animate({
+				opacity: 1,
+			}, { 
+				duration: 500, 
+				queue: false
+			});
+
+		}
+	});
+
+	$('#usuarios .titulo').html("Bloqueado");
+	$('#usuarios').addClass('bloqueado');
+
+	/*$("#usuarios .controls").fadeOut(700, function(){
+		$("#usuarios .controls").remove();
+	});*/
+	$("#password, #usuario, #entrar").fadeOut(function(){
+		$(this).remove();
+	});
+	
+	/*$('form').onSubmit(function(){
+		notifica("Buen intento");
+		return false;
+	});*/
+
+	$("#login").html(text);
+}
+
+/**
+* SE ENCARGA DE REVISAR ES ESTADO DE LA COMPU
+*/
+function EstadoBloqueado(){
+	var queryParams = {"func":"EstadoBloqueado"};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxUsuarios.php",
+		success: function(response){
+			//response = response.replace(/(\r\n|\n|\r)/gm,""); 
+			//response = response.replace(/\s+/g,"");
+
+			//$('html').append(response);
+			console.log( response );
+
+			if( response.length > 3 ){
+				notificaIntento("Lo sentimos tu ip esta bloqueada por que excediste el numero de intentos.");
+				Bloqueado( response );
+			}
+		}
+	});
+}

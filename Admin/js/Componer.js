@@ -249,12 +249,6 @@ function PreviewCategoriaNormas(id){
 function InitNormasIncluidas(){
 	var alto = ( $("html").height() * 0.6) - ( $("#NormasIncluidas .titulo").innerHeight() + $("#NormasIncluidas .preview-botones").innerHeight() + $("#panelNormasTitulo").innerHeight() +30 );
 
-	$("#panelNormas ul").sortable({
-		placeholder: "placeholder-sortable",
-	    tolerance: 'pointer',
-    	revert: true,
-	});
-
 	$("#panelNormas ul li").click(function(){
 		$("#panelNormas ul li").removeClass('last');
 
@@ -383,13 +377,6 @@ function ArticulosIncluidos(norma){
 			$.cookie("cargando", false);
 
 			if( $("#panelArticulos ul").length ){
-
-				//ordenable
-				$("#panelArticulos ul").sortable({
-					placeholder: "placeholder-sortable",
-				    tolerance: 'pointer',
-			    	revert: true,
-				});
 
 				//evento de click para los articulos
 				$("#panelArticulos ul li").click(function(){

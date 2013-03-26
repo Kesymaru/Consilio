@@ -22,6 +22,12 @@ html, body{
 	font-family: 'Open Sans', sans-serif;
 }
 
+[placeholder]:focus::-webkit-input-placeholder {
+  -webkit-transition: text-indent .7s .7s ease; 
+  text-indent: -100%;
+  opacity: 1;
+}
+
 /*
 	loginbox
 */
@@ -124,6 +130,7 @@ html, body{
 .loginbox input[type="password"]:focus, .loginbox input[type="password"]:active,
 .loginbox input[type="email"]:focus, .loginbox input[type="email"]:active{
 	border: 1px solid rgba(117, 114, 115, 1) !important;
+	outline: none;
 }
 
 .loginbox input[type="password"], .usuario{
@@ -295,4 +302,13 @@ html, body{
 	background-image:url('../images/key.png');
 	background-repeat:no-repeat;
 	background-position: 10px center; 
+}
+
+.bloqueado .titulo{
+	background-color: #FF6666;
+	background-color: rgba(100%, 0%, 0%, .6);
+}
+
+.oculto{
+	display: none;
 }

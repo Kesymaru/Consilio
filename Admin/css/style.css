@@ -795,7 +795,11 @@ button:hover{
 	border: 1px solid #dedede;
 	min-height: 80%;
 	overflow: hidden;
-	/*position: relative;*/
+	position: relative;
+}
+
+.content-no {
+	position: static !important;
 }
 
 /* header */
@@ -1364,12 +1368,146 @@ button:hover{
 	transition: all 6s ease-out;
 }
 
-.tabla-comentario .comentario-usuario{
+.comentario-usuario{
 	font-size: 16px;
 	text-align: left;
 	vertical-align: top;
 	padding-left: 5px;
+	color: #757374;
 }
+
+/**
+* ESTILO CONTENIDO DESDE EL EDITOR
+*/
+
+.desde-editor blockquote{
+	font-style: italic;
+	padding: 2px 0;
+	border-style: solid;
+	border-color: #A1CA4A;
+	border-width: 0;
+	padding-left: 15px;
+	padding-right: 5px;
+	border-left-width: 2px;
+}
+
+.desde-editor blockquote:hover,
+.desde-editor blockquote:focus,
+.desde-editor blockquote:active{
+	border-color: rgb(96%, 52%, 0%);; /*fallback */
+}
+
+.desde-editor p{
+	margin: 5px 0;
+	color: #757374;
+	display: block;
+}
+
+.desde-editor ol { 
+	counter-reset: item 
+}
+
+.desde-editor ol li { 
+	display: block 
+}
+
+.desde-editor ol li:before { 
+	content: counter(item) ". "; 
+	counter-increment: item;
+	font-weight: bold;
+	color: #A1CA4A;
+
+		-o-transition: all 3s ease-out;
+		-ms-transition: all 3s ease-out;
+		-moz-transition: all 3s ease-out;
+		-webkit-transition: all 3s ease-out;
+	transition: all 3s ease-out;
+}
+
+.desde-editor ol li:hover:before,
+.desde-editor ol li:focus:before,
+.desde-editor ol li:active:before{
+	color: rgb(96%, 52%, 0%);
+
+		-o-transition: all .5s ease-out;
+		-ms-transition: all .5s ease-out;
+		-moz-transition: all .5s ease-out;
+		-webkit-transition: all .5s ease-out;
+	transition: all .5s ease-out;
+}
+
+.desde-editor ul{
+	list-style: none !important;
+}
+
+.desde-editor ul li:before{
+	content: "• ";
+    font-weight: bold;
+    color: #A1CA4A;
+
+    	-o-transition: all 3s ease-out;
+		-ms-transition: all 3s ease-out;
+		-moz-transition: all 3s ease-out;
+		-webkit-transition: all 3s ease-out;
+	transition: all 3s ease-out;
+}
+
+.desde-editor ul li:hover:before,
+.desde-editor ul li:focus:before,
+.desde-editor ul li:active:before{
+	content: "• ";
+	color: rgb(96%, 52%, 0%);
+
+		-o-transition: all .5s ease-out;
+		-ms-transition: all .5s ease-out;
+		-moz-transition: all .5s ease-out;
+		-webkit-transition: all .5s ease-out;
+	transition: all .5s ease-out;
+}
+
+.desde-editor a{
+	color: #0782C1;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.desde-editor ol,
+.desde-editor ul,
+.desde-editor dl{
+	*margin-right: 0px;
+	margin: 5px 0;
+	padding: 0 40px;
+}
+
+.desde-editor hr{
+	width: 100%;
+	vertical-align: middle;
+	border: 1px solid #dedede;
+		
+		-o-transition: all 3s ease-out;
+		-ms-transition: all 3s ease-out;
+		-moz-transition: all 3s ease-out;
+		-webkit-transition: all 3s ease-out;
+	transition: all 3s ease-out;
+}
+
+.desde-editor strong{
+	font-weight: bold;
+}
+
+.desde-editor u{
+	text-decoration: none !important; 
+	border-bottom: 1px solid #757374;
+}
+
+.desde-editor em{
+	font-style: italic;
+}
+
+.desde-editor strike{
+	text-decoration: line-through;
+}
+/**************/
 
 .comentario-usuario .delete-comentario{
 	display: block;

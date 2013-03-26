@@ -2,8 +2,6 @@
 * JAVASCRIPT PARA ESCALA MATRIZ
 */
 $(window).resize(function(){
-	/*var alto = $("#menu2").innerHeight() - $(".panel th").innerHeight();
-	$(".panel #panel td div").height(alto);*/
 
 	var alto = $("#menu2").innerHeight() - $(".panel-header div").innerHeight()
 	$(".panel-body div, .panel-body div ul").height(alto);
@@ -13,7 +11,9 @@ $(window).resize(function(){
 
 $(document).ready(function(){
 
-	$('html, body, div, input, li, a').bind('cut copy paste', function(event) {
+	$('html, body, div, input, ul, ol, li, a').bind('cut copy', function(event) {
+        
+        notifica("No es posible copiar");
         event.preventDefault();
     });
 
@@ -21,9 +21,6 @@ $(document).ready(function(){
 	$(document).tooltip({
 		tooltipClass: "arrow",
 	  	position: {
-            /*my: "center top-70",
-            at: "center bottom",
-            collision: "flipfit"*/
             my: "center bottom-2",
             at: "center top",
             collision: "flipfit"

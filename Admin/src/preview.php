@@ -381,7 +381,7 @@ function PreviewArticulo($proyecto, $categoria, $norma, $id){
 									<button class="izquierda" type="button" onClick="EliminarObservacion('.$observacion['id'].')" >Eliminar</button>
 									<button class="derecha" type="button" onClick="EditarObservacion('.$observacion['id'].')" >Editar</button>
 								</div>
-								<div class="texto" id="observacion'.$observacion['id'].'">
+								<div class="texto desde-editor" id="observacion'.$observacion['id'].'">
 									'.base64_decode($observacion['observacion']).'
 								</div>
 							 </div>';

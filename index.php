@@ -81,7 +81,7 @@ $master = new Master();
 
 </head>
 
-<body>
+<body oncontextmenu="return false;" >
 
 <div id="loader" class="loader">
 

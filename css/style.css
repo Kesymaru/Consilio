@@ -39,7 +39,7 @@ html, body{
 /*
 * CONTRA SELECCION DE TEXTO
 */
-html, body, input, div, ul, li, a, p{
+html, body, div, ul, li, a, p{
 
 		-moz-user-select: none;  
 		-webkit-user-select: none;  

@@ -23,3 +23,23 @@ CKEDITOR.editorConfig = function( config ) {
 	config.removeButtons = 'Maximize,Table,Cut,Copy,Paste,Form,Flash,Find,Replace,Save,New_Page,Anchor,Image,About,Source,Iframe,ShowBlocks,Checkbox,Radio,TextField,Textarea,SelectionField,SelectAll,Button,ImageButton,HiddenField';
 
 };
+
+CKEDITOR.on( 'dialogDefinition', function( ev ) {
+    // Take the dialog name and its definition from the event data.
+    var dialogName = ev.data.name;
+    var dialogDefinition = ev.data.definition;
+
+    // Check if the definition is from the dialog window you are interested in (the "Link" dialog window).
+    if ( dialogName == 'link' ) {
+
+    	notifica("Agregar un link");
+
+        // Get a reference to the "Link Info" tab.
+        var infoTab = dialogDefinition.getContents( 'info' );
+
+        // Set the default value for the URL field.
+        var urlField = infoTab.get( 'url' );
+        urlField[ 'default' ] = 'www.escala.com';
+    }
+});
+

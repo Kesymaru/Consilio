@@ -105,8 +105,8 @@ function Comentarios(){
 
 		$lista .= '<div class="datos-botones">
 					<button type="button" title="Cancelar Edición" onClick="CancelarContent()">Cancelar</button>
-					<button class="" id="ComentariosEliminar" type="button" title="Eliminar Comentarios del proyecto" onClick="EliminarComentariosProyecto()">Eliminar</button>
-					<button class="" id="BotonBloquearIp" type="button" title="Ver Comentarios" onClick="Comentario()">Comentarios</button>
+					<button class="ocultos" id="ComentariosEliminar" type="button" title="Eliminar Comentarios del proyecto" onClick="EliminarComentariosProyecto()">Eliminar</button>
+					<button class="ocultos" id="ComentariosVer" type="button" title="Ver Comentarios" onClick="Comentario()">Comentarios</button>
 				  </div>';
 
 	}else{
@@ -182,7 +182,7 @@ function ComentariosArticulo($proyecto, $articulo){
 
 	$articuloNombre = $registros->getDatoArticulo("nombre", $articulo);
 
-	$formulario = '<div class="titulo" >
+	$formulario = '<div class="titulo content-no" >
 					 	Comentarios '.$articuloNombre.'
 					</div>
 					';
@@ -203,8 +203,8 @@ function ComentariosArticulo($proyecto, $articulo){
 									</div>
 									<span>'.$clienteDatos[0]['nombre'].'</span>
 								</td>
-								<td class="comentario-usuario">
-									<img class="delete-comentario" src="images/close.png" onClick="EliminarComentario(\''.$comentario['id'].'\')">
+								<td class="comentario-usuario desde-editor">
+									<img class="delete-comentario" title="Eliminar Comentario" src="images/close.png" onClick="EliminarComentario(\''.$comentario['id'].'\')">
 
 									'.base64_decode($comentario['comentario']).'
 									

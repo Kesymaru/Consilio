@@ -53,7 +53,6 @@ $.extend(ComponerClass.prototype, {
 			success: function(response){
 				$("#content").html(response);
 				
-				console.log( $("#categoriasIncluidas li") );
 				//eventos
 				$("#categoriasIncluidas li").live("click", function(){
 					var id = $(this).attr('id');

@@ -69,7 +69,7 @@ function logIn(){
 			url:   'src/ajaxUsuarios.php',
 			type:  'post',
 			success:  function (response) { 
-				console.log( response );
+				//console.log( response );
 				
 				$('html').append(response);
 				

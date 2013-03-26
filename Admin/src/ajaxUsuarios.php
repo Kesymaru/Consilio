@@ -91,15 +91,20 @@ switch ($_POST['func']){
 		}
 		break;
 
+	//VERIFICA SI LA IP TIENE BLOQUEO ACTIVO O PERMANENTE
 	case 'EstadoBloqueado':
+
 		$bloquear = new Bloquear();
 
 		$ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
 
+
 		//si esta bloqueado en admin
-		if( $bloquear->Estado( $ip ) ){
+		if( $bloquear->Estado( $ip ) || $_SESSION['bloquedo'] == true){
 			$_SESSION['bloquedo'] = true;
 			echo $bloquear->MensajeBloqueo();
+		}else{
+			$_SESSION['bloquedo'] = false;
 		}
 		break;
 }

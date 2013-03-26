@@ -357,6 +357,9 @@ function ClientesLogs(){
 	if( $("#content").length > 0){
 		$("#content").html('');
 	}
+	if( $("#content").hasClass('content-no') ){
+		$("#content").removeClass('content-no');
+	}
 
 	var queryParams = {"func" : "Logs"};
 	$.ajax({

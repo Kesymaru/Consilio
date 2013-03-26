@@ -174,6 +174,10 @@ if( isset($_SESSION['logueado']) ){
 	</form>
 
 	</div>
+	
+	<div id="notifica" class="oculto">
+	</div>
+
 </div>
 
 </body>

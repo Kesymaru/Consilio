@@ -481,3 +481,19 @@ Error:
 	JAVASCRIPT: 1
 	March 25 2013 - 3:07 pm
  --------------------<>--------------------
+
+Error: AJAX error.
+func=ClienteRegistros&id=6
+src/ajaxClientes.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 26 2013 - 3:14 pm
+ --------------------<>--------------------
