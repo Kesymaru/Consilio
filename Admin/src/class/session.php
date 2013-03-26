@@ -285,15 +285,6 @@ class Bloquear{
 	* @return boolean true -> si se realiza
 	*/
 	public function DesbloquearIp( $ip ){
-		echo 'UNO     |'.$ip.'|';
-
-		$ip = mysql_real_escape_string( $ip );
-		
-		echo "\nDOS ".$ip;
-
-		$query = "UPDATE ip_bloqueadas SET ignorar = 1 WHERE ip = '".$ip."'";
-
-		echo $query;
 
 		//si esta bloqueada permanentemente
 		if( $this->EsPermanente( $ip )){
@@ -303,6 +294,12 @@ class Bloquear{
 		}
 		
 		$base = new Database();
+
+		$ip = mysql_real_escape_string( $ip );
+
+		$query = "UPDATE ip_bloqueadas SET ignorar = 1 WHERE ip = '".$ip."'";
+
+		echo $query;
 
 		if( $base->Update( $query )){
 			return true;
