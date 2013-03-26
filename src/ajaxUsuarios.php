@@ -43,7 +43,6 @@ switch ($_POST['func']){
 					//BloquearIp( $ip, $usuario, $sitio ) $_SERVER['REMOTE_ADDR']
 					$bloquear->BloquearIp( $ip, $_POST['usuario'], 0); //bloquea la ip
 					
-
 					$mensaje = $bloquear->MensajeBloqueo();
 
 					echo '<script>

@@ -158,6 +158,12 @@ html, body{
 	line-height: 1 !important;
 }
 
+.loginbox hr{
+	border: 1px solid rgba(117, 114, 115, .2);
+	vertical-align: middle;
+	width: 50%;
+}
+
 .borderAlto{
 		-o-border-radius-topleft: 10px;
 		-o-border-radius-topright: 10px;
