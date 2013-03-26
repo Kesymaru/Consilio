@@ -287,12 +287,14 @@ class Bloquear{
 				return false;
 			}
 
+			echo '<pre>'; print_r($datos); echo '</pre>';
+			
 			//fue desbloqueada por el admin
 			if( $ultimo['ignorar'] == 1){
 				return false;
 			}
 
-			//echo '<pre>'; print_r($datos); echo '</pre>';
+			
 			
 			$now = date('Y-m-d G:i:s');
 			$ahora = strtotime( $now );
@@ -304,52 +306,9 @@ class Bloquear{
 			}else{
 				return false;
 			}
-
-			/*$minutos = $this->Minutos( $ip );
-
-			if( $minutos >= 0 ){
-				return true;
-			}else{
-				return false;
-			}*/
 		}
 		
 		return false; //no esta bloqueado
-	}
-
-	/**
-	* OBTIENE LOS MINUTOS DE BLOQUEO DE UNA IP
-	* @param string $ip -> ip
-	* @return int $minutos -> timespan de la diferencia entre tiempo
-	*/
-	public function Minutos( $ip, $sitio ){
-		$base = new Database();
-
-		$ip = mysql_real_escape_string($ip);
-		$sitio = mysql_real_escape_string($sitio);
-
-		$query = "SELECT ip, MAX(fecha) AS fecha FROM ip_bloqueadas WHERE ip = '".$ip."' AND sitio = '".$sitio."'";
-
-		$config = $base->Select( "SELECT * FROM config WHERE sitio = 1");
-		$datos = $base->Select( $query );
-
-		if( !empty($datos) ){
-
-			$now = date('Y-m-d G:i:s');
-			$ahora = strtotime( $now );
-				
-			$expira = strtotime( $datos[0]['fecha'].' +'.$config[0]['tiempo_bloqueo'].' minutes' );
-			$expira2 = date('Y-m-d G:i:s', $expira);
-			
-
-			$minutos = $expira - $ahora;
-
-			//echo $expira2.' - '.$now.' = '.($minutos/60).'<hr>';
-
-			return $minutos;
-		}else{
-			return 0;
-		}
 	}
 
 	/**
