@@ -562,7 +562,7 @@ function DesbloquearIp( ){
 		url: "src/ajaxAdmin.php",
 		type: "post",
 		success: function( response ){
-			//console.log( response );
+			console.log( response );
 
 			if( response.length >= 2){
 				notifica("Ip: "+ip+"<br/>Ha sido desbloqueada.");
