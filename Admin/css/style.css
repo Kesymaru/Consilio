@@ -795,7 +795,7 @@ button:hover{
 	border: 1px solid #dedede;
 	min-height: 80%;
 	overflow: hidden;
-	position: relative;
+	/*position: relative;*/
 }
 
 /* header */
@@ -1281,6 +1281,8 @@ button:hover{
 	display: block;
 }
 
+
+
 /**
 * COMENTARIOs
 */
@@ -1299,7 +1301,26 @@ button:hover{
 }
 
 .tabla-comentario tr:hover .img-wrapper{
+		-o-transition: all 1s ease-out;
+		-ms-transition: all 1s ease-out;
+		-moz-transition: all 1s ease-out;
+		-webkit-transition: all 1s ease-out;
+	transition: all 1s ease-out;
+
 	border: 4px solid #A1CA4A; 
+}
+
+.tabla-comentario tr:hover .delete-comentario{
+	
+	opacity: 1;
+	width: auto;
+	height: auto;
+
+		-webkit-transition: all 1.5s ease-in-out;
+	  	-moz-transition: all 1.5s ease-in-out;
+	  	-ms-transition: all 1.5s ease-in-out;
+	  	-o-transition: all 1.5s ease-in-out;
+  	transition: all 1.5s ease-in-out;
 }
 
 .tabla-comentario td{
@@ -1346,13 +1367,37 @@ button:hover{
 .tabla-comentario .comentario-usuario{
 	font-size: 16px;
 	text-align: left;
-	vertical-align: middle;
-	padding-left: 20px;
+	vertical-align: top;
+	padding-left: 5px;
+}
+
+.comentario-usuario .delete-comentario{
+	display: block;
+	opacity: 0;
+	float: right;
+	margin-top: -22px;
+	z-index: 100000 !important;
+	position: absolute;
+	left: 94.2%;
+	cursor: pointer;
+
+		-webkit-transition: all 4s ease-in-out;
+	  	-moz-transition: all 4s ease-in-out;
+	  	-ms-transition: all 4s ease-in-out;
+	  	-o-transition: all 4s ease-in-out;
+  	transition: all 4s ease-in-out;
 }
 
 .comentario-usuario span{
 	float: right;
 	margin-right: 10px !important;
+}
+
+.nodata{
+	text-align: center;
+	font-size: 16px;
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 
 /**

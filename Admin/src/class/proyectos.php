@@ -48,8 +48,10 @@ class Proyectos{
 		$nombre = mysql_real_escape_string($nombre);
 		$descripcion = base64_encode($descripcion);
 
+		$fecha = date("Y-m-d H:i:s");
+
 		$query = "INSERT INTO proyectos (nombre, cliente, descripcion, imagen, status, visible, fecha_creacion )";
-		$query .= " VALUES ('".$nombre."', '".$cliente."', '".$descripcion."', '".$imagen."', '".$estado."', '".$visible."', NOW() )";
+		$query .= " VALUES ('".$nombre."', '".$cliente."', '".$descripcion."', '".$imagen."', '".$estado."', '".$visible."', '".$fecha."' )";
 
 		if($base->Insert($query)){
 			$proyecto = $base->getUltimoId();
@@ -88,17 +90,19 @@ class Proyectos{
 		$nombre = mysql_real_escape_string($nombre);
 		$descripcion = base64_encode($descripcion);
 
+		$fecha = date("Y-m-d H:i:s");
+
 		//si se desactiva
 		$desactivo = '';
 		if($estado == 0){
-			$desactivo = ", fecha_desactivacion = NOW() ";
+			$desactivo = ", fecha_desactivacion = '".$fecha."' ";
 		}
 
 		if($imagen != ''){ 
 			//actualiza imagen
-			$query = "UPDATE proyectos SET nombre = '".$nombre."', cliente = '".$cliente."', descripcion = '".$descripcion."', imagen = '".$imagen."', status = '".$estado."', visible = '".$visible."', fecha_actualizacion = NOW() ".$desactivo." WHERE id = ".$id;			
+			$query = "UPDATE proyectos SET nombre = '".$nombre."', cliente = '".$cliente."', descripcion = '".$descripcion."', imagen = '".$imagen."', status = '".$estado."', visible = '".$visible."', fecha_actualizacion = '".$fecha."' ".$desactivo." WHERE id = ".$id;			
 		}else{
-			$query = "UPDATE proyectos SET nombre = '".$nombre."', cliente = '".$cliente."', descripcion = '".$descripcion."', status = '".$estado."', visible = '".$visible."', fecha_actualizacion = NOW() ".$desactivo." WHERE id = ".$id;
+			$query = "UPDATE proyectos SET nombre = '".$nombre."', cliente = '".$cliente."', descripcion = '".$descripcion."', status = '".$estado."', visible = '".$visible."', fecha_actualizacion = '".$fecha."' ".$desactivo." WHERE id = ".$id;
 		}
 
 		if($base->Update($query)){

@@ -24,6 +24,13 @@ if(isset($_POST['func'])){
 				ComentariosArticulo( $_POST['proyecto'], $_POST['articulo'] );
 			}
 			break;
+
+		//ELIMINA UN COMENTARIO
+		case 'EliminarComentario':
+			if( isset($_POST['id'])){
+				EliminarComentario( $_POST['id'] );
+			}
+			break;
 	}
 }
 
@@ -47,10 +54,7 @@ function Comentarios(){
 					</div>
 				</div>';
 
-	if(!empty($datos)){
-		$proyectos = new Proyectos();
-
-		$lista .= '<table class="table-list" id="comentarios" >
+	$lista .= '<table class="table-list" id="comentarios" >
 					<tr>
 						<th>
 							Proyecto
@@ -62,6 +66,9 @@ function Comentarios(){
 							Comentarios
 						</th>
 					</tr>';
+
+	if(!empty($datos)){
+		$proyectos = new Proyectos();
 
 		foreach ($datos as $fila => $comentario) {
 			$proyecto = $proyectos->getProyectoDato('nombre', $comentario['proyecto']);
@@ -94,9 +101,17 @@ function Comentarios(){
 					   </tr>';
 		}
 
+		$lista .= '</table>';
+
+		$lista .= '<div class="datos-botones">
+					<button type="button" title="Cancelar Edición" onClick="CancelarContent()">Cancelar</button>
+					<button class="" id="ComentariosEliminar" type="button" title="Eliminar Comentarios del proyecto" onClick="EliminarComentariosProyecto()">Eliminar</button>
+					<button class="" id="BotonBloquearIp" type="button" title="Ver Comentarios" onClick="Comentario()">Comentarios</button>
+				  </div>';
+
 	}else{
 		$lista .= '<tr>
-					<td>
+					<td colspan="3" class="nodata">
 						no hay comnetarios
 					</td>
 				   </tr>
@@ -128,8 +143,9 @@ function Comentario( $proyecto ){
 					</div>
 				</div>';
 
+	$lista .= '<ul class="list" id="comentarios-articulos">';
+
 	if( !empty($datos) ){
-		$lista .= '<ul class="list" id="comentarios-articulos">';
 
 		foreach ($datos as $f => $comentario) {
 			$articulo = $registros->getDatoArticulo("nombre", $comentario['articulo']);
@@ -143,11 +159,13 @@ function Comentario( $proyecto ){
 			$lista .= $articulo.'</li>';
 		}
 
-		$lista .= '</ul>';
-
 	}else{
-		$lista .= 'no hay comentarios';
+		$lista .= '<li class="nodata">
+				   		No hay comentarios
+				   </div>';
 	}
+
+	$lista .= '</ul>';
 
 	echo $lista;
 }
@@ -176,18 +194,23 @@ function ComentariosArticulo($proyecto, $articulo){
 
 		foreach ($datos as $f => $comentario) {
 			
-			$formulario .= '<tr>
+			$formulario .= '<tr id="'.$comentario['id'].'">
 								<td class="datos-usuario">
-									<div class="imagen">
+									<div class="imagen" title="'.$clienteDatos[0]['nombre'].'">
 										<div class="img-wrapper">
-											<img src="'.$clienteDatos[0]['imagen'].'" onerror="this.src=\'images/es.png\'" />
+											<img src="'.$clienteDatos[0]['imagen'].'" onerror="this.src=\'images/es.png\'"  />
 										</div>
 									</div>
 									<span>'.$clienteDatos[0]['nombre'].'</span>
 								</td>
 								<td class="comentario-usuario">
+									<img class="delete-comentario" src="images/close.png" onClick="EliminarComentario(\''.$comentario['id'].'\')">
+
 									'.base64_decode($comentario['comentario']).'
-									<span>Fecha: '.$comentario['fecha_creacion'].'</span>
+									
+									<span>
+										Fecha: '.$comentario['fecha_creacion'].'
+									</span>
 								</td>
 							</tr>';
 
@@ -197,7 +220,7 @@ function ComentariosArticulo($proyecto, $articulo){
 
 		$formulario .= '</table>';
 	}else{
-		$formulario .= 'no hay comentarios';
+		$formulario .= '<div class="nodata">No hay comentarios</div>';
 	}
 
 	$formulario .= '</form>';
@@ -207,8 +230,22 @@ function ComentariosArticulo($proyecto, $articulo){
 
 /**
 * MARCA UN COMENTARIO COMO LEIDO
+* @param int $id => id del comentario a marcar
 */
 function ComentarioLeido($id){
+
+}
+
+/**
+* ELIMINA EL COMENTARIO
+* @param string $id -> id del comentario a eliminar
+*/
+function EliminarComentario( $id ){
+	$comentarios = new Comentarios();
+
+	if( !$comentarios->EliminarComentario( $id ) ){
+		echo 'Error: no se pudo eliminar el comentario id '.$id.'<br/>ajaxComentarios EliminarComentario';
+	}
 
 }
 

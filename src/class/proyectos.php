@@ -108,7 +108,7 @@ class Proyectos{
 		$usuario = mysql_real_escape_string( $_SESSION['cliente_id'] );
 		$id = mysql_real_escape_string( $id );
 		$fecha = date("Y-m-d H:i:s");
-
+		
 		$query = "INSERT INTO proyecto_logs (usuario, proyecto, fecha) VALUES ( '".$usuario."', '".$id."', '".$fecha."')";
 
 		if( $base->Insert( $query ) ){

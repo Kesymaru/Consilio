@@ -49,9 +49,11 @@ class Registros{
 
 		$proyecto = mysql_real_escape_string($proyecto);
 		$fecha = mysql_real_escape_string($fecha);
+		
+		$now = date('Y-m-d G:i:s');
 
 		$query = "INSERT INTO registros (proyecto, registro, fecha_creacion, fecha_actualizacion) VALUES";
-		$query .= " ('".$proyecto."', '', '".$fecha."', NOW() )";
+		$query .= " ('".$proyecto."', '', '".$fecha."', '".$now."' )";
 
 		if($base->Insert($query)){
 			return true;
@@ -76,9 +78,10 @@ class Registros{
 		}else{
 			$registro = '';
 		}
-		
 
-		$query = "UPDATE registros SET registro = '".$registro."', fecha_actualizacion = NOW() WHERE proyecto = '".$id."'";
+		$fecha = date('Y-m-d G:i:s');
+
+		$query = "UPDATE registros SET registro = '".$registro."', fecha_actualizacion = '".$fecha."' WHERE proyecto = '".$id."'";
 
 		if($base->Update($query)){
 			return true;
@@ -110,10 +113,12 @@ class Registros{
 		$articulos = $base->Select($query);
 
 		$error = '';
+		$fecha = date('Y-m-d G:i:s');
 
 		//copia reguistro de categorias incluidas
 		if( !empty($registros) ){
-			$query = "INSERT INTO registros (proyecto, registro, fecha_creacion, fecha_actualizacion) VALUES ( '".$nuevo."', '".$registros[0]['registro']."', NOW(), NOW() )";
+
+			$query = "INSERT INTO registros (proyecto, registro, fecha_creacion, fecha_actualizacion) VALUES ( '".$nuevo."', '".$registros[0]['registro']."', '".$fecha."', '".$fecha."' )";
 
 			if( !$base->Insert( $query ) ){
 				$error .= 'Error: al duplicar registros proyecto original '.$id.' en copia '.$nuevo.'<br/>';
@@ -122,7 +127,7 @@ class Registros{
 			$registros = array();
 			$registros = serialize($registros);
 
-			$query = "INSERT INTO registros (proyecto, registro, fecha_creacion, fecha_actualizacion) VALUES ( '".$nuevo."', '".$registros."', NOW(), NOW() )";
+			$query = "INSERT INTO registros (proyecto, registro, fecha_creacion, fecha_actualizacion) VALUES ( '".$nuevo."', '".$registros."', '".$fecha."', '".$fecha."' )";
 
 			if( !$base->Insert( $query ) ){
 				$error .= 'Error: al duplicar registros proyecto original '.$id.' en copia '.$nuevo.'<br/>';
@@ -132,7 +137,7 @@ class Registros{
 		//copia registros de normas incluidas
 		if( !empty($normas) ){
 			foreach ($normas as $f => $registroNorma) {
-				$query = "INSERT INTO registros_normas (proyecto, categoria, registro, fecha_creacion, fecha_actualizacion) VALUES ('".$nuevo."', '".$registroNorma['categoria']."', '".$registroNorma['registro']."', NOW(), NOW() )";
+				$query = "INSERT INTO registros_normas (proyecto, categoria, registro, fecha_creacion, fecha_actualizacion) VALUES ('".$nuevo."', '".$registroNorma['categoria']."', '".$registroNorma['registro']."', '".$fecha."', '".$fecha."' )";
 
 				if( !$base->Insert( $query ) ){
 					$error .= 'Error: al duplicar datos de registros de normas, proyecto original '.$id.' copia '.$nuevo.'<br/>Query: '.$query.'<br/>';
@@ -143,7 +148,7 @@ class Registros{
 		//copia registros de articulos incluidos
 		if( !empty($articulos) ){
 			foreach ($articulos as $f => $registroArticulo) {
-				$query = "INSERT INTO registros_articulos (proyecto, categoria, norma, registro, fecha_creacion, fecha_actualizacion) VALUES ( '".$nuevo."', '".$registroArticulo['categoria']."', '".$registroArticulo['norma']."', '".$registroArticulo['registro']."', NOW(), NOW() ) ";
+				$query = "INSERT INTO registros_articulos (proyecto, categoria, norma, registro, fecha_creacion, fecha_actualizacion) VALUES ( '".$nuevo."', '".$registroArticulo['categoria']."', '".$registroArticulo['norma']."', '".$registroArticulo['registro']."', '".$fecha."', '".$fecha."' ) ";
 
 				if( !$base->Insert( $query ) ){
 					$error .= 'Error: al duplicar datos de registros de articulos, proyecto original '.$id.' copia '.$nuevo.'<br/>Query: '.$query.'<br/>';
@@ -233,10 +238,12 @@ class Registros{
 
 		$registro = serialize($registro);
 
+		$fecha = date('Y-m-d G:i:s');
+
 		$query = "SELECT * FROM registros_normas WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."'";
 
 		if($base->Existe($query)){
-			$query = "UPDATE registros_normas SET registro = '".$registro."', fecha_actualizacion = NOW() WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."'";
+			$query = "UPDATE registros_normas SET registro = '".$registro."', fecha_actualizacion = '".$fecha."' WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."'";
 
 			if($base->Update($query)){
 				return true;
@@ -245,7 +252,7 @@ class Registros{
 			}
 		}else{
 			$query = "INSERT INTO registros_normas ( proyecto, categoria, registro, fecha_creacion, fecha_actualizacion ) VALUES ";
-			$query .= "( '".$proyecto."', '".$categoria."', '".$registro."', NOW(), NOW() )";
+			$query .= "( '".$proyecto."', '".$categoria."', '".$registro."', '".$fecha."', '".$fecha."' )";
 
 			if($base->Insert($query)){
 				return true;
@@ -301,10 +308,12 @@ class Registros{
 
 		$registro = serialize($registro);
 
+		$fecha = date('Y-m-d G:i:s');
+
 		$query = "SELECT * FROM registros_articulos WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."' AND norma = '".$norma."'";
 
 		if($base->Existe($query)){
-			$query = "UPDATE registros_articulos SET registro = '".$registro."', fecha_actualizacion = NOW() WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."' AND norma = '".$norma."'";
+			$query = "UPDATE registros_articulos SET registro = '".$registro."', fecha_actualizacion = '".$fecha."' WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."' AND norma = '".$norma."'";
 
 			if($base->Update($query)){
 				return true;
@@ -313,7 +322,7 @@ class Registros{
 			}
 		}else{
 			$query = "INSERT INTO registros_articulos ( proyecto, categoria, norma, registro, fecha_creacion, fecha_actualizacion ) VALUES ";
-			$query .= "( '".$proyecto."', '".$categoria."', '".$norma."', '".$registro."', NOW(), NOW() )";
+			$query .= "( '".$proyecto."', '".$categoria."', '".$norma."', '".$registro."', '".$fecha."', '".$fecha."' )";
 
 			if($base->Insert($query)){
 				return true;
@@ -386,7 +395,9 @@ class Registros{
 
 		$nombre = mysql_real_escape_string($nombre);
 
-		$query = "INSERT INTO tipos_observaciones (nombre, fecha_creacion, fecha_actualizacion) VALUES ('".$nombre."', NOW(), NOW() )";
+		$fecha = date('Y-m-d G:i:s');
+
+		$query = "INSERT INTO tipos_observaciones (nombre, fecha_creacion, fecha_actualizacion) VALUES ('".$nombre."', '".$fecha."', '".$fecha."' )";
 
 		if( $base->Insert($query) ){
 			return true;
@@ -406,7 +417,9 @@ class Registros{
 		$nombre = mysql_real_escape_string($nombre);
 		$id = mysql_real_escape_string($id);
 
-		$query = "UPDATE tipos_observaciones SET nombre = '".$nombre."', fecha_actualizacion = NOW() WHERE id = '".$id."'";
+		$fecha = date('Y-m-d G:i:s');
+
+		$query = "UPDATE tipos_observaciones SET nombre = '".$nombre."', fecha_actualizacion = '".$fecha."' WHERE id = '".$id."'";
 
 		if( $base->Update($query) ){
 			return true;
@@ -491,8 +504,10 @@ class Registros{
 		$tipo = mysql_real_escape_string($tipo);
 		$observacion = base64_encode($observacion);
 		$admin = mysql_real_escape_string( $_SESSION['id'] );
+
+		$fecha = date('Y-m-d G:i:s');
 		
-		$query = "INSERT INTO observaciones ( observacion, tipo, proyecto, categoria, norma, articulo, admin, fecha_creacion, fecha_actualizacion ) VALUES ('".$observacion."', '".$tipo."', '".$proyecto."', '".$categoria."', '".$norma."', '".$articulo."', '".$admin."', NOW(), NOW() )";
+		$query = "INSERT INTO observaciones ( observacion, tipo, proyecto, categoria, norma, articulo, admin, fecha_creacion, fecha_actualizacion ) VALUES ('".$observacion."', '".$tipo."', '".$proyecto."', '".$categoria."', '".$norma."', '".$articulo."', '".$admin."', '".$fecha."', '".$fecha."' )";
 			
 		if($base->Insert($query)){
 			return true;
@@ -512,7 +527,9 @@ class Registros{
 		$observacion = base64_encode($observacion);
 		$admin = mysql_real_escape_string( $_SESSION['id'] );
 
-		$query = "UPDATE observaciones SET observacion = '".$observacion."', tipo = '".$tipo."', admin = '".$admin."', fecha_actualizacion = NOW() WHERE id = '".$id."'";
+		$fecha = date('Y-m-d G:i:s');
+
+		$query = "UPDATE observaciones SET observacion = '".$observacion."', tipo = '".$tipo."', admin = '".$admin."', fecha_actualizacion = '".$fecha."' WHERE id = '".$id."'";
 
 		if( $base->Update($query) ){
 			return true;
@@ -619,10 +636,12 @@ class Registros{
 	private function setArchivo($tipo, $nombre, $link, $pertenece){
 		$base = new Database();
 
+		$fecha = date('Y-m-d G:i:s');
+
 		if($tipo == 'norma'){
-			$query = "INSERT INTO archivos (nombre, link, norma, fecha_creacion ) VALUES ('".$nombre."', '".$link."', '".$pertenece."', NOW() )";
+			$query = "INSERT INTO archivos (nombre, link, norma, fecha_creacion ) VALUES ('".$nombre."', '".$link."', '".$pertenece."', '".$fecha."' )";
 		}else if($tipo == 'articulo'){
-			$query = "INSERT INTO archivos (nombre, link, articulo, fecha_creacion ) VALUES ('".$nombre."', '".$link."', '".$pertenece."', NOW() )";
+			$query = "INSERT INTO archivos (nombre, link, articulo, fecha_creacion ) VALUES ('".$nombre."', '".$link."', '".$pertenece."', '".$fecha."' )";
 		}
 
 		if($base->Insert($query)){
@@ -672,6 +691,7 @@ class Registros{
 	*/
 	private function SnapshotArchivo($tipo, $link, $pertence){
 		$base = new Database();
+		
 		if($tipo == 'norma'){
 			$query = "SELECT * FROM normas WHERE id = ".$pertence;
 		}else if($tipo == 'articulo'){
@@ -685,7 +705,8 @@ class Registros{
 
 		//mueve el archivo viejo/archivado a la carpeta de archivar
 		if( $nuevoLink = $base->Archivar($link)){
-			
+			$fecha = date('Y-m-d G:i:s');
+
 			//crea snapshot del archivo archivado
 			if(!empty($datos)){
 
@@ -693,9 +714,9 @@ class Registros{
 				$query = "INSERT INTO snapshots_archivos (nombre, link, norma, articulo, id, fecha_creacion, fecha_snapshot ) VALUES ";
 
 				if($tipo == 'norma'){
-					$query .= "( '".$datos[0]['nombre']."', '".$datos[0]['link']."', '".$datos[0]['norma']."', 0, '".$nuevoLink."', '".$datos[0]['fecha_creacion']."', NOW() )";
+					$query .= "( '".$datos[0]['nombre']."', '".$datos[0]['link']."', '".$datos[0]['norma']."', 0, '".$nuevoLink."', '".$datos[0]['fecha_creacion']."', '".$fecha."' )";
 				}else{
-					$query .= "( '".$datos[0]['nombre']."', '".$datos[0]['link']."', 0, '".$datos[0]['articulo']."', '".$nuevoLink."', '".$datos[0]['fecha_creacion']."', NOW() )";
+					$query .= "( '".$datos[0]['nombre']."', '".$datos[0]['link']."', 0, '".$datos[0]['articulo']."', '".$nuevoLink."', '".$datos[0]['fecha_creacion']."', '".$fecha."' )";
 				}
 					
 				if($base->Insert($query)){
@@ -1444,8 +1465,10 @@ class Registros{
 
 		$entidades = serialize($entidades); //serializa el array para guardarlo en la base de datos
 
+		$fecha = date('Y-m-d G:i:s');
+
 		$query = "INSERT INTO articulos (norma, nombre, entidad, resumen, permisos, sanciones, articulo, fecha_creacion, fecha_actualizacion) ";
-		$query .= "VALUES ( '".$norma."', '".$nombre."', '".$entidades."', '".$resumen."', '".$permisos."', '".$sanciones."', '".$articulo."', NOW(), NOW() )";
+		$query .= "VALUES ( '".$norma."', '".$nombre."', '".$entidades."', '".$resumen."', '".$permisos."', '".$sanciones."', '".$articulo."', '".$fecha."', '".$fecha."' )";
 		
 		if($base->Insert($query)){
 			return $base->getUltimoId();
@@ -1482,7 +1505,9 @@ class Registros{
 
 			$entidades = serialize($entidades); //serializa el array para guardarlo en la base de datos
 
-			$query = "UPDATE articulos set norma = '".$norma."', nombre = '".$nombre."', entidad = '".$entidades."', resumen = '".$resumen."', permisos = '".$permisos."', sanciones = '".$sanciones."', articulo = '".$articulo."', fecha_actualizacion = NOW() WHERE id = '".$id."'";
+			$fecha = date('Y-m-d G:i:s');
+
+			$query = "UPDATE articulos set norma = '".$norma."', nombre = '".$nombre."', entidad = '".$entidades."', resumen = '".$resumen."', permisos = '".$permisos."', sanciones = '".$sanciones."', articulo = '".$articulo."', fecha_actualizacion = '".$fecha."' WHERE id = '".$id."'";
 			
 			//GUARDA NUEVOS DATOS
 			if($base->Update($query)){
@@ -1547,9 +1572,10 @@ class Registros{
 
 		if(!empty($datos)){
 			//copia datos a la tabla de snapshots de articulos
-			//
+			$fecha = date('Y-m-d G:i:s');
+
 			$query = "INSERT INTO snapshots_articulos (norma, nombre, entidad, resumen, permisos, sanciones, articulo, id, fecha_creacion, fecha_snapshot ) ";
-			$query .= "VALUES ( '".$datos[0]['norma']."', '".$datos[0]['nombre']."', '".$datos[0]['entidad']."', '".$datos[0]['resumen']."', '".$datos[0]['permisos']."', '".$datos[0]['sanciones']."', '".$datos[0]['articulo']."', '".$datos[0]['id']."', '".$datos[0]['fecha_creacion']."', NOW() )";
+			$query .= "VALUES ( '".$datos[0]['norma']."', '".$datos[0]['nombre']."', '".$datos[0]['entidad']."', '".$datos[0]['resumen']."', '".$datos[0]['permisos']."', '".$datos[0]['sanciones']."', '".$datos[0]['articulo']."', '".$datos[0]['id']."', '".$datos[0]['fecha_creacion']."', '".$fecha."' )";
 
 			//guarda snapshot
 			if( $base->Insert($query) ){
@@ -1622,8 +1648,9 @@ class Registros{
 	function NuevoTipo($nombre){
 		$base = new Database();
 		$nombre = mysql_real_escape_string($nombre);
+		$fecha = date("Y-m-d H:i:s");
 
-		$query = "INSERT INTO tipos (nombre) VALUES ('".$nombre."')";
+		$query = "INSERT INTO tipos (nombre, fecha_creacion, fecha_actualizacion) VALUES ('".$nombre."', '".$fecha."', '".$fecha."' )";
 
 		if( $base->Insert($query) ){
 			return true;
@@ -1660,7 +1687,9 @@ class Registros{
 		$nombre = mysql_real_escape_string($nombre);
 		$id = mysql_real_escape_string($id);
 
-		$query = "UPDATE tipos SET nombre = '".$nombre."' WHERE id = ".$id;
+		$fecha = date("Y-m-d H:i:s");
+
+		$query = "UPDATE tipos SET nombre = '".$nombre."', fecha_actualizacion = '".$fecha."' WHERE id = ".$id;
 
 		if($base->Update($query)){
 			return true;

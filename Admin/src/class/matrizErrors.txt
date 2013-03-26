@@ -301,3 +301,183 @@ src/ajaxClientes.php
 	JAVASCRIPT: 1
 	March 21 2013 - 2:27 pm
  --------------------<>--------------------
+
+Error:  
+
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 25 2013 - 2:59 pm
+ --------------------<>--------------------
+
+Error:  
+
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 25 2013 - 2:59 pm
+ --------------------<>--------------------
+
+Error:  
+
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 25 2013 - 2:59 pm
+ --------------------<>--------------------
+
+Error:  
+
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 25 2013 - 2:59 pm
+ --------------------<>--------------------
+
+Error:  
+
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 25 2013 - 2:59 pm
+ --------------------<>--------------------
+
+Error:  
+
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 25 2013 - 3:03 pm
+ --------------------<>--------------------
+
+Error:  
+
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 25 2013 - 3:03 pm
+ --------------------<>--------------------
+
+Error:  
+
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 25 2013 - 3:03 pm
+ --------------------<>--------------------
+
+Error:  
+
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 25 2013 - 3:03 pm
+ --------------------<>--------------------
+
+Error:  
+
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 25 2013 - 3:06 pm
+ --------------------<>--------------------
+
+Error:  
+
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 25 2013 - 3:07 pm
+ --------------------<>--------------------
+
+Error:  
+
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 25.0
+	CSS: 25.0
+	JAVASCRIPT: 1
+	March 25 2013 - 3:07 pm
+ --------------------<>--------------------

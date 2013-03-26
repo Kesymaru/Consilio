@@ -332,152 +332,7 @@ function Articulos($proyecto, $categoria, $id){
 * @param int $categoria -> id de la categoria
 * @param int $norma -> id de la norma
 * @param int $id -> id del articulo
-*//*
-function DatosArticulo($proyecto, $categoria, $norma, $id){
-	date_default_timezone_set('America/Costa_Rica');
-
-	$registros = new Registros();
-
-	//$datos = $registros->getArticulo($id);
-	
-	//OBTIENE LA DATA DEL ARTICULO VALIDANDO SI EL PROYECTO ESTA ACTIVO
-	$datos = $registros->getValidArticuloDatos($proyecto, $id);
-
-	$observacion = $registros->getObservacion($proyecto, $categoria, $norma, $id);
-	$lista = '';
-
-	if( !empty($datos) ){
-		$lista = '<div id="datos-articulo">
-				<div class="titulo">
-					<img id="solapa" class="icon izquierda rotacion" onClick="$listaCategorias.OcultarDatos()" src="images/next.png" />
-					'.$datos[0]['nombre'].'
-			  	</div>
-			  	<div class="datos">';
-
-		//agrega la observacion
-		if( !empty($observacion) ){
-			$observacionTitulo = $registros->getTipoObservacion($observacion[0]['tipo']);
-			$lista .= '<div class="box" id="box-observacion" >
-							<div class="dato-titulo">
-								'.$observacionTitulo.'
-							</div>
-							<div class="dato" id="box-dato-observacion">
-								'.base64_decode($observacion[0]['observacion']).'
-							</div>
-						</div>';
-		}
-
-		foreach ($datos as $fila => $articulo) {
-			
-			foreach ($articulo as $dato => $valor) {
-				
-				if($dato == 'id' || $dato == "fecha_creacion" || $dato == "fecha_actualizacion" || $dato == 'id_version' || $dato == 'fecha_snapshot' || $dato == "borrado" || $dato == "norma" || $dato == "nombre"){
-					continue;
-				}
-
-				if($dato == 'resumen' || $dato == "permisos" || $dato == "articulo" || $dato == "sanciones"){
-					
-					if(empty($valor)){
-						continue;
-					}
-
-					$lista .= '<div class="box" id="box-'.$dato.'">
-									<div class="dato-titulo">';
-					
-					if( $dato == 'permisos'){
-						$lista .= 'Permisos o Documentación';
-					}else{
-						$lista .= $dato;
-					}
-
-					$lista .= '
-									</div>
-									<div class="dato" id="box-dato-'.$dato.'">
-										'.base64_decode($valor).'
-									</div>
-						   		</div>';
-					continue;
-				}
-
-				if($dato == "entidad"){
-					$entidades = unserialize($valor);
-
-					$nombres = Entidades($entidades);
-					
-					if(!empty($nombres)){
-						$lista .= '<div class="box" id="box-'.$dato.'">
-										<div class="dato-titulo">
-											'.$dato.'
-										</div>
-									<div class="dato" id="box-dato-'.$dato.'" >';
-
-						foreach ($nombres as $key => $nombre) {
-							$lista .= $nombre."<br/>";
-						}
-
-						$lista .= '</div>
-						   		</div>';
-					}
-
-					continue;
-				}
-
-				$lista .= '<div class="box">
-								<div class="dato-titulo">
-									'.$dato.'
-								</div>
-								<div class="dato">
-									'.$valor.'
-								</div>
-					   		</div>';
-			}
-		} //end foreach
-
-		$archivos = $registros->getArchivosArticulo($articulo['id']);
-
-		if(!empty($archivos)){
-			$lista .= '<div class="box" id="box-archivos-adjuntos">
-								<div class="dato-titulo">
-									Adjuntos
-								</div>
-								<div class="dato">
-								<ul>';
-
-			foreach ($archivos as $f => $archivo) {
-				$lista .= '<li>
-							<a title="Descargar Adjunto '.$archivo['nombre'].'" href="src/download.php?link='.$_SESSION['datos'].$archivo['link'].'">
-									'.$archivo['nombre'].'
-									<img src="images/folder.png" />
-							</a>
-							</li>';
-			}
-			$lista .= '</div>
-						</div>';
-		}
-
-		$lista .= '</div><!-- end datos cargados -->
-					</div><!-- end datos -->';
-
-		//compone el panel de los comentarios
-		$lista .= PanelComentarios($proyecto, $categoria, $id);
-
-		$lista .= '
-					<div id="datos-footer">
-						Última Actualización '.date("m d Y - g:i a").'
-						<img class="icon derecha" onClick="Comentar()" src="images/coment.png" />
-					</div>
-
-					</div><!-- end datos-articulo -->';
-
-	}else{
-		$lista .= '<div class="">
-					<script>notificaError("Error ajaxProyectos.php DatosArticulo articulo '.$id.' <br/>No se encontraron datos.");
-					</div>
-					</div>';
-	}
-
-	echo $lista;
-}*/
+*/
 function DatosArticulo($proyecto, $categoria, $norma, $id){
 	date_default_timezone_set('America/Costa_Rica');
 
@@ -601,9 +456,18 @@ function DatosArticulo($proyecto, $categoria, $norma, $id){
 					</div><!-- end datos-articulo -->';
 
 	}else{
-		$lista .= '<div class="nodata">
-					
-					</div>';
+		$lista = '<div id="datos-articulo">
+				<div class="titulo">
+					<img id="solapa" class="icon izquierda rotacion" onClick="$listaCategorias.OcultarDatos()" src="images/next.png" />
+					No hay datos
+			  	</div>
+			  	<div class="datos">
+			  		<div class="error">
+			  			Lo sentimos no encontramos los datos que buscas <span class="error-icon">:(</span>
+			  			<br/>
+			  			Intenta de nuevo.
+			  		</div>
+			  	</div>';
 	}
 
 	echo $lista;

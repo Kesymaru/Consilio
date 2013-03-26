@@ -1,6 +1,7 @@
 <?php
 
 require_once("classDatabase.php");
+error_reporting(0);
 
 class Session{
 	

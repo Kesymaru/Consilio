@@ -95,15 +95,17 @@ class Cliente{
 		$skype = mysql_real_escape_string($skype);
 		$usuario = mysql_real_escape_string($usuario);
 
+		$fecha = date("Y-m-d H:i:s");
+
 		if($contrasena != ''){
 			$contrasena = $base->Encriptar($contrasena);
 
 			$query = "UPDATE clientes SET nombre = '".$nombre."', email = '".$email."', pais = '".$pais."', registro = '".$registro."', ";
-			$query .= "telefono = '".$telefono."', skype = '".$skype."', usuario = '".$usuario."', contrasena = '".$contrasena."', fecha_actualizacion = NOW() WHERE id = ".$id;
+			$query .= "telefono = '".$telefono."', skype = '".$skype."', usuario = '".$usuario."', contrasena = '".$contrasena."', fecha_actualizacion = '".$fecha."' WHERE id = ".$id;
 
 		}else{
 			$query = "UPDATE clientes SET nombre = '".$nombre."', email = '".$email."', pais = '".$pais."', registro = '".$registro."', ";
-			$query .= "telefono = '".$telefono."', skype = '".$skype."', usuario = '".$usuario."', fecha_actualizacion = NOW() WHERE id = ".$id;
+			$query .= "telefono = '".$telefono."', skype = '".$skype."', usuario = '".$usuario."', fecha_actualizacion = '".$fecha."' WHERE id = ".$id;
 		}
 
 		if( $base->Update($query) ){
@@ -135,10 +137,12 @@ class Cliente{
 		$contrasena = mysql_real_escape_string($contrasena);
 		$usuario = mysql_real_escape_string($usuario);
 
+		$fecha = date("Y-m-d H:i:s");
+
 		$contrasena = $base->Encriptar($contrasena);
 
-		$query = "INSERT INTO clientes (nombre, email, pais, registro, telefono, skype, imagen, contrasena, usuario, fecha_creacion )";
-		$query .= " VALUES ('".$nombre."', '".$email."', '".$pais."', '".$registro."', '".$telefono."', '".$skype."', '".$imagen."', '".$contrasena."', '".$usuario."', NOW() ) ";
+		$query = "INSERT INTO clientes (nombre, email, pais, registro, telefono, skype, imagen, contrasena, usuario, fecha_creacion, fecha_actualizacion )";
+		$query .= " VALUES ('".$nombre."', '".$email."', '".$pais."', '".$registro."', '".$telefono."', '".$skype."', '".$imagen."', '".$contrasena."', '".$usuario."', '".$fecha."', '".$fecha."' ) ";
 
 		if($base->Insert($query)){
 			return true;
@@ -513,8 +517,10 @@ class Admin{
 		$imagen = mysql_real_escape_string($imagen);
 		$password = mysql_real_escape_string($password);
 
+		$fecha = date("Y-m-d H:i:s");
+
 		if($imagen != '' && $imagen != null && !empty($imagen)){
-			$query = "UPDATE admin SET nombre = '".$nombre."', apellidos = '".$apellidos."', titulo = '".$titulo."', email = '".$email."', telefono = '".$telefono."', mobile = '".$mobile."', fax = '".$fax."' skype = '".$skype."', usuario = '".$usuario."', imagen = '".$imagen."', fecha_actualizacion = NOW() ";
+			$query = "UPDATE admin SET nombre = '".$nombre."', apellidos = '".$apellidos."', titulo = '".$titulo."', email = '".$email."', telefono = '".$telefono."', mobile = '".$mobile."', fax = '".$fax."' skype = '".$skype."', usuario = '".$usuario."', imagen = '".$imagen."', fecha_actualizacion = '".$fecha."' ";
 			
 			//elimina la imagen vieja
 			$query2 = "SELECT * FROM admin WHERE id = '".$id."'";
@@ -526,7 +532,7 @@ class Admin{
 			}
 
 		}else{
-			$query = "UPDATE admin SET nombre = '".$nombre."', apellidos = '".$apellidos."', titulo = '".$titulo."', email = '".$email."', telefono = '".$telefono."', mobile = '".$mobile."', fax = '".$fax."', skype = '".$skype."', usuario = '".$usuario."', fecha_actualizacion = NOW()  ";
+			$query = "UPDATE admin SET nombre = '".$nombre."', apellidos = '".$apellidos."', titulo = '".$titulo."', email = '".$email."', telefono = '".$telefono."', mobile = '".$mobile."', fax = '".$fax."', skype = '".$skype."', usuario = '".$usuario."', fecha_actualizacion = '".$fecha."'  ";
 		}
 
 		if($password != ''){
@@ -574,11 +580,13 @@ class Admin{
 		$usuario = mysql_real_escape_string($usuario);
 		$imagen = mysql_real_escape_string($imagen);
 
+		$fecha = date("Y-m-d H:i:s");
+
 		$password = mysql_real_escape_string($password);
 		$password = $base->Encriptar($password);
 
-		$query = "INSERT INTO admin (usuario, nombre, apellidos, titulo, email, telefono, mobile, fax, skype, imagen, password, fecha_creacion ) VALUES ";
-		$query .= " ( '".$usuario."', '".$nombre."', '".$apellidos."', '".$titulo."', '".$email."', '".$telefono."', '".$mobile."', '".$fax."', '".$skype."', '".$imagen."', '".$password."', NOW() ) ";
+		$query = "INSERT INTO admin (usuario, nombre, apellidos, titulo, email, telefono, mobile, fax, skype, imagen, password, fecha_creacion, fecha_actualizacion ) VALUES ";
+		$query .= " ( '".$usuario."', '".$nombre."', '".$apellidos."', '".$titulo."', '".$email."', '".$telefono."', '".$mobile."', '".$fax."', '".$skype."', '".$imagen."', '".$password."', '".$fecha."', '".$fecha."' ) ";
 		
 		if($base->Insert($query)){
 			return true;

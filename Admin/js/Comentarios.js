@@ -47,7 +47,8 @@ function Comentarios(){
 						
 						if( $.cookie('cargando') == "false"){
 							$.cookie('cargando', true);
-							Comentario( $(this).attr('id') );
+							//Comentario( $(this).attr('id') );
+							Comentario();
 						}
 						
 					});
@@ -68,7 +69,11 @@ function Comentarios(){
  * CARGA LOS COMENTARIOS DE UN PROYECTO
  * @param id -> id del proyecto
  */
-function Comentario(id){
+function Comentario( ){
+
+	var id = $("#comentarios tr.seleccionada").attr('id');
+	console.log( id );
+
 	if( !$("#menu").is(":visible")){
 		ActivaMenu();
 	}
@@ -139,5 +144,89 @@ function ComentariosArticulo( proyecto, articulo ){
 	});
 
 	$.cookie('cargando', false);
+}
+
+/**
+* CONFIRMACION DE ELIMINAR TODOS LOS COMENTARIOS DE UN PROYECTO
+* @poram int id -> id del proyecto
+*/
+function EliminarComentariosProyecto( ){
+	var id = $("#comentarios tr.seleccionada").attr('id');
+
+	var si = function (){
+		AccionEliminarComentariosProyecto( id );
+	}
+
+	var no = function (){
+		notificaAtencion("Operacion cancelada");
+	}
+
+	Confirmacion("Desea Eliminar los comentarios del proyecto", si, no);
+}
+
+
+/**
+* CONFIRMACION DE ELIMINAR COMENTARIO
+* @poram int id -> id del comentario
+*/
+function EliminarComentario( id ){
+	var si = function (){
+		AccionEliminarComentario( id );
+	}
+
+	var no = function (){
+		notificaAtencion("Operacion cancelada");
+	}
+
+	Confirmacion("Desea Eliminar el comentario", si, no);
+}
+
+/**
+* ELIMINA UN COMENTARIO
+* @param string id -> id del comentario a eliminar
+*/
+function AccionEliminarComentario( id ){
+
+	if( id !== undefined && id !== '' ){
+
+		var queryParams = { "func" : "EliminarComentario", 'id' : id };
+
+		$.ajax({
+			data: queryParams,
+			url: 'src/ajaxComentarios.php',
+			type: "post",
+			success: function( response ){
+
+				console.log( response );
+
+				$('#'+id).addClass('seleccionada');
+
+				$('#'+id+' td')
+					.wrapInner('<div style="display: block;" />')
+					.parent()
+					.find('td > div')
+					.slideUp(1000, function(){
+
+						//$(this).parent().parent().remove();
+						$('#'+id).css({
+							'display':'block',
+							'width' : '100%'
+						}).slideUp(100, function(){
+							$(this).remove();
+						});
+
+					});
+
+			},	
+			fail: function( response ){
+				notificaError("Error: AJAX FAIL Comentarios.js AccionEliminarComentario().<br/>"+response);
+			}
+		})
+
+			
+	}else{
+		notificaError("Error: Comentarios.js EliminarComentario, param id no es valido.<br/>"+id)
+	}
+
 }
 

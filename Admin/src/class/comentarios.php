@@ -95,5 +95,25 @@ class Comentarios{
 			return false;
 		}
 	}
+
+	/**
+ 	* ELIMINA UN COMENTARIO
+ 	* @param int $id -> id del comentario ha eliminar
+ 	* @param boolean true -> se elimino
+ 	* @param boolean false -> falla
+	*/
+	public function EliminarComentario( $id ){
+		$base = new Database();
+
+		$id = mysql_real_escape_string($id);
+
+		$query = "DELETE FROM comentarios WHERE id = '".$id."'";
+
+		if( $base->Delete( $query ) ){
+			return true;
+		}else{
+			return false;
+		}
+	}
 }
 ?>

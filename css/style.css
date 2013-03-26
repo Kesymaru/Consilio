@@ -614,6 +614,21 @@ button:hover{
 	user-select: all !important;
 }
 
+.error{
+	display: block;
+	width: 100%;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	padding: 0;
+	color: #747273;
+	font-size: 16px;
+	text-align: center;
+}
+
+.error-icon{
+	font-weight: bold;
+}
+
 .datos #buscar-disponibles input,
 .datos #buscar-seleccionadas input{
 	display: none;

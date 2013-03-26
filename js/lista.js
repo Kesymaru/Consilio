@@ -52,8 +52,6 @@ $.extend(Categorias.prototype, {
 						},
 						theme: "dark-thick"
 					});*/
-					var alto = $("#menu2").innerHeight() - $(".panel-header div").innerHeight()
-					$(".panel-body div, .panel-body div ul").height(alto);
 					
 					$("#menu li").click(function(){
 						
@@ -378,12 +376,18 @@ $.extend(Categorias.prototype, {
 			data: queryParams,
 			url: "src/ajaxProyectos.php",
 			success: function(response){
+				console.log( response );
+				console.log( response.length );
 
-				if(response.length > 0){
+				if( response.length > 3){
 					
 					$("#content").html(response);
 					
-					Editor('comentario');
+					if( $("#comentario").length ){
+						Editor('comentario');
+					}else{
+						console.log('comentario no existe');
+					}
 
 					$shortcuts.focus = 'datos';
 

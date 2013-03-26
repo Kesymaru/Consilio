@@ -6,7 +6,7 @@
 require_once("class/session.php");
 require_once("class/usuarios.php");
 
-error_reporting(E_ALL);
+error_reporting(0);
 
 switch ($_POST['func']){
 
