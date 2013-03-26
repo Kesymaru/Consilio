@@ -717,8 +717,8 @@ function Intentos(){
 function Desbloquear( $ip ){
 	$bloquear = new Bloquear();
 
-	echo 'la ip es: '. $ip;
-	
+	//echo 'la ip es: '. $ip;
+
 	if( !$bloquear->DesbloquearIp( $ip ) ){
 		echo 'Error: No se pudo desbloquear la ip '.$ip;
 	}
