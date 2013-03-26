@@ -40,8 +40,8 @@ switch ($_POST['func']){
 
 					$ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
 
-					//BloquearIp( $ip, $usuario, $sitio, $intento ) $_SERVER['REMOTE_ADDR']
-					$bloquear->BloquearIp( $ip, $_POST['usuario'], 1); //bloquea la ip
+					//BloquearIp( $ip, $usuario, $sitio ) $_SERVER['REMOTE_ADDR']
+					$bloquear->BloquearIp( $ip, $_POST['usuario'], 0); //bloquea la ip
 					
 
 					$mensaje = $bloquear->MensajeBloqueo();
