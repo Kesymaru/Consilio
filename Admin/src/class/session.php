@@ -288,7 +288,7 @@ class Bloquear{
 
 		$ip = mysql_real_escape_string( $ip );
 		
-		$query = "UPDATE ip_bloqueadas SET ignorar = 1 WHERE ip = '".$ip."'";
+		echo $query = "UPDATE ip_bloqueadas SET ignorar = 1 WHERE ip = '".$ip."'";
 
 		//si esta bloqueada permanentemente
 		if( $this->EsPermanente( $ip )){
