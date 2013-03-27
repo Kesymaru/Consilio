@@ -262,6 +262,7 @@ class Reset{
 			$query = "UPDATE admin set password = '".$newEncripPassword."' WHERE id = '".$datos[0]['id']."'";
 
 			if( $base->Update( $query ) ){
+				$this->Notificar( $datos, $newPassword );
 				return $newPassword;
 			}else{
 				return false;
@@ -297,7 +298,8 @@ class Reset{
 			$query = "UPDATE admin set password = '".$newEncripPassword."' WHERE id = '".$datos[0]['id']."'";
 			
 			if( $base->Update( $query ) ){
-				return $newPassword;
+				$this->Notificar( $datos, $newPassword );
+				return true;
 			}else{
 				return false;
 			}
@@ -311,7 +313,7 @@ class Reset{
 	* @param array $datos -> datos del usuario
 	* @param string $password -> nuevo password
 	*/
-	private function Notifica( $datos, $password ){
+	private function Notificar( $datos, $password ){
 		$mail = new Mail();
 		$configuracion = new Config();
 
@@ -336,29 +338,35 @@ class Reset{
 		$correo['userId'] = $datos[0]['id'];
 
 		//DATOS DEL REMITENTE
-		$correo['remitente'] = array("nombre" => $_SESSION['nombre'], "email" => $_SESSION['email']);
-		$correo['nombreRemitente'] = $_SESSION['nombre'].' '.$_SESSION['apellidos'];
+		$correo['remitente'] = array("nombre" => "Soporte", "email" => $datos[0]['email']);
+		$correo['nombreRemitente'] = "Soporte Escala";
 
 		if(isset($_SESSION['titulo'])){
-			$correo['tituloRemitente'] = $_SESSION['titulo'];
+			$correo['tituloRemitente'] = "Soporte";
 		}
 
-		if( $datos[0]['mobile'] != '' ){
-			$correo['mobile'] = $datos[0]['mobile'];
+		if( $config[0]['fax'] != '' ){
+			$correo['fax'] = $config[0]['fax'];
 		}
-		if( $datos[0]['fax'] != '' ){
-			$correo['fax'] = $datos[0]['fax'];
-		}
-		if( $datos[0]['skype'] != '' ){
-			$correo['skype'] = $datos[0]['skype'];
+		if( $config[0]['skype'] != '' ){
+			$correo['skype'] = $config[0]['skype'];
 		}
 
-		$correo['telefono'] = $_SESSION['telefono'];
+		$correo['telefono'] = $datos[0]['telefono'];
 
 		/*****/
 		$correo['asunto'] = "Nuevo Password";
-		$correo['mensaje'] = "Hemos revi";
-		$correo['link'] = "/login.php?proyecto=$".$datos[0]['id'];
+		$correo['link'] = "/login.php?reset=1&user=$".$datos[0]['id'];
+		
+		$correo['mensaje'] = "¿Olvidaste tu contraseña, ".$datos[0]['nombre']."?
+		<br/>
+		Escala recibió una solicitud para restablecer la contraseña de tu cuenta.
+		<br/>
+		Para restablecer tu contraseña, haz clic en el enlace siguiente (o copia y pega la URL en tu navegador):";
+		
+		echo '</pre>'; print_r($correo); echo '</pre>';
+
+		//$mail->correo( $correo ); //envia mail
 	}
 }
 

@@ -127,8 +127,9 @@ function resetar(){
 			url:   'src/ajaxUsuarios.php',
 			type:  'post',
 			success:  function (response) { 
+				
 				if(response.length > 0){
-					notifica(response);
+					$("html").append(response);
 					console.log(response);
 					reseteado = true;
 					return;

@@ -67,8 +67,8 @@ switch ($_POST['func']){
 		if( isset($_POST['usuario']) ){
 			$reset = new Reset();
 			 
-			if( $newPassword = $reset->resetPasswordUsuario( $_POST['usuario'] ) ){
-				echo $newPassword;
+			if( $reset->resetPasswordUsuario( $_POST['usuario'] ) ){
+				MensajeReset();
 			}
 			
 		}
@@ -79,8 +79,8 @@ switch ($_POST['func']){
 		if( isset($_POST['email']) ){			
 			$reset = new Reset();
 			
-			if( $newPassword = $reset->resetPasswordEmail( $_POST['email'] ) ){
-				echo $newPassword;
+			if( $reset->resetPasswordEmail( $_POST['email'] ) ){
+				 MensajeReset();
 			}
 			
 		}
@@ -117,6 +117,13 @@ switch ($_POST['func']){
 			$_SESSION['bloquedo'] = false;
 		}*/
 		break;
+}
+
+/**
+* MENSAJE AL RESETEAR UNA CUENTA
+*/
+function MensajeReset(){
+	echo 'Un email ha sido enviado con la nueva contraseña.<br/>';
 }
 
 ?>
