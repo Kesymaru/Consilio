@@ -338,7 +338,7 @@ class Reset{
 		$correo['userId'] = $datos[0]['id'];
 
 		//DATOS DEL REMITENTE
-		$correo['remitente'] = array("nombre" => "Soporte", "email" => $datos[0]['email']);
+		$correo['remitente'] = array("nombre" => "Soporte", "email" => $config[0]['email']);
 		$correo['nombreRemitente'] = "Soporte Escala";
 
 		if(isset($_SESSION['titulo'])){
@@ -352,17 +352,17 @@ class Reset{
 			$correo['skype'] = $config[0]['skype'];
 		}
 
-		$correo['telefono'] = $datos[0]['telefono'];
+		$correo['telefono'] = $config[0]['telefono'];
 
 		/*****/
 		$correo['asunto'] = "Nuevo Password";
 		$correo['link'] = "/login.php?reset=1&user=$".$datos[0]['id'];
 		
-		$correo['mensaje'] = "¿Olvidaste tu contraseña, ".$datos[0]['nombre']."?
-		<br/>
-		Escala recibió una solicitud para restablecer la contraseña de tu cuenta.
-		<br/>
-		Para restablecer tu contraseña, haz clic en el enlace siguiente (o copia y pega la URL en tu navegador):";
+		$correo['mensaje'] = "<p>¿Olvidaste tu contraseña, ".$datos[0]['nombre']."?</p>
+		<br/><br/>
+		<p>Escala recibió una solicitud para restablecer la contraseña de tu cuenta.</p>
+		<br/><br/>
+		<p>Para restablecer tu contraseña, haz clic en el enlace siguiente (o copia y pega la URL en tu navegador):</p>";
 		
 		//echo '</pre>'; print_r($correo); echo '</pre>';
 
