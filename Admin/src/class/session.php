@@ -359,9 +359,11 @@ class Reset{
 		$correo['link'] = "/login.php?reset=1&user=$".$datos[0]['id'];
 		
 		$correo['mensaje'] = "<p>¿Olvidaste tu contraseña, ".$datos[0]['nombre']."?</p>
-		<br/><br/>
+
 		<p>Escala recibió una solicitud para restablecer la contraseña de tu cuenta.</p>
-		<br/><br/>
+
+		<p>Tu nueva contraseña es: ".$password." </p>
+
 		<p>Para restablecer tu contraseña, haz clic en el enlace siguiente (o copia y pega la URL en tu navegador):</p>";
 		
 		//echo '</pre>'; print_r($correo); echo '</pre>';
