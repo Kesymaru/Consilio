@@ -530,7 +530,9 @@ function BloquearIp( ){
 		url: "src/ajaxAdmin.php",
 		type: "post",
 		success: function( response ){
-			if( response.length >= 3){
+			console.log( response );
+
+			if( response.length <= 3){
 				notifica("Ip: "+ip+"<br/>Bloqueada Permanentemente");
 
 				$("#"+id+" .estado").text("Bloqueado Permanentemente.");
@@ -553,7 +555,7 @@ function DesbloquearIp( ){
 	var id = $("#intentos-bloqueado tr.seleccionada").attr('id');
 	var ip = $("#"+id+" .ip").text();
 	ip = ip.replace(/\s+/g, '');
-	
+
 	var queryParams = {"func" : "Desbloquear", "ip" : ip};
 
 	$.ajax({
