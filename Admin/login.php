@@ -3,6 +3,11 @@ require_once("src/class/session.php");
 
 $session = new SessionInvitado();
 
+
+if( isset($_GET['reset']) ){
+	$_SESSION['reset'] = true;
+}
+
 /*
 $ip = $REMOTE_ADDR; 
 $ip = GetHostByName( $REMOTE_ADDR );
@@ -101,7 +106,7 @@ echo '<br/>Desde gloobal: '.$_SERVER['REMOTE_ADDR'];
 			<div id="formRecuperacion">
 
 				<div class="etiquetas">Usuario</div>
-				
+
 				<input type="text" class="validate[optional,custom[onlyLetterSp]] borderAlto usuario" placeholder="Usuario" id="usuarioRecuperacion" name="usuarioRecuperacion" />
 
 				<div class="etiquetas">Email</div>

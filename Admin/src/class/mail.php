@@ -302,7 +302,7 @@ class Mail {
 				return false; //requerido
 			}
 
-			if(array_key_exists('link', $correo)){
+			/*if(array_key_exists('link', $correo)){
 				$link = $_SESSION['matriz'].$correo['link'];
 			}else{
 				if(array_key_exists('userId', $correo)){
@@ -311,7 +311,22 @@ class Mail {
 				}else{
 					$link = $_SESSION['matriz'].'/login.php';
 				}
+			}*/
+
+			if( array_key_exists('link', $correo) ){
+				$link = $link;
+			}else{
+				if( array_key_exists('sitio') ){
+					if( $correo['sitio'] = 'admin' ){
+						$link = $config[0]['admin']; //link del sitio del admin
+					}else{
+						$link = $config[0]['matriz'];	
+					}
+				}else{
+					$link = $config[0]['matriz']; //defaul link sitio cliente
+				}
 			}
+			
 			//link
 			$mensajeFinal .= '<br/>
 					 	<br/><a href="'.$link.'" >
