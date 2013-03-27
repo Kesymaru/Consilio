@@ -6,7 +6,7 @@
 require_once("class/session.php");
 require_once("class/usuarios.php");
 
-error_reporting(0);
+//error_reporting(0);
 
 switch ($_POST['func']){
 
@@ -63,16 +63,28 @@ switch ($_POST['func']){
 		break;
 
 	//RESET PASSWORD CON EL USUARIO
-	case 'ResetPasswordUsuario':
-		if(isset($_POST['usuario'])){
-			resetPasswordUsuario($_POST['usuario']);
+	case 'resetPasswordUsuario':
+		if( isset($_POST['usuario']) ){
+			$reset = new Reset();
+			 
+			if( $newPassword = $reset->resetPasswordUsuario( $_POST['usuario'] ) ){
+				echo $newPassword;
+			}
+			
 		}
 		break;
 
 	//RESET PASSWORD CON EL EMAIL
 	case 'resetPasswordEmail':
-		if(isset($_POST['email'])){
-			resetPasswordEmail($_POST['email']);
+		if( isset($_POST['email']) ){
+			echo $_POST['email'];
+			
+			$reset = new Reset();
+			
+			if( $newPassword = $reset->resetPasswordEmail( $_POST['email'] ) ){
+				echo $newPassword;
+			}
+			
 		}
 		break;
 
@@ -96,7 +108,7 @@ switch ($_POST['func']){
 
 		$bloquear = new Bloquear();
 
-		$ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
+		/*$ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
 
 
 		//si esta bloqueado en admin
@@ -105,7 +117,7 @@ switch ($_POST['func']){
 			echo $bloquear->MensajeBloqueo();
 		}else{
 			$_SESSION['bloquedo'] = false;
-		}
+		}*/
 		break;
 }
 

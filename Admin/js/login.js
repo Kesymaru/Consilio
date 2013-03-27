@@ -103,11 +103,13 @@ function resetar(){
 			$.ajax({
 				data:  queryParams,
 				async: false,
-				url:   'src/ajax.php',
+				url:   'src/ajaxUsuarios.php',
 				type:  'post',
 				success:  function (response) { 
+					console.log( response );
+
 					if(response.length > 0){
-						notifica(response);
+						alert(response);
 						console.log(response);
 						reseteado = true;
 						return;
@@ -122,7 +124,7 @@ function resetar(){
 		$.ajax({
 			data:  queryParams,
 			async: false,
-			url:   'src/ajax.php',
+			url:   'src/ajaxUsuarios.php',
 			type:  'post',
 			success:  function (response) { 
 				if(response.length > 0){
@@ -159,7 +161,7 @@ function notifica(text) {
 	  	layout: 'topCenter',
 	  	closeWith: ['button'], // ['click', 'button', 'hover']
 	});
-	console.log('html: '+n.options.id);
+	//console.log('html: '+n.options.id);
 	  	
 	//tiempo para desaparecerlo solo 
 	setTimeout(function (){

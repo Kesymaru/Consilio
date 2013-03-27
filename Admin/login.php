@@ -93,6 +93,7 @@ echo '<br/>Desde gloobal: '.$_SERVER['REMOTE_ADDR'];
 			if( !isset($_GET['reset'])){
 		?>
 			<span id="recuperacion" onClick="formRecuperacion()">¿Has olvidado tu contraseña?</span>
+		
 		<?php
 			}
 		?>
@@ -100,6 +101,7 @@ echo '<br/>Desde gloobal: '.$_SERVER['REMOTE_ADDR'];
 			<div id="formRecuperacion">
 
 				<div class="etiquetas">Usuario</div>
+				
 				<input type="text" class="validate[optional,custom[onlyLetterSp]] borderAlto usuario" placeholder="Usuario" id="usuarioRecuperacion" name="usuarioRecuperacion" />
 
 				<div class="etiquetas">Email</div>

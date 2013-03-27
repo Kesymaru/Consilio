@@ -1,7 +1,7 @@
 <?php
 
 require_once("classDatabase.php");
-//require_once("mysql_session_manager.php");
+require_once("mail.php");
 
 class Session{
 	
@@ -232,6 +232,134 @@ class SessionInvitado{
 
 	}
 
+}
+
+/**
+* CLASE PARA RESETEAR PASSWORDS
+*/
+class Reset{
+
+	/**
+	* RESETEA EL PASSWORD DE UN ADMIN CON SU USUARIO
+	* @param string $usuario  -> usuario ha resetear
+	* @return string $newPassword -> nuevo password
+	* @return boolean false -> si no se resetea
+	*/
+	public function resetPasswordUsuario( $usuario ){
+
+		$base = new Database();
+
+		$usuario = mysql_real_escape_string($usuario);
+
+		$query = "SELECT * FROM admin WHERE usuario = '".$usuario."'";
+
+		$datos = $base->Select( $query );
+
+		if( !empty( $datos ) ){
+			$newPassword = $base->RandomPassword();
+			$newEncripPassword = $base->Encriptar( $newPassword );
+
+			$query = "UPDATE admin set password = '".$newEncripPassword."' WHERE id = '".$datos[0]['id']."'";
+
+			if( $base->Update( $query ) ){
+				return $newPassword;
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* RESETEA EL PASSWORD DE UN ADMIN CON SU EMAIL
+	* @param string $email  -> email del usuario admin
+	* @return string $newPassword -> nuevo password
+	* @return boolean false -> si no se resetea
+	*/
+	public function resetPasswordEmail( $email ){
+		if( empty($email) ){
+			return false;
+		}
+
+		$base = new Database();
+
+		$email = mysql_real_escape_string($email);
+
+		$query = "SELECT * FROM admin WHERE email = '".$email."'";
+
+		$datos = $base->Select( $query );
+
+		if( !empty( $datos ) ){
+			$newPassword = $base->RandomPassword();
+			$newEncripPassword = $base->Encriptar( $newPassword );
+
+			$query = "UPDATE admin set password = '".$newEncripPassword."' WHERE id = '".$datos[0]['id']."'";
+			
+			if( $base->Update( $query ) ){
+				return $newPassword;
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* NOTIFICA DEL RESETEO DEL PASSWORD AL USUARIO
+	* @param array $datos -> datos del usuario
+	* @param string $password -> nuevo password
+	*/
+	private function Notifica( $datos, $password ){
+		$mail = new Mail();
+		$configuracion = new Config();
+
+		$config = $configuracion->getConfig();
+
+		//compone los datos del correo
+		$correo = array();
+		$correo['nombre'] = $datos[0]['nombre'];
+
+		//imagen del proyecto, fallback imagen del cliente
+		$imagen = 'images/es.png';
+		$imagenLink = '../'.$datos[0]['imagen'];
+
+		if( file_exists($imagenLink) ){
+				$imagen = $datos[0]['imagen'];
+		}
+			
+		$correo['imagen'] = $imagen;
+
+		$correo['destinatario'] = array( $datos[0]['nombre'] => $datos[0]['email'] );
+
+		$correo['userId'] = $datos[0]['id'];
+
+		//DATOS DEL REMITENTE
+		$correo['remitente'] = array("nombre" => $_SESSION['nombre'], "email" => $_SESSION['email']);
+		$correo['nombreRemitente'] = $_SESSION['nombre'].' '.$_SESSION['apellidos'];
+
+		if(isset($_SESSION['titulo'])){
+			$correo['tituloRemitente'] = $_SESSION['titulo'];
+		}
+
+		if( $datos[0]['mobile'] != '' ){
+			$correo['mobile'] = $datos[0]['mobile'];
+		}
+		if( $datos[0]['fax'] != '' ){
+			$correo['fax'] = $datos[0]['fax'];
+		}
+		if( $datos[0]['skype'] != '' ){
+			$correo['skype'] = $datos[0]['skype'];
+		}
+
+		$correo['telefono'] = $_SESSION['telefono'];
+
+		/*****/
+		$correo['asunto'] = "Nuevo Password";
+		$correo['mensaje'] = "Su proyecto ya se encuentra disponible en la matriz, puede acceder desde este momento en el siguiente enlace:";
+		$correo['link'] = "/login.php?proyecto=$".$datos[0]['id'];
+	}
 }
 
 /**
@@ -545,7 +673,7 @@ class Bloquear{
 /**
 * CLASE PARA EL MANEJO DE LA CONFIGURACION DEL SITIO
 */
-class Confi{
+class Config{
 	public function __construct(){
 
 	}
@@ -570,6 +698,7 @@ class Confi{
 			return false;
 		}
 	}
+
 }
 
 

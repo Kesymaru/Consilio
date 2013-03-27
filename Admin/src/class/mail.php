@@ -261,7 +261,7 @@ class Mail {
 	*/
 	public function correo($correo){
 				
-		if(!empty($correo)){
+		if( !empty($correo) ){
 
 			//TITULO CON ASUNTO
 			if(array_key_exists('asunto', $correo)){
@@ -375,7 +375,8 @@ class Mail {
 
 	/**
 	* OBTIENE EL CORREO COMPUESTO
-	* @param $carreo -> array con datos, para, nombre, link, imagen, mensaje, notas
+	* @param array $carreo -> array con datos, para, nombre, link, imagen, mensaje, notas
+	* @return string $mensajeFinal -> text/html con el mensaje compuesto
 	*/
 	public function getCorreo($correo){
 				
