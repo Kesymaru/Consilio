@@ -288,9 +288,7 @@ class Bloquear{
 
 		//si esta bloqueada permanentemente
 		if( $this->EsPermanente( $ip )){
-			echo '      era permanente    ';
 			$this->DesbloquearPermantente( $ip );
-
 		}
 		
 		$base = new Database();
@@ -298,8 +296,6 @@ class Bloquear{
 		$ip = mysql_real_escape_string( $ip );
 
 		$query = "UPDATE ip_bloqueadas SET ignorar = 1 WHERE ip = '".$ip."'";
-
-		echo $query;
 
 		if( $base->Update( $query )){
 			return true;
@@ -403,14 +399,6 @@ class Bloquear{
 			}else{
 				return false;
 			}
-
-			/*$minutos = $this->Minutos( $ip );
-
-			if( $minutos >= 0 ){
-				return true;
-			}else{
-				return false;
-			}*/
 		}
 		
 		return false; //no esta bloqueado
