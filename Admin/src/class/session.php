@@ -326,7 +326,7 @@ class Reset{
 		$imagenLink = '../'.$datos[0]['imagen'];
 
 		if( file_exists($imagenLink) ){
-				$imagen = $datos[0]['imagen'];
+			$imagen = $datos[0]['imagen'];
 		}
 			
 		$correo['imagen'] = $imagen;
@@ -357,7 +357,7 @@ class Reset{
 
 		/*****/
 		$correo['asunto'] = "Nuevo Password";
-		$correo['mensaje'] = "Su proyecto ya se encuentra disponible en la matriz, puede acceder desde este momento en el siguiente enlace:";
+		$correo['mensaje'] = "Hemos revi";
 		$correo['link'] = "/login.php?proyecto=$".$datos[0]['id'];
 	}
 }

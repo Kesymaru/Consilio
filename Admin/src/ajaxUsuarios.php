@@ -76,9 +76,7 @@ switch ($_POST['func']){
 
 	//RESET PASSWORD CON EL EMAIL
 	case 'resetPasswordEmail':
-		if( isset($_POST['email']) ){
-			echo $_POST['email'];
-			
+		if( isset($_POST['email']) ){			
 			$reset = new Reset();
 			
 			if( $newPassword = $reset->resetPasswordEmail( $_POST['email'] ) ){
