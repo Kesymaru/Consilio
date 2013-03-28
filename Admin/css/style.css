@@ -278,6 +278,43 @@ button:hover{
 	font-size: 18px;
 }
 
+.datos-full{
+	width: 100%;
+	margin: 0 auto;
+	font-size: 18px;
+}
+
+.datos-full .columna-full{
+	display: inline-block;
+	padding: 0;
+	margin: 0;
+	width: 100%;
+}
+
+.datos-full .columna1{
+	display: inline-block;
+	padding: 0;
+	margin: 0;
+	width: 50%;
+	float: left;
+}
+
+.datos-full .columna2{
+	display: inline-block;
+	padding: 0;
+	margin: 0;
+	width: 50%;
+	float: right;
+}
+
+.datos-full table{
+	margin: 0 auto;
+	border-collapse: separate;
+	border-spacing: 10px 10px;
+	text-align: left;
+	max-width: 100%;
+}
+
 /** datos con calendario a la izquierda */
 .datos-date{
 	width: 95%;
@@ -351,7 +388,8 @@ button:hover{
 	font-size: 18px;
 }
 
-.datos input{
+.datos input,
+.datos-full input{
 	font-size: 18px;
 }
 
@@ -359,12 +397,18 @@ button:hover{
 .datos input[type="number"],
 .datos input[type="tel"],
 .datos input[type="email"],
-.datos select{
+.datos select,
+.datos-full input[type="text"],
+.datos-full input[type="number"],
+.datos-full input[type="tel"],
+.datos-full input[type="email"],
+.datos-full select{
 	min-width: 250px;
 	max-width: 250px;
 }
 
-.datos input[type="file"]{
+.datos input[type="file"],
+.datos-full input[type="file"]{
 	font-size: 13px;
 }
 

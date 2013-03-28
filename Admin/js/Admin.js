@@ -629,3 +629,92 @@ function AccionEliminarIp( ip ){
 		}
 	});
 }
+
+/************************ CONFIGURACION **************/
+
+function Config(){
+	notificaAtencion("Los cambios que realices en la configuracion afectan todo el sitio.");
+
+	if( $("#menu").is(":visible") ){
+		ActivaMenu();
+	}
+
+	var queryParams = {"func" : "Config"};
+
+	$.ajax({
+		data: queryParams,
+		type: "post",
+		url: "src/ajaxAdmin.php",
+		beforesend: function(){
+			Loading();
+		},
+		success: function( response ){
+			if( response.length >= 3 ){
+				$("#content").html( response );
+
+				//inicializa el formulario
+				FormularioConfig();			
+			}else{
+				notificaError("Error: Admin.js Config <br/>"+response);
+			}
+			LoadingClose();
+		},
+		fail: function( response ){
+			notificaError( "Error: AJAX FAIL Admin.js Config ");
+			LoadingClose();
+		}
+	});
+}
+
+/**
+* CONFIRMA LOS CAMBIOS ANTES DE GUARDARLOS
+*/
+function ConfirmaConfig(){
+	var si = function (){
+		$("#FormularioConfig").submit();
+	}
+
+	var no = function (){
+		notificaAtencion("Operacion cancelada");
+	}
+
+	Confirmacion("Los cambios aplican a todo el sitio.<br/>Esta seguro de guardarlos", si, no);
+}
+
+/**
+* FORMULARIO DE LA CONFIGURACION
+*/
+function FormularioConfig(){
+	//validacion
+	$("#FormularioConfig").validationEngine();
+		
+	var options = {  
+		beforeSend: function(){
+			DeshabilitarContent();
+		},
+	    success: function(response) { 
+	    	
+	    	if(response.length <= 3){
+	    		notifica("Configuracion guardada");
+			}else{ 
+				notificaError("Error: Admin.js FormularioConfig <br/>"+response);
+			}
+			HabilitarContent();
+
+		},
+		fail: function(response){
+			HabilitarContent();
+			notificaError("Error: AJAX fail Admin.js FormularioConfig().<br/>"+response);
+		}
+	}; 
+	$('#FormularioConfig').ajaxForm(options);
+}
+
+function DefaultConfig(){
+	$("#support").val('support@matriz.com');
+	$("#telefono").val('123-456 ext 5');
+	$("#fax").val('');
+	$("#skype").val('');
+	$("#link").val('login.php');
+	$("#tiempo").val(120);
+}

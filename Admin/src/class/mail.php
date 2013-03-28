@@ -4,6 +4,8 @@
 *	CLASE PARA ENVIAR MAILS
 */
 
+require_once("session.php");
+
 class Mail {
 
 	private $plantilla = '';
@@ -257,10 +259,11 @@ class Mail {
 
 	/**
 	* ENVIA UN CORREO GENERICO
-	* @param $carreo -> array con datos, para, nombre, link, imagen, mensaje, notas
+	* @param $carreo -> array
 	*/
 	public function correo($correo){
-				
+		$configuracion = new Config();
+
 		if( !empty($correo) ){
 
 			//TITULO CON ASUNTO
@@ -326,7 +329,7 @@ class Mail {
 					$link = $config[0]['matriz']; //defaul link sitio cliente
 				}
 			}
-			
+
 			//link
 			$mensajeFinal .= '<br/>
 					 	<br/><a href="'.$link.'" >
@@ -394,7 +397,9 @@ class Mail {
 	* @return string $mensajeFinal -> text/html con el mensaje compuesto
 	*/
 	public function getCorreo($correo){
-				
+
+		$config = $configuracion->getConfig();
+
 		if(!empty($correo)){
 
 			//TITULO CON ASUNTO

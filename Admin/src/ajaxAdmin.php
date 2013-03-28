@@ -90,6 +90,12 @@ if(isset($_POST['func'])){
 				EliminarIp( $_POST['ip'] );
 			}
 			break;
+
+		/************** CONFIGURACION ***********/
+
+		case 'Config':
+			Config();
+			break;
 	}
 }
 
@@ -748,5 +754,149 @@ function EliminarIp( $ip ){
 	}
 }
 
+/******************************** CONFIGURACION **************/
+	
+/**
+* PANEL DE CONFIGURACION DEL SISTEMA
+*/
+function Config(){
+	$Configuracion = new Config();
+	$config = $Configuracion->getConfig();
+
+	$panel = '<div class="titulo">
+				Configuracion
+			  </div>
+			  <form id="FormularioConfig" enctype="multipart/form-data" method="post" action="src/ajaxAdmin.php">
+			  	<input type="hidden" name="func" value="ActualizarConfig">
+				  <div class="datos-full">
+				  	<div class="columna-full">
+				  		<div class="subtitulo">
+				  			General
+				  		</div>
+				  		<table>
+				  			<tr>
+				  				<td>
+				  					Email
+				  				</td>
+				  				<td>
+				  					<input type="text" id="support" name="support" title="Email para soporte" placeholder="email de soporte" value="'.$config[0]['support'].'" >
+				  				</td>
+				  			</tr>
+				  			<tr>
+				  				<td>
+				  					Telefono
+				  				</td>
+				  				<td>
+				  					<input type="text" id="telefono" title="Telefono" name="telefono" placeholder="Telefono soporte" value="'.$config[0]['telefono'].'" >
+				  				</td>
+				  			</tr>
+				  			<tr>
+				  				<td>
+				  					Fax
+				  				</td>
+				  				<td>
+				  					<input type="text" id="fax" title="Fax" name="fax" placeholder="Fax soporte" value="'.$config[0]['fax'].'" >
+				  				</td>
+				  			</tr>
+				  			<tr>
+				  				<td>
+				  					Skype
+				  				</td>
+				  				<td> 
+				  					<input type="number" id="skype" title="Skype" placeholder="Skype soporte" name="skype" value="'.$config[0]['skype'].'" >
+				  				</td>
+				  			</tr>
+				  			<tr>
+				  				<td>
+				  					Link al salir
+				  				</td>
+				  				<td>
+				  					<input type="text" id="link" title="Link para redirrecionar al salir" placeholder="Link al salir" name="link" value="'.$config[0]['link_salida'].'" >
+				  				</td>
+				  			</tr>
+				  		</table>
+				  		<div class="subtitulo">
+				  			Seguridad
+				  		</div>
+				  		<table>
+				  			<tr>
+				  				<td title="Tiempo en minutos">
+				  					Tiempo bloqueo
+				  				</td>
+				  				<td>
+				  					<input type="number" id="tiempo" title="Tiempo en el que se bloquea una ip" placeholder="Timepo bloqueo" name="tiempo" value="'.$config[0]['tiempo_bloqueo'].'" >
+				  				</td>
+				  			</tr>
+				  		</table>
+				  	</div>
+				  	<!--<div class="columna1">
+				  		<div class="subtitulo">
+				  			Vista Clientes
+				  		</div>
+
+				  	</div>
+				  	<div class="columna2">
+				  		<div class="subtitulo">
+				  			Administracion
+				  		</div>
+
+				  	</div>-->
+				  </div>
+				  
+				  <div class="datos-botones">
+				  	<button type="button" title="Cancelar Edición" onClick="CancelarContent()">Cancelar</button>
+				  	<button type="button" title="Usar valores por defecto" onClick="DefaultConfig()">Default</button>
+					<input type="reset" title="Limpiar Edición" value="Limpiar" />
+					<button type="button" title="Guardar Edición">Guardar</button>
+				  </div>
+			  </form>';
+
+	echo $panel;
+}
+
+/**
+* ACTUALIZA LA CONFIGURACION DEL SITIO
+*/
+function ActualizarConfig(){
+	$error = false;
+	
+	//requeridos
+	$telefono = '1234-5678';
+	if( isset($_POST['telefono']) ){
+		$telefono = $_POST['telefono'];
+	}else{
+		echo "Error: ajaxAdmin.php ActualizarConfig se requiere de un telefono.<br/>";
+		$error = true;
+	}
+	
+	$tiempo = 120; //default
+	if( isset($_POST['tiempo']) ){
+		$tiempo = $_POST['tiempo'];
+	}else{
+		echo "Error: ajaxAdmin.php ActualizarConfig se requiere de un tiempo para bloqueo.<br/>";
+		$error = true;
+	}
+
+	//si faltan datos
+	if( $error ){
+		return false;
+	}
+
+	$fax = '';
+	if( isset($_POST['fax'])){
+		$fax = $_POST['fax'];
+	}
+
+	$skype = '';
+	if( isset($_POST['skype']) ){
+		$skype = $_POST['skype'];
+	}
+
+	$link = 'login.php';
+	if( isset($_POST['link'])){
+		$link = $_POST['link'];
+	}
+
+}
 
 ?>
