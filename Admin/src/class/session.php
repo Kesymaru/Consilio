@@ -383,7 +383,7 @@ class Reset{
 
 		<p>Tu nueva contraseña es: ".$password." </p>
 
-		<p>Para restablecer tu contraseña, haz clic en el enlace siguiente (o copia y pega la URL en tu navegador):</p>";
+		Para restablecer tu contraseña, haz clic en el enlace siguiente (o copia y pega la URL en tu navegador):";
 		
 		//echo '</pre>'; print_r($correo); echo '</pre>';
 
