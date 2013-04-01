@@ -834,15 +834,38 @@ function Config(){
 				  				</td>
 				  			</tr>
 				  			<tr>
-				  				<td title="Permitir el reset de password del usuario">
+				  				<td title="Permitir el reset de password del usuario" style="vertical-aling: middle;">
 				  					Reseteo de password
 				  				</td>
 				  				<td title="Para clientes">
 				  					<div class="titulo">Cleintes</div>
+				  					<table>
+				  					<tr>
+				  						<td>
+				  							<input id="resetClienteSi" type="radio" name="resetCliente" value="1">
+				  							<label for="resetClienteSi">Si</label>
+				  						</td>
+				  						<td>
+				  							<input id="resetClienteNo" type="radio" name="resetCliente" value="0">
+				  							<label for="resetClienteNo">No</label>
+				  						</td>
+				  					</tr>
+				  					</table>
 				  				</td>
 				  				<td title="Para admins">
 				  					<div class="titulo">Cleintes</div>
-				  					<input type="radio" name="reset" value="0">
+				  					<table>
+				  					<tr>
+				  						<td>
+				  							<input id="resetAdminSi" type="radio" name="resetAdmin" value="1">
+				  							<label for="resetAdminSi">Si</label>
+				  						</td>
+				  						<td>
+				  							<input id="resetAdminNo" type="radio" name="resetAdmin" value="0">
+				  							<label for="resetAdminNo">No</label>
+				  						</td>
+				  					</tr>
+				  					</table>
 				  				</td>
 				  			</tr>
 				  		</table>
