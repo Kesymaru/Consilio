@@ -834,11 +834,11 @@ function Config(){
 				  				</td>
 				  			</tr>
 				  			<tr>
-				  				<td title="Permitir el reset de password del usuario" style="vertical-aling: middle;">
+				  				<td title="Permitir el reset de password del usuario">
 				  					Reseteo de password
 				  				</td>
-				  				<td title="Para clientes">
-				  					<div class="titulo">Cleintes</div>
+				  				<td title="Para clientes" style="vertical-aling: middle;">
+				  					<div class="titulo">Clientes</div>
 				  					<table>
 				  					<tr>
 				  						<td>
@@ -853,7 +853,7 @@ function Config(){
 				  					</table>
 				  				</td>
 				  				<td title="Para admins">
-				  					<div class="titulo">Cleintes</div>
+				  					<div class="titulo">Admin</div>
 				  					<table>
 				  					<tr>
 				  						<td>
