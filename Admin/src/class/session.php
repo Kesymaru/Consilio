@@ -3,10 +3,10 @@
 require_once("classDatabase.php");
 require_once("mail.php");
 
-//error_reporting(0);
+error_reporting(0);
 
 class Session{
-	
+
 	/**
 	* CONSTRUCTOR
 	*/
@@ -242,6 +242,23 @@ class SessionInvitado{
 class Reset{
 
 	/**
+	* FIX PARA DATOS DE SESSION REQUERIDOS
+	* CREA LA VARIABLES DE SESSION PARA home Y matriz
+	*/
+	public function __construct(){
+		$protocolo = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        $dominio = $_SERVER['HTTP_HOST'];
+
+		if( session_id() == '' ){
+			session_start();
+		}
+
+		$_SESSION['home'] = $protocolo.$dominio.'/matrizescala/Admin';
+		$_SESSION['matriz'] = $protocolo.$dominio.'/matrizescala';
+		
+	}
+
+	/**
 	* RESETEA EL PASSWORD DE UN ADMIN CON SU USUARIO
 	* @param string $usuario  -> usuario ha resetear
 	* @return string $newPassword -> nuevo password
@@ -316,11 +333,6 @@ class Reset{
 	* @param string $password -> nuevo password
 	*/
 	private function Notificar( $datos, $password ){
-		$protocolo = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-        	$dominio = $_SERVER['HTTP_HOST'];
-
-		$_SESSION['home'] = $protocolo.$dominio.'/matrizescala/Admin';
-		$_SESSION['matriz'] = $protocolo.$dominio.'/matrizescala';
 
 		$mail = new Mail();
 		$configuracion = new Config();
@@ -349,9 +361,8 @@ class Reset{
 		$correo['remitente'] = array("nombre" => "Soporte", "email" => $config[0]['support']);
 		$correo['nombreRemitente'] = "Soporte Escala";
 
-		if(isset($_SESSION['titulo'])){
-			$correo['tituloRemitente'] = "Soporte";
-		}
+
+		$correo['tituloRemitente'] = "Soporte";
 
 		if( $config[0]['fax'] != '' ){
 			$correo['fax'] = $config[0]['fax'];
@@ -364,7 +375,7 @@ class Reset{
 
 		/*****/
 		$correo['asunto'] = "Nuevo Password";
-		$correo['link'] = $SESSION['home']."/login.php?reset=1&user=$".$datos[0]['id'];
+		$correo['link'] = $_SESSION['home']."/login.php?reset=1&user=$".$datos[0]['id'];
 		
 		$correo['mensaje'] = "¿Olvidaste tu contraseña, ".$datos[0]['nombre']."?
 		<p>Escala recibió una solicitud para restablecer la contraseña de tu cuenta.</p>
@@ -373,7 +384,6 @@ class Reset{
 
 		<p>Para restablecer tu contraseña, haz clic en el enlace siguiente (o copia y pega la URL en tu navegador):</p>";
 		
-		echo $SESSION['home'];
 		echo '</pre>'; print_r($correo); echo '</pre>';
 
 		$mail->correo( $correo ); //envia mail
