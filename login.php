@@ -90,7 +90,9 @@ if( isset($_SESSION['logueado']) ){
 		<?php
 			if( !isset($_GET['reset'])){
 		?>
-			<span id="recuperacion" onClick="formRecuperacion()">¿Has olvidado tu contraseña?</span>
+			<!-- <span id="recuperacion" onClick="formRecuperacion()">
+				¿Has olvidado tu contraseña?
+			</span> -->
 		<?php
 			}
 		?>
@@ -139,8 +141,6 @@ if( isset($_SESSION['logueado']) ){
 				<img src="images/logo.png" />
 			</div>
 			<div class="contenido">
-
-				<div class="etiquetas">Usuario</div>
 
 				<input type="text" class="validate[required] borderAlto" id="registroUsuario" placeholder="Usuario" name="registroUsuario"><br/>
 
