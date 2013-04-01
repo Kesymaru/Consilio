@@ -316,6 +316,12 @@ class Reset{
 	* @param string $password -> nuevo password
 	*/
 	private function Notificar( $datos, $password ){
+		$protocolo = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        	$dominio = $_SERVER['HTTP_HOST'];
+
+		$_SESSION['home'] = $protocolo.$dominio.'/matrizescala/Admin';
+		$_SESSION['matriz'] = $protocolo.$dominio.'/matrizescala';
+
 		$mail = new Mail();
 		$configuracion = new Config();
 
