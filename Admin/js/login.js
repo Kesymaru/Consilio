@@ -9,12 +9,7 @@ $(document).ready(function(){
 
     $("#formID").validationEngine();
     $('input[placeholder]').placeholder();
-
-    //compatibilidad opera -> es el unico browser que no permite color en placeholder
-    if($.browser.opera){
-    	$('.etiquetas').show();
-    }
-
+    
     //logIn
     $('#formID').submit(function() {
 		return false;
