@@ -826,7 +826,8 @@ function Config(){
 				  		</div>
 				  		<table>
 				  			<tr>
-				  				<td>
+				  				<td title="Mostrar datos de soporte en los correos">
+				  					Usar Support
 				  				</td>
 				  				<td>
 				  					<input type="radio" id="radioNo" value="no" name="mail_support">
@@ -834,6 +835,11 @@ function Config(){
 
 				  					<input type="radio" id="radioSi" value="no" name="mail_support">
 				  					<label for="radioSi">Si</label>
+				  				</td>
+				  			</tr>
+				  			<tr>
+				  				<td colspan="2" title="Datos que aparecen en el footer del correo">
+				  					Mostrar datos de soporte en los correos en logar de los datos del admin.
 				  				</td>
 				  			</tr>
 				  		</table>
