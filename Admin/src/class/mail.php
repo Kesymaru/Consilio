@@ -352,8 +352,7 @@ class Mail {
 			$mensajeFinal .= '
 					<tr class="contenidoFooter">
 						<td class="td-logo">
-							
-							<img class="logo" src="'.$_SESSION['matriz'].'/images/logoMail.png" title="Matriz" alt="Matriz">
+							<img class="logo" src="'.$_SESSION['matriz'].'/images/logoMail.png" title="Escala Consultores" alt="Escala Consultores">
 						</td>';
 
 			//imagen del cliente

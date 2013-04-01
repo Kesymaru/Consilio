@@ -820,6 +820,24 @@ function Config(){
 				  				</td>
 				  			</tr>
 				  		</table>
+				  		
+				  		<div class="subtitulo">
+				  			Correos
+				  		</div>
+				  		<table>
+				  			<tr>
+				  				<td>
+				  				</td>
+				  				<td>
+				  					<input type="radio" id="radioNo" value="no" name="mail_support">
+				  					<label for="radioNo">No</label>
+
+				  					<input type="radio" id="radioSi" value="no" name="mail_support">
+				  					<label for="radioSi">Si</label>
+				  				</td>
+				  			</tr>
+				  		</table>
+
 				  		<div class="subtitulo">
 				  			Seguridad
 				  		</div>
@@ -864,7 +882,7 @@ function Config(){
 */
 function ActualizarConfig(){
 	$error = false;
-	
+
 	//requeridos
 	$support = 'support@matriz.com';
 	if( isset($_POST['support']) ){
