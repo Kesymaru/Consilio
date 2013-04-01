@@ -340,7 +340,7 @@ class Reset{
 		$correo['userId'] = $datos[0]['id'];
 
 		//DATOS DEL REMITENTE
-		$correo['remitente'] = array("nombre" => "Soporte", "email" => $config[0]['email']);
+		$correo['remitente'] = array("nombre" => "Soporte", "email" => $config[0]['support']);
 		$correo['nombreRemitente'] = "Soporte Escala";
 
 		if(isset($_SESSION['titulo'])){
@@ -358,7 +358,7 @@ class Reset{
 
 		/*****/
 		$correo['asunto'] = "Nuevo Password";
-		$correo['link'] = "/login.php?reset=1&user=$".$datos[0]['id'];
+		$correo['link'] = $SESSION['home']."/login.php?reset=1&user=$".$datos[0]['id'];
 		
 		$correo['mensaje'] = "<p>¿Olvidaste tu contraseña, ".$datos[0]['nombre']."?</p>
 
