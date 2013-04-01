@@ -833,6 +833,7 @@ function Config(){
 				  					<input type="number" id="tiempo" title="Tiempo en el que se bloquea una ip" placeholder="Timepo bloqueo" name="tiempo" value="'.$config[0]['tiempo_bloqueo'].'" class="validate[required,custom[integer]]" >
 				  				</td>
 				  			</tr>
+				  			<!--
 				  			<tr>
 				  				<td title="Permitir el reset de password del usuario" style="vertical-align: middle !important;">
 				  					Reseteo de password
@@ -867,7 +868,7 @@ function Config(){
 				  					</tr>
 				  					</table>
 				  				</td>
-				  			</tr>
+				  			</tr>-->
 				  		</table>
 				  	</div>
 				  	<!--<div class="columna1">
