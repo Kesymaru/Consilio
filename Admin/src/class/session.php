@@ -378,7 +378,7 @@ class Reset{
 		$correo['tipo_link'] = 'admin';
 		$correo['link'] = "/login.php?reset=1&user=$".$datos[0]['id'];
 		
-		$correo['mensaje'] = "¿Olvidaste tu contraseña, ".$datos[0]['nombre']."?
+		$correo['mensaje'] = "¿Olvidaste tu contraseña?
 		<p>Escala recibió una solicitud para restablecer la contraseña de tu cuenta.</p>
 
 		<p>Tu nueva contraseña es: ".$password." </p>
