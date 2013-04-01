@@ -305,8 +305,17 @@ class Mail {
 				return false; //requerido
 			}
 
-			/*if(array_key_exists('link', $correo)){
-				$link = $_SESSION['matriz'].$correo['link'];
+			if(array_key_exists('link', $correo)){
+				//si es diferenciado
+				if( array_key_exists('tipo_link', $correo)){
+					if( $correo['tipo_link'] == 'admin'){
+						$link = $_SESSION['home'].$correo['link'];
+					}else{
+						$link = $_SESSION['matriz'].$correo['link'];
+					}
+				}else{
+					$link = $_SESSION['matriz'].$correo['link'];
+				}
 			}else{
 				if(array_key_exists('userId', $correo)){
 					$usarId = $correo['userId'];
@@ -314,9 +323,9 @@ class Mail {
 				}else{
 					$link = $_SESSION['matriz'].'/login.php';
 				}
-			}*/
+			}
 
-			if( array_key_exists('link', $correo) ){
+			/*if( array_key_exists('link', $correo) ){
 				$link = $link;
 			}else{
 				if( array_key_exists('sitio') ){
@@ -328,7 +337,7 @@ class Mail {
 				}else{
 					$link = $config[0]['matriz']; //defaul link sitio cliente
 				}
-			}
+			}*/
 
 			//link
 			$mensajeFinal .= '<br/>
@@ -353,6 +362,10 @@ class Mail {
 				$mensajeFinal .= '
 						<td class="td-logoCliente">
 							<img class="logoCliente" src="'.$_SESSION['home'].$correo['imagen'].'" alt="'.$nombre.'" title="'.$nombre.'">
+						</td>';
+			}else{
+				$mensajeFinal .= '
+						<td class="td-logoCliente">
 						</td>';
 			}
 

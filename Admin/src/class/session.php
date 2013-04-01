@@ -344,14 +344,14 @@ class Reset{
 		$correo['nombre'] = $datos[0]['nombre'];
 
 		//imagen del proyecto, fallback imagen del cliente
-		$imagen = 'images/es.png';
+		/*$imagen = 'images/es.png';
 		$imagenLink = '../'.$datos[0]['imagen'];
 
 		if( file_exists($imagenLink) ){
 			$imagen = $datos[0]['imagen'];
 		}
 			
-		$correo['imagen'] = $imagen;
+		$correo['imagen'] = $imagen;*/
 
 		$correo['destinatario'] = array( $datos[0]['nombre'] => $datos[0]['email'] );
 
@@ -375,7 +375,8 @@ class Reset{
 
 		/*****/
 		$correo['asunto'] = "Nuevo Password";
-		$correo['link'] = $_SESSION['home']."/login.php?reset=1&user=$".$datos[0]['id'];
+		$correo['tipo_link'] = 'admin';
+		$correo['link'] = "/login.php?reset=1&user=$".$datos[0]['id'];
 		
 		$correo['mensaje'] = "¿Olvidaste tu contraseña, ".$datos[0]['nombre']."?
 		<p>Escala recibió una solicitud para restablecer la contraseña de tu cuenta.</p>
