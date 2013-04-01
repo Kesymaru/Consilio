@@ -93,7 +93,7 @@ switch ($_POST['func']){
 			$_SESSION['bloquedo'] = false;
 		}
 		break;
-
 }
+
 
 ?>

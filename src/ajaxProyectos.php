@@ -7,6 +7,7 @@ require_once("class/proyectos.php");
 require_once("class/registros.php");
 require_once('class/usuarios.php');
 require_once("class/comentarios.php");
+require_once("class/busqueda.php");
 
 if(isset($_POST['func'])){
 	switch ($_POST['func']) {
@@ -100,6 +101,14 @@ if(isset($_POST['func'])){
 				ProyectoLog( $_POST['id'] );
 			}
 			break;
+
+		/** BUSQUEDA ****/
+		case 'Buscar';
+			if( $_POST['busqueda'] ){
+				$buscar = new Busqueda();
+				$buscar->Buscar( $_POST['busqueda'] );
+		 	}
+		 	break;
 	}
 
 }else{
@@ -653,6 +662,15 @@ function ProyectoLog( $id ){
 	if ( !$proyectos->ProyectoLog( $id ) ){
 		echo "Error: al registrar log de proyecto $id del cliente ".$_SESSION['cliente_id'];
 	}
+}
+
+/************************ BUSQUEDA *************/
+
+/**
+* REALIZA BUSQUEDA GENERAL, PROYECTOS, LEYES, NORMAS, ARTICULOS
+*/
+function Buscar( $busqueda ){
+
 }
 
 ?>

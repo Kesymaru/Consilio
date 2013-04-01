@@ -35,44 +35,6 @@ class Master{
 			</div>';
 	}
 
-	/**
-	* BUSQUEDA PARA UN CLIENTE
-	* PERMITE LA BUSQUEDA DE PROYECTOS, NORMAS Y LEYES
-	*/
-	public function Buscar($busqueda){
-		$resultados = '<div class="titulo" >
-							Busqueda
-						</div>';
-
-
-		echo $resultados;
-	}
-
-	//busca en proyectos, presenta solo los del cliente logueado
-	private function BuscarProyectos($busqueda){
-		$contador = 0;
-		$resultado = '';
-		$resultadoTemp = '';
-
-		$query = "SELECT * FROM proyectos WHERE nombre LIKE '%".$busqueda."%' LIMIT 0, 30";
-		$base = new Database();
-		
-		$datos = $base->Select($query);
-
-		if(!empty($datos)){
-			foreach ($datos as $fila => $c) {
-				$resultadoTemp .= '<div class="resultado"><ul class="etiqueta"><li><a href="#">Proyecto';
-				$resultadoTemp .= '</a></li></ul>'.$datos[$fila]['nombre'].'</div>';
-				$contador++;
-			}
-			$resultado .= $this->Plural($contador, "Proyecto");
-			$resultado .= $resultadoTemp."</div>";
-			return $resultado;
-		}else{
-			return '';
-		}
-	}
-
 
 /******************************** MENUS ********************/
 
@@ -87,28 +49,6 @@ class Master{
 		//echo '<li class="user-imge"><img src="'.$_SESSION['datos'].$imagen.'" /></li>';
 		echo '<li onClick="LogOut();">Salir</li>';
 
-	}
-
-	/**
-	* HERRAMIENTA PARA LA BUSQUEDA PONE PLURALES Y LA CANTIDAD DE RESULTADOS
-	*/
-	private function Plural($contador, $titulo){
-		$plural = '';
-		if($contador > 0){
-			$plural .= '<div class="resultados">
-							<div class="titulo">'.$contador.' Resultado';
-			if($contador > 1){
-				$plural .='s'; //plural para resultado(s)
-			}
-
-			$plural .= ' para '.$titulo;
-			if($contador > 1){
-				$plural .='s'; //plural para Categoria(s)
-			}
-			$plural .= "</div>";
-
-			return $plural;
-		}
 	}
 
 	/**
