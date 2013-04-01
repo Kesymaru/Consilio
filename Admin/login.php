@@ -97,7 +97,9 @@ echo '<br/>Desde gloobal: '.$_SERVER['REMOTE_ADDR'];
 		<?php
 			if( !isset($_GET['reset'])){
 		?>
-			<span id="recuperacion" onClick="formRecuperacion()">¿Has olvidado tu contraseña?</span>
+			<!-- <span id="recuperacion" onClick="formRecuperacion()">
+				¿Has olvidado tu contraseña?
+			</span> -->
 		
 		<?php
 			}
