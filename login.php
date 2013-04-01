@@ -99,10 +99,7 @@ if( isset($_SESSION['logueado']) ){
 
 			<div id="formRecuperacion">
 
-				<div class="etiquetas">Usuario</div>
 				<input type="text" class="validate[optional,custom[onlyLetterSp]] borderAlto usuario" placeholder="Usuario" id="usuarioRecuperacion" name="usuarioRecuperacion" />
-
-				<div class="etiquetas">Email</div>
 
 				<input type="email" class="validate[optional,custom[email]] borderBajo" placeholder="Email" id="emailRecuperacion" name="emailRecuperacion" />
 
@@ -149,13 +146,10 @@ if( isset($_SESSION['logueado']) ){
 
 				<input type="text" class="validate[required] borderAlto" id="registroUsuario" placeholder="Usuario" name="registroUsuario"><br/>
 
-				<div class="etiquetas">Email</div>
 				<input type="email" class="validate[required,custom[email]]" id="registroEmail" placeholder="Email" name="registroEmail">
 
-				<div class="etiquetas">Password</div>
 				<input class="validate[required]" id="registroPassword1" placeholder="Password" name="registroPassword1" type="password" />
 
-				<div class="etiquetas">Confirmar Password</div>
 				<input class="validate[required,equals[registroPassword1]] borderBajo" placeholder="Confirmar password" name="registroPassword2" type="password" />
 				
 				<div class="controls">
