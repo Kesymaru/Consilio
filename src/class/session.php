@@ -275,7 +275,7 @@ class Bloquear{
 
 		$query = "SELECT ip, id, ignorar, MAX(fecha) AS fecha FROM ip_bloqueadas WHERE ip = '".$ip."'";
 
-		$config = $base->Select( "SELECT * FROM config WHERE");
+		$config = $base->Select( "SELECT * FROM config");
 
 		$datos = $base->Select( $query );
 
