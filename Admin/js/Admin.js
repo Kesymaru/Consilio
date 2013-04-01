@@ -670,15 +670,21 @@ function Config(){
 * CONFIRMA LOS CAMBIOS ANTES DE GUARDARLOS
 */
 function ConfirmaConfig(){
-	var si = function (){
-		$("#FormularioConfig").submit();
-	}
 
-	var no = function (){
-		notificaAtencion("Operacion cancelada");
-	}
+	if( $("#FormularioConfig").validationEngine('validate') ){
+		var si = function (){
+			$("#FormularioConfig").submit();
+		}
 
-	Confirmacion("Los cambios aplican a todo el sitio.<br/>Esta seguro de guardarlos", si, no);
+		var no = function (){
+			notificaAtencion("Operacion cancelada");
+		}
+
+		Confirmacion("Los cambios aplican a todo el sitio.<br/>Esta seguro de guardarlos", si, no);
+	}else{
+		notifica('Campos invalidos');
+	}
+	
 }
 
 /**
@@ -694,6 +700,8 @@ function FormularioConfig(){
 		},
 	    success: function(response) { 
 	    	
+	    	console.log( response );
+
 	    	if(response.length <= 3){
 	    		notifica("Configuracion guardada");
 			}else{ 

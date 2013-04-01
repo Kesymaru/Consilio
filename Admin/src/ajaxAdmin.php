@@ -96,6 +96,10 @@ if(isset($_POST['func'])){
 		case 'Config':
 			Config();
 			break;
+
+		case 'ActualizarConfig':
+			ActualizarConfig();
+			break;
 	}
 }
 
@@ -760,14 +764,15 @@ function EliminarIp( $ip ){
 * PANEL DE CONFIGURACION DEL SISTEMA
 */
 function Config(){
-	$Configuracion = new Config();
-	$config = $Configuracion->getConfig();
+	$configuracion = new Config();
+	$config = $configuracion->getConfig();
 
 	$panel = '<div class="titulo">
-				Configuracion
+				Configuración
 			  </div>
 			  <form id="FormularioConfig" enctype="multipart/form-data" method="post" action="src/ajaxAdmin.php">
 			  	<input type="hidden" name="func" value="ActualizarConfig">
+
 				  <div class="datos-full">
 				  	<div class="columna-full">
 				  		<div class="subtitulo">
@@ -779,7 +784,7 @@ function Config(){
 				  					Email
 				  				</td>
 				  				<td>
-				  					<input type="text" id="support" name="support" title="Email para soporte" placeholder="email de soporte" value="'.$config[0]['support'].'" >
+				  					<input type="text" id="support" name="support" title="Email para soporte" placeholder="email de soporte" value="'.$config[0]['support'].'" class="validate[required,custom[email]]" >
 				  				</td>
 				  			</tr>
 				  			<tr>
@@ -787,7 +792,7 @@ function Config(){
 				  					Telefono
 				  				</td>
 				  				<td>
-				  					<input type="text" id="telefono" title="Telefono" name="telefono" placeholder="Telefono soporte" value="'.$config[0]['telefono'].'" >
+				  					<input type="text" id="telefono" title="Telefono" name="telefono" placeholder="Telefono soporte" value="'.$config[0]['telefono'].'" class="validate[required,custom[phone]]" >
 				  				</td>
 				  			</tr>
 				  			<tr>
@@ -795,7 +800,7 @@ function Config(){
 				  					Fax
 				  				</td>
 				  				<td>
-				  					<input type="text" id="fax" title="Fax" name="fax" placeholder="Fax soporte" value="'.$config[0]['fax'].'" >
+				  					<input type="text" id="fax" title="Fax" name="fax" placeholder="Fax soporte" value="'.$config[0]['fax'].'" class="validate[funcCall[phoneOptional]]" >
 				  				</td>
 				  			</tr>
 				  			<tr>
@@ -803,7 +808,7 @@ function Config(){
 				  					Skype
 				  				</td>
 				  				<td> 
-				  					<input type="number" id="skype" title="Skype" placeholder="Skype soporte" name="skype" value="'.$config[0]['skype'].'" >
+				  					<input type="text" id="skype" title="Skype" placeholder="Skype soporte" name="skype" value="'.$config[0]['skype'].'" >
 				  				</td>
 				  			</tr>
 				  			<tr>
@@ -811,7 +816,7 @@ function Config(){
 				  					Link al salir
 				  				</td>
 				  				<td>
-				  					<input type="text" id="link" title="Link para redirrecionar al salir" placeholder="Link al salir" name="link" value="'.$config[0]['link_salida'].'" >
+				  					<input type="text" id="link" title="Link para redirrecionar al salir" placeholder="Link al salir" name="link" value="'.$config[0]['link_salida'].'" class="validate[required]" >
 				  				</td>
 				  			</tr>
 				  		</table>
@@ -824,7 +829,7 @@ function Config(){
 				  					Tiempo bloqueo
 				  				</td>
 				  				<td>
-				  					<input type="number" id="tiempo" title="Tiempo en el que se bloquea una ip" placeholder="Timepo bloqueo" name="tiempo" value="'.$config[0]['tiempo_bloqueo'].'" >
+				  					<input type="number" id="tiempo" title="Tiempo en el que se bloquea una ip" placeholder="Timepo bloqueo" name="tiempo" value="'.$config[0]['tiempo_bloqueo'].'" class="validate[required,custom[integer]]" >
 				  				</td>
 				  			</tr>
 				  		</table>
@@ -847,7 +852,7 @@ function Config(){
 				  	<button type="button" title="Cancelar Edición" onClick="CancelarContent()">Cancelar</button>
 				  	<button type="button" title="Usar valores por defecto" onClick="DefaultConfig()">Default</button>
 					<input type="reset" title="Limpiar Edición" value="Limpiar" />
-					<button type="button" title="Guardar Edición">Guardar</button>
+					<button type="button" title="Guardar Edición" onClick="ConfirmaConfig()">Guardar</button>
 				  </div>
 			  </form>';
 
@@ -861,6 +866,14 @@ function ActualizarConfig(){
 	$error = false;
 	
 	//requeridos
+	$support = 'support@matriz.com';
+	if( isset($_POST['support']) ){
+		$support = $_POST['support'];
+	}else{
+		echo "Error: ajaxAdmin.php ActualizarConfig se requiere de un email de soporte.<br/>";
+		$error = true;
+	}
+
 	$telefono = '1234-5678';
 	if( isset($_POST['telefono']) ){
 		$telefono = $_POST['telefono'];
@@ -895,6 +908,12 @@ function ActualizarConfig(){
 	$link = 'login.php';
 	if( isset($_POST['link'])){
 		$link = $_POST['link'];
+	}
+
+	$configuracion = new Config();
+	
+	if( !$configuracion->updateConfig( $support, $telefono, $fax, $skype, $link, $tiempo ) ){
+		echo 'Error: ajaxAdmin.php ActualizarConfig.<br/>Al actualizar la configuracion.';
 	}
 
 }

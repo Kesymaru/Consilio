@@ -3,6 +3,8 @@
 require_once("classDatabase.php");
 require_once("mail.php");
 
+error_reporting(0);
+
 class Session{
 	
 	/**
@@ -704,6 +706,34 @@ class Config{
 
 		if( !empty($datos) ){
 			return $datos;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	* ACTUALIZA LA CONFIGURACION
+	* @param string $support -> email de soporte
+	* @param string $telefono -> telefono de soporte 
+	* @param string $fax -> fax no obligatorio
+	* @param string $skype -> id skype no obligatorio
+	* @param string $link -> url para redireccion al logpout 
+	* @param int $tiempo -> tiempo de bloqueo en minutos
+	*/
+	public function updateConfig($support, $telefono, $fax, $skype, $link, $tiempo){
+		$base = new Database();
+
+		$support = mysql_real_escape_string( $support );
+		$telefono = mysql_real_escape_string( $telefono );
+		$fax = mysql_real_escape_string( $fax );
+		$skype = mysql_real_escape_string( $skype );
+		$link = mysql_real_escape_string( $link );
+		$tiempo = mysql_real_escape_string( $tiempo );
+
+		$query = "UPDATE config SET support = '".$support."', tiempo_bloqueo = '".$tiempo."', telefono = '".$telefono."', skype = '".$skype."', fax = '".$fax."', link_salida = '".$link."'";
+		
+		if( $base->Update($query) ){
+			return true;
 		}else{
 			return false;
 		}
