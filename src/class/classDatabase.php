@@ -7,10 +7,10 @@ class Database{
 	private $dbPassword = "root";
 	private $dbDatabase = "matriz";
 	
-	private $dbHost 	= "localhost";
+	/*private $dbHost 	= "localhost";
 	private $dbUser 	= "matrizroot";
 	private $dbPassword = "Matriz159!!";
-	private $dbDatabase = "matriz";
+	private $dbDatabase = "matriz";*/
 	
 	private $dbLink      = "";
 	private $dbRecordSet = 0;

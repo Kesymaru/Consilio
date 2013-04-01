@@ -94,11 +94,13 @@ function resetar(){
 			$.ajax({
 				data:  queryParams,
 				async: false,
-				url:   'src/ajax.php',
+				url:   'src/ajaxUsuarios.php',
 				type:  'post',
 				success:  function (response) { 
+					console.log( response );
+
 					if(response.length > 0){
-						notifica(response);
+						alert(response);
 						console.log(response);
 						reseteado = true;
 						return;
@@ -113,11 +115,12 @@ function resetar(){
 		$.ajax({
 			data:  queryParams,
 			async: false,
-			url:   'src/ajax.php',
+			url:   'src/ajaxUsuarios.php',
 			type:  'post',
 			success:  function (response) { 
+				
 				if(response.length > 0){
-					notifica(response);
+					$("html").append(response);
 					console.log(response);
 					reseteado = true;
 					return;
@@ -128,11 +131,11 @@ function resetar(){
 
 	//muestra errores
 	if(usuario != '' && email != '' && !reseteado ){
-		notificaIntento('Error usuario y email no registrados.');
+		notificaError('Error usuario y email no registrados.');
 	}else if(usuario != '' && !reseteado ){
-		notificaIntento('Error usuario no registrado.');
+		notificaError('Error usuario no registrado.');
 	}else if(email != '' && !reseteado ){
-		notificaIntento('Error email no registrado.');
+		notificaError('Error email no registrado.');
 	}
 
 }
