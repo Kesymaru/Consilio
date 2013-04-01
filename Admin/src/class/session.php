@@ -3,7 +3,7 @@
 require_once("classDatabase.php");
 require_once("mail.php");
 
-error_reporting(0);
+//error_reporting(0);
 
 class Session{
 	
