@@ -730,7 +730,7 @@ class Config{
 		$link = mysql_real_escape_string( $link );
 		$tiempo = mysql_real_escape_string( $tiempo );
 
-		$query = "UPDATE config SET support = '".$support."', tiempo_bloqueo = '".$tiempo."', telefono = '".$telefono."', skype = '".$skype."', fax = '".$fax."', link_salida = '".$link."'";
+		echo $query = "UPDATE config SET support = '".$support."', tiempo_bloqueo = '".$tiempo."', telefono = '".$telefono."', skype = '".$skype."', fax = '".$fax."', link_salida = '".$link."'";
 		
 		if( $base->Update($query) ){
 			return true;

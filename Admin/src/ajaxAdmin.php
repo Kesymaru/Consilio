@@ -864,7 +864,7 @@ function Config(){
 */
 function ActualizarConfig(){
 	$error = false;
-	echo 'actualizando';
+	
 	//requeridos
 	$support = 'support@matriz.com';
 	if( isset($_POST['support']) ){
