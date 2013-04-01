@@ -829,8 +829,20 @@ function Config(){
 				  				<td title="Tiempo en minutos">
 				  					Tiempo bloqueo
 				  				</td>
-				  				<td>
+				  				<td colspan="2">
 				  					<input type="number" id="tiempo" title="Tiempo en el que se bloquea una ip" placeholder="Timepo bloqueo" name="tiempo" value="'.$config[0]['tiempo_bloqueo'].'" class="validate[required,custom[integer]]" >
+				  				</td>
+				  			</tr>
+				  			<tr>
+				  				<td title="Permitir el reset de password del usuario">
+				  					Reseteo de password
+				  				</td>
+				  				<td title="Para clientes">
+				  					<div class="titulo">Cleintes</div>
+				  				</td>
+				  				<td title="Para admins">
+				  					<div class="titulo">Cleintes</div>
+				  					<input type="radio" name="reset" value="0">
 				  				</td>
 				  			</tr>
 				  		</table>
