@@ -373,6 +373,7 @@ class Reset{
 
 		<p>Para restablecer tu contraseña, haz clic en el enlace siguiente (o copia y pega la URL en tu navegador):</p>";
 		
+		echo $SESSION['home'];
 		echo '</pre>'; print_r($correo); echo '</pre>';
 
 		$mail->correo( $correo ); //envia mail
