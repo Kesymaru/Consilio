@@ -73,8 +73,6 @@ if( isset($_SESSION['logueado']) ){
 			</div>
 			<div class="contenido" id="login">
 				
-				<div class="etiquetas">Usuario</div>
-
 				<input type="text" class="validate[required] borderAlto usuario" placeholder="Usuario" id="usuario" name="usuario"
 					<?php
 						if(isset($_GET['usuario'])){
@@ -82,7 +80,7 @@ if( isset($_SESSION['logueado']) ){
 						}
 					?>
 				autofocus="autofocus" />
-				<div class="etiquetas">Password</div>
+
 				<input type="password" class="validate[required] borderBajo" placeholder="Password" id="password" name="password" />
 				
 			</div>
