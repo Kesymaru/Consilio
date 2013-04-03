@@ -9,14 +9,18 @@ require_once('class/usuarios.php');
 require_once("class/comentarios.php");
 require_once("class/busqueda.php");
 
+error_reporting(1);
+
 if(isset($_POST['func'])){
+	
 	switch ($_POST['func']) {
 
 		//CARGA LAS CATEGORIAS ROOT DE UN PROYECTO
 		case 'CategoriasRoot':
-			if(isset($_POST['proyecto'])){
-				CategoriasRoot($_POST['proyecto']);
+			if( isset($_POST['proyecto']) ){
+				CategoriasRoot( $_POST['proyecto'] );
 			}
+			break;
 
 		//OBTIENE LOS HIJOS DE UN PADRE SELECCIONADO
 		case 'Hijos':
@@ -112,13 +116,14 @@ if(isset($_POST['func'])){
 	}
 
 }else{
-	echo "Error: Falta de parametros.";
+	echo "Error: ajaxProyectos.php FUNC no especificada.";
 }
 
 /**
 * CATEGORIAS ROOT DE UN PROYECTO
+* @param string $proyecto -> id del proyecto
 */
-function CategoriasRoot($proyecto){
+function CategoriasRoot( $proyecto ){
 	$registros = new Registros();
 
 	$datos = $registros->getRegistros($proyecto);
@@ -173,7 +178,8 @@ function CategoriasRoot($proyecto){
 
 		$lista .= '</ul>';
 	}else{
-
+		$lista .= '<li class="nodata">No hay datos</li>
+					</ul>';
 	}
 
 	echo $lista;
@@ -662,15 +668,6 @@ function ProyectoLog( $id ){
 	if ( !$proyectos->ProyectoLog( $id ) ){
 		echo "Error: al registrar log de proyecto $id del cliente ".$_SESSION['cliente_id'];
 	}
-}
-
-/************************ BUSQUEDA *************/
-
-/**
-* REALIZA BUSQUEDA GENERAL, PROYECTOS, LEYES, NORMAS, ARTICULOS
-*/
-function Buscar( $busqueda ){
-
 }
 
 ?>

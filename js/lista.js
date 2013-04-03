@@ -19,6 +19,7 @@ $.extend(Categorias.prototype, {
 	*  @param int proyecto -> id del proyecto
 	*/
 	SuperCategorias: function(proyecto){
+
 		this.margin = 0;
 		this.proyecto = proyecto;
 		this.subpanel = 'categorias';
@@ -36,7 +37,7 @@ $.extend(Categorias.prototype, {
 			},
 			success: function(response){
 				
-				if(response.length > 0){
+				if(response.length > 3){
 					$("#menu")
 						.html(response)
 						.mCustomScrollbar({
@@ -66,12 +67,15 @@ $.extend(Categorias.prototype, {
 					});
 
 				}else{
-					notificaError("Error: "+response);
+					notificaError("Error: lista.js SuperCategorias.<br/>"+response);
 				}
 
 			},
 			fail: function(response){
 				notificaError("Error: "+response);
+			},
+			error: function(response){
+				notificaError( 'Error lista.js SuperCategorias: '+response);
 			}
 		});
 	},

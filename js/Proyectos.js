@@ -13,6 +13,10 @@ function Proyecto(id){
 		$("#disclaim").fadeOut();
 	}
 
+	if( $("#busqueda").is(":visible") ){
+		closeResultados();
+	}
+
 	$listaCategorias.ResetPanel();
 
 	//esconde el menu 2
@@ -44,7 +48,7 @@ function Proyecto(id){
 	
 
 	/** GREGA LOG DE PROYECTO **/
-	var queryParams = { "func" : "ProyectoLog", "id" : id };
+	/*var queryParams = { "func" : "ProyectoLog", "id" : id };
 	$.ajax({
 		data: queryParams,
 		type: "post",
@@ -57,7 +61,7 @@ function Proyecto(id){
 		fail: function(response){
 			notificaError("Error: AJAX FAIL Proyectos.js Proyecto "+response);
 		}
-	});
+	});*/
 
 	//inicializa el panel del proyecto
 	$listaCategorias.SuperCategorias(id);

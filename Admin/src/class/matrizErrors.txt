@@ -1,307 +1,5 @@
 
 
-Datos no validos.
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 20 2013 - 11:23 am
- --------------------<>--------------------
-
-Datos no validos.
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 20 2013 - 11:23 am
- --------------------<>--------------------
-
-Datos no validos.
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 20 2013 - 11:23 am
- --------------------<>--------------------
-
-Has excedido el numero de intentos.
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 20 2013 - 11:26 am
- --------------------<>--------------------
-
-Has excedido el numero de intentos.
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 20 2013 - 11:29 am
- --------------------<>--------------------
-
-Has excedido el numero de intentos.
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 20 2013 - 11:29 am
- --------------------<>--------------------
-
-Has excedido el numero de intentos.
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 20 2013 - 11:30 am
- --------------------<>--------------------
-
-Has excedido el numero de intentos.
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 20 2013 - 11:31 am
- --------------------<>--------------------
-
-Has excedido el numero de intentos.
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 20 2013 - 11:31 am
- --------------------<>--------------------
-
-Error: AJAX error.
-func=ClienteDates&id=14
-src.ajaxClientes.php
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 20 2013 - 6:44 pm
- --------------------<>--------------------
-
-Error: AJAX error.
-func=ClienteDates&id=15
-src/ajaxClientes.php
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 21 2013 - 9:59 am
- --------------------<>--------------------
-
-Error: AJAX error.
-func=ClienteDates&id=15
-src/ajaxClientes.php
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Default Browser
-	Plataforma: unknown
-	Version: 0.0
-	CSS: 0.0
-	JAVASCRIPT: 
-	March 21 2013 - 2:26 pm
- --------------------<>--------------------
-
-Error: AJAX error.
-func=ClienteDates&id=13
-src/ajaxClientes.php
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 21 2013 - 2:27 pm
- --------------------<>--------------------
-
-Error: AJAX error.
-func=ClienteDates&id=7
-src/ajaxClientes.php
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 21 2013 - 2:27 pm
- --------------------<>--------------------
-
-Error: AJAX error.
-func=ClienteDates&id=12
-src/ajaxClientes.php
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 21 2013 - 2:27 pm
- --------------------<>--------------------
-
-Error: AJAX error.
-func=ClienteDates&id=10
-src/ajaxClientes.php
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 21 2013 - 2:27 pm
- --------------------<>--------------------
-
-Error: AJAX error.
-func=ClienteDates&id=13
-src/ajaxClientes.php
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 21 2013 - 2:27 pm
- --------------------<>--------------------
-
-Error: AJAX error.
-func=ClienteDates&id=15
-src/ajaxClientes.php
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 21 2013 - 2:27 pm
- --------------------<>--------------------
-
-Error: AJAX error.
-func=ClienteDates&id=13
-src/ajaxClientes.php
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 21 2013 - 2:27 pm
- --------------------<>--------------------
-
-Error: AJAX error.
-func=ClienteDates&id=9
-src/ajaxClientes.php
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 21 2013 - 2:27 pm
- --------------------<>--------------------
-
 Error:  
 
 
@@ -309,383 +7,170 @@ Error:
 	Sitio: Matriz
 	Usuario: Invitado
 	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 25 2013 - 2:59 pm
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	April 2 2013 - 9:57 am
  --------------------<>--------------------
 
-Error:  
+Error: lista.js SuperCategorias.
+ 
 
 
 
 	Sitio: Matriz
 	Usuario: Invitado
 	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 25 2013 - 2:59 pm
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	April 2 2013 - 10:04 am
  --------------------<>--------------------
 
-Error:  
+Error: lista.js SuperCategorias.
+ 
 
 
 
 	Sitio: Matriz
 	Usuario: Invitado
 	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 25 2013 - 2:59 pm
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	April 2 2013 - 10:05 am
  --------------------<>--------------------
 
-Error:  
+Error: lista.js SuperCategorias.
+ 
 
 
 
 	Sitio: Matriz
 	Usuario: Invitado
 	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 25 2013 - 2:59 pm
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	April 2 2013 - 10:05 am
  --------------------<>--------------------
 
-Error:  
+Error: lista.js SuperCategorias.
+ 
 
 
 
 	Sitio: Matriz
 	Usuario: Invitado
 	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 25 2013 - 2:59 pm
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	April 2 2013 - 10:06 am
  --------------------<>--------------------
 
-Error:  
+Error: lista.js SuperCategorias.
+ 
 
 
 
 	Sitio: Matriz
 	Usuario: Invitado
 	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 25 2013 - 3:03 pm
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	April 2 2013 - 10:07 am
  --------------------<>--------------------
 
-Error:  
+Error: lista.js SuperCategorias.
+ 
 
 
 
 	Sitio: Matriz
 	Usuario: Invitado
 	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 25 2013 - 3:03 pm
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	April 2 2013 - 10:08 am
  --------------------<>--------------------
 
-Error:  
+Error: lista.js SuperCategorias.
+ 
 
 
 
 	Sitio: Matriz
 	Usuario: Invitado
 	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 25 2013 - 3:03 pm
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	April 2 2013 - 10:10 am
  --------------------<>--------------------
 
-Error:  
+Error: lista.js SuperCategorias.
+ 
 
 
 
 	Sitio: Matriz
 	Usuario: Invitado
 	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 25 2013 - 3:03 pm
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	April 2 2013 - 10:12 am
  --------------------<>--------------------
 
-Error:  
+Error: lista.js SuperCategorias.
+ 
 
 
 
 	Sitio: Matriz
 	Usuario: Invitado
 	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 25 2013 - 3:06 pm
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	April 2 2013 - 10:13 am
  --------------------<>--------------------
 
-Error:  
+Error: lista.js SuperCategorias.
+ 
 
 
 
 	Sitio: Matriz
 	Usuario: Invitado
 	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 25 2013 - 3:07 pm
- --------------------<>--------------------
-
-Error:  
-
-
-
-	Sitio: Matriz
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 25 2013 - 3:07 pm
- --------------------<>--------------------
-
-Error: AJAX error.
-func=ClienteRegistros&id=6
-src/ajaxClientes.php
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Chrome
-	Plataforma: Win7
-	Version: 25.0
-	CSS: 25.0
-	JAVASCRIPT: 1
-	March 26 2013 - 3:14 pm
- --------------------<>--------------------
-
-Error: Admin.js FormularioConfig 
- 
-UPDATE config SET support = 'support@matriz.com', tiempo_bloqueo = '120', telefono = '1234-9874', skype = 'skype', fax = '123-2541', link_salida = 'login.php'
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
 	Navegador: Default Browser
 	Plataforma: unknown
 	Version: 0.0
 	CSS: 0.0
 	JAVASCRIPT: 
-	April 1 2013 - 10:27 am
- --------------------<>--------------------
-
-Error: Admin.js FormularioConfig 
- 
-UPDATE config SET support = 'support@matriz.com', tiempo_bloqueo = '120', telefono = '1234-9874 ext 2', skype = 'skype', fax = '123-2541', link_salida = 'login.php'
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Default Browser
-	Plataforma: unknown
-	Version: 0.0
-	CSS: 0.0
-	JAVASCRIPT: 
-	April 1 2013 - 10:43 am
- --------------------<>--------------------
-
-Error: Admin.js FormularioConfig 
- 
-UPDATE config SET support = 'support@matriz.com', tiempo_bloqueo = '120', telefono = '1234-9874 ext 2', skype = 'skype', fax = '123-2541', link_salida = 'login.php'
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Default Browser
-	Plataforma: unknown
-	Version: 0.0
-	CSS: 0.0
-	JAVASCRIPT: 
-	April 1 2013 - 10:43 am
- --------------------<>--------------------
-
-Error: Admin.js FormularioConfig 
- 
-actualizado
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Default Browser
-	Plataforma: unknown
-	Version: 0.0
-	CSS: 0.0
-	JAVASCRIPT: 
-	April 1 2013 - 10:46 am
- --------------------<>--------------------
-
-Error: Admin.js FormularioConfig 
- 
-actualizado
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Default Browser
-	Plataforma: unknown
-	Version: 0.0
-	CSS: 0.0
-	JAVASCRIPT: 
-	April 1 2013 - 10:46 am
- --------------------<>--------------------
-
-Error: Admin.js FormularioConfig 
- 
-actualizado
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Default Browser
-	Plataforma: unknown
-	Version: 0.0
-	CSS: 0.0
-	JAVASCRIPT: 
-	April 1 2013 - 10:47 am
- --------------------<>--------------------
-
-Error: Admin.js FormularioConfig 
- 
-actualizado
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Default Browser
-	Plataforma: unknown
-	Version: 0.0
-	CSS: 0.0
-	JAVASCRIPT: 
-	April 1 2013 - 10:48 am
- --------------------<>--------------------
-
-Error: Admin.js FormularioConfig 
- 
-actualizado
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Default Browser
-	Plataforma: unknown
-	Version: 0.0
-	CSS: 0.0
-	JAVASCRIPT: 
-	April 1 2013 - 10:49 am
- --------------------<>--------------------
-
-Error: Admin.js FormularioConfig 
- 
-UPDATE config SET support = 'support@matriz.com', tiempo_bloqueo = '120', telefono = '1234-9874 ext 2', skype = 'skype', fax = '123-2541', link_salida = 'login.php'actualizado
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Default Browser
-	Plataforma: unknown
-	Version: 0.0
-	CSS: 0.0
-	JAVASCRIPT: 
-	April 1 2013 - 10:49 am
- --------------------<>--------------------
-
-Error: Admin.js FormularioConfig 
- 
-UPDATE config SET support = 'support@matriz.com', tiempo_bloqueo = '120', telefono = '1234-9874 ext 2', skype = 'skype', fax = '123-2541', link_salida = 'login.php'actualizado
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Default Browser
-	Plataforma: unknown
-	Version: 0.0
-	CSS: 0.0
-	JAVASCRIPT: 
-	April 1 2013 - 10:50 am
- --------------------<>--------------------
-
-Error: Admin.js FormularioConfig 
- 
-UPDATE config SET support = 'test@matriz.com', tiempo_bloqueo = '120', telefono = '1234-9874 ext 2', skype = 'skype', fax = '123-2541', link_salida = 'login.php'actualizado
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Default Browser
-	Plataforma: unknown
-	Version: 0.0
-	CSS: 0.0
-	JAVASCRIPT: 
-	April 1 2013 - 10:50 am
- --------------------<>--------------------
-
-Error: Admin.js FormularioConfig 
- 
-UPDATE config SET support = 'support@matriz.com', tiempo_bloqueo = '200', telefono = '123-456 ext 5', skype = 'SkypeId', fax = '987-456', link_salida = 'login.php'actualizado
-
-
-	Sitio: Admin
-	Usuario: Invitado
-	IP: 127.0.0.1
-	Navegador: Default Browser
-	Plataforma: unknown
-	Version: 0.0
-	CSS: 0.0
-	JAVASCRIPT: 
-	April 1 2013 - 10:51 am
+	April 2 2013 - 10:18 am
  --------------------<>--------------------
