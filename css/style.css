@@ -1756,6 +1756,13 @@ button:hover{
 	margin-left: 20px;
 }
 
+.dato table{
+	border-color: #dedede;
+	border-width: 1px;
+	border-style: solid;
+	border-collapse: collapse;
+}
+
 .box .dato-titulo{
 	font-size: 15px;
 	display: block;
