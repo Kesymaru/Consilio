@@ -1767,6 +1767,7 @@ button:hover{
 	border-color: #dedede;
 	border-width: 1px;
 	border-style: solid;
+	padding: 5px;
 }
 
 .box .dato-titulo{
