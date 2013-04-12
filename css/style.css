@@ -1763,6 +1763,12 @@ button:hover{
 	border-collapse: collapse;
 }
 
+.dato table td{
+	border-color: #dedede;
+	border-width: 1px;
+	border-style: solid;
+}
+
 .box .dato-titulo{
 	font-size: 15px;
 	display: block;
