@@ -165,6 +165,7 @@ pip-log.txt
 #################
 ## ARCHIVOS LOCALES DE PRUEBA
 #################
+
 Admin/archivos/
 Admin/images/admin/
 Admin/images/categorias/
