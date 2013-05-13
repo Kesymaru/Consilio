@@ -1127,9 +1127,7 @@ function EditarNorma(){
 
 			//carga formulario
 			FormularioNorma();
-
-			$(".adjuntos").hide();
-
+			
 			$("#tipo").chosen();
 		},
 		fail: function(){

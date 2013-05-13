@@ -202,7 +202,7 @@ function Normas(){
 
 /**
 * PRESENTA EL FORMULARIO DE EDICION DE LA NORMA
-* @param $norma -> id de la norma
+* @param  int $norma -> id de la norma
 */
 function EditarNorma($norma){
 	$formulario = "";
@@ -211,6 +211,9 @@ function EditarNorma($norma){
 	$datos = $registros->getDatosNorma($norma); //obtien los datos de una norma
 
 	if(!empty($datos)){
+
+		//OBTIENE LOS ARCHIVOS DE LA NORMA
+		$archivos = $registros->getArchivosNorma($norma);
 
 		$formulario .= '<div class="titulo">
 							Edicion Norma
@@ -268,22 +271,42 @@ function EditarNorma($norma){
 									</td>
 								</tr>
 								</table>
+								<img id="adjuntar-icon" title="Adjuntar Archivos" src="images/folder-upload.png" onClick="Adjuntos()" />
 								<br/><br/>
 							</div>
+							<!-- fin datos -->
+							';
 
-							<!-- adjuntos -->
-							<div class="datos-footer">
-							    <img id="adjuntar-icon" title="Adjuntar Archivos" src="images/folder-upload.png" onClick="Adjuntos()" />
-							</div>
-							<div class="adjuntos">
-								<input type="hidden" name="totalArchivos" value="0" />
-								<span class="adjuntos-boton" onClick="AdjuntoExtra()">+</span>
+		$formulario .= '	<!-- archivos adjuntos -->
+							<div class="adjuntos">';
+		
+		if(!empty($archivos)){
+			
+			$formulario .= '<ul>';
+			foreach ($archivos as $fi => $archivo) {
+				
+				$formulario .=      '<li id="adjuntado'.$archivo['id'].'">
+										<a href="src/download.php?link='.$archivo['link'].'">
+											'.$archivo['nombre'].'
+											<img src="images/folder.png">
+										</a>
+										<img class="close" src="images/close.png" onClick="EliminarAdjunto('.$archivo['id'].')" />
+									</li>';
+			}
+			
+			$formulario .= '</ul>';
+		}
+									
+		$formulario .= '
+									<input type="hidden" name="totalArchivos" value="0" />
+									<span class="adjuntos-boton" onClick="AdjuntoExtra()">+</span>
 
-								<div id="archivo0" class="adjunto">
-									<input type="text" name="archivoNombre0" placeholder="Nombre" />
-									<input type="file" name="archivo0" />
+									<div id="archivo0" class="adjunto">
+										<input type="text" name="archivoNombre0" placeholder="Nombre" />
+										<input type="file" name="archivo0" />
+									</div>
 								</div>
-							</div>
+								<!-- FIN ADJUNTO -->
 							
 							<div class="datos-botones">
 								<button type="button" title="Cancelar Edición" onClick="CancelarContent()">Cancelar</button>
@@ -462,6 +485,8 @@ function ActualizarNorma($norma){
 		echo "Error: ajaxNormas.php ActualizarNorma() no se pudo actualizar el proyecto.";
 	}
 	
+	//registra archivos adjuntos si tiene
+	AdjuntarArchivos("norma", $norma);
 }
 
 /**

@@ -161,3 +161,12 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
+
+#################
+## ARCHIVOS LOCALES DE PRUEBA
+#################
+Admin/archivos/
+Admin/images/admin/
+Admin/images/categorias/
+Admin/images/proyectos/
+Admin/images/users/

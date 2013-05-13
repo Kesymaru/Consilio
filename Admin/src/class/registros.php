@@ -735,12 +735,27 @@ class Registros{
 
 	/**
 	* OBTIENE LOS ARCHIVOS DE UN ARTICULO
-	* @param $articulo -> id del articulo
-	* @return $datos -> array[][]
+	* @param int $articulo -> id del articulo
+	* @return array $datos -> array[][]
 	*/
 	public function getArchivosArticulo($articulo){
 		$base = new Database();
+		$articulo = mysql_real_escape_string($articulo);
 		$query = "SELECT * FROM archivos WHERE articulo = ".$articulo;
+
+		$datos = $base->Select($query);
+		return $datos;
+	}
+
+	/**
+	* OBTIENE LOS ARCHIVOS DE UN NORMA
+	* @param int $norma -> id del norma
+	* @return array $datos -> array[][]
+	*/
+	public function getArchivosNorma($norma){
+		$base = new Database();
+		$norma = mysql_real_escape_string($norma);
+		$query = "SELECT * FROM archivos WHERE norma = ".$norma;
 
 		$datos = $base->Select($query);
 		return $datos;
