@@ -17,8 +17,8 @@ class Download{
 		if($session->Logueado()){
 			//$link = '../'.$link;
 			
-			$this->Descargar( $link );
-			//$this->Descargar2( $link );
+			//$this->Descargar( $link );
+			$this->Descargar2( $link );
 		}
 	}
 
@@ -73,7 +73,8 @@ class Download{
 		echo 'nombre: '.basename($file);
 
 		//si el archivo existe
-		if( $this->ExisteArchivo($file) ){
+		//if( $this->ExisteArchivo($file) ){
+		if( file_exists( $file ) ){
 			echo 'esxiste';
 
 			header('Content-Description: File Transfer');
