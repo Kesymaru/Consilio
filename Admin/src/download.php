@@ -65,7 +65,7 @@ class Download{
 		$info = pathinfo($link);
 			
 		echo '<pre>'; print_r($info); echo '</pre>';
-		
+
 		if(!$file){
 		     // archivo no existe
 		     die('Archivo no encontrado.');
@@ -81,7 +81,7 @@ class Download{
 		     // DESCARGA EL ARCHIVO
 		     readfile($file);*/
 
-		    header("Cache-Control: public");
+		    /*header("Cache-Control: public");
 		    header("Content-Type: application/force-download");
     	 	header("Content-Transfer-Encoding: Binary");
      		header("Content-Length: ".filesize($file));
@@ -89,7 +89,7 @@ class Download{
      		header("Content-Description: Descarga archivo");
      		
      		// DESCARGA EL ARCHIVO
-     		readfile($file);
+     		readfile($file);*/
 		}
 	}
 }
