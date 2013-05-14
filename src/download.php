@@ -14,11 +14,10 @@ class Download{
 
 		//SEGURIDAD DE USUARIO LOGUEADO		
 		if($session->Logueado()){
-
 			$link = '../'.$link;
 			
 			//$this->Descargar( $link );
-			//$this->Descargar2( $link );
+			$this->Descargar2( $link );
 		}
 	}
 
@@ -65,7 +64,7 @@ class Download{
 		$file = $link;
 		$info = pathinfo($link);
 			
-		echo '<pre>'; print_r($info); echo '</pre>';
+		echo '<pre>info: '; print_r($info); echo '</pre>';
 
 		if(!$file){
 		     // archivo no existe
