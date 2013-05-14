@@ -74,15 +74,18 @@ class Download{
 
 		$info['basename'] = str_replace(',', '', $info['basename']);
 
-		echo '<img src="'.$file.'">';
-
 		//si el archivo existe
 		//if( $this->ExisteArchivo($file) ){
 		if( file_exists( $file ) ){
 			echo 'esxiste';
 
+			if( $info['extension'] == 'pdf' || $info['extension'] == 'PDF' ){
+				header('Content-Type: application/pdf');
+			}else{
+				header('Content-Type: application/octet-stream');
+			}
+
 			header('Content-Description: File Transfer');
-		    header('Content-Type: application/octet-stream');
 		    header('Content-Disposition: attachment; filename='.$info['basename'] );
 		    header('Content-Transfer-Encoding: binary');
 		    header('Expires: 0');
