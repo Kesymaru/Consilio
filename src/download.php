@@ -10,7 +10,7 @@ error_reporting(0);
 class Download{
 	
 	function __construct($link){
-		$session = new Session();
+		//$session = new Session();
 
 		//SEGURIDAD DE USUARIO LOGUEADO		
 		if($session->Logueado()){
@@ -59,7 +59,7 @@ class Download{
 	* @param $file -> link del archivo
 	*/
 	private function Descargar2($file){
-		http://development.77digital.com/matrizescala/Admin/archivos/012.jpg
+		
 		//difine el link y el archivo
 		$info = pathinfo($file);
 			
@@ -70,7 +70,7 @@ class Download{
 		//si el archivo existe
 		if( $this->ExisteArchivo($file) ){
 			echo 'esxiste';
-			
+
 			header('Content-Description: File Transfer');
 		    header('Content-Type: application/octet-stream');
 		    header('Content-Disposition: attachment; filename='.basename($file));
