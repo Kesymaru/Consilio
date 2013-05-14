@@ -72,6 +72,8 @@ class Download{
 		//echo 'tamano: '.filesize($file);
 		echo 'nombre: '.basename($file);
 
+		echo '<img src="'.$file.'">';
+
 		//si el archivo existe
 		//if( $this->ExisteArchivo($file) ){
 		if( file_exists( $file ) ){
@@ -93,7 +95,7 @@ class Download{
 		    exit;*/
 
 		}else{
-			echo 'no existe';
+			echo '  No existe';
 		}
 	}
 
