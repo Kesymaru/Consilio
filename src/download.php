@@ -10,7 +10,7 @@ error_reporting(0);
 class Download{
 	
 	function __construct($link){
-		echo $link.'<hr>';
+		//echo $link.'<hr>';
 		$session = new Session();
 
 		//SEGURIDAD DE USUARIO LOGUEADO		
@@ -64,15 +64,15 @@ class Download{
 		//difine el link y el archivo
 		$info = pathinfo($file);
 			
-		echo '<pre>info: '; print_r($info); echo '</pre>';
+		//echo '<pre>info: '; print_r($info); echo '</pre>';
 		//echo 'tamano: '.filesize($file);
-		echo 'nombre: '.basename($file);
+		//echo 'nombre: '.basename($file);
 
 		//si el archivo existe
 		if( $this->ExisteArchivo($file) ){
-			echo 'esxiste';
+			//echo 'esxiste';
 
-			/*header('Content-Description: File Transfer');
+			header('Content-Description: File Transfer');
 		    header('Content-Type: application/octet-stream');
 		    header('Content-Disposition: attachment; filename='.basename($file));
 		    header('Content-Transfer-Encoding: binary');
@@ -85,7 +85,7 @@ class Download{
 		    flush();
 
 		    readfile($file);
-		    exit;*/
+		    exit;
 
 		}else{
 			echo 'no existe';
