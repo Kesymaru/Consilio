@@ -29,7 +29,8 @@ class Download{
 	*/
 	private function Descargar($link){
 		
-		$nombre = str_replace("../", "", $link);
+		$link .= str_replace("http://development.77digital.com", "../", $link);
+		$link .= str_replace("https://development.77digital.com", "../", $link);
 
 		//descarga archivo
 		$fp = @fopen($link, 'rb');
@@ -61,6 +62,9 @@ class Download{
 	*/
 	private function Descargar2($file){
 
+		$link .= str_replace("http://development.77digital.com", "../", $link);
+		$link .= str_replace("https://development.77digital.com", "../", $link);
+		
 		//difine el link y el archivo
 		$info = pathinfo($file);
 			
