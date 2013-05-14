@@ -62,8 +62,8 @@ class Download{
 	*/
 	private function Descargar2($file){
 
-		$file = str_replace("http://development.77digital.com", "../", $file);
-		$file = str_replace("https://development.77digital.com", "../", $file);
+		$file = str_replace("http://development.77digital.com/", "../", $file);
+		$file = str_replace("https://development.77digital.com/", "../", $file);
 
 		//difine el link y el archivo
 		$info = pathinfo($file);
