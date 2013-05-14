@@ -17,8 +17,8 @@ class Download{
 		if($session->Logueado()){
 			//$link = '../'.$link;
 			
-			//$this->Descargar( $link );
-			$this->Descargar2( $link );
+			$this->Descargar( $link );
+			//$this->Descargar2( $link );
 		}
 	}
 
@@ -29,8 +29,8 @@ class Download{
 	*/
 	private function Descargar($link){
 		
-		$link .= str_replace("http://development.77digital.com", "../", $link);
-		$link .= str_replace("https://development.77digital.com", "../", $link);
+		$link = str_replace("http://development.77digital.com", "../", $link);
+		$link = str_replace("https://development.77digital.com", "../", $link);
 
 		//descarga archivo
 		$fp = @fopen($link, 'rb');
