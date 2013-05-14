@@ -56,7 +56,7 @@ class Download{
 
 	/**
 	* REALIZA DESCARGA DE UN ARCHIVO
-	* @param #link -> link del archivo
+	* @param $link -> link del archivo
 	*/
 	private function Descargar2($link){
 		
@@ -64,13 +64,13 @@ class Download{
 		$file = $link;
 		$name = str_replace("../", "", $link);
 		$name = str_replace(" " , "_", $name);
-		
+				
 		if(!$file){
 		     // archivo no existe
 		     die('Archivo no encontrado.');
 		}else{
 		     // CABECERAS
-		     
+		     /*
 		     header("Cache-Control: public");
 		     header("Content-Type: application/octet-strea");
 		     header("Content-Description: File Transfer");
@@ -78,7 +78,17 @@ class Download{
 		     header("Content-Transfer-Encoding: binary");
 		    
 		     // DESCARGA EL ARCHIVO
-		     readfile($file);
+		     readfile($file);*/
+
+		    header("Cache-Control: public");
+		    header("Content-Type: application/force-download");
+    	 	header("Content-Transfer-Encoding: Binary");
+     		header("Content-Length: ".filesize($file));
+     		header("Content-Disposition: attachment; filename=\"".basename($file)."\"");
+     		header("Content-Description: Descarga archivo");
+     		
+     		// DESCARGA EL ARCHIVO
+     		readfile($file);
 		}
 	}
 }
