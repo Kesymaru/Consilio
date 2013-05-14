@@ -77,7 +77,7 @@ class Download{
 		if( file_exists( $file ) ){
 			echo 'esxiste';
 
-			header('Content-Description: File Transfer');
+			/*header('Content-Description: File Transfer');
 		    header('Content-Type: application/octet-stream');
 		    header('Content-Disposition: attachment; filename='.basename($file));
 		    header('Content-Transfer-Encoding: binary');
@@ -90,7 +90,7 @@ class Download{
 		    flush();
 
 		    readfile($file);
-		    exit;
+		    exit;*/
 
 		}else{
 			echo 'no existe';
