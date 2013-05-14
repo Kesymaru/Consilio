@@ -65,6 +65,8 @@ class Download{
 		$info = pathinfo($link);
 			
 		echo '<pre>info: '; print_r($info); echo '</pre>';
+		echo 'tamano: '.filesize($file);
+		echo 'nombre: '.basename($file);
 
 		if(!$file){
 		     // archivo no existe
@@ -81,11 +83,12 @@ class Download{
 		     // DESCARGA EL ARCHIVO
 		     readfile($file);*/
 
+		    //DESCARGA EL ARCHIVO
 		    /*header("Cache-Control: public");
 		    header("Content-Type: application/force-download");
     	 	header("Content-Transfer-Encoding: Binary");
      		header("Content-Length: ".filesize($file));
-     		header("Content-Disposition: attachment; filename=\"".basename($file)."\"");
+     		header("Content-Disposition: attachment; filename=\"".$info['filename']."\"");
      		header("Content-Description: Descarga archivo");
      		
      		// DESCARGA EL ARCHIVO
