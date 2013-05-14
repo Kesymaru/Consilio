@@ -56,43 +56,36 @@ class Download{
 
 	/**
 	* REALIZA DESCARGA DE UN ARCHIVO
-	* @param $link -> link del archivo
+	* @param $file -> link del archivo
 	*/
-	private function Descargar2($link){
+	private function Descargar2($file){
 		
 		//difine el link y el archivo
-		$file = $link;
-		$info = pathinfo($link);
+		$info = pathinfo($file);
 			
 		echo '<pre>info: '; print_r($info); echo '</pre>';
 		//echo 'tamano: '.filesize($file);
 		echo 'nombre: '.basename($file);
 
-		if(!$file){
-		     // archivo no existe
-		     die('Archivo no encontrado.');
-		}else{
-		     // CABECERAS
-		     /*
-		     header("Cache-Control: public");
-		     header("Content-Type: application/octet-strea");
-		     header("Content-Description: File Transfer");
-		     header("Content-Disposition: attachment; filename=$name");
-		     header("Content-Transfer-Encoding: binary");
+		//si el archivo existe
+		if( file_exists($file) ){
+			header('Content-Description: File Transfer');
+		    header('Content-Type: application/octet-stream');
+		    header('Content-Disposition: attachment; filename='.basename($file));
+		    header('Content-Transfer-Encoding: binary');
+		    header('Expires: 0');
+		    header('Cache-Control: must-revalidate');
+		    header('Pragma: public');
+		    header('Content-Length: ' . filesize($file));
 		    
-		     // DESCARGA EL ARCHIVO
-		     readfile($file);*/
+		    ob_clean();
+		    flush();
 
-		    //DESCARGA EL ARCHIVO
-		    header("Cache-Control: public");
-		    header("Content-Type: application/force-download");
-    	 	header("Content-Transfer-Encoding: Binary");
-     		header("Content-Disposition: attachment; filename=\"".basename($file)."\"");
-     		header("Content-Description: Descarga archivo");
-     		
-     		// DESCARGA EL ARCHIVO
-     		readfile($file);
-     		
+		    readfile($file);
+		    exit;
+
+		}else{
+			echo 'no existe';
 		}
 	}
 }
