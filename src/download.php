@@ -5,6 +5,7 @@ require_once("class/session.php");
 /**
 * CLASE PARA REALIZAR DESCARGAS
 */
+error_reporting(0);
 
 class Download{
 	
