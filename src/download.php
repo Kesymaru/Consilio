@@ -10,7 +10,8 @@ error_reporting(0);
 class Download{
 	
 	function __construct($link){
-		//$session = new Session();
+		echo $link.'<hr>';
+		$session = new Session();
 
 		//SEGURIDAD DE USUARIO LOGUEADO		
 		if($session->Logueado()){
@@ -59,7 +60,7 @@ class Download{
 	* @param $file -> link del archivo
 	*/
 	private function Descargar2($file){
-		
+
 		//difine el link y el archivo
 		$info = pathinfo($file);
 			
