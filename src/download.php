@@ -15,7 +15,7 @@ class Download{
 
 		//SEGURIDAD DE USUARIO LOGUEADO		
 		if($session->Logueado()){
-			$link = '../'.$link;
+			//$link = '../'.$link;
 			
 			//$this->Descargar( $link );
 			$this->Descargar2( $link );
