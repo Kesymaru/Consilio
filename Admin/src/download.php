@@ -17,7 +17,7 @@ class Download{
 			$link = '../'.$link;
 			
 			//$this->Descargar( $link );
-			$this->Descargar2( $link );
+			//$this->Descargar2( $link );
 		}
 	}
 
@@ -47,7 +47,7 @@ class Download{
 			header("Content-Transfer-Encoding: binary");
 			header('Expires: 0');
 			header('Pragma: no-cache');
-		header("Content-Length: ".filesize($link));
+			header("Content-Length: ".filesize($link));
 		}
 
 		fpassthru($fp);
