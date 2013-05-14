@@ -72,6 +72,8 @@ class Download{
 		//echo 'tamano: '.filesize($file);
 		echo 'nombre: '.basename($file);
 
+		$info['basename'] = str_replace(',', '', $info['basename']);
+
 		echo '<img src="'.$file.'">';
 
 		//si el archivo existe
@@ -79,9 +81,9 @@ class Download{
 		if( file_exists( $file ) ){
 			echo 'esxiste';
 
-			/*header('Content-Description: File Transfer');
+			header('Content-Description: File Transfer');
 		    header('Content-Type: application/octet-stream');
-		    header('Content-Disposition: attachment; filename='.basename($file));
+		    header('Content-Disposition: attachment; filename='.$info['basename'] );
 		    header('Content-Transfer-Encoding: binary');
 		    header('Expires: 0');
 		    header('Cache-Control: must-revalidate');
@@ -92,7 +94,7 @@ class Download{
 		    flush();
 
 		    readfile($file);
-		    exit;*/
+		    exit;
 
 		}else{
 			echo '  No existe';
