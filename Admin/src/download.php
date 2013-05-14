@@ -90,6 +90,7 @@ class Download{
      		
      		// DESCARGA EL ARCHIVO
      		readfile($file);*/
+     		
 		}
 	}
 }
