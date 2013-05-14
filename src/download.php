@@ -59,7 +59,7 @@ class Download{
 	* @param $file -> link del archivo
 	*/
 	private function Descargar2($file){
-		
+		http://development.77digital.com/matrizescala/Admin/archivos/012.jpg
 		//difine el link y el archivo
 		$info = pathinfo($file);
 			
@@ -68,7 +68,7 @@ class Download{
 		echo 'nombre: '.basename($file);
 
 		//si el archivo existe
-		if( file_exists($file) ){
+		if( $this->ExisteArchivo($file) ){
 			header('Content-Description: File Transfer');
 		    header('Content-Type: application/octet-stream');
 		    header('Content-Disposition: attachment; filename='.basename($file));
@@ -86,6 +86,21 @@ class Download{
 
 		}else{
 			echo 'no existe';
+		}
+	}
+
+	/**
+	* DETERMINA SI UN ARCHIVO EXISTE
+	* @param string $file -> link del archivo
+	* @return boolean true -> is existe
+	*/
+	private function ExisteArchivo($file){
+		$file_headers = @get_headers($file);
+		
+		if($file_headers[0] == 'HTTP/1.1 404 Not Found') {
+		    return false;
+		}else {
+		    return true;
 		}
 	}
 }
