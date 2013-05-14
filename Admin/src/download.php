@@ -62,9 +62,10 @@ class Download{
 		
 		//difine el link y el archivo
 		$file = $link;
-		$name = str_replace("../", "", $link);
-		$name = str_replace(" " , "_", $name);
-				
+		$info = pathinfo($link);
+			
+		echo '<pre>'; print_r($info); echo '</pre>';
+		
 		if(!$file){
 		     // archivo no existe
 		     die('Archivo no encontrado.');
