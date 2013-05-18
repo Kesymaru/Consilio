@@ -23,7 +23,6 @@ $(window).resize(function(){
 	$(".panel-body div, .panel-body div ul").height(alto);
 
 	$animations.ResizeGrid();
-
 });
 
 $(document).ready(function(){
@@ -151,6 +150,14 @@ $(document).ready(function(){
 	    	},300000)
 	    }
 	});
+
+    //cambio
+    $("#titulos div").on('click', function(){
+        var selected = $(this);
+
+        selected.parent().find('div').removeClass('tab-selected');
+        selected.addClass('tab-selected');
+    });
 
 });
 
@@ -990,4 +997,129 @@ function ShowMenu2(){
 	 	$("#solapa").removeClass('rotacion');
 	 	$("#solapa").addClass('rotacionInversa');
 	 }
+}
+
+/******************** CARGA DE TABS ************/
+
+function TabProyectos(){
+
+    var queryParams = {"func" : "TabProyectos"};
+
+    $.ajax({
+        data: queryParams,
+        type: "post",
+        url: "src/ajax.php",
+        success: function(response){
+            console.log( response );
+            $("#vista").html(response);
+        }
+    });
+
+}
+
+function TabPermisos(){
+    var queryParams = { "func" : "TabPermisos"};
+
+    $.ajax({
+        data: queryParams,
+        type: "post",
+        url: "src/ajax.php",
+        success: function(response){
+            console.log( response );
+            $("#vista").html(response);
+
+            var alto = $("#content").height() - $("#titulos div").height();
+            $("#panel-permisos").height(alto);
+
+            CalendarioPermisos();
+        }
+    });
+
+}
+
+/**
+ * INICIALIZA EL CALENDARIO DE LOS PERMISOS
+ */
+function CalendarioPermisos(){
+    var simula = '<li title="Requisito de Operacion"> '+
+    '<span class="permisos-nombre">    '+
+    '    Permiso Sanitario de Funcionamiento   '+
+    '</span>     '+
+    '<span class="permisos-fecha">    '+
+    'Fecha de Vencimiento: 14 de mayo de 2013 '+
+    '</span>'+
+   ' <div class="tags">   '+
+       ' <span>Requisito de Operacion</span>   '+
+        '</div> '+
+    '</li>'+
+       ' <li title="Requisito de Operacion">   '+
+            '<span class="permisos-nombre">'+
+           ' Patente Comercial '+
+            '</span>   '+
+            '<span class="permisos-fecha">  '+
+            'Fecha de Vencimiento: 14 de mayo de 2013  '+
+            '</span>  '+
+            '<span class="permisos-responsable">  '+
+            'Responsable: Maria Julia Gonzalez '+
+            '</span>            '+
+            '<span class="permisos-observacion">'+
+            'Observacion: Debe iniciar a tramirse 15 dias antes del vencimiento    '+
+            '</span>'+
+           ' <div class="tags"> '+
+                '<span>Requisito de Operacion</span> '+
+            '</div> '+
+        '</li>'+
+        '</li>'+
+        '<li title="Caldera"> '+
+            '<span class="permisos-nombre">  '+
+            'Reporte Operacion Caldera '+
+            '</span>'+
+            '<span class="permisos-fecha">  '+
+            'Fecha de Vencimiento: 14 de mayo de 2013 '+
+            '</span>     '+
+            '<span class="permisos-fecha">'+
+            'Fecha de Emision: 14 de mayo de 2013 '+
+            '</span>'+
+            '<span class="permisos-responsable">  '+
+            'Responsable: Maria Julia Gonzalez'+
+            '</span>  '+
+            '<span class="permisos-observacion">  '+
+            'Observacion: Debe iniciar a tramirse 15 dias antes del vencimiento'+
+            '</span>     '+
+            '<div class="tags"> '+
+                '<span>Caldera</span> '+
+           ' </div> '+
+        '</li>';
+
+    var meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre'];
+
+    $("#calendar-permisos .mes").on('click',function(){
+        $("#permisos-mes").html( meses[ $(this).attr('id') ] );
+
+        if( $(this).attr('id') == 4 ){
+
+            $("#lista-permisos").fadeOut(500, function(){
+
+                $("#lista-permisos").html( simula ).fadeIn(500);
+
+            });
+        }else{
+            $("#lista-permisos").fadeOut(500, function(){
+                $("#lista-permisos").html('');
+            })
+        }
+
+    });
+}
+
+
+/************************** CALENDARIO **************/
+
+/**
+ * INICIALIZA UN CALENSARIO
+ * @param string id -> id para inicializar el calendario
+ * @param array eventos -> json con los eventos
+ */
+function Calendario( id, eventos ){
+
 }

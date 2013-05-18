@@ -352,6 +352,7 @@ function DatosArticulo($proyecto, $categoria, $norma, $id){
 	date_default_timezone_set('America/Costa_Rica');
 
 	$registros = new Registros();
+	$comentarios = new Comentarios();
 
 	//$datos = $registros->getArticulo($id);
 	
@@ -465,10 +466,27 @@ function DatosArticulo($proyecto, $categoria, $norma, $id){
 		$lista .= '
 					<div id="datos-footer">
 						Última Actualización '.date("m d Y - g:i a").'
-						<img class="icon derecha" onClick="Comentar()" src="images/coment.png" />
-					</div>
+						<img class="icon derecha" onClick="Comentar()" src="images/coment.png" />';
 
-					</div><!-- end datos-articulo -->';
+		//OBTIENE EL TOTAL DE COMENTARIOS DEL ARTICULO
+		$totalComentarios = $comentarios->getTotalComentarios($proyecto, $categoria, $id);
+
+		//TIENE COMENTARIOS SIN LEER
+		if( $comentarios->comentariosSinLeer($proyecto, $categoria, $id) ){
+
+			$lista .= '<span class="counts counts-active">'.$totalComentarios.'<span>';
+
+		//TIENE COMENTARIOS
+		}else if($totalComentarios > 0){
+			$lista .= '<span class="counts">'.$totalComentarios.'<span>';
+		}else{
+			$lista .= '<span class="counts counts-inactive"><span>';
+		}
+						
+		$lista .=  '</div>
+
+					</div>
+					<!-- end datos-articulo -->';
 
 	}else{
 		$lista = '<div id="datos-articulo">
@@ -668,6 +686,24 @@ function ProyectoLog( $id ){
 	if ( !$proyectos->ProyectoLog( $id ) ){
 		echo "Error: al registrar log de proyecto $id del cliente ".$_SESSION['cliente_id'];
 	}
+}
+
+/*********************** CONTADOR DE COMENTARIOS *****************/
+
+/**
+* CUENTA CUANTOS COMENTARIOS HAY 
+* @param int $proyecto -> id del proyecto
+* @param int $categoria -> id de la categoria
+* @param int $id -> id del articulo
+* @return boolean false -> si no tiene comentarios
+* @return int
+*/
+function ContadorComentarios($proyecto, $categoria, $id){
+
+	$comentarios = new Comentarios();
+
+	$totalComentarios = $comentarios->getTotalComentarios( $proyecto, $categoria, $id );
+
 }
 
 ?>

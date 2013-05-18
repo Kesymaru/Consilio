@@ -79,10 +79,16 @@ class Master{
 		$proyectos = new Proyectos();
 		$datos = $proyectos->getProyectos($_SESSION['cliente_id']);
 
-		$lista = '<div class="titulo">
-					Mis Proyectos
-				  </div>';
-		
+		/*$lista = '<div id="titulos" class="titulos">
+					<div class="tab tab-selected" onclick="TabProyectos()">
+					    Mis Proyectos
+					</div>
+					<div class="tab" onclick="TabPermisos()">
+					    Permisos
+					</div>
+				  </div>
+				  <div class="vista" id="vista">'; */
+
 
 		if(!empty($datos)){
 
@@ -153,7 +159,9 @@ class Master{
 					   	</div>";
 		}
 
-		echo $lista;
+        //$lista .= '</div>';
+
+		return $lista;
 	}
 
 	/**

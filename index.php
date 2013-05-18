@@ -37,6 +37,8 @@ $master = new Master();
 
 	<link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.css" />
 
+    <link rel="stylesheet" type="text/css" href='css/fullcalendar.css' rel='stylesheet' />
+
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800italic,800,600,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
 
 
@@ -78,6 +80,9 @@ $master = new Master();
 	
 	<!-- plugin para editor -->
 	<script src="editor/ckeditor.js"></script>
+
+    <!-- plugin para el calendario -->
+    <script src='js/fullcalendar.js'></script>
 
 </head>
 
@@ -235,9 +240,25 @@ $master = new Master();
 			
 			<?php
 			if(!isset($_GET['proyecto'])){
+
+            ?>
+            <div id="titulos" class="titulos">
+                <div class="tab tab-selected" onclick="TabProyectos()">
+                    Mis Proyectos
+                </div>
+                <div class="tab" onclick="TabPermisos()">
+                    Permisos
+                </div>
+            </div>
+            <div class="vista" id="vista">
+
+            <?php
 					//MUESTRA LOS PROYECTOS DEL CLIENTE
-					$master->Proyectos();
+					echo $master->Proyectos();
 			?>
+            <!-- fin vista -->
+            </div>
+
 			<?php 
 			}else if( $master->proyectoValido($_GET['proyecto']) ){
 			?>

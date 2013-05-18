@@ -90,6 +90,56 @@ class Comentarios{
 			return false;
 		}
 	}
+
+	/**
+	* OBTIENE EL TOTAL DE COMENTARIOS NUEVOS/SIN LEER
+	* @param int $proyecto -> id del proyecto
+	* @param int $categoria -> id de la categoria
+	* @param int $articulo -> id del articulo
+	* @return int -> el total de comentarios nuevos/sin leer
+	*/
+	public function getTotalComentarios( $proyecto, $categoria, $articulo ){
+		$base = new Database();
+
+		$proyecto = mysql_real_escape_string($proyecto);
+		$categoria = mysql_real_escape_string($categoria);
+		$articulo = mysql_real_escape_string($articulo);
+
+		$query = "SELECT COUNT(id) AS total FROM comentarios WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."' AND articulo = '".$articulo."' ";
+
+		if( $datos = $base->Select($query) ){
+			return $datos[0]['total'];
+		}else{
+			return false;
+		}
+
+	}
+
+	/**
+	* DETERMINA SI UN ARTICULO TIENE COMENTARIOS SIN LEER
+	* @param int $proyecto -> id del proyecto
+	* @param int $categoria -> id de la categoria
+	* @param int $articulo -> id del articulo
+	* @return booelan true -> tiene comentarios sin leer
+	*/
+	public function comentariosSinLeer( $proyecto, $categoria, $articulo ){
+		$base = new Database();
+
+		$proyecto = mysql_real_escape_string($proyecto);
+		$categoria = mysql_real_escape_string($categoria);
+		$articulo = mysql_real_escape_string($articulo);
+
+		$query = "SELECT COUNT(id) AS total FROM comentarios WHERE proyecto = '".$proyecto."' AND categoria = '".$categoria."'  AND  articulo = '".$articulo."' AND  leido = 0 ";
+
+		if( $datos = $base->Select($query) ){
+			if( !empty($datos ) ){
+				return true;
+			}
+			return true;
+		}else{
+			return false;
+		}
+	}
 }
 
 ?>

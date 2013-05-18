@@ -746,6 +746,7 @@ class Registros{
 			return false;
 		}
 	}
+
 }
 
 ?>

@@ -1052,6 +1052,33 @@ button:hover{
 	border-bottom: 1px solid #dedede;
 }
 
+.titulos{
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+    color: #747273;
+    padding: 0;
+    margin: 0;
+}
+
+.titulos .tab{
+    width: 50%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin: 0;
+    float: left;
+    border: none;
+    display: inline-block;
+    cursor: pointer;
+    border-bottom: 1px solid #dedede;
+}
+
+.titulos .tab-selected{
+    background-color: rgba(51, 51, 51, .5);
+    color: #fff;
+}
+
 /* content */
 #content{
 	margin: 0 auto 5% auto !important;
@@ -1176,6 +1203,80 @@ button:hover{
 	margin-bottom: 0;
 	margin-top: -5px;
 }
+
+/**
+* CONTADORES
+*/
+.counts{
+	height: auto;
+	margin-right: -20px;
+    margin-top: -20px;
+    background-color: #A1CA4A;
+    border-radius: 20px;
+    padding: 3px;
+    display: inline-block;
+    float: right;
+    color: #fff;
+    font-size: 15px;
+    font-weight: bold; 
+    
+    border-width: 2px;
+    border-color: #A1CA4A;
+    border-style: solid;
+}
+
+.counts-inactive{
+	background-color: #fff;
+	background-color: transparent !important;
+	border-color: transparent !important;
+	color: transparent !important;
+	text-shadow: none;
+	box-shadow: none;
+}
+
+.counts-active{
+
+	animation: counts-active-animation 7s infinite;
+		-moz-animation: counts-active-animation 7s infinite;
+		-webkit-animation: counts-active-animation 7s infinite;
+		-ms-animation: counts-active-animation 7s infinite;
+}
+
+//ANIMACION PARA EL CONTADOR ACTIVO
+@keyframes counts-active-animation{
+	0%{
+		background-color: #A1CA4A;
+	}
+	50%{
+		background-color: #F7991C;
+		border-color: #F7991C;
+	}
+	100%{
+		background-color: #A1CA4A;
+	}
+}
+
+@-webkit-keyframes counts-active-animation{
+
+}
+
+@-moz-keyframes counts-active-animation{
+	0%{
+		background-color: #A1CA4A;
+	}
+	50%{
+		background-color: #F7991C;
+	}
+	100%{
+		background-color: #A1CA4A;
+	}
+}
+
+@-ms-keyframes counts-active-animation{
+
+}
+
+
 
 /**
  * ROTACION
@@ -2758,6 +2859,12 @@ button:hover{
 /**
 * PROYECTOS
 */
+.vista{
+    display: block;
+    width: 100%;
+    margin-top: 30px;
+}
+
 .mis-proyectos{
 	border: none;
 	border-collapse: collapse;
@@ -2889,6 +2996,208 @@ button:hover{
 	color: #757373;
 	text-align: left;
 	width: 100%;
+}
+
+/**
+    PANELESs
+*/
+.panel-side{
+    width: 24.5%;
+    height: 100%;
+    min-width: 200px;
+    display: inline-block;
+    float: right;
+    border-left: 1px solid #dedede;
+}
+
+.permisos{
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+.permisos li{
+    background-color: #dedede;
+    border-bottom: 1px solid #757273;
+    padding: 5px;
+}
+
+.permisos li span{
+    display: block;
+    width: 100%;
+}
+
+.permisos-nombre{
+    font-weight: bold;
+}
+
+.permisos-fecha{
+
+}
+
+permisos-observacion{
+
+}
+
+.permisos .tags{
+    display: block;
+    width: 100%;
+    text-align: left;
+}
+
+.permisos .tags span{
+    display: inline-block;
+    width: auto;
+}
+
+/**
+    CALENDARIO
+*/
+.calendar{
+    display: inline-block;
+    width: 75%;
+    float: left;
+    text-align: center;
+}
+
+.calendar .mes{
+    width: 23%;
+    min-height: 100px;
+    display: inline-block;
+    border: 1px solid #dedede;
+    text-align: center;
+    margin-top: 15px;
+    margin-left: 0.5%;
+    margin-right: 0.5%;
+    padding-bottom: 15px;
+}
+
+.mes .titulo{
+    text-align: left !important;
+    font-weight: bold;
+    padding-left: 5px;
+    background-color: #dedede;
+
+        -o-transition: all 1s ease-in-out;
+        -ms-transition: all 1s ease-in-out;
+        -moz-transition: all 1s ease-in-out;
+        -webkit-transition: all 1s ease-in-out;
+    transition: all 1s ease-in-out;
+}
+
+.calendar .logo-cliente{
+    height: 70px;
+    display: block;
+    margin: 10px auto 0 auto ;
+}
+
+.mes-actived .titulo{
+    background-color: #5687d9;
+    color: #fff;
+}
+
+.week-headers{
+    margin-top: 5px;
+    width: 100%;
+}
+
+.mes .week-headers td{
+    margin-top: 3px;
+    font-size: 11px;
+    text-align: center !important;
+    font-weight: none !important;
+
+        -o-transition: all 1s ease-in-out;
+        -ms-transition: all 1s ease-in-out;
+        -moz-transition: all 1s ease-in-out;
+        -webkit-transition: all 1s ease-in-out;
+    transition: all 1s ease-in-out;
+}
+
+.mes-actived .week-headers td{
+    color: #fff;
+}
+
+.week-headers td span{
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    opacity: 1;
+
+        -o-transition: all 1s ease-in-out;
+        -ms-transition: all 1s ease-in-out;
+        -moz-transition: all 1s ease-in-out;
+        -webkit-transition: all 1s ease-in-out;
+    transition: all 1s ease-in-out;
+}
+
+@media screen and (max-width:960px){
+    .week-headers td{
+
+            -o-transition: all 1s ease-in-out;
+            -ms-transition: all 1s ease-in-out;
+            -moz-transition: all 1s ease-in-out;
+            -webkit-transition: all 1s ease-in-out;
+        transition: all 1s ease-in-out;
+    }
+    .week-headers td span{
+        opacity: 0;
+        width: 0px !important;
+
+            -o-transition: all 1s ease-in-out;
+            -ms-transition: all 1s ease-in-out;
+            -moz-transition: all 1s ease-in-out;
+            -webkit-transition: all 1s ease-in-out;
+        transition: all 1s ease-in-out;
+    }
+}
+
+.mes .banderin{
+    display: none;
+    float: right;
+    margin-top: -1px;
+    width: 25%;
+    margin-right: 5px;
+
+        -o-transition: all 1s ease-in-out;
+        -ms-transition: all 1s ease-in-out;
+        -moz-transition: all 1s ease-in-out;
+        -webkit-transition: all 1s ease-in-out;
+    transition: all 1s ease-in-out;
+}
+
+.mes-actived .banderin{
+    display: inline-block !important;
+}
+
+.mes .contador-permisos{
+    display: none;
+    margin-top: 10px;
+    width: 70%;
+    float: left;
+    font-size: 50px;
+    font-weight: bold;
+    color: #757273;
+
+    -o-transition: all 3s ease-in-out;
+    -ms-transition: all 3s ease-in-out;
+    -moz-transition: all 3s ease-in-out;
+    -webkit-transition: all 3s ease-in-out;
+    transition: all 3s ease-in-out;
+}
+
+.mes-actived .contador-permisos{
+    display: inline-block !important;
+}
+
+.mes-actived:hover .contador-permisos{
+    color: #5687D9;
+
+        -o-transition: all 1s ease-in-out;
+        -ms-transition: all 1s ease-in-out;
+        -moz-transition: all 1s ease-in-out;
+        -webkit-transition: all 1s ease-in-out;
+    transition: all 1s ease-in-out;
 }
 
 /**

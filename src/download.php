@@ -67,17 +67,13 @@ class Download{
 
 		//difine el link y el archivo
 		$info = pathinfo($file);
-			
-		echo '<pre>info: '; print_r($info); echo '</pre>';
-		//echo 'tamano: '.filesize($file);
-		echo 'nombre: '.basename($file);
 
+		//elimina caracteres
 		$info['basename'] = str_replace(',', '', $info['basename']);
 
 		//si el archivo existe
 		//if( $this->ExisteArchivo($file) ){
 		if( file_exists( $file ) ){
-			echo 'esxiste';
 
 			if( $info['extension'] == 'pdf' || $info['extension'] == 'PDF' ){
 				header('Content-Type: application/pdf');
@@ -118,6 +114,7 @@ class Download{
 		    return true;
 		}
 	}
+
 }
 
 /**
