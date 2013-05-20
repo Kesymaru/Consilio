@@ -1037,6 +1037,8 @@ function TabPermisos(){
 
 }
 
+/***************************************** CALENDARIO **********************************/
+
 /**
  * INICIALIZA EL CALENDARIO DE LOS PERMISOS
  */
@@ -1096,30 +1098,143 @@ function CalendarioPermisos(){
     $("#calendar-permisos .mes").on('click',function(){
         $("#permisos-mes").html( meses[ $(this).attr('id') ] );
 
-        if( $(this).attr('id') == 4 ){
-
-            $("#lista-permisos").fadeOut(500, function(){
-
-                $("#lista-permisos").html( simula ).fadeIn(500);
-
-            });
-        }else{
-            $("#lista-permisos").fadeOut(500, function(){
-                $("#lista-permisos").html('');
-            })
+        if ( !$(this).hasClass('mes-actived') ){
+            NuevoPermiso();
+            return false;
         }
 
+        var mes = $(this).attr('id');
+        var year = $("#year").text();
+
+        //CARGA LOS PERMISOS DE UN MES
+        Permisos(year, mes);
+
+    });
+
+    //FUNCIONES DE CAMBIAR DE YEAR
+    $("#previous-year-calendar").on('click', function(){
+        var year = $("#year").text();
+        year--;
+        $("#year").text( year );
+        CalendarioPermisosCargar(year);
+    });
+
+    $("#next-year-calendar").on('click', function(){
+        var year = $("#year").text();
+        year++;
+        $("#year").text( year );
+        CalendarioPermisosCargar(year);
+    });
+
+}
+
+/**
+ * CARGA EL CALENDARIO DE UN YEAR ESPECIFICO
+ * @param year
+ */
+function CalendarioPermisosCargar(year){
+    var queryParams = {"func":"CalendarYear", "year": year};
+    console.log( 'carga calendario '+year );
+
+    $.ajax({
+        data: queryParams,
+        type: "post",
+        url: "src/ajax.php",
+        dataType: 'JSON',
+        success: function( response ){
+            console.log( response[4] );
+            $calendario = response;
+
+            for( var i= 0; i <= response.length-1; i++ ){
+                console.log('cal '+i+' '+response[i]);
+                if( response[i] == 0 || response[i] == undefined ){
+                    $("#"+i).removeClass('mes-actived');
+                }else{
+                    $("#"+i).addClass('mes-actived');
+                    $("#"+i+" .contador-permisos").text( response[i] );
+                }
+            }
+        },
+    });
+
+}
+
+/**
+ * CARGA LOS PERMISOS DE UN MES
+ * @param year
+ * @param month
+ */
+function Permisos(year, month){
+    var queryParams = {"func" : "Permisos", "year" : year, "month": month };
+
+    $.ajax({
+        data: queryParams,
+        type: "POST",
+        url: "src/ajax.php",
+        success: function(response){
+
+            HidePanelEdicion();
+
+            $("#lista-permisos").fadeOut(500, function(){
+                $("#lista-permisos").html( response).fadeIn(500);
+            })
+            //$("#lista-permisos").html( response );
+        }
     });
 }
 
-
-/************************** CALENDARIO **************/
-
 /**
- * INICIALIZA UN CALENSARIO
- * @param string id -> id para inicializar el calendario
- * @param array eventos -> json con los eventos
+ * FORMULARIO PARA CREAR UN NUEVO PERMISO
  */
-function Calendario( id, eventos ){
+function NuevoPermiso(){
+    notifica('nuevo permiso');
 
+    var alto = $("#panel-permisos").height();
+    var margen = $("#lista-permisos").height();
+
+    /*$("#panel-edicion").css({
+        "margin-top" : '-'+margen+'px',
+        "height" : alto+'px'
+    }); */
+
+    $("#panel-edicion").animate({
+        "margin-top" : '-'+margen+'px',
+        height: alto
+    }, {
+        duration: 700,
+        queue: false,
+        complete: function(){
+            $("#panel-edicion").css({
+                "margin-top" : '-'+margen+'px',
+                "height" : alto+'px'
+            });
+            $("#panel-edicion").addClass('panel-edicion-activo');
+        }
+    });
+
+
+
+}
+
+function HidePanelEdicion(){
+
+    $("#panel-edicion").animate({
+        "margin-top" : '100%',
+        height: 0
+    }, {
+        duration: 700,
+        queue: false,
+        complete: function(){
+            $("#panel-edicion").css({
+                "margin-top" : '100%',
+                "height" : 0
+            });
+            $("#panel-edicion").removeClass('panel-edicion-activo');
+        }
+    });
+
+}
+
+function NuevoPermisoAccion(){
+    notifica("Por ahora estamos trabajando en esta caracteristica.");
 }

@@ -3002,12 +3002,48 @@ button:hover{
     PANELESs
 */
 .panel-side{
-    width: 24.5%;
+    width: 59.5%;
     height: 100%;
     min-width: 200px;
     display: inline-block;
     float: right;
     border-left: 1px solid #dedede;
+}
+
+.panel-edicion{
+    background: #999999;
+    position: absolute;
+    width: 59.5%;
+    height: 0;
+    margin-top: 100%;
+}
+
+.panel-edicion .titulo{
+    color: #fff;
+}
+
+.panel-edicion form{
+    display: none;
+}
+
+.panel-edicion-activo form{
+    display: block !important;o;
+}
+
+.panel-edicion form input,
+.panel-edicion form textarea{
+    width: 90%;
+    display: block;
+    padding: 5px;
+    margin: 0 auto;
+    margin-top: 5px;
+}
+
+.panel-edicion hr{
+    width: 95%;
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .permisos{
@@ -3016,15 +3052,44 @@ button:hover{
     padding: 0;
 }
 
+.panel-side #permisos-mes{
+    font-weight: bold;
+    text-align: left;
+    padding-left: 10px;
+    background-color: #dedede;
+    border-bottom: 2px solid #757273;
+    margin-top: -1px;
+
+        -o-transition: all 1s ease-in-out;
+        -ms-transition: all 1s ease-in-out;
+        -moz-transition: all 1s ease-in-out;
+        -webkit-transition: all 1s ease-in-out;
+    transition: all 1s ease-in-out;
+}
+
+.panel-side:hover  #permisos-mes{
+    color: #fff;
+    background-color: #5687D9;
+
+        -o-transition: all 1s ease-in-out;
+        -ms-transition: all 1s ease-in-out;
+        -moz-transition: all 1s ease-in-out;
+        -webkit-transition: all 1s ease-in-out;
+    transition: all 1s ease-in-out;
+}
+
 .permisos li{
     background-color: #dedede;
-    border-bottom: 1px solid #757273;
-    padding: 5px;
+    border-bottom: 2px solid #757273;
+    padding: 0 5px;
 }
 
 .permisos li span{
     display: block;
     width: 100%;
+    text-align: left;
+    border-bottom: 1px solid #fff;
+    padding: 5px 0;
 }
 
 .permisos-nombre{
@@ -3035,7 +3100,7 @@ button:hover{
 
 }
 
-permisos-observacion{
+.permisos-observacion{
 
 }
 
@@ -3043,11 +3108,13 @@ permisos-observacion{
     display: block;
     width: 100%;
     text-align: left;
+    border: none !important;
 }
 
 .permisos .tags span{
     display: inline-block;
     width: auto;
+    border: 0px;
 }
 
 /**
@@ -3055,13 +3122,25 @@ permisos-observacion{
 */
 .calendar{
     display: inline-block;
-    width: 75%;
+    width: 40%;
     float: left;
     text-align: center;
 }
 
+.calendar-titulo{
+    width: 100.5%;
+    border-bottom: 1px solid #dedede;
+    margin-top: 5px;
+    height: 25px;
+    font-weight: bold;
+    font-size: 18px;
+    vertical-align: middle;
+    padding-top: 6px;
+    color: rgb(116, 114, 115);
+}
+
 .calendar .mes{
-    width: 23%;
+    width: 30%;
     min-height: 100px;
     display: inline-block;
     border: 1px solid #dedede;
@@ -3096,22 +3175,8 @@ permisos-observacion{
     color: #fff;
 }
 
-.week-headers{
-    margin-top: 5px;
-    width: 100%;
-}
-
-.mes .week-headers td{
-    margin-top: 3px;
-    font-size: 11px;
-    text-align: center !important;
-    font-weight: none !important;
-
-        -o-transition: all 1s ease-in-out;
-        -ms-transition: all 1s ease-in-out;
-        -moz-transition: all 1s ease-in-out;
-        -webkit-transition: all 1s ease-in-out;
-    transition: all 1s ease-in-out;
+.mes-actived{
+    margin-top: -15px;
 }
 
 .mes-actived .week-headers td{
@@ -3168,22 +3233,57 @@ permisos-observacion{
 
 .mes-actived .banderin{
     display: inline-block !important;
+    cursor: pointer;
 }
 
 .mes .contador-permisos{
     display: none;
     margin-top: 10px;
-    width: 70%;
+    width: 65%;
     float: left;
     font-size: 50px;
     font-weight: bold;
     color: #757273;
+    cursor: pointer;
 
-    -o-transition: all 3s ease-in-out;
-    -ms-transition: all 3s ease-in-out;
-    -moz-transition: all 3s ease-in-out;
-    -webkit-transition: all 3s ease-in-out;
+        -o-transition: all 3s ease-in-out;
+        -ms-transition: all 3s ease-in-out;
+        -moz-transition: all 3s ease-in-out;
+        -webkit-transition: all 3s ease-in-out;
     transition: all 3s ease-in-out;
+}
+
+.mes .contador-add{
+    display: inline-block;
+    margin-top: 10px;
+    margin-right: auto;
+    margin-left: auto;
+    width: 100%;
+    float: left;
+    font-size: 50px;
+    font-weight: bold;
+    color: #dedede;
+    cursor: pointer;
+
+        -o-transition: all 3s ease-in-out;
+        -ms-transition: all 3s ease-in-out;
+        -moz-transition: all 3s ease-in-out;
+        -webkit-transition: all 3s ease-in-out;
+    transition: all 3s ease-in-out;
+}
+
+.mes .contador-add:hover{
+    color: #757273;
+
+        -o-transition: all 1s ease-in-out;
+        -ms-transition: all 1s ease-in-out;
+        -moz-transition: all 1s ease-in-out;
+        -webkit-transition: all 1s ease-in-out;
+    transition: all 1s ease-in-out;
+}
+
+.mes-actived .contador-add{
+    display: none;
 }
 
 .mes-actived .contador-permisos{
