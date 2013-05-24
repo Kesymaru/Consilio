@@ -80,6 +80,7 @@ echo $ip;*/
 	<script type="text/javascript" src="js/Proyectos.js"></script>
 	<script type="text/javascript" src="js/Comentarios.js"></script>
 	<script type="text/javascript" src="js/Admin.js"></script>
+    <script type="text/javascript" src="js/Permisos.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 
 	<!-- jquery plugins -->

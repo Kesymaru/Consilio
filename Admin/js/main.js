@@ -737,7 +737,7 @@ function EliminarAdjuntoExtra(id){
  * @param imagen -> id de la imagen donde se carga el preview
  */
 function PreviewImage(input, imagen) {
-
+    console.log( input );
 	if (input.files && input.files[0]) {
 		var reader = new FileReader();
 

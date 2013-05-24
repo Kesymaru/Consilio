@@ -37,8 +37,6 @@ $master = new Master();
 
 	<link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.css" />
 
-    <link rel="stylesheet" type="text/css" href='css/fullcalendar.css' rel='stylesheet' />
-
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800italic,800,600,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
 
 
@@ -72,6 +70,7 @@ $master = new Master();
 	<!-- matriz -->
 	<script type="text/javascript" src="js/Proyectos.js"></script>
 	<script type="text/javascript" src="js/lista.js"></script>
+    <script type="text/javascript" src="js/permisos.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 
 	<!-- jquery plugins -->
@@ -82,7 +81,7 @@ $master = new Master();
 	<script src="editor/ckeditor.js"></script>
 
     <!-- plugin para el calendario -->
-    <script src='js/fullcalendar.js'></script>
+    <script src='js/chosen.js'></script>
 
 </head>
 

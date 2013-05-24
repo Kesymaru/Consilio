@@ -14,139 +14,9 @@ class Permisos {
     }
 
     /**
-     * COMPE LA VISTA DE CALENDARIO
-     * @return string
-     */
-    public function Permisos(){
-        $mes = date('m');
-        $year = date('Y');
-
-        $cliente = new Cliente();
-        $datosCliente = $cliente->getDatosCliente( $_SESSION['cliente_id'] );
-        $logo = $_SESSION['datos'].$datosCliente[0]['imagen'];
-
-        $nombreMeses = array('Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
-
-        $cliente = $_SESSION['cliente_id'];
-
-        $calendario = '<div class="panel-side" id="panel-permisos" >
-                            <div class="titulo" id="permisos-mes" >
-                                Mayo
-                            </div>
-                            <ul class="permisos" id="lista-permisos" >
-                                <!--
-                                <li title="Requisito de Operacion">
-                                    <span class="permisos-nombre">
-                                        Permiso Sanitario de Funcionamiento
-                                    </span>
-                                    <span class="permisos-fecha">
-                                        Fecha de Vencimiento: 14 de mayo de 2013
-                                    </span>
-                                    <div class="tags">
-                                        <span>Requisito de Operacion</span>
-                                    </div>
-                                </li>
-                                <li title="Requisito de Operacion">
-                                    <span class="permisos-nombre">
-                                        Patente Comercial
-                                    </span>
-                                    <span class="permisos-fecha">
-                                        Fecha de Vencimiento: 14 de mayo de 2013
-                                    </span>
-                                    <span class="permisos-responsable">
-                                        Responsable: Maria Julia Gonzalez
-                                    </span>
-                                    <span class="permisos-observacion">
-                                        Observacion: Debe iniciar a tramirse 15 dias antes del vencimiento
-                                    </span>
-                                    <div class="tags">
-                                        <span>Requisito de Operacion</span>
-                                    </div>
-                                </li>
-                                <li title="Caldera">
-                                    <span class="permisos-nombre">
-                                        Reporte Operacion Caldera
-                                    </span>
-                                    <span class="permisos-fecha">
-                                        Fecha de Vencimiento: 14 de mayo de 2013
-                                    </span>
-                                    <span class="permisos-fecha">
-                                        Fecha de Emision: 14 de mayo de 2013
-                                    </span>
-                                    <span class="permisos-responsable">
-                                        Responsable: Maria Julia Gonzalez
-                                    </span>
-                                    <span class="permisos-observacion">
-                                        Observacion: Debe iniciar a tramirse 15 dias antes del vencimiento
-                                    </span>
-                                    <div class="tags">
-                                        <span>Caldera</span>
-                                    </div>
-                                </li>
-                                -->
-                            </ul>
-                            <div id="panel-edicion" class="panel-edicion">
-                                <form id="nuevo-permiso">
-                                    <div class="titulo">
-                                        Nuevo Permiso
-                                    </div>
-                                    <br/>
-                                    <input type="text" id="nombre" placeholder="Nombre" >
-                                    <input type="date" id="fecha_expiracion" placeholder="Fecha expiracion" />
-                                    <input type="date" id="fecha_emision" placeholder="Fecha emision" />
-                                    <input type="text" id="responsables" placeholder="Responsables" />
-                                    <textarea id="observacion" placeholder="Observacion" ></textarea>
-
-                                    <hr>
-                                    <button type="button" id="cancelar" class="button-cancelar" onclick="HidePanelEdicion()">Cancelar</button>
-                                    <button type="button" id="aceptar" class="boton" onclick="NuevoPermisoAccion()">Crear</button>
-                                </form>
-                            </div>
-                       </div>
-                       <div class="calendar" id="calendar-permisos">
-                            <img class="logo-cliente" src="'.$logo.'" title="'.$datosCliente[0]['nombre'].'" alt="'.$datosCliente[0]['nombre'].'" />
-                            <div class="calendar-titulo">
-                                <img id="previous-year-calendar" src="images/preview.png" class="icon izquierda" />
-                                    <span id="year">'.$year.'</span>
-                                <img id="next-year-calendar" src="images/next.png" class="icon derecha" />
-                            </div>';
-
-        //obtiene el calendario del a~o presente
-        $contador = $this->getCalendario($year);
-
-        foreach($contador as $f => $permiso ){
-
-            $activo = '';
-            if($permiso > 0){
-                $activo = 'mes-actived';
-            }
-
-            $calendario .= '<div id="'.$f.'" class="mes '.$activo.'">
-                                <div class="titulo">
-                                    '.$nombreMeses[$f].'
-                                </div>';
-
-            $calendario .= '    <div class="contador-permisos">
-                                    '.$permiso.'
-                                </div>
-                                <div class="contador-add">
-                                    +
-                                </div>
-                                <img src="images/banderin.png" class="banderin" />
-                            </div>';
-
-        }
-
-        $calendario .= '</div>';
-
-        return $calendario;
-    }
-
-    /**
      * OBTIENE EL NUMERO DE PERMISOS PARA CADA MES
-     * @param int $cliente -> id del cliente
-     * @param int $year -> numero del a~o
-     * @return array $contador
+     * @param int $year numero del a~o
+     * @return array $contador con el total de permisos para cada mes
      */
     public function getCalendario($year){
         $base = new Database();
@@ -164,6 +34,7 @@ class Permisos {
         for( $i = 01; $i <= 12; $i++ ){
             $fecha_minima = $year.'-'.$i.'-01';
             $fecha_maxima = $year.'-'.$i.'-31';
+
             $query = "SELECT COUNT(id) AS total FROM permisos WHERE cliente = '".$cliente."' AND fecha_expiracion >= '".$fecha_minima."' AND fecha_expiracion < '".$fecha_maxima."' ";
 
             if( $datos = $base->Select($query) ){
@@ -177,9 +48,10 @@ class Permisos {
     }
 
     /**
-     * OBTIENE LOS PERMISOS DE UN MES ESPECIFICO Y LOS COMPONE EN UNA LISTA
-     * @param $year
-     * @param $month
+     * OBTIENE LOS PERMISOS DE UN MES ESPECIFICO
+     * @param int $year
+     * @param int $month numero del mes
+     * @return bool/array
      */
     public function getPermisos($year, $month ){
         $base = new Database();
@@ -200,52 +72,12 @@ class Permisos {
 
         $query = "SELECT * FROM permisos WHERE cliente = '".$cliente."' AND fecha_expiracion >= '".$fecha_minima."' AND fecha_expiracion < '".$fecha_maxima."' ";
 
-        $datos = $base->Select($query);
-
-        $lista = '';
-
-        if( !empty( $datos ) ){
-            //echo '<pre>'; print_r($datos);echo '</pre>';
-
-            foreach( $datos as $f => $permiso){
-
-
-                $lista .= '<li>
-                               <span class="permisos-nombre">
-                                    '.$permiso['nombre'].'
-                               </span>
-                               <span class="permisos-fecha">
-                                    Fecha de Vencimiento: '.$permiso['fecha_expiracion'].'
-                               </span>
-                               <span>
-                                    Fecha de Emicion: '.$permiso['fecha_emision'].'
-                               </span>';
-
-                //responsable
-                /*if( $responsables = $this->getResponsables( $permiso['id'] ) ){
-                    $lista .= '<span class="permisos-responsable">Responsables';
-
-                    foreach( $responsables as $fila => $responsable ){
-                        $lista .= $responsable.' ';
-                    }
-                    $lista .= '</span>';
-                } */
-
-                $lista .= '<span class="permisos-responsable">
-                            Responsable: '.$permiso['responsables'].'
-                           </span>';
-
-                $lista .= '<span class="permisos-observacion">
-                               '.$permiso['observacion'].'
-                           </span>';
-
-                $lista .= '</li>';
+        if( $datos = $base->Select($query) ){
+            if( !empty( $datos ) ){
+                return $datos;
             }
-        }else{
-            $lista .= '<li class="add">+</li>';
         }
-
-        return $lista;
+        return false;
     }
 
     /**
@@ -304,6 +136,27 @@ class Permisos {
             return false;
         }
 
+    }
+
+    /************************************ AREAS DE APLIACION ********************/
+
+    /**
+     * OBTIENE LAS AREAS DE APLIACION
+     */
+    public function getAreasAplicacion(){
+        $base = new Database();
+
+        $query = "SELECT * FROM areas_aplicacion  ";
+
+        if( $datos = $base->Select( $query ) ){
+            if( !empty($datos) ){
+                return $datos;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
     }
 
 }

@@ -53,6 +53,29 @@ class Cliente{
 		}
 	}
 
+    /**
+     * OBTIENE LOS RESPONSABLES ASOCIADOS AL CLIENTE
+     * @return bool|array
+     */
+    public function getResponsables(){
+        $base = new Database();
+
+        $cliente = $_SESSION['cliente_id'];
+
+        $query = "SELECT * FROM clientes_responsables WHERE cliente = '".$cliente."' ";
+
+        if( $responsables = $base->Select($query) ){
+            if( !empty($responsables) ){
+                return $responsables;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+
+    }
+
 }
 
 ?>

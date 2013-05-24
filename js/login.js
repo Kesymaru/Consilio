@@ -156,7 +156,7 @@ function registro(){
 		var queryParams = { "func" : 'registro', "usuario" : usuario, "email" : email, "password" : password};
 		$.ajax({
 			data:  queryParams,
-			url:   'src/ajax.php',
+			url:   'src/ajaxPermisos.php',
 			type:  'post',
 			success:  function (response) { 
 

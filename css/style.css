@@ -43,11 +43,11 @@ html, body{
 	height: 100%;
 	font-family: 'Open Sans', sans-serif;
 	
-		-moz-user-select: none;  
+	/*	-moz-user-select: none;
 		-webkit-user-select: none;  
 		-ms-user-select: none;  
 		-o-user-select: none;  
-	user-select: none;
+	user-select: none;  */
 }
 
 /*
@@ -55,17 +55,18 @@ html, body{
 */
 html, body, div, ul, li, a, p{
 
-		-moz-user-select: none;  
+	/*	-moz-user-select: none;
 		-webkit-user-select: none;  
 		-ms-user-select: none;  
 		-o-user-select: none;  
-	user-select: none;
+	user-select: none;*/
 }
 
 select{
 	min-width: 200px;
 }
 
+.button,
 button{
 	padding: 2px;
 	
@@ -89,6 +90,7 @@ button{
 		background-image: linear-gradient(top, #A1CA4A, #D8A817);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#A1CA4A, endColorstr=#D8A817);
 }
 
+.button:hover,
 button:hover{
 	border:1px solid #F7991C;
 	background-color: #F7991C;
@@ -3011,39 +3013,242 @@ button:hover{
 }
 
 .panel-edicion{
-    background: #999999;
+    background: #F3EFE6;
     position: absolute;
     width: 59.5%;
     height: 0;
     margin-top: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+        -moz-user-select: auto !important;
+        -webkit-user-select: auto !important;
+        -ms-user-select: auto !important;
+        -o-user-select: auto !important;
+    user-select: auto !important;
 }
 
 .panel-edicion .titulo{
-    color: #fff;
+    color: #747273;
+    border-bottom: 1px solid #747273;
 }
 
 .panel-edicion form{
     display: none;
 }
 
+.panel-edicion .datos-botones{
+    border-top: 1px solid #747273;
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
 .panel-edicion-activo form{
     display: block !important;o;
 }
 
-.panel-edicion form input,
+.panel-edicion form table{
+    border-collapse: separate;
+    width: 91.5%;
+    padding: 0;
+    text-align: left;
+    margin: 0 auto;
+    border-spacing: 0px 10px;
+    font-size: 16px;
+}
+
+.panel-edicion form table td{
+    border-width: 1px 0 1px 0;
+    border-style: solid;
+    border-color: #aaa;
+}
+
+.panel-edicion form table tr td:first-child{
+    width: 1px;
+    white-space: nowrap;
+    padding-top: 5px;
+    padding-left: 8px;
+    padding-bottom: 5px;
+    border-width: 1px 0 1px 1px !important;
+    border-style: solid;
+    border-color: #aaa;
+    vertical-align: middle;
+}
+
+.panel-edicion form table tr td:last-child{
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    border-width: 1px 1px 1px 0 !important;
+    border-style: solid;
+    border-color: #aaa;
+    vertical-align: middle;
+}
+
+.panel-edicion form table tr{
+    margin-top: 5px;
+    background-color: #fff;
+}
+
+.panel-edicion form input[type="text"],
+.panel-edicion form input[type="number"],
+.panel-edicion form input[type="date"]{
+    width: 100%;
+    display: block;
+    margin: 0 auto;
+    margin-top: 5px;
+    background-color: transparent;
+    color: #747273;
+    border: 0 solid transparent;
+    font-size: 16px;
+}
+
+/***************** ARCHIVOS ************/
+.archivos{
+    width: 90%;
+    border: 1px solid #aaa;
+    padding: 5px;
+    margin: 10px auto 0 auto;
+    background-color: #fff;
+}
+
+.archivos label{
+    display: block;
+    width: 100%;
+    cursor: pointer;
+    padding-bottom: 10px;
+}
+
+.archivos input[type="file"]{
+    position: absolute;
+    left: -9999px;
+}
+
+.file{
+    border: 1px solid #fff;
+    display: inline-block;
+    margin: 0 1% 5px;
+    min-height: 70px;
+    vertical-align: top;
+    width: 31%;
+    text-align: center;
+}
+
+.file image,
+.file .image{
+    height: 50px;
+    max-width: 100%;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.file div{
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    display: block;
+    text-align: center;
+}
+
+.file div span{
+    display: inline-block;
+    width: auto;
+    margin: 5px auto 0 auto;
+    padding: 5px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 14px !important;
+    background-color: #f3efe6;
+    border: 1px solid #dedede;
+    color: #999;
+
+        -o-transition: all 6s ease-in-out;
+        -ms-transition: all 6s ease-in-out;
+        -moz-transition: all 6s ease-in-out;
+        -webkit-transition: all 6s ease-in-out;
+    transition: all 6s ease-in-out;
+}
+
+.file:hover div span{
+    background-color: #5687d9;
+    border: 1px solid #aaa;
+    color: #fff;
+
+        -o-transition: all 1s ease-in-out;
+        -ms-transition: all 1s ease-in-out;
+        -moz-transition: all 1s ease-in-out;
+        -webkit-transition: all 1s ease-in-out;
+    transition: all 1s ease-in-out;
+}
+
 .panel-edicion form textarea{
     width: 90%;
     display: block;
-    padding: 5px;
-    margin: 0 auto;
-    margin-top: 5px;
+    margin: 10px auto 0 auto;
+    padding: 5px 5px 5px 8px;
+    background-color:  transparent;
+    border: 1px solid #aaa;
+    background-color: #fff;
+    font-size: 16px;
 }
 
-.panel-edicion hr{
-    width: 95%;
+.panel-edicion form select{
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+    overflow: hidden;
+    background: transparent;
+    border: 0 solid transparent;
+    text-align: center;
+    -webkit-appearance: none;
+    -moz-appearance:none
+}
+
+.chosen-centrado .chzn-container{
+    width: 100% !important;
     margin: 0 auto;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    display: block;
+    padding: 0;
+    margin-top: 5px;
+    border-width: 0 1px 1px 1px;
+    font-size: 16px !important;
+}
+
+.chosen-centrado .chzn-drop{
+    width: 100% !important;
+    margin: 0 auto !important;
+    background-color: transparent !important;
+    border: none solid transparent !important;
+    background: transparent !important;
+    border-color: transparent !important;
+    border-right: 0 solid transparent !important;
+    border-style: solid;
+    box-shadow: 0 !important;
+    border-width: 0 !important;
+    box-shadow: 0 0 0 transparent!important;
+    font-size: 16px !important;
+}
+
+.chosen-centrado .chzn-drop .chzn-results{
+    width: 90% !important;
+    margin: 0 auto !important;
+    background: none repeat scroll 0 0 #FFFFFF;
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.15);
+    border-width: 0 1px 1px 1px;
+    border-style: solid;
+    border-color: #aaa;
+    font-size: 16px !important;
+}
+
+.chosen-centrado .search-field{
+    font-size: 16px !important;
+}
+
+.panel-edicion form .chzn-container .chzn-choices{
+    width: 90% !important;
+    margin: 0 auto;
+    padding: 5px;
 }
 
 .permisos{
@@ -3181,6 +3386,12 @@ button:hover{
 
 .mes-actived .week-headers td{
     color: #fff;
+
+    -o-transition: all 1s ease-in-out;
+    -ms-transition: all 1s ease-in-out;
+    -moz-transition: all 1s ease-in-out;
+    -webkit-transition: all 1s ease-in-out;
+    transition: all 1s ease-in-out;
 }
 
 .week-headers td span{
@@ -3234,6 +3445,12 @@ button:hover{
 .mes-actived .banderin{
     display: inline-block !important;
     cursor: pointer;
+
+        -o-animation: fade 2s;
+        -ms-animation: fade 2s;
+        -moz-animation: fade 2s;
+        -webkit-animation: fade 2s;
+    animation: fade 2s;
 }
 
 .mes .contador-permisos{
@@ -3288,6 +3505,12 @@ button:hover{
 
 .mes-actived .contador-permisos{
     display: inline-block !important;
+
+        -o-animation: fade 2s;
+        -ms-animation: fade 2s;
+        -moz-animation: fade 2s;
+        -webkit-animation: fade 2s;
+    animation: fade 2s;
 }
 
 .mes-actived:hover .contador-permisos{
@@ -3298,6 +3521,25 @@ button:hover{
         -moz-transition: all 1s ease-in-out;
         -webkit-transition: all 1s ease-in-out;
     transition: all 1s ease-in-out;
+}
+
+
+/**
+* ANIMACION FADE
+*/
+@-webkit-keyframes fade{
+    0%{
+        opacity: 0;
+    }
+    25%{
+        opacity: .25;
+    }
+    50%{
+        opacity: .5;
+    }
+    100%{
+        opacity: 1;
+    }
 }
 
 /**
@@ -3546,6 +3788,7 @@ button:hover{
 	width: 86px;
 	height: 86px;
 	opacity: 0;
+
 		-moz-transform: rotate(225deg);
 		-moz-animation: orbit 7.15s infinite;
 		-webkit-transform: rotate(225deg);
