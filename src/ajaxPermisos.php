@@ -175,10 +175,11 @@ function ListaPermisos( $year, $month ){
  * COMPONE EL FORMULARIO PARA UN NUEVO PERMISO
  */
 function FomularioNuevoPermiso(){
-    $formulario .= '<form id="FormularioNuevoPermiso" class="chosen-centrado" >
+    $formulario .= '<form id="FormularioNuevoPermiso" class="chosen-centrado" enctype="multipart/form-data" method="post" action="src/ajaxPermisos.php" >
                         <div class="titulo">
                             Nuevo Permiso
                         </div>
+                        <input type="hidden" value="RegistrarPermiso" />
                         <br/>
                         <table>
                             <tr title="Nombre del Permiso" >
@@ -227,8 +228,11 @@ function FomularioNuevoPermiso(){
 
     $formulario .=      '<textarea id="observacion" placeholder="Observacion" ></textarea>
                          <div class="archivos" id="select-archivos" >
-                            <label for="archivos" title="Seleccione los archivos correspondientes al permiso">Archivos</label>
-                            <input type="file" id="archivos" multiple  />
+                            <div class="add" id="add-file">Archivos</div>
+                            <div id="archivos-inputs">
+                                <input type="file" id="archivo" name="archivos"  />
+                            </div>
+
                             <ul>
                                 <!-- preview archivos elejidos -->
                             </ul>

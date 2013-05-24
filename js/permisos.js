@@ -7,6 +7,7 @@ $.extend(Permisos.prototype, {
 
     meses: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre'],
 
+    archivo_id: 0,
 
     /**
      * INICIALIZA EL CALENDARIO DE LOS PERMISOS
@@ -170,8 +171,12 @@ $.extend(Permisos.prototype, {
 
         $('#FormularioNuevoPermiso').on('reset', this.ResetFormularioNuevoPermiso );
 
-        $('#archivos').change(function(e) {
-            clase.PreviewFormularioNuevoPermiso( e );
+        $("#add-file").on('click', function(){
+            clase.AddFile();
+        } );
+
+        $('#input0').change(function(e) {
+            clase.PreviewFormularioNuevoPermiso( e, 0 );
         });
 
         $("#FormularioNuevoPermiso").validationEngine();
@@ -200,46 +205,91 @@ $.extend(Permisos.prototype, {
         $("#select-archivos ul li").fadeOut(function(){
             $(this).remove();
         });
+
+        //resetea los archivos
+        $("#archivos-inputs").html('<input type="file" id="input0" name="archivos" />');
+        this.archivo_id = 0;
+
         $("#areas, #responsables").val("").trigger("liszt:updated");
     },
 
     /**
-     * PREVIEW DE LOS ARCHIVOS DEL FORMULARIO
+     * PREVIEW DE UN ARCHIVO AGREGADO
      * @param event e
+     * @param int id -> del input del archivo
      */
-    PreviewFormularioNuevoPermiso: function(e){
-        var files = $("#archivos")[0].files;
-        console.log( files );
-        var registros = [];
-        var contador = 0;
+    PreviewFormularioNuevoPermiso: function(e, id){
+        console.log('evento preview '+id);
+
+        var file = $("#input"+id)[0].files;
+        $file = file;
 
         var lista = '';
 
-        for (var i = 0; i < files.length; i++){
-            $file = files[i];
-            if( files[i].type == "image/png" || files[i].type == "image/jpg" || files[i].type == "image/gif" ){
-                lista += '<li class="file" title="'+files[i].type+'" >';
-                lista += '<img class="image" id="image-'+i+'" src="images/folder.png" />';
-                registros.push(i);
+        if( file[0] ){
+            var title = 'Documento';
+            var imagen = 'images/folder.png';
 
+            if( file[0].type == 'image/png' || file[0].type == 'image/jpeg' ){
+                title = 'Imagen';
+
+                //lee la imagen y la carga en el prview
                 var reader = new FileReader();
-
                 //carga el preview de las imagenes
                 reader.onloadend = function( e ){
-                    $("#image-"+registros[contador]).attr('src',e.target.result);
-                    contador++;
+                    console.log('termino carga');
+                    $("#file"+id+' .image').attr('src',e.target.result);
                 }
-                reader.readAsDataURL(files[i]);
-
-            }else{
-                lista += '<li class="file" title="file" >';
-                lista += '<img class="image" src="images/folder.png" />';
+                reader.readAsDataURL(file[0]);
             }
 
-            lista += '<div><span>'+files[i].name+'</span></div></li>';
+            if( file[0].type == 'application/zip' || file[0].type == 'application/rar' ){
+                title = 'Archivo';
+            }
+            if( file[0].type == "application/pdf" ){
+                title = "Documento PDF";
+            }
+            lista = '<li class="file" title="'+title+'" id="file'+id+'" >' +
+                        '<img class="image" src="'+imagen+'" />' +
+                        '<img class="close" src="images/close.png" title="Quitar '+title+'" onclick="$Permisos.RemoveFile('+id+')" />' +
+                        '<div>' +
+                            '<span>'+file[0].name+'</span>' +
+                        '</div>' +
+                    '</li>';
         }
 
-        $("#select-archivos ul").html( lista );
+        $("#select-archivos ul").append( lista).hide().fadeIn();
+    },
+
+    /**
+    * ACCION DE AGREGAR UN NUEVO ARCHIVO
+    */
+    AddFile: function(){
+        var clase = this;
+        console.log( 'add file '+this.archivo_id );
+
+        if( clase.archivo_id > 0 ){
+            var nuevo = '<input type="file" id="input'+this.archivo_id+'" name="archivos" />';
+            var id = this.archivo_id;
+            $("#archivos-inputs").append(nuevo);
+            $('#input'+this.archivo_id).change(function(e) {
+                clase.PreviewFormularioNuevoPermiso( e, id );
+            });
+        }
+
+        $("#input"+this.archivo_id).trigger('click');
+        this.archivo_id++;
+    },
+
+    /**
+    * REMUEVE DE LA LISTA DE ARCHIVOS UN ARCHIVO INCLUIDO
+    */
+    RemoveFile: function( id ){
+        $("#input"+id).remove();
+
+        $("#file"+id).fadeOut(function(){
+            $(this).remove();
+        });
     },
 
 });
