@@ -20,9 +20,9 @@ class Session{
 			$protocolo = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
         	$dominio = $_SERVER['HTTP_HOST'];
 
-			//$_SESSION['home'] = 'http://'.$_SERVER['HTTP_HOST'].'/Consilio';
-			$_SESSION['home'] = $protocolo.$dominio.'/matrizescala';
-            //$_SESSION['home'] = $protocolo.$dominio.'/escalasandbox';
+
+			//$_SESSION['home'] = $protocolo.$dominio.'/matrizescala';
+            $_SESSION['home'] = $protocolo.$dominio.'/escalasandbox';
 			$_SESSION['datos'] = $protocolo.$dominio.'/matrizescala/Admin/';
 			$_SESSION['origen'] = 'Admin/';
 		}
