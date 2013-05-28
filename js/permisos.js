@@ -18,7 +18,7 @@ $.extend(Permisos.prototype, {
         //var meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre'];
 
         $("#calendar-permisos .mes").on('click',function(){
-            $("#permisos-mes").html( clase.meses[ $(this).attr('id') ] );
+            $("#permisos-mes span").html( clase.meses[ $(this).attr('id') ] );
 
             if ( !$(this).hasClass('mes-actived') ){
                 clase.NuevoPermiso();
@@ -82,6 +82,14 @@ $.extend(Permisos.prototype, {
             },
         });
 
+    },
+
+    /**
+     * REFRESCA EL CALENDARIO
+     */
+    RefreshCalendar: function(){
+        var year = $("#year").text();
+        this.CalendarioYear(year);
     },
 
     /**
@@ -213,6 +221,9 @@ $.extend(Permisos.prototype, {
                 console.log( response );
                 clase.HideFormularioNuevoPermiso();
                 clase.ResetFormularioNuevoPermiso();
+
+                //actualiza calendario
+                clase.RefreshCalendar();
             },
             fail: function(){
             }

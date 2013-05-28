@@ -128,7 +128,8 @@ function Caledario(){
 
     $calendario = '<div class="panel-side" id="panel-permisos" >
                             <div class="titulo" id="permisos-mes" >
-                                Mayo
+                                <span>Enero</span>
+                                <button type="button" class="derecha icon boton" onclick="$Permisos.NuevoPermiso()" title="Crear Nuevo Permiso">+</button>
                             </div>
                             <ul class="permisos" id="lista-permisos" >
                                 <!-- lista permisos -->
