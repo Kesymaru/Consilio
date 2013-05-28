@@ -66,11 +66,12 @@ $.extend(Permisos.prototype, {
             url: "src/ajaxPermisos.php",
             dataType: 'JSON',
             success: function( response ){
-                console.log( response[4] );
+                console.log( response );
                 $calendario = response;
 
                 for( var i= 0; i <= response.length-1; i++ ){
                     console.log('cal '+i+' '+response[i]);
+                    
                     if( response[i] == 0 || response[i] == undefined ){
                         $("#"+i).removeClass('mes-actived');
                     }else{
@@ -198,7 +199,7 @@ $.extend(Permisos.prototype, {
         });
 
         $( "#fecha_expiracion, #fecha_emision" ).datepicker( {
-            dateFormat: 'dd/mm/yy'
+            dateFormat: 'yy/mm/dd'
         } );
 
         var options = {
@@ -217,7 +218,7 @@ $.extend(Permisos.prototype, {
             }
         };
 
-        $('#FormularioNuevoPermiso').ajaxForm(options);
+        //$('#FormularioNuevoPermiso').ajaxForm(options);
 
     },
 

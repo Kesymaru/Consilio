@@ -32,7 +32,7 @@ if( isset($_POST['func']) ){
 
                 echo json_encode($calendario);
             }
-            breakk;
+            break;
 
         case 'Permisos':
             if( isset($_POST['year']) && isset($_POST['month']) ){
@@ -42,9 +42,9 @@ if( isset($_POST['func']) ){
             break;
 
         case 'RegistrarPermiso':
-            /*echo '<pre>'; print_r( $_POST); echo '</pre>';
+            echo '<pre>'; print_r( $_POST); echo '</pre>';
             echo '<pre>'; print_r( $_FILES ); echo '</pre>';
-            echo '<pre>'; print_r( pathinfo($_FILES['archivo0']['name']) ); echo "</pre>"; */
+            echo '<pre>'; print_r( pathinfo($_FILES['archivo0']['name']) ); echo "</pre>"; 
 
             if( isset($_POST['nombre']) && isset($_POST['fecha_emision'])
                 && isset($_POST['fecha_expiracion'])
@@ -189,6 +189,7 @@ function Caledario(){
  */
 function ListaPermisos( $year, $month ){
     $permisos = new Permisos();
+    $cliente = new Cliente();
 
     $lista = '';
 
@@ -207,9 +208,20 @@ function ListaPermisos( $year, $month ){
                                     Fecha de Emicion: '.$permiso['fecha_emision'].'
                                </span>';
 
-            $lista .= '<span class="permisos-responsable">
-                            Responsable: '.$permiso['responsables'].'
-                           </span>';
+            //responsables                   
+            if( $responsables = $cliente->getResponsables() ){
+                
+                $lista .= '<span class="permisos-responsable">
+                            Responsable: ';
+
+                foreach ($responsables as $f => $responsable) {
+                    $lista .= $responsable['nombre'].' '.$responsable['apellidos'];
+                }
+
+                $lista .= '</span>';
+
+            }
+            
 
             $lista .= '<span class="permisos-observacion">
                                '.$permiso['observacion'].'
@@ -250,7 +262,7 @@ function FomularioNuevoPermiso(){
                                     Fecha Emision
                                 </td>
                                 <td colspan="2" >
-                                    <input type="text" id="fecha_emision" name="fecha_emision" placeholder="Fecha emision" class="validate[required],custom[date]" />
+                                    <input type="text" id="fecha_emision" name="fecha_emision" placeholder="Fecha emision" class="validate[required] datepicker" />
                                 </td>
                             </tr>
                             <tr title="Fecha de Expiracion del permiso" >
@@ -258,7 +270,7 @@ function FomularioNuevoPermiso(){
                                     Fecha Expiracion
                                 </td>
                                 <td colspan="2" >
-                                    <input type="text" id="fecha_expiracion" name="fecha_expiracion" placeholder="Fecha expiracion" class="validate[required],custom[date]" />
+                                    <input type="text" id="fecha_expiracion" name="fecha_expiracion" placeholder="Fecha expiracion" class="validate[required] datepicker" />
                                 </td>
                             </tr>
                             <tr title="Recordatorio para la Expiracion del permiso" >

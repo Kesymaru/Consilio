@@ -12,6 +12,9 @@ class Permisos {
     private $extensiones = array('gif', 'jpg', 'jpeg', 'png', 'zip', 'rar', 'pdf', 'txt', 'xls', 'xlsx', 'ods', 'docx', 'doc', 'odt', 'rtf', 'pptx', 'ppt', 'pptm');
 
     public function __construct(){
+        $session = new Session();
+        $session->Logueado();
+
         date_default_timezone_set('America/Costa_Rica');
     }
 
@@ -34,10 +37,16 @@ class Permisos {
         $cliente = mysql_real_escape_string( $_SESSION['cliente_id'] );
 
         for( $i = 01; $i <= 12; $i++ ){
-            $fecha_minima = $year.'-'.$i.'-01';
-            $fecha_maxima = $year.'-'.$i.'-31';
+            
+            if( $i <= 9 ){
+                $fecha_minima = $year.'-0'.$i.'-01';
+                $fecha_maxima = $year.'-0'.$i.'-31';
+            }else{
+                $fecha_minima = $year.'-'.$i.'-01';
+                $fecha_maxima = $year.'-'.$i.'-31';    
+            }
 
-            $query = "SELECT COUNT(id) AS total FROM permisos WHERE cliente = '".$cliente."' AND fecha_expiracion >= '".$fecha_minima."' AND fecha_expiracion < '".$fecha_maxima."' ";
+            $query = "SELECT COUNT(id) AS total FROM permisos WHERE cliente = '".$cliente."' AND fecha_expiracion >= '".$fecha_minima."' AND fecha_expiracion <= '".$fecha_maxima."' ";
 
             if( $datos = $base->Select($query) ){
                 if( !empty($datos) ){
@@ -125,15 +134,16 @@ class Permisos {
 
         $nombre = mysql_real_escape_string( $nombre );
         $fecha_emision = mysql_real_escape_string( $fecha_emision );
-        $fecha_expiracion = mysql_real_escape_string( $fecha_emision );
+        $fecha_expiracion = mysql_real_escape_string( $fecha_expiracion );
         $recordatorio = mysql_real_escape_string( $recordatorio );
         $tipo_recordatorio = mysql_real_escape_string( $tipo_recordatorio );
         $email = mysql_real_escape_string( $email );
         $observacion = mysql_real_escape_string( $observacion );
+        $cliente = $_SESSION['cliente_id'];
 
         $fecha_creacion = date('Y-m-d G:i:s');
 
-        $query = "INSERT INTO permisos (nombre, fecha_emision, fecha_expiracion, observacion, fecha_creacion ) VALUES ( '".$nombre."', '".$fecha_emision."', '".$fecha_expiracion."', '".$observacion."', '".$fecha_creacion."' ) ";
+        echo $query = "INSERT INTO permisos (nombre, fecha_emision, fecha_expiracion, observacion, fecha_creacion, cliente ) VALUES ( '".$nombre."', '".$fecha_emision."', '".$fecha_expiracion."', '".$observacion."', '".$fecha_creacion."', '".$cliente."' ) ";
 
         if( $base->Insert($query) ){
             if( $id = $base->getUltimoId() ){
