@@ -89,7 +89,7 @@ class Master{
 				  </div>
 				  <div class="vista" id="vista">'; */
 
-
+        $lista = '';
 		if(!empty($datos)){
 
 			$columna = '';

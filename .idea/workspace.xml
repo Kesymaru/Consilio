@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" name="Default" comment="" />
+    <list default="true" id="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/master.php" afterPath="$PROJECT_DIR$/src/master.php" />
+    </list>
     <ignored path="matrizescala.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369669322803" ignored="false" />
     <file path="/a.html" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1368722674388" ignored="false" />
     <file path="/ajaxProyectos.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1368724296857" ignored="false" />
-    <file path="/master.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369249597641" ignored="false" />
+    <file path="/master.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369701111607" ignored="false" />
     <file path="/style.css" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369681259050" ignored="false" />
     <file path="/main.js" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369420154867" ignored="false" />
     <file path="/permisos.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369699376544" ignored="false" />
@@ -25,7 +27,7 @@
     <file path="/classDatabase.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369697671792" ignored="false" />
     <file path="/jquery-ui-1.9.0.custom.css" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369683590730" ignored="false" />
     <file path="/upload.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369696349482" ignored="false" />
-    <file path="$PROJECT_DIR$/.idea/workspace.xml" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369700593568" ignored="false" />
+    <file path="$PROJECT_DIR$/.idea/workspace.xml" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369701119648" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,8 +103,19 @@
           <file leaf-file-name="permisos.js" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/js/permisos.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="213" column="52" selection-start="6229" selection-end="6229" vertical-scroll-proportion="-20.36">
+                <state line="233" column="30" selection-start="6635" selection-end="6635" vertical-scroll-proportion="-15.96">
                   <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="master.php" pinned="false" current="true" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/master.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="91" column="20" selection-start="2167" selection-end="2167" vertical-scroll-proportion="0.3844367">
+                  <folding>
+                    <marker date="1369701114613" expanded="true" signature="3802:3862" placeholder="..." />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -195,10 +208,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="permisos.php" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="permisos.php" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/class/permisos.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="111" column="14" selection-start="3269" selection-end="3269" vertical-scroll-proportion="0.13124274">
+                <state line="115" column="25" selection-start="3409" selection-end="3409" vertical-scroll-proportion="-42.677418">
                   <folding />
                 </state>
               </provider>
@@ -346,7 +359,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/js/calendario.js" />
         <option value="$PROJECT_DIR$/Admin/src/class/session.php" />
         <option value="$PROJECT_DIR$/Admin/src/class/classDatabase.php" />
         <option value="$PROJECT_DIR$/src/class/session.php" />
@@ -362,6 +374,7 @@
         <option value="$PROJECT_DIR$/index.php" />
         <option value="$PROJECT_DIR$/js/permisos.js" />
         <option value="$PROJECT_DIR$/src/class/permisos.php" />
+        <option value="$PROJECT_DIR$/src/master.php" />
       </list>
     </option>
   </component>
@@ -451,25 +464,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Admin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="matrizescala" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="matrizescala" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Admin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
+              <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -740,13 +735,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/class/session.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="353" column="32" selection-start="7985" selection-end="7997" vertical-scroll-proportion="0.14285715">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Admin/js/main.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="22" column="26" selection-start="902" selection-end="902" vertical-scroll-proportion="0.0">
@@ -890,13 +878,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/permisos.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="213" column="52" selection-start="6229" selection-end="6229" vertical-scroll-proportion="-20.36">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ajaxPermisos.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="114" column="18" selection-start="3027" selection-end="3036" vertical-scroll-proportion="9.428572">
@@ -965,8 +946,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/class/permisos.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="111" column="14" selection-start="3269" selection-end="3269" vertical-scroll-proportion="0.13124274">
+        <state line="115" column="25" selection-start="3409" selection-end="3409" vertical-scroll-proportion="-42.677418">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/permisos.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="233" column="30" selection-start="6635" selection-end="6635" vertical-scroll-proportion="-15.96">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/master.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="91" column="20" selection-start="2167" selection-end="2167" vertical-scroll-proportion="0.3844367">
+          <folding>
+            <marker date="1369701114613" expanded="true" signature="3802:3862" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
