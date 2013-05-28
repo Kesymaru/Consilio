@@ -133,6 +133,11 @@ function Caledario(){
                             </div>
                             <ul class="permisos" id="lista-permisos" >
                                 <!-- lista permisos -->
+                                <li class="add" >
+                                    <span title="Crear Nuevo Permiso" onclick="$Permisos.NuevoPermiso()">
+                                        +
+                                    </span>
+                                </li>
                             </ul>
 
                             <!-- panel de edicion de nuevo permiso -->
@@ -234,9 +239,9 @@ function ListaPermisos( $year, $month ){
         }
 
     }else{
-        $lista .= '<li class="add">+</li>';
+        $lista .= '<li class="add" onclick="$Permisos.NuevoPermiso()">+</li>';
     }
-
+    //$lista = '<li class="add" onclick="$Permisos.NuevoPermiso()">+</li>';
     echo $lista;
 }
 
