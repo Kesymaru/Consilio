@@ -129,7 +129,7 @@ function Caledario(){
     $calendario = '<div class="panel-side" id="panel-permisos" >
                             <div class="titulo" id="permisos-mes" >
                                 <span>Enero</span>
-                                <button type="button" class="derecha icon boton" onclick="$Permisos.NuevoPermiso()" title="Crear Nuevo Permiso">+</button>
+                                <button type="button" class="derecha button-simbolo" onclick="$Permisos.NuevoPermiso()" title="Crear Nuevo Permiso">+</button>
                             </div>
                             <ul class="permisos" id="lista-permisos" >
                                 <!-- lista permisos -->
@@ -222,11 +222,13 @@ function ListaPermisos( $year, $month ){
                 $lista .= '</span>';
 
             }
-            
 
-            $lista .= '<span class="permisos-observacion">
+            //si tiene observacion
+            if( $permiso['observacion'] != '' && !empty( $permiso['observacion']) ){
+                $lista .= '<span class="permisos-observacion">
                                '.$permiso['observacion'].'
                            </span>';
+            }
 
             $lista .= '</li>';
         }
