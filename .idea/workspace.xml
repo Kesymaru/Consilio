@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/class/classDatabase.php" afterPath="$PROJECT_DIR$/src/class/classDatabase.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/class/session.php" afterPath="$PROJECT_DIR$/src/class/session.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Admin/src/class/classDatabase.php" afterPath="$PROJECT_DIR$/Admin/src/class/classDatabase.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Admin/src/class/session.php" afterPath="$PROJECT_DIR$/Admin/src/class/session.php" />
     </list>
     <ignored path="matrizescala.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,7 +25,7 @@
     <file path="/usuarios.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369342267141" ignored="false" />
     <file path="/calendario.js" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369420701409" ignored="false" />
     <file path="/permisos.js" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369755765397" ignored="false" />
-    <file path="/classDatabase.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369760165539" ignored="false" />
+    <file path="/classDatabase.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369760350256" ignored="false" />
     <file path="/jquery-ui-1.9.0.custom.css" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369683590730" ignored="false" />
     <file path="/upload.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369696349482" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -168,7 +168,7 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="classDatabase.php" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="classDatabase.php" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/class/classDatabase.php">
               <provider selected="true" editor-type-id="text-editor">
                 <state line="11" column="23" selection-start="250" selection-end="250" vertical-scroll-proportion="0.28041714">
@@ -256,7 +256,7 @@
           <file leaf-file-name="classDatabase.php" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Admin/src/class/classDatabase.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="179" column="0" selection-start="3920" selection-end="3920" vertical-scroll-proportion="0.0">
+                <state line="11" column="21" selection-start="248" selection-end="248" vertical-scroll-proportion="-7.806452">
                   <folding />
                 </state>
               </provider>
@@ -280,10 +280,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="session.php" pinned="false" current="false" current-in-tab="true">
+          <file leaf-file-name="session.php" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Admin/src/class/session.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="28" column="12" selection-start="679" selection-end="679" vertical-scroll-proportion="0.45886442">
+                <state line="29" column="12" selection-start="756" selection-end="756" vertical-scroll-proportion="0.48435688">
                   <folding />
                 </state>
               </provider>
@@ -328,7 +328,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/Admin/src/class/classDatabase.php" />
         <option value="$PROJECT_DIR$/js/main.js" />
         <option value="$PROJECT_DIR$/Admin/css/jquery-ui-1.9.0.custom.css" />
         <option value="$PROJECT_DIR$/css/jquery-ui-1.9.0.custom.css" />
@@ -338,12 +337,13 @@
         <option value="$PROJECT_DIR$/index.php" />
         <option value="$PROJECT_DIR$/src/class/permisos.php" />
         <option value="$PROJECT_DIR$/src/master.php" />
-        <option value="$PROJECT_DIR$/Admin/src/class/session.php" />
         <option value="$PROJECT_DIR$/src/ajaxPermisos.php" />
         <option value="$PROJECT_DIR$/css/style.css" />
         <option value="$PROJECT_DIR$/js/permisos.js" />
         <option value="$PROJECT_DIR$/src/class/session.php" />
         <option value="$PROJECT_DIR$/src/class/classDatabase.php" />
+        <option value="$PROJECT_DIR$/Admin/src/class/classDatabase.php" />
+        <option value="$PROJECT_DIR$/Admin/src/class/session.php" />
       </list>
     </option>
   </component>
@@ -786,13 +786,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Admin/src/class/classDatabase.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="179" column="0" selection-start="3920" selection-end="3920" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Admin/src/class/permisos.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="71" column="26" selection-start="1771" selection-end="1772" vertical-scroll-proportion="0.0">
@@ -826,13 +819,6 @@
     <entry file="file://$PROJECT_DIR$/Admin/js/Permisos.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="158" column="17" selection-start="4077" selection-end="4077" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Admin/src/class/session.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="12" selection-start="679" selection-end="679" vertical-scroll-proportion="0.45886442">
           <folding />
         </state>
       </provider>
@@ -898,6 +884,20 @@
     <entry file="file://$PROJECT_DIR$/src/class/classDatabase.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="11" column="23" selection-start="250" selection-end="250" vertical-scroll-proportion="0.28041714">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Admin/src/class/classDatabase.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="21" selection-start="248" selection-end="248" vertical-scroll-proportion="-7.806452">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Admin/src/class/session.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="12" selection-start="756" selection-end="756" vertical-scroll-proportion="0.48435688">
           <folding />
         </state>
       </provider>
