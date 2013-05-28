@@ -3367,14 +3367,25 @@ button:hover{
     vertical-align: middle;
     border-radius: 15px;
     padding: 5px;
-    background-color: #333;
     display: block;
     margin: 0 auto;
     cursor: pointer;
+
+        -o-transition: all 4s ease-in-out;
+        -ms-transition: all 4s ease-in-out;
+        -moz-transition: all 4s ease-in-out;
+        -webkit-transition: all 4s ease-in-out;
+    transition: all 4s ease-in-out;
 }
 
 .permisos .add span:hover{
-
+    background-color: #5687d9;
+    color: #fff;
+        -o-transition: all 1s ease-in-out;
+        -ms-transition: all 1s ease-in-out;
+        -moz-transition: all 1s ease-in-out;
+        -webkit-transition: all 1s ease-in-out;
+    transition: all 1s ease-in-out;
 }
 
 .permisos-nombre{

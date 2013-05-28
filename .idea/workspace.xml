@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ajaxPermisos.php" afterPath="$PROJECT_DIR$/src/ajaxPermisos.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Admin/src/class/session.php" afterPath="$PROJECT_DIR$/Admin/src/class/session.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/style.css" afterPath="$PROJECT_DIR$/css/style.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="matrizescala.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -12,7 +11,7 @@
     <file path="/a.html" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1368722674388" ignored="false" />
     <file path="/ajaxProyectos.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1368724296857" ignored="false" />
     <file path="/master.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369701111607" ignored="false" />
-    <file path="/style.css" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369758131887" ignored="false" />
+    <file path="/style.css" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369758215214" ignored="false" />
     <file path="/main.js" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369420154867" ignored="false" />
     <file path="/permisos.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369699376544" ignored="false" />
     <file path="/default.html" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1368729763072" ignored="false" />
@@ -101,10 +100,10 @@
     <splitter split-orientation="horizontal" split-proportion="0.49786553">
       <split-first>
         <leaf>
-          <file leaf-file-name="permisos.js" pinned="false" current="false" current-in-tab="false">
+          <file leaf-file-name="permisos.js" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/js/permisos.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="25" column="26" selection-start="771" selection-end="771" vertical-scroll-proportion="-14.2">
+                <state line="224" column="31" selection-start="6425" selection-end="6425" vertical-scroll-proportion="0.6616801">
                   <folding />
                 </state>
               </provider>
@@ -214,10 +213,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="style.css" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="style.css" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/css/style.css">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="3372" column="20" selection-start="70228" selection-end="70228" vertical-scroll-proportion="0.81357884">
+                <state line="3378" column="27" selection-start="70419" selection-end="70419" vertical-scroll-proportion="-0.12">
                   <folding />
                 </state>
               </provider>
@@ -341,10 +340,10 @@
         <option value="$PROJECT_DIR$/index.php" />
         <option value="$PROJECT_DIR$/src/class/permisos.php" />
         <option value="$PROJECT_DIR$/src/master.php" />
-        <option value="$PROJECT_DIR$/js/permisos.js" />
         <option value="$PROJECT_DIR$/Admin/src/class/session.php" />
         <option value="$PROJECT_DIR$/src/ajaxPermisos.php" />
         <option value="$PROJECT_DIR$/css/style.css" />
+        <option value="$PROJECT_DIR$/js/permisos.js" />
       </list>
     </option>
   </component>
@@ -831,13 +830,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/permisos.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="26" selection-start="771" selection-end="771" vertical-scroll-proportion="-14.2">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Admin/js/Permisos.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="158" column="17" selection-start="4077" selection-end="4077" vertical-scroll-proportion="0.0">
@@ -898,7 +890,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/css/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3372" column="20" selection-start="70228" selection-end="70228" vertical-scroll-proportion="0.81357884">
+        <state line="3378" column="27" selection-start="70419" selection-end="70419" vertical-scroll-proportion="-0.12">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/permisos.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="224" column="31" selection-start="6425" selection-end="6425" vertical-scroll-proportion="0.6616801">
           <folding />
         </state>
       </provider>
