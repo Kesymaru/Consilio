@@ -71,7 +71,7 @@ $.extend(Permisos.prototype, {
 
                 for( var i= 0; i <= response.length-1; i++ ){
                     console.log('cal '+i+' '+response[i]);
-                    
+
                     if( response[i] == 0 || response[i] == undefined ){
                         $("#"+i).removeClass('mes-actived');
                     }else{
@@ -218,7 +218,7 @@ $.extend(Permisos.prototype, {
             }
         };
 
-        //$('#FormularioNuevoPermiso').ajaxForm(options);
+        $('#FormularioNuevoPermiso').ajaxForm(options);
 
     },
 
