@@ -27,7 +27,7 @@ class Session{
 
 
 			//$_SESSION['home'] = $protocolo.$dominio.'/matrizescala/Admin';
-            $_SESSION['home'] = $protocolo.$dominio.'/escalasandbox';
+            $_SESSION['home'] = $protocolo.$dominio.'/escalasandbox/Admin';
 			$_SESSION['matriz'] = $protocolo.$dominio.'/matrizescala';
 		}
 

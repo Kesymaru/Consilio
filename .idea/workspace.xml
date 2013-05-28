@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Admin/src/class/classDatabase.php" afterPath="$PROJECT_DIR$/Admin/src/class/classDatabase.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Admin/src/class/session.php" afterPath="$PROJECT_DIR$/Admin/src/class/session.php" />
     </list>
     <ignored path="matrizescala.iws" />
@@ -283,7 +282,7 @@
           <file leaf-file-name="session.php" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Admin/src/class/session.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="29" column="12" selection-start="756" selection-end="756" vertical-scroll-proportion="0.48435688">
+                <state line="29" column="73" selection-start="817" selection-end="817" vertical-scroll-proportion="0.48435688">
                   <folding />
                 </state>
               </provider>
@@ -897,7 +896,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Admin/src/class/session.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="12" selection-start="756" selection-end="756" vertical-scroll-proportion="0.48435688">
+        <state line="29" column="73" selection-start="817" selection-end="817" vertical-scroll-proportion="0.48435688">
           <folding />
         </state>
       </provider>
