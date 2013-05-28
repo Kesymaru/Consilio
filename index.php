@@ -74,6 +74,7 @@ $master = new Master();
 	<script type="text/javascript" src="js/main.js"></script>
 
 	<!-- jquery plugins -->
+    <script type="text/javascript" src="js/jquery.form.js"></script>
 	<script type="text/javascript" src="js/jquery.cookie.js"></script>
 	<script type="text/javascript" src="js/jquery.scrollTo-min.js"></script>
 	

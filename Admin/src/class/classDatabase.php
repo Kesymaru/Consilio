@@ -2,15 +2,17 @@
 
 class Database{
 	//LOCAL
-	/*private $dbHost 	= "localhost";
+	private $dbHost 	= "localhost";
 	private $dbUser 	= "root";
 	private $dbPassword = "root";
-	private $dbDatabase = "matriz";*/
+	private $dbDatabase = "matriz";
 	
-	private $dbHost 	= "localhost";
+	/*private $dbHost 	= "localhost";
 	private $dbUser 	= "matrizroot";
 	private $dbPassword = "Matriz159!!";
-	private $dbDatabase = "matriz";
+	private $dbDatabase = "matriz";*/
+
+    private $local = true;
 	
 	private $dbLink      = "";
 	private $dbRecordSet = 0;
@@ -34,9 +36,12 @@ class Database{
 	
 	//Conexion
 	public function conect(){
-		//$this->dbLink = mysql_connect($this->dbHost, $this->dbUser) or die ("1. No funciona por " . mysql_error());
-		
-		$this->dbLink= mysql_connect($this->dbHost, $this->dbUser, $this->dbPassword) or die ("1. No funciona por " . mysql_error());
+
+        if( $this->local ){
+            $this->dbLink = mysql_connect($this->dbHost, $this->dbUser) or die ("1. No funciona por " . mysql_error());
+        }else{
+            $this->dbLink= mysql_connect($this->dbHost, $this->dbUser, $this->dbPassword) or die ("1. No funciona por " . mysql_error());
+        }
 	}
 	//Seleccionar base	
 	public function setBase(){
@@ -50,9 +55,11 @@ class Database{
 	//Desconexion
 	private function disconnect(){
 		if($this->dbLink){
-			//mysql_close( mysql_connect($this->dbHost, $this->dbUser) );
-
-			mysql_close( mysql_connect($this->dbHost, $this->dbUser, $this->dbPassword) );
+            if( $this->local ){
+                mysql_close( mysql_connect($this->dbHost, $this->dbUser) );
+            }else{
+                mysql_close( mysql_connect($this->dbHost, $this->dbUser, $this->dbPassword) );
+            }
 		}
 	}
 	//Ejecuta consulta

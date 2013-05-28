@@ -3,11 +3,13 @@
  * User: Andrey
  * AJAX EL CALENDARIO DE PERMISOS
  */
-error_reporting( 0 );
+error_reporting( E_ALL );
 
 require_once('master.php');
+require_once('class/upload.php');
 require_once('class/permisos.php');
 require_once('class/usuarios.php');
+
 
 if( isset($_POST['func']) ){
 
@@ -39,16 +41,68 @@ if( isset($_POST['func']) ){
             }
             break;
 
-        case 'NuevoPermiso':
-            if( isset($_POST['nombre']) && isset($_POST['fecha_expiracion']) && isset($_POST['fecha_emision']) && isset($_POST['observacion']) && isset($_POST['responsables']) && isset($_POST['categorias'])  ){
-                $permisos = new Permisos();
+        case 'RegistrarPermiso':
+            /*echo '<pre>'; print_r( $_POST); echo '</pre>';
+            echo '<pre>'; print_r( $_FILES ); echo '</pre>';
+            echo '<pre>'; print_r( pathinfo($_FILES['archivo0']['name']) ); echo "</pre>"; */
 
-                if ( !$permisos->NuevoPermiso( $_POST['nombre'], $_POST['fecha_expiracion'], $_POST['fecha_emision'], $_POST['observacion'], $_POST['responsables'], $_POST['categorias'] ) ){
-                    echo '<br/>Error: no se pudo crear el nuevo permiso.<br/>Intentelo de nuevo';
-                }
+            if( isset($_POST['nombre']) && isset($_POST['fecha_emision'])
+                && isset($_POST['fecha_expiracion'])
+                && isset($_POST['recordatorio'])
+                && isset($_POST['tipo_recordatorio'])
+                && isset($_POST['areas']) ){
+                NuevoPermiso();
+            }else{
+                echo 'faltan parametros';
             }
             break;
     }
+}
+
+/**
+ * CREA UN NUEVO PERMISO
+ */
+function NuevoPermiso(){
+    $permisos = new Permisos();
+
+    $nombre = $_POST['nombre'];
+    $fecha_emision = $_POST['fecha_emision'];
+    $fecha_expiracion = $_POST['fecha_expiracion'];
+    $recordatorio = $_POST['recordatorio'];
+    $tipo_recordatorio = $_POST['tipo_recordatorio'];
+    $areas = $_POST['areas'];
+
+    if( !isset($_POST['email']) ){
+        $email = $_POST['usar-mi-correo'];
+    }
+
+    $observacion = '';
+    if( isset($_POST['observacion']) ){
+        $observacion = $_POST['observacion'];
+    }
+
+    $responsables = '';
+    if( isset($_POST['responsable']) ){
+        $responsables = $_POST['responsables'];
+    }
+
+    if( $id = $permisos->NuevoPermiso( $nombre, $fecha_emision, $fecha_expiracion, $recordatorio, $tipo_recordatorio, $email, $areas, $observacion, $responsables ) ){
+
+        //sube los archivos
+        if( $error = $permisos->UploadFiles($_FILES, $id ) ){
+
+            return true;
+
+        }else{
+            echo "<br/>Error: no se pudo subir los archivos del nuevo permiso.<br/>";
+            return false;
+        }
+
+    }else{
+        echo "<br/>Error: no se pudo crear el nuevo permiso.<br/>";
+        return false;
+    }
+
 }
 
 /********************** PERMISOS ********************/
@@ -175,11 +229,12 @@ function ListaPermisos( $year, $month ){
  * COMPONE EL FORMULARIO PARA UN NUEVO PERMISO
  */
 function FomularioNuevoPermiso(){
-    $formulario .= '<form id="FormularioNuevoPermiso" class="chosen-centrado" enctype="multipart/form-data" method="post" action="src/ajaxPermisos.php" >
+
+    $formulario = '<form id="FormularioNuevoPermiso" class="chosen-centrado" enctype="multipart/form-data" method="post" action="src/ajaxPermisos.php" >
                         <div class="titulo">
                             Nuevo Permiso
                         </div>
-                        <input type="hidden" value="RegistrarPermiso" />
+                        <input type="hidden" name="func" value="RegistrarPermiso" />
                         <br/>
                         <table>
                             <tr title="Nombre del Permiso" >
@@ -187,7 +242,7 @@ function FomularioNuevoPermiso(){
                                     Nombre
                                 </td>
                                 <td colspan="2" >
-                                   <input type="text" id="nombre" placeholder="Nombre" >
+                                   <input type="text" id="nombre" name="nombre" placeholder="Nombre" class="validate[required]" >
                                 </td>
                             </tr>
                             <tr title="Fecha de Emision del permiso" >
@@ -195,7 +250,7 @@ function FomularioNuevoPermiso(){
                                     Fecha Emision
                                 </td>
                                 <td colspan="2" >
-                                    <input type="date" id="fecha_emision" placeholder="Fecha emision" />
+                                    <input type="text" id="fecha_emision" name="fecha_emision" placeholder="Fecha emision" class="validate[required],custom[date]" />
                                 </td>
                             </tr>
                             <tr title="Fecha de Expiracion del permiso" >
@@ -203,7 +258,7 @@ function FomularioNuevoPermiso(){
                                     Fecha Expiracion
                                 </td>
                                 <td colspan="2" >
-                                    <input type="date" id="fecha_expiracion" placeholder="Fecha expiracion" />
+                                    <input type="text" id="fecha_expiracion" name="fecha_expiracion" placeholder="Fecha expiracion" class="validate[required],custom[date]" />
                                 </td>
                             </tr>
                             <tr title="Recordatorio para la Expiracion del permiso" >
@@ -211,14 +266,28 @@ function FomularioNuevoPermiso(){
                                     Recordatorio
                                 </td>
                                 <td>
-                                    <input type="number" id="recordatorio" name="recordatorio" placeholder="Tiempo" />
+                                    <input type="number" id="recordatorio" name="recordatorio" placeholder="Tiempo" class="validate[required,custom[number]]" />
+                                </td>
+                                <td class="td-right">
+                                    <select class="validate[required]" name="tipo_recordatorio" >
+                                        <option value="0">Días</option>
+                                        <option value="1">Semanas</option>
+                                        <option value="2">Meses</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr title="Email para el recordatorio">
+                                <td>
+                                    Email:
                                 </td>
                                 <td>
-                                    <select>
-                                        <option>Horas</option>
-                                        <option>Dias</option>
-                                        <option>Semanas</option>
-                                    </select>
+                                    <input type="text" id="email_recordatorio" name="email" placeholder="Email para el recordatorio" class="validate[required],custom[email]" />
+                                </td>
+                                <td class="td-right">
+                                    <label for="usar-mi-correo">
+                                        <input type="checkbox" id="usar-mi-correo" value="'.$_SESSION['cliente_email'].'" name="usar-mi-correo">
+                                        Usar mi email
+                                    </label>
                                 </td>
                             </tr>
                         </table>';
@@ -226,11 +295,11 @@ function FomularioNuevoPermiso(){
     $formulario .= SelecResponsables();
     $formulario .= SelectAreasAplicacion();
 
-    $formulario .=      '<textarea id="observacion" placeholder="Observacion" ></textarea>
+    $formulario .=      '<textarea id="observacion" name="observacion" placeholder="Observacion" ></textarea>
                          <div class="archivos" id="select-archivos" >
                             <div class="add" id="add-file">Archivos</div>
                             <div id="archivos-inputs">
-                                <input type="file" id="archivo" name="archivos"  />
+                                <input type="file" id="archivo0" name="archivo0" />
                             </div>
 
                             <ul>
@@ -254,7 +323,7 @@ function FomularioNuevoPermiso(){
 function SelecResponsables(){
     $cliente = new Cliente();
 
-    $select = '<select id="responsables" data-placeholder="Responsables" multiple>';
+    $select = '<select id="responsables" name="responsables" data-placeholder="Responsables" multiple class="validate[optional]" >';
 
     if( $responsables = $cliente->getResponsables() ){
         foreach( $responsables as $f => $responsable ){
@@ -273,7 +342,7 @@ function SelecResponsables(){
 function SelectAreasAplicacion(){
     $permisos = new Permisos();
 
-    $select = '<select id="areas" data-placeholder="Area de aplicacion" multiple>';
+    $select = '<select id="areas" name="areas" data-placeholder="Area de aplicacion" multiple class="validate[required]" >';
 
     if( $areas = $permisos->getAreasAplicacion() ){
 

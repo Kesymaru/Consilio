@@ -171,6 +171,7 @@ $.extend(Permisos.prototype, {
 
         $('#FormularioNuevoPermiso').on('reset', this.ResetFormularioNuevoPermiso );
 
+        $("#add-file").off('click');
         $("#add-file").on('click', function(){
             clase.AddFile();
         } );
@@ -179,20 +180,44 @@ $.extend(Permisos.prototype, {
             clase.PreviewFormularioNuevoPermiso( e, 0 );
         });
 
-        $("#FormularioNuevoPermiso").validationEngine();
+        //pone el correo automaticamente
+        $("#usar-mi-correo").change(function(){
+            if( $(this).is(":checked") ){
+                $("#email_recordatorio").val( $(this).val() ).prop('disabled', true);;
+            }else{
+                $("#email_recordatorio").val( "").prop('disabled', false);;
+            }
+        });
+
+        $("#FormularioNuevoPermiso").validationEngine({
+            promptPosition : "topLeft",
+            scroll: true,
+            prettySelect : true,
+            useSuffix: "_chzn",
+            showOneMessage: true
+        });
+
+        $( "#fecha_expiracion, #fecha_emision" ).datepicker( {
+            dateFormat: 'dd/mm/yy'
+        } );
 
         var options = {
             beforeSend: function(){
-                DeshabilitarContent();
+                if( $("#select-archivos input").length <= 0 ){
+                    $('#select-archivos').validationEngine('showPrompt', '*Este campo es obligatorio', 'load');
+                    return false;
+                }
             },
             success: function(response) {
                 console.log( response );
+                clase.HideFormularioNuevoPermiso();
+                clase.ResetFormularioNuevoPermiso();
             },
             fail: function(){
             }
         };
 
-        //$('#FormularioNuevoPermiso').ajaxForm(options);
+        $('#FormularioNuevoPermiso').ajaxForm(options);
 
     },
 
@@ -207,7 +232,7 @@ $.extend(Permisos.prototype, {
         });
 
         //resetea los archivos
-        $("#archivos-inputs").html('<input type="file" id="input0" name="archivos" />');
+        $("#archivos-inputs").html('<input type="file" id="input0" name="archivo0" />');
         this.archivo_id = 0;
 
         $("#areas, #responsables").val("").trigger("liszt:updated");
@@ -269,7 +294,7 @@ $.extend(Permisos.prototype, {
         console.log( 'add file '+this.archivo_id );
 
         if( clase.archivo_id > 0 ){
-            var nuevo = '<input type="file" id="input'+this.archivo_id+'" name="archivos" />';
+            var nuevo = '<input type="file" id="input'+this.archivo_id+'" name="archivo'+this.archivo_id+'" />';
             var id = this.archivo_id;
             $("#archivos-inputs").append(nuevo);
             $('#input'+this.archivo_id).change(function(e) {

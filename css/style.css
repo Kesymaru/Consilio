@@ -3090,6 +3090,10 @@ button:hover{
     background-color: #fff;
 }
 
+.panel-edicion .td-right{
+    max-width: 130px;
+}
+
 .panel-edicion form input[type="text"],
 .panel-edicion form input[type="number"],
 .panel-edicion form input[type="date"]{
@@ -3101,6 +3105,7 @@ button:hover{
     color: #747273;
     border: 0 solid transparent;
     font-size: 16px;
+    outline: none;
 }
 
 /***************** ARCHIVOS ************/
@@ -3217,6 +3222,7 @@ button:hover{
     border: 1px solid #aaa;
     background-color: #fff;
     font-size: 16px;
+    outline: none;
 }
 
 .panel-edicion form select{
@@ -3225,11 +3231,13 @@ button:hover{
     padding: 0;
     vertical-align: middle;
     overflow: hidden;
+    font-size: 16px;
     background: transparent;
     border: 0 solid transparent;
-    text-align: center;
+    text-align: left;
     -webkit-appearance: none;
-    -moz-appearance:none
+    -moz-appearance:none;
+    outline: none;
 }
 
 .chosen-centrado .chzn-container{
@@ -3326,14 +3334,6 @@ button:hover{
 
 .permisos-nombre{
     font-weight: bold;
-}
-
-.permisos-fecha{
-
-}
-
-.permisos-observacion{
-
 }
 
 .permisos .tags{

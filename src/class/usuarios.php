@@ -4,7 +4,6 @@
 */
 require_once('session.php');
 require_once('classDatabase.php');
-require_once("imageUpload.php");
 
 /**
 * PARA MANEJAR LOS CLIENTES

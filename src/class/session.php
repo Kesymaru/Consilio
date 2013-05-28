@@ -21,8 +21,8 @@ class Session{
         	$dominio = $_SERVER['HTTP_HOST'];
 
 
-			//$_SESSION['home'] = $protocolo.$dominio.'/matrizescala';
-            $_SESSION['home'] = $protocolo.$dominio.'/escalasandbox';
+			$_SESSION['home'] = $protocolo.$dominio.'/matrizescala';
+            //$_SESSION['home'] = $protocolo.$dominio.'/escalasandbox';
 			$_SESSION['datos'] = $protocolo.$dominio.'/matrizescala/Admin/';
 			$_SESSION['origen'] = 'Admin/';
 		}

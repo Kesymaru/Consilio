@@ -9,6 +9,8 @@ require_once('usuarios.php');
 
 class Permisos {
 
+    private $extensiones = array('gif', 'jpg', 'jpeg', 'png', 'zip', 'rar', 'pdf', 'txt', 'xls', 'xlsx', 'ods', 'docx', 'doc', 'odt', 'rtf', 'pptx', 'ppt', 'pptm');
+
     public function __construct(){
         date_default_timezone_set('America/Costa_Rica');
     }
@@ -107,35 +109,138 @@ class Permisos {
     }
 
     /**
-     * CREA UN PERMISO NUEVO
-     * @param $nombre
-     * @param $fecha_expiracion
-     * @param $fecha_emision
-     * @param $observacion
-     * @param $responsables
-     * @param $categorias
-     * @return bool
+     * CREA UN NUEVO PERMISO
+     * @param string $nombre
+     * @param date $fecha_emision
+     * @param date $fecha_expiracion
+     * @param int $recordatorio
+     * @param int $tipo_recordatorio
+     * @param string $email
+     * @param array|string $areas
+     * @param string $observacion
+     * @param array|string $responsables
      */
-    public function NuevoPermiso( $nombre, $fecha_expiracion, $fecha_emision, $observacion, $responsables, $categorias  ){
+    public function NuevoPermiso( $nombre, $fecha_emision, $fecha_expiracion, $recordatorio, $tipo_recordatorio, $email, $areas, $observacion, $responsables  ){
         $base = new Database();
 
         $nombre = mysql_real_escape_string( $nombre );
-        $fecha_expiracion = mysql_real_escape_string( $fecha_expiracion );
         $fecha_emision = mysql_real_escape_string( $fecha_emision );
-        $observacion = mysql_real_escape_string($observacion);
-        $responsables = mysql_real_escape_string( $responsables );
-        $categorias = mysql_real_escape_string( $categorias );
+        $fecha_expiracion = mysql_real_escape_string( $fecha_emision );
+        $recordatorio = mysql_real_escape_string( $recordatorio );
+        $tipo_recordatorio = mysql_real_escape_string( $tipo_recordatorio );
+        $email = mysql_real_escape_string( $email );
+        $observacion = mysql_real_escape_string( $observacion );
 
         $fecha_creacion = date('Y-m-d G:i:s');
 
-        $query = "INSERT INTO permisos (nombre, fecha_expiracion, fecha_emision, observacion, fecha_creacion ) VALUES ('".$nombre."', '".$fecha_expiracion."', '".$fecha_emision."', '".$observacion."', '".$fecha_creacion."', ) ";
+        $query = "INSERT INTO permisos (nombre, fecha_emision, fecha_expiracion, observacion, fecha_creacion ) VALUES ( '".$nombre."', '".$fecha_emision."', '".$fecha_expiracion."', '".$observacion."', '".$fecha_creacion."' ) ";
 
-        if( $base->Insert($query)){
+        if( $base->Insert($query) ){
+            if( $id = $base->getUltimoId() ){
+
+                //crea el recordatorio
+                if( $this->NuevoRecordatorio($id, $recordatorio, $tipo_recordatorio) ){
+                    return $id;
+                }else{
+                    return false;
+                }
+
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * CREA UN NUEVO RECORDATORIO PARA EL PERMISO
+     * @param int $permiso -> id del permiso al que pertenece
+     * @param int $tiempo -> unidad de tiempo para el recordatorio
+     */
+    private function NuevoRecordatorio( $permiso, $tiempo, $tipo ){
+        $base = new Database();
+
+        if( 0 <= $tipo && $tipo <= 2 ){
+            $fecha_creacion = date('Y-m-d G:i:s');
+
+            $query = "INSERT INTO permisos_recordatorios ( tiempo, tipo, permiso, fecha_creacion ) VALUES ('".$tiempo."', '".$tipo."', '".$permiso."', '".$fecha_creacion."' ) ";
+
+            if( $base->Insert($query) ){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * SUBE UN ARCHIVO DE UN PERMISO
+     * @param $archivo
+     * @param $permiso
+     * @return array $error
+     */
+    public function UploadFiles($archivos, $permiso){
+        $error = array();
+
+        foreach( $archivos as $f => $archivo ){
+
+            if( !empty($archivo['tmp_name']) ){
+
+                $upload = new Upload();
+                $upload->SetFileName($archivo['name']);
+                $upload->SetTempName($archivo['tmp_name']);
+                $upload->SetValidExtensions( $this->extensiones );
+
+                $upload->SetUploadDirectory("../Admin/permisos_archivos/");
+
+                $upload->SetMaximumFileSize(90000000);
+
+                if($upload->UploadFile()){
+                    $link = $upload->GetUploadDirectory().$upload->GetFileName();
+
+                    $link = str_replace("../", "", $link);
+
+                    if( $this->RegistrarArchivoPermiso($link, $permiso)){
+                        continue;
+                    }else{
+                        $base = new Database();
+                        $link = '../'.$link;
+                        $base->DeleteImagen($link);
+                        echo "Error: no se pudo registrar el archivo: ".$archivo['name']."<br/>";
+                    }
+                }else{
+                    echo "Error: no se pudo subir el archivo: ".$archivo['name']."<br/>";
+                }
+            }else{
+                echo "Error: archivo vacio.";
+            }
+        }
+
+        return true;
+
+    }
+
+    /**
+     * REGISTRA EN LA BASE DE DATOS EL ARCHIVO SUBIDO
+     * @param $link -> link del archivo
+     * @param $permiso -> id del permiso
+     * @return bool
+     */
+    private function RegistrarArchivoPermiso( $link, $permiso ){
+        $base = new Database();
+
+        $fecha_creacion = date('Y-m-d G:i:s');
+
+        $query = "INSERT INTO permisos_archivos (link, permiso, fecha_creacion) VALUES ('".$link."', '".$permiso."', '".$fecha_creacion."') ";
+
+        if( $base->Insert($query) ){
             return true;
         }else{
             return false;
         }
-
     }
 
     /************************************ AREAS DE APLIACION ********************/
