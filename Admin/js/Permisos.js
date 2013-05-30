@@ -47,29 +47,43 @@ $.extend(AreasAplicacion.prototype, {
             type: "POST",
             url: "src/ajaxPermisos.php",
             success: function( response ){
-                console.log( response );
 
                 $("#menu").html( response );
 
-                $("#areas li").on('click', function(){
-                    var li = $(this);
-
-                    $("#areas li").removeClass('seleccionada')
-                    li.addClass('seleccionada');
-
-                    $("#areas .menu-botones .ocultos").fadeIn(function(){
-                        $(this).removeClass('ocultos');
-                    });
-
-                    clase.ContextMenu( li.attr('id') );
-                });
-
-                //doble click
-                $("#areas li").dblclick(function(){
-                    console.log( 'doble click en '+ $(this).attr('id') );
-                });
+                clase.AreasEventos();
 
             }
+        });
+    },
+
+    /**
+     * CREA LOS EVENTOS PARA LA LISTA DE AREAS
+     * @constructor
+     */
+    AreasEventos: function(){
+        var clase = this;
+
+        //quita eventos agregados
+        $("#areas li").off('click');
+        $("#areas li").off('dblclick');
+
+        $("#areas li").on('click', function(){
+            var li = $(this);
+
+            $("#areas li").removeClass('seleccionada')
+            li.addClass('seleccionada');
+
+            $("#areas .menu-botones .ocultos").fadeIn(function(){
+                $(this).removeClass('ocultos');
+            });
+
+            clase.ContextMenu( li.attr('id') );
+        });
+
+        //DOBLE CLICK
+        $("#areas li").on('dblclick', function(){
+            var id = $(this).attr('id');
+            clase.Editar( id );
         });
     },
 
@@ -103,10 +117,20 @@ $.extend(AreasAplicacion.prototype, {
      * @param int id
      */
     ContextMenuSelect: function( m, id ){
-        console.log('clicked: '+m+' | id: '+id);
+        //console.log('clicked: '+m+' | id: '+id);
 
-        if( m == "clicked: eliminar" ){
-            this.Eliminar();
+        switch( m ){
+            case "clicked: nuevo":
+                this.Nueva();
+                break;
+
+            case "clicked: editar":
+                this.Editar(id);
+                break;
+
+            case "clicked: eliminar":
+                this.Eliminar(id);
+                break;
         }
     },
 
@@ -135,7 +159,84 @@ $.extend(AreasAplicacion.prototype, {
      * INICIALIZA EL FORMULARIO PARA UNA NUEVA AREA DE APLIACION
      */
     FormularioNuevaArea: function(){
+        var clase = this;
+
         $("#FormularioNuevaArea").validationEngine();
+
+        var options = {
+            beforeSend: function(){
+                DeshabilitarContent();
+            },
+            success: function(response) {
+                HabilitarContent();
+
+                if( jQuery.isNumeric( response ) ){
+                    var nombre = $("#nombre").val();
+                    var id = response;
+                    var descripcion = $("#descripcion").val();
+
+                    if( descripcion.length > 50 ){
+                        descripcion = descripcion.substring(0,50)+'...';
+                    }
+
+                    var lista = '<li id ="'+id+'" ';
+                    if( descripcion.length ){
+                        lista += ' title="'+descripcion+'" ';
+                    }
+                    lista += '>'+nombre+'</li>';
+
+                    $("#areas ul").append(lista);
+                    $("#"+id).hide().fadeIn(function(){
+                        //refresca los eventos de la lista
+                        clase.AreasEventos();
+                    });
+
+                    LimpiarContent();
+                }else{
+                    notificaError(response);
+                }
+
+            },
+            fail: function(){
+            }
+        };
+
+        $('#FormularioNuevaArea').ajaxForm(options);
+    },
+
+    /**
+     * EDITAR UN AREA DE APLICACION
+     * @param id
+     */
+    Editar: function( id ){
+        var clase = this;
+
+        if( id == undefined || id == '' || id == null ){
+            id = $("#areas .seleccionada").attr('id');
+        }
+
+        var queryParams = {"func" : "EditarArea", "id" : id};
+
+        $.ajax({
+            data: queryParams,
+            type: "POST",
+            url: "src/ajaxPermisos.php",
+            success: function( response ){
+
+                if( response.length > 0 ){
+                    $("#content").html( response );
+                    clase.FormularioEditarArea();
+                }
+            }
+        });
+
+    },
+
+    /**
+     * INICIALIZA EL FORMULARIO DE EDICION DE UNA AREA DE APLICACION
+     */
+    FormularioEditarArea: function(){
+        $("#FormularioEditarArea").validationEngine();
 
         var clase = this;
 
@@ -150,9 +251,23 @@ $.extend(AreasAplicacion.prototype, {
 
                 if( response.length <= 3 ){
                     var nombre = $("#nombre").val();
+                    var id = $("#area").val();
                     var descripcion = $("#descripcion").val();
 
-                    $("#areas ul").append("<li>"+nombre+"</li>");
+                    //actualiza el nombre
+                    if( $("#"+id).length ){
+                        $("#"+id).text(nombre);
+
+                        //actualiza el title
+                        if( descripcion.length > 50 ){
+                            $("#"+id).attr('title', descripcion.substring(0,50)+'...' );
+                        }else if( descripcion.length ) {
+                            $("#"+id).attr('title', descripcion );
+                        }else{
+                            $("#"+id).removeAttr('title');
+                        }
+
+                    }
                     LimpiarContent();
                 }else{
                     notificaError(response);
@@ -163,7 +278,7 @@ $.extend(AreasAplicacion.prototype, {
             }
         };
 
-        $('#FormularioNuevaArea').ajaxForm(options);
+        $('#FormularioEditarArea').ajaxForm(options);
     },
 
     /**
@@ -192,16 +307,22 @@ $.extend(AreasAplicacion.prototype, {
      * @param int id
      */
     EliminarAccion: function( id ){
-        console.log( "Accion de eliminar: "+id );
 
         var queryParams = {"func" : "EliminarArea", "id" : id };
+
+        //SI ESTA EDITANDO LA QUE VA A ELIMINAR
+        if( $("#area").length ){
+            if( $("#area").val() == id ){
+                LimpiarContent();
+            }
+        }
 
         $.ajax({
             data: queryParams,
             type: "POST",
             url: "src/ajaxPermisos.php",
             success: function( response ){
-
+                console.log( response );
                 if( response.length <= 3){
                     $("#"+id).fadeOut(function(){
                         $("#"+id).remove();
