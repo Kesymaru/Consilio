@@ -246,7 +246,7 @@ $master = new Master();
                 <div class="tab tab-selected" onclick="TabProyectos()">
                     Mis Proyectos
                 </div>
-                <div class="tab" onclick="TabPermisos()">
+                <div class="tab ocultos" onclick="TabPermisos()">
                     Permisos
                 </div>
             </div>
