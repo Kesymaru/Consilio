@@ -217,6 +217,7 @@ class Master{
 	public function MenuClientes(){
 		echo '<li onClick="Clientes()">Clientes</li>';
 		echo '<li onClick="ClientesLogs()">Logs</li>';
+        echo '<li>Permisos</li>';
         echo '<li onClick="ClientesAreasAplicacion()">Areas Aplicacion</li>';
 	}
 

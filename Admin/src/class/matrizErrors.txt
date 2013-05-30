@@ -109,3 +109,17 @@ scr/ajaxPermisos.php
 	JAVASCRIPT: 
 	May 23 2013 - 4:14 pm
  --------------------<>--------------------
+
+es 13
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	May 28 2013 - 1:18 pm
+ --------------------<>--------------------

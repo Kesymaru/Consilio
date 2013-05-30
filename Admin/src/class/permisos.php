@@ -36,6 +36,24 @@ class Permisos{
     }
 
     /**
+     * OBTIENE INFORMACION DE UNA AREA DE APLICACION
+     * @param int $id -> id del area
+     */
+    public function getArea( $id ){
+        $base = new Database();
+
+        $id = mysql_real_escape_string($id);
+
+        $query = "SELECT * FROM areas_aplicacion WHERE id = '".$id."' ";
+
+        if( $datos = $base->Select($query) ){
+            return $datos;
+        }else{
+            return false;
+        }
+    }
+
+    /**
      * REGISTRA UNA NUEVA AREA DE APLIACACION
      * @param $nombre
      * @param $descripcion
@@ -52,7 +70,12 @@ class Permisos{
         $query = "INSERT INTO areas_aplicacion (nombre, descripcion, fecha_creacion, fecha_actualizacion) VALUES ('".$nombre."', '".$descripcion."', '".$fecha."', '".$fecha."' ) ";
 
         if( $base->Insert($query) ){
-            return true;
+
+            if( $id = $base->getUltimoId() ){
+                return $id;
+            }
+            return false;
+
         }else{
             return false;
         }
@@ -76,6 +99,30 @@ class Permisos{
         }else{
             return false;
         }
+    }
+
+    /**
+     * ACTUALIZA UNA AREA DE APLICACION
+     * @param $id
+     * @param $nombre
+     * @param $descripcion
+     * @return bool
+     */
+    public function UpdateArea($id, $nombre, $descripcion ){
+        $base  = new Database();
+
+        $id = mysql_real_escape_string($id);
+        $nombre = mysql_real_escape_string( $nombre );
+        $descripcion = mysql_real_escape_string( $descripcion );
+
+        $query = "UPDATE areas_aplicacion SET nombre = '".$nombre."', descripcion = '".$descripcion."' WHERE id = '".$id."' ";
+
+        if( $base->Update($query) ){
+            return true;
+        }else{
+            return false;
+        }
+
     }
 
 }

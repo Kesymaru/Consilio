@@ -9,6 +9,7 @@ require_once('usuarios.php');
 
 class Permisos {
 
+    private $errors = array();
     private $extensiones = array('gif', 'jpg', 'jpeg', 'png', 'zip', 'rar', 'pdf', 'txt', 'xls', 'xlsx', 'ods', 'docx', 'doc', 'odt', 'rtf', 'pptx', 'ppt', 'pptm');
 
     public function __construct(){
@@ -148,6 +149,11 @@ class Permisos {
         if( $base->Insert($query) ){
             if( $id = $base->getUltimoId() ){
 
+                //registra los responsables
+                if( !empty($responsables) ){
+                    $this->PermisosResponsables($id, $responsables);
+                }
+
                 //crea el recordatorio
                 if( $this->NuevoRecordatorio($id, $recordatorio, $tipo_recordatorio) ){
                     return $id;
@@ -182,6 +188,47 @@ class Permisos {
                 return false;
             }
         }else{
+            return false;
+        }
+    }
+
+    /**
+     * REGISTRA LOS RESPONSABLES DE UN PERMISO
+     * @param int $permiso
+     * @param array|string $responsables
+     * @return bool
+     */
+    public function PermisosResponsables($permiso, $responsables ){
+        $base = new Database();
+        $errors = array();
+
+        $permiso = mysql_real_escape_string($permiso);
+
+        if( is_array($responsables) ){
+
+            foreach( $responsables as $f => $responsable ){
+                $responsable = mysql_real_escape_string( $responsable );
+
+                $query = "INSER INTO permisos_responsables (permiso, responsable, fecha_creacion) VALUES ('".$permiso."', '".$responsable."', '".$fecha_creacion."' ) ";
+                if( !$base->Insert($query) ){
+                    $errors[] = "Error: no se pudo registrar el responsable del permiso $permiso, responsable: $responsable";
+                }
+            }
+
+        }else{
+            $responsable = mysql_real_escape_string($responsables);
+
+            $query = "INSER INTO permisos_responsables (permiso, responsable, fecha_creacion) VALUES ('".$permiso."', '".$responsable."', '".$fecha_creacion."' ) ";
+
+            if( !$base->Insert($query)){
+                $errors[] = "Error: no se pudo registrar el responsable del permiso $permiso, responsable: $responsable";
+            }
+        }
+
+        if( empty($error) ){
+            return true;
+        }else{
+            $this->errors = $errors;
             return false;
         }
     }

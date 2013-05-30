@@ -41,12 +41,36 @@ if( isset($_POST['func']) ){
                     $descripcion = $_POST['descripcion'];
                 }
 
-                if( !$permisos->RegistrarAreaAplicacion( $_POST['nombre'], $descripcion ) ){
+                if( $id = $permisos->RegistrarAreaAplicacion( $_POST['nombre'], $descripcion ) ){
+                    echo $id;
+                }else{
                     echo "Error: no se pudo registrar la nueva area de aplicacion.";
                 }
 
             }else{
                 echo "Error: valor para nombre requerido.<br/>";
+            }
+            break;
+
+        case 'EditarArea':
+            if( isset($_POST['id']) ){
+                EditarArea( $_POST['id'] );
+            }
+            break;
+
+        case 'ActualizarArea':
+            if( isset($_POST['id']) && isset($_POST['nombre']) ){
+
+                $descripcion = '';
+                if( isset($_POST['descripcion']) ){
+                    $descripcion = $_POST['descripcion'];
+                }
+
+                $permisos = new Permisos();
+
+                if( !$permisos->UpdateArea($_POST['id'], $_POST['nombre'], $descripcion) ){
+                    echo "Error: no se pudo actualizar la area de aplicacion.<br/>id: ".$_POST['id'];
+                }
             }
             break;
 
@@ -111,8 +135,8 @@ function AreasApliacion(){
                <!-- fin scroll -->
                <!-- botonera -->
                <div class="menu-botones">
-                    <button type="button" class="ocultos">Eliminar</button>
-                    <button type="button" class="ocultos">Editar</button>
+                    <button type="button" class="ocultos" onclick="$AreasAplicacion.Eliminar()">Eliminar</button>
+                    <button type="button" class="ocultos" onclick="$AreasAplicacion.Editar()">Editar</button>
                     <button type="button" onclick=" $AreasAplicacion.Nueva() ">Nueva</button>
                </div>
                <!-- fin botonera -->
@@ -140,14 +164,13 @@ function NuevaArea(){
                                         Nombre
                                     </td>
                                     <td>
-                                        <input type="text" id="nombr" name="nombre" placeholder="Nombre" class="validate[required]" />
+                                        <input type="text" id="nombre" name="nombre" placeholder="Nombre" class="validate[required]" />
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
+                                    <td colspan="2" class="full">
                                         Descripcion
-                                    </td>
-                                    <td>
+                                        <br/>
                                         <textarea name="descripcion" id="descripcion" placeholder="Descripcion" class="validate[optional]" ></textarea>
                                     </td>
                                 </tr>
@@ -161,6 +184,58 @@ function NuevaArea(){
                          </div>
 
                      </form>';
+
+    echo $formulario;
+}
+
+/**
+ * EDITAR UNA AREA
+ * @param int $id -> id del area a editar
+ */
+function EditarArea( $id ){
+    $permisos = new Permisos();
+
+    $formulario = '';
+
+    if ( $datos = $permisos->getArea( $id ) ){
+        $formulario .= '<form id="FormularioEditarArea" enctype="multipart/form-data" method="post" action="src/ajaxPermisos.php" >
+                        <div class="titulo">
+                            Edicion Area
+                        </div>
+
+                        <input type="hidden" name="func" value="ActualizarArea" />
+                        <input type="hidden" id="area" name="id" value="'.$id.'" />
+
+                         <div class="datos" >
+                            <table>
+                                <tr>
+                                    <td>
+                                        Nombre
+                                    </td>
+                                    <td>
+                                        <input type="text" id="nombre" name="nombre" placeholder="Nombre" class="validate[required]"  value="'.$datos[0]['nombre'].'" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="full">
+                                        Descripcion
+                                        <br/>
+                                        <textarea name="descripcion" id="descripcion" placeholder="Descripcion" class="validate[optional]" >'.$datos[0]['descripcion'].'</textarea>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/><br/>
+                         </div>
+                         <div class="datos-botones">
+                            <button type="button" title="Cancelar Edición" onClick="CancelarContent()">Cancelar</button>
+                            <input type="reset" title="Limpiar Edición" value="Limpiar" />
+							<input type="submit" title="Guardar Edición" value="Guardar" />
+                         </div>
+
+                     </form>';
+    }else{
+
+    }
 
     echo $formulario;
 }
