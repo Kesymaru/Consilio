@@ -323,13 +323,13 @@ Copyright (c) 2011 by Harvest
               ;
               self.data( 'chzn-options', options.slice( 0, options.index( next ) ) );
           } )
-          .click( function () { 
+          .click( function () {
             $( this ).data( 'chzn-options' ).mouseup()
           } )
-          .hover( function () { 
+          .hover( function () {
               $(this).css( {'background-color': '#F68400', 'color' : '#fff'} )
               $( this ).data( 'chzn-options' ).addClass( 'highlighted' );
-           }, function () { 
+           }, function () {
               $( this ).data( 'chzn-options' ).removeClass( 'highlighted' );
               $(this).css( {'background-color': 'transparent', 'color' : '#999999'} )
            } )
@@ -344,7 +344,7 @@ Copyright (c) 2011 by Harvest
 
           /******** MODIFICACION *****/
           var newChosen = $this.data('chosen', new Chosen(this, options));
-          
+
 
             $( '.chzn-results .group-result' ).each( function () {
                 var self      = $( this )
@@ -353,13 +353,13 @@ Copyright (c) 2011 by Harvest
                 ;
                 self.data( 'chzn-options', options.slice( 0, options.index( next ) ) );
             } )
-            .click( function () { 
+            .click( function () {
               $( this ).data( 'chzn-options' ).mouseup()
             } )
-            .hover( function () { 
+            .hover( function () {
                 $(this).css( {'background-color': '#F68400', 'color' : '#fff'} )
                 $( this ).data( 'chzn-options' ).addClass( 'highlighted' );
-             }, function () { 
+             }, function () {
                 $( this ).data( 'chzn-options' ).removeClass( 'highlighted' );
                 $(this).css( {'background-color': 'transparent', 'color' : '#999999'} )
              } )
@@ -367,10 +367,10 @@ Copyright (c) 2011 by Harvest
 
             return newChosen;
           /******** FIN MODIFICACION *****/
-          
+
           //original
           //return $this.data('chosen', new Chosen(this, options));
-          
+
         }
       });
     }

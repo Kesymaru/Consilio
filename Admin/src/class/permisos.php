@@ -7,11 +7,52 @@
  */
 
 require_once('classDatabase.php');
+require_once('usuarios.php');
 
 class Permisos{
 
     public function __construct(){
         date_default_timezone_set('America/Costa_Rica');
+    }
+
+    /*********************************** PERMISOS *******************************/
+
+    /**
+     * OBTIENE LOS DATOS DE LOS CLIENTES CON PERMISOS
+     * @return bool|array -> false si falla/array con datos
+     */
+    public function ClientesPermisos(){
+        $base = new Database();
+        $cliente = new Cliente();
+
+        $query = "SELECT COUNT(permisos.id) AS permisos, clientes.nombre, clientes.imagen, clientes.pais, clientes.id FROM permisos, clientes WHERE permisos.cliente = clientes.id";
+
+        if( $permisos = $base->Select($query) ){
+            return $permisos;
+        }else{
+            return false;
+        }
+
+    }
+
+    /**
+     * OBTIENE TODOS LOS PERMISOS DE UN CLIENTE
+     * @param $cliente
+     * @return bool|array
+     */
+    public function getPermisos( $cliente ){
+        $base = new Database();
+
+        $cliente = mysql_real_escape_string($cliente);
+
+        $query = "SELECT * FROM permisos WHERE cliente = '".$cliente."' ";
+
+        if( $datos = $base->Select($query) ){
+            return $datos;
+        }else{
+            return false;
+        }
+
     }
 
     /************************************ AREAS DE APLIACION ********************/

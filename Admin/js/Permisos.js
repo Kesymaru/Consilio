@@ -1,4 +1,283 @@
 /**
+ * MANEJA LOS PERMISOS
+ */
+
+/**
+ * INICIALIZA LA CLASE DE LOS PERMISOS
+ */
+function ClientesPermisos(){
+    if( typeof($Permisos) ){
+        $Permisos = new Permisos();
+    }
+    $Permisos.Show();
+}
+
+/**
+ * CLASE PARA LOS PERMISOS
+ */
+Permisos = function(){};
+$.extend(Permisos.prototype, {
+    cliente: false,
+
+    /**
+     * MUESTRA EL PANEL DE LOS PERMISOS DE LOS CLIENTES
+     */
+    Show: function(){
+        var clase = this;
+
+        if( !$("#menu").is(":visible") ){
+            ActivaMenu();
+        }
+
+        if( $("#menu2").is(":visible") ){
+            Menu2();
+        }
+
+        LimpiarContent();
+
+        var queryParams = { "func" : "ClientesPermisos" };
+
+        $.ajax({
+            data: queryParams,
+            type: "POST",
+            url: "src/ajaxPermisos.php",
+            success: function( response ){
+//                console.log( response );
+
+                $("#menu").html( response );
+
+                clase.ClientesPermisosEventos();
+            }
+        });
+
+    },
+
+    /**
+     * CARGA LOS EVENTOS PARA LA LISTA DE LOS CLIENTES
+     */
+    ClientesPermisosEventos: function(){
+        var clase = this;
+
+        $("#clientes-permisos li").off("click");
+        $("#clientes-permisos li").off("dblclick");
+
+        $("#clientes-permisos li").on("click", function(){
+            var li = $(this);
+
+            $("#clientes-permisos li").removeClass('seleccionada')
+            li.addClass('seleccionada');
+
+            $("#clientes-permisos .menu-botones .ocultos").fadeIn(function(){
+                $(this).removeClass('ocultos');
+            });
+
+            clase.ClientesContextMenu( li.attr('id') );
+        });
+
+        $("#clientes-permisos li").on("dblclick", function(){
+            clase.Permisos( $(this).attr('id') );
+        });
+
+    },
+
+    /**
+     * INICIALIZA EL CONTEXT MENU PARA UN CLIENTE
+     * @param int id
+     */
+    ClientesContextMenu: function( id ){
+        var clase = this;
+
+        $.contextMenu({
+            selector: '#clientes-permisos #'+id,
+            callback: function(key, options) {
+                var m = "clicked: " + key;
+                //window.console && console.log(m) || alert(m);
+                clase.ClientesMenuSelect(m, id);
+            },
+            items: {
+                "permisos": {name: "Ver permisos", icon: "edit", accesskey: "p"},
+                /*"editar": {name: "Editar", icon: "edit", accesskey: "e"},
+                 "eliminar": {name: "Eliminar", icon: "delete", accesskey: "l"},*/
+            }
+        });
+
+    },
+
+    /**
+     * CALLBACK DEL CONTEXT MENU
+     * @param event m -> seleccion
+     * @param int id -> id cliente
+     */
+    ClientesMenuSelect: function(m, id){
+        console.log( m+' | '+id );
+
+        switch (m){
+            case "clicked: permisos":
+                this.Permisos( id );
+                break
+        }
+    },
+
+    /**
+     * MUESTRA LOS PERMISOS DE UN CLIENTE
+     * @param id -> id del cliente
+     */
+    Permisos: function(id){
+        console.log( 'permisos de '+id);
+
+        var clase = this;
+        this.cliente = id;
+
+        if( !$("#menu2").is(":visible") ){
+            Menu2();
+        }
+
+        var queryParams = {"func" : "Permisos", "id" : id};
+
+        $.ajax({
+            data: queryParams,
+            type: "POST",
+            url: "src/ajaxPermisos.php",
+            success: function( response ){
+//                console.log( response );
+
+                $("#menu2").html( response );
+
+                clase.PermisosEventos();
+            }
+        });
+
+    },
+
+    /**
+     * CARGA LOS EVENTOS A LA LISTA
+     * @constructor
+     */
+    PermisosEventos: function(){
+        var clase = this;
+
+        $("#permisos li").off('click');
+        $("#permisos li").off('dblclick');
+
+        $("#permisos li").on("click", function(){
+            var li = $(this);
+
+            $("#permisos li").removeClass('seleccionada')
+            li.addClass('seleccionada');
+
+            $("#permisos .menu-botones .ocultos").fadeIn(function(){
+                $(this).removeClass('ocultos');
+            });
+
+            clase.PermisoContextMenu( li.attr('id') );
+        });
+
+        //doble click
+        $("#permisos li").on("dblclick", function(){
+            clase.Editar( $(this).attr('id') );
+        });
+    },
+
+    /**
+     * CARGA EL MENU CONTEXTUAL DE UN PERMISO
+     * @param id
+     */
+    PermisoContextMenu: function( id ){
+        var clase = this;
+
+        $.contextMenu({
+            selector: '#permisos #'+id,
+            callback: function(key, options) {
+                var m = "clicked: " + key;
+                //window.console && console.log(m) || alert(m);
+                clase.PermisoMenuSelect(m, id);
+            },
+            items: {
+                "editar": {name: "Editar", icon: "edit", accesskey: "e"},
+                "eliminar": {name: "Eliminar", icon: "delete", accesskey: "l"},
+                "nuevo": {name: "Nuevo", icon: "edit", accesskey: "n"},
+            }
+        });
+    },
+
+    PermisoMenuSelect: function(m, id){
+        var clase = this;
+
+        switch (m){
+            case "clicked: editar":
+                this.Editar( id );
+                break;
+
+            case "clicked: nuevo":
+                this.Nuevo();
+                break;
+        }
+    },
+
+    /**
+     * EDITAR UN PERMISO
+     * @param id
+     */
+    Editar: function( id ){
+        var q
+    },
+
+    /**
+     * ELIMINAR UN PERMISO
+     * @param id
+     * @constructor
+     */
+    Eliminar: function( id ){
+
+    },
+
+    /**
+     * ELIMINA UN PERMISO
+     * @param id
+     */
+    AccionEliminar: function( id ){
+        var queryParams = {"func" : "EliminarPermiso", "id" : id};
+
+        $.ajax({
+            data: queryParams,
+            type: "POST",
+            url: "src/ajaxPermisos.php",
+            success: function( response ){
+                console.log( response );
+            }
+        });
+
+    },
+
+    Nuevo: function(){
+        var clase = this;
+
+        var queryParams = {"func" : "NuevoPermiso" };
+
+        $.ajax({
+            data: queryParams,
+            type: "POST",
+            url: "src/ajaxPermisos.php",
+            success: function( response ){
+                console.log( response );
+
+                $("#content").html( response );
+
+                clase.FormularioNuevoPermiso();
+
+            }
+        });
+
+    },
+
+    FormularioNuevoPermiso: function(){
+        console.log( 'inicializa form' );
+    },
+
+});
+
+
+/**
  * MANEJA LAS AREAS DE LOS PERMISOS
  */
 
@@ -30,6 +309,11 @@ $.extend(AreasAplicacion.prototype, {
         if( !$("#menu").is(':visible') ){
             ActivaMenu();
         }
+
+        if( $("#menu2").is(":visible") ){
+            Menu2();
+        }
+
         this.Areas();
     },
 

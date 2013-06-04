@@ -1,32 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Admin/src/class/session.php" afterPath="$PROJECT_DIR$/Admin/src/class/session.php" />
+    <list default="true" id="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" name="Default" comment="mejoras permisos">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Admin/js/Permisos.js" afterPath="$PROJECT_DIR$/Admin/js/Permisos.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Admin/src/ajaxPermisos.php" afterPath="$PROJECT_DIR$/Admin/src/ajaxPermisos.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ajaxPermisos.php" afterPath="$PROJECT_DIR$/src/ajaxPermisos.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/chosen.js" afterPath="$PROJECT_DIR$/js/chosen.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Admin/src/class/classDatabase.php" afterPath="$PROJECT_DIR$/Admin/src/class/classDatabase.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/class/classDatabase.php" afterPath="$PROJECT_DIR$/src/class/classDatabase.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.php" afterPath="$PROJECT_DIR$/index.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Admin/src/master.php" afterPath="$PROJECT_DIR$/Admin/src/master.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Admin/src/class/matrizErrors.txt" afterPath="$PROJECT_DIR$/Admin/src/class/matrizErrors.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/permisos.js" afterPath="$PROJECT_DIR$/js/permisos.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Admin/src/class/permisos.php" afterPath="$PROJECT_DIR$/Admin/src/class/permisos.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/class/permisos.php" afterPath="$PROJECT_DIR$/src/class/permisos.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/style.css" afterPath="$PROJECT_DIR$/css/style.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="matrizescala.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369755742834" ignored="false" />
+    <file path="/Dummy.txt" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1370362802213" ignored="false" />
     <file path="/a.html" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1368722674388" ignored="false" />
     <file path="/ajaxProyectos.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1368724296857" ignored="false" />
-    <file path="/master.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369701111607" ignored="false" />
-    <file path="/style.css" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369758215214" ignored="false" />
+    <file path="/master.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369934471754" ignored="false" />
+    <file path="/style.css" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1370379080636" ignored="false" />
     <file path="/main.js" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369420154867" ignored="false" />
-    <file path="/permisos.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369699376544" ignored="false" />
+    <file path="/permisos.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1370366703868" ignored="false" />
     <file path="/default.html" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1368729763072" ignored="false" />
-    <file path="/index.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369420041534" ignored="false" />
+    <file path="/index.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369957544562" ignored="false" />
     <file path="/ajax.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369081674214" ignored="false" />
     <file path="/fullcalendar.css" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1368821923085" ignored="false" />
     <file path="/fullcalendar.js" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1368822260326" ignored="false" />
-    <file path="/ajaxPermisos.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369757765349" ignored="false" />
+    <file path="/ajaxPermisos.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1370376436889" ignored="false" />
     <file path="/AreasPermisos.js" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369249544981" ignored="false" />
-    <file path="/Permisos.js" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369347365681" ignored="false" />
+    <file path="/Permisos.js" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369951784894" ignored="false" />
     <file path="/usuarios.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369342267141" ignored="false" />
     <file path="/calendario.js" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369420701409" ignored="false" />
-    <file path="/permisos.js" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369755765397" ignored="false" />
-    <file path="/classDatabase.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369760350256" ignored="false" />
+    <file path="/permisos.js" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1370384919429" ignored="false" />
+    <file path="/classDatabase.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369931430265" ignored="false" />
     <file path="/jquery-ui-1.9.0.custom.css" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369683590730" ignored="false" />
     <file path="/upload.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369696349482" ignored="false" />
+    <file path="/__dummy.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369842685745" ignored="false" />
+    <file path="/session.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369843252001" ignored="false" />
+    <file path="$PROJECT_DIR$/../atm/index.html" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369846955667" ignored="false" />
+    <file path="/index.html" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369845585660" ignored="false" />
+    <file path="$PROJECT_DIR$/../atm/js/animaciones.js" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369854763616" ignored="false" />
+    <file path="/select2.css" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1370290372071" ignored="false" />
+    <file path="/jquery.validationEngine-en.js" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1370380673133" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +71,6 @@
     <sortChildren value="false" />
   </component>
   <component name="DebuggerManager">
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -88,6 +107,7 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -99,22 +119,11 @@
     <splitter split-orientation="horizontal" split-proportion="0.49786553">
       <split-first>
         <leaf>
-          <file leaf-file-name="permisos.js" pinned="false" current="false" current-in-tab="false">
+          <file leaf-file-name="permisos.js" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/js/permisos.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="224" column="31" selection-start="6425" selection-end="6425" vertical-scroll-proportion="-19.48">
+                <state line="348" column="8" selection-start="10096" selection-end="10213" vertical-scroll-proportion="0.18468468">
                   <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="master.php" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/master.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="101" column="35" selection-start="2385" selection-end="2385" vertical-scroll-proportion="0.0">
-                  <folding>
-                    <marker date="1369701114613" expanded="true" signature="3802:3862" placeholder="..." />
-                  </folding>
                 </state>
               </provider>
             </entry>
@@ -122,56 +131,50 @@
           <file leaf-file-name="ajaxPermisos.php" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/ajaxPermisos.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="133" column="47" selection-start="3876" selection-end="3884" vertical-scroll-proportion="-4.967742">
+                <state line="80" column="29" selection-start="2137" selection-end="2137" vertical-scroll-proportion="-7.839286">
                   <folding>
-                    <marker date="1369757785882" expanded="true" signature="3521:4424" placeholder="..." />
-                    <marker date="1369757785882" expanded="true" signature="3589:3835" placeholder="..." />
-                    <marker date="1369757785882" expanded="true" signature="3905:4276" placeholder="..." />
-                    <marker date="1369757785882" expanded="true" signature="4011:4242" placeholder="..." />
-                    <marker date="1369757785882" expanded="true" signature="4118:4204" placeholder="..." />
-                    <marker date="1369757785882" expanded="true" signature="7267:7309" placeholder="..." />
-                    <marker date="1369757785882" expanded="true" signature="9903:11287" placeholder="..." />
-                    <marker date="1369757785882" expanded="true" signature="9903:11389" placeholder="..." />
-                    <marker date="1369757785882" expanded="true" signature="9903:11820" placeholder="..." />
-                    <marker date="1369757785882" expanded="true" signature="9903:11562" placeholder="..." />
-                    <marker date="1369757785882" expanded="true" signature="9903:9978" placeholder="..." />
-                    <marker date="1369757785882" expanded="true" signature="9903:9944" placeholder="..." />
-                    <marker date="1369757785882" expanded="true" signature="10063:11287" placeholder="..." />
-                    <marker date="1369757785882" expanded="true" signature="10063:10914" placeholder="..." />
-                    <marker date="1369757785882" expanded="true" signature="10101:10188" placeholder="..." />
-                    <marker date="1369757785882" expanded="true" signature="10225:10424" placeholder="..." />
-                    <marker date="1369757785882" expanded="true" signature="10478:10880" placeholder="..." />
-                    <marker date="1369757785882" expanded="true" signature="10576:10842" placeholder="..." />
-                    <marker date="1369757785882" expanded="true" signature="10982:11787" placeholder="..." />
-                    <marker date="1369757785882" expanded="true" signature="10982:11562" placeholder="..." />
-                    <marker date="1369757785882" expanded="true" signature="11019:11100" placeholder="..." />
-                    <marker date="1369757785882" expanded="true" signature="11137:11352" placeholder="..." />
-                    <marker date="1369757785882" expanded="true" signature="11137:11287" placeholder="..." />
-                    <marker date="1369757785882" expanded="true" signature="11406:11753" placeholder="..." />
-                    <marker date="1369757785882" expanded="true" signature="11406:11562" placeholder="..." />
-                    <marker date="1369757785882" expanded="true" signature="12087:12503" placeholder="..." />
-                    <marker date="1369757785882" expanded="true" signature="12217:12336" placeholder="..." />
-                    <marker date="1369757785882" expanded="true" signature="12370:12471" placeholder="..." />
-                    <marker date="1369757785882" expanded="true" signature="12557:12910" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="3570:4658" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="3638:3884" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="3943:4451" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="4017:4416" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="4131:4378" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="4242:4336" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="7510:7552" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="9171:9280" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="9171:9226" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="9171:9210" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="9171:9209" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="9282:9331" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="9623:13489" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="9623:13332" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="9669:9742" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="9889:13464" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="9889:13332" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="9889:9928" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="9889:9928" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="9889:9928" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="9889:9928" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="9949:10320" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="9987:10068" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="10117:10286" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="10390:10802" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="10428:10516" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="10565:10768" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="10875:11299" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="10913:11004" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="11053:11265" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="11422:11509" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="11558:11607" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="12370:12452" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="12731:12900" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="12768:12855" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="13115:13291" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="13152:13246" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="13760:14176" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="13890:14009" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="14043:14144" placeholder="..." />
+                    <marker date="1370382848551" expanded="true" signature="14230:14583" placeholder="..." />
                   </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="upload.php" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/class/upload.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="9" column="17" selection-start="191" selection-end="191" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="classDatabase.php" pinned="false" current="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/class/classDatabase.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="11" column="23" selection-start="250" selection-end="250" vertical-scroll-proportion="0.28041714">
-                  <folding />
                 </state>
               </provider>
             </entry>
@@ -179,7 +182,7 @@
           <file leaf-file-name="usuarios.php" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/class/usuarios.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="5" column="34" selection-start="123" selection-end="123" vertical-scroll-proportion="0.0">
+                <state line="75" column="5" selection-start="994" selection-end="1543" vertical-scroll-proportion="-20.0">
                   <folding />
                 </state>
               </provider>
@@ -188,16 +191,7 @@
           <file leaf-file-name="permisos.php" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/class/permisos.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="124" column="25" selection-start="3666" selection-end="3666" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="session.php" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/class/session.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="23" column="14" selection-start="562" selection-end="562" vertical-scroll-proportion="-9.035714">
+                <state line="322" column="44" selection-start="10595" selection-end="10595" vertical-scroll-proportion="2.8387096">
                   <folding />
                 </state>
               </provider>
@@ -206,7 +200,7 @@
           <file leaf-file-name="index.php" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/index.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="76" column="68" selection-start="2818" selection-end="2827" vertical-scroll-proportion="0.0">
+                <state line="35" column="73" selection-start="1011" selection-end="1011" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
@@ -215,7 +209,7 @@
           <file leaf-file-name="style.css" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/css/style.css">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="3378" column="27" selection-start="70419" selection-end="70419" vertical-scroll-proportion="-0.12">
+                <state line="3264" column="29" selection-start="67787" selection-end="67787" vertical-scroll-proportion="4.0">
                   <folding />
                 </state>
               </provider>
@@ -228,34 +222,7 @@
           <file leaf-file-name="ajaxPermisos.php" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Admin/src/ajaxPermisos.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="142" column="105" selection-start="4353" selection-end="4379" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="ajaxupload.php" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Admin/src/class/ajaxupload.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="32" column="42" selection-start="1116" selection-end="1117" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="imageUpload.php" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Admin/src/class/imageUpload.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="88" column="92" selection-start="2749" selection-end="2749" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="classDatabase.php" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Admin/src/class/classDatabase.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="11" column="21" selection-start="248" selection-end="248" vertical-scroll-proportion="-7.806452">
+                <state line="149" column="63" selection-start="4390" selection-end="4390" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
@@ -264,7 +231,7 @@
           <file leaf-file-name="permisos.php" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Admin/src/class/permisos.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="71" column="26" selection-start="1771" selection-end="1772" vertical-scroll-proportion="0.0">
+                <state line="34" column="0" selection-start="924" selection-end="924" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
@@ -273,34 +240,63 @@
           <file leaf-file-name="Permisos.js" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Admin/js/Permisos.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="158" column="17" selection-start="4077" selection-end="4077" vertical-scroll-proportion="0.0">
+                <state line="135" column="0" selection-start="3220" selection-end="3220" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="session.php" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="main.js" pinned="false" current="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/Admin/js/main.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="982" column="3" selection-start="21389" selection-end="21439" vertical-scroll-proportion="0.41928253">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="usuarios.php" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Admin/src/class/usuarios.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="57" column="5" selection-start="1139" selection-end="1139" vertical-scroll-proportion="0.0">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="master.php" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Admin/src/master.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="219" column="45" selection-start="5328" selection-end="5328" vertical-scroll-proportion="0.0">
+                  <folding>
+                    <marker date="1369934476408" expanded="true" signature="1534:1584" placeholder="..." />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="classDatabase.php" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Admin/src/class/classDatabase.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="16" column="4" selection-start="332" selection-end="332" vertical-scroll-proportion="0.0">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="session.php" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Admin/src/class/session.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="29" column="73" selection-start="817" selection-end="817" vertical-scroll-proportion="0.48435688">
+                <state line="28" column="12" selection-start="679" selection-end="679" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="index.php" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Admin/index.php">
+          <file leaf-file-name="style.css" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Admin/css/style.css">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="89" column="46" selection-start="3304" selection-end="3304" vertical-scroll-proportion="-0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="Clientes.js" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Admin/js/Clientes.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="245" column="67" selection-start="5078" selection-end="5268" vertical-scroll-proportion="0.0">
+                <state line="426" column="18" selection-start="9091" selection-end="9095" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
@@ -316,6 +312,12 @@
     </FindUsagesManager>
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="andrey alfaro &lt;aalfaro@77di..." />
+        <option value="andrey alfaro &lt;aalfaro@77digital.com&gt;" />
+      </list>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitLogSettings">
@@ -327,29 +329,34 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/js/main.js" />
-        <option value="$PROJECT_DIR$/Admin/css/jquery-ui-1.9.0.custom.css" />
-        <option value="$PROJECT_DIR$/css/jquery-ui-1.9.0.custom.css" />
-        <option value="$PROJECT_DIR$/src/class/upload.php" />
-        <option value="$PROJECT_DIR$/src/class/usuarios.php" />
-        <option value="$PROJECT_DIR$/Admin/src/class/registros.php" />
-        <option value="$PROJECT_DIR$/index.php" />
-        <option value="$PROJECT_DIR$/src/class/permisos.php" />
-        <option value="$PROJECT_DIR$/src/master.php" />
-        <option value="$PROJECT_DIR$/src/ajaxPermisos.php" />
-        <option value="$PROJECT_DIR$/css/style.css" />
-        <option value="$PROJECT_DIR$/js/permisos.js" />
         <option value="$PROJECT_DIR$/src/class/session.php" />
         <option value="$PROJECT_DIR$/src/class/classDatabase.php" />
         <option value="$PROJECT_DIR$/Admin/src/class/classDatabase.php" />
-        <option value="$PROJECT_DIR$/Admin/src/class/session.php" />
+        <option value="$PROJECT_DIR$/Admin/src/master.php" />
+        <option value="$PROJECT_DIR$/Admin/src/class/permisos.php" />
+        <option value="$PROJECT_DIR$/Admin/src/ajaxPermisos.php" />
+        <option value="$PROJECT_DIR$/js/chosen.js" />
+        <option value="$PROJECT_DIR$/index.php" />
+        <option value="$PROJECT_DIR$/Admin/js/Permisos.js" />
+        <option value="$PROJECT_DIR$/js/select2/select2.css" />
+        <option value="$PROJECT_DIR$/src/class/permisos.php" />
+        <option value="$PROJECT_DIR$/css/style.css" />
+        <option value="$PROJECT_DIR$/js/languages/jquery.validationEngine-en.js" />
+        <option value="$PROJECT_DIR$/js/languages/jquery.validationEngine-es.js" />
+        <option value="$PROJECT_DIR$/src/ajaxPermisos.php" />
+        <option value="$PROJECT_DIR$/js/permisos.js" />
       </list>
     </option>
   </component>
   <component name="MavenProjectNavigator">
     <treeState />
   </component>
-  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
+  <component name="PhpServers">
+    <option name="servers">
+      <server debugger_id="php.debugger.ZendDebugger" host="localhost" name="localhost" />
+    </option>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" interpreter_name="php_5.3" />
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
@@ -367,14 +374,63 @@
             <id>Android Lint</id>
           </State>
           <State>
+            <id>Assignment issues</id>
+          </State>
+          <State>
+            <id>Bitwise operation issues</id>
+          </State>
+          <State>
+            <id>Bitwise operation issuesJavaScript</id>
+          </State>
+          <State>
+            <id>Code maturity issues</id>
+          </State>
+          <State>
+            <id>Code style issues</id>
+          </State>
+          <State>
+            <id>Control flow issues</id>
+          </State>
+          <State>
+            <id>Control flow issuesJavaScript</id>
+          </State>
+          <State>
+            <id>FlexUnit inspections</id>
+          </State>
+          <State>
+            <id>Groovy</id>
+          </State>
+          <State>
+            <id>Inheritance issues</id>
+          </State>
+          <State>
+            <id>JUnit issues</id>
+          </State>
+          <State>
+            <id>Java language level migration aids</id>
+          </State>
+          <State>
+            <id>JavaScript</id>
+          </State>
+          <State>
+            <id>Naming conventions</id>
+          </State>
+          <State>
             <id>Numeric issues</id>
           </State>
-        </expanded-state>
-        <selected-state>
           <State>
-            <id>Abstraction issues</id>
+            <id>Plugin DevKit</id>
           </State>
-        </selected-state>
+          <State>
+            <id>Potentially confusing code constructsGroovy</id>
+          </State>
+          <State>
+            <id>Potentially confusing code constructsJavaScript</id>
+          </State>
+          <State>
+            <id>Probable bugs</id>
+          </State>
+        </expanded-state>
       </profile-state>
     </entry>
   </component>
@@ -404,6 +460,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -432,7 +490,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
+              <option name="myItemId" value="js" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -446,54 +504,16 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Admin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="matrizescala" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="matrizescala" />
+              <option name="myItemId" value="js" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Admin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="matrizescala" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="matrizescala" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Admin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="class" />
+              <option name="myItemId" value="languages" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -501,25 +521,61 @@
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="recentsLimit" value="5" />
     <property name="MemberChooser.sorted" value="false" />
-    <property name="options.lastSelected" value="editor" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/fullcalendar-1.6.1/fullcalendar/fullcalendar.js" />
+    <property name="options.lastSelected" value="web.server" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/js" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="MemberChooser.showClasses" value="true" />
     <property name="FullScreen" value="false" />
+    <property name="MemberChooser.showClasses" value="true" />
     <property name="gradle.tool.window.active" value="Project" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
-  <component name="RunManager">
+  <component name="PublishConfig" serverName="localhost" serverId="0f602819-02a9-4b91-ae61-43524c3768b0">
+    <servers>
+      <server id="0f602819-02a9-4b91-ae61-43524c3768b0">
+        <serverdata>
+          <mappings>
+            <mapping deploy="\" local="$PROJECT_DIR$" web="matrizescala" />
+          </mappings>
+        </serverdata>
+      </server>
+    </servers>
+  </component>
+  <component name="RunManager" selected="PHP Script.ajaxPermisos.php">
+    <configuration default="false" name="session.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/src/class/session.php">
+      <RunnerSettings RunnerId="PhpRunner" />
+      <ConfigurationWrapper RunnerId="PhpRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="classDatabase.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/src/class/classDatabase.php">
+      <RunnerSettings RunnerId="PhpRunner" />
+      <ConfigurationWrapper RunnerId="PhpRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="permisos.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/src/class/permisos.php">
+      <RunnerSettings RunnerId="PhpRunner" />
+      <ConfigurationWrapper RunnerId="PhpRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="ajaxPermisos.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/Admin/src/ajaxPermisos.php">
+      <RunnerSettings RunnerId="PhpRunner" />
+      <ConfigurationWrapper RunnerId="PhpRunner" />
+      <method />
+    </configuration>
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m" />
       <option name="PROGRAM_PARAMETERS" />
+      <method />
+    </configuration>
+    <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <TestRunner />
       <method />
     </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
@@ -531,6 +587,19 @@
       <method />
     </configuration>
     <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
@@ -559,19 +628,6 @@
       <envs />
       <properties />
       <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -610,13 +666,33 @@
       <patterns />
       <method />
     </configuration>
-    <list size="0" />
+    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server" server_id="0f602819-02a9-4b91-ae61-43524c3768b0" server_name="localhost">
+      <method />
+    </configuration>
+    <list size="4">
+      <item index="0" class="java.lang.String" itemvalue="PHP Script.session.php" />
+      <item index="1" class="java.lang.String" itemvalue="PHP Script.classDatabase.php" />
+      <item index="2" class="java.lang.String" itemvalue="PHP Script.permisos.php" />
+      <item index="3" class="java.lang.String" itemvalue="PHP Script.ajaxPermisos.php" />
+    </list>
+    <recent_temporary>
+      <list size="5">
+        <item index="0" class="java.lang.String" itemvalue="PHP Script.ajaxPermisos.php" />
+        <item index="1" class="java.lang.String" itemvalue="PHP Script.permisos.php" />
+        <item index="2" class="java.lang.String" itemvalue="PHP Script.classDatabase.php" />
+        <item index="3" class="java.lang.String" itemvalue="PHP Script.session.php" />
+        <item index="4" class="java.lang.String" itemvalue="PHP Script.classDatabase.php" />
+      </list>
+    </recent_temporary>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
       <Port>5050</Port>
     </configuration>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="StructuralSearchPlugin">
+    <searchConfiguration name="user defined" text="date_" recursive="true" caseInsensitive="true" type="PHP" history="1" />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" name="Default" comment="" />
@@ -635,7 +711,31 @@
       <created>1369436003649</created>
       <updated>1369436003649</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="configuracion para produccion">
+      <created>1369861950412</created>
+      <updated>1369861950412</updated>
+    </task>
+    <task id="LOCAL-00005" summary="configuracion para produccion">
+      <created>1369861986110</created>
+      <updated>1369861986110</updated>
+    </task>
+    <task id="LOCAL-00006" summary="oculta la tad de permisos">
+      <created>1369872689372</created>
+      <updated>1369872689372</updated>
+    </task>
+    <task id="LOCAL-00007" summary="clase para ajax y jquery de permisos y areas de aplicacion">
+      <created>1369930748946</created>
+      <updated>1369930748946</updated>
+    </task>
+    <task id="LOCAL-00008" summary="mejoras permisos">
+      <created>1369931069862</created>
+      <updated>1369931069862</updated>
+    </task>
+    <task id="LOCAL-00009" summary="configuracion para no mostrar la tab de permisos">
+      <created>1369931325993</created>
+      <updated>1369931325993</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -669,7 +769,7 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290735" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16915688" sideWeight="0.28541002" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33333334" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -680,7 +780,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16915688" sideWeight="0.6709265" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32800853" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -731,7 +831,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="database configuration" />
+    <option name="LAST_COMMIT_MESSAGE" value="configuracion para no mostrar la tab de permisos" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -748,155 +848,174 @@
     <MESSAGE value="chosen js" />
     <MESSAGE value="portado el javascript del calendario a una clase en permisos.js&#10;mejoras en el estilo del formulario para un nuevo permiso&#10;agregado el selector de archivos con un previsualizador al cargar archivos" />
     <MESSAGE value="database configuration" />
+    <MESSAGE value="configuracion para produccion" />
+    <MESSAGE value="oculta la tad de permisos" />
+    <MESSAGE value="clase para ajax y jquery de permisos y areas de aplicacion" />
+    <MESSAGE value="mejoras permisos" />
+    <MESSAGE value="configuracion para no mostrar la tab de permisos" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/class/permisos.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="124" column="25" selection-start="3666" selection-end="3666" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Admin/src/ajaxPermisos.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="142" column="105" selection-start="4353" selection-end="4379" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Admin/src/class/ajaxupload.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="42" selection-start="1116" selection-end="1117" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Admin/src/class/imageUpload.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="88" column="92" selection-start="2749" selection-end="2749" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Admin/src/class/permisos.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="26" selection-start="1771" selection-end="1772" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Admin/js/Clientes.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="245" column="67" selection-start="5078" selection-end="5268" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/master.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="101" column="35" selection-start="2385" selection-end="2385" vertical-scroll-proportion="0.0">
-          <folding>
-            <marker date="1369701114613" expanded="true" signature="3802:3862" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Admin/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="89" column="46" selection-start="3304" selection-end="3304" vertical-scroll-proportion="-0.0">
+        <state line="34" column="0" selection-start="924" selection-end="924" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Admin/js/Permisos.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="158" column="17" selection-start="4077" selection-end="4077" vertical-scroll-proportion="0.0">
+        <state line="135" column="0" selection-start="3220" selection-end="3220" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ajaxPermisos.php">
+    <entry file="file://$PROJECT_DIR$/Admin/src/class/usuarios.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="133" column="47" selection-start="3876" selection-end="3884" vertical-scroll-proportion="-4.967742">
+        <state line="57" column="5" selection-start="1139" selection-end="1139" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Admin/src/master.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="219" column="45" selection-start="5328" selection-end="5328" vertical-scroll-proportion="0.0">
           <folding>
-            <marker date="1369757785882" expanded="true" signature="3521:4424" placeholder="..." />
-            <marker date="1369757785882" expanded="true" signature="3589:3835" placeholder="..." />
-            <marker date="1369757785882" expanded="true" signature="3905:4276" placeholder="..." />
-            <marker date="1369757785882" expanded="true" signature="4011:4242" placeholder="..." />
-            <marker date="1369757785882" expanded="true" signature="4118:4204" placeholder="..." />
-            <marker date="1369757785882" expanded="true" signature="7267:7309" placeholder="..." />
-            <marker date="1369757785882" expanded="true" signature="9903:11287" placeholder="..." />
-            <marker date="1369757785882" expanded="true" signature="9903:11389" placeholder="..." />
-            <marker date="1369757785882" expanded="true" signature="9903:11820" placeholder="..." />
-            <marker date="1369757785882" expanded="true" signature="9903:11562" placeholder="..." />
-            <marker date="1369757785882" expanded="true" signature="9903:9978" placeholder="..." />
-            <marker date="1369757785882" expanded="true" signature="9903:9944" placeholder="..." />
-            <marker date="1369757785882" expanded="true" signature="10063:11287" placeholder="..." />
-            <marker date="1369757785882" expanded="true" signature="10063:10914" placeholder="..." />
-            <marker date="1369757785882" expanded="true" signature="10101:10188" placeholder="..." />
-            <marker date="1369757785882" expanded="true" signature="10225:10424" placeholder="..." />
-            <marker date="1369757785882" expanded="true" signature="10478:10880" placeholder="..." />
-            <marker date="1369757785882" expanded="true" signature="10576:10842" placeholder="..." />
-            <marker date="1369757785882" expanded="true" signature="10982:11787" placeholder="..." />
-            <marker date="1369757785882" expanded="true" signature="10982:11562" placeholder="..." />
-            <marker date="1369757785882" expanded="true" signature="11019:11100" placeholder="..." />
-            <marker date="1369757785882" expanded="true" signature="11137:11352" placeholder="..." />
-            <marker date="1369757785882" expanded="true" signature="11137:11287" placeholder="..." />
-            <marker date="1369757785882" expanded="true" signature="11406:11753" placeholder="..." />
-            <marker date="1369757785882" expanded="true" signature="11406:11562" placeholder="..." />
-            <marker date="1369757785882" expanded="true" signature="12087:12503" placeholder="..." />
-            <marker date="1369757785882" expanded="true" signature="12217:12336" placeholder="..." />
-            <marker date="1369757785882" expanded="true" signature="12370:12471" placeholder="..." />
-            <marker date="1369757785882" expanded="true" signature="12557:12910" placeholder="..." />
+            <marker date="1369934476408" expanded="true" signature="1534:1584" placeholder="..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3378" column="27" selection-start="70419" selection-end="70419" vertical-scroll-proportion="-0.12">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/permisos.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="224" column="31" selection-start="6425" selection-end="6425" vertical-scroll-proportion="-19.48">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/class/session.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="14" selection-start="562" selection-end="562" vertical-scroll-proportion="-9.035714">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/class/classDatabase.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="23" selection-start="250" selection-end="250" vertical-scroll-proportion="0.28041714">
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Admin/src/class/classDatabase.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="21" selection-start="248" selection-end="248" vertical-scroll-proportion="-7.806452">
+        <state line="16" column="4" selection-start="332" selection-end="332" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Admin/src/class/session.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="73" selection-start="817" selection-end="817" vertical-scroll-proportion="0.48435688">
+        <state line="28" column="12" selection-start="679" selection-end="679" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Admin/css/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="426" column="18" selection-start="9091" selection-end="9095" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Admin/js/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="982" column="3" selection-start="21389" selection-end="21439" vertical-scroll-proportion="0.41928253">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/jquery.form.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="64" selection-start="129" selection-end="160" vertical-scroll-proportion="0.024043716">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/class/permisos.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="322" column="44" selection-start="10595" selection-end="10595" vertical-scroll-proportion="2.8387096">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/class/usuarios.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="75" column="5" selection-start="994" selection-end="1543" vertical-scroll-proportion="-20.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3264" column="29" selection-start="67787" selection-end="67787" vertical-scroll-proportion="4.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/languages/jquery.validationEngine-en.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="102" column="0" selection-start="4569" selection-end="4569" vertical-scroll-proportion="-13.12">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/languages/jquery.validationEngine-es.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="91" column="40" selection-start="5020" selection-end="5020" vertical-scroll-proportion="0.4493243">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ajaxPermisos.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="80" column="29" selection-start="2137" selection-end="2137" vertical-scroll-proportion="-7.839286">
+          <folding>
+            <marker date="1370382848551" expanded="true" signature="3570:4658" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="3638:3884" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="3943:4451" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="4017:4416" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="4131:4378" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="4242:4336" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="7510:7552" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="9171:9280" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="9171:9226" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="9171:9210" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="9171:9209" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="9282:9331" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="9623:13489" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="9623:13332" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="9669:9742" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="9889:13464" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="9889:13332" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="9889:9928" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="9889:9928" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="9889:9928" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="9889:9928" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="9949:10320" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="9987:10068" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="10117:10286" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="10390:10802" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="10428:10516" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="10565:10768" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="10875:11299" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="10913:11004" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="11053:11265" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="11422:11509" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="11558:11607" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="12370:12452" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="12731:12900" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="12768:12855" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="13115:13291" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="13152:13246" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="13760:14176" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="13890:14009" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="14043:14144" placeholder="..." />
+            <marker date="1370382848551" expanded="true" signature="14230:14583" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/permisos.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="348" column="8" selection-start="10096" selection-end="10213" vertical-scroll-proportion="0.18468468">
           <folding />
         </state>
       </provider>
@@ -987,6 +1106,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
+          <last-edited>jquery.scrollTo-min</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

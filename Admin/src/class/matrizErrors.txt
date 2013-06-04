@@ -123,3 +123,147 @@ es 13
 	JAVASCRIPT: 
 	May 28 2013 - 1:18 pm
  --------------------<>--------------------
+
+Error: AJAX error.
+func=Permisos
+scr/ajaxPermisos
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	May 30 2013 - 11:58 am
+ --------------------<>--------------------
+
+Error: AJAX error.
+func=Permisos
+scr/ajaxPermisos.php
+
+
+	Sitio: Admin
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	May 30 2013 - 12:00 pm
+ --------------------<>--------------------
+
+Error: 
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	May 30 2013 - 4:18 pm
+ --------------------<>--------------------
+
+Error: 
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	May 30 2013 - 4:19 pm
+ --------------------<>--------------------
+
+Error: 
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	May 30 2013 - 4:20 pm
+ --------------------<>--------------------
+
+Error: 
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	May 30 2013 - 4:20 pm
+ --------------------<>--------------------
+
+Error: 
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	June 4 2013 - 11:29 am
+ --------------------<>--------------------
+
+Error: 
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	June 4 2013 - 11:29 am
+ --------------------<>--------------------
+
+Error: 
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	June 4 2013 - 11:33 am
+ --------------------<>--------------------
+
+Error: 
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	June 4 2013 - 2:37 pm
+ --------------------<>--------------------

@@ -9,6 +9,9 @@ $.extend(Permisos.prototype, {
 
     archivo_id: 0,
 
+    responsables: [],
+    emails: [],
+
     /**
      * INICIALIZA EL CALENDARIO DE LOS PERMISOS
      */
@@ -124,29 +127,174 @@ $.extend(Permisos.prototype, {
 
     },
 
+    /**
+     * MUESTRA EL FORMULARIO CON ANIMACION
+     */
     ShowFormularioNuevoPermiso: function(){
+        var clase = this;
+
         var alto = $("#panel-permisos").height();
         var margen = $("#lista-permisos").height();
 
         $("#panel-edicion").animate({
-            "margin-top" : '-'+margen+'px',
+            "margin-top" : '-'+alto+'px',
             height: alto
         }, {
             duration: 700,
             queue: false,
             complete: function(){
                 $("#panel-edicion").css({
-                    "margin-top" : '-'+margen+'px',
+                    "margin-top" : '-'+alto+'px',
                     "height" : alto+'px'
                 });
 
-                $("#FormularioNuevoPermiso").enableSelection();
-
                 $("#panel-edicion").addClass('panel-edicion-activo');
-                $("#areas, #responsables").chosen();
+
+//                $("#areas, #responsables").chosen();
+
+                $("#areas").select2({
+                    width: "100%",
+                    allowClear: true,
+                    placeholder: $(this).attr('placeholder'),
+                });
+
+                clase.SelectResponsables();
+                clase.SelectMails();
+            }
+        });
+    },
+
+    /**
+     * CARGA EL SELECT DE RESPONSABLES
+     */
+    SelectResponsables: function(){
+        var clase = this;
+
+        var queryParams = {"func" : "getResponsables"};
+
+        $.ajax({
+            data: queryParams,
+            type: "POST",
+            dataType: "JSON",
+            url: "src/ajaxPermisos.php",
+            success: function( response ){
+                console.log( response );
+
+                clase.responsables = response;
+
+                $("#responsables").select2("destroy");
+
+                //carga select con opcion de agregar
+                $("#responsables").select2({
+                    tags: clase.responsables,
+                    allowClear: true,
+                    multiple: true,
+                    tokenSeparators: [",", " "],
+                    createSearchChoice: function(term, data) {
+                        if ($(data).filter(function() {
+                            return this.text.localeCompare(term) === 0;
+                        }).length === 0) {
+                            return {
+                                id: term,
+                                text: term,
+                                title: term
+                            };
+                        }
+                    },
+                });
 
             }
         });
+    },
+
+    /**
+     * INICIALIZA EL SELECT DE EMAILS CON OPCION PARA AGREGAR
+     */
+    SelectMails: function(){
+        var clase = this;
+
+        var queryParams = {"func" : "getMails"};
+
+        $.ajax({
+            data: queryParams,
+            type: "POST",
+            dataType: "JSON",
+            url: "src/ajaxPermisos.php",
+            success: function( response ){
+                console.log( response );
+
+                clase.emails = response;
+
+                $("#emails").select2("destroy");
+
+                //carga select con opcion de agregar
+                $("#emails").select2({
+                    tags: clase.emails,
+                    allowClear: true,
+                    multiple: true,
+                    tokenSeparators: [",", " "],
+                    createSearchChoice: function(term, data) {
+                        if ($(data).filter(function() {
+                            return this.text.localeCompare(term) === 0;
+                        }).length === 0) {
+                            return {
+                                id: term,
+                                text: term,
+                                title: term
+                            };
+                        }
+                    },
+                });
+
+            }
+        });
+    },
+
+    /**
+     * VALIDA LOS SELECTS DEL FORMULARIO
+     */
+    ValidaSelects: function(){
+        var emails = $("#emails").val().split(',');
+        var areas = [];
+
+        $("#areas").find(":selected").each(function(){
+            areas.push($(this).val());
+        });
+
+        if( !emails.length){
+            $('#emails').validationEngine('showPrompt', 'Se Reguiere almenos un email', 'load');
+            return false;
+        }
+        if( !areas.length ){
+            $('#areas').validationEngine('showPrompt', 'Se Reguiere almenos una area de aplicacion', 'load');
+            return false;
+        }
+
+        var regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+        for( var i = 0; i < emails.length; i++ ){
+            console.log( i+" "+emails[i].replace(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/i) );
+
+            if( emails[i] == '' || emails[i] == undefined ){
+                $('#emails').validationEngine('showPrompt', 'Se Reguiere almenos un email', 'load');
+                return false;
+            }else{
+                var coincidencias = emails[i].match(regex);
+
+                if( coincidencias == '' || coincidencias == null){
+                    $('#emails').validationEngine('showPrompt', 'Email incorrecto', 'load');
+                    return false;
+                }
+                if( coincidencias.length ){
+                    console.log( coincidencias );
+                    return true;
+                }
+            }
+
+
+        }
+
+        console.log("EMAILS: "+emails);
     },
 
     /**
@@ -189,26 +337,47 @@ $.extend(Permisos.prototype, {
             clase.PreviewFormularioNuevoPermiso( e, 0 );
         });
 
-        //pone el correo automaticamente
-        $("#usar-mi-correo").change(function(){
-            if( $(this).is(":checked") ){
-                $("#email_recordatorio").val( $(this).val() ).prop('disabled', true);;
-            }else{
-                $("#email_recordatorio").val( "").prop('disabled', false);;
-            }
-        });
-
         $("#FormularioNuevoPermiso").validationEngine({
             promptPosition : "topLeft",
             scroll: true,
             prettySelect : true,
-            useSuffix: "_chzn",
-            showOneMessage: true
+            useSuffix: "_chzn, ",
+            showOneMessage: true,
+            ignore: ".ignore, .select2-offscreen",
         });
 
-        $( "#fecha_expiracion, #fecha_emision" ).datepicker( {
-            dateFormat: 'yy/mm/dd'
-        } );
+        $( "#fecha_expiracion, #fecha_emision, #recordatorio" ).datepicker( {
+            dateFormat: 'dd/mm/yy',
+        });
+
+        /*//selector de fecha para fecha de emision
+        $( "#fecha_emision" ).datepicker( {
+            dateFormat: 'dd/mm/yy',
+            onSelect: function(){
+                console.log('cambio para fecha expiracion');
+                var date = new Date( $("#fecha_emision").val() );
+
+                $("#fecha_expiracion").datepicker( "option", "minDate", date );
+                //$("#fecha_expiracion").datepicker( "refresh" );
+            }
+        });
+
+        //selector de fecha para expiracion
+        $( "#fecha_expiracion" ).datepicker( {
+            dateFormat: 'dd/mm/yy',
+            onSelect: function(){
+                console.log('cambio para recordatorio expiracion');
+                var date = new Date( $("#fecha_expiracion").val() );
+
+                $("#recordatorio").datepicker( "option", "minDate",date );
+                //$("#recordatorio").datepicker( "refresh" );
+            }
+        });
+
+        //selector de fecha para el recordatorio
+        $( "#recordatorio" ).datepicker( {
+            dateFormat: 'dd/mm/yy',
+        });*/
 
         var options = {
             beforeSend: function(){
@@ -217,6 +386,7 @@ $.extend(Permisos.prototype, {
                     return false;
                 }
             },
+            beforeSubmit: clase.ValidaSelects,
             success: function(response) {
                 console.log( response );
                 clase.HideFormularioNuevoPermiso();
@@ -229,7 +399,7 @@ $.extend(Permisos.prototype, {
             }
         };
 
-        $('#FormularioNuevoPermiso').ajaxForm(options);
+        //$('#FormularioNuevoPermiso').ajaxForm(options);
 
     },
 
@@ -237,6 +407,7 @@ $.extend(Permisos.prototype, {
      * RESETEA EL FORMULARIO
      */
     ResetFormularioNuevoPermiso: function(){
+        var clase = this;
 
         $('#FormularioNuevoPermiso')[0].reset();
         $("#select-archivos ul li").fadeOut(function(){
@@ -247,7 +418,12 @@ $.extend(Permisos.prototype, {
         $("#archivos-inputs").html('<input type="file" id="input0" name="archivo0" />');
         this.archivo_id = 0;
 
-        $("#areas, #responsables").val("").trigger("liszt:updated");
+//        $("#emails").select2('data',[]).val("");
+        $("#responsables").select2('data',[]).val("");
+        $("#areas").select2('data',[]).val("");
+
+//        $("#areas, #responsables").val("").trigger("liszt:updated");
+
     },
 
     /**
@@ -286,11 +462,17 @@ $.extend(Permisos.prototype, {
             if( file[0].type == "application/pdf" ){
                 title = "Documento PDF";
             }
+
+            var nombre = file[0].name;
+            if( nombre.length > 17){
+                nombre = file[0].name.substring(17,0) + "...";
+            }
+
             lista = '<li class="file" title="'+title+'" id="file'+id+'" >' +
                         '<img class="image" src="'+imagen+'" />' +
                         '<img class="close" src="images/close.png" title="Quitar '+title+'" onclick="$Permisos.RemoveFile('+id+')" />' +
                         '<div>' +
-                            '<span>'+file[0].name+'</span>' +
+                            '<span>'+nombre+'</span>' +
                         '</div>' +
                     '</li>';
         }

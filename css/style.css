@@ -1083,8 +1083,8 @@ button:hover{
 }
 
 .titulos .tab{
-    /*width: 50%;*/
-    width: 100%;
+    width: 50%;
+    /*width: 100%;*/
     padding-top: 5px;
     padding-bottom: 5px;
     margin: 0;
@@ -3193,16 +3193,17 @@ button:hover{
 }
 
 .file div span{
+    background-color: #F3EFE6;
+    border: 1px solid #DEDEDE;
+    border-radius: 5px 5px 5px 5px;
+    color: #000000;
     display: inline-block;
-    width: auto;
-    margin: 5px auto 0 auto;
+    font-size: 16px;
+    margin: 5px auto 0;
     padding: 5px;
-    border-radius: 10px;
     text-align: center;
-    font-size: 14px !important;
-    background-color: #f3efe6;
-    border: 1px solid #dedede;
-    color: #999;
+    transition: all 6s ease-in-out 0s;
+    width: auto;
 
         -o-transition: all 6s ease-in-out;
         -ms-transition: all 6s ease-in-out;
@@ -3259,14 +3260,24 @@ button:hover{
     outline: none;
 }
 
-.chosen-centrado .chzn-container{
+.chosen-centrado .select2-container{
     width: 100% !important;
-    margin: 0 auto;
+    margin: 0 auto !important;
     display: block;
     padding: 0;
     margin-top: 5px;
-    border-width: 0 1px 1px 1px;
+    border-width: 0 !important;
     font-size: 16px !important;
+}
+
+.select2-choices{
+    border: 1px solid #fff !important;
+    outline: none;
+
+    -webkit-box-shadow: 0 0 0 #fff !important;
+    -moz-box-shadow: 0 0 0 #fff !important;
+    box-shadow: 0 0 0 #fff !important;
+    background: none !important;
 }
 
 .chosen-centrado .chzn-drop{
@@ -3305,10 +3316,19 @@ button:hover{
     padding: 5px;
 }
 
+.permisos-wrapper{
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: block;
+}
+
 .permisos{
     display: block;
     margin: 0;
     padding: 0;
+    margin-bottom: 50px;
 }
 
 .panel-side #permisos-mes{

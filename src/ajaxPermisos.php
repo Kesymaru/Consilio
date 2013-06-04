@@ -9,7 +9,7 @@ require_once('master.php');
 require_once('class/upload.php');
 require_once('class/permisos.php');
 require_once('class/usuarios.php');
-
+require_once('class/session.php');
 
 if( isset($_POST['func']) ){
 
@@ -49,12 +49,20 @@ if( isset($_POST['func']) ){
             if( isset($_POST['nombre']) && isset($_POST['fecha_emision'])
                 && isset($_POST['fecha_expiracion'])
                 && isset($_POST['recordatorio'])
-                && isset($_POST['tipo_recordatorio'])
+                && isset($_POST['emails'])
                 && isset($_POST['areas']) ){
                 NuevoPermiso();
             }else{
                 echo 'faltan parametros';
             }
+            break;
+
+        case 'getResponsables':
+            getResponsables();
+            break;
+
+        case 'getMails':
+            getMails();
             break;
     }
 }
@@ -69,12 +77,8 @@ function NuevoPermiso(){
     $fecha_emision = $_POST['fecha_emision'];
     $fecha_expiracion = $_POST['fecha_expiracion'];
     $recordatorio = $_POST['recordatorio'];
-    $tipo_recordatorio = $_POST['tipo_recordatorio'];
+    $emails = $_POST['emails'];
     $areas = $_POST['areas'];
-
-    if( !isset($_POST['email']) ){
-        $email = $_POST['usar-mi-correo'];
-    }
 
     $observacion = '';
     if( isset($_POST['observacion']) ){
@@ -86,7 +90,7 @@ function NuevoPermiso(){
         $responsables = $_POST['responsables'];
     }
 
-    if( $id = $permisos->NuevoPermiso( $nombre, $fecha_emision, $fecha_expiracion, $recordatorio, $tipo_recordatorio, $email, $areas, $observacion, $responsables ) ){
+    if( $id = $permisos->NuevoPermiso( $nombre, $fecha_emision, $fecha_expiracion, $recordatorio, $emails, $areas, $observacion, $responsables ) ){
 
         //sube los archivos
         if( $error = $permisos->UploadFiles($_FILES, $id ) ){
@@ -131,14 +135,17 @@ function Caledario(){
                                 <span>Enero</span>
                                 <button type="button" class="derecha button-simbolo" onclick="$Permisos.NuevoPermiso()" title="Crear Nuevo Permiso">+</button>
                             </div>
-                            <ul class="permisos" id="lista-permisos" >
-                                <!-- lista permisos -->
-                                <li class="add" >
-                                    <span title="Crear Nuevo Permiso" onclick="$Permisos.NuevoPermiso()">
-                                        +
-                                    </span>
-                                </li>
-                            </ul>
+                            <div class="permisos-wrapper">
+                                <ul class="permisos" id="lista-permisos" >
+                                    <!-- lista permisos -->
+                                    <li class="add" >
+                                        <span title="Crear Nuevo Permiso" onclick="$Permisos.NuevoPermiso()">
+                                            +
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- fin lista de permisos -->
 
                             <!-- panel de edicion de nuevo permiso -->
                             <div id="panel-edicion" class="panel-edicion"> ';
@@ -150,7 +157,7 @@ function Caledario(){
 
                        </div>
                        <div class="calendar" id="calendar-permisos">
-                            <img class="logo-cliente" src="'.$logo.'" title="'.$datosCliente[0]['nombre'].'" alt="'.$datosCliente[0]['nombre'].'" />
+                            <!-- <img class="logo-cliente" src="'.$logo.'" title="'.$datosCliente[0]['nombre'].'" alt="'.$datosCliente[0]['nombre'].'" /> -->
                             <div class="calendar-titulo">
                                 <img id="previous-year-calendar" src="images/preview.png" class="icon izquierda" title="Anterior" />
                                     <span id="year">'.$year.'</span>
@@ -221,7 +228,7 @@ function ListaPermisos( $year, $month ){
                             Responsable: ';
 
                 foreach ($responsables as $f => $responsable) {
-                    $lista .= $responsable['nombre'].' '.$responsable['apellidos'];
+                    $lista .= $responsable['nombre'].' '.$responsable['apellidos'].", ";
                 }
 
                 $lista .= '</span>';
@@ -235,6 +242,8 @@ function ListaPermisos( $year, $month ){
                            </span>';
             }
 
+            $lista .= ArchivosPermiso($permiso['id']);
+
             $lista .= '</li>';
         }
 
@@ -243,6 +252,39 @@ function ListaPermisos( $year, $month ){
     }
     //$lista = '<li class="add" onclick="$Permisos.NuevoPermiso()">+</li>';
     echo $lista;
+}
+
+/**
+ * OBTIENE LOS ARCHIVOS DE UN PERMISO
+ * @param int $id -> id del permiso
+ */
+function ArchivosPermiso($id){
+    $permisos = new Permisos();
+
+    $lista = '';
+
+    if( $archivos = $permisos->getPermisosArchivos($id) ){
+        $lista .= '<span class="permisos-archivos">';
+
+        foreach($archivos as $f => $archivo){
+            $info = pathinfo($archivo['link']);
+            //echo '<pre>'; print_r($info); echo '</pre>';
+
+            $imagen = "images/folder.png";
+            if( $info['extension'] == "png" || $info['extension'] == "jpeg" || $info['extension'] == "gif"){
+                $imagen = $_SESSION['datos'].$archivo['link'];
+            }
+
+            $lista .= '<a href="http://localhost/matrizescala/src/download.php?link='.$_SESSION['datos'].$archivo['link'].'" title="Descargar" >
+                            <img src="'.$imagen.'" />
+                            <p>'.$archivo['nombre'].'<p>
+                       </a>';
+        }
+
+        $lista .= '</span>';
+    }
+
+    return $lista;
 }
 
 /**
@@ -285,35 +327,46 @@ function FomularioNuevoPermiso(){
                                 <td>
                                     Recordatorio
                                 </td>
-                                <td>
-                                    <input type="number" id="recordatorio" name="recordatorio" placeholder="Tiempo" class="validate[required,custom[number]]" />
+                                <td colspan="2">
+                                    <input type="number" id="recordatorio" name="recordatorio" placeholder="Fecha recordatorio" class="validate[required,custom[date]]" />
                                 </td>
-                                <td class="td-right">
+                                <!--<td class="td-right">
                                     <select class="validate[required]" name="tipo_recordatorio" >
                                         <option value="0">Días</option>
                                         <option value="1">Semanas</option>
                                         <option value="2">Meses</option>
                                     </select>
+                                </td>-->
+                            </tr>
+                            <tr title="Emails para el recordatorio">
+                                <td>
+                                    Emails:
+                                </td>
+                                <td colspan="2">
+                                    <input type="text" id="emails" name="emails" placeholder="Email para el recordatorio" />
                                 </td>
                             </tr>
-                            <tr title="Email para el recordatorio">
+                            <tr>
                                 <td>
-                                    Email:
+                                    Responsables
                                 </td>
-                                <td>
-                                    <input type="text" id="email_recordatorio" name="email" placeholder="Email para el recordatorio" class="validate[required],custom[email]" />
-                                </td>
-                                <td class="td-right">
-                                    <label for="usar-mi-correo">
-                                        <input type="checkbox" id="usar-mi-correo" value="'.$_SESSION['cliente_email'].'" name="usar-mi-correo">
-                                        Usar mi email
-                                    </label>
+                                <td colspan="2">
+                                    <input type="hidden" id="responsables" placeholder="Responsables"  />
                                 </td>
                             </tr>
-                        </table>';
+                            <tr>
+                                <td>
+                                    Areas de Aplicacion
+                                </td>
+                                <td colspan="2">
+                                    '.SelectAreasAplicacion().'
+                                </td>
+                            </tr>
+                        </table>
+                        ';
 
-    $formulario .= SelecResponsables();
-    $formulario .= SelectAreasAplicacion();
+//    $formulario .= SelecResponsables();
+//    $formulario .= SelectAreasAplicacion();
 
     $formulario .=      '<textarea id="observacion" name="observacion" placeholder="Observacion" ></textarea>
                          <div class="archivos" id="select-archivos" >
@@ -347,11 +400,15 @@ function SelecResponsables(){
 
     if( $responsables = $cliente->getResponsables() ){
         foreach( $responsables as $f => $responsable ){
-            $select .= '<option value="'.$responsable['id'].'" title="'.$responsable['email'].'" >'.$responsable['nombre'].' '.$responsable['apellidos'].'</option>';
+            $select .= '<option value="'.$responsable['id'].'" title="'.$responsable['email'].'" >
+                            '.$responsable['nombre'].' '.$responsable['apellidos'].'
+                        </option>';
         }
     }
 
     $select .= '</select>';
+
+    $select = '<input type="hidden" id="responsables" placeholder="Responsables"  /> ';
 
     return $select;
 }
@@ -362,7 +419,7 @@ function SelecResponsables(){
 function SelectAreasAplicacion(){
     $permisos = new Permisos();
 
-    $select = '<select id="areas" name="areas" data-placeholder="Area de aplicacion" multiple class="validate[required]" >';
+    $select = '<select id="areas" name="areas" data-placeholder="Area de aplicacion" multiple >';
 
     if( $areas = $permisos->getAreasAplicacion() ){
 
@@ -380,6 +437,56 @@ function SelectAreasAplicacion(){
 
     $select .= '</select>';
 
+//    $select = '<input type="hidden" id="areas" placeholder="Areas" /> ';
     return $select;
+}
+
+/**
+ * OBTIENE LOS RESPONSABLES DE UN CLIENTE
+ */
+function getResponsables(){
+    $cliente = new Cliente();
+
+    $lista = array();
+
+    if( $responsables = $cliente->getResponsables() ){
+        foreach( $responsables as $f => $responsable ){
+            $lista[] = array(
+                "text"=>$responsable['nombre'].' '.$responsable['apellidos'],
+                "id"=>$responsable['id'],
+                "title"=>$responsable['nombre'].' titulo'
+                    );
+        }
+    }
+
+    echo json_encode( $lista );
+}
+
+/**
+ * OBTIENE LOS EMAILS DISPONIBLES DE UN CLINETE
+ * EMAIL PROPIO Y EMAILS DE RESPONSABLES
+ */
+function getMails(){
+    $cliente = new Cliente();
+
+    $datos = $cliente->getDatosCliente( $_SESSION['cliente_id'] );
+
+    $emails = array();
+
+    if( $responsables = $cliente->getResponsables() ){
+        $emails[] = array(
+                "text"=>$datos[0]['email'],
+                "id"=>$datos[0]['email']
+        );
+
+        foreach( $responsables as $f => $responsable ){
+            $lista[] = array(
+                "text"=>$responsable['email'],
+                "id"=>$responsable['email']
+            );
+        }
+    }
+
+    echo json_encode( $emails );
 }
 

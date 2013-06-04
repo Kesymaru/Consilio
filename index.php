@@ -33,6 +33,7 @@ $master = new Master();
 	<link rel="stylesheet" type="text/css" href="css/jquery.contextMenu.css">
 	<link rel="stylesheet" type="text/css" href="css/jquery.ui.timepicker.css">
 	<link rel="stylesheet" type="text/css" href="css/chosen.css">
+    <link rel="stylesheet" type="text/css" href="js/select2/select2.css">
 	<link rel="stylesheet" type="text/css" href="fancybox/jquery.fancybox.css">
 
 	<link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.css" />
@@ -83,7 +84,7 @@ $master = new Master();
 
     <!-- plugin para el calendario -->
     <script src='js/chosen.js'></script>
-
+    <script src="js/select2/select2.js"></script>
 </head>
 
 <body oncontextmenu="return false;" >
@@ -246,7 +247,7 @@ $master = new Master();
                 <div class="tab tab-selected" onclick="TabProyectos()">
                     Mis Proyectos
                 </div>
-                <div class="tab ocultos" onclick="TabPermisos()">
+                <div class="tab" onclick="TabPermisos()">
                     Permisos
                 </div>
             </div>
