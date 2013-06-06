@@ -189,7 +189,7 @@ $.extend(Permisos.prototype, {
                     tags: clase.responsables,
                     allowClear: true,
                     multiple: true,
-                    tokenSeparators: [",", " "],
+                    tokenSeparators: [","],
                     createSearchChoice: function(term, data) {
                         if ($(data).filter(function() {
                             return this.text.localeCompare(term) === 0;

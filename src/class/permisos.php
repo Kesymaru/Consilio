@@ -1,7 +1,6 @@
 <?php
-/*
- * CLASE PARA METODOS DE LOS PERMISOS DEL CLIENTE
- */
+
+error_reporting(E_ALL);
 
 require_once('session.php');
 require_once('classDatabase.php');
@@ -14,7 +13,12 @@ class Permisos {
 
     public function __construct(){
         $session = new Session();
-        $session->Logueado();
+
+        //garantiza que este logueado
+        if( !$session->Logueado() ){
+            return false;
+            exit();
+        }
 
         date_default_timezone_set('America/Costa_Rica');
     }
@@ -67,11 +71,11 @@ class Permisos {
      */
     public function getPermisos($year, $month ){
         $base = new Database();
-        $session = new Session();
+/*        $session = new Session();
 
         if( !$session->Logueado() ){
             return false;
-        }
+        }*/
 
         $year = mysql_real_escape_string( $year );
         $month = mysql_real_escape_string( $month );
@@ -124,27 +128,29 @@ class Permisos {
      * @param date $fecha_emision
      * @param date $fecha_expiracion
      * @param int $recordatorio
-     * @param int $tipo_recordatorio
      * @param string $emails
      * @param array|string $areas
      * @param string $observacion
      * @param array|string $responsables
      */
-    public function NuevoPermiso( $nombre, $fecha_emision, $fecha_expiracion, $recordatorio, $tipo_recordatorio, $emails, $areas, $observacion, $responsables  ){
+    public function NuevoPermiso( $nombre, $fecha_emision, $fecha_expiracion, $recordatorio, $emails, $areas, $observacion, $responsables ){
         $base = new Database();
 
         $nombre = mysql_real_escape_string( $nombre );
         $fecha_emision = mysql_real_escape_string( $fecha_emision );
         $fecha_expiracion = mysql_real_escape_string( $fecha_expiracion );
         $recordatorio = mysql_real_escape_string( $recordatorio );
-        $tipo_recordatorio = mysql_real_escape_string( $tipo_recordatorio );
         $emails = mysql_real_escape_string( $emails );
         $observacion = mysql_real_escape_string( $observacion );
         $cliente = $_SESSION['cliente_id'];
 
+        //invierte las fechas con formato dd/mm/yyyy -> yyyy-mm-dd
+        $fecha_emision = date( 'Y-m-d', strtotime($fecha_emision) );
+        $fecha_expiracion = date( 'Y-m-d', strtotime($fecha_expiracion) );
+
         $fecha_creacion = date('Y-m-d G:i:s');
 
-        echo $query = "INSERT INTO permisos (nombre, fecha_emision, fecha_expiracion, observacion, fecha_creacion, cliente ) VALUES ( '".$nombre."', '".$fecha_emision."', '".$fecha_expiracion."', '".$observacion."', '".$fecha_creacion."', '".$cliente."' ) ";
+        $query = "INSERT INTO permisos (nombre, fecha_emision, fecha_expiracion, observacion, fecha_creacion, cliente ) VALUES ( '".$nombre."', '".$fecha_emision."', '".$fecha_expiracion."', '".$observacion."', '".$fecha_creacion."', '".$cliente."' ) ";
 
         if( $base->Insert($query) ){
             if( $id = $base->getUltimoId() ){
@@ -155,65 +161,66 @@ class Permisos {
                 }
 
                 //crea el recordatorio
-                if( $this->NuevoRecordatorio($id, $recordatorio, $tipo_recordatorio, $emails) ){
+                if( $this->NuevoRecordatorio($id, $recordatorio, $emails) ){
                     return $id;
-                }else{
-                    return false;
                 }
 
-            }else{
-                return false;
             }
-        }else{
-            return false;
         }
+        return false;
     }
 
     /**
      * CREA UN NUEVO RECORDATORIO PARA EL PERMISO
      * @param int $permiso -> id del permiso al que pertenece
-     * @param int $tiempo -> unidad de tiempo para el recordatorio
+     * @param string $fecha_inicio -> fecha de inicio del recordatorio dd/mm/yy
+     * @param string $emails -> emails
+     * @return boole
      */
-    private function NuevoRecordatorio( $permiso, $tiempo, $tipo, $emails ){
+    private function NuevoRecordatorio( $permiso, $fecha_inicio, $emails ){
         $base = new Database();
 
-        if( 0 <= $tipo && $tipo <= 2 ){
-            $fecha_creacion = date('Y-m-d G:i:s');
+        //invierte la fecha
+        $fecha_inicio = date( 'Y-m-d', strtotime($fecha_inicio) );
 
-            $query = "INSERT INTO permisos_recordatorios ( tiempo, tipo, permiso, fecha_creacion ) VALUES ('".$tiempo."', '".$tipo."', '".$permiso."', '".$fecha_creacion."' ) ";
+        $fecha_creacion = date('Y-m-d G:i:s');
 
-            if( $base->Insert($query) ){
-                $id = $base->getUltimoId();
+        $query = "INSERT INTO permisos_recordatorios ( fecha_inicio, permiso, fecha_creacion ) VALUES ('".$fecha_inicio."', '".$permiso."', '".$fecha_creacion."' ) ";
 
-                $this->EmailsRecordatorio( $id, $emails );
+        if( $base->Insert($query) ){
 
-                return true;
-            }else{
-                return false;
-            }
-        }else{
-            return false;
+            $this->EmailsRecordatorio( $permiso, $emails );
+
+            return true;
         }
+
+        return false;
     }
 
     /**
      * REGISTRA LOS CORREOS PARA UN RECORDATORIO
-     * @param $permiso
-     * @param $datos
+     * @param int $permiso -> id del permiso del recordatorio
+     * @param string $datos -> texto separado por comas con los valores
      */
     private function EmailsRecordatorio( $permiso, $datos ){
         $base = new Database();
-        echo '<hr>'.$datos.'<hr/>';
+
         $emails = explode(",", $datos);
+
+        //tiene mas de un email
         if( is_array( $emails) ){
 
             foreach($emails as $f => $email ){
+                $email = mysql_real_escape_string($email);
+
                 $query = "INSERT INTO permisos_recordatorios_emails (email, permiso) VALUE ('".$email."','".$permiso."')";
 
                 $base->Insert( $query );
             }
         }else{
-            $query = "INTER INTO permisos_recordatorios_emails (email, permiso) VALUE ('".$datos."','".$permiso."')";
+            $email  = mysql_real_escape_string($datos);
+
+            $query = "INTER INTO permisos_recordatorios_emails (email, permiso) VALUE ('".$email."','".$permiso."')";
 
             $base->Insert( $query );
         }
@@ -221,43 +228,65 @@ class Permisos {
 
     /**
      * REGISTRA LOS RESPONSABLES DE UN PERMISO
-     * @param int $permiso
+     * @param int $permiso -> id del permiso
      * @param array|string $responsables
      * @return bool
      */
     public function PermisosResponsables($permiso, $responsables ){
         $base = new Database();
-        $errors = array();
 
         $permiso = mysql_real_escape_string($permiso);
+
+        $responsables =  explode(",", $responsables);
 
         if( is_array($responsables) ){
 
             foreach( $responsables as $f => $responsable ){
                 $responsable = mysql_real_escape_string( $responsable );
 
-                $query = "INSER INTO permisos_responsables (permiso, responsable, fecha_creacion) VALUES ('".$permiso."', '".$responsable."', '".$fecha_creacion."' ) ";
-                if( !$base->Insert($query) ){
-                    $errors[] = "Error: no se pudo registrar el responsable del permiso $permiso, responsable: $responsable";
-                }
+                $query = $this->CrearResponsable($responsable);
+
+                $base->Insert($query);
             }
 
         }else{
-            $responsable = mysql_real_escape_string($responsables);
+            $responsable = mysql_real_escape_string( $responsables );
 
-            $query = "INSER INTO permisos_responsables (permiso, responsable, fecha_creacion) VALUES ('".$permiso."', '".$responsable."', '".$fecha_creacion."' ) ";
+            $query = $this->CrearResponsable($responsable);
 
-            if( !$base->Insert($query)){
-                $errors[] = "Error: no se pudo registrar el responsable del permiso $permiso, responsable: $responsable";
+            if( !$base->Insert($query) ){
+                return false;
             }
         }
 
-        if( empty($error) ){
-            return true;
-        }else{
-            $this->errors = $errors;
-            return false;
+    }
+
+    /**
+     * DETERMINA SI EL RESPONSABLE EXISTE Y SINO LO CREA
+     * @param string $responsable -> email
+     * @param int $permiso -> id del permiso
+     * @return string $query -> el query
+     */
+    private function CrearResponsable($responsable, $permiso){
+        $cliente = new Cliente();
+
+        $fecha_creacion = date("Y-m-d H:i:s");
+
+        if( is_numeric($responsable) ){
+
+            //si ya existe
+            if( $cliente->ExisteResponsable($responsable) ){
+                $query = "INSERT INTO permisos_responsables (permiso, responsable, fecha_creacion) VALUES ('".$permiso."', '".$responsable."', '".$fecha_creacion."' ) ";
+                return $query;
+            }
         }
+
+        //crea un nuevo responsable
+        if( $nuevo = $cliente->NuevoResponsable($responsable,"") ){
+            $query = "INSERT INTO permisos_responsables (permiso, responsable, fecha_creacion) VALUES ('".$permiso."', '".$nuevo."', '".$fecha_creacion."' ) ";
+        }
+
+        return $query;
     }
 
     /**
@@ -327,9 +356,8 @@ class Permisos {
 
         if( $base->Insert($query) ){
             return true;
-        }else{
-            return false;
         }
+        return false;
     }
 
     /**
@@ -346,9 +374,8 @@ class Permisos {
 
         if( $archivos = $base->Select($query) ){
             return $archivos;
-        }else{
-            return false;
         }
+        return false;
     }
 
     /************************************ AREAS DE APLIACION ********************/
@@ -364,13 +391,9 @@ class Permisos {
         if( $datos = $base->Select( $query ) ){
             if( !empty($datos) ){
                 return $datos;
-            }else{
-                return false;
             }
-        }else{
-            return false;
         }
+        return false;
     }
 
 }
-?>

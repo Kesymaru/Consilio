@@ -19,6 +19,7 @@ class Cliente{
 		$session = new Session();
 		$session->Logueado();
 
+        date_default_timezone_set('America/Costa_Rica');
 	}
 
 	/**
@@ -29,11 +30,18 @@ class Cliente{
 	*/
 	public function getClienteDato($dato, $id){
 		$base = new Database();
-		$datos = $base->Select("SELECT ".$dato." FROM clientes WHERE id = '".$id."'");
-		return $datos[0][$dato];
+
+        $dato = mysql_real_escape_string($dato);
+        $id = mysql_real_escape_string($id);
+
+        $query = "SELECT ".$dato." FROM clientes WHERE id = '".$id."'";
+
+		if( $datos = $base->Select($query) ){
+            return $datos[0][$dato];
+        }
+
+        return false;
 	}
-
-
 
 	/**
 	* OBTIENE TODOS LOS DATOS DE UN CLIENTE
@@ -41,7 +49,10 @@ class Cliente{
 	*/
 	function getDatosCliente($id){
 		$base = new Database();
-		$query = "SELECT * FROM clientes WHERE id = ".$id;
+
+        $id = mysql_real_escape_string($id);
+
+		$query = "SELECT * FROM clientes WHERE id = '".$id."' ";
 
 		$datos = $base->Select($query);
 		
@@ -64,17 +75,52 @@ class Cliente{
         $query = "SELECT * FROM clientes_responsables WHERE cliente = '".$cliente."' ";
 
         if( $responsables = $base->Select($query) ){
+
             if( !empty($responsables) ){
                 return $responsables;
             }else{
                 return false;
             }
-        }else{
-            return false;
-        }
 
+        }
+        return false;
+    }
+
+    /**
+     * DETERMINA SI UN RESPONSABLE DE UN CLIENTE EXISTE
+     * @param $id -> id del responsable
+     */
+    public function ExisteResponsable($id){
+        $base = new Database();
+
+        $id = mysql_real_escape_string( $id );
+        $cliente = mysql_real_escape_string( $_SESSION['cliente_id'] );
+
+        $query = "SELECT * FROM clientes_responsables WHERE cliente = '".$cliente."' AND id = '".$id."' ";
+
+        if( $base->Existe($query) ){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param $nombre
+     * @param $email
+     * @return bool|int
+     */
+    public function NuevoResponsable($nombre, $email){
+        $base = new Database();
+
+        $nombre = mysql_real_escape_string( $nombre );
+        $fecha_creacion = date("Y-m-d H:i:s");
+
+        $query = "INSERT INTO clientes_responsables (nombre, email, fecha_creacion) values ('".$nombre."', '".$email."', '".$fecha_creacion."') ";
+
+        if( $base->Insert($query)){
+            return $base->getUltimoId();
+        }
+        return false;
     }
 
 }
-
-?>

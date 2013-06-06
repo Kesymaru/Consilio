@@ -333,7 +333,7 @@ function EditarProyecto($id){
 					  			<td>
 					  				<input type="text" name="nombre" title="Nombre Para Nuevo Proyecto" placeholder="Nombre" class="validate[required]" value="'.$datos[0]['nombre'].'" />
 					  			</td>
-					  			<td rowspan="4" class="td-project-image">
+					  			<td rowspan="5" class="td-project-image">
 					  				<img id="image-preview" title="Imagen Para El Proyecto" src="'.$datos[0]['imagen'].'" />
 					  				<br/>
 					  				<input type="file" name="imagen" id="imagen" class="validate[optional]" onchange="PreviewImage(this,\'image-preview\')" />
@@ -398,6 +398,29 @@ function EditarProyecto($id){
 		
 		$formulario .= '    
 								</td>
+							</tr>
+							<tr>
+							    <td>
+							        Permisos
+							    </td>
+							    <td>';
+
+        if($datos[0]['permisos'] == 1 ){
+            $formulario .= '<input id="radio-permisos1" type="radio" checked="checked" name="permisos" value="1">
+						  				<label for="radio-permisos1">Mostrar</label>
+
+						  			<input id="radio-permisos2" type="radio" name="permisos" value="0">
+						  				<label for="radio-permisos2">Ocultar</label>';
+        }else{
+            $formulario .= '<input id="radio-permisos1" type="radio" name="permisos" value="1">
+						  				<label for="radio-permisos1">Mostrar</label>
+
+						  			<input id="radio-permisos2" type="radio" name="permisos" checked="checked" value="0">
+						  				<label for="radio-permisos2">Ocultar</label>';
+        }
+
+
+        $formulario.='        </td>
 							</tr>
 					  		</table>
 					  		Descripcion

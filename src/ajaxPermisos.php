@@ -36,15 +36,14 @@ if( isset($_POST['func']) ){
 
         case 'Permisos':
             if( isset($_POST['year']) && isset($_POST['month']) ){
-
                 ListaPermisos( $_POST['year'], $_POST['month'] );
             }
             break;
 
         case 'RegistrarPermiso':
-            echo '<pre>'; print_r( $_POST); echo '</pre>';
+            /*echo '<pre>'; print_r( $_POST); echo '</pre>';
             echo '<pre>'; print_r( $_FILES ); echo '</pre>';
-            echo '<pre>'; print_r( pathinfo($_FILES['archivo0']['name']) ); echo "</pre>"; 
+            echo '<pre>'; print_r( pathinfo($_FILES['archivo0']['name']) ); echo "</pre>"; */
 
             if( isset($_POST['nombre']) && isset($_POST['fecha_emision'])
                 && isset($_POST['fecha_expiracion'])
@@ -328,15 +327,8 @@ function FomularioNuevoPermiso(){
                                     Recordatorio
                                 </td>
                                 <td colspan="2">
-                                    <input type="number" id="recordatorio" name="recordatorio" placeholder="Fecha recordatorio" class="validate[required,custom[date]]" />
+                                    <input type="text" id="recordatorio" name="recordatorio" placeholder="Fecha recordatorio" class="validate[required,datepicker]" />
                                 </td>
-                                <!--<td class="td-right">
-                                    <select class="validate[required]" name="tipo_recordatorio" >
-                                        <option value="0">Días</option>
-                                        <option value="1">Semanas</option>
-                                        <option value="2">Meses</option>
-                                    </select>
-                                </td>-->
                             </tr>
                             <tr title="Emails para el recordatorio">
                                 <td>

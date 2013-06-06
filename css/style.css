@@ -3023,7 +3023,7 @@ button:hover{
     PANELESs
 */
 .panel-side{
-    width: 59.5%;
+    width: 69.5%;
     height: 100%;
     min-width: 200px;
     display: inline-block;
@@ -3034,7 +3034,7 @@ button:hover{
 .panel-edicion{
     background: #F3EFE6;
     position: absolute;
-    width: 59.5%;
+    width: 69.5%;
     height: 0;
     margin-top: 100%;
     overflow-x: hidden;
@@ -3431,7 +3431,7 @@ button:hover{
 */
 .calendar{
     display: inline-block;
-    width: 40%;
+    width: 30%;
     float: left;
     text-align: center;
 }
@@ -3509,27 +3509,6 @@ button:hover{
         -moz-transition: all 1s ease-in-out;
         -webkit-transition: all 1s ease-in-out;
     transition: all 1s ease-in-out;
-}
-
-@media screen and (max-width:960px){
-    .week-headers td{
-
-            -o-transition: all 1s ease-in-out;
-            -ms-transition: all 1s ease-in-out;
-            -moz-transition: all 1s ease-in-out;
-            -webkit-transition: all 1s ease-in-out;
-        transition: all 1s ease-in-out;
-    }
-    .week-headers td span{
-        opacity: 0;
-        width: 0px !important;
-
-            -o-transition: all 1s ease-in-out;
-            -ms-transition: all 1s ease-in-out;
-            -moz-transition: all 1s ease-in-out;
-            -webkit-transition: all 1s ease-in-out;
-        transition: all 1s ease-in-out;
-    }
 }
 
 .mes .banderin{
