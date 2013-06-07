@@ -12,6 +12,9 @@ $.extend(Permisos.prototype, {
     responsables: [],
     emails: [],
 
+    //almacena el formulario
+    formularioNuevo: '',
+
     /**
      * INICIALIZA EL CALENDARIO DE LOS PERMISOS
      */
@@ -51,7 +54,8 @@ $.extend(Permisos.prototype, {
             clase.CalendarioYear(year);
         });
 
-        console.log( 'eventos del calendario inicializados ');
+        //console.log( 'eventos del calendario inicializados ');
+        this.formularioNuevo = $("#FormularioNuevoPermiso").clone(true);
 
     },
 
@@ -73,7 +77,7 @@ $.extend(Permisos.prototype, {
                 $calendario = response;
 
                 for( var i= 0; i <= response.length-1; i++ ){
-                    console.log('cal '+i+' '+response[i]);
+                    //console.log('cal '+i+' '+response[i]);
 
                     if( response[i] == 0 || response[i] == undefined ){
                         $("#"+i).removeClass('mes-actived');
@@ -110,7 +114,7 @@ $.extend(Permisos.prototype, {
             url: "src/ajaxPermisos.php",
             success: function(response){
 
-                clase.HideFormularioNuevoPermiso();
+                clase.HidePanelEdicion();
 
                 $("#lista-permisos").fadeOut(500, function(){
                     $("#lista-permisos").html( response).fadeIn(500);
@@ -119,18 +123,41 @@ $.extend(Permisos.prototype, {
         });
     },
 
+    /**
+     * MUESTRA EL FORMULARIO PARA UN PERMISO NUEVO
+     * @returns {boolean}
+     */
     NuevoPermiso: function(){
+        var clase = this;
 
-        this.ResetFormularioNuevoPermiso();
-        this.ShowFormularioNuevoPermiso();
-        this.InicializaFormularioNuevoPermiso();
+        var queryParams = {"func": "NuevoPermiso"};
+
+        //si ya existe no lo recarga lo resetea
+        if( $("#FormularioNuevoPermiso").length ){
+            console.log('reset formulario');
+
+            this.ResetFormulario();
+
+            return true;
+        }
+
+        $.ajax({
+            data: queryParams,
+            type: "POST",
+            url: "src/ajaxPermisos.php",
+            success: function( response ){
+                $("#panel-edicion").html(response);
+                clase.InicializaFormularioNuevoPermiso();
+                clase.ShowPanelEdicion();
+            }
+        });
 
     },
 
     /**
      * MUESTRA EL FORMULARIO CON ANIMACION
      */
-    ShowFormularioNuevoPermiso: function(){
+    ShowPanelEdicion: function(){
         var clase = this;
 
         var alto = $("#panel-permisos").height();
@@ -165,6 +192,29 @@ $.extend(Permisos.prototype, {
     },
 
     /**
+     * ESCONDE EL PANEL DE EDICION
+     * @constructor
+     */
+    HidePanelEdicion: function(){
+
+        $("#panel-edicion").animate({
+            "margin-top" : '100%',
+            height: 0
+        }, {
+            duration: 700,
+            queue: false,
+            complete: function(){
+                $("#panel-edicion").css({
+                    "margin-top" : '100%',
+                    "height" : 0
+                });
+                $("#panel-edicion").removeClass('panel-edicion-activo');
+            }
+        });
+
+    },
+
+    /**
      * CARGA EL SELECT DE RESPONSABLES
      */
     SelectResponsables: function(){
@@ -187,6 +237,62 @@ $.extend(Permisos.prototype, {
                 //carga select con opcion de agregar
                 $("#responsables").select2({
                     tags: clase.responsables,
+                    allowClear: true,
+                    multiple: true,
+                    tokenSeparators: [","],
+                    createSearchChoice: function(term, data) {
+                        if ( $(data).filter(function() {
+                            return this.text.localeCompare(term) === 0;
+                        }).length === 0) {
+                            return {
+                                id: term,
+                                text: term,
+                                title: term
+                            };
+                        }
+                    },
+                });
+
+            }
+        });
+    },
+
+    /**
+     * CARGA LOS RESPONSABLES SELECCIONADOS DE UN PERMISO
+     * @param int id -> id del permiso
+     */
+    SelectedResponsables: function(id){
+
+        var clase = this;
+
+        var queryParams = {"func" : "getResponsables", "id" : id};
+
+        $.ajax({
+            data: queryParams,
+            type: "POST",
+            dataType: "JSON",
+            url: "src/ajaxPermisos.php",
+            success: function( response ){
+                console.log( "SELECTED RESPONSABLES "+response );
+                $respuesta = response;
+
+                $("#responsables").select2("destroy");
+
+                //carga select con opcion de agregar
+                $("#responsables").select2({
+                    initSelection : function (element, callback) {
+                        $data = [];
+
+                        $( element.val().split(",")).each(function (f) {
+                            for( var i = 0; i < response.selected.length; i++ ){
+                                if( response.selected[i]['id'] == f ){
+                                        $data.push( response.selected[i] );
+                                }
+                            }
+                        });
+                        callback($data);
+                    },
+                    tags: response.tags,
                     allowClear: true,
                     multiple: true,
                     tokenSeparators: [","],
@@ -294,39 +400,14 @@ $.extend(Permisos.prototype, {
 
         }
 
-        console.log("EMAILS: "+emails);
+        //console.log("EMAILS: "+emails);
     },
 
     /**
-     * ESCONDE EL PANEL DE EDICION
-     * @constructor
+     * INICIALIZA LOS COMPONENTES EN COMUN PARA EL FORM DE EDITAR Y DE NUEVO PERMISO
      */
-    HideFormularioNuevoPermiso: function(){
-
-        $("#panel-edicion").animate({
-            "margin-top" : '100%',
-            height: 0
-        }, {
-            duration: 700,
-            queue: false,
-            complete: function(){
-                $("#panel-edicion").css({
-                    "margin-top" : '100%',
-                    "height" : 0
-                });
-                $("#panel-edicion").removeClass('panel-edicion-activo');
-            }
-        });
-
-    },
-
-    /**
-     * INICIALIZA EL FORMULARIO PARA UN NUEVO PERMISO
-     */
-    InicializaFormularioNuevoPermiso: function(){
+    InicializaFormulario: function(){
         var clase = this;
-
-        $('#FormularioNuevoPermiso').on('reset', this.ResetFormularioNuevoPermiso );
 
         $("#add-file").off('click');
         $("#add-file").on('click', function(){
@@ -334,7 +415,7 @@ $.extend(Permisos.prototype, {
         } );
 
         $('#input0').change(function(e) {
-            clase.PreviewFormularioNuevoPermiso( e, 0 );
+            clase.PreviewFormularioPermiso( e, 0 );
         });
 
         $("#FormularioNuevoPermiso").validationEngine({
@@ -350,34 +431,17 @@ $.extend(Permisos.prototype, {
             dateFormat: 'dd/mm/yy',
         });
 
-        /*//selector de fecha para fecha de emision
-        $( "#fecha_emision" ).datepicker( {
-            dateFormat: 'dd/mm/yy',
-            onSelect: function(){
-                console.log('cambio para fecha expiracion');
-                var date = new Date( $("#fecha_emision").val() );
+    },
 
-                $("#fecha_expiracion").datepicker( "option", "minDate", date );
-                //$("#fecha_expiracion").datepicker( "refresh" );
-            }
-        });
+    /**
+     * INICIALIZA EL FORMULARIO PARA UN NUEVO PERMISO
+     */
+    InicializaFormularioNuevoPermiso: function(){
+        var clase = this;
 
-        //selector de fecha para expiracion
-        $( "#fecha_expiracion" ).datepicker( {
-            dateFormat: 'dd/mm/yy',
-            onSelect: function(){
-                console.log('cambio para recordatorio expiracion');
-                var date = new Date( $("#fecha_expiracion").val() );
+        this.InicializaFormulario();
 
-                $("#recordatorio").datepicker( "option", "minDate",date );
-                //$("#recordatorio").datepicker( "refresh" );
-            }
-        });
-
-        //selector de fecha para el recordatorio
-        $( "#recordatorio" ).datepicker( {
-            dateFormat: 'dd/mm/yy',
-        });*/
+        //$('#FormularioNuevoPermiso').on('reset', this.ResetFormulario );
 
         var options = {
             beforeSend: function(){
@@ -389,8 +453,9 @@ $.extend(Permisos.prototype, {
             beforeSubmit: clase.ValidaSelects,
             success: function(response) {
                 console.log( response );
-                clase.HideFormularioNuevoPermiso();
-                clase.ResetFormularioNuevoPermiso();
+
+                clase.HidePanelEdicion();
+                clase.ResetFormulario();
 
                 //actualiza calendario
                 clase.RefreshCalendar();
@@ -406,7 +471,7 @@ $.extend(Permisos.prototype, {
     /**
      * RESETEA EL FORMULARIO
      */
-    ResetFormularioNuevoPermiso: function(){
+    ResetFormulario: function(){
         var clase = this;
 
         $('#FormularioNuevoPermiso')[0].reset();
@@ -418,11 +483,10 @@ $.extend(Permisos.prototype, {
         $("#archivos-inputs").html('<input type="file" id="input0" name="archivo0" />');
         this.archivo_id = 0;
 
-//        $("#emails").select2('data',[]).val("");
+        $("#emails").select2('data',[]).val("");
         $("#responsables").select2('data',[]).val("");
         $("#areas").select2('data',[]).val("");
 
-//        $("#areas, #responsables").val("").trigger("liszt:updated");
 
     },
 
@@ -431,7 +495,7 @@ $.extend(Permisos.prototype, {
      * @param event e
      * @param int id -> del input del archivo
      */
-    PreviewFormularioNuevoPermiso: function(e, id){
+    PreviewFormularioPermiso: function(e, id){
         console.log('evento preview '+id);
 
         var file = $("#input"+id)[0].files;
@@ -490,10 +554,12 @@ $.extend(Permisos.prototype, {
         if( clase.archivo_id > 0 ){
             var nuevo = '<input type="file" id="input'+this.archivo_id+'" name="archivo'+this.archivo_id+'" />';
             var id = this.archivo_id;
+
             $("#archivos-inputs").append(nuevo);
             $('#input'+this.archivo_id).change(function(e) {
-                clase.PreviewFormularioNuevoPermiso( e, id );
+                clase.PreviewFormularioPermiso( e, id );
             });
+
         }
 
         $("#input"+this.archivo_id).trigger('click');
@@ -509,6 +575,71 @@ $.extend(Permisos.prototype, {
         $("#file"+id).fadeOut(function(){
             $(this).remove();
         });
+    },
+
+    /**
+     * EDITA UN PERMISO
+     * @param id -> id del permiso
+     * @returns {boolean}
+     * @constructor
+     */
+    Editar: function( id ){
+        if( id == undefined ){
+            return false;
+        }
+
+        var clase = this;
+
+        var queryParams = {"func" : "EditarPermiso", "id" : id };
+
+        $.ajax({
+            data: queryParams,
+            type: "POST",
+            url: "src/ajaxPermisos.php",
+            success: function( response ){
+                console.log( response );
+                $("#panel-edicion").html( response );
+
+                clase.ShowPanelEdicion();
+                clase.InicializaFormularioEditarPermiso(id);
+            }
+        });
+    },
+
+    /**
+     * INICIALIZA EL FORMULARIO DE EDICION DE UN PERMISO
+     */
+    InicializaFormularioEditarPermiso: function(id){
+        var clase = this;
+
+        //componentes en comun
+        this.InicializaFormulario();
+        this.SelectedResponsables(id);
+
+        //$('#FormularioNuevoPermiso').on('reset', this.ResetFormulario );
+
+        var options = {
+            beforeSend: function(){
+                if( $("#select-archivos input").length <= 0 ){
+                    $('#select-archivos').validationEngine('showPrompt', '*Este campo es obligatorio', 'load');
+                    return false;
+                }
+            },
+            beforeSubmit: clase.ValidaSelects,
+            success: function(response) {
+                console.log( response );
+
+                clase.HidePanelEdicion();
+                clase.ResetFormulario();
+
+                //actualiza calendario
+                clase.RefreshCalendar();
+            },
+            fail: function(){
+            }
+        };
+
+        //$('#FormularioEditarPermiso').ajaxForm(options);
     },
 
 });
