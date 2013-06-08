@@ -281,3 +281,17 @@ Error:
 	JAVASCRIPT: 
 	June 5 2013 - 6:21 pm
  --------------------<>--------------------
+
+Error: 
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	June 7 2013 - 11:45 am
+ --------------------<>--------------------

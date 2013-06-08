@@ -97,16 +97,53 @@ class Permisos {
     }
 
     /**
-     * OBTIENE LOS RESPONSABLES DE UN PERMISO
-     * @param int $permiso -> id del permiso
-     * @return array $responsables
+     * OBTIEN LOS DATOS DE UN PERMISO
+     * @param $id -> id del permiso
      */
-    public function getResponsables( $permiso ){
+    public function getPermiso( $id ){
         $base = new Database();
 
-        $responsable = array('Maria Julia Gonzalez','Andrey Alfaro Alvarado');
+        $id = mysql_real_escape_string($id);
 
-        return $responsables;
+        $query = "SELECT * FROM permisos WHERE id = '".$id."' ";
+
+        if( $datos = $base->Select($query) ){
+            $query = "SELECT * FROM permisos_responsables WHERE permiso = '".$id."' ";
+
+            $datos['responsables'] =$base->Select($query);
+
+            $query = "SELECT * FROM permisos_recordatorios WHERE permiso = '".$id."' ";
+            $datos['recordatorios'] = $base->Select($query);
+
+            $query = "SELECT * FROM permisos_recordatorios_emails WHERE permiso = '".$id."' ";
+            $datos['emails'] = $base->Select($query);
+
+
+            return $datos;
+        }
+        return false;
+    }
+
+    /**
+     * OBTIENE LOS RESPONSABLES DE UN PERMISO
+     * @param int $id -> id del permiso
+     * @return array
+     */
+    public function getResponsables( $id ){
+        $base = new Database();
+
+        $id = mysql_real_escape_string($id);
+
+        $query = "SELECT clientes_responsables.*, permisos_responsables.permiso
+                  FROM clientes_responsables
+                  INNER JOIN permisos_responsables
+                  ON clientes_responsables.id=permisos_responsables.responsable
+                  AND permisos_responsables.permiso = '".$id."' ";
+
+        if( $responsables = $base->Select($query) ){
+            return $responsables;
+        }
+        return false;
     }
 
     /**
@@ -155,6 +192,9 @@ class Permisos {
         if( $base->Insert($query) ){
             if( $id = $base->getUltimoId() ){
 
+                //registra las areas
+                $this->AreasApliccionPermiso($id, $areas);
+
                 //registra los responsables
                 if( !empty($responsables) ){
                     $this->PermisosResponsables($id, $responsables);
@@ -164,7 +204,6 @@ class Permisos {
                 if( $this->NuevoRecordatorio($id, $recordatorio, $emails) ){
                     return $id;
                 }
-
             }
         }
         return false;
@@ -224,6 +263,22 @@ class Permisos {
 
             $base->Insert( $query );
         }
+    }
+
+    /**
+     * OBTIEN LOS EMAILS PARA EL RECORDATORIO
+     * @param $id -> id del permiso
+     * @return bool|array
+     */
+    public function getRecordatorioEmails( $id ){
+        $base = new Database();
+
+        echo $query = "SELECT * FROM permisos_recordatorios_emails WHERE permiso = '".$id."' ";
+
+        if( $datos = $base->Select($query) ){
+            return $datos;
+        }
+        return false;
     }
 
     /**
@@ -378,6 +433,21 @@ class Permisos {
         return false;
     }
 
+    /**
+     * OBTIENE LAS AREAS DE APLICACION DE UN PERMISO
+     * @param int $id -> id del permiso
+     */
+    public function getAreasApliccionPermiso( $id ){
+        $base = new Database();
+
+        $query = "SELECT * FROM permisos_areas_aplicacion WHERE permiso = '".$id."' ";
+
+        if( $datos = $base->Select($query) ){
+            return $datos;
+        }
+        return false;
+    }
+
     /************************************ AREAS DE APLIACION ********************/
 
     /**
@@ -395,5 +465,39 @@ class Permisos {
         }
         return false;
     }
+
+    /**
+     * REGISTRA LAS AREAS DE APLICACION DE UN PERMISO
+     * @param $id
+     * @param $areas
+     * @return bool
+     */
+    private function AreasApliccionPermiso( $id , $areas ){
+        $base = new Database();
+
+        $id = mysql_real_escape_string($id);
+        $fecha_creacion = date('Y-m-d G:i:s');
+
+        if( is_array($areas) ){
+
+            foreach( $areas as $f => $area ){
+                $query = "INSERT INTO permisos_areas_aplicacion (permiso, area, fecha_creacion) VALUES ('".$id."', '".$area."', '".$fecha_creacion."') ";
+
+                $base->Insert($query);
+            }
+            return true;
+
+        }else{
+            $areas = mysql_real_escape_string($areas);
+
+            $query = "INSERT INTO permisos_areas_aplicacion (permiso, area, fecha_creacion) VALUES ('".$id."', '".$areas."', '".$fecha_creacion."') ";
+
+            if( $base->Insert($query) ){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 }

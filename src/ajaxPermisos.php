@@ -40,10 +40,15 @@ if( isset($_POST['func']) ){
             }
             break;
 
+        //MUSTRA EL FORMULARIO DE UN NUEVO PERMISO
+        case 'NuevoPermiso':
+            echo FomularioNuevoPermiso();
+            break;
+
         case 'RegistrarPermiso':
-            /*echo '<pre>'; print_r( $_POST); echo '</pre>';
+            echo '<pre>'; print_r( $_POST); echo '</pre>';
             echo '<pre>'; print_r( $_FILES ); echo '</pre>';
-            echo '<pre>'; print_r( pathinfo($_FILES['archivo0']['name']) ); echo "</pre>"; */
+            echo '<pre>'; print_r( pathinfo($_FILES['archivo0']['name']) ); echo "</pre>";
 
             if( isset($_POST['nombre']) && isset($_POST['fecha_emision'])
                 && isset($_POST['fecha_expiracion'])
@@ -57,11 +62,22 @@ if( isset($_POST['func']) ){
             break;
 
         case 'getResponsables':
+            //si es de un permiso
+            if( isset($_POST['id']) ){
+                getResponsablesPermiso( $_POST['id'] );
+                return;
+            }
             getResponsables();
             break;
 
         case 'getMails':
             getMails();
+            break;
+
+        case 'EditarPermiso':
+            if( isset($_POST['id']) ){
+                echo EditarPermiso( $_POST['id'] );
+            }
             break;
     }
 }
@@ -149,7 +165,7 @@ function Caledario(){
                             <!-- panel de edicion de nuevo permiso -->
                             <div id="panel-edicion" class="panel-edicion"> ';
 
-    $calendario .= FomularioNuevoPermiso();
+    //$calendario .= FomularioNuevoPermiso();
 
     $calendario.=          '</div>
                             <!-- fin panel edicion nuevo permiso -->
@@ -357,14 +373,13 @@ function FomularioNuevoPermiso(){
                         </table>
                         ';
 
-//    $formulario .= SelecResponsables();
-//    $formulario .= SelectAreasAplicacion();
-
     $formulario .=      '<textarea id="observacion" name="observacion" placeholder="Observacion" ></textarea>
                          <div class="archivos" id="select-archivos" >
                             <div class="add" id="add-file">Archivos</div>
+
+                            <!-- inputs de los archivos van ocultos -->
                             <div id="archivos-inputs">
-                                <input type="file" id="archivo0" name="archivo0" />
+                                <input type="file" id="input0" name="archivo0" />
                             </div>
 
                             <ul>
@@ -374,7 +389,7 @@ function FomularioNuevoPermiso(){
 
                          <div class="datos-botones">
                              <button type="button" id="cancelar" class="button-cancelar" onclick="$Permisos.HideFormularioNuevoPermiso()">Cancelar</button>
-                             <input class="button" type="reset" value="Limpiar" />
+                             <button type="button" onclick="$Permisos.ResetFormularioNuevoPermiso()">Limpiar</button>
                              <input class="button" type="submit" value="Crear" />
                          </div>
                     </form>';
@@ -429,7 +444,6 @@ function SelectAreasAplicacion(){
 
     $select .= '</select>';
 
-//    $select = '<input type="hidden" id="areas" placeholder="Areas" /> ';
     return $select;
 }
 
@@ -449,6 +463,45 @@ function getResponsables(){
                 "title"=>$responsable['nombre'].' titulo'
                     );
         }
+    }
+
+    echo json_encode( $lista );
+}
+
+/**
+ * OBTIENE RESPONSABLES DE UN PERMISO
+ */
+function getResponsablesPermiso( $id ){
+    $permisos = new Permisos();
+    $cliente = new Cliente();
+
+    $lista = array();
+
+    //obtiene los responsables seleccionados
+    if( $responsables = $permisos->getResponsables($id) ){
+
+        $selected = array();
+        foreach( $responsables as $f => $responsable ){
+            $selected[] = array(
+                "text"=>$responsable['nombre'].' '.$responsable['apellidos'],
+                "id"=>$responsable['id'],
+                "title"=>$responsable['nombre'].' titulo'
+            );
+        }
+        $lista['selected'] = $selected;
+    }
+
+    //obtiene los responsables disponibles
+    if( $responsables = $cliente->getResponsables() ){
+        $tags = array();
+        foreach( $responsables as $f => $responsable ){
+            $tags[] = array(
+                "text"=>$responsable['nombre'].' '.$responsable['apellidos'],
+                "id"=>$responsable['id'],
+                "title"=>$responsable['nombre'].' titulo'
+            );
+        }
+        $lista['tags'] = $tags;
     }
 
     echo json_encode( $lista );
@@ -480,5 +533,140 @@ function getMails(){
     }
 
     echo json_encode( $emails );
+}
+
+/**
+ * FORMULARIO PARA LA EDICION DE UN PERMISO
+ * @param $id -> id del permiso
+ * @return string
+ */
+function EditarPermiso( $id ){
+    $permiso = new Permisos();
+
+    $formulario = '';
+
+    if( !$datos = $permiso->getPermiso( $id ) ){
+        return '';
+    }
+
+    //responsables seleccionados
+    $lista_responsables = '';
+    $responsables = $permiso->getResponsables( $id );
+
+    if( is_array($responsables) ){
+        foreach( $responsables as $f => $responsable ){
+            $lista_responsables .= $responsable['id'];
+
+            if( $f < sizeof($responsables)-1 ){
+                $lista_responsables .= ',';
+            }
+        }
+    }
+
+    //emails para recordatorio
+    $lista_emails = '';
+    $emails = $permiso->getRecordatorioEmails( $id );
+
+    if( is_array($emails) ){
+        foreach( $emails as $f => $email ){
+            $lista_emails .= $email['email'];
+
+            if( $f < sizeof($emails)-1 ){
+                $lista_emails .= ',';
+            }
+        }
+    }
+    echo $lista_emails;
+
+    $formulario = '<form id="FormularioEditarPermiso" class="chosen-centrado" enctype="multipart/form-data" method="post" action="src/ajaxPermisos.php" >
+                        <div class="titulo">
+                            Nuevo Permiso
+                        </div>
+                        <input type="hidden" name="func" value="ActualizarPermiso" />
+                        <input type="hidden" name="id" value="'.$id.'" />
+
+                        <br/>
+                        <table>
+                            <tr title="Nombre del Permiso" >
+                                <td>
+                                    Nombre
+                                </td>
+                                <td colspan="2" >
+                                   <input type="text" id="nombre" name="nombre" placeholder="Nombre" class="validate[required]" value="'.$datos[0]['nombre'].'" >
+                                </td>
+                            </tr>
+                            <tr title="Fecha de Emision del permiso" >
+                                <td>
+                                    Fecha Emision
+                                </td>
+                                <td colspan="2" >
+                                    <input type="text" id="fecha_emision" name="fecha_emision" placeholder="Fecha emision" class="validate[required] datepicker"  value="'.$datos[0]['fecha_emision'].'" />
+                                </td>
+                            </tr>
+                            <tr title="Fecha de Expiracion del permiso" >
+                                <td>
+                                    Fecha Expiracion
+                                </td>
+                                <td colspan="2" >
+                                    <input type="text" id="fecha_expiracion" name="fecha_expiracion" placeholder="Fecha expiracion" class="validate[required] datepicker"  value="'.$datos[0]['fecha_expiracion'].'" />
+                                </td>
+                            </tr>
+                            <tr title="Recordatorio para la Expiracion del permiso" >
+                                <td>
+                                    Recordatorio
+                                </td>
+                                <td colspan="2">
+                                    <input type="text" id="recordatorio" name="recordatorio" placeholder="Fecha recordatorio" class="validate[required,datepicker]"  />
+                                </td>
+                            </tr>
+                            <tr title="Emails para el recordatorio">
+                                <td>
+                                    Emails:
+                                </td>
+                                <td colspan="2">
+                                    <input type="text" id="emails" name="emails" placeholder="Email para el recordatorio" value="'.$lista_emails.'" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Responsables
+                                </td>
+                                <td colspan="2">
+                                    <input type="hidden" id="responsables" placeholder="Responsables" value="'.$lista_responsables.'" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Areas de Aplicacion
+                                </td>
+                                <td colspan="2">
+                                    '.SelectAreasAplicacion().'
+                                </td>
+                            </tr>
+                        </table>
+                        ';
+
+    $formulario .=      '<textarea id="observacion" name="observacion" placeholder="Observacion" ></textarea>
+                         <div class="archivos" id="select-archivos" >
+                            <div class="add" id="add-file">Archivos</div>
+
+                            <!-- inputs de los archivos van ocultos -->
+                            <div id="archivos-inputs">
+                                <input type="file" id="input0" name="archivo0" />
+                            </div>
+
+                            <ul>
+                                <!-- preview archivos elejidos -->
+                            </ul>
+                         </div>
+
+                         <div class="datos-botones">
+                             <button type="button" id="cancelar" class="button-cancelar" onclick="$Permisos.HideFormularioNuevoPermiso()">Cancelar</button>
+                             <button type="button" onclick="$Permisos.ResetFormularioNuevoPermiso()">Limpiar</button>
+                             <input class="button" type="submit" value="Crear" />
+                         </div>
+                    </form>';
+
+    return $formulario;
 }
 

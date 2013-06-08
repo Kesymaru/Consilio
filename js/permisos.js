@@ -600,8 +600,9 @@ $.extend(Permisos.prototype, {
                 console.log( response );
                 $("#panel-edicion").html( response );
 
-                clase.ShowPanelEdicion();
                 clase.InicializaFormularioEditarPermiso(id);
+
+                clase.ShowPanelEdicion();
             }
         });
     },
