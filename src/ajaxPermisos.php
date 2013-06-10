@@ -48,7 +48,7 @@ if( isset($_POST['func']) ){
         case 'RegistrarPermiso':
             echo '<pre>'; print_r( $_POST); echo '</pre>';
             echo '<pre>'; print_r( $_FILES ); echo '</pre>';
-            echo '<pre>'; print_r( pathinfo($_FILES['archivo0']['name']) ); echo "</pre>";
+            //echo '<pre>'; print_r( pathinfo($_FILES['archivo0']['name']) ); echo "</pre>";
 
             if( isset($_POST['nombre']) && isset($_POST['fecha_emision'])
                 && isset($_POST['fecha_expiracion'])
@@ -70,13 +70,26 @@ if( isset($_POST['func']) ){
             getResponsables();
             break;
 
+        //OBTIENE TODOS LOS MAILS DISPONIBLES PARA EL CLIENTE
         case 'getMails':
             getMails();
             break;
 
+        //EDICION DE UN PERMISO
         case 'EditarPermiso':
             if( isset($_POST['id']) ){
                 echo EditarPermiso( $_POST['id'] );
+            }
+            break;
+
+        //ELIMINA UN ARCHIVO ADJUNTADO
+        case 'EliminarArchivo':
+            if( isset($_POST['id']) ){
+               $permisos = new Permisos();
+
+                if( !$permisos->DeleteArchivo($_POST['id']) ){
+                    echo "<br/>Error: no se pudo eliminar el archivo.";
+                }
             }
             break;
     }
@@ -225,9 +238,13 @@ function ListaPermisos( $year, $month ){
         //echo '<pre>'; print_r($datos); echo '</pre>';
 
         foreach( $datos as $f => $permiso ){
-            $lista .= '<li>
+            $lista .= '<li id="permiso-'.$permiso['id'].'" >
                                <span class="permisos-nombre">
                                     '.$permiso['nombre'].'
+
+                                    <button class="derecha button-simbolo" type="button" onclick="$Permisos.Eliminar('.$permiso['id'].')">Eliminar</button>
+                                    <button class="derecha button-simbolo" type="button" onclick="$Permisos.Editar('.$permiso['id'].')" title="Editar Permiso">Editar</button>
+
                                </span>
                                <span class="permisos-fecha">
                                     Fecha de Vencimiento: '.$permiso['fecha_expiracion'].'
@@ -250,6 +267,9 @@ function ListaPermisos( $year, $month ){
 
             }
 
+            //areas de aplicacion
+            $lista .= AreasApliacion( $permiso['id'] );
+
             //si tiene observacion
             if( $permiso['observacion'] != '' && !empty( $permiso['observacion']) ){
                 $lista .= '<span class="permisos-observacion">
@@ -270,6 +290,37 @@ function ListaPermisos( $year, $month ){
 }
 
 /**
+ * COMPONE LAS AREAS DE APLICACION DE UN PERMISO
+ * @param $id
+ */
+function AreasApliacion($id){
+    $permisos = new Permisos();
+
+    $lista = '';
+
+    if( $seleccionadas = $permisos->getAreasApliccionPermiso($id) ){
+        $lista .= '<span class="permisos-areas">
+                    Areas Aplicacion: ';
+
+        foreach( $seleccionadas as $f => $area ){
+
+            if( $datos = $permisos->getAreaAplicacion( $area['area'] )){
+                $lista .= $datos[0]['nombre'];
+
+                if( $f < sizeof($seleccionadas)-1 ){
+                    $lista .= ', ';
+                }
+            }
+        }
+
+        $lista .= '</span>';
+    }
+
+    return $lista;
+
+}
+
+/**
  * OBTIENE LOS ARCHIVOS DE UN PERMISO
  * @param int $id -> id del permiso
  */
@@ -286,17 +337,51 @@ function ArchivosPermiso($id){
             //echo '<pre>'; print_r($info); echo '</pre>';
 
             $imagen = "images/folder.png";
-            if( $info['extension'] == "png" || $info['extension'] == "jpeg" || $info['extension'] == "gif"){
+            if( $info['extension'] == "png" || $info['extension'] == "jpg" || $info['extension'] == "gif"){
                 $imagen = $_SESSION['datos'].$archivo['link'];
             }
 
             $lista .= '<a href="http://localhost/matrizescala/src/download.php?link='.$_SESSION['datos'].$archivo['link'].'" title="Descargar" >
                             <img src="'.$imagen.'" />
-                            <p>'.$archivo['nombre'].'<p>
+                            <p>'.$archivo['nombre'].'</p>
                        </a>';
         }
 
         $lista .= '</span>';
+    }
+
+    return $lista;
+}
+
+/**
+ * COMPONE LA LISTA DE ARCHIVOS DE UN PERMISOS EN EDICION
+ * @param $id -> id del permiso
+ */
+function EditarArchivosPermiso($id){
+    $permisos = new Permisos();
+    $lista = '';
+
+    if( $archivos = $permisos->getPermisosArchivos($id) ){
+        foreach( $archivos as $f => $archivo ){
+            $info = pathinfo($archivo['link']);
+            //echo '<pre>'; print_r($info); echo '</pre>';
+
+            $title = 'Documento';
+            $imagen = 'images/folder.png';
+
+            if( $info['extension'] == 'png' || $info['extension'] == 'jpg' ){
+                $title = 'Imagen';
+                $imagen = $_SESSION['datos'].$archivo['link'];
+            }
+
+            $lista .='<li class="file" title="'.$title.'" id="archivo'.$archivo['id'].'">
+                        <img class="close" src="images/close.png" title="Quitar Documento" onclick="$Permisos.RemoveArchivo('.$archivo['id'].')">
+                        <img class="image" src="'.$imagen.'">
+                        <div>
+                            <span>'.$archivo['nombre'].'</span>
+                        </div>
+                    </li>';
+        }
     }
 
     return $lista;
@@ -388,7 +473,7 @@ function FomularioNuevoPermiso(){
                          </div>
 
                          <div class="datos-botones">
-                             <button type="button" id="cancelar" class="button-cancelar" onclick="$Permisos.HideFormularioNuevoPermiso()">Cancelar</button>
+                             <button type="button" id="cancelar" class="button-cancelar" onclick="$Permisos.HidePanelEdicion()">Cancelar</button>
                              <button type="button" onclick="$Permisos.ResetFormularioNuevoPermiso()">Limpiar</button>
                              <input class="button" type="submit" value="Crear" />
                          </div>
@@ -426,20 +511,58 @@ function SelecResponsables(){
 function SelectAreasAplicacion(){
     $permisos = new Permisos();
 
-    $select = '<select id="areas" name="areas" data-placeholder="Area de aplicacion" multiple >';
+    $select = '<select id="areas" name="areas" placeholder="Area de aplicacion" multiple >';
 
     if( $areas = $permisos->getAreasAplicacion() ){
 
         foreach( $areas as $f => $area ){
 
-            //corta la descripcion si es larga
-            if( $area['descripcion'] != "" ){
-                $title = (strlen($area['descripcion']) > 50) ? substr($area['descripcion'], 0, 50) . '...' : $area['descripcion'];
-            }
-
-            $select .= '<option value="'.$area['id'].'" title="'.$title.'" > '.$area['nombre'].'</option>';
+            $select .= '<option value="'.$area['id'].'" >
+                            '.$area['nombre'].'
+                       </option>';
         }
 
+    }
+
+    $select .= '</select>';
+
+    return $select;
+}
+
+/**
+ * COMPONE SELECT DE AREAS DE APLICACION SELECCIONADAS DE UN PERMISOS
+ * @param int $id -> id del permiso
+ * @return string
+ */
+function SelectedAreasAplicacion($id){
+    $permisos = new Permisos();
+
+    $select = '<select id="areas" name="areas" placeholder="Area de aplicacion" multiple >';
+
+    //si tiene areas seleccionadas
+    if( $selected = $permisos->getAreasApliccionPermiso($id) ){
+        if( $areas = $permisos->getAreasAplicacion() ){
+            //echo '<pre>'; print_r($selected); echo '</pre>';
+            foreach( $areas as $f => $area ){
+
+                $select .= '<option value="'.$area['id'].'" ';
+
+                foreach( $selected as $key => $incluida ){
+                    if( in_array($area['id'], $incluida) ){
+                        $select .= ' selected ';
+                        unset($selected[$key]);
+                        break;
+                    }
+                }
+
+                $select .= '>
+                               '.$area['nombre'].'
+                            </option>';
+            }
+
+        }
+    }else{
+        echo 'no tiene areas seleccionadas';
     }
 
     $select .= '</select>';
@@ -549,6 +672,12 @@ function EditarPermiso( $id ){
         return '';
     }
 
+    //fecha recordatorio
+    $recordatorio = '';
+    if( $datosRecordatorio = $permiso->getRecordatorio($id) ){
+        $recordatorio = $datosRecordatorio[0]['fecha_inicio'];
+    }
+
     //responsables seleccionados
     $lista_responsables = '';
     $responsables = $permiso->getResponsables( $id );
@@ -576,7 +705,11 @@ function EditarPermiso( $id ){
             }
         }
     }
-    echo $lista_emails;
+
+    //formatea las fechas
+    $datos[0]['fecha_emision'] = date( 'd/m/Y', strtotime($datos[0]['fecha_emision']) );
+    $datos[0]['fecha_expiracion'] = date( 'd/m/Y', strtotime($datos[0]['fecha_expiracion']) );
+    $recordatorio = date( 'd/m/Y', strtotime($recordatorio) );
 
     $formulario = '<form id="FormularioEditarPermiso" class="chosen-centrado" enctype="multipart/form-data" method="post" action="src/ajaxPermisos.php" >
                         <div class="titulo">
@@ -616,7 +749,7 @@ function EditarPermiso( $id ){
                                     Recordatorio
                                 </td>
                                 <td colspan="2">
-                                    <input type="text" id="recordatorio" name="recordatorio" placeholder="Fecha recordatorio" class="validate[required,datepicker]"  />
+                                    <input type="text" id="recordatorio" name="recordatorio" placeholder="Fecha recordatorio" class="validate[required,datepicker]" value="'.$recordatorio.'" />
                                 </td>
                             </tr>
                             <tr title="Emails para el recordatorio">
@@ -640,13 +773,13 @@ function EditarPermiso( $id ){
                                     Areas de Aplicacion
                                 </td>
                                 <td colspan="2">
-                                    '.SelectAreasAplicacion().'
+                                    '.SelectedAreasAplicacion( $id ).'
                                 </td>
                             </tr>
                         </table>
                         ';
 
-    $formulario .=      '<textarea id="observacion" name="observacion" placeholder="Observacion" ></textarea>
+    $formulario .=      '<textarea id="observacion" name="observacion" placeholder="Observacion" >'.$datos[0]['observacion'].'</textarea>
                          <div class="archivos" id="select-archivos" >
                             <div class="add" id="add-file">Archivos</div>
 
@@ -656,17 +789,18 @@ function EditarPermiso( $id ){
                             </div>
 
                             <ul>
-                                <!-- preview archivos elejidos -->
+                                '.EditarArchivosPermiso($id).'
                             </ul>
                          </div>
 
                          <div class="datos-botones">
-                             <button type="button" id="cancelar" class="button-cancelar" onclick="$Permisos.HideFormularioNuevoPermiso()">Cancelar</button>
+                             <button type="button" id="cancelar" class="button-cancelar" onclick="$Permisos.HidePanelEdicion()">Cancelar</button>
                              <button type="button" onclick="$Permisos.ResetFormularioNuevoPermiso()">Limpiar</button>
                              <input class="button" type="submit" value="Crear" />
                          </div>
                     </form>';
 
     return $formulario;
-}
 
+
+}

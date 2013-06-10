@@ -138,7 +138,7 @@ $.extend(Permisos.prototype, {
 
             this.ResetFormulario();
 
-            return true;
+            //return true;
         }
 
         $.ajax({
@@ -642,5 +642,44 @@ $.extend(Permisos.prototype, {
 
         //$('#FormularioEditarPermiso').ajaxForm(options);
     },
+
+    /**
+     * ELIMINA UN PERMISO
+     * @param id
+     */
+    Eliminar: function(id){
+        this.RemovePermiso( id );
+    },
+
+    /**
+     * ELIMINA UN PERMISO
+     * @param id
+     * @constructor
+     */
+    RemovePermiso: function(id){
+        $("#permiso-"+id).fadeOut(function(){
+            $(this).remove();
+        });
+    },
+
+    /**
+     * ELIMINA UN ARCHIVO ADJUNTADO DE UN PERMISO
+     * @param int id -> id del archivo
+     */
+    RemoveArchivo: function(id){
+        var queryParams = {"func" : "EliminarArchivo", "id" : id};
+
+        $.ajax({
+            data: queryParams,
+            type: "POST",
+            url: "src/ajaxPermisos.php",
+            success: function(response){
+                console.log( response );
+                $("#archivo"+id).fadeOut(700,function(){
+                    $(this).remove();
+                })
+            }
+        });
+    }
 
 });

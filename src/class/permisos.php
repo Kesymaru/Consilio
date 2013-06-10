@@ -182,8 +182,14 @@ class Permisos {
         $cliente = $_SESSION['cliente_id'];
 
         //invierte las fechas con formato dd/mm/yyyy -> yyyy-mm-dd
+        $fecha_emision = str_replace('/','-',$fecha_emision);
         $fecha_emision = date( 'Y-m-d', strtotime($fecha_emision) );
+
+        $fecha_expiracion = str_replace('/','-',$fecha_expiracion);
         $fecha_expiracion = date( 'Y-m-d', strtotime($fecha_expiracion) );
+
+        $recordatorio = str_replace('/','-',$recordatorio);
+        $recordatorio = date( 'Y-m-d', strtotime($recordatorio) );
 
         $fecha_creacion = date('Y-m-d G:i:s');
 
@@ -276,6 +282,23 @@ class Permisos {
         echo $query = "SELECT * FROM permisos_recordatorios_emails WHERE permiso = '".$id."' ";
 
         if( $datos = $base->Select($query) ){
+            return $datos;
+        }
+        return false;
+    }
+
+    /**
+     * OBTIENE EL RECORDATORIO DE UN PERMISO
+     * @param int $id = id del permiso
+     */
+    public function getRecordatorio($id){
+        $base = new Database();
+
+        $id = mysql_real_escape_string($id);
+
+        $query = "SELECT * FROM permisos_recordatorios WHERE permiso = '".$id."' ";
+
+        if($datos = $base->Select($query)){
             return $datos;
         }
         return false;
@@ -448,10 +471,39 @@ class Permisos {
         return false;
     }
 
+    /**
+     * ELIMINA UN ARCHIVO DE UN PERMISO
+     * @param $id => id del archivo
+     * @return bool
+     */
+    public function DeleteArchivo($id){
+        $base = new Database();
+
+        $id = mysql_real_escape_string($id);
+
+        $query = "SELECT * FROM permisos_archivos WHERE id = '".$id."' ";
+
+        if( $datos = $base->Select($query)){
+            echo $link = '../Admin/'.$datos[0]['link'];
+
+            $query = "DELETE FROM permisos_archivos WHERE id = '".$id."' ";
+
+            //borra archivo
+            if( $base->DeleteFile($link) ){
+                //borra de la base de datos
+                if( $base->Delete($query) ){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     /************************************ AREAS DE APLIACION ********************/
 
     /**
      * OBTIENE LAS AREAS DE APLIACION
+     * @return bool|array
      */
     public function getAreasAplicacion(){
         $base = new Database();
@@ -459,9 +511,22 @@ class Permisos {
         $query = "SELECT * FROM areas_aplicacion  ";
 
         if( $datos = $base->Select( $query ) ){
-            if( !empty($datos) ){
-                return $datos;
-            }
+            return $datos;
+        }
+        return false;
+    }
+
+    /**
+     * OBTIEN LOS DATOS DE UN AREA DE APLICACION
+     * @param $id -> id del area
+     */
+    public function getAreaAplicacion($id){
+        $base = new Database();
+
+        $query = "SELECT * FROM areas_aplicacion WHERE id = '".$id."' ";
+
+        if( $datos = $base->Select($query)){
+            return $datos;
         }
         return false;
     }
