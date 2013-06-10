@@ -81,7 +81,7 @@ $.extend(Categorias.prototype, {
                                 console.log( 'inicializando clase permisos');
                                 $Permisos = new Permisos();
                             }
-                            $Permisos.init();
+                            $Permisos.init(clase.proyecto);
                             return true;
                         }
 

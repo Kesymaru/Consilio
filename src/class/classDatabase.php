@@ -2,17 +2,17 @@
 
 class Database{
 	//LOCAL
-	private $dbHost 	= "localhost";
+	/*private $dbHost 	= "localhost";
 	private $dbUser 	= "root";
 	private $dbPassword = "root";
-	private $dbDatabase = "matriz";
+	private $dbDatabase = "matriz";*/
 	
-	/*private $dbHost 	= "localhost";
+	private $dbHost 	= "localhost";
 	private $dbUser 	= "matrizroot";
 	private $dbPassword = "Matriz159!!";
-	private $dbDatabase = "matriz";  */
+	private $dbDatabase = "matriz";
 
-    private $local = true;
+    private $local = false;
 	
 	private $dbLink      = "";
 	private $dbRecordSet = 0;

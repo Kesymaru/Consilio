@@ -4,7 +4,7 @@
  */
 Permisos = function(){};
 $.extend(Permisos.prototype, {
-
+    proyecto: 0,
     meses: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre'],
 
     archivo_id: 0,
@@ -15,9 +15,10 @@ $.extend(Permisos.prototype, {
     //almacena el formulario
     formularioNuevo: '',
 
-    init: function(){
+    init: function(proyecto){
+        this.proyecto = proyecto;
         var clase = this;
-        var queryParams = { "func" : "TabPermisos"};
+        var queryParams = { "func" : "TabPermisos", "proyecto" : clase.proyecto};
 
         $.ajax({
             data: queryParams,
@@ -151,7 +152,7 @@ $.extend(Permisos.prototype, {
     NuevoPermiso: function(){
         var clase = this;
 
-        var queryParams = {"func": "NuevoPermiso"};
+        var queryParams = {"func": "NuevoPermiso", "proyecto" : clase.proyecto};
 
         //si ya existe no lo recarga lo resetea
         if( $("#FormularioNuevoPermiso").length ){

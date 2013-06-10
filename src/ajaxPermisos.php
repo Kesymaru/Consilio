@@ -20,7 +20,9 @@ if( isset($_POST['func']) ){
             break;
 
         case 'TabPermisos':
-            Caledario();
+            if( isset($_POST['proyecto']) ){
+                Caledario( $_POST['proyecto'] );
+            }
             break;
 
         //CALENDARIO DE UN YEAR
@@ -42,7 +44,9 @@ if( isset($_POST['func']) ){
 
         //MUSTRA EL FORMULARIO DE UN NUEVO PERMISO
         case 'NuevoPermiso':
-            echo FomularioNuevoPermiso();
+            if( isset($_POST['proyecto']) ){
+                echo FomularioNuevoPermiso($_POST['proyecto']);
+            }
             break;
 
         case 'RegistrarPermiso':
@@ -50,7 +54,8 @@ if( isset($_POST['func']) ){
             echo '<pre>'; print_r( $_FILES ); echo '</pre>';
             //echo '<pre>'; print_r( pathinfo($_FILES['archivo0']['name']) ); echo "</pre>";
 
-            if( isset($_POST['nombre']) && isset($_POST['fecha_emision'])
+            if( isset($_POST['proyecto']) && isset($_POST['nombre'])
+                && isset($_POST['fecha_emision'])
                 && isset($_POST['fecha_expiracion'])
                 && isset($_POST['recordatorio'])
                 && isset($_POST['emails'])
@@ -101,6 +106,7 @@ if( isset($_POST['func']) ){
 function NuevoPermiso(){
     $permisos = new Permisos();
 
+    $proyecto = $_POST['proyecto'];
     $nombre = $_POST['nombre'];
     $fecha_emision = $_POST['fecha_emision'];
     $fecha_expiracion = $_POST['fecha_expiracion'];
@@ -118,7 +124,7 @@ function NuevoPermiso(){
         $responsables = $_POST['responsables'];
     }
 
-    if( $id = $permisos->NuevoPermiso( $nombre, $fecha_emision, $fecha_expiracion, $recordatorio, $emails, $areas, $observacion, $responsables ) ){
+    if( $id = $permisos->NuevoPermiso( $proyecto, $nombre, $fecha_emision, $fecha_expiracion, $recordatorio, $emails, $areas, $observacion, $responsables ) ){
 
         //sube los archivos
         if( $error = $permisos->UploadFiles($_FILES, $id ) ){
@@ -141,10 +147,11 @@ function NuevoPermiso(){
 
 /**
  * COMPONE EL CALENDARIO DE LOS PERMISOS
+ * @param int $proyecto -> id del proyecto
  * @type $mes -> numero del mes actual
  * @type $year -> a~o actual
  */
-function Caledario(){
+function Caledario($proyecto){
     $mes = date('m');
     $year = date('Y');
 
@@ -193,7 +200,7 @@ function Caledario(){
                             </div>';
 
     //obtiene el calendario del a~o presente
-    $contador = $permisos->getCalendario($year);
+    $contador = $permisos->getCalendario($proyecto, $year);
 
     foreach($contador as $f => $permiso ){
 
@@ -390,13 +397,14 @@ function EditarArchivosPermiso($id){
 /**
  * COMPONE EL FORMULARIO PARA UN NUEVO PERMISO
  */
-function FomularioNuevoPermiso(){
+function FomularioNuevoPermiso($proyecto){
 
     $formulario = '<form id="FormularioNuevoPermiso" class="chosen-centrado" enctype="multipart/form-data" method="post" action="src/ajaxPermisos.php" >
                         <div class="titulo">
                             Nuevo Permiso
                         </div>
                         <input type="hidden" name="func" value="RegistrarPermiso" />
+                        <input type="hidden" name="proyecto" id="proyecto" value="'.$proyecto.'" />
                         <br/>
                         <table>
                             <tr title="Nombre del Permiso" >

@@ -25,16 +25,18 @@ class Permisos {
 
     /**
      * OBTIENE EL NUMERO DE PERMISOS PARA CADA MES
+     * @param int $proyecto -> id del proyecto
      * @param int $year numero del a~o
      * @return array $contador con el total de permisos para cada mes
      */
-    public function getCalendario($year){
+    public function getCalendario($proyecto, $year){
         $base = new Database();
         $session = new Session();
 
         if( !$session->Logueado() ){
             return false;
         }
+        $proyecto = mysql_real_escape_string($proyecto);
 
         $contador = array(0=>'0',1=>'0',2=>'0',3=>'0',4=>'0',5=>'0',6=>'0',7=>'0',8=>'0',9=>'0',10=>'0',11=>'0');
 
@@ -51,7 +53,7 @@ class Permisos {
                 $fecha_maxima = $year.'-'.$i.'-31';    
             }
 
-            $query = "SELECT COUNT(id) AS total FROM permisos WHERE cliente = '".$cliente."' AND fecha_expiracion >= '".$fecha_minima."' AND fecha_expiracion <= '".$fecha_maxima."' ";
+            $query = "SELECT COUNT(id) AS total FROM permisos WHERE cliente = '".$cliente."' AND proyecto = '".$proyecto."' AND fecha_expiracion >= '".$fecha_minima."' AND fecha_expiracion <= '".$fecha_maxima."' ";
 
             if( $datos = $base->Select($query) ){
                 if( !empty($datos) ){
@@ -157,6 +159,7 @@ class Permisos {
 
     /**
      * CREA UN NUEVO PERMISO
+     * @param string $proyecto -> id del proyecto
      * @param string $nombre
      * @param date $fecha_emision
      * @param date $fecha_expiracion
@@ -166,9 +169,10 @@ class Permisos {
      * @param string $observacion
      * @param array|string $responsables
      */
-    public function NuevoPermiso( $nombre, $fecha_emision, $fecha_expiracion, $recordatorio, $emails, $areas, $observacion, $responsables ){
+    public function NuevoPermiso( $proyecto, $nombre, $fecha_emision, $fecha_expiracion, $recordatorio, $emails, $areas, $observacion, $responsables ){
         $base = new Database();
 
+        $proyecto = mysql_real_escape_string($proyecto);
         $nombre = mysql_real_escape_string( $nombre );
         $fecha_emision = mysql_real_escape_string( $fecha_emision );
         $fecha_expiracion = mysql_real_escape_string( $fecha_expiracion );
@@ -189,7 +193,7 @@ class Permisos {
 
         $fecha_creacion = date('Y-m-d G:i:s');
 
-        $query = "INSERT INTO permisos (nombre, fecha_emision, fecha_expiracion, observacion, fecha_creacion, cliente ) VALUES ( '".$nombre."', '".$fecha_emision."', '".$fecha_expiracion."', '".$observacion."', '".$fecha_creacion."', '".$cliente."' ) ";
+        $query = "INSERT INTO permisos (proyecto, nombre, fecha_emision, fecha_expiracion, observacion, fecha_creacion, cliente ) VALUES ( '".$proyecto."', '".$nombre."', '".$fecha_emision."', '".$fecha_expiracion."', '".$observacion."', '".$fecha_creacion."', '".$cliente."' ) ";
 
         if( $base->Insert($query) ){
             if( $id = $base->getUltimoId() ){
