@@ -1056,7 +1056,7 @@ function TabPermisos(){
         url: "src/ajaxPermisos.php",
         success: function(response){
             //console.log( response );
-            $("#vista").html(response);
+            $("#menu2").html(response);
 
             var alto = $("#content").height() - $("#titulos div").height();
             $("#panel-permisos").height(alto);

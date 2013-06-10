@@ -87,6 +87,25 @@ class Cliente{
     }
 
     /**
+     * OBTIENE LOS DATOS DE UN RESPNSABLES
+     * @param $id -> id del responsable
+     * @return array|bool
+     */
+    public function getResponsable($id){
+        $base = new Database();
+
+        $id = mysql_real_escape_string($id);
+
+        $query = "SELECT * FROM clientes_responsables WHERE id = '".$id."' ";
+
+        if( $datos= $base->Select($query) ){
+            return $datos;
+        }
+
+        return false;
+    }
+
+    /**
      * DETERMINA SI UN RESPONSABLE DE UN CLIENTE EXISTE
      * @param $id -> id del responsable
      */
@@ -113,9 +132,10 @@ class Cliente{
         $base = new Database();
 
         $nombre = mysql_real_escape_string( $nombre );
+        $cliente = mysql_real_escape_string( $_SESSION['cliente_id'] );
         $fecha_creacion = date("Y-m-d H:i:s");
 
-        $query = "INSERT INTO clientes_responsables (nombre, email, fecha_creacion) values ('".$nombre."', '".$email."', '".$fecha_creacion."') ";
+        $query = "INSERT INTO clientes_responsables (nombre, email, cliente, fecha_creacion) values ('".$nombre."', '".$email."', '".$cliente."', '".$fecha_creacion."') ";
 
         if( $base->Insert($query)){
             return $base->getUltimoId();

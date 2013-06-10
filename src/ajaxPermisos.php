@@ -114,7 +114,7 @@ function NuevoPermiso(){
     }
 
     $responsables = '';
-    if( isset($_POST['responsable']) ){
+    if( isset($_POST['responsables']) ){
         $responsables = $_POST['responsables'];
     }
 
@@ -444,7 +444,7 @@ function FomularioNuevoPermiso(){
                                     Responsables
                                 </td>
                                 <td colspan="2">
-                                    <input type="hidden" id="responsables" placeholder="Responsables"  />
+                                    <input type="hidden" id="responsables" name="responsables" placeholder="Responsables"  />
                                 </td>
                             </tr>
                             <tr>
@@ -500,7 +500,7 @@ function SelecResponsables(){
 
     $select .= '</select>';
 
-    $select = '<input type="hidden" id="responsables" placeholder="Responsables"  /> ';
+    $select = '<input type="hidden" id="responsables" name="responsables" placeholder="Responsables"  /> ';
 
     return $select;
 }
@@ -680,15 +680,16 @@ function EditarPermiso( $id ){
 
     //responsables seleccionados
     $lista_responsables = '';
-    $responsables = $permiso->getResponsables( $id );
 
-    if( is_array($responsables) ){
+    if( $responsables = $permiso->getResponsables( $id ) ){
         foreach( $responsables as $f => $responsable ){
-            $lista_responsables .= $responsable['id'];
+
+            $lista_responsables .= $responsable['responsable'];
 
             if( $f < sizeof($responsables)-1 ){
                 $lista_responsables .= ',';
             }
+
         }
     }
 
@@ -765,7 +766,7 @@ function EditarPermiso( $id ){
                                     Responsables
                                 </td>
                                 <td colspan="2">
-                                    <input type="hidden" id="responsables" placeholder="Responsables" value="'.$lista_responsables.'" />
+                                    <input type="hidden" id="responsables" name="responsables" placeholder="Responsables" value="'.$lista_responsables.'" />
                                 </td>
                             </tr>
                             <tr>
@@ -795,7 +796,7 @@ function EditarPermiso( $id ){
 
                          <div class="datos-botones">
                              <button type="button" id="cancelar" class="button-cancelar" onclick="$Permisos.HidePanelEdicion()">Cancelar</button>
-                             <button type="button" onclick="$Permisos.ResetFormularioNuevoPermiso()">Limpiar</button>
+                             <button type="button" onclick="$Permisos.ResetFormulario()">Limpiar</button>
                              <input class="button" type="submit" value="Crear" />
                          </div>
                     </form>';

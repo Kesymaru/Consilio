@@ -134,11 +134,7 @@ class Permisos {
 
         $id = mysql_real_escape_string($id);
 
-        $query = "SELECT clientes_responsables.*, permisos_responsables.permiso
-                  FROM clientes_responsables
-                  INNER JOIN permisos_responsables
-                  ON clientes_responsables.id=permisos_responsables.responsable
-                  AND permisos_responsables.permiso = '".$id."' ";
+        $query = "SELECT * FROM permisos_responsables WHERE permiso = '".$id."' ";
 
         if( $responsables = $base->Select($query) ){
             return $responsables;
@@ -202,9 +198,7 @@ class Permisos {
                 $this->AreasApliccionPermiso($id, $areas);
 
                 //registra los responsables
-                if( !empty($responsables) ){
-                    $this->PermisosResponsables($id, $responsables);
-                }
+                $this->PermisosResponsables($id, $responsables);
 
                 //crea el recordatorio
                 if( $this->NuevoRecordatorio($id, $recordatorio, $emails) ){
@@ -279,7 +273,7 @@ class Permisos {
     public function getRecordatorioEmails( $id ){
         $base = new Database();
 
-        echo $query = "SELECT * FROM permisos_recordatorios_emails WHERE permiso = '".$id."' ";
+        $query = "SELECT * FROM permisos_recordatorios_emails WHERE permiso = '".$id."' ";
 
         if( $datos = $base->Select($query) ){
             return $datos;
@@ -311,9 +305,9 @@ class Permisos {
      * @return bool
      */
     public function PermisosResponsables($permiso, $responsables ){
-        $base = new Database();
-
-        $permiso = mysql_real_escape_string($permiso);
+        if( empty($responsables) ){
+            return false;
+        }
 
         $responsables =  explode(",", $responsables);
 
@@ -322,30 +316,26 @@ class Permisos {
             foreach( $responsables as $f => $responsable ){
                 $responsable = mysql_real_escape_string( $responsable );
 
-                $query = $this->CrearResponsable($responsable);
+                $this->CrearResponsable($permiso, $responsable);
 
-                $base->Insert($query);
+                //$base->Insert($query);
             }
 
         }else{
             $responsable = mysql_real_escape_string( $responsables );
 
-            $query = $this->CrearResponsable($responsable);
-
-            if( !$base->Insert($query) ){
-                return false;
-            }
+            $this->CrearResponsable($permiso, $responsable);
         }
 
     }
 
     /**
      * DETERMINA SI EL RESPONSABLE EXISTE Y SINO LO CREA
-     * @param string $responsable -> email
      * @param int $permiso -> id del permiso
+     * @param string $responsable -> email
      * @return string $query -> el query
      */
-    private function CrearResponsable($responsable, $permiso){
+    private function CrearResponsable($permiso, $responsable){
         $cliente = new Cliente();
 
         $fecha_creacion = date("Y-m-d H:i:s");
@@ -354,17 +344,26 @@ class Permisos {
 
             //si ya existe
             if( $cliente->ExisteResponsable($responsable) ){
+                $responsable = mysql_real_escape_string($responsable);
+
                 $query = "INSERT INTO permisos_responsables (permiso, responsable, fecha_creacion) VALUES ('".$permiso."', '".$responsable."', '".$fecha_creacion."' ) ";
-                return $query;
+                $base = new Database();
+                $base->Insert( $query );
+
             }
+
+            return true;
         }
 
         //crea un nuevo responsable
         if( $nuevo = $cliente->NuevoResponsable($responsable,"") ){
+            $responsable = mysql_real_escape_string($responsable);
+
             $query = "INSERT INTO permisos_responsables (permiso, responsable, fecha_creacion) VALUES ('".$permiso."', '".$nuevo."', '".$fecha_creacion."' ) ";
         }
 
-        return $query;
+        $base = new Database();
+        $base->Insert( $query );
     }
 
     /**

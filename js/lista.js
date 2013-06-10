@@ -14,6 +14,23 @@ $.extend(Categorias.prototype, {
 	focus: '',
 	subpanel: '',
 
+    /**
+     * REINICIA EL PANEL DE LAS CATEGORIAS/NORMAS/ARTICULOS
+     */
+    init: function(){
+        var queryParams = {"func" : "Panel"};
+        console.log( 'reset panel' );
+        $.ajax({
+            data: queryParams,
+            type: "POST",
+            url: "src/ajaxProyectos.php",
+            success: function( response ){
+                console.log( response );
+                $("#menu2").html( response );
+            }
+        });
+    },
+
 	/* 
 	*  carga las supercategorias de un proyecto
 	*  @param int proyecto -> id del proyecto
@@ -31,7 +48,7 @@ $.extend(Categorias.prototype, {
 
 		$.ajax({
 			data: queryParams,
-			type: "post",
+			type: "POST",
 			url: "src/ajaxProyectos.php",
 			beforesend: function(){
 			},
@@ -55,7 +72,21 @@ $.extend(Categorias.prototype, {
 					});*/
 					
 					$("#menu li").click(function(){
-						
+
+                        if( $(this).hasClass('permisos') ){
+                            console.log('es permisos');
+
+                            //inicializa la clase de permisos
+                            if(typeof $Permisos == 'undefined'){
+                                console.log( 'inicializando clase permisos');
+                                $Permisos = new Permisos();
+                            }
+                            $Permisos.init();
+                            return true;
+                        }
+
+                        clase.init();
+
 						$("#menu li").removeClass('root-selected');
 						$(this).addClass('root-selected');
 

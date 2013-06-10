@@ -15,6 +15,11 @@ if(isset($_POST['func'])){
 	
 	switch ($_POST['func']) {
 
+        //CARGA EL PANEL DE LAS CATEGORIAS|NORMAS|ARTICULOS
+        case 'Panel':
+            Panel();
+            break;
+
 		//CARGA LAS CATEGORIAS ROOT DE UN PROYECTO
 		case 'CategoriasRoot':
 			if( isset($_POST['proyecto']) ){
@@ -119,6 +124,39 @@ if(isset($_POST['func'])){
 	echo "Error: ajaxProyectos.php FUNC no especificada.";
 }
 
+function Panel(){
+
+    $panel='<table class="panel" >
+                <tr>
+                    <th id="panel-categorias">
+
+                    </th>
+                    <th id="panel-normas">
+
+                    </th>
+                    <th id="panel-articulos">
+                    </th>
+                </tr>
+
+                <tr id="panel">
+                    <td >
+                        <div id="td-categorias">
+                        </div>
+                    </td>
+                    <td >
+                        <div id="td-normas" >
+                        </div>
+                    </td>
+                    <td >
+                        <div id="td-articulos" >
+                        </div>
+                    </td>
+                </tr>
+          </table>';
+
+    echo $panel;
+}
+
 /**
 * CATEGORIAS ROOT DE UN PROYECTO
 * @param string $proyecto -> id del proyecto
@@ -175,6 +213,9 @@ function CategoriasRoot( $proyecto ){
 		}else{
 			$lista .= '<li></li>';
 		}
+
+        //calendario
+        $lista .= '<li class="permisos">Permisos</li>';
 
 		$lista .= '</ul>';
 	}else{

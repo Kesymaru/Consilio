@@ -15,6 +15,27 @@ $.extend(Permisos.prototype, {
     //almacena el formulario
     formularioNuevo: '',
 
+    init: function(){
+        var clase = this;
+        var queryParams = { "func" : "TabPermisos"};
+
+        $.ajax({
+            data: queryParams,
+            type: "post",
+            url: "src/ajaxPermisos.php",
+            success: function(response){
+                //console.log( response );
+                $("#menu2").html(response);
+
+                var alto = $("#content").height() - $("#titulos div").height();
+                $("#panel-permisos").height(alto);
+
+                clase.Calendario();
+
+            }
+        });
+    },
+
     /**
      * INICIALIZA EL CALENDARIO DE LOS PERMISOS
      */
@@ -189,6 +210,7 @@ $.extend(Permisos.prototype, {
                 clase.SelectMails();
             }
         });
+
     },
 
     /**
@@ -474,7 +496,7 @@ $.extend(Permisos.prototype, {
     ResetFormulario: function(){
         var clase = this;
 
-        $('#FormularioNuevoPermiso')[0].reset();
+        //$('#FormularioNuevoPermiso')[0].reset();
         $("#select-archivos ul li").fadeOut(function(){
             $(this).remove();
         });
