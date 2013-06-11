@@ -2,11 +2,34 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ajaxPermisos.php" afterPath="$PROJECT_DIR$/src/ajaxPermisos.php" />
+      <change type="DELETED" beforePath="C:\wamp\www\matrizescala\Admin\permisos_archivos\10590coment.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\matrizescala\Admin\permisos_archivos\12887energia.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\matrizescala\Admin\permisos_archivos\13105coment.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\matrizescala\Admin\permisos_archivos\19485energia.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\matrizescala\Admin\permisos_archivos\21464coment.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\matrizescala\Admin\permisos_archivos\24534coment.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\matrizescala\Admin\permisos_archivos\25179energia.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\matrizescala\Admin\permisos_archivos\25227coment.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\matrizescala\Admin\permisos_archivos\25496EjMatriz_IRL_SSO.doc" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\matrizescala\Admin\permisos_archivos\26609coment.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\matrizescala\Admin\permisos_archivos\27158coment.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\matrizescala\Admin\permisos_archivos\27985coment.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\matrizescala\Admin\permisos_archivos\28501coment.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\matrizescala\Admin\permisos_archivos\28991coment.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\matrizescala\Admin\permisos_archivos\32106energia.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\matrizescala\Admin\permisos_archivos\32616coment.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\matrizescala\Admin\permisos_archivos\3991coment.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\matrizescala\Admin\permisos_archivos\6668coment.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\matrizescala\Admin\permisos_archivos\8065coment.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\matrizescala\Admin\permisos_archivos\8824coment.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\matrizescala\Admin\permisos_archivos\EjMatriz_IRL_SSO.doc" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\matrizescala\Admin\permisos_archivos\V2 Escala.docx" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\matrizescala\Admin\permisos_archivos\ambiente.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\matrizescala\Admin\permisos_archivos\coment.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\matrizescala\Admin\permisos_archivos\energia.png" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/class/classDatabase.php" afterPath="$PROJECT_DIR$/src/class/classDatabase.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/lista.js" afterPath="$PROJECT_DIR$/js/lista.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Admin/src/class/matrizErrors.txt" afterPath="$PROJECT_DIR$/Admin/src/class/matrizErrors.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/permisos.js" afterPath="$PROJECT_DIR$/js/permisos.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/class/permisos.php" afterPath="$PROJECT_DIR$/src/class/permisos.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/class/session.php" afterPath="$PROJECT_DIR$/src/class/session.php" />
     </list>
     <ignored path="matrizescala.iws" />
@@ -28,8 +51,8 @@
     <file path="/Permisos.js" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369951784894" ignored="false" />
     <file path="/usuarios.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1370900309246" ignored="false" />
     <file path="/calendario.js" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369420701409" ignored="false" />
-    <file path="/permisos.js" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1370906042917" ignored="false" />
-    <file path="/classDatabase.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1370907511228" ignored="false" />
+    <file path="/permisos.js" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1370909436368" ignored="false" />
+    <file path="/classDatabase.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1370909022454" ignored="false" />
     <file path="/jquery-ui-1.9.0.custom.css" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369683590730" ignored="false" />
     <file path="/upload.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1369696349482" ignored="false" />
     <file path="/__dummy.php" changelist="dcda637c-5394-4bfe-a40a-9cb68fbac9e3" time="1370889937986" ignored="false" />
@@ -115,16 +138,16 @@
           <file leaf-file-name="permisos.js" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/js/permisos.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="154" column="78" selection-start="4305" selection-end="4305" vertical-scroll-proportion="-12.32">
+                <state line="615" column="50" selection-start="18023" selection-end="18036" vertical-scroll-proportion="0.48">
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="ajaxPermisos.php" pinned="false" current="false" current-in-tab="false">
+          <file leaf-file-name="ajaxPermisos.php" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/ajaxPermisos.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="126" column="37" selection-start="3544" selection-end="3556" vertical-scroll-proportion="-9.285714">
+                <state line="684" column="17" selection-start="22947" selection-end="22947" vertical-scroll-proportion="0.6149358">
                   <folding>
                     <marker date="1370906279898" expanded="true" signature="4778:5866" placeholder="..." />
                     <marker date="1370906279898" expanded="true" signature="4846:5092" placeholder="..." />
@@ -204,10 +227,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="classDatabase.php" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="classDatabase.php" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/class/classDatabase.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="10" column="20" selection-start="213" selection-end="213" vertical-scroll-proportion="0.2494331">
+                <state line="9" column="21" selection-start="177" selection-end="177" vertical-scroll-proportion="-6.387097">
                   <folding />
                 </state>
               </provider>
@@ -216,7 +239,7 @@
           <file leaf-file-name="session.php" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/class/session.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="23" column="14" selection-start="562" selection-end="562" vertical-scroll-proportion="-5.677419">
+                <state line="25" column="14" selection-start="694" selection-end="694" vertical-scroll-proportion="-7.806452">
                   <folding />
                 </state>
               </provider>
@@ -439,11 +462,11 @@
         <option value="$PROJECT_DIR$/css/style.css" />
         <option value="$PROJECT_DIR$/src/ajaxProyectos.php" />
         <option value="$PROJECT_DIR$/js/lista.js" />
-        <option value="$PROJECT_DIR$/js/permisos.js" />
         <option value="$PROJECT_DIR$/src/ajaxPermisos.php" />
         <option value="$PROJECT_DIR$/src/class/permisos.php" />
-        <option value="$PROJECT_DIR$/src/class/session.php" />
         <option value="$PROJECT_DIR$/src/class/classDatabase.php" />
+        <option value="$PROJECT_DIR$/src/class/session.php" />
+        <option value="$PROJECT_DIR$/js/permisos.js" />
       </list>
     </option>
   </component>
@@ -1034,16 +1057,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/class/permisos.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="174" column="56" selection-start="5311" selection-end="5311" vertical-scroll-proportion="0.53571427">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/class/session.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="14" selection-start="694" selection-end="694" vertical-scroll-proportion="-7.806452">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/class/classDatabase.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="21" selection-start="177" selection-end="177" vertical-scroll-proportion="-6.387097">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/permisos.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="154" column="78" selection-start="4305" selection-end="4305" vertical-scroll-proportion="-12.32">
+        <state line="615" column="50" selection-start="18023" selection-end="18036" vertical-scroll-proportion="0.48">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ajaxPermisos.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="126" column="37" selection-start="3544" selection-end="3556" vertical-scroll-proportion="-9.285714">
+        <state line="684" column="17" selection-start="22947" selection-end="22947" vertical-scroll-proportion="0.6149358">
           <folding>
             <marker date="1370906279898" expanded="true" signature="4778:5866" placeholder="..." />
             <marker date="1370906279898" expanded="true" signature="4846:5092" placeholder="..." />
@@ -1110,27 +1154,6 @@
             <marker date="1370906279898" expanded="true" signature="28463:28560" placeholder="..." />
             <marker date="1370906279898" expanded="true" signature="28646:29012" placeholder="..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/class/permisos.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="174" column="56" selection-start="5311" selection-end="5311" vertical-scroll-proportion="0.53571427">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/class/session.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="14" selection-start="562" selection-end="562" vertical-scroll-proportion="-5.677419">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/class/classDatabase.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="20" selection-start="213" selection-end="213" vertical-scroll-proportion="0.2494331">
-          <folding />
         </state>
       </provider>
     </entry>

@@ -613,7 +613,7 @@ $.extend(Permisos.prototype, {
 
         var clase = this;
 
-        var queryParams = {"func" : "EditarPermiso", "id" : id };
+        var queryParams = {"func" : "EditarPermiso", "id" : id, "proyecto" : clase.proyecto };
 
         $.ajax({
             data: queryParams,
