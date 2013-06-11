@@ -671,7 +671,17 @@ $.extend(Permisos.prototype, {
      * @param id
      */
     Eliminar: function(id){
-        this.RemovePermiso( id );
+        var clase = this;
+        var querParams = {"func" : "EliminarPermiso", "id" : id};
+
+        $.ajax({
+            data: querParams,
+            type: "POST",
+            url: "src/ajaxPermisos.php",
+            success: function( response ){
+                clase.RemoveArchivo( id );
+            }
+        });
     },
 
     /**

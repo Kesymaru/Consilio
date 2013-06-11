@@ -97,6 +97,15 @@ if( isset($_POST['func']) ){
                 }
             }
             break;
+
+        case 'EliminarPermiso':
+            if( isset($_POST['permiso']) ){
+                $permisos = new Permisos();
+                if( !$permisos->DeletePermisos($_POST['id']) ){
+                    echo "Error: no se pudo eliminar el permisos.";
+                }
+            }
+            break;
     }
 }
 

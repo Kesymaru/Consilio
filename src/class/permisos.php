@@ -502,6 +502,26 @@ class Permisos {
         return false;
     }
 
+    /**
+     * ELIMINA UN PERMISO
+     * @param $id -> id del permisos a eliminar
+     */
+    public function DeletePermisos( $id ){
+        $base = new Database();
+
+        $id = mysql_real_escape_string($id);
+
+        $query = "DELTE FROM permisos WHERE id = '".$id."' ";
+
+        if( $base->Delete($query) ){
+            $query = "DELETE FROM permisos_archivos WHERE permisos = '".$id."' ";
+            if( $base->Delete($query) ){
+                $query = "DELETE FROM permisos_archivos WHERE permisos = '".$id."' ";
+            }
+        }
+        return false;
+    }
+
     /************************************ AREAS DE APLIACION ********************/
 
     /**
