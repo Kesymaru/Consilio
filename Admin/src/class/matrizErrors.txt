@@ -939,3 +939,31 @@ Error:
 	JAVASCRIPT: 
 	June 10 2013 - 6:07 pm
  --------------------<>--------------------
+
+Error: 
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	June 12 2013 - 11:25 am
+ --------------------<>--------------------
+
+Error: 
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	June 13 2013 - 11:09 am
+ --------------------<>--------------------

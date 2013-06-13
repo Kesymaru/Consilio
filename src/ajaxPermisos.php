@@ -27,18 +27,26 @@ if( isset($_POST['func']) ){
 
         //CALENDARIO DE UN YEAR
         case 'CalendarYear':
-            if( isset($_POST['year']) ){
+            if( isset($_POST['year']) && isset($_POST['proyecto']) ){
 
                 $permisos = new Permisos();
-                $calendario = $permisos->getCalendario( $_POST['year'] );
+                $calendario = $permisos->getCalendario( $_POST['proyecto'], $_POST['year'] );
 
                 echo json_encode($calendario);
             }
             break;
 
+        //PERMISOS DE UN PROYECTO
         case 'Permisos':
-            if( isset($_POST['year']) && isset($_POST['month']) ){
-                ListaPermisos( $_POST['year'], $_POST['month'] );
+            if( isset($_POST['proyecto']) ){
+                Permisos($_POST['proyecto']);
+            }
+            break;
+
+        //PERMISOS DE UN MES
+        case 'PermisosMonth':
+            if( isset($_POST['year']) && isset($_POST['month']) && isset($_POST['proyecto']) ){
+                PermisosMonth( $_POST['proyecto'], $_POST['year'], $_POST['month'] );
             }
             break;
 
@@ -174,7 +182,9 @@ function Caledario($proyecto){
 
     $cliente = $_SESSION['cliente_id'];
 
-    $calendario = '<div class="panel-side" id="panel-permisos" >
+    $calendario = '';
+
+    /*$calendario .= '<div class="panel-side" id="panel-permisos" >
                             <div class="titulo" id="permisos-mes" >
                                 <span>Enero</span>
                                 <button type="button" class="derecha button-simbolo" onclick="$Permisos.NuevoPermiso()" title="Crear Nuevo Permiso">+</button>
@@ -192,16 +202,12 @@ function Caledario($proyecto){
                             <!-- fin lista de permisos -->
 
                             <!-- panel de edicion de nuevo permiso -->
-                            <div id="panel-edicion" class="panel-edicion"> ';
-
-    //$calendario .= FomularioNuevoPermiso();
-
-    $calendario.=          '</div>
-                            <!-- fin panel edicion nuevo permiso -->
-
+                            <div id="panel-edicion" class="panel-edicion">
                        </div>
+                       <!-- fin panel edicion nuevo permiso -->';*/
+
+    $calendario.=  '   </div>
                        <div class="calendar" id="calendar-permisos">
-                            <!-- <img class="logo-cliente" src="'.$logo.'" title="'.$datosCliente[0]['nombre'].'" alt="'.$datosCliente[0]['nombre'].'" /> -->
                             <div class="calendar-titulo">
                                 <img id="previous-year-calendar" src="images/preview.png" class="icon izquierda" title="Anterior" />
                                     <span id="year">'.$year.'</span>
@@ -240,18 +246,114 @@ function Caledario($proyecto){
 }
 
 /**
- * COMPONE LA LISTA DE PERMISOS DE UN A~O
- * @param $year
- * @param $month
+ * IMPRIME LA LISTA DE TODOS LOS PERMISOS DE UN PROYECTO
+ * ORDENADA POR FECHA DE MENOR A MAYOR
+ * @param int $proyecto -> id del proyecto
  */
-function ListaPermisos( $year, $month ){
+function Permisos($proyecto){
     $permisos = new Permisos();
-    $cliente = new Cliente();
+
+    $lista = '<div id="permisos" >
+                <div class="titulo" >
+                    Permisos
+                    <span class="icon-plus icon-15 icon-derecha" onclick="$Permisos.NuevoPermiso()" ></span>
+                </div>
+                <div class="permisos-wrapper">
+                    <ul class="permisos" id="lista-permisos" >';
+
+    if( $datos = $permisos->getPermisos($proyecto) ){
+        $cliente = new Cliente();
+
+        foreach( $datos as $f => $permiso ){
+            $lista .= '<li id="permiso-'.$permiso['id'].'" >
+                               <span class="permisos-nombre">
+                                    '.$permiso['nombre'].'
+
+                                    <button class="derecha button-simbolo" type="button" onclick="$Permisos.Editar('.$permiso['id'].')" title="Editar Permiso">Editar</button>
+
+                               </span>
+                               <span class="permisos-fecha">
+                                    Fecha de Vencimiento: '.$permiso['fecha_expiracion'].'
+                               </span>
+                               <span>
+                                    Fecha de Emicion: '.$permiso['fecha_emision'].'
+                               </span>';
+
+            //responsables
+            if( $responsables = $cliente->getResponsables() ){
+
+                $lista .= '<span class="permisos-responsable">
+                            Responsable: ';
+
+                foreach ($responsables as $f => $responsable) {
+                    $lista .= $responsable['nombre'].' '.$responsable['apellidos'].", ";
+                }
+
+                $lista .= '</span>';
+
+            }
+
+            //areas de aplicacion
+            $lista .= AreasApliacion( $permiso['id'] );
+
+            //si tiene observacion
+            if( $permiso['observacion'] != '' && !empty( $permiso['observacion']) ){
+                $lista .= '<span class="permisos-observacion">
+                               '.$permiso['observacion'].'
+                           </span>';
+            }
+
+            $lista .= ArchivosPermiso($permiso['id']);
+
+            $lista .= '</li>';
+        }
+
+    }else{
+        $lista .='<li class="add">
+                    <span title="Crear Nuevo Permiso" onclick="$Permisos.NuevoPermiso()">
+                        +
+                    </span>
+                  </li>';
+    }
+
+    $lista .= '        </ul>
+                  </div>
+                  <!-- fin lista de permisos -->
+
+              </div>
+              <!-- fin panel edicion nuevo permiso -->
+
+              <!-- permisos de un mes -->
+              <div id="permisos-mes">
+                <div class="titulo">
+                    Enero
+                    <span class="icon-plus icon-15 icon-derecha" onclick="$Permisos.NuevoPermiso()" ></span>
+                </div>
+              </div>
+
+              <!-- panel de edicion de nuevo permiso -->
+              <div id="panel-edicion" class="panel-edicion">';
+
+    echo $lista;
+}
+
+/**
+ * IMPRIME LA LISTA DE LOS PERMISOS DE UN MES
+ * @param int $proyecto -> id del proyecto
+ * @param int $year
+ * @param int $month
+ */
+function PermisosMonth( $proyecto, $year, $month ){
+    $permisos = new Permisos();
+//    $cliente = new Cliente();
 
     $lista = '';
 
-    if( $datos = $permisos->getPermisos( $year, $month ) ){
+    if( $datos = $permisos->getPermisosMonth( $proyecto, $year, $month ) ){
         //echo '<pre>'; print_r($datos); echo '</pre>';
+
+        //compone la lista del permisos
+//        $lista .= PermisoLista( $datos );
 
         foreach( $datos as $f => $permiso ){
             $lista .= '<li id="permiso-'.$permiso['id'].'" >
@@ -269,9 +371,9 @@ function ListaPermisos( $year, $month ){
                                     Fecha de Emicion: '.$permiso['fecha_emision'].'
                                </span>';
 
-            //responsables                   
+            //responsables
             if( $responsables = $cliente->getResponsables() ){
-                
+
                 $lista .= '<span class="permisos-responsable">
                             Responsable: ';
 
@@ -303,6 +405,61 @@ function ListaPermisos( $year, $month ){
     }
     //$lista = '<li class="add" onclick="$Permisos.NuevoPermiso()">+</li>';
     echo $lista;
+}
+
+/**
+ * COMPONE LOS DATOS DE UN PERMISO EN UNA LISTA
+ * @param srray $datos -> datos del permiso
+ * @return string $lista
+ */
+function PermisoLista( $datos ){
+    $cliente = new Cliente();
+    $lista = '';
+
+    foreach( $datos as $f => $permiso ){
+        $lista .= '<li id="permiso-'.$permiso['id'].'" >
+                               <span class="permisos-nombre">
+                                    '.$permiso['nombre'].'
+
+                                    <button class="derecha button-simbolo" type="button" onclick="$Permisos.Editar('.$permiso['id'].')" title="Editar Permiso">Editar</button>
+
+                               </span>
+                               <span class="permisos-fecha">
+                                    Fecha de Vencimiento: '.$permiso['fecha_expiracion'].'
+                               </span>
+                               <span>
+                                    Fecha de Emicion: '.$permiso['fecha_emision'].'
+                               </span>';
+
+        //responsables
+        if( $responsables = $cliente->getResponsables() ){
+
+            $lista .= '<span class="permisos-responsable">
+                            Responsable: ';
+
+            foreach ($responsables as $f => $responsable) {
+                $lista .= $responsable['nombre'].' '.$responsable['apellidos'].", ";
+            }
+
+            $lista .= '</span>';
+
+        }
+
+        //areas de aplicacion
+        $lista .= AreasApliacion( $permiso['id'] );
+
+        //si tiene observacion
+        if( $permiso['observacion'] != '' && !empty( $permiso['observacion']) ){
+            $lista .= '<span class="permisos-observacion">
+                               '.$permiso['observacion'].'
+                           </span>';
+        }
+
+        $lista .= ArchivosPermiso($permiso['id']);
+
+        $lista .= '</li>';
+    }
+    return $lista;
 }
 
 /**
@@ -466,7 +623,7 @@ function FomularioNuevoPermiso($proyecto){
                             </tr>
                             <tr>
                                 <td>
-                                    Areas de Aplicacion
+                                    Área de Aplicación
                                 </td>
                                 <td colspan="2">
                                     '.SelectAreasAplicacion().'
@@ -528,7 +685,7 @@ function SelecResponsables(){
 function SelectAreasAplicacion(){
     $permisos = new Permisos();
 
-    $select = '<select id="areas" name="areas" placeholder="Area de aplicacion" multiple >';
+    $select = '<select id="areas" name="areas" placeholder="Area de aplicacion" >';
 
     if( $areas = $permisos->getAreasAplicacion() ){
 
@@ -554,7 +711,7 @@ function SelectAreasAplicacion(){
 function SelectedAreasAplicacion($id){
     $permisos = new Permisos();
 
-    $select = '<select id="areas" name="areas" placeholder="Area de aplicacion" multiple >';
+    $select = '<select id="areas" name="areas" placeholder="Area de aplicacion" >';
 
     //si tiene areas seleccionadas
     if( $selected = $permisos->getAreasApliccionPermiso($id) ){
@@ -788,7 +945,7 @@ function EditarPermiso( $id ){
                             </tr>
                             <tr>
                                 <td>
-                                    Areas de Aplicacion
+                                    Área de Aplicación
                                 </td>
                                 <td colspan="2">
                                     '.SelectedAreasAplicacion( $id ).'
@@ -814,7 +971,7 @@ function EditarPermiso( $id ){
                          <div class="datos-botones">
                              <button type="button" id="cancelar" class="button-cancelar" onclick="$Permisos.HidePanelEdicion()">Cancelar</button>
                              <button type="button" onclick="$Permisos.ResetFormulario()">Limpiar</button>
-                             <input class="button" type="submit" value="Crear" />
+                             <input class="button" type="submit" value="Guardar" />
                          </div>
                     </form>';
 

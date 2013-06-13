@@ -29,7 +29,7 @@ class Permisos {
      * @param int $year numero del a~o
      * @return array $contador con el total de permisos para cada mes
      */
-    public function getCalendario($proyecto, $year){
+    public function getCalendario( $proyecto, $year){
         $base = new Database();
         $session = new Session();
 
@@ -66,34 +66,46 @@ class Permisos {
     }
 
     /**
+     * OBTIENE TODOS LOS PERMISOS DE UN PROYECTO
+     * @param $proyecto  -> id del proyecto
+     * @return array|bool
+     */
+    public function getPermisos($proyecto){
+        $base = new Database();
+
+        $proyecto = mysql_real_escape_string($proyecto);
+
+        $query = "SELECT * FROM permisos WHERE proyecto = '".$proyecto."' ORDER BY fecha_expiracion ";
+
+        if( $datos = $base->Select($query) ){
+            return $datos;
+        }
+        return false;
+    }
+
+    /**
      * OBTIENE LOS PERMISOS DE UN MES ESPECIFICO
+     * @param int $proyecto
      * @param int $year
      * @param int $month numero del mes
      * @return bool/array
      */
-    public function getPermisos($year, $month ){
+    public function getPermisosMonth($proyecto, $year, $month ){
         $base = new Database();
-/*        $session = new Session();
 
-        if( !$session->Logueado() ){
-            return false;
-        }*/
-
+        $proyecto = mysql_real_escape_string($proyecto);
         $year = mysql_real_escape_string( $year );
         $month = mysql_real_escape_string( $month );
         $month++;
         $cliente = mysql_real_escape_string( $_SESSION['cliente_id'] );
 
-        //2013-05-01
         $fecha_minima = $year.'-'.$month.'-01';
         $fecha_maxima = $year.'-'.($month+1).'-01';
 
-        $query = "SELECT * FROM permisos WHERE cliente = '".$cliente."' AND fecha_expiracion >= '".$fecha_minima."' AND fecha_expiracion < '".$fecha_maxima."' ";
+        $query = "SELECT * FROM permisos WHERE cliente = '".$cliente."' AND proyecto = '".$proyecto."' AND fecha_expiracion >= '".$fecha_minima."' AND fecha_expiracion < '".$fecha_maxima."' ";
 
         if( $datos = $base->Select($query) ){
-            if( !empty( $datos ) ){
-                return $datos;
-            }
+            return $datos;
         }
         return false;
     }

@@ -30,11 +30,11 @@ $master = new Master();
 	<link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css">
 
 	<!-- style plugins -->
-	<link rel="stylesheet" type="text/css" href="css/jquery.contextMenu.css">
 	<link rel="stylesheet" type="text/css" href="css/jquery.ui.timepicker.css">
 	<link rel="stylesheet" type="text/css" href="css/chosen.css">
     <link rel="stylesheet" type="text/css" href="js/select2/select2.css">
 	<link rel="stylesheet" type="text/css" href="fancybox/jquery.fancybox.css">
+    <link rel="stylesheet" type="text/css" href="css/icons.css">
 
 	<link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.css" />
 
@@ -243,13 +243,14 @@ $master = new Master();
 			if(!isset($_GET['proyecto'])){
 
             ?>
-            <div id="titulos" class="titulos">
-                <div class="tab tab-selected" onclick="TabProyectos()">
+            <div id="titulos" class="titulo">
+                <!--<div class="tab tab-selected" onclick="TabProyectos()">
                     Mis Proyectos
                 </div>
                 <div class="tab" onclick="TabPermisos()">
                     Permisos
-                </div>
+                </div>-->
+                Mis proyectos
             </div>
             <div class="vista" id="vista">
 

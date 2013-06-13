@@ -1,0 +1,7 @@
+COLORES
+beis: #f3f0e7
+rojo: #797673
+gris: #8f8f8f
+verde: #a0ca48
+naranja: #f7991f
+cafe: #8f8f8f

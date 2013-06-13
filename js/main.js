@@ -1047,28 +1047,12 @@ function TabProyectos(){
 
 }
 
-function TabPermisos(){
-    var queryParams = { "func" : "TabPermisos"};
+function ProyectoToolbar(){
+    $(".mis-proyectos td").on('click',function(){
+        var id = $(this).attr('id');
 
-    $.ajax({
-        data: queryParams,
-        type: "post",
-        url: "src/ajaxPermisos.php",
-        success: function(response){
-            //console.log( response );
-            $("#menu2").html(response);
+        $("#toolbar-"+id).width($(this).width());
+        $("#toolbar-"+id).show();
 
-            var alto = $("#content").height() - $("#titulos div").height();
-            $("#panel-permisos").height(alto);
-
-            if(typeof $Permisos == 'undefined'){
-                console.log( 'inicializando clase permisos');
-                $Permisos = new Permisos();
-            }
-            $Permisos.Calendario();
-            //CalendarioPermisos();
-
-        }
     });
-
 }

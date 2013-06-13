@@ -108,12 +108,12 @@ class Master{
 			$cuenta = 1;
 
 			foreach ($datos as $fila => $proyecto) {
-
+//                echo '<pre>'; print_r($proyecto); echo '</pre>';
 				if($cuenta == 1){
 					$lista == '<tr>';
 				}
 				if($cuenta <= $columna){
-					$lista .= '<td onClick="Proyecto('.$proyecto['id'].')" class="columna'.$columna.' cl'.$cuenta.'">';
+					$lista .= '<td onClick="Proyecto('.$proyecto['id'].')" class="columna'.$columna.' cl'.$cuenta.'" >';
 				}
 
 				$cliente = new Cliente();
@@ -179,6 +179,7 @@ class Master{
 			return false;
 		}
 	}
+
 }
 
 ?>

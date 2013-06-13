@@ -35,6 +35,49 @@ $.extend(Permisos.prototype, {
 
             }
         });
+
+        this.ShowPaneles();
+        this.Permisos();
+    },
+
+    /**
+     * REALIAZA LA ANIMACION PARA MOSTRAR LOS PANELES PARA LOS PERMISOS
+     */
+    ShowPaneles: function(){
+        $("#menu2").animate({
+            opacity: 1,
+            width: "30%",
+        }, {
+            duration: 1500,
+            queue: false,
+            complete: function(){
+                $("#menu2").css({
+                    'display' : 'inline-block',
+                    'float' : 'left',
+                    'opacity' : 1
+                });
+            }
+        });
+
+        $("#content").css({
+            display: 'inline-block'
+        });
+
+        $("#content").animate({
+
+            opacity: 1,
+            width: "50%",
+        }, {
+            duration: 1500,
+            queue: false,
+            complete: function(){
+                $("#content").css({
+                    'display' : 'inline-block',
+                    'float' : 'left',
+                    'opacity' : 1
+                });
+            }
+        });
     },
 
     /**
@@ -57,7 +100,7 @@ $.extend(Permisos.prototype, {
             var year = $("#year").text();
 
             //CARGA LOS PERMISOS DE UN MES
-            clase.Permisos(year, mes);
+            clase.PermisosMonth(year, mes);
 
         });
 
@@ -86,8 +129,8 @@ $.extend(Permisos.prototype, {
      * @param int year
      */
     CalendarioYear: function(year){
-        var queryParams = {"func":"CalendarYear", "year": year};
-        console.log( 'carga calendario '+year );
+        var queryParams = {"func": "CalendarYear", "year": year, "proyecto" : this.proyecto };
+        console.log( 'carga calendario '+queryParams );
 
         $.ajax({
             data: queryParams,
@@ -95,11 +138,9 @@ $.extend(Permisos.prototype, {
             url: "src/ajaxPermisos.php",
             dataType: 'JSON',
             success: function( response ){
-                console.log( response );
-                $calendario = response;
 
                 for( var i= 0; i <= response.length-1; i++ ){
-                    //console.log('cal '+i+' '+response[i]);
+//                    console.log('cal '+i+' '+response[i]);
 
                     if( response[i] == 0 || response[i] == undefined ){
                         $("#"+i).removeClass('mes-actived');
@@ -122,13 +163,31 @@ $.extend(Permisos.prototype, {
     },
 
     /**
+     * CARGA TODOS LOS PERMISOS DE UN PROYECTO
+     * @constructor
+     */
+    Permisos: function(){
+        var queryParams = {"func" : "Permisos", "proyecto" : this.proyecto};
+
+        $.ajax({
+            data: queryParams,
+            type: "POST",
+            url: "src/ajaxPermisos.php",
+            success: function( response ){
+                $("#content").html( response );
+            }
+        });
+
+    },
+
+    /**
      * CARGA LOS PERMISOS DE UN MES
      * @param year
      * @param month
      */
-    Permisos: function(year, month){
+    PermisosMonth: function(year, month){
         var clase = this;
-        var queryParams = {"func" : "Permisos", "year" : year, "month": month };
+        var queryParams = {"func" : "PermisosMonth", "year" : year, "month": month, "proyecto" : this.proyecto };
 
         $.ajax({
             data: queryParams,
@@ -182,8 +241,9 @@ $.extend(Permisos.prototype, {
     ShowPanelEdicion: function(){
         var clase = this;
 
-        var alto = $("#panel-permisos").height();
+//        var alto = $("#panel-permisos").height();
         var margen = $("#lista-permisos").height();
+        var alto = $("#content").height();
 
         $("#panel-edicion").animate({
             "margin-top" : '-'+alto+'px',
@@ -192,7 +252,7 @@ $.extend(Permisos.prototype, {
             duration: 700,
             queue: false,
             complete: function(){
-                $("#panel-edicion").css({
+                $("#content #panel-edicion").css({
                     "margin-top" : '-'+alto+'px',
                     "height" : alto+'px'
                 });
@@ -212,6 +272,89 @@ $.extend(Permisos.prototype, {
             }
         });
 
+    },
+
+    /**
+     * ANIMACION PARA LOS PANELES DE PERMISOS GLOBAL Y PERMISOS DE UN MES
+     */
+    TogglePanel: function(){
+        var alto = $("#content").height();
+        $("#permisos, #permisos-mes").css({
+            height: alto,
+        });
+
+        if( !$("#permisos-mes").is(":visible") ){
+
+            //muestra los permisos de un mes
+            $("#permisos-mes").css({
+                display: "inline-block",
+            });
+
+            $("#permisos-mes").animate({
+                width: "100%",
+                opacity: 1,
+            }, {
+                duration: 1000,
+                queue: false,
+                complete: function(){
+                    $("#permisos-mes").css({
+                        width: "100%",
+                        opacity: 1,
+                    });
+                }
+            });
+
+            //oculta los permisos
+            $("#permisos").animate({
+                width: "0px",
+                opacity: 0,
+            }, {
+                duration: 1000,
+                queue: false,
+                complete: function(){
+                    $("#permisos").css({
+                        width: "0px",
+                        opacity: 0,
+                        display: 'none',
+                    });
+                }
+            });
+        }else{
+            //muestra todos los permisos
+            $("#permisos").css({
+                display: "inline-block",
+            });
+
+            $("#permisos").animate({
+                width: "100%",
+                opacity: 1,
+            }, {
+                duration: 1000,
+                queue: false,
+                complete: function(){
+                    $("#permisos").css({
+                        width: "100%",
+                        opacity: 1,
+                    });
+                }
+            });
+
+            //oculta los permisos de un mes
+            $("#permisos-mes").animate({
+                width: "0px",
+                opacity: 0,
+            }, {
+                duration: 1000,
+                queue: false,
+                complete: function(){
+                    $("#permisos-mes").css({
+                        width: "0px",
+                        opacity: 0,
+                        display: 'none',
+                    });
+                }
+            });
+        }
     },
 
     /**
@@ -451,6 +594,8 @@ $.extend(Permisos.prototype, {
         });
 
         $( "#fecha_expiracion, #fecha_emision, #recordatorio" ).datepicker( {
+            changeMonth: true,
+            changeYear: true,
             dateFormat: 'dd/mm/yy',
         });
 
@@ -487,7 +632,7 @@ $.extend(Permisos.prototype, {
             }
         };
 
-        //$('#FormularioNuevoPermiso').ajaxForm(options);
+//        $('#FormularioNuevoPermiso').ajaxForm(options);
 
     },
 
@@ -663,7 +808,7 @@ $.extend(Permisos.prototype, {
             }
         };
 
-        //$('#FormularioEditarPermiso').ajaxForm(options);
+//        $('#FormularioEditarPermiso').ajaxForm(options);
     },
 
     /**

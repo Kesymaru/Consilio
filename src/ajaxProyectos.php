@@ -126,7 +126,10 @@ if(isset($_POST['func'])){
 
 function Panel(){
 
-    $panel='<table class="panel" >
+    $panel='<div class="titulos">
+                <div>Permisos</div>
+            </div>
+            <table class="panel" >
                 <tr>
                     <th id="panel-categorias">
 
