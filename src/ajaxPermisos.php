@@ -256,63 +256,112 @@ function Permisos($proyecto){
     $lista = '<div id="permisos" >
                 <div class="titulo" >
                     Permisos
-                    <span class="icon-plus icon-15 icon-derecha" onclick="$Permisos.NuevoPermiso()" ></span>
+                    <span class="icon-plus icon-15 icon-derecha" onclick="$Permisos.NuevoPermiso()" title="Crear Permiso" ></span>
                 </div>
                 <div class="permisos-wrapper">
-                    <ul class="permisos" id="lista-permisos" >';
+                    <ul class="permisos" id="lista-todos-permisos" >';
 
     if( $datos = $permisos->getPermisos($proyecto) ){
         $cliente = new Cliente();
 
+        $lista_meses = array();
+
         foreach( $datos as $f => $permiso ){
+            $mes = date( 'm', strtotime($permiso['fecha_expiracion']) );
+
+            if( !in_array($mes, $lista_meses) ){
+                $lista .= '<li>
+                            <div class="titulo titulo-mes">
+                                '.$permisos->getMonth($mes-1,"es").'
+                            </div>
+                          </li>';
+                $lista_meses[] = $mes;
+            }
+
+            //formatea la fecha
+            $permiso['fecha_expiracion'] = $permisos->DesFormatearFecha( $permiso['fecha_expiracion'] );
+            $permiso['fecha_emision'] = $permisos->DesFormatearFecha( $permiso['fecha_emision'] );
+
             $lista .= '<li id="permiso-'.$permiso['id'].'" >
-                               <span class="permisos-nombre">
-                                    '.$permiso['nombre'].'
+                            <div class="titulo">
+                                '.$permiso['nombre'].'
+                                <span class="icon-pencil icon-15 icon-derecha" onclick="$Permisos.Editar('.$permiso['id'].')" title="Editar Permiso" ></span>
 
-                                    <button class="derecha button-simbolo" type="button" onclick="$Permisos.Editar('.$permiso['id'].')" title="Editar Permiso">Editar</button>
-
-                               </span>
-                               <span class="permisos-fecha">
-                                    Fecha de Vencimiento: '.$permiso['fecha_expiracion'].'
-                               </span>
-                               <span>
-                                    Fecha de Emicion: '.$permiso['fecha_emision'].'
-                               </span>';
+                            </div>
+                            <table class="permiso">
+                                <tr>
+                                    <td>
+                                        Fecha de Vencimiento:
+                                    </td>
+                                    <td>
+                                        '.$permiso['fecha_expiracion'].'
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Fecha de Emisión:
+                                    </td>
+                                    <td>
+                                        '.$permiso['fecha_emision'].'
+                                    </td>
+                                </tr>';
 
             //responsables
             if( $responsables = $cliente->getResponsables() ){
 
-                $lista .= '<span class="permisos-responsable">
-                            Responsable: ';
+                $lista .= '<tr>
+                              <td>
+                                Responsable:
+                              </td>
+                              <td>';
 
                 foreach ($responsables as $f => $responsable) {
                     $lista .= $responsable['nombre'].' '.$responsable['apellidos'].", ";
                 }
 
-                $lista .= '</span>';
+                $lista .= '   </td>
+                            </tr>';
 
             }
 
             //areas de aplicacion
-            $lista .= AreasApliacion( $permiso['id'] );
+            //areas de aplicacion
+            $lista .= '<tr>
+                    <td>
+                        Área de Aplicación
+                    </td>
+                    <td>
+                        '.AreasApliacion( $permiso['id'] ).'
+                    </td>
+                   </tr>';
 
             //si tiene observacion
             if( $permiso['observacion'] != '' && !empty( $permiso['observacion']) ){
-                $lista .= '<span class="permisos-observacion">
+
+                $lista .= '<tr>
+                            <td>
+                                Observacion
+                            </td>
+                            <td>
                                '.$permiso['observacion'].'
-                           </span>';
+                           </td>
+                          </tr>';
             }
 
-            $lista .= ArchivosPermiso($permiso['id']);
+            //archivos
+            $lista .= '<tr>
+                        <td colspan="2" class="permiso-archivos">
+                            '.ArchivosPermiso($permiso['id']).'
+                        </td>
+                      </tr>';
 
-            $lista .= '</li>';
+            $lista .= '  </table>
+                       </li>';
         }
 
     }else{
-        $lista .='<li class="add">
-                    <span title="Crear Nuevo Permiso" onclick="$Permisos.NuevoPermiso()">
-                        +
-                    </span>
+        $lista .='<li class="no-data no-anima" onclick="$Permisos.NuevoPermiso()">
+                    <span class="icon-plus icon-15 icon-centro" title="Crear Permiso" ></span>
                   </li>';
     }
 
@@ -326,13 +375,20 @@ function Permisos($proyecto){
               <!-- permisos de un mes -->
               <div id="permisos-mes">
                 <div class="titulo">
-                    Enero
-                    <span class="icon-plus icon-15 icon-derecha" onclick="$Permisos.NuevoPermiso()" ></span>
+                    <span class="icon-menu icon-15 icon-izquierda" onclick="$Permisos.TogglePanel()" title="Todos Los Permisos" ></span>
+                    <span id="titulo-mes">
+                        Enero
+                    </span>
+                    <span class="icon-plus icon-15 icon-derecha" onclick="$Permisos.NuevoPermiso()" title="Crear Permiso" ></span>
+                </div>
+                <div class="permisos-wrapper">
+                    <ul class="permisos" id="lista-permisos" >
+                    </ul>
                 </div>
               </div>
 
               <!-- panel de edicion de nuevo permiso -->
-              <div id="panel-edicion" class="panel-edicion">';
+              <div id="panel-edicion"></div>';
 
     echo $lista;
 }
@@ -345,65 +401,98 @@ function Permisos($proyecto){
  */
 function PermisosMonth( $proyecto, $year, $month ){
     $permisos = new Permisos();
-//    $cliente = new Cliente();
+    $cliente = new Cliente();
 
     $lista = '';
 
     if( $datos = $permisos->getPermisosMonth( $proyecto, $year, $month ) ){
         //echo '<pre>'; print_r($datos); echo '</pre>';
 
-        //compone la lista del permisos
-//        $lista .= PermisoLista( $datos );
-
         foreach( $datos as $f => $permiso ){
+            //formatea la fecha
+            $permiso['fecha_expiracion'] = $permisos->DesFormatearFecha( $permiso['fecha_expiracion'] );
+            $permiso['fecha_emision'] = $permisos->DesFormatearFecha( $permiso['fecha_emision'] );
+
             $lista .= '<li id="permiso-'.$permiso['id'].'" >
-                               <span class="permisos-nombre">
-                                    '.$permiso['nombre'].'
+                            <div class="titulo">
+                                '.$permiso['nombre'].'
+                                <span class="icon-pencil icon-15 icon-derecha" onclick="$Permisos.Editar('.$permiso['id'].')" title="Editar Permiso" ></span>
 
-                                    <button class="derecha button-simbolo" type="button" onclick="$Permisos.Eliminar('.$permiso['id'].')">Eliminar</button>
-                                    <button class="derecha button-simbolo" type="button" onclick="$Permisos.Editar('.$permiso['id'].')" title="Editar Permiso">Editar</button>
-
-                               </span>
-                               <span class="permisos-fecha">
-                                    Fecha de Vencimiento: '.$permiso['fecha_expiracion'].'
-                               </span>
-                               <span>
-                                    Fecha de Emicion: '.$permiso['fecha_emision'].'
-                               </span>';
+                            </div>
+                            <table class="permiso">
+                                <tr>
+                                    <td>
+                                        Fecha de Vencimiento:
+                                    </td>
+                                    <td>
+                                        '.$permiso['fecha_expiracion'].'
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Fecha de Emisión:
+                                    </td>
+                                    <td>
+                                        '.$permiso['fecha_emision'].'
+                                    </td>
+                                </tr>';
 
             //responsables
             if( $responsables = $cliente->getResponsables() ){
 
-                $lista .= '<span class="permisos-responsable">
-                            Responsable: ';
+                $lista .= '<tr>
+                              <td>
+                                Responsable:
+                              </td>
+                              <td>';
 
                 foreach ($responsables as $f => $responsable) {
                     $lista .= $responsable['nombre'].' '.$responsable['apellidos'].", ";
                 }
 
-                $lista .= '</span>';
+                $lista .= '   </td>
+                            </tr>';
 
             }
 
             //areas de aplicacion
-            $lista .= AreasApliacion( $permiso['id'] );
+            //areas de aplicacion
+            $lista .= '<tr>
+                    <td>
+                        Área de Aplicación
+                    </td>
+                    <td>
+                        '.AreasApliacion( $permiso['id'] ).'
+                    </td>
+                   </tr>';
 
             //si tiene observacion
             if( $permiso['observacion'] != '' && !empty( $permiso['observacion']) ){
-                $lista .= '<span class="permisos-observacion">
+
+                $lista .= '<tr>
+                            <td>
+                                Observacion
+                            </td>
+                            <td>
                                '.$permiso['observacion'].'
-                           </span>';
+                           </td>
+                          </tr>';
             }
 
-            $lista .= ArchivosPermiso($permiso['id']);
+            //archivos
+            $lista .= '<tr>
+                        <td colspan="2" class="permiso-archivos">
+                            '.ArchivosPermiso($permiso['id']).'
+                        </td>
+                      </tr>';
 
-            $lista .= '</li>';
+            $lista .= '  </table>
+                       </li>';
         }
 
     }else{
         $lista .= '<li class="add" onclick="$Permisos.NuevoPermiso()">+</li>';
     }
-    //$lista = '<li class="add" onclick="$Permisos.NuevoPermiso()">+</li>';
     echo $lista;
 }
 
@@ -446,7 +535,14 @@ function PermisoLista( $datos ){
         }
 
         //areas de aplicacion
-        $lista .= AreasApliacion( $permiso['id'] );
+        $lista .= '<tr>
+                    <td>
+                        Área de Aplicación
+                    </td>
+                    <td>
+                        '.AreasApliacion( $permiso['id'] ).'
+                    </td>
+                   </tr>';
 
         //si tiene observacion
         if( $permiso['observacion'] != '' && !empty( $permiso['observacion']) ){
@@ -472,8 +568,7 @@ function AreasApliacion($id){
     $lista = '';
 
     if( $seleccionadas = $permisos->getAreasApliccionPermiso($id) ){
-        $lista .= '<span class="permisos-areas">
-                    Areas Aplicacion: ';
+        $lista .= '';
 
         foreach( $seleccionadas as $f => $area ){
 
@@ -485,8 +580,6 @@ function AreasApliacion($id){
                 }
             }
         }
-
-        $lista .= '</span>';
     }
 
     return $lista;
@@ -503,7 +596,7 @@ function ArchivosPermiso($id){
     $lista = '';
 
     if( $archivos = $permisos->getPermisosArchivos($id) ){
-        $lista .= '<span class="permisos-archivos">';
+        $lista .= '';
 
         foreach($archivos as $f => $archivo){
             $info = pathinfo($archivo['link']);
@@ -520,7 +613,6 @@ function ArchivosPermiso($id){
                        </a>';
         }
 
-        $lista .= '</span>';
     }
 
     return $lista;
@@ -647,7 +739,7 @@ function FomularioNuevoPermiso($proyecto){
                          </div>
 
                          <div class="datos-botones">
-                             <button type="button" id="cancelar" class="button-cancelar" onclick="$Permisos.HidePanelEdicion()">Cancelar</button>
+                             <button type="button" id="cancelar" class="button-cancelar" onclick="$Permisos.TogglePanelEdicion()">Cancelar</button>
                              <button type="button" onclick="$Permisos.ResetFormularioNuevoPermiso()">Limpiar</button>
                              <input class="button" type="submit" value="Crear" />
                          </div>
@@ -969,7 +1061,7 @@ function EditarPermiso( $id ){
                          </div>
 
                          <div class="datos-botones">
-                             <button type="button" id="cancelar" class="button-cancelar" onclick="$Permisos.HidePanelEdicion()">Cancelar</button>
+                             <button type="button" id="cancelar" class="button-cancelar" onclick="$Permisos.TogglePanelEdicion()">Cancelar</button>
                              <button type="button" onclick="$Permisos.ResetFormulario()">Limpiar</button>
                              <input class="button" type="submit" value="Guardar" />
                          </div>

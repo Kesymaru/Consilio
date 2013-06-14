@@ -10,6 +10,8 @@ class Permisos {
 
     private $errors = array();
     private $extensiones = array('gif', 'jpg', 'jpeg', 'png', 'zip', 'rar', 'pdf', 'txt', 'xls', 'xlsx', 'ods', 'docx', 'doc', 'odt', 'rtf', 'pptx', 'ppt', 'pptm');
+    private $months = array( "es" => array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"),
+                             "in" => array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December") );
 
     public function __construct(){
         $session = new Session();
@@ -113,6 +115,7 @@ class Permisos {
     /**
      * OBTIEN LOS DATOS DE UN PERMISO
      * @param $id -> id del permiso
+     * @return array|bool
      */
     public function getPermiso( $id ){
         $base = new Database();
@@ -194,14 +197,17 @@ class Permisos {
         $cliente = $_SESSION['cliente_id'];
 
         //invierte las fechas con formato dd/mm/yyyy -> yyyy-mm-dd
-        $fecha_emision = str_replace('/','-',$fecha_emision);
-        $fecha_emision = date( 'Y-m-d', strtotime($fecha_emision) );
+        /*$fecha_emision = str_replace('/','-',$fecha_emision);
+        $fecha_emision = date( 'Y-m-d', strtotime($fecha_emision) );*/
+        $fecha_emision = $this->FormatearFecha( $fecha_emision );
 
-        $fecha_expiracion = str_replace('/','-',$fecha_expiracion);
-        $fecha_expiracion = date( 'Y-m-d', strtotime($fecha_expiracion) );
+        /*$fecha_expiracion = str_replace('/','-',$fecha_expiracion);
+        $fecha_expiracion = date( 'Y-m-d', strtotime($fecha_expiracion) );*/
+        $fecha_expiracion = $this->FormatearFecha( $fecha_expiracion );
 
-        $recordatorio = str_replace('/','-',$recordatorio);
-        $recordatorio = date( 'Y-m-d', strtotime($recordatorio) );
+        /*$recordatorio = str_replace('/','-',$recordatorio);
+        $recordatorio = date( 'Y-m-d', strtotime($recordatorio) );*/
+        $recordatorio = $this->FormatearFecha( $recordatorio );
 
         $fecha_creacion = date('Y-m-d G:i:s');
 
@@ -223,6 +229,25 @@ class Permisos {
             }
         }
         return false;
+    }
+
+    /**
+     * @param $fecha -> fecha en formato dd/mm/yyyy
+     * @return date -> fecha formateada yyyy-mm-dd
+     */
+    public function FormatearFecha( $fecha ){
+        $fecha = str_replace('/','-',$fecha);
+        return date( 'Y-m-d', strtotime($fecha) );
+    }
+
+    /**
+     * DESFORMATEA UN FECHA
+     * @param $fecha -> fecha en formato yyyy-mm-dd
+     * @return date -> fecha en formato dd/mm/yyyy
+     */
+    public function DesFormatearFecha( $fecha ){
+        $fecha = date( 'd-m-Y', strtotime($fecha) );
+        return str_replace('-','/',$fecha);
     }
 
     /**
@@ -532,6 +557,24 @@ class Permisos {
             }
         }
         return false;
+    }
+
+    /**
+     * OBTIENE EL NOMBRE DEL MES
+     * @param int $mes
+     * @param string $idioma
+     */
+    public function getMonth($mes, $idioma){
+        return $this->months[$idioma][$mes];
+    }
+
+    /**
+     * DETERMINA SI LA FECHA EXPIRO
+     * @param $fecha
+     * @retrun bool
+     */
+    public function Expiro( $fecha ){
+
     }
 
     /************************************ AREAS DE APLIACION ********************/

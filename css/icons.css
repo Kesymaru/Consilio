@@ -30,9 +30,13 @@
     margin-right: 5px;
 }
 
-icon-izquierda{
+.icon-izquierda{
     float: left;
     margin-left: 5px;
+}
+
+.icon-centro{
+    margin: 0 auto;
 }
 
 /* Use the following CSS code if you want to have a class per icon */
@@ -50,6 +54,7 @@ you can use the generic selector below, but it's slower:
 	text-transform: none;
 	line-height: 1;
 	-webkit-font-smoothing: antialiased;
+    cursor: pointer;
 }
 .icon-pencil:before {
 	content: "\e000";

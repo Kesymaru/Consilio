@@ -25,11 +25,9 @@ $.extend(Permisos.prototype, {
             type: "post",
             url: "src/ajaxPermisos.php",
             success: function(response){
-                //console.log( response );
-                $("#menu2").html(response);
 
-                var alto = $("#content").height() - $("#titulos div").height();
-                $("#panel-permisos").height(alto);
+                //calendario
+                $("#menu2").html(response);
 
                 clase.Calendario();
 
@@ -89,10 +87,11 @@ $.extend(Permisos.prototype, {
         //var meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre'];
 
         $("#calendar-permisos .mes").on('click',function(){
-            $("#permisos-mes span").html( clase.meses[ $(this).attr('id') ] );
+            $("#permisos-mes #titulo-mes").html( clase.meses[ $(this).attr('id') ] );
 
             if ( !$(this).hasClass('mes-actived') ){
                 clase.NuevoPermiso();
+                console.log('nuevo permiso');
                 return false;
             }
 
@@ -167,14 +166,26 @@ $.extend(Permisos.prototype, {
      * @constructor
      */
     Permisos: function(){
+        var clase = this;
         var queryParams = {"func" : "Permisos", "proyecto" : this.proyecto};
+        var alto = $("#content").height();
 
         $.ajax({
             data: queryParams,
             type: "POST",
             url: "src/ajaxPermisos.php",
             success: function( response ){
+                console.log( response.length );
+
                 $("#content").html( response );
+                $("#permisos").height( alto );
+
+                $("#lista-todos-permisos li").css({
+                    opacity: 0,
+                    width: 0,
+                });
+
+                clase.AnimacionLista( $("#lista-todos-permisos li:first") );
             }
         });
 
@@ -194,14 +205,41 @@ $.extend(Permisos.prototype, {
             type: "POST",
             url: "src/ajaxPermisos.php",
             success: function(response){
+                response += response + response+ response+response+response+response+response+response+response;
 
-                clase.HidePanelEdicion();
+                if( !$("#permisos-mes").is(":visible") ){
+                    clase.TogglePanel();
+                }
 
-                $("#lista-permisos").fadeOut(500, function(){
-                    $("#lista-permisos").html( response).fadeIn(500);
+                $("#lista-permisos").html( response);
+
+                $("#lista-permisos li").css({
+                    opacity: 0,
+                    width: 0,
                 });
+
+                clase.AnimacionLista( $('#lista-permisos li:first') );
             }
         });
+    },
+
+    /**
+     * ANIMACION PARA CUANDO SE CARGA UNA LISTA
+     * @param object li
+     */
+    AnimacionLista: function( li ){
+        var clase = this;
+
+         //animacion para la lista
+         li.animate({
+             opacity: 1,
+             width: "100%",
+         },700);
+
+        //anima el siguiente
+        setTimeout(function(){
+            clase.AnimacionLista( li.next('li') );
+        },500);
     },
 
     /**
@@ -229,48 +267,74 @@ $.extend(Permisos.prototype, {
             success: function( response ){
                 $("#panel-edicion").html(response);
                 clase.InicializaFormularioNuevoPermiso();
-                clase.ShowPanelEdicion();
+
+                clase.TogglePanelEdicion();
             }
         });
 
     },
 
     /**
-     * MUESTRA EL FORMULARIO CON ANIMACION
+     * MUESTRA / OCULTA EL PANEL DE EDICION
      */
-    ShowPanelEdicion: function(){
+    TogglePanelEdicion: function(){
         var clase = this;
 
-//        var alto = $("#panel-permisos").height();
-        var margen = $("#lista-permisos").height();
         var alto = $("#content").height();
 
-        $("#panel-edicion").animate({
-            "margin-top" : '-'+alto+'px',
-            height: alto
-        }, {
-            duration: 700,
-            queue: false,
-            complete: function(){
-                $("#content #panel-edicion").css({
-                    "margin-top" : '-'+alto+'px',
-                    "height" : alto+'px'
-                });
+        if( !$("#panel-edicion").is(":visible") ){
 
-                $("#panel-edicion").addClass('panel-edicion-activo');
+            //muestra el panel de edicion
+            $("#panel-edicion").css({
+                height: 0,
+                opacity: 0,
+                display: "block",
+            });
 
-//                $("#areas, #responsables").chosen();
+            $("#panel-edicion").animate({
+                display: "block",
+                opacity: 1,
+                height: alto+'px',
+            }, {
+                duration: 700,
+                queue: false,
+                complete: function(){
+                    $("panel-edicion").css({
+                        display: "block",
+                        opacity: 1,
+                        height: alto+'px',
+                    });
 
-                $("#areas").select2({
-                    width: "100%",
-                    allowClear: true,
-                    placeholder: $(this).attr('placeholder'),
-                });
+                    $("#panel-edicion").addClass('panel-edicion-activo');
 
-                clase.SelectResponsables();
-                clase.SelectMails();
-            }
-        });
+                    $("#areas").select2({
+                        width: "100%",
+                        allowClear: true,
+                        placeholder: $(this).attr('placeholder'),
+                    });
+
+                    clase.SelectResponsables();
+                    clase.SelectMails();
+                }
+            });
+        }else{
+
+            //oculta el panel de edicion
+            $("#panel-edicion").animate({
+                opacity: 0,
+                height: 0,
+            }, {
+                duration: 700,
+                queue: false,
+                complete: function(){
+                    $("#panel-edicion").css({
+                        display: "none",
+                        opacity: 0,
+                        height: 0,
+                    });
+                }
+            });
+        }
 
     },
 
@@ -355,29 +419,6 @@ $.extend(Permisos.prototype, {
                 }
             });
         }
-    },
-
-    /**
-     * ESCONDE EL PANEL DE EDICION
-     * @constructor
-     */
-    HidePanelEdicion: function(){
-
-        $("#panel-edicion").animate({
-            "margin-top" : '100%',
-            height: 0
-        }, {
-            duration: 700,
-            queue: false,
-            complete: function(){
-                $("#panel-edicion").css({
-                    "margin-top" : '100%',
-                    "height" : 0
-                });
-                $("#panel-edicion").removeClass('panel-edicion-activo');
-            }
-        });
-
     },
 
     /**
@@ -622,7 +663,7 @@ $.extend(Permisos.prototype, {
             success: function(response) {
                 console.log( response );
 
-                clase.HidePanelEdicion();
+                clase.TogglePanelEdicion();
                 clase.ResetFormulario();
 
                 //actualiza calendario
@@ -770,7 +811,7 @@ $.extend(Permisos.prototype, {
 
                 clase.InicializaFormularioEditarPermiso(id);
 
-                clase.ShowPanelEdicion();
+                clase.TogglePanelEdicion();
             }
         });
     },
@@ -798,7 +839,7 @@ $.extend(Permisos.prototype, {
             success: function(response) {
                 console.log( response );
 
-                clase.HidePanelEdicion();
+                clase.TogglePanelEdicion();
                 clase.ResetFormulario();
 
                 //actualiza calendario
