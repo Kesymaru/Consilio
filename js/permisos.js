@@ -137,8 +137,8 @@ $.extend(Permisos.prototype, {
             url: "src/ajaxPermisos.php",
             dataType: 'JSON',
             success: function( response ){
-
-                for( var i= 0; i <= response.length-1; i++ ){
+                $contador = response;
+                for( var i= 0; i <= response['contador'].length-1; i++ ){
                     console.log('cal '+i+' '+response[i]);
 
                     if( response[i] == 0 || response[i] == undefined ){
