@@ -184,29 +184,7 @@ function Caledario($proyecto){
 
     $calendario = '';
 
-    /*$calendario .= '<div class="panel-side" id="panel-permisos" >
-                            <div class="titulo" id="permisos-mes" >
-                                <span>Enero</span>
-                                <button type="button" class="derecha button-simbolo" onclick="$Permisos.NuevoPermiso()" title="Crear Nuevo Permiso">+</button>
-                            </div>
-                            <div class="permisos-wrapper">
-                                <ul class="permisos" id="lista-permisos" >
-                                    <!-- lista permisos -->
-                                    <li class="add" >
-                                        <span title="Crear Nuevo Permiso" onclick="$Permisos.NuevoPermiso()">
-                                            +
-                                        </span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!-- fin lista de permisos -->
-
-                            <!-- panel de edicion de nuevo permiso -->
-                            <div id="panel-edicion" class="panel-edicion">
-                       </div>
-                       <!-- fin panel edicion nuevo permiso -->';*/
-
-    $calendario.=  '   </div>
+    $calendario .=  '   </div>
                        <div class="calendar" id="calendar-permisos">
                             <div class="calendar-titulo">
                                 <img id="previous-year-calendar" src="images/preview.png" class="icon izquierda" title="Anterior" />
@@ -216,12 +194,17 @@ function Caledario($proyecto){
 
     //obtiene el calendario del a~o presente
     $contador = $permisos->getCalendario($proyecto, $year);
+    //echo '<pre>'; print_r($contador); echo '</pre>';
 
-    foreach($contador as $f => $permiso ){
+    foreach($contador['contador'] as $f => $permiso ){
 
         $activo = '';
         if($permiso > 0){
             $activo = 'mes-actived';
+        }
+        $imagen = 'images/banderin.png';
+        if( $contador['expirados'][$f] == 1){
+            $imagen = 'images/banderinExpirado.png';
         }
 
         $calendario .= '<div id="'.$f.'" class="mes '.$activo.'">
@@ -235,7 +218,7 @@ function Caledario($proyecto){
                                 <div class="contador-add">
                                     +
                                 </div>
-                                <img src="images/banderin.png" class="banderin" />
+                                <img src="'.$imagen.'" class="banderin" />
                             </div>';
 
     }
@@ -282,8 +265,13 @@ function Permisos($proyecto){
             $permiso['fecha_expiracion'] = $permisos->DesFormatearFecha( $permiso['fecha_expiracion'] );
             $permiso['fecha_emision'] = $permisos->DesFormatearFecha( $permiso['fecha_emision'] );
 
+            $expiro = '';
+            if( $permisos->Expiro($permiso['fecha_expiracion']) ){
+                $expiro .= "titulo-expirado";
+            }
+
             $lista .= '<li id="permiso-'.$permiso['id'].'" >
-                            <div class="titulo">
+                            <div class="titulo '.$expiro.'">
                                 '.$permiso['nombre'].'
                                 <span class="icon-pencil icon-15 icon-derecha" onclick="$Permisos.Editar('.$permiso['id'].')" title="Editar Permiso" ></span>
 
@@ -608,7 +596,7 @@ function ArchivosPermiso($id){
             }
 
             $lista .= '<a href="http://localhost/matrizescala/src/download.php?link='.$_SESSION['datos'].$archivo['link'].'" title="Descargar" >
-                            <img src="'.$imagen.'" />
+                            <img style="height: 70px;" src="'.$imagen.'" />
                             <p>'.$archivo['nombre'].'</p>
                        </a>';
         }
@@ -726,7 +714,10 @@ function FomularioNuevoPermiso($proyecto){
 
     $formulario .=      '<textarea id="observacion" name="observacion" placeholder="Observacion" ></textarea>
                          <div class="archivos" id="select-archivos" >
-                            <div class="add" id="add-file">Archivos</div>
+                            <div class="add" id="add-file">
+                                Archivos
+                                <span class="icon-plus icon-derecha"></span>
+                            </div>
 
                             <!-- inputs de los archivos van ocultos -->
                             <div id="archivos-inputs">
@@ -1048,7 +1039,10 @@ function EditarPermiso( $id ){
 
     $formulario .=      '<textarea id="observacion" name="observacion" placeholder="Observacion" >'.$datos[0]['observacion'].'</textarea>
                          <div class="archivos" id="select-archivos" >
-                            <div class="add" id="add-file">Archivos</div>
+                            <div class="add" id="add-file">
+                                Archivos
+                                <span class="icon-plus icon-derecha"></span>
+                            </div>
 
                             <!-- inputs de los archivos van ocultos -->
                             <div id="archivos-inputs">
@@ -1062,7 +1056,8 @@ function EditarPermiso( $id ){
 
                          <div class="datos-botones">
                              <button type="button" id="cancelar" class="button-cancelar" onclick="$Permisos.TogglePanelEdicion()">Cancelar</button>
-                             <button type="button" onclick="$Permisos.ResetFormulario()">Limpiar</button>
+                             <!--<button type="button" onclick="$Permisos.ResetFormulario()">Limpiar</button>-->
+                             <button type="button" onclick="$Permisos.Eliminar('.$id.')">Elimar</button>
                              <input class="button" type="submit" value="Guardar" />
                          </div>
                     </form>';

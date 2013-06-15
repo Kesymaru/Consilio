@@ -1046,13 +1046,3 @@ function TabProyectos(){
     });
 
 }
-
-function ProyectoToolbar(){
-    $(".mis-proyectos td").on('click',function(){
-        var id = $(this).attr('id');
-
-        $("#toolbar-"+id).width($(this).width());
-        $("#toolbar-"+id).show();
-
-    });
-}

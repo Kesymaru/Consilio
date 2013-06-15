@@ -18,16 +18,77 @@ $.extend(Categorias.prototype, {
      * REINICIA EL PANEL DE LAS CATEGORIAS/NORMAS/ARTICULOS
      */
     init: function(){
+        console.log('init');
+        var clase = this;
+
         var queryParams = {"func" : "Panel"};
-        console.log( 'reset panel' );
+
         $.ajax({
             data: queryParams,
             type: "POST",
             url: "src/ajaxProyectos.php",
             success: function( response ){
-                console.log( response );
+
                 $("#menu2").html( response );
+
+                //eventos de las tabs
+                clase.Tabs();
             }
+        });
+
+    },
+
+    /**
+     * INICIALIZA LOS EVENTOS DE LAS TABS
+     * @constructor
+     */
+    Tabs: function(){
+        var clase = this;
+
+        var queryParams = {"func" : "SuperTab", "proyecto" : clase.proyecto };
+
+        $.ajax({
+            data: queryParams,
+            type: "POST",
+            url: "src/ajaxProyectos.php",
+            success: function( response ){
+                $("#tabs").html(response).show(1500);
+
+                clase.TabsEvents();
+            }
+        });
+    },
+
+    TabsEvents: function(){
+        var clase = this;
+
+        //CATEGORIAS
+        $("#tab-categorias").off("click");
+        $("#tab-categorias").on("click", function(){
+            $("#tabs li").removeClass('selected');
+            $(this).addClass('selected');
+
+            LimpiarContent();
+            Proyecto( clase.proyecto );
+        });
+
+        //PERMISOS
+        $("#tab-permisos").off("click");
+        $("#tab-permisos").on("click", function(){
+            $("#tabs li").removeClass('selected');
+            $(this).addClass('selected');
+
+            //inicializa la clase de permisos
+            if(typeof $Permisos == 'undefined'){
+                console.log( 'inicializando clase permisos');
+                $Permisos = new Permisos();
+            }
+            $Permisos.init(clase.proyecto);
+        });
+
+        $("#tab-home").off("click");
+        $("#tab-home").on("click", function(){
+            location.reload();
         });
     },
 
@@ -36,6 +97,7 @@ $.extend(Categorias.prototype, {
 	*  @param int proyecto -> id del proyecto
 	*/
 	SuperCategorias: function(proyecto){
+        this.init();
 
 		this.margin = 0;
 		this.proyecto = proyecto;
@@ -72,20 +134,6 @@ $.extend(Categorias.prototype, {
 					});*/
 					
 					$("#menu li").click(function(){
-
-                        if( $(this).hasClass('permisos') ){
-                            console.log('es permisos');
-
-                            //inicializa la clase de permisos
-                            if(typeof $Permisos == 'undefined'){
-                                console.log( 'inicializando clase permisos');
-                                $Permisos = new Permisos();
-                            }
-                            $Permisos.init(clase.proyecto);
-                            return true;
-                        }
-
-                        clase.init();
 
 						$("#menu li").removeClass('root-selected');
 						$(this).addClass('root-selected');

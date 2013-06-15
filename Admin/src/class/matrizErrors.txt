@@ -967,3 +967,59 @@ Error:
 	JAVASCRIPT: 
 	June 13 2013 - 11:09 am
  --------------------<>--------------------
+
+Error: 
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	June 14 2013 - 4:31 pm
+ --------------------<>--------------------
+
+Error: 
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	June 14 2013 - 5:05 pm
+ --------------------<>--------------------
+
+Error: 
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Chrome
+	Plataforma: Win7
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	June 14 2013 - 5:35 pm
+ --------------------<>--------------------
+
+Error: 
+
+
+	Sitio: Matriz
+	Usuario: Invitado
+	IP: 127.0.0.1
+	Navegador: Default Browser
+	Plataforma: unknown
+	Version: 0.0
+	CSS: 0.0
+	JAVASCRIPT: 
+	June 14 2013 - 7:00 pm
+ --------------------<>--------------------

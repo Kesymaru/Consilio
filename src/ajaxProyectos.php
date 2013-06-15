@@ -15,6 +15,12 @@ if(isset($_POST['func'])){
 	
 	switch ($_POST['func']) {
 
+        case 'SuperTab':
+            if( isset($_POST['proyecto']) ){
+                echo SuperTab( $_POST['proyecto'] );
+            }
+            break;
+
         //CARGA EL PANEL DE LAS CATEGORIAS|NORMAS|ARTICULOS
         case 'Panel':
             Panel();
@@ -124,12 +130,39 @@ if(isset($_POST['func'])){
 	echo "Error: ajaxProyectos.php FUNC no especificada.";
 }
 
+/**
+ * COMPONE LAS TABS DE UN PROYECTO
+ * @param $proyecto
+ */
+function SuperTab( $id ){
+    $proyecto = new Proyectos();
+
+    $tabs = '<ul>
+                <li class="selected" id="tab-categorias">
+                    Categorias
+                </li>';
+
+    if( $datos = $proyecto->getProyectoDatos($id) ){
+
+        //tiene permisos
+        if( $datos[0]['permisos'] == 1 ){
+            $tabs .= '<li id="tab-permisos" >
+                        Permisos
+                      </li>';
+        }
+    }
+
+    $tabs .= '  <li id="tab-home">
+                    <span class="icon-home icon-15"></span>
+                </li>
+              </ul>';
+
+    return $tabs;
+}
+
 function Panel(){
 
-    $panel='<div class="titulos">
-                <div>Permisos</div>
-            </div>
-            <table class="panel" >
+    $panel='<table class="panel" >
                 <tr>
                     <th id="panel-categorias">
 
@@ -216,9 +249,6 @@ function CategoriasRoot( $proyecto ){
 		}else{
 			$lista .= '<li></li>';
 		}
-
-        //calendario
-        $lista .= '<li class="permisos">Permisos</li>';
 
 		$lista .= '</ul>';
 	}else{

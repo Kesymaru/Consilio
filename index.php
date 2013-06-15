@@ -172,7 +172,22 @@ $master = new Master();
 		<?php
 			$master->Logo();
 		?>
-	</div> <!-- end header -->
+	</div>
+    <!-- end header -->
+
+    <div class="tabrow" id="tabs" >
+        <ul>
+            <li class="selected" id="tab-categorias">
+                Categorias
+            </li>
+            <li id="tab-permisos" >
+                Permisos
+            </li>
+            <li id="tab-home">
+                Home
+            </li>
+        </ul>
+    </div>
 
 	<div id="main">
 		

@@ -139,7 +139,7 @@ $.extend(Permisos.prototype, {
             success: function( response ){
 
                 for( var i= 0; i <= response.length-1; i++ ){
-//                    console.log('cal '+i+' '+response[i]);
+                    console.log('cal '+i+' '+response[i]);
 
                     if( response[i] == 0 || response[i] == undefined ){
                         $("#"+i).removeClass('mes-actived');
@@ -205,7 +205,6 @@ $.extend(Permisos.prototype, {
             type: "POST",
             url: "src/ajaxPermisos.php",
             success: function(response){
-                response += response + response+ response+response+response+response+response+response+response;
 
                 if( !$("#permisos-mes").is(":visible") ){
                     clase.TogglePanel();
@@ -673,7 +672,7 @@ $.extend(Permisos.prototype, {
             }
         };
 
-//        $('#FormularioNuevoPermiso').ajaxForm(options);
+        $('#FormularioNuevoPermiso').ajaxForm(options);
 
     },
 
@@ -849,7 +848,7 @@ $.extend(Permisos.prototype, {
             }
         };
 
-//        $('#FormularioEditarPermiso').ajaxForm(options);
+        $('#FormularioEditarPermiso').ajaxForm(options);
     },
 
     /**

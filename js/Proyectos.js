@@ -21,7 +21,7 @@ function Proyecto(id){
 
 	//esconde el menu 2
 	if( !$("#menu").is(":visible") && !$("#menu2").is(":visible") ){
-		PanelMenus()
+        PanelMenus()
 	}
 
 	/*if($("#content").html() !== ""){

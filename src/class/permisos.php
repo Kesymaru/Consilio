@@ -41,6 +41,7 @@ class Permisos {
         $proyecto = mysql_real_escape_string($proyecto);
 
         $contador = array(0=>'0',1=>'0',2=>'0',3=>'0',4=>'0',5=>'0',6=>'0',7=>'0',8=>'0',9=>'0',10=>'0',11=>'0');
+        $expirados =  array(0=>'0',1=>'0',2=>'0',3=>'0',4=>'0',5=>'0',6=>'0',7=>'0',8=>'0',9=>'0',10=>'0',11=>'0');
 
         $year = mysql_real_escape_string( $year );
         $cliente = mysql_real_escape_string( $_SESSION['cliente_id'] );
@@ -61,10 +62,23 @@ class Permisos {
                 if( !empty($datos) ){
                     $contador[$i-1] = $datos[0]['total'];
                 }
+
+                $query = "SELECT * FROM permisos WHERE cliente = '".$cliente."' AND proyecto = '".$proyecto."' AND fecha_expiracion >= '".$fecha_minima."' AND fecha_expiracion <= '".$fecha_maxima."' ";
+
+                if( $datosMeses = $base->Select($query) ){
+                    foreach( $datosMeses as $f => $mes ){
+                        $fecha = $this->FormatearFecha( $mes['fecha_expiracion'] );
+                        if( $this->Expiro($fecha)){
+                            $expirados[$i-1] = 1;
+                        }
+                    }
+                }
             }
         }
 
-        return $contador;
+        $total = array( "contador" => $contador, "expirados" => $expirados );
+
+        return $total;
     }
 
     /**
@@ -570,11 +584,19 @@ class Permisos {
 
     /**
      * DETERMINA SI LA FECHA EXPIRO
-     * @param $fecha
+     * @param $fecha -> dd/mm/yyy
      * @retrun bool
      */
     public function Expiro( $fecha ){
+        $fecha = str_replace('/','-',$fecha);
 
+        $ahora = strtotime(date("d-m-Y H:i:00",time()));
+        $fecha = strtotime($fecha);
+
+        if($ahora > $fecha){
+            return true;
+        }
+        return false;
     }
 
     /************************************ AREAS DE APLIACION ********************/
