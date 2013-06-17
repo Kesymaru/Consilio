@@ -608,7 +608,7 @@ class Permisos {
     public function getAreasAplicacion(){
         $base = new Database();
 
-        $query = "SELECT * FROM areas_aplicacion  ";
+        $query = "SELECT * FROM areas_aplicacion ORDER BY nombre ";
 
         if( $datos = $base->Select( $query ) ){
             return $datos;
@@ -623,7 +623,7 @@ class Permisos {
     public function getAreaAplicacion($id){
         $base = new Database();
 
-        $query = "SELECT * FROM areas_aplicacion WHERE id = '".$id."' ";
+        $query = "SELECT * FROM areas_aplicacion WHERE id = '".$id."' ORDER BY nombre";
 
         if( $datos = $base->Select($query)){
             return $datos;
