@@ -14,6 +14,8 @@ $.extend(Categorias.prototype, {
 	focus: '',
 	subpanel: '',
 
+    panel: '',
+
     /**
      * REINICIA EL PANEL DE LAS CATEGORIAS/NORMAS/ARTICULOS
      */
@@ -28,6 +30,7 @@ $.extend(Categorias.prototype, {
             type: "POST",
             url: "src/ajaxProyectos.php",
             success: function( response ){
+                clase.panel = response;
 
                 $("#menu2").html( response );
 
@@ -165,12 +168,13 @@ $.extend(Categorias.prototype, {
 	ResetPanel: function(){
 		if( $("#menu2").length > 0 ){
 			//resete el panel
-			$("#panel-categorias, #panel-normas, #panel-articulos, #td-categorias, #td-normas, #td-articulos")
+			/*$("#panel-categorias, #panel-normas, #panel-articulos, #td-categorias, #td-normas, #td-articulos")
 				.removeClass("panel-activo")
 				.html('');
 
 			$("#td-categorias, #td-normas").removeClass('panel-border-right');
-			$("#td-articulos").removeClass('panel-border-top');
+			$("#td-articulos").removeClass('panel-border-top');*/
+            $("#menu2").html( this.panel );
 		}
 		if( $("#content").is(":visible") ){
 			$animations.PanelMenus()
