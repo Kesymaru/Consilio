@@ -145,8 +145,7 @@ function SuperTab( $id ){
     if( $datos = $proyecto->getProyectoDatos($id) ){
 
         //tiene permisos
-//        if( $datos[0]['permisos'] == 1 ){
-        if( true ){
+        if( $datos[0]['permisos'] == 1 ){
             $tabs .= '<li id="tab-permisos" >
                         Permisos
                       </li>';
