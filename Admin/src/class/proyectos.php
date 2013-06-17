@@ -81,10 +81,10 @@ class Proyectos{
 	* @param $imagen -> logo adjuntado al proyecto
 	* @param $estado -> estado del proyecto
 	* @param $visible -> estado de visibilidad del proyecto
-	* @return true si se actualiza el proyecto correctamente
-	* @return false si fallo 
+    * @param $permisos -> estado si tiene o no permisos habilitados
+	* @return bool -> si se actualiza el proyecto correctamente
 	*/
-	function UpdateProyecto($id, $nombre, $cliente, $descripcion, $imagen, $estado, $visible){
+	function UpdateProyecto($id, $nombre, $cliente, $descripcion, $imagen, $estado, $visible, $permisos){
 		$base = new Database();
 		
 		$nombre = mysql_real_escape_string($nombre);
@@ -100,9 +100,9 @@ class Proyectos{
 
 		if($imagen != ''){ 
 			//actualiza imagen
-			$query = "UPDATE proyectos SET nombre = '".$nombre."', cliente = '".$cliente."', descripcion = '".$descripcion."', imagen = '".$imagen."', status = '".$estado."', visible = '".$visible."', fecha_actualizacion = '".$fecha."' ".$desactivo." WHERE id = ".$id;			
+			$query = "UPDATE proyectos SET nombre = '".$nombre."', cliente = '".$cliente."', descripcion = '".$descripcion."', imagen = '".$imagen."', status = '".$estado."', visible = '".$visible."', permisos = '".$permisos."', fecha_actualizacion = '".$fecha."' ".$desactivo." WHERE id = ".$id;
 		}else{
-			$query = "UPDATE proyectos SET nombre = '".$nombre."', cliente = '".$cliente."', descripcion = '".$descripcion."', status = '".$estado."', visible = '".$visible."', fecha_actualizacion = '".$fecha."' ".$desactivo." WHERE id = ".$id;
+			$query = "UPDATE proyectos SET nombre = '".$nombre."', cliente = '".$cliente."', descripcion = '".$descripcion."', status = '".$estado."', visible = '".$visible."', permisos = '".$permisos."', fecha_actualizacion = '".$fecha."' ".$desactivo." WHERE id = ".$id;
 		}
 
 		if($base->Update($query)){
