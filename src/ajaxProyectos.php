@@ -137,10 +137,11 @@ if(isset($_POST['func'])){
 function SuperTab( $id ){
     $proyecto = new Proyectos();
 
-    $tabs = '<ul>
+    /*$tabs = '<ul>
                 <li class="selected" id="tab-categorias">
                     Categorias
-                </li>';
+                </li>';*/
+    $tabs = '';
 
     if( $datos = $proyecto->getProyectoDatos($id) ){
 
