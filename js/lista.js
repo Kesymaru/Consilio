@@ -115,7 +115,11 @@ $.extend(Categorias.prototype, {
 			beforesend: function(){
 			},
 			success: function(response){
-				
+
+                if( $("#menu2 #calendar-permisos").length ){
+                    $("#menu2").html("");
+                }
+
 				if(response.length > 3){
 					$("#menu")
 						.html(response)
