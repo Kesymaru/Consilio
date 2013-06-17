@@ -52,9 +52,9 @@ $.extend(Categorias.prototype, {
             type: "POST",
             url: "src/ajaxProyectos.php",
             success: function( response ){
-                //$("#tabs").html(response).show(1500);
+                $("#tabs").html(response).show(1500);
 
-                //clase.TabsEvents();
+                clase.TabsEvents();
             }
         });
     },

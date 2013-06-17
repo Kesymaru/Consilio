@@ -3160,7 +3160,8 @@ button:hover{
 }
 
 .permisos td:first-child{
-    max-width: 250px;
+    width: 1px;
+    white-space: nowrap;
 }
 
 .permisos td{
