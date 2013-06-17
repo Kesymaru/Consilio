@@ -18,7 +18,7 @@ $.extend(Categorias.prototype, {
      * REINICIA EL PANEL DE LAS CATEGORIAS/NORMAS/ARTICULOS
      */
     init: function(){
-        console.log('init');
+        console.log('init catgorias');
         var clase = this;
 
         var queryParams = {"func" : "Panel"};
@@ -115,10 +115,6 @@ $.extend(Categorias.prototype, {
 			beforesend: function(){
 			},
 			success: function(response){
-
-                if( $("#menu2 #calendar-permisos").length ){
-                    $("#menu2").html("");
-                }
 
 				if(response.length > 3){
 					$("#menu")
