@@ -141,11 +141,18 @@ $.extend(Permisos.prototype, {
                 for( var i= 0; i <= response['contador'].length-1; i++ ){
                     console.log('cal '+i+' '+response[i]);
 
-                    if( response[i] == 0 || response[i] == undefined ){
+                    if( response['contador'][i] == 0 || response['contador'][i] == undefined ){
                         $("#"+i).removeClass('mes-actived');
                     }else{
                         $("#"+i).addClass('mes-actived');
-                        $("#"+i+" .contador-permisos").text( response[i] );
+                        $("#"+i+" .contador-permisos").text( response['contador'][i] );
+
+                        //cambia la imagen del banderin si esta expirado
+                        if( response['expirados'][i] == 1 ){
+                            $("#"+i+" .banderin").attr("src","images/banderinExpirado.png");
+                        }else{
+                            $("#"+i+" .banderin").attr("src","images/banderin.png");
+                        }
                     }
                 }
             },
