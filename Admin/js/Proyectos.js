@@ -294,6 +294,7 @@ function FormularioNuevoProyecto(){
 	Editor('descripcion');
 	$("#radio-estado").buttonset();
 	$("#radio-visible").buttonset();
+    $("#radio-permisos").buttonset();
 }
 
 /**
@@ -382,6 +383,7 @@ function FormularioEditarProyecto(){
 	Editor('descripcion');
 	$("#radio-estado").buttonset();
 	$("#radio-visible").buttonset();
+    $("#radio-permisos").buttonset();
 
 	//imagenes
 	$(".td-project-image img").hide();
