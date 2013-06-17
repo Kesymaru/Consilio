@@ -290,6 +290,20 @@ function NuevoProyecto(){
 					  				</div>
 					  			</td>
 					  		</tr>
+					  		<tr>
+					  		    <td>
+					  		        Permisos
+					  		    </td>
+					  		    <td>
+					  		        <div id="radio-permisos" title="Habilitar la Tab de Permisos">
+					  		            <input id="radio-permisos1" type="radio" name="permisos" value="1">
+						  				    <label for="radio-permisos1">Activo</label>
+
+						  			    <input id="radio-permisos2" type="radio" name="permisos" value="0" checked="checked">
+						  				    <label for="radio-permisos2">Inactivo</label>
+					  		        </div>
+					  		    </td>
+					  		</tr>
 					  		</table>
 					  		Descripcion
 					  		<textarea name="descripcion" id="descripcion"></textarea>
@@ -403,24 +417,26 @@ function EditarProyecto($id){
 							    <td>
 							        Permisos
 							    </td>
-							    <td>';
+							    <td>
+							        <div id="radio-permisos" title="Habilitar la Tab de Permisos">';
 
         if($datos[0]['permisos'] == 1 ){
             $formulario .= '<input id="radio-permisos1" type="radio" checked="checked" name="permisos" value="1">
-						  				<label for="radio-permisos1">Mostrar</label>
+						  				<label for="radio-permisos1">Activo</label>
 
 						  			<input id="radio-permisos2" type="radio" name="permisos" value="0">
-						  				<label for="radio-permisos2">Ocultar</label>';
+						  				<label for="radio-permisos2">Inactivo</label>';
         }else{
             $formulario .= '<input id="radio-permisos1" type="radio" name="permisos" value="1">
-						  				<label for="radio-permisos1">Mostrar</label>
+						  				<label for="radio-permisos1">Activo</label>
 
 						  			<input id="radio-permisos2" type="radio" name="permisos" checked="checked" value="0">
-						  				<label for="radio-permisos2">Ocultar</label>';
+						  				<label for="radio-permisos2">Inactivo</label>';
         }
 
 
-        $formulario.='        </td>
+        $formulario.='          <div>
+                              </td>
 							</tr>
 					  		</table>
 					  		Descripcion
@@ -566,7 +582,12 @@ function ActualizarProyecto($id){
 			$visible = $_POST['visible'];
 		}
 
-		if( !$proyectos->UpdateProyecto($id, $_POST['nombre'], $_POST['cliente'], $descripcion, $imagen, $estado, $visible )){
+        $permisos = 0;
+        if( $_POST['permisos'] == 1 || $_POST['permisos'] == 0){
+            $permisos = $_POST['permisos'];
+        }
+
+		if( !$proyectos->UpdateProyecto($id, $_POST['nombre'], $_POST['cliente'], $descripcion, $imagen, $estado, $visible, $permisos )){
 			echo "<br/>ERROR: no se pudo actualizar el proyecto, ajaxProyectos.php ActualizarProyecto(".$id.") linea 349";
 		}
 
