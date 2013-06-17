@@ -3143,7 +3143,8 @@ button:hover{
 }
 
 .permisos{
-    width: 100% !important;
+    width: 100%;
+    list-style: none;
 }
 
 .permisos .titulo-mes{
@@ -3158,12 +3159,17 @@ button:hover{
     background-color: #7c4f31;
 }
 
-.permisos td:first-child{
+/* tabla de los datos de un permiso */
+.permiso{
+    width: 100%;
+}
+
+.permiso td:first-child{
     width: 1px;
     white-space: nowrap;
 }
 
-.permisos td{
+.permiso td{
     text-align: left;
     padding: 5px;
     border-bottom: 1px solid #aaa;
@@ -3247,7 +3253,6 @@ button:hover{
         -webkit-transition: all 1s ease-in-out;
     transition: all 1s ease-in-out;
 }
-
 
 /* PANEL DE EDICION */
 #panel-edicion{
