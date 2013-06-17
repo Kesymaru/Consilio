@@ -3143,8 +3143,7 @@ button:hover{
 }
 
 .permisos{
-    width: 100%;
-    list-style: none;
+    width: 100% !important;
 }
 
 .permisos .titulo-mes{
