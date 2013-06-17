@@ -141,7 +141,7 @@ function SuperTab( $id ){
                 <li class="selected" id="tab-categorias">
                     Categorias
                 </li>';*/
-    $tabs = '';
+    $tabs = '<ul>';
 
     if( $datos = $proyecto->getProyectoDatos($id) ){
 
