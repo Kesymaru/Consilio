@@ -164,8 +164,13 @@ class Permisos {
         $base = new Database();
 
         $id = mysql_real_escape_string($id);
+        $cliente = mysql_real_escape_string($_SESSION['cliente_id']);
 
-        $query = "SELECT * FROM permisos_responsables WHERE permiso = '".$id."' ";
+        $query = "SELECT clientes_responsables.nombre, clientes_responsables.apellidos, clientes_responsables.email, clientes_responsables.id AS id, permisos_responsables.permiso, permisos_responsables.id AS permisos_responsables_id
+FROM clientes_responsables, permisos_responsables
+WHERE clientes_responsables.cliente = '".$cliente."'
+AND permisos_responsables.permiso = '".$id."'
+AND permisos_responsables.responsable = clientes_responsables.id";
 
         if( $responsables = $base->Select($query) ){
             return $responsables;
@@ -211,16 +216,10 @@ class Permisos {
         $cliente = $_SESSION['cliente_id'];
 
         //invierte las fechas con formato dd/mm/yyyy -> yyyy-mm-dd
-        /*$fecha_emision = str_replace('/','-',$fecha_emision);
-        $fecha_emision = date( 'Y-m-d', strtotime($fecha_emision) );*/
         $fecha_emision = $this->FormatearFecha( $fecha_emision );
 
-        /*$fecha_expiracion = str_replace('/','-',$fecha_expiracion);
-        $fecha_expiracion = date( 'Y-m-d', strtotime($fecha_expiracion) );*/
         $fecha_expiracion = $this->FormatearFecha( $fecha_expiracion );
 
-        /*$recordatorio = str_replace('/','-',$recordatorio);
-        $recordatorio = date( 'Y-m-d', strtotime($recordatorio) );*/
         $recordatorio = $this->FormatearFecha( $recordatorio );
 
         $fecha_creacion = date('Y-m-d G:i:s');
@@ -260,8 +259,9 @@ class Permisos {
      * @return date -> fecha en formato dd/mm/yyyy
      */
     public function DesFormatearFecha( $fecha ){
-        $fecha = date( 'd-m-Y', strtotime($fecha) );
-        return str_replace('-','/',$fecha);
+        /*$fecha = date( 'd-m-Y', strtotime($fecha) );
+        return str_replace('-','/',$fecha);*/
+        return date('d/m/Y', strtotime($fecha));
     }
 
     /**
@@ -373,7 +373,6 @@ class Permisos {
 
                 $this->CrearResponsable($permiso, $responsable);
 
-                //$base->Insert($query);
             }
 
         }else{
@@ -643,6 +642,23 @@ class Permisos {
             return true;
         }
         return false;
+    }
+
+    /**
+     * @param $proyecto -> id del proyecto
+     * @param $id -> id del permiso -> nombre
+     * @param $nombre
+     * @param $fecha_emision
+     * @param $fecha_expiracion
+     * @param $recordatorio
+     * @param $emails
+     * @param $areas
+     * @param $observacion
+     * @param $responsables
+     */
+    public function ActualizarPermiso( $proyecto, $id, $nombre, $fecha_emision, $fecha_expiracion, $recordatorio, $emails, $areas, $observacion, $responsables ){
+        $base = new Database();
+
     }
 
     /************************************ AREAS DE APLIACION ********************/
