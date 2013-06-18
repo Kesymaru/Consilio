@@ -236,11 +236,11 @@ $.extend(Permisos.prototype, {
     AnimacionLista: function( li ){
         var clase = this;
 
-         //animacion para la lista
-         li.animate({
-             opacity: 1,
-             width: "100%",
-         },700);
+        //animacion para la lista
+        li.animate({
+            opacity: 1,
+            width: "100%",
+        },700);
 
         //anima el siguiente
         setTimeout(function(){
@@ -275,6 +275,9 @@ $.extend(Permisos.prototype, {
                 clase.InicializaFormularioNuevoPermiso();
 
                 clase.TogglePanelEdicion();
+
+                clase.SelectResponsables();
+                clase.SelectMails();
             }
         });
 
@@ -319,8 +322,8 @@ $.extend(Permisos.prototype, {
                         placeholder: $(this).attr('placeholder'),
                     });
 
-                    clase.SelectResponsables();
-                    clase.SelectMails();
+                    /*clase.SelectResponsables();
+                    clase.SelectMails();*/
                 }
             });
         }else{
@@ -460,7 +463,6 @@ $.extend(Permisos.prototype, {
                             return {
                                 id: term,
                                 text: term,
-                                title: term
                             };
                         }
                     },
@@ -486,24 +488,13 @@ $.extend(Permisos.prototype, {
             dataType: "JSON",
             url: "src/ajaxPermisos.php",
             success: function( response ){
-                console.log( "SELECTED RESPONSABLES "+response );
-                $respuesta = response;
 
                 $("#responsables").select2("destroy");
 
                 //carga select con opcion de agregar
                 $("#responsables").select2({
-                    initSelection : function (element, callback) {
-                        $data = [];
-
-                        $( element.val().split(",")).each(function (f) {
-                            for( var i = 0; i < response.selected.length; i++ ){
-                                if( response.selected[i]['id'] == f ){
-                                        $data.push( response.selected[i] );
-                                }
-                            }
-                        });
-                        callback($data);
+                    initSelection: function(element, callback) {
+                        callback(response.selected);
                     },
                     tags: response.tags,
                     allowClear: true,
@@ -515,8 +506,7 @@ $.extend(Permisos.prototype, {
                         }).length === 0) {
                             return {
                                 id: term,
-                                text: term,
-                                title: term
+                                text: term
                             };
                         }
                     },
@@ -551,15 +541,56 @@ $.extend(Permisos.prototype, {
                     tags: clase.emails,
                     allowClear: true,
                     multiple: true,
-                    tokenSeparators: [",", " "],
+                    tokenSeparators: [","],
                     createSearchChoice: function(term, data) {
                         if ($(data).filter(function() {
                             return this.text.localeCompare(term) === 0;
                         }).length === 0) {
                             return {
                                 id: term,
-                                text: term,
-                                title: term
+                                text: term
+                            };
+                        }
+                    },
+                });
+
+            }
+        });
+    },
+
+    /**
+     * INICIALIZA EL SELECT DE LOS EMAILS CON OPCIONES SELECCIONADAS
+     * @param id -> id del permiso
+     */
+    SelectedMails: function(id){
+        var queryParams = {func: "getMails", id: id};
+
+        $.ajax({
+            data: queryParams,
+            type: "POST",
+            dataType: "JSON",
+            url: "src/ajaxPermisos.php",
+            success: function( response ){
+                $emails = response;
+
+                $("#emails").select2("destroy");
+
+                //crear el select con los seleccionados
+                $("#emails").select2({
+                    initSelection: function(element, callback) {
+                        callback(response.selected);
+                    },
+                    tags: response.tags,
+                    allowClear: true,
+                    multiple: true,
+                    tokenSeparators: [","],
+                    createSearchChoice: function(term, data) {
+                        if ($(data).filter(function() {
+                            return this.text.localeCompare(term) === 0;
+                        }).length === 0) {
+                            return {
+                                id: term,
+                                text: term
                             };
                         }
                     },
@@ -679,7 +710,7 @@ $.extend(Permisos.prototype, {
             }
         };
 
-        $('#FormularioNuevoPermiso').ajaxForm(options);
+//        $('#FormularioNuevoPermiso').ajaxForm(options);
 
     },
 
@@ -687,6 +718,7 @@ $.extend(Permisos.prototype, {
      * RESETEA EL FORMULARIO
      */
     ResetFormulario: function(){
+        console.log('reset formulario');
         var clase = this;
 
         //$('#FormularioNuevoPermiso')[0].reset();
@@ -831,6 +863,7 @@ $.extend(Permisos.prototype, {
         //componentes en comun
         this.InicializaFormulario();
         this.SelectedResponsables(id);
+        this.SelectedMails(id);
 
         //$('#FormularioNuevoPermiso').on('reset', this.ResetFormulario );
 
@@ -846,7 +879,6 @@ $.extend(Permisos.prototype, {
                 console.log( response );
 
                 clase.TogglePanelEdicion();
-                clase.ResetFormulario();
 
                 //actualiza calendario
                 clase.RefreshCalendar();
@@ -855,7 +887,7 @@ $.extend(Permisos.prototype, {
             }
         };
 
-        $('#FormularioEditarPermiso').ajaxForm(options);
+//        $('#FormularioEditarPermiso').ajaxForm(options);
     },
 
     /**
@@ -864,31 +896,67 @@ $.extend(Permisos.prototype, {
      */
     Eliminar: function(id){
         var clase = this;
-        var querParams = {"func" : "EliminarPermiso", "id" : id};
+        var querParams = {func: "EliminarPermiso", proyecto: this.proyecto, id: id};
+
+        /*this.TogglePanelEdicion();
+        this.RefreshCalendar();
+        this.RemovePermiso( id );*/
 
         $.ajax({
             data: querParams,
             type: "POST",
             url: "src/ajaxPermisos.php",
             success: function( response ){
-                clase.RemoveArchivo( id );
+                $salida = response;
+                console.log( response );
+
+                clase.TogglePanelEdicion();
+                clase.RefreshCalendar();
+                clase.RemovePermiso( id );
             }
         });
     },
 
     /**
-     * ELIMINA UN PERMISO
+     * ELIMINA UN PERMISO DEL DOM CON UNA ANIMACION
      * @param id
-     * @constructor
      */
     RemovePermiso: function(id){
-        $("#permiso-"+id).fadeOut(function(){
-            $(this).remove();
-        });
+        var todos = $("#permisos #permiso-"+id);
+        var mes = $("#permisos-mes #permiso-"+id);
+
+        //esta en la vista de todos los permisos
+        if( todos.length ){
+            todos.animate({
+                height: "0px",
+                opacity: 0
+            },{
+                duration: 1000,
+                queue: false,
+                complete: function(){
+                    todos.remove();
+                }
+            });
+        }
+
+        //esta presente en la vista de mes
+        if( mes.length ){
+            mes.animate({
+                height: "0px",
+                opacity: 0
+            },{
+                duration: 1000,
+                queue: false,
+                complete: function(){
+                    mes.remove();
+                }
+            });
+        }
+
     },
 
     /**
-     * ELIMINA UN ARCHIVO ADJUNTADO DE UN PERMISO
+     * ELIMINA ARCHIVO ADJUNTO DE UN PERMISO
      * @param int id -> id del archivo
      */
     RemoveArchivo: function(id){
