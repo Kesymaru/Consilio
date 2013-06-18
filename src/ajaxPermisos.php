@@ -58,9 +58,9 @@ if( isset($_POST['func']) ){
             break;
 
         case 'RegistrarPermiso':
-            echo '<pre>'; print_r( $_POST); echo '</pre>';
+            /*echo '<pre>'; print_r( $_POST); echo '</pre>';
             echo '<pre>'; print_r( $_FILES ); echo '</pre>';
-            //echo '<pre>'; print_r( pathinfo($_FILES['archivo0']['name']) ); echo "</pre>";
+            echo '<pre>'; print_r( pathinfo($_FILES['archivo0']['name']) ); echo "</pre>";*/
 
             if( isset($_POST['proyecto']) && isset($_POST['nombre'])
                 && isset($_POST['fecha_emision'])
@@ -85,6 +85,10 @@ if( isset($_POST['func']) ){
 
         //OBTIENE TODOS LOS MAILS DISPONIBLES PARA EL CLIENTE
         case 'getMails':
+            if( isset($_POST['id']) ){
+                getMailsPermiso( $_POST['id'] );
+                return;
+            }
             getMails();
             break;
 
@@ -106,12 +110,35 @@ if( isset($_POST['func']) ){
             }
             break;
 
+        //elimina un permiso
         case 'EliminarPermiso':
-            if( isset($_POST['permiso']) ){
+            if( isset($_POST['proyecto']) && isset($_POST['id']) ){
                 $permisos = new Permisos();
-                if( !$permisos->DeletePermisos($_POST['id']) ){
+                if( !$permisos->DeletePermisos( $_POST['proyecto'], $_POST['id']) ){
                     echo "Error: no se pudo eliminar el permisos.";
                 }
+            }
+            break;
+
+        //Actualiza un permiso
+        case 'ActualizarPermiso':
+            echo 'Actualizando permiso.. <br/>';
+            echo '<pre>'; print_r( $_POST); echo '</pre>';
+
+            if( isset($_FILES) && !empty($_FILES) ){
+                echo 'Archivos<hr><pre>'; print_r( $_FILES ); echo '</pre>';
+            }
+
+            if( isset($_POST['proyecto']) && isset($_POST['id'])
+                && isset($_POST['nombre'])
+                && isset($_POST['fecha_emision'])
+                && isset($_POST['fecha_expiracion'])
+                && isset($_POST['recordatorio'])
+                && isset($_POST['emails'])
+                && isset($_POST['areas']) ){
+                ActualizarPermiso();
+            }else{
+                echo 'faltan parametros';
             }
             break;
     }
@@ -295,7 +322,7 @@ function Permisos($proyecto){
                                 </tr>';
 
             //responsables
-            if( $responsables = $cliente->getResponsables() ){
+            if( $responsables = $permisos->getResponsables($permiso['id']) ){
 
                 $lista .= '<tr>
                               <td>
@@ -304,7 +331,10 @@ function Permisos($proyecto){
                               <td>';
 
                 foreach ($responsables as $f => $responsable) {
-                    $lista .= $responsable['nombre'].' '.$responsable['apellidos'].", ";
+                    $lista .= $responsable['nombre'].' '.$responsable['apellidos'];
+                    if( $f < sizeof($responsables)-1 ){
+                        $lista .= ", ";
+                    }
                 }
 
                 $lista .= '   </td>
@@ -426,7 +456,7 @@ function PermisosMonth( $proyecto, $year, $month ){
                                 </tr>';
 
             //responsables
-            if( $responsables = $cliente->getResponsables() ){
+            if( $responsables = $permisos->getResponsables($permiso['id']) ){
 
                 $lista .= '<tr>
                               <td>
@@ -435,7 +465,10 @@ function PermisosMonth( $proyecto, $year, $month ){
                               <td>';
 
                 foreach ($responsables as $f => $responsable) {
-                    $lista .= $responsable['nombre'].' '.$responsable['apellidos'].", ";
+                    $lista .= $responsable['nombre'].' '.$responsable['apellidos'];
+                    if( $f < sizeof($responsables)-1 ){
+                        $lista .= ", ";
+                    }
                 }
 
                 $lista .= '   </td>
@@ -766,7 +799,7 @@ function SelectedAreasAplicacion($id){
 }
 
 /**
- * OBTIENE LOS RESPONSABLES DE UN CLIENTE
+ * OBTIENE TODOS LOS RESPONSABLES DE UN CLIENTE
  */
 function getResponsables(){
     $cliente = new Cliente();
@@ -778,8 +811,7 @@ function getResponsables(){
             $lista[] = array(
                 "text"=>$responsable['nombre'].' '.$responsable['apellidos'],
                 "id"=>$responsable['id'],
-                "title"=>$responsable['nombre'].' titulo'
-                    );
+            );
         }
     }
 
@@ -787,40 +819,39 @@ function getResponsables(){
 }
 
 /**
- * OBTIENE RESPONSABLES DE UN PERMISO
+ * OBTIENE LOS RESPONSABLES DE UN PERMISO
  */
 function getResponsablesPermiso( $id ){
     $permisos = new Permisos();
     $cliente = new Cliente();
 
     $lista = array();
+    $selected = array();
+    $tags = array();
 
     //obtiene los responsables seleccionados
     if( $responsables = $permisos->getResponsables($id) ){
 
-        $selected = array();
         foreach( $responsables as $f => $responsable ){
             $selected[] = array(
                 "text"=>$responsable['nombre'].' '.$responsable['apellidos'],
-                "id"=>$responsable['id'],
-                "title"=>$responsable['nombre'].' titulo'
+                "id"=>$responsable['id']
             );
         }
-        $lista['selected'] = $selected;
     }
+    $lista['selected'] = $selected;
 
     //obtiene los responsables disponibles
     if( $responsables = $cliente->getResponsables() ){
-        $tags = array();
+
         foreach( $responsables as $f => $responsable ){
             $tags[] = array(
                 "text"=>$responsable['nombre'].' '.$responsable['apellidos'],
-                "id"=>$responsable['id'],
-                "title"=>$responsable['nombre'].' titulo'
+                "id"=>$responsable['id']
             );
         }
-        $lista['tags'] = $tags;
     }
+    $lista['tags'] = $tags;
 
     echo json_encode( $lista );
 }
@@ -837,20 +868,69 @@ function getMails(){
     $emails = array();
 
     if( $responsables = $cliente->getResponsables() ){
+        //email propio
         $emails[] = array(
                 "text"=>$datos[0]['email'],
                 "id"=>$datos[0]['email']
         );
 
         foreach( $responsables as $f => $responsable ){
-            $lista[] = array(
-                "text"=>$responsable['email'],
-                "id"=>$responsable['email']
-            );
+            if( !empty($responsable['email']) ){
+                $emails[] = array(
+                    "text" => $responsable['email'],
+                    "id" => $responsable['email'],
+                );
+            }
         }
     }
 
     echo json_encode( $emails );
+}
+
+function getMailsPermiso($id){
+    $permisos = new Permisos();
+    $cliente = new Cliente();
+
+    $lista = array();
+    $selected = array();
+    $tags = array();
+    $incluidos = array();
+
+    if( $datosPermisos = $permisos->getRecordatorioEmails($id) ){
+        foreach( $datosPermisos as $f => $email ){
+            $selected[] = array(
+                "text" => $email['email'],
+                "id" => $email['email']
+            );
+            $incluidos[] = $email['email'];
+        }
+    }
+    $lista['selected'] = $selected;
+
+    //tags todos los emails posibles
+    $datosCliente = $cliente->getDatosCliente( $_SESSION['cliente_id'] );
+
+    if( $datosResponsables = $cliente->getResponsables() ){
+
+        if( !in_array($datosCliente[0]['email'], $incluidos, true) ){
+            $tags[] = array(
+                "text" => $datosCliente[0]['email'],
+                "id" => $datosCliente[0]['email'],
+            );
+        }
+
+        foreach($datosResponsables as $f => $responsable){
+            if( !empty($responsable['email']) && !in_array($responsable['email'], $incluidos, true) ){
+                $tags[] = array(
+                    "text" => $responsable['email'],
+                    "id" => $responsable['email'],
+                );
+            }
+        }
+    }
+    $lista['tags'] = $tags;
+
+    echo json_encode($lista);
 }
 
 /**
@@ -879,7 +959,7 @@ function EditarPermiso( $id ){
     if( $responsables = $permiso->getResponsables( $id ) ){
         foreach( $responsables as $f => $responsable ){
 
-            $lista_responsables .= $responsable['responsable'];
+            $lista_responsables .= $responsable['id'];
 
             if( $f < sizeof($responsables)-1 ){
                 $lista_responsables .= ',';
@@ -903,9 +983,11 @@ function EditarPermiso( $id ){
     }
 
     //formatea las fechas
-    $datos[0]['fecha_emision'] = date( 'd/m/Y', strtotime($datos[0]['fecha_emision']) );
-    $datos[0]['fecha_expiracion'] = date( 'd/m/Y', strtotime($datos[0]['fecha_expiracion']) );
-    $recordatorio = date( 'd/m/Y', strtotime($recordatorio) );
+    $datos[0]['fecha_emision'] = $permiso->DesFormatearFecha( $datos[0]['fecha_emision']);
+
+    $datos[0]['fecha_expiracion'] = $permiso->DesFormatearFecha($datos[0]['fecha_expiracion']);
+
+    $recordatorio = $permiso->DesFormatearFecha($recordatorio);
 
     $formulario = '<form id="FormularioEditarPermiso" class="chosen-centrado" enctype="multipart/form-data" method="post" action="src/ajaxPermisos.php" >
                         <div class="titulo">
@@ -913,6 +995,7 @@ function EditarPermiso( $id ){
                         </div>
                         <input type="hidden" name="func" value="ActualizarPermiso" />
                         <input type="hidden" name="id" value="'.$id.'" />
+                        <input type="hidden" name="proyecto" value="'.$datos[0]['proyecto'].'" />
 
                         <br/>
                         <table>
@@ -1001,6 +1084,56 @@ function EditarPermiso( $id ){
                     </form>';
 
     return $formulario;
+}
 
+/**
+ * ACTUALIZA UN PERMISO
+ */
+function ActualizarPermiso(){
+    $permisos = new Permisos();
+
+    $id = $_POST['id'];
+    $proyecto = $_POST['proyecto'];
+    $nombre = $_POST['nombre'];
+    $fecha_emision = $_POST['fecha_emision'];
+    $fecha_expiracion = $_POST['fecha_expiracion'];
+    $recordatorio = $_POST['recordatorio'];
+    $emails = $_POST['emails'];
+    $areas = $_POST['areas'];
+
+    $observacion = '';
+    if( isset($_POST['observacion']) ){
+        $observacion = $_POST['observacion'];
+    }
+
+    $responsables = '';
+    if( isset($_POST['responsables']) ){
+        $responsables = $_POST['responsables'];
+    }
+
+    /*if( $id = $permisos->ActualizarPermiso( $proyecto, $nombre, $fecha_emision, $fecha_expiracion, $recordatorio, $emails, $areas, $observacion, $responsables ) ){
+
+        //sube los archivos
+        if( $error = $permisos->UploadFiles($_FILES, $id ) ){
+
+            return true;
+
+        }else{
+            echo "<br/>Error: no se pudo subir los archivos del nuevo permiso.<br/>";
+            return false;
+        }
+
+    }else{
+        echo "<br/>Error: no se pudo crear el nuevo permiso.<br/>";
+        return false;
+    }*/
+
+}
+
+/**
+ * ACTUALIZA LOS ARCHIVOS DE UN PERMISO
+ * @param int $id -> id del permiso
+ */
+function ActualizarArchivosPermiso( $id ){
 
 }
