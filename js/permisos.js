@@ -262,8 +262,6 @@ $.extend(Permisos.prototype, {
             console.log('reset formulario');
 
             this.ResetFormulario();
-
-            //return true;
         }
 
         $.ajax({
@@ -710,7 +708,7 @@ $.extend(Permisos.prototype, {
             }
         };
 
-//        $('#FormularioNuevoPermiso').ajaxForm(options);
+        $('#FormularioNuevoPermiso').ajaxForm(options);
 
     },
 
@@ -887,7 +885,7 @@ $.extend(Permisos.prototype, {
             }
         };
 
-//        $('#FormularioEditarPermiso').ajaxForm(options);
+        $('#FormularioEditarPermiso').ajaxForm(options);
     },
 
     /**
