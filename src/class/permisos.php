@@ -538,7 +538,7 @@ class Permisos {
         $query = "SELECT * FROM permisos_archivos WHERE id = '".$id."' ";
 
         if( $datos = $base->Select($query)){
-            echo $link = '../Admin/'.$datos[0]['link'];
+            $link = '../Admin/'.$datos[0]['link'];
 
             $query = "DELETE FROM permisos_archivos WHERE id = '".$id."' ";
 
@@ -555,19 +555,65 @@ class Permisos {
 
     /**
      * ELIMINA UN PERMISO
-     * @param $id -> id del permisos a eliminar
+     * @param int $proyecto -> id del proyecto
+     * @param int $id -> id del permisos a eliminar
      */
-    public function DeletePermisos( $id ){
+    public function DeletePermisos( $proyecto, $id ){
         $base = new Database();
 
         $id = mysql_real_escape_string($id);
+        $proyecto = mysql_real_escape_string($proyecto);
 
-        $query = "DELTE FROM permisos WHERE id = '".$id."' ";
+        $query = "DELETE FROM permisos WHERE id = '".$id."' AND proyecto = '".$proyecto."' ";
 
         if( $base->Delete($query) ){
-            $query = "DELETE FROM permisos_archivos WHERE permisos = '".$id."' ";
+
+            $query = "SELECT * FROM permisos_archivos WHERE permiso = '".$id."' ";
+
+            //elimina los archivos
+            if( $archivos = $base->Select($query) ){
+                //elimina cada uno de los archivos del permiso
+                foreach($archivos as $f => $archivo ){
+                    $this->DeleteArchivo( $archivo['id'] );
+                }
+
+            }
+
+            //elimina los datos del permiso
+            if( !$this->DeleteDatosPermisos($id) ){
+                return false;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private function DeleteDatosPermisos( $id ){
+        $base = new Database();
+        $id = mysql_real_escape_string($id);
+
+        $query = "DELETE FROM permisos_areas_aplicacion WHERE permiso = '".$id."' ";
+
+        //elimina permisos_areas_aplicacion
+        if( $base->Delete($query) ){
+            $query = "DELETE FROM permisos_recordatorios WHERE permiso = '".$id."' ";
+
+            //elimina permisos_recordatorios
             if( $base->Delete($query) ){
-                $query = "DELETE FROM permisos_archivos WHERE permisos = '".$id."' ";
+                $query = "DELETE FROM permisos_recordatorios_emails WHERE permiso = '".$id."' ";
+
+                //elimina permisos_recordatorios_emails
+                if( $base->Delete($query) ){
+                    $query = "DELETE FROM permisos_responsables WHERE permiso = '".$id."' ";
+
+                    //elimina permisos_responsables
+                    if( $base->Delete($query) ){
+                        //elimino todos los datos
+                        return true;
+                    }
+                }
             }
         }
         return false;
