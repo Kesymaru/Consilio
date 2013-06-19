@@ -3140,6 +3140,32 @@ button:hover{
 /*para marcar un permiso expirado expirado*/
 .titulo-expirado{
     background-color: red !important;
+
+        -o-animation: titulo-expirado-animation 8s infinite;
+        -ms-animation: titulo-expirado-animation 8s infinite;
+        -moz-animation: titulo-expirado-animation 8s infinite;
+        -webkit-animation: titulo-expirado-animation 8s infinite;
+    animation: titulo-expirado-animation 8s infinite;
+}
+
+@-moz-keyframes titulo-expirado-animation{
+    0%{
+        background-color: rgba(255, 0, 0,.5) !important;
+        color: blue;
+    }
+    25%{
+        background-color: rgba(255, 0, 0,.8) !important;
+    }
+    50%{
+        background-color: rgba(255, 0, 0,1) !important;
+    }
+    75%{
+        background-color: rgba(255, 0, 0,8) !important;
+        color: green;
+    }
+    100%{
+        background-color: rgba(255, 0, 0,5) !important;
+    }
 }
 
 .permisos{

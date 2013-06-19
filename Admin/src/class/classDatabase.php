@@ -26,7 +26,7 @@ class Database{
 		//verificar configuracion
 			
 		//Conectar 
-		$this->conect();		
+		$this->conect();
 
 		if($this->dbDatabase != ""){
 			$this->setBase();
