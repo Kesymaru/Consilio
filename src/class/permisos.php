@@ -213,7 +213,6 @@ AND permisos_responsables.responsable = clientes_responsables.id";
         $recordatorio = mysql_real_escape_string( $recordatorio );
         $emails = mysql_real_escape_string( $emails );
         $observacion = mysql_real_escape_string( $observacion );
-        echo $responsables = mysql_real_escape_string($responsables).'<br/>';
         $cliente = $_SESSION['cliente_id'];
 
         //invierte las fechas con formato dd/mm/yyyy -> yyyy-mm-dd
@@ -233,7 +232,6 @@ AND permisos_responsables.responsable = clientes_responsables.id";
                 //registra las areas
                 $this->AreasApliccionPermiso($id, $areas);
 
-                echo 'crea permisos<br/>';
                 //registra los responsables
                 $this->PermisoResponsables($id, $responsables);
 
@@ -401,18 +399,18 @@ AND permisos_responsables.responsable = clientes_responsables.id";
 
         $fecha_creacion = date("Y-m-d H:i:s");
 
-        echo 'creando '.$responsable.'<br/>';
-
         if( is_numeric($responsable) ){
             echo 'responsable es numero '.$responsable.'<br/>';
+
             //si ya existe
             if( $cliente->ExisteResponsable($responsable) ){
+                $base = new Database();
                 echo 'Ya existe<br/>';
                 echo 'antes del mysql_real: '.$responsable.'<br/>Despues: ';
                 echo $responsable = mysql_real_escape_string($responsable);
                 echo '</br/>';
                 $query = "INSERT INTO permisos_responsables (permiso, responsable, fecha_creacion) VALUES ('".$permiso."', '".$responsable."', '".$fecha_creacion."' ) ";
-                $base = new Database();
+
                 $base->Insert( $query );
 
             }
