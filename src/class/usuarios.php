@@ -70,18 +70,12 @@ class Cliente{
     public function getResponsables(){
         $base = new Database();
 
-        $cliente = $_SESSION['cliente_id'];
+        $cliente = mysql_real_escape_string($_SESSION['cliente_id']);
 
         $query = "SELECT * FROM clientes_responsables WHERE cliente = '".$cliente."' ";
 
         if( $responsables = $base->Select($query) ){
-
-            if( !empty($responsables) ){
-                return $responsables;
-            }else{
-                return false;
-            }
-
+            return $responsables;
         }
         return false;
     }
@@ -117,10 +111,7 @@ class Cliente{
 
         $query = "SELECT * FROM clientes_responsables WHERE cliente = '".$cliente."' AND id = '".$id."' ";
 
-        if( $base->Existe($query) ){
-            return true;
-        }
-        return false;
+        return $base->Existe($query);
     }
 
     /**
@@ -135,7 +126,7 @@ class Cliente{
         $cliente = mysql_real_escape_string( $_SESSION['cliente_id'] );
         $fecha_creacion = date("Y-m-d H:i:s");
 
-        $query = "INSERT INTO clientes_responsables (nombre, email, cliente, fecha_creacion) values ('".$nombre."', '".$email."', '".$cliente."', '".$fecha_creacion."') ";
+        $query = "INSERT INTO clientes_responsables (nombre, email, cliente, fecha_creacion, fecha_actualizacion) values ('".$nombre."', '".$email."', '".$cliente."', '".$fecha_creacion."', '".$fecha_creacion."') ";
 
         if( $base->Insert($query)){
             return $base->getUltimoId();
