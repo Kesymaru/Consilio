@@ -378,15 +378,12 @@ AND permisos_responsables.responsable = clientes_responsables.id";
         if( is_array($responsables) ){
             echo 'es array<br/>';
             foreach( $responsables as $f => $responsable ){
-                $responsable = mysql_real_escape_string( $responsable );
 
                 $this->CrearResponsable($permiso, $responsable);
 
             }
 
         }else{
-            echo 'no es array';
-            $responsable = mysql_real_escape_string( $responsables );
 
             $this->CrearResponsable($permiso, $responsable);
         }
@@ -403,6 +400,8 @@ AND permisos_responsables.responsable = clientes_responsables.id";
         $cliente = new Cliente();
 
         $fecha_creacion = date("Y-m-d H:i:s");
+
+        echo 'creando '.$responsable.'<br/>';
 
         if( is_numeric($responsable) ){
             echo 'responsable es numero '.$responsable.'<br/>';
