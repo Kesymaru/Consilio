@@ -38,16 +38,12 @@ if( isset($_POST['func']) ){
             NuevaArea();
             break;
 
+        //REGISTRA UNA NUEVA AREA DE APLICACION
         case 'RegistrarArea':
             if( isset($_POST['nombre']) ){
                 $permisos = new Permisos();
 
-                $descripcion = '';
-                if( isset($_POST['descripcion']) ){
-                    $descripcion = $_POST['descripcion'];
-                }
-
-                if( $id = $permisos->RegistrarAreaAplicacion( $_POST['nombre'], $descripcion ) ){
+                if( $id = $permisos->RegistrarAreaAplicacion( $_POST['nombre'] ) ){
                     echo $id;
                 }else{
                     echo "Error: no se pudo registrar la nueva area de aplicacion.";
@@ -58,23 +54,20 @@ if( isset($_POST['func']) ){
             }
             break;
 
+        //MUESTRA FORM PARA EDITAR AREA DE APLICACION
         case 'EditarArea':
             if( isset($_POST['id']) ){
                 EditarArea( $_POST['id'] );
             }
             break;
 
+        //ACTUALIZA UN AREA DE APLICACION
         case 'ActualizarArea':
             if( isset($_POST['id']) && isset($_POST['nombre']) ){
 
-                $descripcion = '';
-                if( isset($_POST['descripcion']) ){
-                    $descripcion = $_POST['descripcion'];
-                }
-
                 $permisos = new Permisos();
 
-                if( !$permisos->UpdateArea($_POST['id'], $_POST['nombre'], $descripcion) ){
+                if( !$permisos->UpdateArea($_POST['id'], $_POST['nombre']) ){
                     echo "Error: no se pudo actualizar la area de aplicacion.<br/>id: ".$_POST['id'];
                 }
             }
@@ -339,13 +332,6 @@ function NuevaArea(){
                                         <input type="text" id="nombre" name="nombre" placeholder="Nombre" class="validate[required]" />
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td colspan="2" class="full">
-                                        Descripcion
-                                        <br/>
-                                        <textarea name="descripcion" id="descripcion" placeholder="Descripcion" class="validate[optional]" ></textarea>
-                                    </td>
-                                </tr>
                             </table>
                             <br/><br/>
                          </div>
@@ -386,13 +372,6 @@ function EditarArea( $id ){
                                     </td>
                                     <td>
                                         <input type="text" id="nombre" name="nombre" placeholder="Nombre" class="validate[required]"  value="'.$datos[0]['nombre'].'" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" class="full">
-                                        Descripcion
-                                        <br/>
-                                        <textarea name="descripcion" id="descripcion" placeholder="Descripcion" class="validate[optional]" >'.$datos[0]['descripcion'].'</textarea>
                                     </td>
                                 </tr>
                             </table>
