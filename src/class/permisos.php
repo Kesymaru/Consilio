@@ -395,7 +395,7 @@ AND permisos_responsables.responsable = clientes_responsables.id";
         $fecha_creacion = date("Y-m-d H:i:s");
 
         if( is_numeric($responsable) ){
-
+            echo 'responsable es numero '.$responsable;
             //si ya existe
             if( $cliente->ExisteResponsable($responsable) ){
                 $responsable = mysql_real_escape_string($responsable);
