@@ -329,6 +329,7 @@ function Permisos($proyecto){
                                 Responsable:
                               </td>
                               <td>';
+                echo '<pre>'; print_r($responsables); echo '</pre>';
 
                 foreach ($responsables as $f => $responsable) {
                     $lista .= $responsable['nombre'].' '.$responsable['apellidos'];
