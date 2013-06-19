@@ -365,12 +365,15 @@ function Permisos($proyecto){
                           </tr>';
             }
 
-            //archivos
-            $lista .= '<tr>
+            //archivos si tiene
+            if( $permisos->TieneArchivos($permiso['id']) ){
+
+                $lista .= '<tr>
                         <td colspan="2" class="permiso-archivos">
                             '.ArchivosPermiso($permiso['id']).'
                         </td>
                       </tr>';
+            }
 
             $lista .= '  </table>
                        </li>';
@@ -499,12 +502,15 @@ function PermisosMonth( $proyecto, $year, $month ){
                           </tr>';
             }
 
-            //archivos
-            $lista .= '<tr>
+            //archivos si tiene
+            if( $permisos->TieneArchivos($permiso['id']) ){
+
+                $lista .= '<tr>
                         <td colspan="2" class="permiso-archivos">
                             '.ArchivosPermiso($permiso['id']).'
                         </td>
                       </tr>';
+            }
 
             $lista .= '  </table>
                        </li>';

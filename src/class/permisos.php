@@ -735,6 +735,24 @@ AND permisos_responsables.responsable = clientes_responsables.id";
         return false;
     }
 
+    /**
+     * DETERMINA SI UN PERMISO TIENE ARCHIVO
+     * @param $id -> id del permiso
+     * @return bool
+     */
+    public function TieneArchivos( $id ){
+        $base = new Database();
+
+        $id = mysql_real_escape_string($id);
+
+        $query = "SELECT * FROM permisos_archivos WHERE permiso = '".$id."' ";
+
+        if( $datos=$base->Select($query) ){
+            return true;
+        }
+        return false;
+    }
+
 
     /************************************ AREAS DE APLIACION ********************/
 
