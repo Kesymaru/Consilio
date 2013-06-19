@@ -417,7 +417,7 @@ AND permisos_responsables.responsable = clientes_responsables.id";
 
             return true;
         }
-
+        echo 'no existia, crea uno nuevo.<br/>';
         //crea un nuevo responsable
         if( $nuevo = $cliente->NuevoResponsable($responsable,"") ){
             $responsable = mysql_real_escape_string($responsable);
