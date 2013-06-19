@@ -233,7 +233,7 @@ AND permisos_responsables.responsable = clientes_responsables.id";
                 $this->AreasApliccionPermiso($id, $areas);
 
                 //registra los responsables
-                $this->PermisosResponsables($id, $responsables);
+                $this->PermisoResponsables($id, $responsables);
 
                 //crea el recordatorio
                 if( $this->NuevoRecordatorio($id, $recordatorio, $emails) ){
@@ -359,7 +359,7 @@ AND permisos_responsables.responsable = clientes_responsables.id";
      * @param array|string $responsables
      * @return bool
      */
-    public function PermisosResponsables($permiso, $responsables ){
+    public function PermisoResponsables($permiso, $responsables ){
         if( empty($responsables) ){
             return false;
         }
@@ -645,21 +645,87 @@ AND permisos_responsables.responsable = clientes_responsables.id";
     }
 
     /**
-     * @param $proyecto -> id del proyecto
-     * @param $id -> id del permiso -> nombre
-     * @param $nombre
-     * @param $fecha_emision
-     * @param $fecha_expiracion
-     * @param $recordatorio
-     * @param $emails
-     * @param $areas
-     * @param $observacion
-     * @param $responsables
+     * ACTUALIZA UN PERMISO
+     * @param int $proyecto -> id del proyecto
+     * @param int $id -> id del permiso -> nombre
+     * @param string $nombre -> nombre
+     * @param string $fecha_emision -> fecha de emision
+     * @param string $fecha_expiracion -> fecha de expiracion
+     * @param string $recordatorio -> fecha para el recordatorio
+     * @param string $emails -> emails, valor separado por comas
+     * @param string $areas -> area de aplicacion
+     * @param string $observacion -> observacion
+     * @param string $responsables -> responsables valor separado por comas
+     * @retrun bool
      */
     public function ActualizarPermiso( $proyecto, $id, $nombre, $fecha_emision, $fecha_expiracion, $recordatorio, $emails, $areas, $observacion, $responsables ){
         $base = new Database();
 
+        //limpieza de los parametros
+        $proyecto = mysql_real_escape_string($proyecto);
+        $id = mysql_real_escape_string($id);
+        $nombre = mysql_real_escape_string($nombre);
+        $fecha_emision = mysql_real_escape_string($fecha_emision);
+        $fecha_expiracion = mysql_real_escape_string($fecha_expiracion);
+        $recordatorio = mysql_real_escape_string($recordatorio);
+        $observacion = mysql_real_escape_string($observacion);
+
+        //formatea las fechas
+        $fecha_emision = $this->FormatearFecha($fecha_emision);
+        $fecha_expiracion = $this->FormatearFecha($fecha_expiracion);
+        $recordatorio = $this->FormatearFecha($recordatorio);
+
+        $fecha_actualizacion = date('Y-m-d G:i:s');
+
+        $query = "UPDATE permisos SET
+                  nombre = '".$nombre."',
+                  fecha_emision = '".$fecha_emision."',
+                  fecha_expiracion = '".$fecha_expiracion."',
+                  observacion = '".$observacion."',
+                  fecha_actualizacion = '".$fecha_actualizacion."'
+                  WHERE proyecto = '".$proyecto."' AND id = '".$id."' ";
+
+        if( $base->Update($query) ){
+
+            //actualiza el area de aplicacion
+            $query = "UPDATE permisos_areas_aplicacion SET
+                      area = '".$areas."'
+                      WHERE permiso = '".$id."' ";
+
+            if( !$base->Update($query) ){
+                echo "Error: no se pudo actualizar el area de aplicacion del permiso";
+                return false;
+            }
+
+            //actualza el recordatorio del permiso
+            $query = "UPDATE permisos_recordatorios SET
+                      fecha_inicio = '".$recordatorio."',
+                      fecha_actualizacion = '".$fecha_actualizacion."'
+                      WHERE permiso = '".$id."' ";
+
+            if( !$base->Update($query) ){
+                echo "Error: no se pudo actualizar el recordatorio del permiso.";
+                return false;
+            }
+
+            //elimina los responsables del permiso
+            $query = "DELETE FROM permisos_responsables WHERE permiso = '".$id."' ";
+            $base->Delete($query);
+
+            //elimina los emails de recordatorios del permiso
+            $query = "DELETE FROM permisos_recordatorios_emails WHERE permiso = '".$id."' ";
+            $base->Delete($query);
+
+            //crea los responsables basado en los nuevos
+            $this->PermisoResponsables($id, $responsables);
+
+            //guarda los nuevos emails del permiso
+            $this->EmailsRecordatorio($id, $emails);
+            return true;
+        }
+        return false;
     }
+
 
     /************************************ AREAS DE APLIACION ********************/
 
