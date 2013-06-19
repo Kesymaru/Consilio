@@ -874,7 +874,7 @@ $.extend(Permisos.prototype, {
             },
             beforeSubmit: clase.ValidaSelects,
             success: function(response) {
-                console.log( response );
+//                console.log( response );
 
                 clase.TogglePanelEdicion();
 
