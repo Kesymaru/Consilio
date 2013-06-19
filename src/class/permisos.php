@@ -370,11 +370,13 @@ AND permisos_responsables.responsable = clientes_responsables.id";
         }
         echo 'PermisoResponsable <br/>';
 
+        var_dump( explode(",",$responsables));
+
         //obtiene los responsables
         $responsables = explode(",", $responsables);
 
         if( is_array($responsables) ){
-
+            echo 'es array<br/>';
             foreach( $responsables as $f => $responsable ){
                 $responsable = mysql_real_escape_string( $responsable );
 
