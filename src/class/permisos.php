@@ -361,10 +361,12 @@ AND permisos_responsables.responsable = clientes_responsables.id";
      */
     public function PermisoResponsables($permiso, $responsables ){
         if( empty($responsables) ){
+            echo "Error: responsables esta vacio.";
             return false;
         }
 
-        $responsables =  explode(",", $responsables);
+        //obtiene los responsables
+        $responsables = explode(",", $responsables);
 
         if( is_array($responsables) ){
 
