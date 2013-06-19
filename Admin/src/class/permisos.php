@@ -96,19 +96,17 @@ class Permisos{
 
     /**
      * REGISTRA UNA NUEVA AREA DE APLIACACION
-     * @param $nombre
-     * @param $descripcion
-     * @return bool si se registro
+     * @param string $nombre
+     * @return bool|int -> el id de la nueva area
      */
-    public function RegistrarAreaAplicacion( $nombre, $descripcion ){
+    public function RegistrarAreaAplicacion( $nombre ){
         $base = new Database();
 
         $nombre = mysql_real_escape_string( $nombre );
-        $descripcion = mysql_real_escape_string( $descripcion );
 
         $fecha = date("Y-m-d H:i:s");
 
-        $query = "INSERT INTO areas_aplicacion (nombre, descripcion, fecha_creacion, fecha_actualizacion) VALUES ('".$nombre."', '".$descripcion."', '".$fecha."', '".$fecha."' ) ";
+        $query = "INSERT INTO areas_aplicacion (nombre, fecha_creacion, fecha_actualizacion) VALUES ('".$nombre."', '".$fecha."', '".$fecha."' ) ";
 
         if( $base->Insert($query) ){
 
@@ -144,19 +142,18 @@ class Permisos{
 
     /**
      * ACTUALIZA UNA AREA DE APLICACION
-     * @param $id
-     * @param $nombre
-     * @param $descripcion
-     * @return bool
+     * @param int $id -> id del area de aplicacion
+     * @param string $nombre
+     * @return bool -> true si se actualiza
      */
-    public function UpdateArea($id, $nombre, $descripcion ){
+    public function UpdateArea($id, $nombre ){
         $base  = new Database();
 
         $id = mysql_real_escape_string($id);
         $nombre = mysql_real_escape_string( $nombre );
-        $descripcion = mysql_real_escape_string( $descripcion );
+        $fecha_actualizacion = date("Y-m-d H:i:s");
 
-        $query = "UPDATE areas_aplicacion SET nombre = '".$nombre."', descripcion = '".$descripcion."' WHERE id = '".$id."' ";
+        $query = "UPDATE areas_aplicacion SET nombre = '".$nombre."', fecha_actualizacion = '".$fecha_actualizacion."' WHERE id = '".$id."' ";
 
         if( $base->Update($query) ){
             return true;
