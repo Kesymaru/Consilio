@@ -367,22 +367,20 @@ AND permisos_responsables.responsable = clientes_responsables.id";
             echo "Error: responsables esta vacio.";
             return false;
         }
-        echo 'PermisoResponsable <br/>';
-
-        var_dump( explode(",",$responsables));
 
         //obtiene los responsables
         $responsables = explode(",", $responsables);
 
+        //si es array
         if( is_array($responsables) ){
-            echo 'es array<br/>';
+
             foreach( $responsables as $f => $responsable ){
 
                 $this->CrearResponsable($permiso, $responsable);
             }
 
         }else{
-
+            //crea el nuevo
             $this->CrearResponsable($permiso, $responsable);
         }
 
@@ -392,7 +390,7 @@ AND permisos_responsables.responsable = clientes_responsables.id";
      * DETERMINA SI EL RESPONSABLE EXISTE Y SINO LO CREA
      * @param int $permiso -> id del permiso
      * @param string $responsable -> email
-     * @return string $query -> el query
+     * @return bool -> true si se crea/registra el responsable del permiso
      */
     private function CrearResponsable($permiso, $responsable){
         $cliente = new Cliente();
@@ -400,15 +398,13 @@ AND permisos_responsables.responsable = clientes_responsables.id";
         $fecha_creacion = date("Y-m-d H:i:s");
 
         if( is_numeric($responsable) ){
-            echo 'responsable es numero '.$responsable.'<br/>';
 
             //si ya existe
             if( $cliente->ExisteResponsable($responsable) ){
                 $base = new Database();
-                echo 'Ya existe<br/>';
-                echo 'antes del mysql_real: '.$responsable.'<br/>Despues: ';
-                echo $responsable = mysql_real_escape_string($responsable);
-                echo '</br/>';
+
+                $responsable = mysql_real_escape_string($responsable);
+
                 $query = "INSERT INTO permisos_responsables (permiso, responsable, fecha_creacion) VALUES ('".$permiso."', '".$responsable."', '".$fecha_creacion."' ) ";
 
                 $base->Insert( $query );
@@ -417,18 +413,20 @@ AND permisos_responsables.responsable = clientes_responsables.id";
 
             return true;
         }
-        echo $responsable.'<br/>';
-        echo 'no existia, crea uno nuevo.<br/>';
 
         //crea un nuevo responsable
         if( $nuevo = $cliente->NuevoResponsable($responsable,"") ){
+            $base = new Database();
+
             $responsable = mysql_real_escape_string($responsable);
 
             $query = "INSERT INTO permisos_responsables (permiso, responsable, fecha_creacion) VALUES ('".$permiso."', '".$nuevo."', '".$fecha_creacion."' ) ";
+
+            $base->Insert( $query );
+            return true;
         }
 
-        $base = new Database();
-        $base->Insert( $query );
+        return false;
     }
 
     /**
