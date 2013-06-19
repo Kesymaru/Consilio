@@ -631,7 +631,7 @@ $.extend(Permisos.prototype, {
 
                 //no es un mail valido
                 if( coincidencias == '' || coincidencias == null){
-                    $('#emails').validationEngine('showPrompt', "Email '"+emails[i]+"' incorrecto", 'load');
+                    $('#emails').validationEngine('showPrompt', "El email:<br/>'"+emails[i]+"'<br/>no es un email valido", 'load');
                     return false;
                 }
                 //es un email valido
@@ -688,15 +688,13 @@ $.extend(Permisos.prototype, {
 
         var options = {
             beforeSend: function(){
-                if( $("#select-archivos input").length <= 0 ){
-                    $('#select-archivos').validationEngine('showPrompt', '*Este campo es obligatorio', 'load');
-                    return false;
-                }
+                DeshabilitarContent();
             },
             beforeSubmit: clase.ValidaSelects,
             success: function(response) {
                 console.log( response );
 
+                HabilitarContent();
                 clase.TogglePanelEdicion();
                 clase.ResetFormulario();
 
@@ -866,15 +864,17 @@ $.extend(Permisos.prototype, {
 
         var options = {
             beforeSend: function(){
-                if( $("#select-archivos input").length <= 0 ){
+                /*if( $("#select-archivos input").length <= 0 ){
                     $('#select-archivos').validationEngine('showPrompt', '*Este campo es obligatorio', 'load');
                     return false;
-                }
+                }*/
+                DeshabilitarContent();
             },
             beforeSubmit: clase.ValidaSelects,
             success: function(response) {
                 console.log( response );
 
+                HabilitarContent();
                 clase.TogglePanelEdicion();
 
                 //actualiza calendario
