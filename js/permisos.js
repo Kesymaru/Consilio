@@ -708,7 +708,7 @@ $.extend(Permisos.prototype, {
             }
         };
 
-        $('#FormularioNuevoPermiso').ajaxForm(options);
+//        $('#FormularioNuevoPermiso').ajaxForm(options);
 
     },
 
@@ -885,7 +885,7 @@ $.extend(Permisos.prototype, {
             }
         };
 
-        $('#FormularioEditarPermiso').ajaxForm(options);
+//        $('#FormularioEditarPermiso').ajaxForm(options);
     },
 
     /**
