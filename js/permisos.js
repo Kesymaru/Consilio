@@ -614,7 +614,7 @@ $.extend(Permisos.prototype, {
             return false;
         }
         if( !areas.length ){
-            $('#areas').validationEngine('showPrompt', 'Se Reguiere almenos una area de aplicacion', 'load');
+            $('#areas').validationEngine('showPrompt', 'Se Reguiere una area de aplicacion', 'load');
             return false;
         }
 
@@ -629,20 +629,19 @@ $.extend(Permisos.prototype, {
             }else{
                 var coincidencias = emails[i].match(regex);
 
+                //no es un mail valido
                 if( coincidencias == '' || coincidencias == null){
-                    $('#emails').validationEngine('showPrompt', 'Email incorrecto', 'load');
+                    $('#emails').validationEngine('showPrompt', "Email '"+emails[i]+"' incorrecto", 'load');
                     return false;
                 }
+                //es un email valido
                 if( coincidencias.length ){
-                    console.log( coincidencias );
                     return true;
                 }
             }
 
-
         }
 
-        //console.log("EMAILS: "+emails);
     },
 
     /**
