@@ -239,6 +239,9 @@ AND permisos_responsables.responsable = clientes_responsables.id";
                 if( $this->NuevoRecordatorio($id, $recordatorio, $emails) ){
                     return $id;
                 }
+            }else{
+                echo "Error: no se pudo obtener el id del nuevo permiso.";
+                return false;
             }
         }
         return false;
