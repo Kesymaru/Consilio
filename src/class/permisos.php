@@ -232,6 +232,7 @@ AND permisos_responsables.responsable = clientes_responsables.id";
                 //registra las areas
                 $this->AreasApliccionPermiso($id, $areas);
 
+                echo 'crea permisos';
                 //registra los responsables
                 $this->PermisoResponsables($id, $responsables);
 
