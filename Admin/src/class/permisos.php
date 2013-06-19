@@ -58,12 +58,12 @@ class Permisos{
     /************************************ AREAS DE APLIACION ********************/
 
     /**
-     * OBTIENE LAS AREAS DE APLIACION
+     * OBTIENE LAS AREAS DE APLIACION ORDENADAS POR EL NOMBRE
      */
     public function getAreasAplicacion(){
         $base = new Database();
 
-        $query = "SELECT * FROM areas_aplicacion  ";
+        $query = "SELECT * FROM areas_aplicacion ORDER BY nombre";
 
         if( $datos = $base->Select( $query ) ){
             if( !empty($datos) ){
