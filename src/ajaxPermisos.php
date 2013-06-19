@@ -58,9 +58,9 @@ if( isset($_POST['func']) ){
             break;
 
         case 'RegistrarPermiso':
-            /*echo '<pre>'; print_r( $_POST); echo '</pre>';
+            echo '<pre>'; print_r( $_POST); echo '</pre>';
             echo '<pre>'; print_r( $_FILES ); echo '</pre>';
-            echo '<pre>'; print_r( pathinfo($_FILES['archivo0']['name']) ); echo "</pre>";*/
+            echo '<pre>'; print_r( pathinfo($_FILES['archivo0']['name']) ); echo "</pre>";
 
             if( isset($_POST['proyecto']) && isset($_POST['nombre'])
                 && isset($_POST['fecha_emision'])
