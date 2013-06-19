@@ -232,7 +232,7 @@ AND permisos_responsables.responsable = clientes_responsables.id";
                 //registra las areas
                 $this->AreasApliccionPermiso($id, $areas);
 
-                echo 'crea permisos';
+                echo 'crea permisos<br/>';
                 //registra los responsables
                 $this->PermisoResponsables($id, $responsables);
 
@@ -368,6 +368,7 @@ AND permisos_responsables.responsable = clientes_responsables.id";
             echo "Error: responsables esta vacio.";
             return false;
         }
+        echo 'PermisoResponsable <br/>';
 
         //obtiene los responsables
         $responsables = explode(",", $responsables);
@@ -402,9 +403,10 @@ AND permisos_responsables.responsable = clientes_responsables.id";
         $fecha_creacion = date("Y-m-d H:i:s");
 
         if( is_numeric($responsable) ){
-            echo 'responsable es numero '.$responsable;
+            echo 'responsable es numero '.$responsable.'<br/>';
             //si ya existe
             if( $cliente->ExisteResponsable($responsable) ){
+                echo 'Ya existe<br/>';
                 $responsable = mysql_real_escape_string($responsable);
 
                 $query = "INSERT INTO permisos_responsables (permiso, responsable, fecha_creacion) VALUES ('".$permiso."', '".$responsable."', '".$fecha_creacion."' ) ";
