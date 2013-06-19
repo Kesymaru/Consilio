@@ -376,6 +376,7 @@ AND permisos_responsables.responsable = clientes_responsables.id";
             }
 
         }else{
+            echo 'no es array';
             $responsable = mysql_real_escape_string( $responsables );
 
             $this->CrearResponsable($permiso, $responsable);
