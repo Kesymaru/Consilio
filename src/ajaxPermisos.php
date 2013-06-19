@@ -168,7 +168,10 @@ function NuevoPermiso(){
         $responsables = $_POST['responsables'];
     }
 
-    echo $responsables;
+    echo $responsables.'<br/>';
+    if( is_numeric($responsables) ){
+        echo 'es numero <br/>';
+    }
 
     if( $id = $permisos->NuevoPermiso( $proyecto, $nombre, $fecha_emision, $fecha_expiracion, $recordatorio, $emails, $areas, $observacion, $responsables ) ){
         echo 'permiso creado id: '.$id;
