@@ -168,6 +168,8 @@ function NuevoPermiso(){
         $responsables = $_POST['responsables'];
     }
 
+    echo $responsables;
+
     if( $id = $permisos->NuevoPermiso( $proyecto, $nombre, $fecha_emision, $fecha_expiracion, $recordatorio, $emails, $areas, $observacion, $responsables ) ){
         echo 'permiso creado id: '.$id;
         //sube los archivos
