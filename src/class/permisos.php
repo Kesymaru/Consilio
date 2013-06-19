@@ -213,6 +213,7 @@ AND permisos_responsables.responsable = clientes_responsables.id";
         $recordatorio = mysql_real_escape_string( $recordatorio );
         $emails = mysql_real_escape_string( $emails );
         $observacion = mysql_real_escape_string( $observacion );
+        echo $responsables = mysql_real_escape_string($responsables).'<br/>';
         $cliente = $_SESSION['cliente_id'];
 
         //invierte las fechas con formato dd/mm/yyyy -> yyyy-mm-dd
