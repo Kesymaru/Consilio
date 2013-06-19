@@ -380,7 +380,6 @@ AND permisos_responsables.responsable = clientes_responsables.id";
             foreach( $responsables as $f => $responsable ){
 
                 $this->CrearResponsable($permiso, $responsable);
-
             }
 
         }else{
@@ -408,8 +407,9 @@ AND permisos_responsables.responsable = clientes_responsables.id";
             //si ya existe
             if( $cliente->ExisteResponsable($responsable) ){
                 echo 'Ya existe<br/>';
-                $responsable = mysql_real_escape_string($responsable);
-
+                echo 'antes del mysql_real: '.$responsable.'<br/>Despues: ';
+                echo $responsable = mysql_real_escape_string($responsable);
+                echo '</br/>';
                 $query = "INSERT INTO permisos_responsables (permiso, responsable, fecha_creacion) VALUES ('".$permiso."', '".$responsable."', '".$fecha_creacion."' ) ";
                 $base = new Database();
                 $base->Insert( $query );
