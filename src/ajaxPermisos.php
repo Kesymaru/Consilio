@@ -169,16 +169,14 @@ function NuevoPermiso(){
     }
 
     if( $id = $permisos->NuevoPermiso( $proyecto, $nombre, $fecha_emision, $fecha_expiracion, $recordatorio, $emails, $areas, $observacion, $responsables ) ){
-
+        echo 'permiso creado';
         //sube los archivos
-        if( $error = $permisos->UploadFiles($_FILES, $id ) ){
-
-            return true;
-
-        }else{
+        /*if( !$error = $permisos->UploadFiles($_FILES, $id ) ){
             echo "<br/>Error: no se pudo subir los archivos del nuevo permiso.<br/>";
             return false;
-        }
+        }*/
+
+        return true;
 
     }else{
         echo "<br/>Error: no se pudo crear el nuevo permiso.<br/>";
