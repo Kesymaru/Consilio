@@ -224,7 +224,7 @@ AND permisos_responsables.responsable = clientes_responsables.id";
 
         $fecha_creacion = date('Y-m-d G:i:s');
 
-        $query = "INSERT INTO permisos (proyecto, nombre, fecha_emision, fecha_expiracion, observacion, fecha_creacion, cliente ) VALUES ( '".$proyecto."', '".$nombre."', '".$fecha_emision."', '".$fecha_expiracion."', '".$observacion."', '".$fecha_creacion."', '".$cliente."' ) ";
+        $query = "INSERT INTO permisos (proyecto, nombre, fecha_emision, fecha_expiracion, observacion, cliente, fecha_creacion, fecha_actualizacion ) VALUES ( '".$proyecto."', '".$nombre."', '".$fecha_emision."', '".$fecha_expiracion."', '".$observacion."', '".$cliente."', '".$fecha_creacion."', '".$fecha_creacion."' ) ";
 
         if( $base->Insert($query) ){
             if( $id = $base->getUltimoId() ){
@@ -783,7 +783,7 @@ AND permisos_responsables.responsable = clientes_responsables.id";
         if( is_array($areas) ){
 
             foreach( $areas as $f => $area ){
-                $query = "INSERT INTO permisos_areas_aplicacion (permiso, area, fecha_creacion) VALUES ('".$id."', '".$area."', '".$fecha_creacion."') ";
+                $query = "INSERT INTO permisos_areas_aplicacion (permiso, area, fecha_creacion, fecha_actualizacion) VALUES ('".$id."', '".$area."', '".$fecha_creacion."', '".$fecha_creacion."') ";
 
                 $base->Insert($query);
             }
@@ -792,7 +792,7 @@ AND permisos_responsables.responsable = clientes_responsables.id";
         }else{
             $areas = mysql_real_escape_string($areas);
 
-            $query = "INSERT INTO permisos_areas_aplicacion (permiso, area, fecha_creacion) VALUES ('".$id."', '".$areas."', '".$fecha_creacion."') ";
+            $query = "INSERT INTO permisos_areas_aplicacion (permiso, area, fecha_creacion, fecha_actualizacion) VALUES ('".$id."', '".$areas."', '".$fecha_creacion."', '".$fecha_creacion."') ";
 
             if( $base->Insert($query) ){
                 return true;
