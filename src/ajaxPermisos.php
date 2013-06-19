@@ -991,7 +991,7 @@ function EditarPermiso( $id ){
 
     $formulario = '<form id="FormularioEditarPermiso" class="chosen-centrado" enctype="multipart/form-data" method="post" action="src/ajaxPermisos.php" >
                         <div class="titulo">
-                            Nuevo Permiso
+                            Editar Permiso
                         </div>
                         <input type="hidden" name="func" value="ActualizarPermiso" />
                         <input type="hidden" name="id" value="'.$id.'" />
@@ -1092,8 +1092,8 @@ function EditarPermiso( $id ){
 function ActualizarPermiso(){
     $permisos = new Permisos();
 
-    $id = $_POST['id'];
     $proyecto = $_POST['proyecto'];
+    $id = $_POST['id'];
     $nombre = $_POST['nombre'];
     $fecha_emision = $_POST['fecha_emision'];
     $fecha_expiracion = $_POST['fecha_expiracion'];
@@ -1111,22 +1111,23 @@ function ActualizarPermiso(){
         $responsables = $_POST['responsables'];
     }
 
-    /*if( $id = $permisos->ActualizarPermiso( $proyecto, $nombre, $fecha_emision, $fecha_expiracion, $recordatorio, $emails, $areas, $observacion, $responsables ) ){
+    if( $permisos->ActualizarPermiso( $proyecto, $id, $nombre, $fecha_emision, $fecha_expiracion, $recordatorio, $emails, $areas, $observacion, $responsables ) ){
 
-        //sube los archivos
-        if( $error = $permisos->UploadFiles($_FILES, $id ) ){
-
-            return true;
-
-        }else{
-            echo "<br/>Error: no se pudo subir los archivos del nuevo permiso.<br/>";
-            return false;
+        //sube los nuevos archivos
+        foreach( $_FILES as $f => $file ){
+            //si el archivo no esta vacio y no tiene errores
+            if( $file['error'] == 0 ){
+                if( !$permisos->UploadFiles($_FILES, $id ) ){
+                    echo "<br/>Error: no se pudo subir el archivo.<br/>";
+                    return false;
+                }
+            }
         }
 
     }else{
-        echo "<br/>Error: no se pudo crear el nuevo permiso.<br/>";
+        echo "<br/>Error: no se pudo actualizar el permiso.<br/>";
         return false;
-    }*/
+    }
 
 }
 
