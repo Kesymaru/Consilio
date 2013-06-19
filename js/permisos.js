@@ -139,7 +139,7 @@ $.extend(Permisos.prototype, {
             success: function( response ){
                 $contador = response;
                 for( var i= 0; i <= response['contador'].length-1; i++ ){
-                    console.log('cal '+i+' '+response[i]);
+//                    console.log('cal '+i+' '+response[i]);
 
                     if( response['contador'][i] == 0 || response['contador'][i] == undefined ){
                         $("#"+i).removeClass('mes-actived');
@@ -874,7 +874,7 @@ $.extend(Permisos.prototype, {
             },
             beforeSubmit: clase.ValidaSelects,
             success: function(response) {
-//                console.log( response );
+                console.log( response );
 
                 clase.TogglePanelEdicion();
 
