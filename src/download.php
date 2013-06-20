@@ -72,8 +72,8 @@ class Download{
 		$info['basename'] = str_replace(',', '', $info['basename']);
 
 		//si el archivo existe
-		//if( $this->ExisteArchivo($file) ){
-		if( file_exists( $file ) ){
+		if( $this->ExisteArchivo($file) ){
+		//if( file_exists( $file ) ){
 
 			if( $info['extension'] == 'pdf' || $info['extension'] == 'PDF' ){
 				header('Content-Type: application/pdf');
