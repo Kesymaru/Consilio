@@ -3184,8 +3184,11 @@ button:hover{
 
 .permiso-archivos ul{
     display: block;
-    width: 100%;
     text-align: center;
+
+        -moz-box-sizing:border-box;
+        -webkit-box-sizing:border-box;
+    box-sizing:border-box;
 }
 
 .permiso-archivos ul li{

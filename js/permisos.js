@@ -244,6 +244,7 @@ $.extend(Permisos.prototype, {
 
         //anima el siguiente
         setTimeout(function(){
+            $(".permiso-archivos ul").width( $("#content").width()-10 );
             clase.AnimacionLista( li.next('li') );
         },500);
     },
