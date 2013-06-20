@@ -3515,6 +3515,17 @@ button:hover{
     transition: all 1s ease-in-out;
 }
 
+@media screen and (max-width:1300px) {
+    .calendar .mes{
+        width: 25% !important;
+        padding-bottom: 1px !important;
+        margin-top: 7px !important;
+    }
+    .mes .titulo{
+        font-size: 14px !important;
+    }
+}
+
 .calendar .logo-cliente{
     height: 70px;
     display: block;
