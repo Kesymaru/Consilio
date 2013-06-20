@@ -607,11 +607,13 @@ function EditarArchivosPermiso($id){
                 $imagen = $_SESSION['datos'].$archivo['link'];
             }
 
+            $nombre = substr($archivo['nombre'],0,20);
+
             $lista .='<li class="file" title="'.$title.'" id="archivo'.$archivo['id'].'">
                         <img class="close" src="images/close.png" title="Quitar Documento" onclick="$Permisos.RemoveArchivo('.$archivo['id'].')">
                         <img class="image" src="'.$imagen.'">
                         <div>
-                            <span>'.$archivo['nombre'].'</span>
+                            <span>'.$nombre.'</span>
                         </div>
                     </li>';
         }
