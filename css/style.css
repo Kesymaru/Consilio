@@ -3133,39 +3133,13 @@ button:hover{
     background-color: #f3efe6;
 }
 
-.permisos-wrapper ul{
+.permisos-wrapper ul:first-child{
     margin-bottom: 26px;
 }
 
 /*para marcar un permiso expirado expirado*/
 .titulo-expirado{
     background-color: red !important;
-
-        -o-animation: titulo-expirado-animation 8s infinite;
-        -ms-animation: titulo-expirado-animation 8s infinite;
-        -moz-animation: titulo-expirado-animation 8s infinite;
-        -webkit-animation: titulo-expirado-animation 8s infinite;
-    animation: titulo-expirado-animation 8s infinite;
-}
-
-@-moz-keyframes titulo-expirado-animation{
-    0%{
-        background-color: rgba(255, 0, 0,.5) !important;
-        color: blue;
-    }
-    25%{
-        background-color: rgba(255, 0, 0,.8) !important;
-    }
-    50%{
-        background-color: rgba(255, 0, 0,1) !important;
-    }
-    75%{
-        background-color: rgba(255, 0, 0,8) !important;
-        color: green;
-    }
-    100%{
-        background-color: rgba(255, 0, 0,5) !important;
-    }
 }
 
 .permisos{
@@ -3204,12 +3178,54 @@ button:hover{
 
 .permiso-archivos{
     text-align: center !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
 }
+
+.permiso-archivos ul{
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.permiso-archivos ul li{
+    width: auto !important;
+    opacity: 1 !important;
+
+    display: inline-block;
+    margin: 5px 5px 10px 5px;
+    height: 70px;
+    width: auto;
+    padding: 5px;
+    text-align: center;
+    vertical-align: top;
+    float: left;
+}
+
+.permiso-archivos ul li div{
+    display: inline-block;
+    margin: 5px auto 2px;
+    width: auto;
+}
+
+.permiso-archivos ul li div span{
+    border: 1px solid #F3EFE6;
+    background-color: #F3EFE6;
+    color: #aaa;
+    border-radius: 5px;
+    font-size: 16px;
+    margin: 5px auto 0;
+}
+
 .permiso-archivos a{
-    height: 80px;
+    display: block;
+    width: 100%;
+    height: 70px;
+    text-align: center;
+
     background-position: top;
     background-repeat: no-repeat;
-    background-size: 80px auto;
+    background-size: 70px auto;
 
         -o-transition: all 3s ease-out;
         -ms-transition: all 3s ease-out;
@@ -3222,7 +3238,7 @@ button:hover{
     background-image: url("../images/descargar.png");
     background-position: top;
     background-repeat: no-repeat;
-    background-size: 80px auto;
+    background-size: 70px auto;
 
         -o-transition: all 1s ease-out;
         -ms-transition: all 1s ease-out;
@@ -3232,6 +3248,9 @@ button:hover{
 }
 
 .permiso-archivos a img{
+    display: block;
+    margin: 0 auto;
+
     opacity: 1;
         -o-transition: all 2s ease-out;
         -ms-transition: all 2s ease-out;
@@ -3247,14 +3266,6 @@ button:hover{
         -moz-transition: all 1s ease-out;
         -webkit-transition: all 1s ease-out;
     transition: all 1s ease-out;
-}
-
-.permiso-archivos a{
-    display: inline-block;
-    max-width: 30%;
-    margin-left: 1%;
-    margin-right: 1%;
-    text-align: center;
 }
 
 .permisos .no-data{

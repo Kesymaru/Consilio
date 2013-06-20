@@ -560,23 +560,27 @@ function ArchivosPermiso($id){
     $lista = '';
 
     if( $archivos = $permisos->getPermisosArchivos($id) ){
-        $lista .= '';
-
+        $lista .= '<ul>';
         foreach($archivos as $f => $archivo){
             $info = pathinfo($archivo['link']);
-            //echo '<pre>'; print_r($info); echo '</pre>';
 
             $imagen = "images/folder.png";
             if( $info['extension'] == "png" || $info['extension'] == "jpg" || $info['extension'] == "gif"){
                 $imagen = $_SESSION['datos'].$archivo['link'];
             }
 
-            $lista .= '<a href="http://localhost/matrizescala/src/download.php?link='.$_SESSION['datos'].$archivo['link'].'" title="Descargar" >
-                            <img style="height: 70px;" src="'.$imagen.'" />
-                            <p>'.$archivo['nombre'].'</p>
-                       </a>';
-        }
+            $nombre = substr($archivo['nombre'],0,20);
 
+            $lista .= '<li>
+                        <a href="http://localhost/matrizescala/src/download.php?link='.$_SESSION['datos'].$archivo['link'].'" title="Descargar" >
+                            <img style="height: 70px;" src="'.$imagen.'" />
+                            <div>
+                                <span>'.$nombre.'</span>
+                            </div>
+                       </a>
+                       </li>';
+        }
+        $lista .= '</ul>';
     }
 
     return $lista;
