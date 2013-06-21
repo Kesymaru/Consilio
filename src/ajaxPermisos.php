@@ -625,7 +625,10 @@ function ArchivosPermiso($id){
                 $imagen = $_SESSION['datos'].$archivo['link'];
             }
 
-            $nombre = substr($archivo['nombre'],0,20);
+            $nombre = $archivo['nombre'];
+            if( strlen($nombre) > 20 ){
+                $nombre = substr($archivo['nombre'],0,17).'...';
+            }
 
             $lista .= '<li>
                         <a href="http://localhost/matrizescala/src/download.php?link='.$_SESSION['datos'].$archivo['link'].'" title="Descargar" >
@@ -663,7 +666,10 @@ function EditarArchivosPermiso($id){
                 $imagen = $_SESSION['datos'].$archivo['link'];
             }
 
-            $nombre = substr($archivo['nombre'],0,20);
+            $nombre = $archivo['nombre'];
+            if( strlen($nombre) > 20 ){
+                $nombre = substr($archivo['nombre'],0,17).'...';
+            }
 
             $lista .='<li class="file" title="'.$title.'" id="archivo'.$archivo['id'].'">
                         <img class="close" src="images/close.png" title="Quitar Documento" onclick="$Permisos.RemoveArchivo('.$archivo['id'].')">
