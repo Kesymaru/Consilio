@@ -264,6 +264,9 @@ function Permisos($proyecto){
     $lista = '<div id="permisos" >
                 <div class="titulo" >
                     Permisos
+                    <select id="filtro-todos-permisos" placeholder="Filtrar" >
+                        '.AreasSelect($proyecto).'
+                    </select>
                     <span class="icon-plus icon-15 icon-derecha" onclick="$Permisos.NuevoPermiso()" title="Crear Permiso" ></span>
                 </div>
                 <div class="permisos-wrapper">
@@ -295,7 +298,9 @@ function Permisos($proyecto){
                 $expiro .= "titulo-expirado";
             }
 
-            $lista .= '<li id="permiso-'.$permiso['id'].'" >
+            $area = $permisos->getAreaPermiso( $permiso['id'] );
+
+            $lista .= '<li id="permiso-'.$permiso['id'].'" class="area-'.$area.'" >
                             <div class="titulo '.$expiro.'">
                                 '.$permiso['nombre'].'
                                 <span class="icon-pencil icon-15 icon-derecha" onclick="$Permisos.Editar('.$permiso['id'].')" title="Editar Permiso" ></span>
@@ -548,6 +553,38 @@ function AreasApliacion($id){
 
     return $lista;
 
+}
+
+/**
+ * COMPONE EL SELECT PARA FILTRAR LOS PERMISOS POR AREAS
+ * @param $proyecto id del proyecto
+ */
+function AreasSelect($proyecto){
+    $permisos = new Permisos();
+
+    $select = '<option value="todos-permisos" selected>Todos</option>';
+
+    if( $datosPermisos = $permisos->getPermisos($proyecto) ){
+
+        foreach( $datosPermisos as $fila => $permiso ){
+
+            if( $areasIncluidas = $permisos->getAreasApliccionPermiso($permiso['id']) ){
+//                echo '<pre>'; print_r($areasIncluidas); echo '</pre>';
+
+                foreach( $areasIncluidas as $f => $area ){
+
+                    $datosArea = $permisos->getAreaAplicacion($area['area']);
+
+                    $select .= '<option value="'.$area['area'].'" >
+                               '.$datosArea[0]['nombre'].'
+                            </option>';
+                }
+            }
+        }
+
+    }
+
+    return $select;
 }
 
 /**

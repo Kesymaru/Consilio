@@ -193,9 +193,35 @@ $.extend(Permisos.prototype, {
                 });
 
                 clase.AnimacionLista( $("#lista-todos-permisos li:first") );
+
+                clase.FiltroTodosPermisos();
             }
         });
 
+    },
+
+    FiltroTodosPermisos: function(){
+
+        $("#filtro-todos-permisos").select2({
+            width: "200px",
+            allowClear: true,
+            placeholder: $(this).attr('placeholder'),
+        });
+
+        $("#filtro-todos-permisos").change(function(){
+            var valor = $("#filtro-todos-permisos option:selected").val();
+
+            console.log( valor );
+
+            //muestra todos
+            if( valor == "todos-permisos"){
+                $("#permisos .permisos li").show();
+                return true;
+            }
+
+            $("#permisos .permisos li").hide();
+            $("#permisos .area-"+valor+", .area-"+valor+" .permiso-archivos li").show();
+        });
     },
 
     /**

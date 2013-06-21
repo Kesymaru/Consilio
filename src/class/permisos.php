@@ -819,5 +819,22 @@ AND permisos_responsables.responsable = clientes_responsables.id";
         return false;
     }
 
+    /**
+     * OBTIEN EL AREA DE UBICACION DE UN PERMISO
+     * @param $permiso id del permiso
+     */
+    public function getAreaPermiso( $permiso ){
+        $base = new Database();
+
+        $permiso = mysql_real_escape_string($permiso);
+
+        $query = "SELECT * FROM permisos_areas_aplicacion WHERE permiso = '".$permiso."' ";
+
+        if( $datos = $base->Select($query) ){
+            return $datos[0]['area'];
+        }
+        return false;
+    }
+
 
 }
