@@ -622,17 +622,21 @@ function ArchivosPermiso($id){
 
             $imagen = "images/folder.png";
             if( $info['extension'] == "png" || $info['extension'] == "jpg" || $info['extension'] == "gif"){
-                $imagen = $_SESSION['datos'].$archivo['link'];
+//                $imagen = $_SESSION['datos'].$archivo['link'];
+                $imagen = "images/foto.png";
+            }
+            if( $info['extension'] == "pdf" ){
+                $imagen = "images/pdf.png";
             }
 
             $nombre = $archivo['nombre'];
-            if( strlen($nombre) > 20 ){
+            if( strlen($nombre) > 80 ){
                 $nombre = substr($archivo['nombre'],0,17).'...';
             }
 
             $lista .= '<li>
                         <a href="http://localhost/matrizescala/src/download.php?link='.$_SESSION['datos'].$archivo['link'].'" title="Descargar" >
-                            <img style="height: 70px;" src="'.$imagen.'" />
+                            <img src="'.$imagen.'" />
                             <div>
                                 <span>'.$nombre.'</span>
                             </div>

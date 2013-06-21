@@ -3201,13 +3201,13 @@ button:hover{
 
 .permiso-archivos{
     text-align: center !important;
-    padding-top: 10px !important;
-    padding-bottom: 10px !important;
+    padding: 10px 0px !important;
 }
 
 .permiso-archivos ul{
     display: block;
     text-align: center;
+    margin-bottom: 0px !important;
 
         -moz-box-sizing:border-box;
         -webkit-box-sizing:border-box;
@@ -3215,43 +3215,45 @@ button:hover{
 }
 
 .permiso-archivos ul li{
-    width: auto !important;
     opacity: 1 !important;
+    width: 100% !important;
 
-    display: inline-block;
-    margin: 5px 5px 20px 5px;
-    height: 70px;
+    margin-top: 2px;
+    height: 40px;
     width: auto;
-    padding: 5px;
+    padding: 0 5px;
     text-align: center;
     vertical-align: top;
-    float: left;
 }
 
 .permiso-archivos ul li div{
     display: inline-block;
-    margin: 5px auto 2px;
+    margin-left: 5px;
+    padding: 0;
     width: auto;
+    height: 40px;
 }
 
 .permiso-archivos ul li div span{
-    border: 1px solid #edeaea;
-    background-color: #edeaea;
+    height: 40px;
     color: #aaa;
-    border-radius: 5px;
     font-size: 16px;
-    margin: 5px auto 0;
+    display: table-cell;
+    vertical-align: middle;
 }
 
 .permiso-archivos a{
     display: block;
     width: 100%;
-    height: 70px;
-    text-align: center;
+    height: 40px;
+    text-align: left;
 
-    background-position: top;
+    margin: 0;
+    padding: 0;
+
+    background-position: left;
     background-repeat: no-repeat;
-    background-size: 70px auto;
+    background-size: 40px auto;
 
         -o-transition: all 3s ease-out;
         -ms-transition: all 3s ease-out;
@@ -3262,9 +3264,9 @@ button:hover{
 
 .permiso-archivos a:hover{
     background-image: url("../images/descargar.png");
-    background-position: top;
+    background-position: left;
     background-repeat: no-repeat;
-    background-size: 70px auto;
+    background-size: 40px auto;
 
         -o-transition: all 1s ease-out;
         -ms-transition: all 1s ease-out;
@@ -3274,8 +3276,10 @@ button:hover{
 }
 
 .permiso-archivos a img{
-    display: block;
-    margin: 0 auto;
+    height: 40px;
+    display: inline-block;
+    margin: 0;
+    float: left;
 
     opacity: 1;
         -o-transition: all 2s ease-out;
