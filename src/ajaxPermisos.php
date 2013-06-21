@@ -262,7 +262,7 @@ function Permisos($proyecto){
     $permisos = new Permisos();
 
     $lista = '<div id="permisos" >
-                <div class="titulo" >
+                <div class="titulo" id="titulo-todos-permisos" >
                     <table>
                         <tr>
                             <td>

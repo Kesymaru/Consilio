@@ -3103,6 +3103,10 @@ button:hover{
     position: relative;
 }
 
+#permisos #titulo-todos-permisos{
+    padding: 0 !important;
+}
+
 #permisos .titulo table{
     width: 100%;
     border: none;
