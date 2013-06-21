@@ -5,3 +5,9 @@ gris: #8f8f8f
 verde: #a0ca48
 naranja: #f7991f
 cafe: #7c4f31
+
+/** PERMISOS **/
+titulo" #747273
+titulo expirado: #ff6868
+fondo contraste: #edeaea
+
