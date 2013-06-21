@@ -3103,6 +3103,29 @@ button:hover{
     position: relative;
 }
 
+#permisos table{
+    width: 100%;
+    border: none;
+}
+
+#permisos table td{
+    vertical-align: middle;
+}
+
+#permisos table td:first-child{
+    width: 50%;
+}
+
+#permisos .filtro table td:first-child{
+    width: 1px;
+    white-space: nowrap;
+}
+
+#permisos .filtro .select2-container{
+    text-align: left !important;
+    vertical-align: top;
+}
+
 /* PERMISOS DE UN MES */
 #permisos-mes{
     display: none;

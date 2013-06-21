@@ -203,7 +203,7 @@ $.extend(Permisos.prototype, {
     FiltroTodosPermisos: function(){
 
         $("#filtro-todos-permisos").select2({
-            width: "200px",
+            width: "100%",
             allowClear: true,
             placeholder: $(this).attr('placeholder'),
         });

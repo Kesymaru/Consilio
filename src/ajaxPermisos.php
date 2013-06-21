@@ -263,11 +263,30 @@ function Permisos($proyecto){
 
     $lista = '<div id="permisos" >
                 <div class="titulo" >
-                    Permisos
-                    <select id="filtro-todos-permisos" placeholder="Filtrar" >
-                        '.AreasSelect($proyecto).'
-                    </select>
-                    <span class="icon-plus icon-15 icon-derecha" onclick="$Permisos.NuevoPermiso()" title="Crear Permiso" ></span>
+                    <table>
+                        <tr>
+                            <td>
+                                Permisos
+                            </td>
+                            <td class="filtro">
+                                <table>
+                                    <tr>
+                                    <td>
+                                        Filtrar por Área:
+                                    </td>
+                                    <td>
+                                        <select id="filtro-todos-permisos" placeholder="Filtrar" >
+                                    '.AreasSelect($proyecto).'
+                                </select>
+                                    </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td>
+                                <span class="icon-plus icon-15 icon-derecha" onclick="$Permisos.NuevoPermiso()" title="Crear Permiso" ></span>
+                            </td>
+                        </td>
+                    </table>
                 </div>
                 <div class="permisos-wrapper">
                     <ul class="permisos" id="lista-todos-permisos" >';
