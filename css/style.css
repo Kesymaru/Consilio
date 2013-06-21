@@ -3103,16 +3103,16 @@ button:hover{
     position: relative;
 }
 
-#permisos table{
+#permisos .titulo table{
     width: 100%;
     border: none;
 }
 
-#permisos table td{
+#permisos .titulo table td{
     vertical-align: middle;
 }
 
-#permisos table td:first-child{
+#permisos .titulo table td:first-child{
     width: 50%;
 }
 
