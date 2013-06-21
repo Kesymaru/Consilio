@@ -635,7 +635,7 @@ function ArchivosPermiso($id){
             }
 
             $lista .= '<li>
-                        <a href="http://localhost/matrizescala/src/download.php?link='.$_SESSION['datos'].$archivo['link'].'" title="Descargar" >
+                        <a href="'.$_SESSION['home'].'/src/download.php?link='.$_SESSION['datos'].$archivo['link'].'" title="Descargar" >
                             <img src="'.$imagen.'" />
                             <div>
                                 <span>'.$nombre.'</span>
