@@ -18,41 +18,84 @@ class Permisos{
     /*********************************** PERMISOS *******************************/
 
     /**
-     * OBTIENE LOS DATOS DE LOS CLIENTES CON PERMISOS
+     * OBTIENE LOS CLIENTES QUE TIENE PROYECTOS CON PERMISOS
      * @return bool|array -> false si falla/array con datos
      */
-    public function ClientesPermisos(){
+    public function ClientesConPermisos(){
         $base = new Database();
-        $cliente = new Cliente();
 
-        $query = "SELECT COUNT(permisos.id) AS permisos, clientes.nombre, clientes.imagen, clientes.pais, clientes.id FROM permisos, clientes WHERE permisos.cliente = clientes.id";
+        //selecciona los clientes con proyectos con permisos
+        $query = "SELECT
+                      clientes.nombre,
+                      clientes.email,
+                      clientes.id,
+                      COUNT( DISTINCT proyectos.id) AS proyectos
+                  FROM
+                      clientes,
+                      proyectos,
+                      permisos
+                  WHERE
+                      proyectos.permisos = 1 AND
+                      proyectos.cliente = clientes.id AND
+                      permisos.proyecto = proyectos.id AND
+                      permisos.cliente = clientes.id
+                  GROUP BY(clientes.id)";
 
         if( $permisos = $base->Select($query) ){
             return $permisos;
-        }else{
-            return false;
         }
+        return false;
+    }
 
+    /**
+     * OBTIENE LOS PROYECTOS DE UN CLIENTE CON PERMISOS
+     * @param $cliente id del cliente
+     * @return boolean|array
+     */
+    public function ProyectosConPermisos($cliente){
+        $base = new Database();
+
+        //selecciona todos los proyectos de un cliente con permisos
+        $query = "SELECT DISTINCT
+                    proyectos.*,
+                    COUNT( DISTINCT permisos.id ) AS permisos
+                  FROM
+                    proyectos,
+                    permisos
+                  WHERE
+                      proyectos.permisos = 1 AND
+                      proyectos.cliente = 6 AND
+                      permisos.cliente = 6 AND
+                      permisos.proyecto = proyectos.id
+                  GROUP BY(proyectos.id)";
+
+        if( $datos = $base->Select($query) ){
+            return $datos;
+        }
+        return false;
     }
 
     /**
      * OBTIENE TODOS LOS PERMISOS DE UN CLIENTE
-     * @param $cliente
+     * @param int $proyecto id del proyecto
      * @return bool|array
      */
-    public function getPermisos( $cliente ){
+    public function PermisosProyecto( $proyecto ){
         $base = new Database();
 
-        $cliente = mysql_real_escape_string($cliente);
+        $proyecto = mysql_real_escape_string($proyecto);
 
-        $query = "SELECT * FROM permisos WHERE cliente = '".$cliente."' ";
+        $query = "SELECT *
+                  FROM
+                  permisos
+                  WHERE
+                  cliente = '".$cliente."' AND
+                  proyecto = '".$proyecto."' ";
 
         if( $datos = $base->Select($query) ){
             return $datos;
-        }else{
-            return false;
         }
-
+        return false;
     }
 
     /************************************ AREAS DE APLIACION ********************/
