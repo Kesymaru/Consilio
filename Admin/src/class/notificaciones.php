@@ -8,9 +8,10 @@
  */
 
 require_once("classDatabase.php");
+require_once("template.php");
 require_once("mail.php");
 
-class notificaciones {
+class Notificaciones {
 
     /**
      * OBTIENE LAS NOTIFICACIONES
@@ -24,12 +25,64 @@ class notificaciones {
      */
     public function Permisos(){
 
+        $menssage .= '';
+
+        $para = '';
+
+        $datos = array(
+            "title" => 'Titulo',
+            "subtitle" => "Hola test",
+            "menssage" => $menssage,
+
+            "from" => "support@matriz.com",
+            "info_from" => "Notificaciones Matriz Escala",
+            "info_mobile" => "123456",
+            "info_phone" => "987654",
+            "info_email" => "support@matriz.com",
+            "info_home" => "google.com",
+
+            "to" => $para,
+            "bcc" => '',
+
+            "direccion_edificio" => 'edificio 3, piso 12',
+            "direccion" => "La sabana, San Jose, Costa Rica",
+
+            "cliente_nombre" => "nombre cliente",
+            "cliente_imagen" => "../../images/es.png",
+        );
+
+        if( $permisos = $this->getNotificacionesPermisos() ){
+
+            foreach($permisos as $fila => $permiso ){
+                //datos para la notificacion
+                $datos = array(
+                    "title" => 'Permisos Expirados: '.$permiso['proyecto_nombre'],
+                    "cliente_nombre" => $permiso['cliente_nombre'],
+                    "cliente_imagen" => $permiso['cliente_imagen'],
+                );
+
+                $to = '';
+                foreach($permiso['emails'] as $f => $email ){
+                    $to .= $email.',';
+                }
+                $datos['to'] = $to;
+
+                $menssage = 'El proyecto '.$permiso['proyecto_nombre'].' tiene los siguientes permisos expirados:';
+
+                $datos['menssage'] = $menssage;
+
+                $this->Notificar($datos);
+            }
+
+            return true;
+        }
+        return false;
     }
 
     /**
      *OBTIENE TODOS LOS PERMISOS CON NOTIFICACIONES Y SUS DATOS
      */
-    private function getPermisos(){
+    public function getNotificacionesPermisos(){
         $base = new Database();
 
         $fecha = '2013-07-10';
@@ -42,7 +95,8 @@ class notificaciones {
           proyectos.nombre as proyecto_nombre,
           proyectos.imagen as proyecto_imagen,
           clientes.nombre as cliente_nombre,
-          clientes.email as cliente_email
+          clientes.email as cliente_email,
+          clientes.imagen as cliente_imagen
         FROM
           permisos,
           permisos_recordatorios,
@@ -66,8 +120,8 @@ class notificaciones {
                               permisos,
                               permisos_recordatorios_emails
                           WHERE
-                              permisos.proyecto = 24 AND
-                              permisos.cliente = 6 AND
+                              permisos.proyecto = '".$permiso['proyecto']."' AND
+                              permisos.cliente = '".$permiso['cliente']."' AND
                               permisos_recordatorios_emails.permiso = permisos.id";
 
                 if( $datos = $base->Select($query) ){
@@ -76,8 +130,57 @@ class notificaciones {
 
             }
 
-            return $datos;
+            return $permisos;
         }
         return false;
     }
+
+    /**
+     * ENVIA LA NOTIFICACION
+     * @param array $datos
+     * @param string $template
+     */
+    public function Notificar($datos, $template = 'default'){
+        $template = new Template();
+
+        $final = $template->Email($datos, $template);
+        echo 'notifica';
+
+        echo  $final;
+    }
 }
+
+
+$notifcaciones = new Notificaciones();
+
+$notifcaciones->Permisos();
+
+//echo '<pre>'; print_r($notifcaciones->getNotificacionesPermisos()); echo '</pre>';
+
+
+/**
+
+$datos = array(
+    "title" => 'Permisos Expirados: '.$permiso['proyecto_nombre'],
+    "subtitle" => "El proyecto ".$permiso['proyecto_nombre']." tiene los siguientes permisos expirados:",
+    "menssage" => $menssage,
+
+    "from" => "support@matriz.com",
+    "info_from" => "Notificaciones Matriz Escala",
+    "info_mobile" => "123456",
+    "info_phone" => "987654",
+    "info_email" => "support@matriz.com",
+    "info_home" => "google.com",
+
+    "to" => $para,
+    "bcc" => '',
+
+    "direccion_edificio" => 'edificio 3, piso 12',
+    "direccion" => "La sabana, San Jose, Costa Rica",
+
+    "cliente_nombre" => "nombre cliente",
+    "cliente_imagen" => "../../images/es.png",
+);
+
+ */
+
