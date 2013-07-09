@@ -712,7 +712,7 @@ class Email extends PHPMailer{
 	private function setData($data){
 
 		//REQUERIDOS
-		if( !empty($data["{{to}}"]) && !empty($data["{{menssage}}"]) ){
+		if( empty($data["{{to}}"]) || empty($data["{{menssage}}"]) ){
 //			throw new ErrorException("Datos requeridos no agregados");
 			return false;
 		}
