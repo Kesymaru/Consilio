@@ -691,6 +691,7 @@ class Email extends PHPMailer{
 
 		if( $this->setData($data) ){
 			echo 'enviando';
+
 			//Send the message, check for errors
 			if( !$this->Send() ) {
 				echo "Mailer Error: " . $this->ErrorInfo;
@@ -716,6 +717,7 @@ class Email extends PHPMailer{
 //			throw new ErrorException("Datos requeridos no agregados");
 			return false;
 		}
+		echo 'set data';
 
 		if( is_array($data) ){
 
@@ -782,6 +784,8 @@ class Email extends PHPMailer{
 			}
 
 			return true;
+		}else{
+			echo "no es un array";
 		}
 
 		return false;
