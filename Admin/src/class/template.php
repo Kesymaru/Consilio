@@ -39,6 +39,7 @@ class Template{
     /**
      * OBTIENE EL TEMPLATE A USAR
      * @param $name nombre del template a usar
+     * @return boolean|string
      */
     public function getTemplate($name = "default"){
 
@@ -50,6 +51,28 @@ class Template{
 	    }
         return false;
     }
+
+	/**
+	 * OBTIENE EL TEMPLATE CON LA DATA PUESTA
+	 * @param string $name nombrel del template a usar
+	 * @param array  $data datos a poner
+	 * @return boolean|string
+	 */
+	public function getTemplateData($name = "default", $data){
+
+		if( $template = file_get_contents("templates/$name.php") ){
+			if( is_array($data) ){
+				$template = $this->setInfo($template);
+				$template = $this->setData($template, $data);
+				return $template;
+			}else{
+				echo "data debe ser un array";
+			}
+		}else{
+			echo 'no se pudo obtener el template';
+		}
+		return false;
+	}
 
     /**
      * PONE LA INFO POR DEFECTO
