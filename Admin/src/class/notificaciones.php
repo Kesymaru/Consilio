@@ -35,6 +35,7 @@ class Notificaciones {
 	    $this->admin = $protocolo.$dominio.'/matrizescala/Admin/';
 
 	    $this->templateManager = new Template();
+	    $this->mail = new Email();
 		$this->base = new Database();
 
 	    $this->fecha = date("Y-m-d",time());
@@ -272,8 +273,14 @@ class Notificaciones {
 	    if( $templateSrc = $this->templateManager->getTemplate($template) ){
 		    $final = $this->templateManager->setData($templateSrc, $datos);
 
-		    echo $final;
-		    return true;
+		    echo $datos["{{menssage}}"] = $final;
+
+		    //envia el email
+		    if( $this->mail->Notificar($datos) ){
+			    return true;
+		    }else{
+			    echo "no se pudo enviar el mail";
+		    }
 	    }
 
         return false;

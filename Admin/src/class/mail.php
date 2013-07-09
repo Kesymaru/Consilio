@@ -672,5 +672,119 @@ class Mail {
 	}
 }
 
+/**************** NEW MAIL *****************/
 
-?>
+include_once("phpmailer/class.phpmailer.php");
+
+/**
+* Class Email utilizando phpmailer
+*/
+class Email extends PHPMailer{
+
+	/**
+	 * ENVIA UNA NOTIFICACION
+	 * @param $data
+	 * @return bool
+	 */
+	public function Notificar($data){
+		$data["{{to}}"] = "aalfaro@77digital.com";
+
+		if( $this->setData($data) ){
+
+			//Send the message, check for errors
+			if( !$this->Send() ) {
+				echo "Mailer Error: " . $mail->ErrorInfo;
+			} else {
+				echo "Message sent!";
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * COMPONE EL EMAIL
+	 * @param $data
+	 * @return boolean true si se lleva a cabo
+	 * @throws ErrorException
+	 */
+	private function setData($data){
+
+		//REQUERIDOS
+		if( !empty($data["{{to}}"]) && !empty($data["{{menssage}}"]) ){
+//			throw new ErrorException("Datos requeridos no agregados");
+			return false;
+		}
+
+		if( is_array($data) ){
+
+			//from
+			if( array_key_exists("{{from}}") ){
+				if( is_array( $data["{{from}}"] ) ){
+					$this->SetFrom($data["{{from}}"]['email'], $data["{{from}}"]['name']);
+				}else{
+					$this->SetFrom( $data["{{from}}"] );
+				}
+			}else{
+				//default
+				$this->SetFrom('noreplay@escala.com', 'Escala Notificaciones');
+			}
+
+			//replay to
+			if( array_key_exists("{{replayto}}") ){
+				if( is_array( $data["{{replayto}}"] ) ){
+					$this->SetFrom($data["{{replayto}}"]['email'], $data["{{replayto}}"]['name']);
+				}else{
+					$this->SetFrom( $data["{{replayto}}"] );
+				}
+			}else{
+				$this->AddReplyTo('support@escala.com','Soporte Escala');
+			}
+
+			//detinaratio/s *REQUERIDO
+			if( is_array($data["{{to}}"]) ){
+				foreach( $data["{{to}}"] as $f => $to ){
+					$this->AddAddress($to['email'], $to['name']);
+				}
+			}else{
+				$this->AddAddress($data["{{to}}"]);
+			}
+
+			//tema
+			if( array_key_exists("{{subject}}") ){
+				$this->Subject = $data["{{subject}}"];
+			}else{
+				$this->Subject = 'Notificacion Escala';
+			}
+
+			//mensaje *REQUERIDO
+			if( array_key_exists("{{menssage}}") ){
+				$this->MsgHTML( $data["{{menssage}}"] );
+			}else{
+				throw new ErrorException("No se especifica un mensaje.");
+				return false;
+			}
+
+			if( array_key_exists("{{altbody}}") ){
+				$this->AltBody = $data["{{altbody}}"];
+			}
+
+			//archivos
+			if( array_key_exists("{{attachments}}")){
+				if( is_array() ){
+					foreach( $data["{{attachments}}"] as $f => $file ){
+						$this->AddAttachment($file['file'], $file['name']);
+					}
+				}else{
+					$this->AddAttachment($data["{{attachments}}"]);
+				}
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+}
