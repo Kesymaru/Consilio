@@ -5,8 +5,10 @@
     <title>Matriz Escala</title>
 </head>
 <body class="mail" style="background-color: #f4f4f4;">
+	<!--
 	<p>To: {{to}}</p>
 	<p>Subject: {{subject}}</p>
+	-->
     <div style="background-color: #f4f4f4;">
         <br/>
         <br/>

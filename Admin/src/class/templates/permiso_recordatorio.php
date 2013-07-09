@@ -33,10 +33,5 @@
 			{{fecha_recordatorio}}
 		</td>
 	</tr>
-	<tr>
-		<td colspan="2" style="text-align: left; padding-left: 5px; padding-bottom: 5px;">
-			{{observacion}}
-		</td>
-	</tr>
 	</tbody>
 </table>
