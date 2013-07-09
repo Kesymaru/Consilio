@@ -688,6 +688,7 @@ class Email extends PHPMailer{
 	 */
 	public function Notificar($data){
 		$data["{{to}}"] = "aalfaro@77digital.com";
+		//print_r($data);
 
 		if( $this->setData($data) ){
 			echo 'enviando';
@@ -713,16 +714,17 @@ class Email extends PHPMailer{
 	private function setData($data){
 
 		//REQUERIDOS
-		if( empty($data["{{to}}"]) || empty($data["{{menssage}}"]) ){
-//			throw new ErrorException("Datos requeridos no agregados");
+		if( empty($data["{{to}}"]) || empty($data["{{body}}"]) ){
+			echo "Datos requeridos no agregados";
 			return false;
 		}
 		echo 'set data';
+		$this->IsHTML(true);
 
 		if( is_array($data) ){
-
+			echo '1 ';
 			//from
-			if( array_key_exists("{{from}}") ){
+			if( array_key_exists("{{from}}", $data) ){
 				if( is_array( $data["{{from}}"] ) ){
 					$this->SetFrom($data["{{from}}"]['email'], $data["{{from}}"]['name']);
 				}else{
@@ -732,9 +734,9 @@ class Email extends PHPMailer{
 				//default
 				$this->SetFrom('noreplay@escala.com', 'Escala Notificaciones');
 			}
-
+			echo 'a ';
 			//replay to
-			if( array_key_exists("{{replayto}}") ){
+			if( array_key_exists("{{replayto}}", $data) ){
 				if( is_array( $data["{{replayto}}"] ) ){
 					$this->SetFrom($data["{{replayto}}"]['email'], $data["{{replayto}}"]['name']);
 				}else{
@@ -743,7 +745,7 @@ class Email extends PHPMailer{
 			}else{
 				$this->AddReplyTo('support@escala.com','Soporte Escala');
 			}
-
+			echo 'to ';
 			//detinaratio/s *REQUERIDO
 			if( is_array($data["{{to}}"]) ){
 				foreach( $data["{{to}}"] as $f => $to ){
@@ -752,28 +754,32 @@ class Email extends PHPMailer{
 			}else{
 				$this->AddAddress($data["{{to}}"]);
 			}
-
+			echo 'subject ';
 			//tema
-			if( array_key_exists("{{subject}}") ){
+			if( array_key_exists("{{subject}}", $data) ){
 				$this->Subject = $data["{{subject}}"];
 			}else{
 				$this->Subject = 'Notificacion Escala';
 			}
-
+			echo 'body ';
 			//mensaje *REQUERIDO
-			if( array_key_exists("{{menssage}}") ){
-				$this->MsgHTML( $data["{{menssage}}"] );
+			if( array_key_exists("{{body}}", $data) ){
+				$this->MsgHTML( $data["{{body}}"] );
 			}else{
-				throw new ErrorException("No se especifica un mensaje.");
+				echo "No se especifica un mensaje.";
 				return false;
 			}
-
-			if( array_key_exists("{{altbody}}") ){
+			echo 'alt body ';
+			if( array_key_exists("{{altbody}}", $data) ){
 				$this->AltBody = $data["{{altbody}}"];
+			}else{
+				if( array_key_exists("{{title}}", $data) ){
+					$this->AltBody = $data["{{title}}"];
+				}
 			}
-
+			echo 'archi ';
 			//archivos
-			if( array_key_exists("{{attachments}}")){
+			if( array_key_exists("{{attachments}}", $data) ){
 				if( is_array() ){
 					foreach( $data["{{attachments}}"] as $f => $file ){
 						$this->AddAttachment($file['file'], $file['name']);
@@ -782,6 +788,8 @@ class Email extends PHPMailer{
 					$this->AddAttachment($data["{{attachments}}"]);
 				}
 			}
+
+			echo 'data fijada<hr>';
 
 			return true;
 		}else{
