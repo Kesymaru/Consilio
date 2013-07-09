@@ -10,6 +10,14 @@
 		</td>
 	</tr>
 	<tr>
+		<td style="font-weight: bold; text-align: left; padding-left: 5px;">
+			Emisi&oacuten
+		</td>
+		<td  style="padding-right: 5px;">
+			{{fecha_recordatorio}}
+		</td>
+	</tr>
+	<tr>
 		<td style="font-weight: bold; text-align: left; padding-left: 5px; width: 40%;">
 			Expiracion
 		</td>
@@ -23,6 +31,11 @@
 		</td>
 		<td  style="padding-right: 5px;">
 			{{fecha_recordatorio}}
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" style="text-align: left; padding-left: 5px; padding-bottom: 5px;">
+			{{observacion}}
 		</td>
 	</tr>
 	</tbody>

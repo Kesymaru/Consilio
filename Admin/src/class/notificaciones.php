@@ -15,10 +15,12 @@ require_once("mail.php");
 class Notificaciones {
 
 	private $templateManager = '';
-	private $templates = array();
 
 	private $home = "";
 	private $admin = "";
+
+	private $fecha = "";
+	private $base = "";
 
     /**
      * OBTIENE LAS NOTIFICACIONES
@@ -33,6 +35,9 @@ class Notificaciones {
 	    $this->admin = $protocolo.$dominio.'/matrizescala/Admin/';
 
 	    $this->templateManager = new Template();
+		$this->base = new Database();
+
+	    $this->fecha = date("Y-m-d",time());
     }
 
     /**
@@ -40,45 +45,87 @@ class Notificaciones {
      */
     public function Permisos(){
 
-	    //obtiene los templates para permisos
-		if( !$this->templates['permiso_expirado'] = $this->templateManager->getTemplate("permiso_expirado")){
-			return false;
-		}
+        if( $proyectos = $this->getPermisos() ){
+//            echo '<pre>'; print_r($proyectos); echo '</pre>';
 
-	    if( !$this->templates['permiso_recordatorio'] = $this->templateManager->getTemplate("permiso_recordatorio")){
-		    return false;
-	    }
+            foreach($proyectos as $index => $proyecto ){
 
-        if( $permisos = $this->getNotificacionesPermisos() ){
-//            echo '<pre>'; print_r($permisos); echo '</pre>';
-
-            foreach($permisos as $fila => $permiso ){
                 //datos para la notificacion
-                $datos = array(
-                    "{{title}}" => 'Permisos Expirados: '.$permiso['proyecto_nombre'],
-                    "{{cliente_nombre}}" => $permiso['cliente_nombre'],
-                    "{{cliente_imagen}}" => $this->admin.$permiso['cliente_imagen'],
+                $remplazar = array(
+                    "{{title}}" => $proyecto['proyecto_nombre'],
+                    "{{cliente_nombre}}" => $proyecto['cliente_nombre'],
+                    "{{cliente_imagen}}" => $this->admin.$proyecto['cliente_imagen'],
+	                "{{menssage}}" => "El proyecto ".$proyecto['proyecto_nombre'],
+	                "{{permisos}}" => "",
                 );
 
-                $to = '';
-                foreach($permiso['emails'] as $f => $email ){
-                    $to .= $email['email'].',';
-                }
-                $datos['{{to}}'] = $to;
+	            //notificaciones de expirados
+				foreach( $proyecto['expirados'] as $f => $expirado ){
+					$remplazar_expirados = $remplazar;
 
-	            $datos['{{menssage}}'] = "El proyecto ".$permiso['proyecto_nombre']." tiene ".$permiso['recordatorios'];
+					if( $mensaje = $this->ComponerPermiso($expirado, "expirado") ){
+						$remplazar_expirados["{{permisos}}"] = $mensaje;
+						$remplazar["{{permisos}}"] .= $mensaje;
 
-	            if( $permiso['recordatorios'] > 1 ){
-		            $datos['{{menssage}}'] .= ' permisos expirados';
-	            }else{
-		            $datos['{{menssage}}'] .= ' permiso expirado';
+						$remplazar_expirados["{{to}}"] = "";
+						foreach( $expirado['emails'] as $fila => $email ){
+							$remplazar_expirados["{{to}}"] .= $email['email'].",";
+						}
+
+						$remplazar_expirados["{{menssage}}"] .= " tiene el siguiente permiso expirado.";
+						$remplazar_expirados["{{subject}}"] = "Permiso Expirado: ".$expirado['nombre'];
+
+						$this->Notificar($remplazar_expirados, "permisos");
+					}
+				}
+
+	            //notificaciones de recordatorios
+	            foreach( $proyecto["recordatorios"] as $f => $recordatorio ){
+					$remplazar_recordatorios = $remplazar;
+
+		            if( $mensaje = $this->ComponerPermiso($recordatorio, "recordatorio") ){
+						$remplazar_recordatorios["{{permisos}}"] = $mensaje;
+			            $remplazar["{{permisos}}"] .= $mensaje;
+
+			            $remplazar_recordatorios["{{to}}"] = "";
+			            foreach( $recordatorio['emails'] as $fila => $email ){
+				            $remplazar_recordatorios["{{to}}"] .= $email['email'].",";
+			            }
+
+			            $remplazar_recordatorios["{{menssage}}"] .= " tiene el siguiente recordatorio sobre un permiso.";
+			            $remplazar_recordatorios["{{subject}}"] = "Recordatorio para: ".$recordatorio['nombre'];
+
+			            $this->Notificar($remplazar_recordatorios, "permisos");
+		            }
 	            }
 
-	            $datos['{{permisos}}'] = $this->getPermisos($permiso['cliente'], $permiso['proyecto']);
+	            //notificacion del proyecto
+	            $total_expirados = sizeof( $proyecto['expirados'] );
+	            $total_recordatorios = sizeof( $proyecto['recordatorios'] );
 
-//	            echo '<pre>'; print_r($datos); echo '</pre>';
+	            if( 1 <= $total_expirados || 1 <= $total_recordatorios ){
 
-                $this->Notificar($datos,"permisos");
+		            $remplazar["{{menssage}}"] .= " tiene ";
+		            if( 0 < $total_expirados && $total_expirados <= 1 ){
+			            $remplazar["{{menssage}}"] .= $total_expirados." permiso expirado";
+		            }else if( 0<$total_expirados ){
+			            $remplazar["{{menssage}}"] .= $total_expirados." permisos expirados";
+		            }
+
+		            if( 0 < $total_recordatorios && $total_recordatorios <= 1 ){
+			            $remplazar["{{menssage}}"] .= " y ".$total_recordatorios." recordatorio.";
+		            }else if(0<$total_recordatorios){
+			            $remplazar["{{menssage}}"] .= " y ".$total_recordatorios." recordatorios";
+		            }
+
+		            $remplazar["{{menssage}}"] .= ".";
+
+		            $remplazar["{{subject}}"] = "Permisos ".$proyecto['proyecto_nombre'];
+					$remplazar["{{to}}"] = $proyecto['cliente_email'];
+
+		            $this->Notificar($remplazar, "permisos");
+	            }
+
             }
 
             return true;
@@ -93,108 +140,128 @@ class Notificaciones {
      * OBTIENE TODOS LOS PERMISOS CON NOTIFICACIONES Y SUS DATOS
      * @return array $permisos datos de los permisos
      */
-    public function getNotificacionesPermisos(){
-        $base = new Database();
+    public function getPermisos(){
 
-	    $fecha = date("Y-m-d",time());
+	    //datos de proyectos y su cliente, proyectos con permisos
+	    $query = "SELECT
+				  DISTINCT proyectos.id AS proyecto,
+				  proyectos.nombre AS proyecto_nombre,
 
-        //selecciona los permisos con recordatorios
-        $query = "SELECT
-          permisos.*,
-          MIN( permisos_recordatorios.fecha_inicio ) AS desde,
-          COUNT( DISTINCT permisos_recordatorios.id ) As recordatorios,
-          proyectos.nombre as proyecto_nombre,
-          proyectos.imagen as proyecto_imagen,
-          clientes.nombre as cliente_nombre,
-          clientes.email as cliente_email,
-          clientes.imagen as cliente_imagen
-        FROM
-          permisos,
-          permisos_recordatorios,
-          proyectos,
-          clientes
-        WHERE
-          permisos_recordatorios.permiso = permisos.id AND
-          permisos_recordatorios.fecha_inicio <= '2013-07-10' AND
-          proyectos.id = permisos.proyecto AND
-          clientes.id = permisos.cliente
-        GROUP BY permisos.proyecto";
-
-        if( $permisos = $base->Select($query) ){
-
-            foreach($permisos as $f => $permiso ){
-
-                //obtiene los emails para las notifciaciones
-                $query = "SELECT
-                            permisos_recordatorios_emails.*
-                          FROM
-                              permisos,
-                              permisos_recordatorios_emails
-                          WHERE
-                              permisos.proyecto = '".$permiso['proyecto']."' AND
-                              permisos.cliente = '".$permiso['cliente']."' AND
-                              permisos_recordatorios_emails.permiso = permisos.id";
-
-                if( $datos = $base->Select($query) ){
-                    $permisos[$f]['emails'] = $datos;
-                }
-
-            }
-
-            return $permisos;
-        }
-		echo "Error: no se hay permisos";
-        return false;
-    }
-
-	/**
-	 * COMPONE EL MENSAJE DE CADA PERMISO
-	 * @param int $cliente id del cliente
-	 * @param int $proyecto id del proyecto
-	 * @return boolean|string false si falla
-	 */
-	public function getPermisos($cliente, $proyecto){
-		$base = new Database();
-		$mensaje = '';
-
-		$query = "SELECT
-				  permisos.id,
-				  permisos.nombre,
-				  permisos.fecha_expiracion,
-				  permisos_recordatorios.fecha_inicio
+				  clientes.id as cliente,
+				  clientes.nombre AS cliente_nombre,
+				  clientes.imagen AS cliente_imagen,
+				  clientes.email AS cliente_email
 				FROM
-				  permisos,
-				  permisos_recordatorios
+				  clientes,
+				  proyectos
 				WHERE
-				  permisos.proyecto = '$proyecto' AND
-				  permisos.cliente = '$cliente' AND
-				  permisos.id = permisos_recordatorios.permiso";
+				  proyectos.permisos = 1 AND
+				  proyectos.visible = 1 AND
+				  proyectos.cliente = clientes.id";
 
-		if( $permisos = $base->Select($query) ){
+	    if( $datos_proyectos = $this->base->Select($query) ){
 
-			foreach($permisos as $key => $permiso ){
-				$fecha_expiracion = $this->FormatearFecha($permiso['fecha_expiracion']);
-				$fecha_recordatorio = $this->FormatearFecha($permiso['fecha_inicio']);
+			foreach($datos_proyectos as $key => $proyecto ){
 
-				$remplazar = array(
-					"{{title}}" => $permiso['nombre'],
-					"{{fecha_expiracion}}" => $fecha_expiracion,
-					"{{fecha_recordatorio}}" => $fecha_recordatorio
-				);
+				//obtiene los permisos de cada proyecto
+				$query = "SELECT
+						  permisos.*,
+						  permisos_recordatorios.fecha_inicio
+						FROM
+						  permisos,
+						  permisos_recordatorios
+						WHERE
+						  permisos.proyecto = '".$proyecto['proyecto']."' AND
+						  permisos_recordatorios.permiso = permisos.id";
 
-				if( $this->Expiro($permiso['fecha_expiracion']) ){
-					$mensaje .= $this->templateManager->setData($this->templates['permiso_expirado'], $remplazar);
-				}else{
-					$mensaje .= $this->templateManager->setData($this->templates['permiso_recordatorio'], $remplazar);
+				if( $datos_permisos = $this->base->Select($query) ){
+					$expirados = array();
+					$recordatorios = array();
+
+					foreach( $datos_permisos as $f => $permiso ){
+						$resultado = $permiso;
+
+						//permiso expirado
+						if( $this->Expiro($permiso['fecha_expiracion']) ){
+							$resultado['emails'] = $this->getPermisoEmails($permiso['id']);
+							$expirados[] = $resultado;
+							continue;
+						}else if( $this->Expiro($permiso['fecha_inicio']) ){
+							$resultado['emails'] = $this->getPermisoEmails($permiso['id']);
+							$recordatorios[] = $resultado;
+						}
+					}
+
+					$datos_proyectos[$key]['expirados'] = $expirados;
+					$datos_proyectos[$key]['recordatorios'] = $recordatorios;
 				}
 
 			}
+
+		    return $datos_proyectos;
+	    }
+
+	    return false;
+    }
+
+	/**
+	 * OBTIENE LOS EMAILS PARA UN PERMISO
+	 * @param $permiso id del permiso
+	 * @return array
+	 */
+	private function getPermisoEmails($permiso){
+		$emails = array();
+
+		$query = "SELECT
+				  email
+				FROM
+				  permisos_recordatorios_emails
+				WHERE
+				  permiso = '$permiso'";
+
+		if($emails = $this->base->Select($query) ){
+		}
+		return $emails;
+	}
+
+	/**
+	 * COMPONE EL MENSAJE DE CADA PERMISO
+	 * @param array $datos datos del permiso
+	 * @return boolean|string false si falla
+	 */
+	private function ComponerPermiso($datos, $tipo){
+		$mensaje = '';
+
+		if( !empty($datos) ){
+
+			$fecha_emision = $this->FormatearFecha($datos['fecha_emision']);
+			$fecha_expiracion = $this->FormatearFecha($datos['fecha_expiracion']);
+			$fecha_recordatorio = $this->FormatearFecha($datos['fecha_inicio']);
+
+			$remplazar = array(
+				"{{title}}" => $datos['nombre'],
+				"{{fecha_emision}}" => $fecha_emision,
+				"{{fecha_expiracion}}" => $fecha_expiracion,
+				"{{fecha_recordatorio}}" => $fecha_recordatorio,
+				"{{observacion}}" => $datos['observacion']
+			);
+
+			$tema = "default";
+			if( $tipo == 'expirado' ){
+				$tema = "permiso_expirado";
+			}
+			if( $tipo == 'recordatorio' ){
+				$tema = "permiso_recordatorio";
+			}
+
+			$mensaje .= $this->templateManager->getTemplateData($tema, $remplazar);
 
 			return $mensaje;
 		}
 		return false;
 	}
 
+	/*************************/
     /**
      * ENVIA LA NOTIFICACION
      * @param array $datos
@@ -236,7 +303,7 @@ class Notificaciones {
      */
     public function FormatearFecha($fecha){
         $fecha = str_replace('/','-',$fecha);
-        return date( 'Y-m-d', strtotime($fecha) );
+        return date( 'd-m-Y', strtotime($fecha) );
     }
 }
 
