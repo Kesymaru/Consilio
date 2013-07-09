@@ -4,20 +4,35 @@
  * User: Andrey
  * Date: 6/24/13
  * Time: 10:48 AM
- * To change this template use File | Settings | File Templates.
+ * ESTA CLASE NO REQUIERE QUE ESTEN LOGUEADOS
  */
 
+	error_reporting(-1);
 require_once("classDatabase.php");
 require_once("template.php");
 require_once("mail.php");
 
 class Notificaciones {
 
+	private $templateManager = '';
+	private $templates = array();
+
+	private $home = "";
+	private $admin = "";
+
     /**
      * OBTIENE LAS NOTIFICACIONES
      */
     public function __construct(){
+        date_default_timezone_set('America/Costa_Rica');
 
+	    $protocolo = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+	    $dominio = $_SERVER['HTTP_HOST'];
+
+	    $this->home = $protocolo.$dominio.'/matrizescala/';
+	    $this->admin = $protocolo.$dominio.'/matrizescala/Admin/';
+
+	    $this->templateManager = new Template();
     }
 
     /**
@@ -25,67 +40,63 @@ class Notificaciones {
      */
     public function Permisos(){
 
-        $menssage .= '';
+	    //obtiene los templates para permisos
+		if( !$this->templates['permiso_expirado'] = $this->templateManager->getTemplate("permiso_expirado")){
+			return false;
+		}
 
-        $para = '';
-
-        $datos = array(
-            "title" => 'Titulo',
-            "subtitle" => "Hola test",
-            "menssage" => $menssage,
-
-            "from" => "support@matriz.com",
-            "info_from" => "Notificaciones Matriz Escala",
-            "info_mobile" => "123456",
-            "info_phone" => "987654",
-            "info_email" => "support@matriz.com",
-            "info_home" => "google.com",
-
-            "to" => $para,
-            "bcc" => '',
-
-            "direccion_edificio" => 'edificio 3, piso 12',
-            "direccion" => "La sabana, San Jose, Costa Rica",
-
-            "cliente_nombre" => "nombre cliente",
-            "cliente_imagen" => "../../images/es.png",
-        );
+	    if( !$this->templates['permiso_recordatorio'] = $this->templateManager->getTemplate("permiso_recordatorio")){
+		    return false;
+	    }
 
         if( $permisos = $this->getNotificacionesPermisos() ){
+//            echo '<pre>'; print_r($permisos); echo '</pre>';
 
             foreach($permisos as $fila => $permiso ){
                 //datos para la notificacion
                 $datos = array(
-                    "title" => 'Permisos Expirados: '.$permiso['proyecto_nombre'],
-                    "cliente_nombre" => $permiso['cliente_nombre'],
-                    "cliente_imagen" => $permiso['cliente_imagen'],
+                    "{{title}}" => 'Permisos Expirados: '.$permiso['proyecto_nombre'],
+                    "{{cliente_nombre}}" => $permiso['cliente_nombre'],
+                    "{{cliente_imagen}}" => $this->admin.$permiso['cliente_imagen'],
                 );
 
                 $to = '';
                 foreach($permiso['emails'] as $f => $email ){
-                    $to .= $email.',';
+                    $to .= $email['email'].',';
                 }
-                $datos['to'] = $to;
+                $datos['{{to}}'] = $to;
 
-                $menssage = 'El proyecto '.$permiso['proyecto_nombre'].' tiene los siguientes permisos expirados:';
+	            $datos['{{menssage}}'] = "El proyecto ".$permiso['proyecto_nombre']." tiene ".$permiso['recordatorios'];
 
-                $datos['menssage'] = $menssage;
+	            if( $permiso['recordatorios'] > 1 ){
+		            $datos['{{menssage}}'] .= ' permisos expirados';
+	            }else{
+		            $datos['{{menssage}}'] .= ' permiso expirado';
+	            }
 
-                $this->Notificar($datos);
+	            $datos['{{permisos}}'] = $this->getPermisos($permiso['cliente'], $permiso['proyecto']);
+
+//	            echo '<pre>'; print_r($datos); echo '</pre>';
+
+                $this->Notificar($datos,"permisos");
             }
 
             return true;
+        }else{
+	        echo 'error';
         }
+
         return false;
     }
 
     /**
-     *OBTIENE TODOS LOS PERMISOS CON NOTIFICACIONES Y SUS DATOS
+     * OBTIENE TODOS LOS PERMISOS CON NOTIFICACIONES Y SUS DATOS
+     * @return array $permisos datos de los permisos
      */
     public function getNotificacionesPermisos(){
         $base = new Database();
 
-        $fecha = '2013-07-10';
+	    $fecha = date("Y-m-d",time());
 
         //selecciona los permisos con recordatorios
         $query = "SELECT
@@ -132,21 +143,100 @@ class Notificaciones {
 
             return $permisos;
         }
+		echo "Error: no se hay permisos";
         return false;
     }
+
+	/**
+	 * COMPONE EL MENSAJE DE CADA PERMISO
+	 * @param int $cliente id del cliente
+	 * @param int $proyecto id del proyecto
+	 * @return boolean|string false si falla
+	 */
+	public function getPermisos($cliente, $proyecto){
+		$base = new Database();
+		$mensaje = '';
+
+		$query = "SELECT
+				  permisos.id,
+				  permisos.nombre,
+				  permisos.fecha_expiracion,
+				  permisos_recordatorios.fecha_inicio
+				FROM
+				  permisos,
+				  permisos_recordatorios
+				WHERE
+				  permisos.proyecto = '$proyecto' AND
+				  permisos.cliente = '$cliente' AND
+				  permisos.id = permisos_recordatorios.permiso";
+
+		if( $permisos = $base->Select($query) ){
+
+			foreach($permisos as $key => $permiso ){
+				$fecha_expiracion = $this->FormatearFecha($permiso['fecha_expiracion']);
+				$fecha_recordatorio = $this->FormatearFecha($permiso['fecha_inicio']);
+
+				$remplazar = array(
+					"{{title}}" => $permiso['nombre'],
+					"{{fecha_expiracion}}" => $fecha_expiracion,
+					"{{fecha_recordatorio}}" => $fecha_recordatorio
+				);
+
+				if( $this->Expiro($permiso['fecha_expiracion']) ){
+					$mensaje .= $this->templateManager->setData($this->templates['permiso_expirado'], $remplazar);
+				}else{
+					$mensaje .= $this->templateManager->setData($this->templates['permiso_recordatorio'], $remplazar);
+				}
+
+			}
+
+			return $mensaje;
+		}
+		return false;
+	}
 
     /**
      * ENVIA LA NOTIFICACION
      * @param array $datos
-     * @param string $template
+     * @param string $template tema a usar en la notificacion
      */
     public function Notificar($datos, $template = 'default'){
-        $template = new Template();
 
-        $final = $template->Email($datos, $template);
-        echo 'notifica';
+	    if( $templateSrc = $this->templateManager->getTemplate($template) ){
+		    $final = $this->templateManager->setData($templateSrc, $datos);
 
-        echo  $final;
+		    echo $final;
+		    return true;
+	    }
+
+        return false;
+    }
+
+	/**
+	 * DETERMINA SI UNA FECHA EXPIRO
+	 * @param $fecha
+	 * @return boolean true si expiro
+	 */
+	public function Expiro($fecha){
+        $fecha = str_replace('/','-',$fecha);
+
+        $ahora = strtotime( date("d-m-Y H:i:00",time()) );
+        $fecha = strtotime($fecha);
+
+        if($ahora > $fecha){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * FORMATEA UNA FECHA
+     * @param $fecha fecha en formato dd/mm/yyyy
+     * @return date fecha formateada yyyy-mm-dd
+     */
+    public function FormatearFecha($fecha){
+        $fecha = str_replace('/','-',$fecha);
+        return date( 'Y-m-d', strtotime($fecha) );
     }
 }
 
@@ -155,32 +245,4 @@ $notifcaciones = new Notificaciones();
 
 $notifcaciones->Permisos();
 
-//echo '<pre>'; print_r($notifcaciones->getNotificacionesPermisos()); echo '</pre>';
-
-
-/**
-
-$datos = array(
-    "title" => 'Permisos Expirados: '.$permiso['proyecto_nombre'],
-    "subtitle" => "El proyecto ".$permiso['proyecto_nombre']." tiene los siguientes permisos expirados:",
-    "menssage" => $menssage,
-
-    "from" => "support@matriz.com",
-    "info_from" => "Notificaciones Matriz Escala",
-    "info_mobile" => "123456",
-    "info_phone" => "987654",
-    "info_email" => "support@matriz.com",
-    "info_home" => "google.com",
-
-    "to" => $para,
-    "bcc" => '',
-
-    "direccion_edificio" => 'edificio 3, piso 12',
-    "direccion" => "La sabana, San Jose, Costa Rica",
-
-    "cliente_nombre" => "nombre cliente",
-    "cliente_imagen" => "../../images/es.png",
-);
-
- */
 
