@@ -690,7 +690,7 @@ class Email extends PHPMailer{
 		$data["{{to}}"] = "aalfaro@77digital.com";
 
 		if( $this->setData($data) ){
-
+			echo 'enviando';
 			//Send the message, check for errors
 			if( !$this->Send() ) {
 				echo "Mailer Error: " . $mail->ErrorInfo;
