@@ -693,7 +693,7 @@ class Email extends PHPMailer{
 			echo 'enviando';
 			//Send the message, check for errors
 			if( !$this->Send() ) {
-				echo "Mailer Error: " . $mail->ErrorInfo;
+				echo "Mailer Error: " . $this->ErrorInfo;
 			} else {
 				echo "Message sent!";
 				return true;
