@@ -706,7 +706,7 @@ class Email extends PHPMailer{
 					echo "<hr>MENSAJE ENVIADO<hr>";
 					return true;
 				}else{
-					echo "<br/><h1>Mailer Error:<h1> " . $this->ErrorInfo."<br/>";
+					echo "<br/><b>Mailer Error:</b> " . $this->ErrorInfo."<br/>";
 				}
 			} catch (phpmailerException $e) {
 				echo $e->errorMessage(); //Pretty error messages from PHPMailer
@@ -734,9 +734,9 @@ class Email extends PHPMailer{
 		echo 'set data';
 
 		//config
-		$this->IsMail();
-//		$this->IsSendmail();
-		$this->IsHTML(true);
+		$this->Config();
+
+		$mail->SMTPDebug  = 2;
 
 		if( is_array($data) ){
 			echo '1 ';
@@ -816,6 +816,20 @@ class Email extends PHPMailer{
 		}
 
 		return false;
+	}
+
+	/**
+	 * CONFIGURA EL MAILER
+	 */
+	private function Config(){
+
+//		$this->IsMail();
+		$this->IsSMTP();
+		$this->Host = "localhost";
+//		$this->IsSendmail();
+		$this->IsHTML(true);
+		$this->CharSet = "UTF-8";
+
 	}
 
 }
