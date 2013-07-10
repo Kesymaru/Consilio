@@ -694,11 +694,21 @@ class Email extends PHPMailer{
 			echo 'enviando |  ';
 
 			//Send the message, check for errors
-			if( !$this->Send() ) {
+			/*if( !$this->Send() ) {
 				echo "Mailer Error: " . $this->ErrorInfo."<hr/>";
 			} else {
 				echo "Message sent!<hr/>";
 				return true;
+			}*/
+
+			try{
+				if($this->Send()){
+					echo "<hr>MENSAJE ENVIADO<hr>";
+				}
+			} catch (phpmailerException $e) {
+				echo $e->errorMessage(); //Pretty error messages from PHPMailer
+			} catch (Exception $e) {
+				echo $e->getMessage(); //Boring error messages from anything else!
 			}
 		}
 
@@ -738,6 +748,7 @@ class Email extends PHPMailer{
 				//default
 				$this->SetFrom('no-reply@77digital.com', 'Escala Notificaciones');
 			}*/
+			$this->SetFrom('no-reply@77digital.com', 'Escala Notificaciones');
 			echo 'a ';
 			//replay to
 			if( array_key_exists("{{replayto}}", $data) ){
