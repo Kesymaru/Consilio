@@ -764,7 +764,7 @@ class Email extends PHPMailer{
 			echo 'body ';
 			//mensaje *REQUERIDO
 			if( array_key_exists("{{body}}", $data) ){
-				$this->MsgHTML( $data["{{body}}"] );
+				$this->Body = $data["{{body}}"];
 			}else{
 				echo "No se especifica un mensaje.";
 				return false;
