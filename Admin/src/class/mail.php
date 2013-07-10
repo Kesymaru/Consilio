@@ -752,7 +752,11 @@ class Email extends PHPMailer{
 			//detinaratio/s *REQUERIDO
 			if( is_array($data["{{to}}"]) ){
 				foreach( $data["{{to}}"] as $f => $to ){
-					$this->AddAddress($to['email'], $to['name']);
+					if( is_array($to) ){
+						$this->AddAddress($to['email'], $to['name']);
+					}else{
+						$this->AddAddress($to);
+					}
 				}
 			}else{
 				$this->AddAddress($data["{{to}}"]);
