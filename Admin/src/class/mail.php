@@ -719,6 +719,9 @@ class Email extends PHPMailer{
 			return false;
 		}
 		echo 'set data';
+
+		//config
+		$this->IsMail();
 		$this->IsHTML(true);
 
 		if( is_array($data) ){
