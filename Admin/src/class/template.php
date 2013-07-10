@@ -25,6 +25,9 @@ class Template{
     private $admin = '';
     private $home = '';
 
+	private $siteName = "Escala Consultores";
+	private $site = 'http://escalaconsultores.com';
+
     public function __construct(){
 
         date_default_timezone_set('America/Costa_Rica');
@@ -78,23 +81,26 @@ class Template{
      * PONE LA INFO POR DEFECTO
      */
     private function setInfo($template){
-        $info = 'Matriz Escala';
-        $mobile = '123 456';
-        $phone = '987 654';
-        $email = 'support@ecala.com';
+        $info = 'Consultores Escala';
+        $mobile = '';
+        $phone = '+(506) 2290-2716';
+	    $fax = "+(506) 2296-2778";
+        $email = 'support@escala.com';
 
-        $direccion_edificio = 'Edificio 2, piso 3';
-        $direccion = 'La sabana, San JOSE, Costa Rica';
+        $direccion_edificio = 'Oficentro Ejecutivo la sabana Torre 7, Piso 2';
+        $direccion = 'Sabana Sur, San Jos$eacute;, Costa Rica';
 
-	    $disclaim_title = "Disclaim";
-	    $disclaim_text = "Texto del disclaim";
+	    $disclaim_title = "Aviso de Confidencialidad.";
+	    $disclaim_text = "Este correo electrónico y/o el material adjunto es para el usu exclusivo de la persona o entidad a la que expresamente se le ha enviado y puede contener información confidencial o material privilegiado. Si usted no es el destinatario legítimo del mismo por favor reportélo inmediatamente al remitente del correo y borrelo. Cualquier revisión queda expresamente prohibido. Este correo electrónico no pretende ni debe ser considerado como constitutivo de ninguna relación legal contractual o de otra índole similar.";
 
 	    $remplazar = array(
 					"{{info_from}}" => $info,
 					"{{info_mobile}}" => $mobile,
 					"{{info_phone}}" => $phone,
+		            "{{info_fax}}" => $fax,
 					"{{info_email}}" => $email,
-					"{{info_home}}" =>  $this->home,
+		            "{{info_homeLink}}" => $this->site,
+					"{{info_home}}" =>  $this->siteName,
 					"{{direccion_edificio}}" => $direccion_edificio,
 					"{{direccion}}" => $direccion,
 		            "{{disclaim_title}}" => $disclaim_title,
