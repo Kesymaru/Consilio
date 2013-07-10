@@ -1462,7 +1462,8 @@ class PHPMailer {
     }
     $result .= $this->HeaderLine('X-Priority', $this->Priority);
     if ($this->XMailer == '') {
-        $result .= $this->HeaderLine('X-Mailer', 'PHPMailer '.$this->Version.' (https://github.com/PHPMailer/PHPMailer/)');
+//        $result .= $this->HeaderLine('X-Mailer', 'PHPMailer '.$this->Version.' (https://github.com/PHPMailer/PHPMailer/)');
+	    $result .= $this->HeaderLine('X-Mailer', 'Matriz Escala');
     } else {
       $myXmailer = trim($this->XMailer);
       if ($myXmailer) {
