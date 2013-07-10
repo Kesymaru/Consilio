@@ -271,15 +271,16 @@ class Notificaciones {
     public function Notificar($datos, $template = 'default'){
 
 	    if( $templateSrc = $this->templateManager->getTemplate($template) ){
-		    $final = $this->templateManager->setData($templateSrc, $datos);
+		    if( $notificacion = $this->templateManager->setData($templateSrc, $datos) ){
+			    echo '<pre>';
+			    $datos["{{body}}"] = $notificacion;
 
-		    echo $datos["{{menssage}}"] = $final;
-
-		    //envia el email
-		    if( $this->mail->Notificar($datos) ){
-			    return true;
-		    }else{
-			    echo "no se pudo enviar el mail";
+			    //envia el email
+			    if( $this->mail->Notificar($datos) ){
+				    return true;
+			    }else{
+				    echo "no se pudo enviar el mail";
+			    }
 		    }
 	    }
 
