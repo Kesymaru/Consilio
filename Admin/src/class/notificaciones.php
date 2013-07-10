@@ -100,13 +100,13 @@ class Notificaciones {
 		            }
 	            }
 
-	            //notificacion del proyecto
+	            //notificacion resumen del proyecto
 	            $total_expirados = sizeof( $proyecto['expirados'] );
 	            $total_recordatorios = sizeof( $proyecto['recordatorios'] );
 
 	            if( 1 <= $total_expirados || 1 <= $total_recordatorios ){
 
-		            $remplazar["{{menssage}}"] .= " tiene ";
+		            $remplazar["{{menssage}}"] .= " de ".$proyecto['cliente_nombre']." tiene ";
 		            if( 0 < $total_expirados && $total_expirados <= 1 ){
 			            $remplazar["{{menssage}}"] .= $total_expirados." permiso expirado";
 		            }else if( 0<$total_expirados ){
@@ -121,10 +121,10 @@ class Notificaciones {
 
 		            $remplazar["{{menssage}}"] .= ".";
 
-		            $remplazar["{{subject}}"] = "Permisos ".$proyecto['proyecto_nombre'];
-					$remplazar["{{to}}"] = $proyecto['cliente_email'];
+		            $remplazar["{{subject}}"] = "Resumen Permisos: ".$proyecto['proyecto_nombre'];
 
-		            $remplazar["{{to}}"] = "aalfaro@gmail.com";
+//					$remplazar["{{to}}"] = $proyecto['cliente_email'];
+		            $remplazar["{{to}}"] = "aalfaro@77digital.com";
 
 		            $this->Notificar($remplazar, "permisos");
 	            }
