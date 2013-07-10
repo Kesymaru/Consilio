@@ -69,10 +69,8 @@ class Notificaciones {
 						$remplazar["{{permisos}}"] .= $mensaje;
 
 						$to = array();
-						$to[] = "aalfaro@77digital.com";
-						$to[] = "andreyalfaro@gmail.com";
 						foreach( $expirado['emails'] as $fila => $email ){
-//							$to[] = $email['email'].",";
+							$to[] = $email['email'].",";
 						}
 						$remplazar_expirados["{{to}}"] = $to;
 
@@ -100,7 +98,7 @@ class Notificaciones {
 			            $remplazar_recordatorios["{{menssage}}"] .= " tiene el siguiente recordatorio sobre un permiso.";
 			            $remplazar_recordatorios["{{subject}}"] = "Recordatorio para: ".$recordatorio['nombre'];
 
-//			            $this->Notificar($remplazar_recordatorios, "permisos");
+			            $this->Notificar($remplazar_recordatorios, "permisos");
 		            }
 	            }
 
@@ -141,7 +139,7 @@ class Notificaciones {
 			            )
 		            );
 
-//		            $this->Notificar($remplazar, "permisos");
+		            $this->Notificar($remplazar, "permisos");
 	            }
 
             }
@@ -292,7 +290,7 @@ class Notificaciones {
 			    $datos["{{body}}"] = $notificacion;
 
 			    //envia el email
-			    $this->mail->Notificar($datos);
+//			    $this->mail->Notificar($datos);
 		    }
 	    }
 
