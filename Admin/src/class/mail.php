@@ -692,7 +692,7 @@ class Email extends PHPMailer{
 
 			try{
 				if($this->Send()){
-					echo "<hr>MENSAJE ENVIADO<hr>";
+//					echo "<hr>MENSAJE ENVIADO<hr>";
 					return true;
 				}else{
 					echo "<br/><b>Mailer Error:</b> " . $this->ErrorInfo."<br/>";
