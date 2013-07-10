@@ -91,7 +91,7 @@ class Notificaciones {
 			            $remplazar_recordatorios["{{to}}"] = "";
 			            foreach( $recordatorio['emails'] as $fila => $email ){
 //				            $remplazar_recordatorios["{{to}}"] .= $email['email'].",";
-				            $remplazar_recordatorios["{{to}}"] .= 'aalfaro@gmail.com';
+				            $remplazar_recordatorios["{{to}}"] .= 'aalfaro@77digital.com';
 			            }
 
 			            $remplazar_recordatorios["{{menssage}}"] .= " tiene el siguiente recordatorio sobre un permiso.";
