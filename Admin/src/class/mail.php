@@ -736,8 +736,6 @@ class Email extends PHPMailer{
 		//config
 		$this->Config();
 
-		$mail->SMTPDebug  = 2;
-
 		if( is_array($data) ){
 			echo '1 ';
 			//from
@@ -830,6 +828,8 @@ class Email extends PHPMailer{
 		$this->IsHTML(true);
 		$this->CharSet = "UTF-8";
 
+
+		$mail->SMTPDebug  = 1;
 	}
 
 }
