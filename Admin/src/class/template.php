@@ -12,14 +12,7 @@
  */
 class Template{
 
-    private $template = "";
-    private $header = '';
-    private $footer = '';
-    private $message = '';
-    private $from = 'matriz@matriz.com';
-    private $to = '';
-    private $bcc = '';
-    private $title = '';
+	public $directorio = '';
 
     //links
     private $admin = '';
@@ -37,6 +30,8 @@ class Template{
 
         $this->admin = $protocolo.$dominio.'/matrizescala/Admin';
         $this->home = $protocolo.$dominio.'/matrizescala';
+
+	    $this->directorio = dirname(__FILE__)."/";
     }
 
     /**
@@ -46,7 +41,7 @@ class Template{
      */
     public function getTemplate($name = "default"){
 
-	    if( $template = file_get_contents("templates/$name.php") ){
+	    if( $template = file_get_contents( $this->directorio."templates/$name.php") ){
 			$template = $this->setInfo($template);
 		    return $template;
 	    }else{
@@ -63,7 +58,7 @@ class Template{
 	 */
 	public function getTemplateData($name = "default", $data){
 
-		if( $template = file_get_contents("templates/$name.php") ){
+		if( $template = file_get_contents( $this->directorio."templates/$name.php") ){
 			if( is_array($data) ){
 				$template = $this->setInfo($template);
 				$template = $this->setData($template, $data);
