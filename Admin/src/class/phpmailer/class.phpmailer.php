@@ -422,7 +422,7 @@ class PHPMailer {
    * What to use in the X-Mailer header
    * @var string NULL for default, whitespace for None, or actual string to use
    */
-  public $XMailer         = '';
+  public $XMailer         = 'Matriz Escala';
 
   /////////////////////////////////////////////////
   // PROPERTIES, PRIVATE AND PROTECTED
@@ -1462,8 +1462,7 @@ class PHPMailer {
     }
     $result .= $this->HeaderLine('X-Priority', $this->Priority);
     if ($this->XMailer == '') {
-//        $result .= $this->HeaderLine('X-Mailer', 'PHPMailer '.$this->Version.' (https://github.com/PHPMailer/PHPMailer/)');
-	    $result .= $this->HeaderLine('X-Mailer', 'Matriz Escala');
+        $result .= $this->HeaderLine('X-Mailer', 'PHPMailer '.$this->Version.' (https://github.com/PHPMailer/PHPMailer/)');
     } else {
       $myXmailer = trim($this->XMailer);
       if ($myXmailer) {
