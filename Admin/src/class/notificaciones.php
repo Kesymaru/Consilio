@@ -68,15 +68,18 @@ class Notificaciones {
 						$remplazar_expirados["{{permisos}}"] = $mensaje;
 						$remplazar["{{permisos}}"] .= $mensaje;
 
-						$remplazar_expirados["{{to}}"] = "";
+						$to = array();
+						$to[] = "aalfaro@77digital.com";
+						$to[] = "andreyalfaro@gmail.com";
 						foreach( $expirado['emails'] as $fila => $email ){
-							$remplazar_expirados["{{to}}"] .= $email['email'].",";
+//							$to[] = $email['email'].",";
 						}
+						$remplazar_expirados["{{to}}"] = $to;
 
 						$remplazar_expirados["{{menssage}}"] .= " tiene el siguiente permiso expirado.";
 						$remplazar_expirados["{{subject}}"] = "Permiso Expirado: ".$expirado['nombre'];
 
-//						$this->Notificar($remplazar_expirados, "permisos");
+						$this->Notificar($remplazar_expirados, "permisos");
 					}
 				}
 
@@ -89,17 +92,15 @@ class Notificaciones {
 			            $remplazar["{{permisos}}"] .= $mensaje;
 
 			            $to = array();
-			            $to[] = "andreyalfaro@gmail.com";
-			            $to[] = "aalfaro@77digital.com";
 			            foreach( $recordatorio['emails'] as $fila => $email ){
-//				            $to[] = $email['email'].",";
+				            $to[] = $email['email'].",";
 			            }
 			            $remplazar_recordatorios["{{to}}"] = $to;
 
 			            $remplazar_recordatorios["{{menssage}}"] .= " tiene el siguiente recordatorio sobre un permiso.";
 			            $remplazar_recordatorios["{{subject}}"] = "Recordatorio para: ".$recordatorio['nombre'];
 
-			            $this->Notificar($remplazar_recordatorios, "permisos");
+//			            $this->Notificar($remplazar_recordatorios, "permisos");
 		            }
 	            }
 
