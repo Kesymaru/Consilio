@@ -2,7 +2,7 @@
 	/**
 	 * EJECUTA LAS NOTIFICACIONES
 	 */
-	require_once("class/notificaciones.php");
+	require_once("notificaciones.php");
 
 	//notificaciones
 	$notifcaciones = new Notificaciones();

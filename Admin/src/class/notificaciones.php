@@ -290,7 +290,7 @@ class Notificaciones {
 
 	    if( $templateSrc = $this->templateManager->getTemplate($template) ){
 		    if( $notificacion = $this->templateManager->setData($templateSrc, $datos) ){
-			    $datos["{{body}}"] = $notificacion;
+			    echo $datos["{{body}}"] = $notificacion;
 
 			    //envia el email
 //			    $this->mail->Notificar($datos);
