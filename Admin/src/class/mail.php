@@ -704,6 +704,9 @@ class Email extends PHPMailer{
 			try{
 				if($this->Send()){
 					echo "<hr>MENSAJE ENVIADO<hr>";
+					return true;
+				}else{
+					echo "<br/><h1>Mailer Error:<h1> " . $this->ErrorInfo."<br/>";
 				}
 			} catch (phpmailerException $e) {
 				echo $e->errorMessage(); //Pretty error messages from PHPMailer
@@ -732,7 +735,7 @@ class Email extends PHPMailer{
 
 		//config
 		$this->IsMail();
-		$this->IsSendmail();
+//		$this->IsSendmail();
 		$this->IsHTML(true);
 
 		if( is_array($data) ){

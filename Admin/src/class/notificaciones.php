@@ -276,11 +276,7 @@ class Notificaciones {
 			    $datos["{{body}}"] = $notificacion;
 
 			    //envia el email
-			    if( $this->mail->Notificar($datos) ){
-				    return true;
-			    }else{
-				    echo "no se pudo enviar el mail";
-			    }
+			    $this->mail->Notificar($datos);
 		    }
 	    }
 
