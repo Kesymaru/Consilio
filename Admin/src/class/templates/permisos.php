@@ -53,48 +53,53 @@
                     <br/>
                     {{direccion}}
                 </td>
-            </tr><tr>
-            <td>
-                Mobile
-            </td>
-            <td>
-                {{info_mobile}}
-            </td>
-        </tr><tr>
-            <td>
-                Oficina
-            </td>
-            <td>
-                {{info_phone}}
-            </td>
-        </tr><tr>
-            <td>
-                Email
-            </td>
-            <td>
-	            <a href="mailto:{{info_email}}">
-		            {{info_email}}
-	            </a>
-            </td>
-        </tr><tr>
-            <td>
-                Website:
-            </td>
-            <td>
-                <a href="{{info_home}}">
-                    {{info_home}}
-                </a>
-            </td>
+            </tr>
+	        <tr>
+	            <td>
+	                Oficina
+	            </td>
+	            <td>
+	                {{info_phone}}
+	            </td>
+            </tr>
+	        <tr>
+		        <td>
+			        Fax
+		        </td>
+		        <td>
+			        {{info_fax}}
+		        </td>
+	        </tr>
+	        <tr>
+	            <td>
+	                Email
+	            </td>
+	            <td>
+		            <a href="mailto:{{info_email}}">
+			            {{info_email}}
+		            </a>
+	            </td>
+            </tr>
+	        <tr>
+	            <td>
+	                Website:
+	            </td>
+	            <td>
+	                <a href="{{info_homeLink}}">
+	                    {{info_home}}
+	                </a>
+	            </td>
         </tr>
         </table>
 
-        <div class="disclaim" style="width: 90%; display: block; border-top: 1px solid #dedede; text-align: left !important; font-size: 14px; margin-bottom: 10px; padding-left: 10px; padding-right: 10px; background-color: #f4f4f4; padding-top: 5px; margin-left: auto; margin-right: auto;" >
-                        <span class="bold" style="font-weight: bold !important;" >
-                        {{disclaim_title}}
-                        </span>
+        <div style="width: 90%; display: block; border-top: 1px solid #dedede; text-align: left !important; font-size: 14px; margin-bottom: 10px; padding-left: 10px; padding-right: 10px; background-color: #f4f4f4; padding-top: 5px; margin-left: auto; margin-right: auto;" >
+            <span style="font-weight: bold !important;" >
+	            {{disclaim_title}}
+            </span>
             <br/>
             {{disclaim_text}}
         </div>
+
     </div>
 </body>
 </html>

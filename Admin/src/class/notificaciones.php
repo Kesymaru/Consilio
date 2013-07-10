@@ -124,7 +124,19 @@ class Notificaciones {
 		            $remplazar["{{subject}}"] = "Resumen Permisos: ".$proyecto['proyecto_nombre'];
 
 //					$remplazar["{{to}}"] = $proyecto['cliente_email'];
-		            $remplazar["{{to}}"] = "aalfaro@77digital.com";
+//		            $remplazar{"{{to}}"} = "pquesada@consultoresescala.com, mfesquivel@consultoresescala.com";
+
+		            //detinatarios para el resumen
+		            $remplazar{"{{to}}"} = array(
+			            array(
+				            "email" => "aalfaro@77digital.com",
+				            "name" => "Andrey 77"
+			            ),
+			            array(
+				            "email"=> "andreyalfaro@gmail.com",
+				            "name" => "Andrey Alfaro"
+			            )
+		            );
 
 		            $this->Notificar($remplazar, "permisos");
 	            }

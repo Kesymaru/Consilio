@@ -11,7 +11,7 @@
 		</tr>
 		<tr>
 			<td style="font-weight: bold; text-align: left; padding-left: 5px;">
-				Emisi&oacuten
+				Emisi&oacute;n
 			</td>
 			<td  style="padding-right: 5px;">
 				{{fecha_recordatorio}}
