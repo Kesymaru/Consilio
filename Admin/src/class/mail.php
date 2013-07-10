@@ -691,13 +691,13 @@ class Email extends PHPMailer{
 		//print_r($data);
 
 		if( $this->setData($data) ){
-			echo 'enviando';
+			echo 'enviando |  ';
 
 			//Send the message, check for errors
 			if( !$this->Send() ) {
-				echo "Mailer Error: " . $this->ErrorInfo;
+				echo "Mailer Error: " . $this->ErrorInfo."<hr/>";
 			} else {
-				echo "Message sent!";
+				echo "Message sent!<hr/>";
 				return true;
 			}
 		}
@@ -789,7 +789,7 @@ class Email extends PHPMailer{
 				}
 			}
 
-			echo 'data fijada<hr>';
+			echo 'data fijada';
 
 			return true;
 		}else{
