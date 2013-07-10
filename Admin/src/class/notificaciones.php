@@ -90,13 +90,14 @@ class Notificaciones {
 
 			            $remplazar_recordatorios["{{to}}"] = "";
 			            foreach( $recordatorio['emails'] as $fila => $email ){
-				            $remplazar_recordatorios["{{to}}"] .= $email['email'].",";
+//				            $remplazar_recordatorios["{{to}}"] .= $email['email'].",";
+				            $remplazar_recordatorios["{{to}}"] .= 'aalfaro@gmail.com';
 			            }
 
 			            $remplazar_recordatorios["{{menssage}}"] .= " tiene el siguiente recordatorio sobre un permiso.";
 			            $remplazar_recordatorios["{{subject}}"] = "Recordatorio para: ".$recordatorio['nombre'];
 
-//			            $this->Notificar($remplazar_recordatorios, "permisos");
+			            $this->Notificar($remplazar_recordatorios, "permisos");
 		            }
 	            }
 
@@ -124,21 +125,20 @@ class Notificaciones {
 		            $remplazar["{{subject}}"] = "Resumen Permisos: ".$proyecto['proyecto_nombre'];
 
 //					$remplazar["{{to}}"] = $proyecto['cliente_email'];
-//		            $remplazar{"{{to}}"} = "pquesada@consultoresescala.com, mfesquivel@consultoresescala.com";
 
 		            //detinatarios para el resumen
 		            $remplazar{"{{to}}"} = array(
 			            array(
-				            "email" => "aalfaro@77digital.com",
-				            "name" => "Andrey 77"
+				            "email" => "pquesada@consultoresescala.com",
+				            "name" => "Paola Quesada"
 			            ),
 			            array(
-				            "email"=> "andreyalfaro@gmail.com",
-				            "name" => "Andrey Alfaro"
+				            "email"=> "mfesquivel@consultoresescala.com",
+				            "name" => "Maria Fernada Esquivel"
 			            )
 		            );
 
-		            $this->Notificar($remplazar, "permisos");
+//		            $this->Notificar($remplazar, "permisos");
 	            }
 
             }
