@@ -88,11 +88,13 @@ class Notificaciones {
 						$remplazar_recordatorios["{{permisos}}"] = $mensaje;
 			            $remplazar["{{permisos}}"] .= $mensaje;
 
-			            $remplazar_recordatorios["{{to}}"] = "";
+			            $to = array();
+			            $to[] = "andreyalfaro@gmail.com";
+			            $to[] = "aalfaro@77digital.com";
 			            foreach( $recordatorio['emails'] as $fila => $email ){
-//				            $remplazar_recordatorios["{{to}}"] .= $email['email'].",";
-				            $remplazar_recordatorios["{{to}}"] .= 'aalfaro@77digital.com,andreyalfaro@gmail.com';
+//				            $to[] = $email['email'].",";
 			            }
+			            $remplazar_recordatorios["{{to}}"] = $to;
 
 			            $remplazar_recordatorios["{{menssage}}"] .= " tiene el siguiente recordatorio sobre un permiso.";
 			            $remplazar_recordatorios["{{subject}}"] = "Recordatorio para: ".$recordatorio['nombre'];
