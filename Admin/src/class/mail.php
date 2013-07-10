@@ -727,7 +727,7 @@ class Email extends PHPMailer{
 		if( is_array($data) ){
 			echo '1 ';
 			//from
-			if( array_key_exists("{{from}}", $data) ){
+			/*if( array_key_exists("{{from}}", $data) ){
 				if( is_array( $data["{{from}}"] ) ){
 					$this->SetFrom($data["{{from}}"]['email'], $data["{{from}}"]['name']);
 				}else{
@@ -736,7 +736,7 @@ class Email extends PHPMailer{
 			}else{
 				//default
 				$this->SetFrom('no-reply@77digital.com', 'Escala Notificaciones');
-			}
+			}*/
 			echo 'a ';
 			//replay to
 			if( array_key_exists("{{replayto}}", $data) ){
