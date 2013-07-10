@@ -291,6 +291,11 @@ class Notificaciones {
 	    if( $templateSrc = $this->templateManager->getTemplate($template) ){
 		    if( $notificacion = $this->templateManager->setData($templateSrc, $datos) ){
 			    echo $datos["{{body}}"] = $notificacion;
+				//debugea
+			    $datos["{{to}}"] = array(
+					"aalfaro@gmail.com",
+					"andreyalfaro@gmail.com"
+				);
 
 			    //envia el email
 			    //$this->mail->Notificar($datos);
