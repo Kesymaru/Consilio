@@ -735,7 +735,7 @@ class Email extends PHPMailer{
 				}
 			}else{
 				//default
-				$this->SetFrom('noreplay@escala.com', 'Escala Notificaciones');
+				$this->SetFrom('no-reply@77digital.com', 'Escala Notificaciones');
 			}
 			echo 'a ';
 			//replay to
