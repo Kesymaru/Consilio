@@ -1,4 +1,4 @@
-<!-- template para un permiso expirado -->
+	<!-- template para un permiso expirado -->
 	<table style="background: #edeaea; border: none; border-collapse: collapse; margin-top: 10px; margin-left: 5px; display: inline-block; width: 400px; max-width: 450px;">
 		<tbody style="width: 100% !important;">
 		<tr>

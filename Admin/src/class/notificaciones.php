@@ -7,11 +7,14 @@
  * ESTA CLASE NO REQUIERE QUE ESTEN LOGUEADOS
  */
 
-	error_reporting(-1);
+error_reporting(-1);
 require_once("classDatabase.php");
 require_once("template.php");
 require_once("mail.php");
 
+/**
+ * CLASE PARA LAS NOTIFICACIONES
+ */
 class Notificaciones {
 
 	private $templateManager = '';
@@ -324,10 +327,5 @@ class Notificaciones {
         return date( 'd-m-Y', strtotime($fecha) );
     }
 }
-
-
-$notifcaciones = new Notificaciones();
-
-$notifcaciones->Permisos();
 
 

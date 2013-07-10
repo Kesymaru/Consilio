@@ -2,13 +2,10 @@
 <html lang="es-ES">
 <head>
     <meta charset="utf-8">
-    <title>Matriz Escala</title>
+    <title>Escala Notificacion</title>
 </head>
 <body class="mail" style="background-color: #f4f4f4;">
-	<!--
-	<p>To: {{to}}</p>
-	<p>Subject: {{subject}}</p>
-	-->
+
     <div style="background-color: #f4f4f4;">
         <br/>
         <br/>

@@ -40,7 +40,7 @@ if (version_compare(PHP_VERSION, '5.0.0', '<') ) {
 }
 
 /**
- * PHP email creation and transport class
+ * PHP email creation and transport  class
  * @package PHPMailer
  */
 class PHPMailer {

@@ -677,7 +677,7 @@ class Mail {
 include_once("phpmailer/class.phpmailer.php");
 
 /**
-* Class Email utilizando phpmailer
+* CLASE PARA ENVIAR EMAILS USANDO PHPMAILER
 */
 class Email extends PHPMailer{
 
