@@ -722,7 +722,7 @@ class Email extends PHPMailer{
 
 		//config
 		$this->IsMail();
-		$mail->IsSendmail();
+		$this->IsSendmail();
 		$this->IsHTML(true);
 
 		if( is_array($data) ){
