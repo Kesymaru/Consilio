@@ -35,8 +35,8 @@
                 <td class="td-logo" style="text-align: left; height: 80px;">
                     <img class="logo" style="display:block; float: left; height: 80px; padding-left: 10px;  padding-bottom: 10px;" src="http://development.77digital.com/matrizescala/images/logoMail.png" title="Escala Consultores" alt="Escala Consultores">
                 </td>
-                <td class="td-logoCliente" style="text-align: right; height: 80px;">
-                    <img class="logoCliente" style="display:block; float: right; height: 80px; width: 250px; padding-right: 10px; padding-bottom: 10px;" src="{{cliente_imagen}}" alt="{{cliente_nombre}}" title="{{cliente_nombre}}">
+                <td class="td-logoCliente" style="text-align: right; max-height: 80px;">
+                    <img class="logoCliente" style="display:block; float: right; max-height: 80px; max-width: 250px; padding-right: 10px; padding-bottom: 10px;" src="{{cliente_imagen}}" alt="{{cliente_nombre}}" title="{{cliente_nombre}}">
                 </td>
             </tr>
         </table>
