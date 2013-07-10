@@ -293,7 +293,7 @@ class Notificaciones {
 			    echo $datos["{{body}}"] = $notificacion;
 
 			    //envia el email
-//			    $this->mail->Notificar($datos);
+			    $this->mail->Notificar($datos);
 		    }
 	    }
 
