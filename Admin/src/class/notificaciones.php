@@ -31,11 +31,10 @@ class Notificaciones {
     public function __construct(){
         date_default_timezone_set('America/Costa_Rica');
 
-	    $protocolo = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-	    $dominio = $_SERVER['HTTP_HOST'];
+	    $dominio = "http://development.77digital.com";
 
-	    $this->home = $protocolo.$dominio.'/matrizescala/';
-	    $this->admin = $protocolo.$dominio.'/matrizescala/Admin/';
+	    $this->home = $dominio.'/matrizescala/';
+	    $this->admin = $dominio.'/matrizescala/Admin/';
 
 	    $this->templateManager = new Template();
 	    $this->mail = new Email();
@@ -290,7 +289,7 @@ class Notificaciones {
 
 	    if( $templateSrc = $this->templateManager->getTemplate($template) ){
 		    if( $notificacion = $this->templateManager->setData($templateSrc, $datos) ){
-			    echo $datos["{{body}}"] = $notificacion;
+			    $datos["{{body}}"] = $notificacion;
 
 				//debugea envio
 			    $datos["{{to}}"] = array(
