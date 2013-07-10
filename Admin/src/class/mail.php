@@ -687,19 +687,8 @@ class Email extends PHPMailer{
 	 * @return bool
 	 */
 	public function Notificar($data){
-		$data["{{to}}"] = "aalfaro@77digital.com";
-		//print_r($data);
 
 		if( $this->setData($data) ){
-			echo 'enviando |  ';
-
-			//Send the message, check for errors
-			/*if( !$this->Send() ) {
-				echo "Mailer Error: " . $this->ErrorInfo."<hr/>";
-			} else {
-				echo "Message sent!<hr/>";
-				return true;
-			}*/
 
 			try{
 				if($this->Send()){
@@ -731,15 +720,14 @@ class Email extends PHPMailer{
 			echo "Datos requeridos no agregados";
 			return false;
 		}
-		echo 'set data';
 
 		//config
 		$this->Config();
 
 		if( is_array($data) ){
-			echo '1 ';
+
 			//from
-			/*if( array_key_exists("{{from}}", $data) ){
+			if( array_key_exists("{{from}}", $data) ){
 				if( is_array( $data["{{from}}"] ) ){
 					$this->SetFrom($data["{{from}}"]['email'], $data["{{from}}"]['name']);
 				}else{
@@ -748,9 +736,8 @@ class Email extends PHPMailer{
 			}else{
 				//default
 				$this->SetFrom('no-reply@77digital.com', 'Escala Notificaciones');
-			}*/
-			$this->SetFrom('no-reply@77digital.com', 'Escala Notificaciones');
-			echo 'a ';
+			}
+
 			//replay to
 			if( array_key_exists("{{replayto}}", $data) ){
 				if( is_array( $data["{{replayto}}"] ) ){
@@ -761,7 +748,7 @@ class Email extends PHPMailer{
 			}else{
 				$this->AddReplyTo('support@escala.com','Soporte Escala');
 			}
-			echo 'to ';
+
 			//detinaratio/s *REQUERIDO
 			if( is_array($data["{{to}}"]) ){
 				foreach( $data["{{to}}"] as $f => $to ){
@@ -770,14 +757,14 @@ class Email extends PHPMailer{
 			}else{
 				$this->AddAddress($data["{{to}}"]);
 			}
-			echo 'subject ';
+
 			//tema
 			if( array_key_exists("{{subject}}", $data) ){
 				$this->Subject = $data["{{subject}}"];
 			}else{
 				$this->Subject = 'Notificacion Escala';
 			}
-			echo 'body ';
+
 			//mensaje *REQUERIDO
 			if( array_key_exists("{{body}}", $data) ){
 				$this->Body = $data["{{body}}"];
@@ -785,8 +772,7 @@ class Email extends PHPMailer{
 				echo "No se especifica un mensaje.";
 				return false;
 			}
-			echo $this->Body;
-			echo 'alt body ';
+
 			if( array_key_exists("{{altbody}}", $data) ){
 				$this->AltBody = $data["{{altbody}}"];
 			}else{
@@ -794,7 +780,7 @@ class Email extends PHPMailer{
 					$this->AltBody = $data["{{title}}"];
 				}
 			}
-			echo 'archi ';
+
 			//archivos
 			if( array_key_exists("{{attachments}}", $data) ){
 				if( is_array() ){
@@ -806,11 +792,9 @@ class Email extends PHPMailer{
 				}
 			}
 
-			echo 'data fijada';
-
 			return true;
 		}else{
-			echo "no es un array";
+			echo "<br/><b>Error Mailer: <b>Data no es un array.<br/>";
 		}
 
 		return false;
@@ -828,8 +812,8 @@ class Email extends PHPMailer{
 		$this->IsHTML(true);
 		$this->CharSet = "UTF-8";
 
+//		$mail->SMTPDebug  = 1;
 
-		$mail->SMTPDebug  = 1;
 	}
 
 }

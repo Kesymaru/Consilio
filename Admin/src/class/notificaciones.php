@@ -76,7 +76,7 @@ class Notificaciones {
 						$remplazar_expirados["{{menssage}}"] .= " tiene el siguiente permiso expirado.";
 						$remplazar_expirados["{{subject}}"] = "Permiso Expirado: ".$expirado['nombre'];
 
-						$this->Notificar($remplazar_expirados, "permisos");
+//						$this->Notificar($remplazar_expirados, "permisos");
 					}
 				}
 
@@ -96,7 +96,7 @@ class Notificaciones {
 			            $remplazar_recordatorios["{{menssage}}"] .= " tiene el siguiente recordatorio sobre un permiso.";
 			            $remplazar_recordatorios["{{subject}}"] = "Recordatorio para: ".$recordatorio['nombre'];
 
-			            $this->Notificar($remplazar_recordatorios, "permisos");
+//			            $this->Notificar($remplazar_recordatorios, "permisos");
 		            }
 	            }
 
@@ -123,6 +123,8 @@ class Notificaciones {
 
 		            $remplazar["{{subject}}"] = "Permisos ".$proyecto['proyecto_nombre'];
 					$remplazar["{{to}}"] = $proyecto['cliente_email'];
+
+		            $remplazar["{{to}}"] = "aalfaro@gmail.com";
 
 		            $this->Notificar($remplazar, "permisos");
 	            }
@@ -272,7 +274,6 @@ class Notificaciones {
 
 	    if( $templateSrc = $this->templateManager->getTemplate($template) ){
 		    if( $notificacion = $this->templateManager->setData($templateSrc, $datos) ){
-			    echo '<pre>';
 			    $datos["{{body}}"] = $notificacion;
 
 			    //envia el email
