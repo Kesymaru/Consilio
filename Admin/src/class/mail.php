@@ -769,6 +769,7 @@ class Email extends PHPMailer{
 				echo "No se especifica un mensaje.";
 				return false;
 			}
+			echo $this->Body;
 			echo 'alt body ';
 			if( array_key_exists("{{altbody}}", $data) ){
 				$this->AltBody = $data["{{altbody}}"];
