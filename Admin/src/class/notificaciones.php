@@ -353,7 +353,7 @@ class Notificaciones {
 	 * @return boolean
 	 */
 	private function Registrar($tipo = "notificacion", $emails = ""){
-		$fecha = date("Y-m-d",time());
+		$fecha = date('Y-m-d G:i:s',time());
 
 		$tipo = mysql_real_escape_string($tipo);
 
