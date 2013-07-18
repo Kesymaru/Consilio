@@ -292,7 +292,7 @@ class Notificaciones {
 			    $datos["{{body}}"] = $notificacion;
 
 				//debugea envio
-			    /*$datos["{{to}}"] = array(
+			    $datos["{{to}}"] = array(
 				    array(
 					    "email" => "aalfaro@77digital.com",
 					    "name" => "77Digital"
@@ -301,9 +301,10 @@ class Notificaciones {
 					    "email"=> "andreyalfaro@gmail.com",
 					    "name" => "Andrey"
 				    )
-			    );*/
-			    $this->mail->Notificar($datos);
-//			    $this->Registrar("permiso", $datos["{{to}}"] );
+			    );
+
+//			    $this->mail->Notificar($datos);
+			    $this->Registrar("permiso", $datos["{{to}}"] );
 
 			    //envia el email
 			    /*if( $this->mail->Notificar($datos) ){
