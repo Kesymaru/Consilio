@@ -72,7 +72,7 @@ class Notificaciones {
 
 						$to = array();
 						foreach( $expirado['emails'] as $fila => $email ){
-							$to[] = $email['email'].",";
+							$to[] = $email['email'];
 						}
 						$remplazar_expirados["{{to}}"] = $to;
 
@@ -93,7 +93,7 @@ class Notificaciones {
 
 			            $to = array();
 			            foreach( $recordatorio['emails'] as $fila => $email ){
-				            $to[] = $email['email'].",";
+				            $to[] = $email['email'];
 			            }
 			            $remplazar_recordatorios["{{to}}"] = $to;
 
@@ -302,9 +302,16 @@ class Notificaciones {
 					    "name" => "Andrey"
 				    )
 			    );*/
+			    $this->mail->Notificar($datos);
+//			    $this->Registrar("permiso", $datos["{{to}}"] );
 
 			    //envia el email
-			    $this->mail->Notificar($datos);
+			    /*if( $this->mail->Notificar($datos) ){
+				    if( $this->Registrar("permiso", $datos["{{to}}"] ) ){
+						return true;
+			        }
+			    }*/
+
 		    }
 	    }
 
@@ -337,6 +344,67 @@ class Notificaciones {
         $fecha = str_replace('/','-',$fecha);
         return date( 'd-m-Y', strtotime($fecha) );
     }
+
+	/**
+	 * REGISTRA UNA NOTIFICACION
+	 * @param string $tipo tipo de notificacion
+	 * @param string|array $emails lista de emails notificados
+	 * @return boolean
+	 */
+	private function Registrar($tipo = "notificacion", $emails = ""){
+		$fecha = date("Y-m-d",time());
+
+		$tipo = mysql_real_escape_string($tipo);
+
+		//compone emails
+		if( !empty($emails) ){
+
+			//es un array
+			if( is_array($emails) ){
+
+				//tiene {{to}}
+				if( array_key_exists("{{to}}", $emails) ){
+
+					foreach($emails["{{to}}"] as $f => $to){
+						if( is_array($to) ){
+							$resultado .= "<".$to['name'].">".$to['email'].",";
+						}else{
+							$resultado .= $to['email'].",";
+						}
+					}
+					$emails = $resultado;
+
+				}else{
+
+					foreach($emails as $f => $to){
+						if( is_array($to) ){
+
+							$resultado .= "<".$to['name'].">".$to['email'].",";
+
+						}else{
+							$resultado .= $to.",";
+						}
+					}
+					$emails = $resultado;
+
+				}
+			}
+		}
+
+		$emails = mysql_real_escape_string($emails);
+
+		$query = "INSERT
+				  INTO notificaciones
+				  (tipo, email, fecha)
+				  VALUES
+				  ('$tipo', '$emails', '$fecha')";
+
+		if( $this->base->Insert($query) ){
+			echo 'registrado';
+			return true;
+		}
+		return false;
+	}
 }
 
 
