@@ -765,6 +765,24 @@ class Email extends PHPMailer{
 				$this->AddAddress($data["{{to}}"]);
 			}
 
+			//bcc
+			if( array_key_exists("{{bcc}}", $data) ){
+				if( is_array($data["{{bcc}}"]) ){
+
+					foreach($data["{{bcc}}"] as $f => $bcc){
+
+						if( is_array($bcc) ){
+							$this->AddBCC($bcc['email'], $bcc['name']);
+						}else{
+							$this->AddBCC($bcc);
+						}
+					}
+
+				}else{
+					$this->AddBCC($data["{{bcc}}"]);
+				}
+			}
+
 			//tema
 			if( array_key_exists("{{subject}}", $data) ){
 				$this->Subject = $data["{{subject}}"];

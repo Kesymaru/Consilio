@@ -60,6 +60,16 @@ class Notificaciones {
                     "{{cliente_imagen}}" => $this->admin.$proyecto['cliente_imagen'],
 	                "{{menssage}}" => "El proyecto ".$proyecto['proyecto_nombre'],
 	                "{{permisos}}" => "",
+	                "{{bcc}}" => array(
+		                array(
+			                "email" => "pquesada@consultoresescala.com",
+			                "name" => "Paola Quesada"
+		                ),
+		                array(
+			                "email"=> "mfesquivel@consultoresescala.com",
+			                "name" => "Maria Fernada Esquivel"
+		                )
+	                ),
                 );
 
 	            //notificaciones de expirados
@@ -68,7 +78,6 @@ class Notificaciones {
 
 					if( $mensaje = $this->ComponerPermiso($expirado, "expirado") ){
 						$remplazar_expirados["{{permisos}}"] = $mensaje;
-						$remplazar["{{permisos}}"] .= $mensaje;
 
 						$to = array();
 						foreach( $expirado['emails'] as $fila => $email ){
@@ -89,7 +98,6 @@ class Notificaciones {
 
 		            if( $mensaje = $this->ComponerPermiso($recordatorio, "recordatorio") ){
 						$remplazar_recordatorios["{{permisos}}"] = $mensaje;
-			            $remplazar["{{permisos}}"] .= $mensaje;
 
 			            $to = array();
 			            foreach( $recordatorio['emails'] as $fila => $email ){
@@ -102,46 +110,6 @@ class Notificaciones {
 
 			            $this->Notificar($remplazar_recordatorios, "permisos");
 		            }
-	            }
-
-	            //notificacion resumen del proyecto
-	            $total_expirados = sizeof( $proyecto['expirados'] );
-	            $total_recordatorios = sizeof( $proyecto['recordatorios'] );
-
-	            if( 1 <= $total_expirados || 1 <= $total_recordatorios ){
-
-		            $remplazar["{{menssage}}"] .= " de ".$proyecto['cliente_nombre']." tiene ";
-		            if( 0 < $total_expirados && $total_expirados <= 1 ){
-			            $remplazar["{{menssage}}"] .= $total_expirados." permiso expirado";
-		            }else if( 0<$total_expirados ){
-			            $remplazar["{{menssage}}"] .= $total_expirados." permisos expirados";
-		            }
-
-		            if( 0 < $total_recordatorios && $total_recordatorios <= 1 ){
-			            $remplazar["{{menssage}}"] .= " y ".$total_recordatorios." recordatorio.";
-		            }else if(0<$total_recordatorios){
-			            $remplazar["{{menssage}}"] .= " y ".$total_recordatorios." recordatorios";
-		            }
-
-		            $remplazar["{{menssage}}"] .= ".";
-
-		            $remplazar["{{subject}}"] = "Resumen Permisos: ".$proyecto['proyecto_nombre'];
-
-//					$remplazar["{{to}}"] = $proyecto['cliente_email'];
-
-		            //detinatarios para el resumen
-		            $remplazar{"{{to}}"} = array(
-			            array(
-				            "email" => "pquesada@consultoresescala.com",
-				            "name" => "Paola Quesada"
-			            ),
-			            array(
-				            "email"=> "mfesquivel@consultoresescala.com",
-				            "name" => "Maria Fernada Esquivel"
-			            )
-		            );
-
-		            $this->Notificar($remplazar, "permisos");
 	            }
 
             }
@@ -289,7 +257,7 @@ class Notificaciones {
 
 	    if( $templateSrc = $this->templateManager->getTemplate($template) ){
 		    if( $notificacion = $this->templateManager->setData($templateSrc, $datos) ){
-			    $datos["{{body}}"] = $notificacion;
+			    echo $datos["{{body}}"] = $notificacion;
 
 				//debugea envio
 			    $datos["{{to}}"] = array(
@@ -297,14 +265,23 @@ class Notificaciones {
 					    "email" => "aalfaro@77digital.com",
 					    "name" => "77Digital"
 				    ),
+/*				    array(
+					    "email"=> "andreyalfaro@gmail.com",
+					    "name" => "Andrey"
+				    )*/
+			    );
+
+			    $datos["{{bcc}}"] = array(
 				    array(
 					    "email"=> "andreyalfaro@gmail.com",
 					    "name" => "Andrey"
 				    )
 			    );
 
+			    echo '<pre> to:'; print_r($datos['{{to}}']); echo "bcc:"; print_r($datos['{{bcc}}']); echo '</pre>';
+
 //			    $this->mail->Notificar($datos);
-			    $this->Registrar("permiso", $datos["{{to}}"] );
+//			    $this->Registrar("permiso", $datos["{{to}}"] );
 
 			    //envia el email
 			    /*if( $this->mail->Notificar($datos) ){
@@ -321,11 +298,11 @@ class Notificaciones {
 
 	/**
 	 * DETERMINA SI UNA FECHA EXPIRO
-	 * @param $fecha
+	 * @param string $date fecha
 	 * @return boolean true si expiro
 	 */
-	public function Expiro($fecha){
-        $fecha = str_replace('/','-',$fecha);
+	public function Expiro($date){
+        /*$fecha = str_replace('/','-',$fecha);
 
         $ahora = strtotime( date("d-m-Y H:i:00",time()) );
         $fecha = strtotime($fecha);
@@ -333,7 +310,23 @@ class Notificaciones {
         if($ahora > $fecha){
             return true;
         }
-        return false;
+        return false;*/
+
+		if( $date == ""){
+			$date = strtotime("now");
+		}else{
+			$date = strtotime($date);
+		}
+
+		$today = date('Y-m-d');
+		$start = strtotime($today." 00:00:00");
+
+		$end = strtotime( $today." 23:59:59");
+
+		if($start <= $date && $date <= $end ){
+			return true;
+		}
+		return false;
     }
 
     /**
