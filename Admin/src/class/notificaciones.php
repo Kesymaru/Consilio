@@ -286,10 +286,9 @@ class Notificaciones {
 
 			    //envia el email
 			    if( $this->mail->Notificar($datos) ){
-					echo 'mail enviado';
+
 			        //registra el envio
 				    if( $this->Registrar("permiso", $datos ) ){
-						echo 'registrado';
 					    return true;
 			        }
 			    }else{
@@ -409,7 +408,6 @@ class Notificaciones {
 				  ('$tipo', '$proyecto', '$cliente', '$to', '$bcc', '$mail', '$fecha' )";
 
 		if( $this->base->Insert($query) ){
-			echo 'registra';
 			return true;
 		}
 		return false;
