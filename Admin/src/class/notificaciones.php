@@ -54,7 +54,13 @@ class Notificaciones {
             foreach($proyectos as $index => $proyecto ){
 
                 //datos para la notificacion
-                $remplazar = array(
+	            /**
+	             * ||dato|| para datos que no remplazan
+	             * {{dato}} para dato que sera remplazado
+	             */
+	            $remplazar = array(
+	                "||proyecto||" => $proyecto['proyecto'],
+	                "||cliente||" => $proyecto['cliente'],
                     "{{title}}" => $proyecto['proyecto_nombre'],
                     "{{cliente_nombre}}" => $proyecto['cliente_nombre'],
                     "{{cliente_imagen}}" => $this->admin.$proyecto['cliente_imagen'],
@@ -257,7 +263,7 @@ class Notificaciones {
 
 	    if( $templateSrc = $this->templateManager->getTemplate($template) ){
 		    if( $notificacion = $this->templateManager->setData($templateSrc, $datos) ){
-			    echo $datos["{{body}}"] = $notificacion;
+			    $datos["{{body}}"] = $notificacion;
 
 				//debugea envio
 			    $datos["{{to}}"] = array(
@@ -278,17 +284,16 @@ class Notificaciones {
 				    )
 			    );
 
-			    echo '<pre> to:'; print_r($datos['{{to}}']); echo "bcc:"; print_r($datos['{{bcc}}']); echo '</pre>';
-
-//			    $this->mail->Notificar($datos);
-//			    $this->Registrar("permiso", $datos["{{to}}"] );
-
 			    //envia el email
-			    /*if( $this->mail->Notificar($datos) ){
-				    if( $this->Registrar("permiso", $datos["{{to}}"] ) ){
+			    if( $this->mail->Notificar($datos) ){
+
+			        //registra el envio
+				    if( $this->Registrar("permiso", $datos ) ){
 						return true;
 			        }
-			    }*/
+			    }else{
+				    echo "<br/><b>Error:</b> No se envio el mail";
+			    }
 
 		    }
 	    }
@@ -342,59 +347,66 @@ class Notificaciones {
 	/**
 	 * REGISTRA UNA NOTIFICACION
 	 * @param string $tipo tipo de notificacion
-	 * @param string|array $emails lista de emails notificados
+	 * @param array $data all notification data
 	 * @return boolean
 	 */
-	private function Registrar($tipo = "notificacion", $emails = ""){
+	private function Registrar($tipo = "notificacion", $data){
 		$fecha = date('Y-m-d G:i:s',time());
 
-		$tipo = mysql_real_escape_string($tipo);
+		$proyecto = "";
+		if( array_key_exists("||proyecto||",$data) ){
+			$proyecto = $data['||proyecto||'];
+		}
 
-		//compone emails
-		if( !empty($emails) ){
+		$cliente = "";
+		if( array_key_exists("||cliente||", $data) ){
+			$cliente = $data['||cliente||'];
+		}
 
-			//es un array
-			if( is_array($emails) ){
-
-				//tiene {{to}}
-				if( array_key_exists("{{to}}", $emails) ){
-
-					foreach($emails["{{to}}"] as $f => $to){
-						if( is_array($to) ){
-							$resultado .= "<".$to['name'].">".$to['email'].",";
-						}else{
-							$resultado .= $to['email'].",";
-						}
-					}
-					$emails = $resultado;
-
+		$to = "";
+		if( is_array($data["{{to}}"]) ){
+			foreach( $data["{{to}}"] as $f => $mail ){
+				if( is_array($mail) ){
+					$to .= "<".$mail['name'].">".$mail['email'];
 				}else{
-
-					foreach($emails as $f => $to){
-						if( is_array($to) ){
-
-							$resultado .= "<".$to['name'].">".$to['email'].",";
-
-						}else{
-							$resultado .= $to.",";
-						}
-					}
-					$emails = $resultado;
-
+					$to .= $mail.",";
 				}
 			}
 		}
 
-		$emails = mysql_real_escape_string($emails);
+		$bcc = "";
+		if( array_key_exists("{{bcc}}", $data) ){
+			if( is_array($data["{{bcc}}"]) ){
+				foreach( $data["{{bcc}}"] as $f => $mail ){
+					if( is_array($mail) ){
+						$bcc .= "<".$mail['name'].">".$mail['email'];
+					}else{
+						$bcc .= $mail.",";
+					}
+				}
+			}
+		}
+
+		$mail = "";
+		if( array_key_exists("{{body}}", $data) ){
+			$mail = base64_encode($data["{{body}}"]);
+		}
+
+		$tipo = mysql_real_escape_string($tipo);
+		$proyecto = mysql_real_escape_string($proyecto);
+		$cliente = mysql_real_escape_string($cliente);
+		$to = mysql_real_escape_string($to);
+		$bcc = mysql_real_escape_string($bcc);
+		$mail = mysql_real_escape_string($mail);
 
 		$query = "INSERT
 				  INTO notificaciones
-				  (tipo, email, fecha)
+				  (tipo, proyecto, cliente, para, bcc, mail, fecha)
 				  VALUES
-				  ('$tipo', '$emails', '$fecha')";
+				  ('$tipo', '$proyecto', '$cliente', '$to', '$bcc', '$mail', '$fecha' )";
 
 		if( $this->base->Insert($query) ){
-			echo 'registrado';
+			echo 'registra';
 			return true;
 		}
 		return false;
