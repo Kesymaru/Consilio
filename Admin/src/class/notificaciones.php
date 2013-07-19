@@ -297,6 +297,8 @@ class Notificaciones {
 			    }
 
 		    }
+	    }else{
+		    echo "<b>Error:</b> No se obtubo el template.";
 	    }
 
         return false;
