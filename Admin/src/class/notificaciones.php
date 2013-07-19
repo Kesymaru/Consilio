@@ -286,10 +286,11 @@ class Notificaciones {
 
 			    //envia el email
 			    if( $this->mail->Notificar($datos) ){
-
+					echo 'mail enviado';
 			        //registra el envio
 				    if( $this->Registrar("permiso", $datos ) ){
-						return true;
+						echo 'registrado';
+					    return true;
 			        }
 			    }else{
 				    echo "<br/><b>Error:</b> No se envio el mail";
