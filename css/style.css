@@ -227,21 +227,23 @@ button:hover{
 }
 
 .disclaim{
-	position: fixed;
 	background-color: #f7991c;
-	display: none;
+	display: block;
 	vertical-align: middle;
 	width: 100%;
 	margin: 0;
 	text-align: center;
 	bottom: 0;
 	border-top: 2px solid #dedede;
+    padding: 10px 0;
+    margin-top: -7%;
 }
 
 .disclaim div{
 	display: block;
 	vertical-align: middle;
-	width: 100%;
+	width: 90%;
+    margin: 0 auto;
 }
 
 .disclaim div p{
