@@ -463,14 +463,14 @@ function DatosArticulo($proyecto, $categoria, $norma, $id){
 		//ARTICULO
 		if( !empty($datos[0]['articulo']) ){
 
-			$lista .= Box( "Articulo", "SuperBox", base64_decode($datos[0]['articulo']), "articulo");
+			$lista .= Box( "Requisito", "SuperBox", base64_decode($datos[0]['articulo']), "articulo");
 				
 		}
 
 		//PERMISOS
 		if( !empty($datos[0]['permisos']) ){
 
-			$lista .= Box( "Permisos", "MiniBox", base64_decode($datos[0]['permisos']), "permisos");
+			$lista .= Box( "Permisos o Documentación Asociada", "MiniBox", base64_decode($datos[0]['permisos']), "permisos");
 				
 		}
 
@@ -490,7 +490,7 @@ function DatosArticulo($proyecto, $categoria, $norma, $id){
 
 			}
 
-			$lista .= Box( "Entidades", "MiniBox", $listaEntidades, "entidad");
+			$lista .= Box( "Entidad Reguladora", "MiniBox", $listaEntidades, "entidad");
 		}
 
 		//SANCIONES
