@@ -340,7 +340,7 @@ class Bloquear{
 
 			return $mensaje;
 		}else{
-			echo 'Error: no se pudo obtener la configuracion del sistema.<br/>session.php bloquear';
+			echo 'Error: no se pudo obtener la configuracion del sistema.<br/>';
 		}
 		
 	}
@@ -369,35 +369,3 @@ class Bloquear{
 	}
 
 }
-
-/**
-* CLASE PARA EL MANEJO DE LA CONFIGURACION DEL SITIO
-*/
-class Confi{
-	public function __construct(){
-
-	}
-
-	/**
-	* OBTIENE ALGUN PARAMETRO DE LA CONFIGURACION
-	* @param string $sitio-> 0 = cliente, 1 = admin
-	* @param string $campo -> dato solicitado
-	* @return boolean false -> si falla
-	* @return string/int $dato -> dato solicitado
-	*/
-	public function getConfig(){
-		$base = new Database();
-
-		$query = "SELECT * FROM config";
-
-		$datos = $base->Select( $query );
-
-		if( !empty($datos) ){
-			return $datos;
-		}else{
-			return false;
-		}
-	}
-}
-
-?>
