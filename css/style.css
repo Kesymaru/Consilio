@@ -3670,6 +3670,94 @@ button:hover{
 }
 
 /**
+* ACTUALIZACION
+*/
+
+#actualizacion-calendario{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
+
+#actualizacion-calendario .actualizacion-wrapper li{
+    border-bottom: 1px solid #aaaaaa;
+    padding: 5px;
+    background-color: #dedede;
+}
+
+#actualizacion-calendario .year{
+    background-color: #747273 !important;
+    color: #fff;
+}
+
+#actualizacion-content{
+    display: inline-block;
+    width: 100%;
+    float: left;
+    position: relative;
+    background-color: #f3f0e7;
+}
+
+#actualizacion-content .titulo{
+    background-color: #747273;
+    color: #fff;
+}
+
+.actualizacion-wrapper{
+    display: block;
+    height: 100%;
+    margin: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 0;
+    width: 100%;
+}
+
+.actualizacion-wrapper ul{
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.actualizacion-wrapper ul li{
+    list-style: none;
+    text-align: center;
+}
+
+.actualizacion-wrapper ul li .contador{
+    display: inline-block;
+    float: right;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    background-color: #a1ca4a;
+    color: #fff;
+    padding: 2px 5px;
+    margin-top: -2px;
+}
+
+.actualizaciones-datos table {
+    text-align: left;
+    width: 100%;
+}
+
+.actualizaciones-datos li{
+    border: none solid transparent;
+}
+
+.actualizaciones-datos table td{
+    text-align: left;
+    padding: 5px;
+    border-bottom: 1px solid #aaaaaa;
+    vertical-align: middle;
+}
+
+.actualizaciones-datos table td:first-child{
+    width: 1px;
+    white-space: nowrap;
+}
+
+/**
 * ANIMACION FADE
 */
 @-webkit-keyframes fade{
