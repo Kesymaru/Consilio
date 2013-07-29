@@ -377,6 +377,7 @@ $.extend(Permisos.prototype, {
      */
     TogglePanel: function(){
         var alto = $("#content").height();
+
         $("#permisos, #permisos-mes").css({
             height: alto,
         });
