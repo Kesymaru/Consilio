@@ -83,6 +83,7 @@ $.extend(Actualizacion.prototype, {
      * @type int this.proyecto id del proyecto
      */
     Actualizaciones: function(){
+        var seft = this;
 
         if(typeof(this.proyecto) != "string"){
             throw new Error("Actualizaciones::proyecto no es un numero");
@@ -98,39 +99,90 @@ $.extend(Actualizacion.prototype, {
             type: "POST",
             url: "src/ajaxActualizaciones.php",
             success: function(response){
+                console.log( response );
 
                 if(!$("#menu2").is(":visible")){
                     Menu2();
                 }
 
                 $("#menu2").html(response);
+
+                seft.actualizacioneEvents();
             }
         });
 
     },
 
     /**
-     * EDITA UNA ACTUALIZACION
-     * @param int id
+     * CREA LOS EVENTOS
      */
-    editarActualizacion: function(id){
-        this.id = id;
+    actualizacioneEvents: function(){
+        var seft = this;
 
+        $("#actualizaciones ul li").off("click");
+
+        $("#actualizaciones ul li").on(
+            "click",
+            {
+                seft:seft
+            },
+            this.actualizacionClick
+        );
+
+    },
+
+    /**
+     * EVENTOS AL DAR CLICK EN UNA ACTUALIZACION
+     * @param object e event
+     */
+    actualizacionClick: function(e){
+        var seft = e.data.seft;
+
+        seft.id = $(this).attr('id');
+
+        seft.editarActualizacion();
+    },
+
+    /**
+     * EDITA UNA ACTUALIZACION
+     */
+    editarActualizacion: function(){
         var queryParams = {
-            func : "editarActualizacion",
-            id: this.id,
+            func     : "editarActualizacion",
+            proyecto : this.proyecto,
+            id       : this.id,
         };
 
         $.ajax({
             data: queryParams,
             type: "POST",
-            url: "src/ajaxActualizacion.php",
+            url: "src/ajaxActualizaciones.php",
+            beforeSend: function(){
+                Loading();
+            },
             success: function(response){
 
+                $("#content").html(response);
+
+                LoadingClose();
+            },
+            error: function(e){
+                LoadingClose();
+            },
+            fail: function(e){
+                LoadingClose(e);
             }
         });
 
     },
+
+    guardarActualizacion: function(){
+
+    },
+
+    eliminarActualizacion: function(){
+
+    }
 
 
 
