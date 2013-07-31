@@ -82,9 +82,15 @@ input.ui-button { padding: .4em 1em; }
 .ui-buttonset .ui-button { margin-left: 0; margin-right: -.3em; }
 
 /* workarounds */
+
 button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra padding in Firefox */
-.ui-datepicker {
+
+.ui-datepicker-inline{
     width: 100%;
+}
+
+.ui-datepicker {
+
 	padding:0; 
 	display: none;
 	
