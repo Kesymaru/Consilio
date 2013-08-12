@@ -8,6 +8,8 @@ require_once("src/master.php");
 
 $master = new Master();
 
+//ie compatible fix
+header('X-UA-Compatible: IE=EDGE');
 ?>
 
 <!DOCTYPE html>
@@ -22,6 +24,7 @@ $master = new Master();
 	<!-- ie compatible mode off -->
 	<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta charset="utf-8">
 
 	<title>Escala</title>
