@@ -63,7 +63,6 @@ function logIn(){
 			url:   'src/ajaxUsuarios.php',
 			type:  'post',
 			success:  function (response) { 
-				console.log( response );
 
 				$('#notifica').append(response);
 
@@ -97,11 +96,9 @@ function resetar(){
 				url:   'src/ajaxUsuarios.php',
 				type:  'post',
 				success:  function (response) { 
-					console.log( response );
 
 					if(response.length > 0){
 						alert(response);
-						console.log(response);
 						reseteado = true;
 						return;
 					}
@@ -121,7 +118,6 @@ function resetar(){
 				
 				if(response.length > 0){
 					$("html").append(response);
-					console.log(response);
 					reseteado = true;
 					return;
 				}
@@ -194,8 +190,7 @@ function notifica(text) {
 	  	layout: 'topCenter',
 	  	closeWith: ['button'], // ['click', 'button', 'hover']
 	});
-	console.log('html: '+n.options.id);
-	  	
+
 	//tiempo para desaparecerlo solo 
 	setTimeout(function (){
 		n.close();
@@ -320,7 +315,6 @@ function EstadoBloqueado(){
 			//response = response.replace(/\s+/g,"");
 
 			//$('html').append(response);
-			console.log( response );
 
 			if( response.length > 3 ){
 				notificaIntento("Lo sentimos tu ip esta bloqueada por que excediste el numero de intentos.");
