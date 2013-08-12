@@ -9,20 +9,18 @@ require_once("src/master.php");
 $master = new Master();
 
 //ie compatible fix
-header('X-UA-Compatible: IE=EDGE');
+header('X-UA-Compatible: IE=10');
 ?>
 
 <!DOCTYPE html>
 
-<!--[if lt IE 7]> <html lang="en-us" class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>    <html lang="en-us" class="lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>    <html lang="en-us" class="lt-ie9"> <![endif]-->
+
 
 <html>
 
 <head>
 	<!-- ie compatible mode off -->
-	<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+	<meta http-equiv="X-UA-Compatible" content="IE=10" />
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta charset="utf-8">
