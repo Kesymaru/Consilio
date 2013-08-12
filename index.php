@@ -22,7 +22,7 @@ $master = new Master();
 	
 	<meta charset="utf-8">
 	<!-- ie compatible mode off -->
-	<meta http-equiv="X-UA-Compatible" content="IE=10; IE=9; IE=8; IE=EDGE" />
+	<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 	<link rel="shortcut icon" href="/favicon.ico"> 
 
