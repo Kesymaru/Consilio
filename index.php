@@ -21,6 +21,8 @@ $master = new Master();
 	<title>Escala</title>
 	
 	<meta charset="utf-8">
+	<!-- ie compatible mode off -->
+	<meta http-equiv="X-UA-Compatible" content="IE=10; IE=9; IE=8; IE=EDGE" />
 
 	<link rel="shortcut icon" href="/favicon.ico"> 
 
@@ -72,6 +74,7 @@ $master = new Master();
 	<script type="text/javascript" src="js/Proyectos.js"></script>
 	<script type="text/javascript" src="js/lista.js"></script>
     <script type="text/javascript" src="js/permisos.js"></script>
+	<script type="text/javascript" src="js/actualizaciones.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 
 	<!-- jquery plugins -->
