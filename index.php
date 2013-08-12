@@ -11,7 +11,7 @@ $master = new Master();
 ?>
 
 <!DOCTYPE html>
-<meta charset="utf-8">
+
 <!--[if lt IE 7]> <html lang="en-us" class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>    <html lang="en-us" class="lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>    <html lang="en-us" class="lt-ie9"> <![endif]-->
@@ -19,10 +19,10 @@ $master = new Master();
 <html>
 
 <head>
-
-	<meta charset="utf-8">
 	<!-- ie compatible mode off -->
 	<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+	<meta charset="utf-8">
 
 	<title>Escala</title>
 
