@@ -29,7 +29,6 @@ $.extend(Actualizacion.prototype, {
         var seft = this;
 
         if( typeof(this.proyecto) != "number"){
-            console.log("Error: Actualizacion.proyecto is not a number.");
             return false;
         }
 
@@ -229,7 +228,6 @@ $.extend(Actualizacion.prototype, {
      * @param object li first li element
      */
     animateList: function( li ){
-        console.log('animate list');
         var seft = this;
 
         //animacion para la lista
@@ -242,10 +240,8 @@ $.extend(Actualizacion.prototype, {
         seft.timeOut = setTimeout(function(){
 
             if( li.next('li').length ){
-                console.log('tiene', li.next('li').length );
                 seft.animateList( li.next('li') );
             }else{
-                console.log('no tiene');
                 clearTimeout(seft.timeOut);
                 seft.timeOut = null;
                 return false;

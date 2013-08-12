@@ -41,7 +41,6 @@ $(window).resize(function(){
 			var ancho = $("#menu2").width();
 			var alto = $("#menu2").height();
 		}
-		console.log( 'resize busqueda '+ancho+" "+alto);
 
 		$("#busqueda").css({
 			"width": ancho,
@@ -61,7 +60,6 @@ $(document).ready(function(){
 	$('html, body, div, input, ul, ol, li, a').bind('cut copy', function(event) {
         
         //notifica("No es posible copiar");
-        console.log("No es posible copiar");
         event.preventDefault();
         return false;
     });
@@ -466,7 +464,6 @@ function Buscar(busqueda){
 	var queryParams = {"func" : "Buscar", "busqueda" : busqueda};
 	
 	if( $procesando ){
-		console.log("KILLED");
 		$buscando.abort();
 	}
 
@@ -506,10 +503,8 @@ function Buscar(busqueda){
 			}
 
 			$procesando = true;
-			//console.log( 'buscando' );
 		},
 		success: function(response){
-			//console.log( response );
 			Resultados( response );
 
 			//$buscando = false;
@@ -518,7 +513,6 @@ function Buscar(busqueda){
 			notificaError("Error: AJAX FAIL main.js Buscar().<br/>"+response);
 		}
 	}).done(function(){
-		console.log( 'fin busqueda' );
 		$procesando = false;
 	});
 }
@@ -552,8 +546,7 @@ function notifica(text) {
   		layout: 'topCenter',
   		closeWith: ['button'], // ['click', 'button', 'hover']
   	});
-  	//console.log('html: '+n.options.id);
-  	
+
   	//tiempo para desaparecerlo solo 
   	setTimeout(function (){
 		n.close();
@@ -569,8 +562,7 @@ function notificaAtencion(text) {
   		layout: 'topCenter',
   		closeWith: ['button'], // ['click', 'button', 'hover']
   	});
-  	//console.log('html: '+n.options.id);
-  	
+
   	//tiempo para desaparecerlo solo 
   	setTimeout(function (){
 		n.close();
@@ -600,8 +592,7 @@ function notificaError(text) {
   		layout: 'topCenter',
   		closeWith: ['button'], // ['click', 'button', 'hover']
   	});
-  	//console.log('html: '+n.options.id);
-  	
+
   	//tiempo para desaparecerlo solo 
   	setTimeout(function (){
 		n.close();
@@ -635,7 +626,6 @@ function Confirmacion(text, si, no) {
         	}
       	]
     });
-    console.log('html: '+n.options.layout	);
  }
 
 
@@ -1040,7 +1030,6 @@ function TabProyectos(){
         type: "post",
         url: "src/ajaxPermisos.php",
         success: function(response){
-            console.log( response );
             $("#vista").html(response);
         }
     });
