@@ -20,7 +20,6 @@ $.extend(Categorias.prototype, {
      * REINICIA EL PANEL DE LAS CATEGORIAS/NORMAS/ARTICULOS
      */
     init: function(){
-        console.log('init catgorias');
         var clase = this;
 
         var queryParams = {"func" : "Panel"};
@@ -62,6 +61,9 @@ $.extend(Categorias.prototype, {
         });
     },
 
+    /**
+     * CREA LOS EVENTOS DE LAS TABS
+     */
     TabsEvents: function(){
         var clase = this;
 
@@ -83,10 +85,22 @@ $.extend(Categorias.prototype, {
 
             //inicializa la clase de permisos
             if(typeof $Permisos == 'undefined'){
-                console.log( 'inicializando clase permisos');
                 $Permisos = new Permisos();
             }
             $Permisos.init(clase.proyecto);
+        });
+
+        //ACTUALIZACION
+        $("#tab-actualizacion").off("click");
+        $("#tab-actualizacion").on("click", function(){
+            $("#tabs li").removeClass('selected');
+            $(this).addClass('selected');
+
+            //inicializa la clase de permisos
+            if(typeof $Actualizacion == 'undefined'){
+                $Actualizacion = new Actualizacion();
+            }
+            $Actualizacion.init(clase.proyecto);
         });
 
         $("#tab-home").off("click");
@@ -201,7 +215,6 @@ $.extend(Categorias.prototype, {
 			type: "post",
 			url: "src/ajaxProyectos.php",
 			success: function(response){
-				console.log( response.length );
 
 				if( 3 < response.length ){
 					$("#panel-categorias")
@@ -252,7 +265,6 @@ $.extend(Categorias.prototype, {
 	* @param string padre -> id del padre ha desplejar hijos
 	*/
 	Dropdown: function(padre){
-		//console.log('drop '+padre);
 
 		this.categoria = padre;
 
@@ -267,8 +279,7 @@ $.extend(Categorias.prototype, {
 			success: function(response) {
 				
 				var esRoot = JSON.parse(response)
-				//console.log(esRoot);
-				
+
 				//no tiene hijos
 				if( esRoot == 'false'){
 					$("#td-articulos ul").fadeOut(function(){
@@ -278,7 +289,6 @@ $.extend(Categorias.prototype, {
 					
 					return;
 				}else{
-					console.log('limpia');
 					$("#td-normas ul, #td-articulos ul").fadeOut(function(){
 						$(this).remove();
 					});
@@ -288,7 +298,6 @@ $.extend(Categorias.prototype, {
 				notificaError("Error: lista.js Categorias.Dropdown"+response);
 			}
 		});
-		//console.log('procesando drop');
 
 		var queryParams = {"func" : "Hijos", "proyecto" : this.proyecto, "padre" : padre};
 		$.ajax({
@@ -355,7 +364,6 @@ $.extend(Categorias.prototype, {
 			url: "src/ajaxProyectos.php",
 			beforesend: function(){
 				$("#td-normas ul").hide();
-				console.log('cargando');
 			},
 			success: function(response){
 				if(response.length > 0){
@@ -452,7 +460,6 @@ $.extend(Categorias.prototype, {
 	*/
 	Datos: function(articulo){
 		var clase = this;
-		console.log( articulo );
 
 		this.articulo = articulo;
 
@@ -463,8 +470,6 @@ $.extend(Categorias.prototype, {
 			data: queryParams,
 			url: "src/ajaxProyectos.php",
 			success: function(response){
-				console.log( response );
-				console.log( response.length );
 
 				if( response.length > 3){
 					
@@ -472,8 +477,6 @@ $.extend(Categorias.prototype, {
 					
 					if( $("#comentario").length ){
 						Editor('comentario');
-					}else{
-						console.log('comentario no existe');
 					}
 
 					$shortcuts.focus = 'datos';
@@ -522,9 +525,7 @@ $.extend(ShortCuts.prototype, {
 	},
 
 	Manejador: function(evento){
-		console.log( evento.ctrlKey );
-		
-		console.log( evento.keyCode );
+
 		if( $shortcuts.lock == 'false' ){
 
 			switch ( $shortcuts.focus ){
@@ -533,7 +534,6 @@ $.extend(ShortCuts.prototype, {
 					switch (evento.keyCode){
 
 						case (39):
-							console.log('derecha');
 							$listaCategorias.MostrarDatos();
 							break;
 					}
@@ -542,7 +542,6 @@ $.extend(ShortCuts.prototype, {
 				case ('datos'):
 					switch (evento.keyCode){
 						case (37):
-							console.log('izquierda');
 							$listaCategorias.OcultarDatos();
 							break;
 					}
@@ -708,8 +707,7 @@ $.extend(Animations.prototype, {
 
 			var element = $( "#"+ $(this).attr('id') );
 
-			//console.log( element.attr('id')+' '+element.prop('scrollHeight') );
-							
+
 			if( 200 <= element.prop('scrollHeight') ){
 
 				element.mCustomScrollbar({
@@ -745,7 +743,6 @@ $.extend(Animations.prototype, {
 		var estado = this.EstadoGrid();
 		var div = 0;
 		var adjunto = 0;
-		//console.log( estado );
 
 		//tiene permisos, entidades y sanciones
 		if( estado[3] == "P" && estado[4] == "E" && estado[5] == "S" ){
@@ -758,12 +755,11 @@ $.extend(Animations.prototype, {
 		if( estado[6] == "D" ){
 			adjunto = 1;
 		}
-		console.log( adjunto );
+
 		if( div == 1 && adjunto == 1 ){
 			adjunto = 2;
 			div = 2;
 		}
-		//console.log( 'div' + div);
 
 		if( 1500 <= sw ){
 			var sb = sw-6;
@@ -831,7 +827,6 @@ $.extend(Animations.prototype, {
 			var ab = sw-6;
 		}
 
-		//console.log( sb, mb, ab );
 
 		$('.datos div').each(function() {
 			if( $(this).hasClass('SuperBox') ){
