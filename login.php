@@ -11,6 +11,9 @@ if( isset($_SESSION['logueado']) ){
 	exit;
 }*/
 
+//ie compatible fix
+header('X-UA-Compatible: IE=EDGE');
+
 ?>
 <!doctype html public>
 <!--[if lt IE 7]> <html lang="en-us" class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -20,9 +23,13 @@ if( isset($_SESSION['logueado']) ){
 <html>
 
 <head>
-	<title>Escala Login</title>
-	
+	<!-- ie compatible mode off -->
+	<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta charset="utf-8">
+
+	<title>Escala</title>
 	<link rel="shortcut icon" href="/favicon.ico"> 
 
 	<link rel="stylesheet" href="css/login.css" type="text/css">
