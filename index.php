@@ -24,6 +24,20 @@ header('X-UA-Compatible: IE=10');
 
 	<!--[if lt IE 9]>
 	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+
+	<script type="text/javascript">
+		var alertFallback = true;
+		if (typeof console === "undefined" || typeof console.log === "undefined") {
+			console = {};
+			if (alertFallback) {
+				console.log = function(msg) {
+					//alert(msg);
+				};
+			} else {
+				console.log = function() {};
+			}
+		}
+	</script>
 	<!-- ![endif]-->
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
