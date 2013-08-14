@@ -227,6 +227,7 @@ function PreviewCategoriaNormas(id, proyecto){
     if( typeof proyecto === "undefined"){
         proyecto = $componer.proyecto;
     }
+    alert("enviando preview proyecto "+proyecto);
 	var queryParams = {"func" : "NormasIncluidas", "proyecto" : proyecto, "categoria" : id};
 	var alto = $("html").height() * 0.6;
 
