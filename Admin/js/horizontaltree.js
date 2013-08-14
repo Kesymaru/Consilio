@@ -640,7 +640,7 @@
                 case "seleccionarNormas":
                     var id = element.attr('id');
                     alert("seleccionar normas "+id);
-                    PreviewCategoriaNormas(id);
+                    PreviewCategoriaNormas(id, this.project);
                     break;
             }
 
