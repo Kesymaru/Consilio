@@ -14,8 +14,6 @@ function Componer(id){
 
     $("#content").html('<div id="tree"></div>');
 
-    alert(id);
-
     $("#tree").hztree({
         title   : "Categorias",
         project : id,
