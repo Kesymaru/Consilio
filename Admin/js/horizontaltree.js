@@ -560,6 +560,7 @@
         this.setMenu = function(li, tipo){
             var seft = this;
 
+            //defaullt menu
             if( typeof tipo === "undefined" ){
                 tipo = "panel"
             }
