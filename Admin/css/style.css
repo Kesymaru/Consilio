@@ -192,6 +192,15 @@ button:hover{
 	cursor: pointer;
 }
 
+.lista li{
+    list-style: none;
+    border: 0;
+    padding: 5px;
+    font-weight: bold;
+    font-size: 20px;
+    cursor: pointer;
+}
+
 #menu .categoria ul li:hover,
 #menu .normas ul li:hover,
 #menu .entidades ul li:hover,
@@ -429,8 +438,8 @@ button:hover{
 	vertical-align: middle;
 }
 
-.datos table .full textarea{
-	width: 100%;
+.datos .full textarea{
+	width: 97%;
 	max-width: 100%;
 	display: block;
 	margin-top: 5px;
@@ -438,7 +447,7 @@ button:hover{
 	font-size: 16px;
 }
 
-.datos table .full textarea.horiz { 
+.datos .full textarea.horiz {
 	resize:none;
 }
 
@@ -838,7 +847,7 @@ button:hover{
 	background-color: #fff;
 	border: 1px solid #dedede;
 	min-height: 80%;
-	overflow: hidden;
+	overflow: auto;
 	position: relative;
 }
 
