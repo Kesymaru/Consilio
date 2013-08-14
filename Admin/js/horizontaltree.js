@@ -233,7 +233,7 @@
 
                 //if check the checkbox on click
                 if( seft.checkOnClick ){
-                    seft.checkboxCheck(li);
+                    $(li).children("input[type=checkbox]").prop('checked', true)
                 }
 
                 //if has menu
@@ -271,14 +271,11 @@
             //click event for each checkbox
             $("#level"+this.level+" ul li input[type=checkbox]").on("click", function(){
                 var checkbox = $(this);
-                var level = checkbox.parent().parent().parent();
                 var li = checkbox.parent();
 
                 li.addClass('selected');
-
-                if( checkbox.is(":checked") ){
-                    seft.selectPrevius(level);
-                }
+                console.log(li);
+                li.closest('table').find("ul li.selected input[type=checkbox]").prop('checked', true);
 
                 if( seft.track ){
                     if( li.hasClass('noNext') ){
@@ -287,42 +284,6 @@
                 }
 
             });
-        };
-
-        /**
-         * SELECT LEVELS PREVIUS CHECKBOX
-         * @param object level
-         */
-        this.selectPrevius = function(level){
-
-            var id = parseInt(level.attr("id").replace("level",""));
-            id--;
-
-            //if is a valid level
-            if( id >= 0 ){
-                level = $("#level"+id);
-
-                if(level.length){
-                    var li = level.children("ul").children("li.selected");
-
-                    this.checkboxCheck(li);
-
-                    this.selectPrevius(level);
-                }
-
-            }
-
-        };
-
-        /**
-         * CHECK AND CHECKBOX
-         * @param object li list item element
-         */
-        this.checkboxCheck = function(li){
-            var checkbox = $(li).children("input[type=checkbox]");
-            if( checkbox.length ){
-                checkbox.prop('checked', true);
-            }
         };
 
         /**
@@ -405,7 +366,7 @@
                     alert("guardando");
                 },
                 success : function(response){
-                    alert(response);
+                    li.closest('table').find("ul li.selected input[type=checkbox]").prop('checked', true);
                 }
             });
 
@@ -433,10 +394,11 @@
                 type : this.ajaxType,
                 data : data,
                 beforeSend : function(){
-                    alert("excluyendo");
                 },
                 success : function(response){
-                    alert(response);
+                    if(response.length <= 3){
+                        notifica("Categoria Excluida");
+                    }
                 }
             });
         };
@@ -577,12 +539,12 @@
                         "incluirCategoria": {
                             name: "Incluir Categoria",
                             icon: "edit",
-                            accesskey: "S"
+                            accesskey: "I"
                         },
                         "seleccionarNormas": {
                             name: "Seleccionar Normas",
                             icon: "edit",
-                            accesskey: "N"
+                            accesskey: "S"
                         }
                     }
                 }else{
@@ -590,7 +552,7 @@
                         "incluirCategoria": {
                             name: "Incluir Categoria",
                             icon: "edit",
-                            accesskey: "S"
+                            accesskey: "I"
                         },
                     }
                 }
@@ -602,6 +564,11 @@
                         icon: "edit",
                         accesskey: "E"
                     },
+                    "seleccionarNormasIncluidas": {
+                        name: "Seleccionar Normas",
+                        icon: "edit",
+                        accesskey: "S"
+                    }
                 }
             }
 
@@ -639,9 +606,20 @@
 
                 case "seleccionarNormas":
                     var id = element.attr('id');
-                    alert("seleccionar normas "+id);
+                    var checkbox = element.children("input[type=checkbox]");
+
+                    if( !checkbox.is(':checked') ){
+                        checkbox.trigger("click");
+                    }
+
                     PreviewCategoriaNormas(id, this.project);
                     break;
+
+                case "seleccionarNormasIncluidas":
+                    var id = element.attr("id").substring(2);
+                    PreviewCategoriaNormas(id, this.project);
+                    break;
+
             }
 
         };
