@@ -8,10 +8,19 @@
  */
 function Componer(id){
 
-	$componer.init(id);
+	/*$componer.init(id);
 
-	ComponerCategorias(id);
+	ComponerCategorias(id);*/
 
+    $("#content").html('<div id="tree"></div>');
+
+    alert(id);
+
+    $("#tree").hztree({
+        title   : "Categorias",
+        project : id,
+        ajaxUrl : "src/ajaxComponer2.php",
+    });
 }
 
 /******************************* CATEGORIAS ****************************/
@@ -145,7 +154,7 @@ function ComponerLimpiarHermanos(padre){
 				
 				$.each(hermanos, function(f,c){
 					if($("#Padre"+c).length ){
-						ComponerLimpiarCamino(c);						
+						ComponerLimpiarCamino(c);
 					}
 				});
 			}
@@ -213,9 +222,11 @@ function ComponerLimpiarCamino(padre){
 * MUSTRA EL PREVIEW DE LAS NORMAS DE UNA CATEGORIA
 * @param id -> id de la categorias
 */
-function PreviewCategoriaNormas(id){
+function PreviewCategoriaNormas(id, proyecto){
 
-	var proyecto = $componer.proyecto;
+    if( typeof proyecto === "undefined"){
+        proyecto = $componer.proyecto;
+    }
 	var queryParams = {"func" : "NormasIncluidas", "proyecto" : proyecto, "categoria" : id};
 	var alto = $("html").height() * 0.6;
 
