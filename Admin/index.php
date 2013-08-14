@@ -3,7 +3,6 @@
 /**
 * INDEX DE MATRIZ PARA ADMIN
 */
-//echo exec('whoami');
 
 require_once("src/master.php"); 
 
@@ -45,6 +44,7 @@ echo $ip;*/
 	<link rel="stylesheet" type="text/css" href="css/jquery.ui.timepicker.css">
 	<link rel="stylesheet" type="text/css" href="css/chosen.css">
 	<link rel="stylesheet" type="text/css" href="fancybox/jquery.fancybox.css">
+	<link rel="stylesheet" type="text/css" href="css/horizontaltree.css">
 
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800italic,800,600,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="css/jquery.tagsinput.css">
@@ -81,6 +81,7 @@ echo $ip;*/
 	<script type="text/javascript" src="js/Comentarios.js"></script>
 	<script type="text/javascript" src="js/Admin.js"></script>
     <script type="text/javascript" src="js/Permisos.js"></script>
+	<script type="text/javascript" src="js/actualizaciones.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 
 	<!-- jquery plugins -->
@@ -92,7 +93,9 @@ echo $ip;*/
 	<script type="text/javascript" src="fancybox/jquery.fancybox.js"></script>
 	<script type="text/javascript" src="js/jquery.scrollTo-min.js"></script>
 	<script type="text/javascript" src="js/jquery.tagsinput.min.js"></script>
-	 
+	<script type="text/javascript" src="js/horizontaltree.js"></script>
+	<script type="text/javascript" src="js/spin.min.js"></script>
+
 	<!-- plugin para selector -->
 	<script type="text/javascript" src="js/selector/jquery.multiselect.js"></script>
 	<script type="text/javascript" src="js/selector/jquery.multiselect.filter.js"></script>
